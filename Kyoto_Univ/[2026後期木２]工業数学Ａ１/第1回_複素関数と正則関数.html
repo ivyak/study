@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>第1回：複素関数と正則関数｜工業数学A1</title>
+<style>
+  :root { --accent: #22586B; --muted: #65747A; --pale: #EFF5F6; }
+  * { box-sizing: border-box; }
+  html { background: #fff; color: #111; }
+  body { margin: 0; font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", serif; line-height: 1.9; }
+  main { max-width: 850px; margin: 0 auto; padding: 54px 64px 72px; }
+  .document-header { border-bottom: 1px solid var(--accent); padding-bottom: 24px; margin-bottom: 20px; }
+  .eyebrow { font: 0.85rem/1.7 sans-serif; color: var(--accent); margin: 0 0 8px; }
+  h1 { font-size: 1.8rem; line-height: 1.5; margin: 0 0 12px; }
+  .subtitle { font-size: 1.1rem; margin: 0; }
+  h1, h2, h3 { font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; font-weight: 700; }
+  h2 { margin: 44px 0 18px; font-size: 1.45rem; line-height: 1.5; }
+  h3 { color: var(--accent); font-size: 1.1rem; line-height: 1.6; margin: 30px 0 10px; }
+  h3.numbered { color: #111; }
+  p { margin: 12px 0; overflow-wrap: anywhere; }
+  .source, .muted, .note { color: var(--muted); font-size: 0.85rem; }
+  .source { margin: 0 0 18px; }
+  .note { margin: 18px 0; }
+  .note p { margin: 0; }
+  ol { padding-left: 1.8em; margin: 16px 0; }
+  li { padding-left: 0.15em; margin: 5px 0; }
+  code { font-family: ui-monospace, monospace; font-size: 0.95em; }
+  .equation { overflow-x: auto; padding: 10px 4px; margin: 14px 0; text-align: center; }
+  mjx-container[display="true"] { margin: 0 !important; min-width: max-content; }
+  .key-equation { width: fit-content; max-width: 100%; margin: 22px auto; padding: 16px 22px; background: var(--pale); }
+  .equation-types { margin: 20px 0; }
+  .type-row { display: grid; grid-template-columns: minmax(10em, 1fr) 1.4fr; align-items: center; gap: 18px; padding: 12px 0; }
+  dt { text-align: right; }
+  dd { margin: 0; padding: 8px 0; overflow-x: auto; }
+  dd mjx-container[display="true"] { text-align: left !important; }
+  .section-break { border: 0; height: 0; margin: 48px 0 0; }
+  @media (max-width: 600px) {
+    main { padding: 28px 20px 48px; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.3rem; }
+    .type-row { grid-template-columns: 1fr; gap: 4px; }
+    dt { text-align: left; }
+  }
+  @page { size: A4; margin: 20mm 22mm; }
+  @media print {
+    main { max-width: none; padding: 0; }
+    body { font-size: 10pt; line-height: 1.65; }
+    h2, h3, .source { break-after: avoid; }
+    .equation, .type-row, .note { break-inside: avoid; overflow: visible; }
+    .key-equation { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .section-break { break-before: page; margin: 0; }
+  }
+
+  h2[id], h3[id] { scroll-margin-top: 24px; }
+  .toc { margin: 24px 0 28px; max-width: 540px; font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; font-size: 0.82rem; line-height: 1.6; }
+  .toc-title { margin: 0 0 6px; color: var(--muted); font-size: 0.75rem; font-weight: 600; }
+  .toc ul { list-style: none; margin: 0; padding: 0; }
+  .toc ul ul { margin-left: 9px; padding-left: 15px; border-left: 1px solid var(--pale); }
+  .toc li { margin: 1px 0; padding: 0; }
+  .toc a { display: inline-block; color: var(--muted); text-decoration: none; padding: 1px 5px; border-radius: 3px; }
+  .toc > ul > li > a { color: var(--accent); font-weight: 600; }
+  .toc a:hover, .toc a:focus-visible { color: var(--accent); background: var(--pale); }
+  .toc a:focus-visible, .toc summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toc summary { cursor: pointer; color: var(--muted); }
+  .toc summary::marker { font-size: 0.75em; }
+  @media print { .toc { break-inside: avoid; } }
+
+  a { color: var(--accent); text-underline-offset: .2em; }
+  h4 { font-size: 1rem; margin: 24px 0 8px; }
+  h2[id], h3[id] { scroll-margin-top: 24px; }
+  .back-nav { margin: 0 0 22px; font-family: sans-serif; font-size: .83rem; }
+  .back-nav a { text-decoration: none; }
+  .statement { padding: 12px 20px; background: var(--pale); margin: 20px 0; }
+  .rules li { margin: 14px 0; }
+  .rules .equation { margin: 4px 0; }
+  footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--accent); padding-top: 18px; margin-top: 44px; color: var(--muted); font-size: .8rem; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+</style>
+<script>
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "displayMath": [
+      [
+        "\\[",
+        "\\]"
+      ]
+    ],
+    "processEscapes": true,
+    "macros": {
+      "dd": "\\mathop{}\\!\\mathrm{d}"
+    }
+  },
+  "chtml": {
+    "displayAlign": "center"
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+</head>
+<body>
+<main>
+<article>
+<nav class="back-nav" aria-label="ポータル"><a href="../index.html">← 授業一覧に戻る</a></nav>
+<header class="document-header">
+<p class="eyebrow">2026年度 後期 · 工業数学A1</p>
+<h1>工業数学A1</h1>
+<p class="subtitle">第1回：複素関数と正則関数</p>
+</header>
+<p class="muted">原典：柴山允瑠「工業数学A1」（2026年9月30日版）<a href="授業資料/a1.pdf#page=3">第1・2章、pp. 3–8冒頭</a>。式・主張・証明の要点を原典の順にまとめた。第3章「初等関数」以降は含めない。「補足」は理解のために追加した説明。</p>
+<nav class="toc" aria-label="目次">
+<p class="toc-title">目次</p>
+<ul>
+<li><a href="#complex">1　複素関数</a><ul>
+<li><a href="#notation">複素数と複素平面</a></li><li><a href="#domain">複素関数・領域・連続性</a></li>
+</ul></li>
+<li><a href="#holomorphic">2　正則関数</a><ul>
+<li><a href="#derivative">複素微分と例2.1・2.2</a></li><li><a href="#definition">正則性の定義</a></li><li><a href="#rules">命題2.3：微分公式</a></li>
+<li><a href="#cr">コーシー–リーマンの関係式と証明</a></li><li><a href="#examples">例2.4・2.5：CRによる判定</a></li><li><a href="#wirtinger">定理2.6：偏微分作用素による表現</a></li>
+</ul></li>
+</ul>
+</nav>
+<section aria-labelledby="complex">
+<h2 id="complex">1　複素関数</h2>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=3">p. 3</a></p>
+<h3 id="notation">複素数と複素平面</h3>
+<p>整数・実数・複素数全体をそれぞれ \(\mathbb Z,\mathbb R,\mathbb C\) と書く。\(z=x+iy\)（\(x,y\in\mathbb R\)）について、基本的な記号は次のとおり。</p>
+<div class="equation">\[
+\operatorname{Re}z=x,\qquad \operatorname{Im}z=y,\qquad
+\bar z=x-iy,\qquad |z|=\sqrt{x^2+y^2}.
+\]</div>
+<p><strong>虚部は \(iy\) ではなく \(y\)</strong> である。\(z\leftrightarrow(x,y)\) によって \(\mathbb C\) を実平面と同一視したものが複素平面（ガウス平面）。実軸は \(y=0\)、虚軸は \(x=0\) に対応する。</p>
+<p>\(\bar z\) は実軸についての反転、\(|z|\) は原点からの距離を表す。\(z\ne0\) の偏角 \(\arg z\) は、原点と \(z\) を結ぶ線分が実軸となす角である。</p>
+<h3 id="domain">複素関数・領域・連続性</h3>
+<p><strong>複素関数</strong>は、複素数を入力し、複素数を値に取る写像 \(f:U\to\mathbb C\)。例えば、係数 \(a_k\in\mathbb C\) の多項式と複素共役を取る関数は、ともに複素関数である。</p>
+<div class="equation">\[
+f(z)=a_nz^n+a_{n-1}z^{n-1}+\cdots+a_1z+a_0,\qquad f(z)=\bar z.
+\]</div>
+<p>この講義でいう<strong>領域</strong>は、複素平面内の<strong>弧状連結な開集合</strong>である。</p>
+<ul>
+<li><strong>開集合：</strong>各 \(z_0\in U\) に対し、ある \(\varepsilon&gt;0\) が存在し、\(\{z\in\mathbb C:|z-z_0|&lt;\varepsilon\}\subset U\) となる。</li>
+<li><strong>弧状連結：</strong>任意の \(p,q\in U\) を \(U\) 内の連続な曲線で結べる。すなわち、連続写像 \(l:[0,1]\to U\) で \(l(0)=p,\ l(1)=q\) となるものが存在する。開集合の場合は折れ線で結んでもよい。</li>
+</ul>
+<p>\(f\) が \(z_0\in U\) で<strong>連続</strong>とは、</p>
+<div class="equation key-equation">\[\lim_{z\to z_0}f(z)=f(z_0)\]</div>
+<p>が成り立つこと。厳密には、任意の \(\varepsilon&gt;0\) に対し、ある \(\delta&gt;0\) が存在して、\(z\in U\) かつ \(|z-z_0|&lt;\delta\) ならば \(|f(z)-f(z_0)|&lt;\varepsilon\) となる。すべての \(z_0\in U\) で連続なら、\(U\) 上で連続という。</p>
+</section>
+<section aria-labelledby="holomorphic">
+<h2 id="holomorphic">2　正則関数</h2>
+<h3 id="derivative">複素微分と例2.1・2.2</h3>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=3">pp. 3–4</a></p>
+<p>\(f\) が \(z_0\in U\) で<strong>複素微分可能</strong>とは、次の極限が存在すること。その値を \(f'(z_0)\) または \(\frac{df}{dz}(z_0)\) と書く。</p>
+<div class="equation key-equation">\[
+f'(z_0)=\lim_{h\to0}\frac{f(z_0+h)-f(z_0)}{h},\qquad h\in\mathbb C.
+\]</div>
+<p>実変数の微分と違い、\(h\) は<strong>複素平面のどの方向・経路から0へ近づいても、同じ極限</strong>を与えなければならない。厳密には、ある \(a\in\mathbb C\) に対し、任意の \(\varepsilon&gt;0\) に対して十分小さい \(\delta&gt;0\) を選ぶと、</p>
+<div class="equation">\[
+0&lt;|h|&lt;\delta\quad\Longrightarrow\quad
+\left|\frac{f(z_0+h)-f(z_0)}h-a\right|&lt;\varepsilon
+\]</div>
+<p>が成り立つということ（\(\delta\) は \(z_0+h\in U\) となるように取る）。</p>
+<h4>例2.1：多項式は複素微分可能</h4>
+<p>\(f(z)=z^2\) なら、差商は</p>
+<div class="equation">\[
+\frac{(z_0+h)^2-z_0^2}{h}=2z_0+h\longrightarrow2z_0.
+\]</div>
+<p>方向によらず極限が存在し、\(f'(z_0)=2z_0\)。同様に \((z^k)'=kz^{k-1}\)（正整数 \(k\)）となり、一般の多項式も各点で微分可能である。</p>
+<div class="equation">\[
+f'(z)=na_nz^{n-1}+(n-1)a_{n-1}z^{n-2}+\cdots+a_1.
+\]</div>
+<h4>例2.2：\(f(z)=|z|^2\) は原点だけで微分可能</h4>
+<p>\(|z|^2=z\bar z\) を使うと、差商は</p>
+<div class="equation">\[
+\frac{|z_0+h|^2-|z_0|^2}{h}
+=\bar z_0+z_0\frac{\bar h}{h}+\bar h.
+\]</div>
+<p>実軸方向では \(\bar h/h=1\)、虚軸方向では \(\bar h/h=-1\) なので、それぞれの極限は \(\bar z_0+z_0\)、\(\bar z_0-z_0\)。\(z_0\ne0\) なら一致せず、微分不可能である。一般に \(h=r(\cos\theta+i\sin\theta)\) とすると、</p>
+<div class="equation">\[
+\frac{\bar h}{h}=\cos2\theta-i\sin2\theta,\qquad
+\frac{f(z_0+h)-f(z_0)}h\longrightarrow\bar z_0+z_0(\cos2\theta-i\sin2\theta).
+\]</div>
+<p>一方、\(z_0=0\) では差商が \(\bar h\to0\) となるため、全方向について極限が存在し、\(f'(0)=0\)。</p>
+<aside class="note"><p><strong>補足</strong>　2つの経路で極限が異なれば微分不可能と判定できるが、2つで一致するだけでは微分可能の証明にならない。</p></aside>
+<h3 id="definition">正則性の定義</h3>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=5">pp. 4–5・脚注1</a></p>
+<p>\(U\) の各点で微分可能なら、\(f'\) を \(U\) 上の関数として考えられる。この講義では次の条件で<strong>正則</strong>と定義する。</p>
+<div class="statement"><p>領域 \(U\) の各点で \(f\) が複素微分可能であり、さらに導関数 \(f'\) が \(U\) 上で連続であるとき、\(f\) は \(U\) で正則である。</p></div>
+<p>\(U\) が領域でない場合は、\(U\) を含むある領域で正則であることを「\(U\) で正則」という。したがって、\(|z|^2\) が原点で微分可能という事実だけでは、原点で正則とはいえない。</p>
+<p class="muted">脚注1の要点：導関数の連続性を定義に課さない本もあるが、複素関数では微分可能性から導関数の連続性が導かれるため、結果として同値となる。実関数では一般に成り立たない。この事実の証明は本範囲にはない。</p>
+<h3 id="rules">命題2.3：正則関数の微分公式</h3>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=5">pp. 5–6</a></p>
+<p>以下の操作で正則性は保たれ、実変数の場合と同じ微分公式が成り立つ。ただし、商・合成・逆関数には条件がある。</p>
+<ol class="rules">
+<li><strong>定数倍：</strong>\(f\) が領域 \(U\) で正則、\(c\in\mathbb C\) なら、\(cf\) も正則。<div class="equation">\[(cf)'=cf'.\]</div></li>
+<li><strong>和：</strong>\(f_1,f_2\) が領域 \(U\) で正則なら、\(f_1+f_2\) も正則。<div class="equation">\[(f_1+f_2)'=f_1'+f_2'.\]</div></li>
+<li><strong>積：</strong>同じ仮定で、\(f_1f_2\) も正則。<div class="equation">\[(f_1f_2)'=f_1'f_2+f_1f_2'.\]</div></li>
+<li><strong>商：</strong>さらに \(f_2(z)\ne0\) が \(U\) 全体で成り立てば、\(f_1/f_2\) も正則。<div class="equation">\[\left(\frac{f_1}{f_2}\right)'=\frac{f_1'f_2-f_1f_2'}{f_2^2}.\]</div></li>
+<li><strong>合成：</strong>\(f:U\to\mathbb C\)、\(g:V\to\mathbb C\) が正則で、\(f(U)\subset V\) なら、\(g\circ f\) も正則。<div class="equation">\[(g\circ f)'(z)=g'(f(z))f'(z).\]</div></li>
+<li><strong>逆関数：</strong>正則な \(f\) に対し \(z=g(w)\) が \(w=f(z)\) の逆関数で、\(f'(z)\ne0\) のとき、<div class="equation">\[g'(f(z))=\frac1{f'(z)},\qquad\frac{dz}{dw}=\frac1{dw/dz}.\]</div></li>
+</ol>
+<p class="muted"><strong>証明について：</strong>原典では、実数値関数の場合と同様として命題2.3の証明を省略している。</p>
+<h3 id="cr">コーシー–リーマンの関係式と証明</h3>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=6">pp. 6–7、式(1)〜(3)</a></p>
+<p>\(z=x+iy\)、\(f(x+iy)=u(x,y)+iv(x,y)\) と実部・虚部に分ける。\(u,v\) は実2変数の実数値関数である。</p>
+<div class="statement"><p><strong>主張：</strong>領域 \(U\) で \(f\) が正則であるための必要十分条件は、\(u,v\) が \(C^1\) 級であり、領域全体で</p>
+<div class="equation">\[\boxed{\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad \frac{\partial v}{\partial x}=-\frac{\partial u}{\partial y}}\tag{CR}\]</div>
+<p>を満たすこと。このとき、\(f'=\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}=\frac{\partial v}{\partial y}-i\frac{\partial u}{\partial y}\) である。</p></div>
+<h4>必要性：実軸・虚軸方向の差商を比較する</h4>
+<p>\(z_0=x_0+iy_0\) とし、\(\varepsilon\in\mathbb R\) を0に近づける。\(h=\varepsilon\) と \(h=i\varepsilon\) の2通りで差商の極限を計算すると、</p>
+<div class="equation">\[
+\begin{aligned}
+h=\varepsilon &: \quad f'(z_0)=\frac{\partial u}{\partial x}(x_0,y_0)+i\frac{\partial v}{\partial x}(x_0,y_0),\\
+h=i\varepsilon &: \quad f'(z_0)=\frac{\partial v}{\partial y}(x_0,y_0)-i\frac{\partial u}{\partial y}(x_0,y_0).
+\end{aligned}
+\]</div>
+<p>同じ微分係数になるため、実部と虚部を比べてCRを得る。正則性の定義では \(f'\) が連続なので、これらの等式から \(u,v\) の1階偏導関数も連続、すなわち \(u,v\in C^1\) となる。</p>
+<h4>十分性：実2変数の1次近似を複素数の形にまとめる</h4>
+<p>\(u,v\) が \((x_0,y_0)\) の近傍で \(C^1\) 級で、点 \((x_0,y_0)\) でCRを満たすとする。その点での値を</p>
+<div class="equation">\[a=\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad b=\frac{\partial v}{\partial x}=-\frac{\partial u}{\partial y}\]</div>
+<p>と置く。\(\Delta x=x-x_0\)、\(\Delta y=y-y_0\)、\(r=\sqrt{(\Delta x)^2+(\Delta y)^2}\) と書けば、全微分可能性から</p>
+<div class="equation">\[
+\begin{aligned}
+u(x,y)-u(x_0,y_0)&amp;=a\Delta x-b\Delta y+o(r),\\
+v(x,y)-v(x_0,y_0)&amp;=b\Delta x+a\Delta y+o(r).
+\end{aligned}
+\]</div>
+<p>上の式に \(i\) 倍した下の式を加え、\(z-z_0=\Delta x+i\Delta y\) とまとめると、</p>
+<div class="equation">\[
+f(z)-f(z_0)=(a+ib)(z-z_0)+o(|z-z_0|).
+\]</div>
+<p>\(z-z_0\) で割って極限を取れば、どの方向から近づいても誤差が消え、\(f'(z_0)=a+ib\) を得る。これが領域の各点で成り立ち、\(f'=\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}\) が連続なので \(f\) は正則である。</p>
+<aside class="note"><p><strong>補足</strong>　\(o(r)\) は、その絶対値を \(r\) で割ると0に近づく誤差。十分性ではこの評価によって、2方向だけでなくすべての近づき方を扱っている。</p></aside>
+<p class="muted">脚注2の要点：正則性を複素微分可能性だけで定義する場合は、実部・虚部の「各点での全微分可能性＋CR」と対応する。ここでは講義本文の「\(C^1\) 級＋CR」を用いる。脚注1・2の「??」は原典で未解決の参照表示である。</p>
+<h3 id="examples">例2.4・2.5：CRによる判定</h3>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=7">p. 7</a></p>
+<h4>例2.4：\(f(z)=z^2\)</h4>
+<div class="equation">\[
+u=x^2-y^2,\quad v=2xy,\qquad
+\frac{\partial u}{\partial x}=2x,\quad \frac{\partial u}{\partial y}=-2y,\quad \frac{\partial v}{\partial x}=2y,\quad \frac{\partial v}{\partial y}=2x.
+\]</div>
+<p>\(u,v\) は \(C^1\) 級で、CRは全点で成立する。よって \(z^2\) は \(\mathbb C\) 上で正則である。</p>
+<h4>例2.5：\(f(z)=|z|^2\)</h4>
+<div class="equation">\[
+u=x^2+y^2,\quad v=0,\qquad
+\frac{\partial u}{\partial x}=2x,\quad \frac{\partial u}{\partial y}=2y,\quad \frac{\partial v}{\partial x}=0,\quad \frac{\partial v}{\partial y}=0.
+\]</div>
+<p>CRが成立するのは \(x=y=0\) のみ。原点だけでは領域にならないため、この関数はどの領域でも正則ではない。例2.2の「原点だけで微分可能」と矛盾しない。</p>
+<h3 id="wirtinger">定理2.6：偏微分作用素による表現</h3>
+<p class="source">原典：<a href="授業資料/a1.pdf#page=7">pp. 7–8冒頭</a></p>
+<p>\(z=x+iy\)、\(\bar z=x-iy\) より、</p>
+<div class="equation">\[x=\frac{z+\bar z}{2},\qquad y=\frac{z-\bar z}{2i}.\]</div>
+<p>\(z,\bar z\) を独立な変数のように扱う形式計算から、次の作用素を定義する。実際に独立な変数という意味ではなく、右辺の実偏微分作用素が厳密な定義である。</p>
+<div class="equation key-equation">\[
+\frac{\partial}{\partial z}=\frac12\left(\frac{\partial}{\partial x}-i\frac{\partial}{\partial y}\right),\qquad
+\frac{\partial}{\partial\bar z}=\frac12\left(\frac{\partial}{\partial x}+i\frac{\partial}{\partial y}\right).
+\]</div>
+<p><strong>定理2.6：</strong>実部・虚部の偏導関数が存在するとき、\(f\) がCRを満たすことと、\(\frac{\partial f}{\partial\bar z}=0\) は同値である。</p>
+<h4>証明の要点</h4>
+<p>\(f=u+iv\) を定義に代入して展開する。</p>
+<div class="equation">\[
+\frac{\partial f}{\partial\bar z}
+=\frac12(\frac{\partial}{\partial x}+i\frac{\partial}{\partial y})(u+iv)
+=\frac12\bigl[(\frac{\partial u}{\partial x}-\frac{\partial v}{\partial y})+i(\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x})\bigr].
+\]</div>
+<p>これが0であることは、実部と虚部がともに0、すなわち \(\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y}\)、\(\frac{\partial u}{\partial y}=-\frac{\partial v}{\partial x}\) と同値である。正則性の判定には、領域全体で \(u,v\in C^1\) であることも併せて用いる。</p>
+<h4>計算例と主張の読み方</h4>
+<p>実際の計算は、\(z\) を固定して \(\bar z\) について微分するように行える。</p>
+<div class="equation">\[
+f(z)=|z|^2=z\bar z\quad\Longrightarrow\quad
+\frac{\partial f}{\partial\bar z}=z.
+\]</div>
+<p>これは領域全体で0にはならず、正則でない。原典のもう一つの例 \(f(z)=z^3+\bar z z^2+3\) も正則でない。</p>
+<aside class="note"><p><strong>補足</strong>　後者も \(\partial f/\partial\bar z=z^2\) と確認できる。原典の「\(\bar z\) が現れない」という説明は計算上の見通しであり、式の相殺もあるため、厳密には \(\partial f/\partial\bar z=0\) で判定する。</p></aside>
+</section>
+<footer><a href="../index.html">← 授業一覧に戻る</a><span>第1回 · 第1・2章</span></footer>
+
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>微分積分学続論II｜常微分方程式の導入と変数分離型</title>
+<style>
+  :root { --accent: #22586B; --muted: #65747A; --pale: #EFF5F6; }
+  * { box-sizing: border-box; }
+  html { background: #fff; color: #111; }
+  body { margin: 0; font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", serif; line-height: 1.9; }
+  main { max-width: 850px; margin: 0 auto; padding: 54px 64px 72px; }
+  .document-header { border-bottom: 1px solid var(--accent); padding-bottom: 24px; margin-bottom: 20px; }
+  .eyebrow { font: 0.85rem/1.7 sans-serif; color: var(--accent); margin: 0 0 8px; }
+  h1 { font-size: 1.8rem; line-height: 1.5; margin: 0 0 12px; }
+  .subtitle { font-size: 1.1rem; margin: 0; }
+  h1, h2, h3 { font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; font-weight: 700; }
+  h2 { margin: 44px 0 18px; font-size: 1.45rem; line-height: 1.5; }
+  h3 { color: var(--accent); font-size: 1.1rem; line-height: 1.6; margin: 30px 0 10px; }
+  h3.numbered { color: #111; }
+  p { margin: 12px 0; overflow-wrap: anywhere; }
+  .source, .muted, .note { color: var(--muted); font-size: 0.85rem; }
+  .source { margin: 0 0 18px; }
+  .note { margin: 18px 0; }
+  .note p { margin: 0; }
+  ol { padding-left: 1.8em; margin: 16px 0; }
+  li { padding-left: 0.15em; margin: 5px 0; }
+  code { font-family: ui-monospace, monospace; font-size: 0.95em; }
+  .equation { overflow-x: auto; padding: 10px 4px; margin: 14px 0; text-align: center; }
+  mjx-container[display="true"] { margin: 0 !important; min-width: max-content; }
+  .key-equation { width: fit-content; max-width: 100%; margin: 22px auto; padding: 16px 22px; background: var(--pale); }
+  .equation-types { margin: 20px 0; }
+  .type-row { display: grid; grid-template-columns: minmax(10em, 1fr) 1.4fr; align-items: center; gap: 18px; padding: 12px 0; }
+  dt { text-align: right; }
+  dd { margin: 0; padding: 8px 0; overflow-x: auto; }
+  dd mjx-container[display="true"] { text-align: left !important; }
+  .section-break { border: 0; height: 0; margin: 48px 0 0; }
+  @media (max-width: 600px) {
+    main { padding: 28px 20px 48px; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.3rem; }
+    .type-row { grid-template-columns: 1fr; gap: 4px; }
+    dt { text-align: left; }
+  }
+  @page { size: A4; margin: 20mm 22mm; }
+  @media print {
+    main { max-width: none; padding: 0; }
+    body { font-size: 10pt; line-height: 1.65; }
+    h2, h3, .source { break-after: avoid; }
+    .equation, .type-row, .note { break-inside: avoid; overflow: visible; }
+    .key-equation { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .section-break { break-before: page; margin: 0; }
+  }
+
+  h2[id], h3[id] { scroll-margin-top: 24px; }
+  .toc { margin: 24px 0 28px; max-width: 540px; font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; font-size: 0.82rem; line-height: 1.6; }
+  .toc-title { margin: 0 0 6px; color: var(--muted); font-size: 0.75rem; font-weight: 600; }
+  .toc ul { list-style: none; margin: 0; padding: 0; }
+  .toc ul ul { margin-left: 9px; padding-left: 15px; border-left: 1px solid var(--pale); }
+  .toc li { margin: 1px 0; padding: 0; }
+  .toc a { display: inline-block; color: var(--muted); text-decoration: none; padding: 1px 5px; border-radius: 3px; }
+  .toc > ul > li > a { color: var(--accent); font-weight: 600; }
+  .toc a:hover, .toc a:focus-visible { color: var(--accent); background: var(--pale); }
+  .toc a:focus-visible, .toc summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toc summary { cursor: pointer; color: var(--muted); }
+  .toc summary::marker { font-size: 0.75em; }
+  @media print { .toc { break-inside: avoid; } }
+
+  .back-nav { margin: 0 0 22px; font-family: sans-serif; font-size: .83rem; }
+  .back-nav a { color: var(--accent); text-decoration: none; }
+  .back-nav a:hover { text-decoration: underline; }
+  .back-nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .back-nav-bottom { margin: 36px 0 0; border-top: 1px solid var(--accent); padding-top: 16px; }
+</style>
+<script>
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "displayMath": [
+      [
+        "\\[",
+        "\\]"
+      ]
+    ],
+    "processEscapes": true,
+    "macros": {
+      "dd": "\\mathop{}\\!\\mathrm{d}"
+    }
+  },
+  "chtml": {
+    "displayAlign": "center"
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+</head>
+<body>
+<main>
+<nav class="back-nav" aria-label="ポータル"><a href="../index.html">← 授業一覧に戻る</a></nav>
+<article aria-labelledby="document-title">
+<header class="document-header">
+<p class="eyebrow">2026年度 後期　講義ノート清書</p>
+<h1 id="document-title">微分積分学続論II</h1>
+<p class="subtitle">常微分方程式の導入と変数分離型</p>
+</header>
+<p class="muted">出典：<code>名称未設定.pdf</code>、本文 pp. 2–10（p. 1 は表紙）。
+原典の順序に沿って文章・数式を整えた。条件の明示など、原典にない説明は「清書時の補足」として区別した。</p>
+<nav class="toc" aria-label="目次">
+<p class="toc-title">目次</p>
+<ul>
+  <li><a href="#intro">0　イントロ</a>
+    <ul>
+      <li><a href="#equations">方程式と微分方程式</a></li>
+      <li><a href="#course-scope">この講義で扱うもの</a></li>
+      <li><a href="#forward-inverse">例：運動方程式と順問題・逆問題</a></li>
+    </ul>
+  </li>
+  <li><a href="#quadrature">1　求積法による解法</a>
+    <ul>
+      <li><a href="#equation-types">微分方程式の型</a></li>
+      <li><details>
+        <summary><a href="#separation">1.1　変数分離型の解き方</a></summary>
+        <ul>
+          <li><a href="#integral-solution">積分による解の表示</a></li>
+          <li><a href="#explicit-implicit">陽的な解と陰的な解</a></li>
+          <li><a href="#initial-condition">一般解と初期条件</a></li>
+          <li><a href="#calculation">実際の計算での簡便な書き方</a></li>
+          <li><a href="#example">例題：\(y'=2\sqrt{y}\) を解く</a>
+            <ul>
+              <li><a href="#verification">検算は必須</a></li>
+              <li><a href="#squaring">両辺を2乗すると、余分な候補が入る</a></li>
+              <li><a href="#zero-solution">割り算で落とした解を確認する</a></li>
+            </ul>
+          </li>
+        </ul>
+      </details></li>
+    </ul>
+  </li>
+</ul>
+</nav>
+<h2 id="intro">0　イントロ</h2>
+<p class="source">原典：pp. 2–4</p>
+<h3 id="equations">方程式と微分方程式</h3>
+<p><strong>方程式</strong>は、ある条件を満たす<strong>数</strong>を求めるための式である。
+たとえば「2乗して自分自身と一致する」という条件は</p>
+<div class="equation">\[
+x^2=x\quad\Longleftrightarrow\quad x(x-1)=0
+  \quad\Longleftrightarrow\quad x=0\ \text{または}\ 1
+\]</div>
+<p>と数式化できる。</p>
+<p><strong>微分方程式</strong>は、ある条件を満たす<strong>関数</strong>を求めるための式である。
+たとえば「微分して自分自身と一致する」という条件は</p>
+<div class="equation">\[
+x'=x
+\]</div>
+<p>と表される。\(x(t)=Ce^t\) などを思いつけば代入して確かめられるが、
+これを機械的に解く方法はないだろうか。</p>
+<h3 id="course-scope">この講義で扱うもの</h3>
+<p>多変数関数 \(u=u(t,x)\)（\(t\)：時刻、\(x\)：変位）についての熱方程式</p>
+<div class="equation">\[
+\frac{\partial u}{\partial t}(t,x)
+  =\frac{\partial^2u}{\partial x^2}(t,x)
+\]</div>
+<p>のような式を<strong>偏微分方程式（PDE）</strong>といい、こちらは講義では扱わない。
+この講義では、独立変数が1つの<strong>常微分方程式（ODE）</strong>を扱う。
+講義を通じて学ぶものは次の3点である。</p>
+<ol>
+<li>方程式の解法：\(x(t)\) を \(t\) の式として表すこと。</li>
+<li>連立系の扱い。</li>
+<li>「解が存在する」とはどういうことか。</li>
+</ol>
+<h3 id="forward-inverse">例：運動方程式と順問題・逆問題</h3>
+<p>速度を \(V=V(t)\)、加速度を \(a=V'(t)\) とし、摩擦力が \(F=-\mu V(t)\) で与えられるとする。
+運動方程式 \(F=ma\) より</p>
+<div class="equation">\[
+-\mu V(t)=mV'(t)
+\]</div>
+<p>を得る。<strong>順問題</strong>では \(m,\mu\) が既知で、\(V(t)\) を求める。
+一方、<strong>逆問題</strong>では \(m\) が既知、\(\mu\) が未知であり、\(V(t)\) の観測から \(\mu\) を求める。
+順問題はある程度解けるが、逆問題にはまだ解けないものが多い。この講義では逆問題は扱わない。</p>
+<hr class="section-break">
+<h2 id="quadrature">1　求積法による解法</h2>
+<p class="source">原典：p. 5</p>
+<p><strong>求積法</strong>とは、次のような操作によって解を求める方法である。</p>
+<ol>
+<li>有限回の四則演算</li>
+<li>関数の合成</li>
+<li>微分・積分</li>
+</ol>
+<h3 id="equation-types">微分方程式の型</h3>
+<dl class="equation-types"><div class="type-row"><dt>(1) 変数分離型</dt><dd>\[
+\frac{\dd y}{\dd x}=f(x)g(y)
+\]</dd></div><div class="type-row"><dt>(2) 完全型（exact）</dt><dd>\[
+\frac{\dd y}{\dd x}=-\frac{P(x,y)}{Q(x,y)}
+\]</dd></div><div class="type-row"><dt>(3) 一階線型</dt><dd>\[
+\frac{\dd y}{\dd x}=a(x)y+b(x)
+\]</dd></div></dl>
+<aside class="note"><p><strong>清書時の補足</strong>　(2) の表示だけでは完全型であることは保証されない。
+完全型とは、\(P\dd x+Q\dd y\) がある関数の全微分となるものをいう。
+上の分数表示は \(Q(x,y)\ne0\) の範囲で用いる。</p></aside>
+<h3 id="separation" class="numbered">1.1　変数分離型の解き方</h3>
+<p class="source">原典：pp. 6–7</p>
+<p>変数分離型の微分方程式</p>
+<div class="equation">\[
+\frac{\dd y}{\dd x}=f(x)g(y)
+\]</div>
+<p>を考える。\(g(y)\ne0\) の範囲では</p>
+<div class="equation">\[
+\frac{1}{g(y)}\frac{\dd y}{\dd x}=f(x)
+\]</div>
+<p>と変形できる。ここで \(y=y(x)\) であり、\(g(y)=g(y(x))\) であることに注意する。
+両辺を \(x\) で積分すると</p>
+<div class="equation">\[
+\int\frac{1}{g(y(x))}\frac{\dd y}{\dd x}\dd x
+  =\int f(x)\dd x.
+\]</div>
+<p>置換積分 \(z=y(x)\) により</p>
+<div class="equation">\[
+\int\frac{\dd z}{g(z)}
+  =\int\frac{1}{g(y(x))}\frac{\dd y}{\dd x}\dd x
+\]</div>
+<aside class="note"><p><strong>補足</strong>　\(z=y(x)\) と置くと、置換積分では \(\dd z=y'(x)\dd x\) と書けるので、右辺の \(\frac{\dd y}{\dd x}\dd x\) がまとめて \(\dd z\) に置き換わる。
+分母も \(g(y(x))=g(z)\) となるため、左辺の形になる。</p></aside>
+<section aria-labelledby="substitution-proof-title">
+
+<p>なので、もとの微分方程式から</p>
+<div class="equation">\[
+\int\frac{\dd z}{g(z)}=\int f(x)\dd x
+  \qquad\bigl(z=y(x)\bigr)
+\]</div>
+<p>を得る。</p>
+<hr class="section-break">
+<h3 id="integral-solution">積分による解の表示</h3>
+<p class="source">原典：pp. 7–8</p>
+<p>\(1/g\) と \(f\) の原始関数をそれぞれ \(G,F\) とする。すなわち</p>
+<div class="equation">\[
+G'(z)=\frac{1}{g(z)},\qquad F'(x)=f(x)
+\]</div>
+<p>とおくと、積分の結果は</p>
+<div class="equation">\[
+G(z)=F(x)+C
+\]</div>
+<p>となる。\(z=y(x)\) を戻すと、解は次の関係式で表される。</p>
+<div class="equation key-equation">\[
+G(y(x))=F(x)+C
+\]</div>
+<p>ここで \(C\) は積分定数である。</p>
+<h3 id="explicit-implicit">陽的な解と陰的な解</h3>
+<div class="equation">\[
+y=\text{（$x$ の式）}
+\]</div>
+<p>の形に表せたとき、<strong>陽に解けた（explicit）</strong>という。
+一方、\(y'\) を含まない関係式</p>
+<div class="equation">\[
+H(x,y)=0
+\]</div>
+<p>で表せたとき、<strong>陰的に解けた</strong>という。</p>
+<p class="muted">原典では陰的な関係式を \(f(x,y)=0\) と記しているが、ここでは \(f(x)\) との混同を避けて \(H\) を用いた。</p>
+<h3 id="initial-condition">一般解と初期条件</h3>
+<p>積分定数を含む解の表現を<strong>一般解</strong>という。
+未知関数 \(y\) が通る点、すなわち初期条件</p>
+<div class="equation">\[
+y(x_0)=y_0
+\]</div>
+<p>が与えられるとき、</p>
+<div class="equation">\[
+G(y_0)=F(x_0)+C
+  \quad\Longrightarrow\quad
+  C=G(y_0)-F(x_0)
+\]</div>
+<p>によって積分定数が決まる。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　ここでは \(g(y)\ne0\) の範囲で得た解の表示を用いている。
+積分定数が決まることと、初期値問題の解の一意性は区別する。</p></aside>
+<h3 id="calculation">実際の計算での簡便な書き方</h3>
+<p>計算では、上の置換積分を次のように略記する。</p>
+<div class="equation">\[
+\frac{\dd y}{\dd x}=f(x)g(y)
+  \quad\longrightarrow\quad
+  \frac{\dd y}{g(y)}=f(x)\dd x
+  \quad\longrightarrow\quad
+  \int\frac{\dd y}{g(y)}=\int f(x)\dd x.
+\]</div>
+<p>原典では、途中の \(\dd y/g(y)=f(x)\dd x\) という式そのものに意味を付けず、
+積分の計算を簡便に進めるための表記としている。</p>
+<hr class="section-break">
+<h3 id="example">例題：\(y'=2\sqrt{y}\) を解く</h3>
+<p class="source">原典：pp. 9–10</p>
+<p><strong>変数分離と積分。</strong>
+\(y&gt;0\) の範囲で変数を分離すると</p>
+<div class="equation">\[
+\frac{\dd y}{\dd x}=2\sqrt y
+  \quad\Longrightarrow\quad
+  \int\frac{1}{2\sqrt y}\dd y=\int\dd x.
+\]</div>
+<p>したがって</p>
+<div class="equation key-equation">\[
+\sqrt y=x+C
+\]</div>
+<p>を得る。</p>
+<h3 id="verification">検算は必須</h3>
+<p>\(y=y(x)\) なので、\(\sqrt{y(x)}=x+C\) を \(x\) で微分すると</p>
+<div class="equation">\[
+\frac{1}{2\sqrt{y(x)}}\frac{\dd y}{\dd x}=1,
+  \qquad\text{したがって}\qquad
+  y'=2\sqrt y.
+\]</div>
+<p>これはもとの微分方程式を満たす。ここでは合成関数の微分</p>
+<div class="equation">\[
+\frac{\dd}{\dd x}\sqrt{y(x)}
+  =\left.\frac{\dd}{\dd y}\sqrt y\right|_{y=y(x)}
+    \frac{\dd y}{\dd x},
+  \qquad
+  \frac{\dd}{\dd y}\sqrt y=\frac{1}{2\sqrt y}
+\]</div>
+<p>を用いている。</p>
+<h3 id="squaring">両辺を2乗すると、余分な候補が入る</h3>
+<p>\(\sqrt y=x+C\) の両辺を2乗すると</p>
+<div class="equation">\[
+y=(x+C)^2
+\]</div>
+<p>となる。しかし、この式だけでは \(-\sqrt y=x+C\) という枝も含まれてしまう。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　原典の「2乗すると情報が増える」は、方程式を満たす候補が増えることを指す。
+正確には符号条件が失われる。\(\sqrt y=x+C\) からは \(x+C\ge0\) が必要であり、
+変数分離を行った \(y&gt;0\) の範囲では \(x+C&gt;0\) である。実際、</p></aside>
+<div class="equation">\[
+y=(x+C)^2\quad\Longrightarrow\quad
+  y'=2(x+C),\qquad 2\sqrt y=2|x+C|.
+\]</div>
+<p class="muted">よって、\(x+C&lt;0\) の範囲ではこの候補はもとの方程式を満たさない。</p>
+<h3 id="zero-solution">割り算で落とした解を確認する</h3>
+<p>さらに、</p>
+<div class="equation key-equation">\[
+y(x)\equiv0
+\]</div>
+<p>ももとの微分方程式の解である。変数分離では \(\sqrt y\) で割っているため、
+この解を別に確認する必要がある。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　上の積分計算は \(y&gt;0\) の範囲の解と定数解の確認であり、
+零解と正の解を接続する場合まで分類したものではない。</p></aside>
+</article>
+<nav class="back-nav back-nav-bottom" aria-label="ポータル"><a href="../index.html">← 授業一覧に戻る</a></nav>
+</main>
+</body>
+</html>

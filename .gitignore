@@ -1,0 +1,25 @@
+# OS固有のファイル
+.DS_Store
+Thumbs.db
+
+# 環境変数・秘密情報
+.env
+*.local
+
+# ログファイル
+*.log
+logs/
+
+# エディタ・IDEの設定
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 依存関係・ビルド成果物
+node_modules/
+dist/
+build/
+target/
+
+.venv/

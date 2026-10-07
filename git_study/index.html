@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Git を .git フォルダの中身から理解する解説資料のポータル。">
+<title>Git を .git から読む｜Git study</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23EFF5F6%22%2F%3E%3Cpath%20d%3D%22M6%207h8l2%202%202-2h8v19h-8l-2%202-2-2H6zM16%209v19%22%20fill%3D%22none%22%20stroke%3D%22%2322586B%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E">
+<style>
+:root { --accent:#22586B; --muted:#65747A; --pale:#EFF5F6; --line:#dee7e9;
+  --commit:#22586B; --commit-bg:#E3EEF2; --blob:#2F7D55; --blob-bg:#E4F2EA; --tree:#A86A12; --tree-bg:#FAF0DC;
+  --tag:#7A4B94; --tag-bg:#F0E8F5; --ref:#3B6FB0; --ref-bg:#E6EEF8; --head:#C0561F; --head-bg:#FBE9DE;
+  --idx:#B24A5E; --idx-bg:#F8E6EA; --warn:#B7791F; --warn-bg:#FFF7E3; --bad:#B3352B; --bad-bg:#FBEAE8; --ok:#2F7D55; }
+* { box-sizing:border-box; }
+html { background:#fff; color:#111; color-scheme:light; }
+body { margin:0; font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif CJK JP",serif; line-height:1.9; }
+h1,h2,h3,h4,nav,.eyebrow,.chips,.cap,figcaption,summary,th,.soon,footer,.legend { font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif; }
+code,pre { font-family:ui-monospace,"SF Mono",Menlo,monospace; }
+a { color:var(--accent); text-underline-offset:.2em; }
+a:hover { background:var(--pale); }
+a:focus-visible,summary:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.soon { color:var(--muted); border-bottom:1px dotted var(--muted); cursor:default; }
+.wrap { max-width:1180px; margin:0 auto; padding:40px 28px 64px; }
+.back { font-family:sans-serif; font-size:.83rem; margin:0 0 20px; }
+.back a { text-decoration:none; }
+header.doc { border-bottom:2px solid var(--accent); padding-bottom:22px; margin-bottom:8px; }
+.eyebrow { margin:0 0 6px; color:var(--accent); font-size:.85rem; letter-spacing:.04em; }
+h1 { font-size:1.8rem; line-height:1.5; margin:0 0 12px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; font-size:.75rem; }
+.chips span { background:var(--pale); color:var(--accent); padding:2px 10px; border-radius:999px; }
+.layout { display:grid; grid-template-columns:230px minmax(0,1fr); gap:44px; align-items:start; }
+nav.toc { position:sticky; top:20px; font-size:.8rem; line-height:1.55; padding-top:22px; max-height:calc(100vh - 40px); overflow:auto; }
+nav.toc p { margin:0 0 6px; color:var(--muted); font-weight:700; font-size:.75rem; }
+nav.toc ul { list-style:none; margin:0 0 20px; padding:0; border-left:2px solid var(--line); }
+nav.toc li a { display:block; padding:3px 10px; margin-left:-2px; border-left:2px solid transparent; color:var(--muted); text-decoration:none; }
+nav.toc li a:hover { color:var(--accent); border-left-color:var(--accent); background:none; }
+.legend { font-size:.75rem; display:grid; gap:5px; }
+.legend span { display:flex; align-items:center; gap:8px; color:var(--muted); }
+.legend i { width:14px; height:14px; border-radius:3px; display:inline-block; }
+article { min-width:0; max-width:860px; }
+h2 { font-size:1.45rem; line-height:1.5; margin:52px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--line); scroll-margin-top:20px; }
+h3 { font-size:1.12rem; color:var(--accent); margin:32px 0 10px; line-height:1.6; scroll-margin-top:20px; }
+h4 { font-size:1rem; margin:22px 0 6px; }
+.num { display:inline-block; font-size:.78em; background:var(--accent); color:#fff; border-radius:4px; padding:0 8px; margin-right:10px; line-height:1.6; vertical-align:2px; font-weight:600; }
+h3 .num { background:var(--pale); color:var(--accent); }
+p { margin:12px 0; overflow-wrap:anywhere; }
+ul,ol { padding-left:1.7em; margin:14px 0; } li { margin:6px 0; }
+code { font-size:.88em; background:#F1F4F5; padding:1px 5px; border-radius:3px; color:#1d3b46; }
+.obj { font-family:ui-monospace,monospace; font-size:.86em; font-weight:700; padding:1px 8px; border-radius:4px; }
+.obj.blob { background:var(--blob-bg); color:var(--blob); } .obj.tree { background:var(--tree-bg); color:var(--tree); }
+.obj.commit { background:var(--commit-bg); color:var(--commit); } .obj.tag { background:var(--tag-bg); color:var(--tag); }
+.callout { margin:20px 0; padding:4px 20px; border-radius:4px; border-left:5px solid; font-size:.95rem; }
+.callout.info { background:var(--pale); border-color:var(--accent); }
+.callout.warn { background:var(--warn-bg); border-color:var(--warn); }
+.callout.warn h3 { color:#8a5a0e; margin-top:14px; }
+.callout.warn h3::before { content:"⚠ "; }
+.callout p,.callout ul { margin:8px 0; }
+.tw { overflow-x:auto; margin:18px 0; }
+table { border-collapse:collapse; width:100%; font-size:.9rem; line-height:1.65; }
+th { background:var(--accent); color:#fff; text-align:left; padding:8px 12px; font-size:.82rem; white-space:nowrap; }
+td { padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+tbody tr:nth-child(even) td { background:#F8FBFB; }
+td.neg { background:var(--bad-bg) !important; } td.neg strong { color:var(--bad); }
+table.matrix td { text-align:center; } table.matrix td:first-child { text-align:left; }
+table.matrix td.add { background:var(--blob-bg) !important; color:var(--blob); font-weight:700; }
+table.matrix td.mod { background:var(--head-bg) !important; color:var(--head); font-weight:700; }
+table.matrix td.sync { background:var(--ref-bg) !important; color:var(--ref); font-weight:700; }
+table.matrix td.none { color:#b5bfc3; }
+.code { margin:18px 0; border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+.code .cap { font-size:.75rem; padding:5px 14px; background:#E4ECEE; color:var(--muted); }
+.code pre { margin:0; padding:14px 16px; overflow-x:auto; font-size:.82rem; line-height:1.65; }
+.code code { background:none; padding:0; font-size:inherit; color:inherit; }
+.code.term { background:#14232A; border-color:#14232A; } .code.term pre { color:#D6E2E6; }
+.code.term .cap { background:#1F343D; color:#9db3ba; }
+.term .ps { color:#7BD3A0; font-weight:700; } .term .cmd { color:#fff; }
+.term .note,.plain .note { color:#F0B35C; } .plain .note { color:#B7791F; }
+.term .hash { color:#8EC5DA; } .plain .hash { color:var(--accent); }
+.code.plain { background:#F8FBFB; }
+figure { margin:22px 0; } figcaption,.cap { font-size:.82rem; color:var(--muted); }
+figcaption { margin-top:8px; }
+figure.mm { background:#fff; border:1px solid var(--line); border-radius:6px; padding:18px 10px; text-align:center; overflow-x:auto; }
+figure.mm pre { font-size:.85rem; background:none; margin:0; }
+.card { border:1px solid; border-radius:6px; padding:12px 14px; line-height:1.5; }
+.card small { display:block; font-family:sans-serif; font-size:.72rem; font-weight:700; opacity:.85; }
+.card b { display:block; font-family:ui-monospace,monospace; font-size:1.02rem; }
+.card em { display:block; font-style:normal; font-family:sans-serif; font-size:.78rem; margin:2px 0 6px; }
+.card code { background:rgba(255,255,255,.7); font-size:.78rem; }
+.card p { margin:8px 0 0; font-size:.82rem; line-height:1.55; color:#222; }
+.c-obj,.c-core { background:var(--commit-bg); border-color:var(--commit); color:var(--commit); }
+.c-ref,.c-conf { background:var(--ref-bg); border-color:var(--ref); color:var(--ref); }
+.c-head { background:var(--head-bg); border-color:var(--head); color:var(--head); }
+.c-idx { background:var(--idx-bg); border-color:var(--idx); color:var(--idx); }
+.c-hook { background:var(--tag-bg); border-color:var(--tag); color:var(--tag); }
+.c-misc { background:#EEF0F2; border-color:#8a959b; color:#5B6770; }
+.c-old { background:#EEF0F2; border-color:#8a959b; color:#5B6770; } .c-new { background:var(--blob-bg); border-color:var(--blob); color:var(--blob); }
+.c-ghost { background:#fff; border:2px dashed #9aa6ab; color:#7b878d; }
+.four { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin:22px 0; }
+.four.files .card b { font-size:.9rem; margin-top:3px; }
+.change { display:flex; align-items:center; gap:14px; margin:20px 0; flex-wrap:wrap; }
+.change .card { flex:1 1 180px; } .arrow { font-family:sans-serif; font-size:.8rem; color:var(--muted); text-align:center; line-height:1.4; }
+.fmt .seg { display:flex; flex-wrap:wrap; font-family:ui-monospace,monospace; font-size:1.05rem; gap:0; }
+.fmt .b { padding:12px 16px 8px; text-align:center; border:1px solid #fff; color:#fff; font-weight:700; }
+.fmt .b i { display:block; font-family:sans-serif; font-size:.68rem; font-style:normal; font-weight:400; opacity:.9; margin-top:2px; }
+.fmt .k { background:var(--commit); } .fmt .s { background:#7C8A90; } .fmt .n { background:var(--tree); } .fmt .z { background:var(--idx); } .fmt .d { background:var(--blob); }
+.layers { margin:22px 0; display:grid; gap:0; border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+.layer { padding:14px 20px; } .layer b { font-family:sans-serif; margin-right:12px; } .layer p { margin:4px 0 0; font-size:.88rem; }
+.l-logic { background:var(--blob-bg); color:var(--blob); } .l-phys { background:var(--tree-bg); color:var(--tree); }
+.l-logic p,.l-phys p { color:#222; } .layer u { text-decoration:none; font-weight:700; }
+.treeupd { border:1px solid var(--line); border-radius:6px; padding:16px 20px; }
+.treeupd ul.tr,.treeupd ul.tr ul { list-style:none; padding-left:26px; margin:6px 0; border-left:2px solid var(--line); }
+.treeupd ul.tr { border:0; padding-left:0; }
+.nd { display:inline-block; font-family:ui-monospace,monospace; font-size:.82rem; padding:2px 10px; border-radius:4px; border:1px solid; margin:2px 0; }
+.nd em { font-style:normal; font-family:sans-serif; font-size:.68rem; font-weight:700; margin-left:8px; padding:0 6px; border-radius:3px; background:#fff; }
+.nd.new { border-width:2px; } .nd.old { opacity:.55; border-style:dashed; }
+.c-commit { background:var(--commit-bg); border-color:var(--commit); color:var(--commit); } .c-blob { background:var(--blob-bg); border-color:var(--blob); color:var(--blob); } .c-tree { background:var(--tree-bg); border-color:var(--tree); color:var(--tree); }
+.cfg { margin:22px 0; font-family:sans-serif; display:grid; gap:6px; }
+.lv { padding:9px 16px; border-radius:5px; background:var(--pale); display:flex; gap:14px; align-items:baseline; flex-wrap:wrap; font-size:.88rem; }
+.lv b { min-width:5.5em; color:var(--accent); } .lv span { color:#333; }
+.lv1 { margin-right:60px; } .lv2 { margin-right:40px; } .lv3 { margin-right:20px; } .lv4 { margin-right:0; }
+.lv.here { background:var(--head-bg); outline:2px solid var(--head); } .lv.here em { color:var(--head); font-style:normal; font-weight:700; }
+.win { font-size:.78rem; color:var(--muted); text-align:right; }
+.unborn { border:1px solid var(--line); border-radius:6px; padding:16px; }
+.unborn .row { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+.unborn .row .card { flex:1 1 200px; }
+.unborn .row.two { align-items:stretch; margin-bottom:0; }
+.reader { flex:1 1 220px; border-radius:6px; padding:10px 14px; font-family:sans-serif; font-size:.85rem; line-height:1.6; }
+.reader.ok { background:var(--blob-bg); } .reader.ng { background:var(--bad-bg); } .reader u { text-decoration:none; font-weight:700; }
+details.quiz { border:1px solid var(--line); border-radius:6px; margin:12px 0; }
+details.quiz summary { cursor:pointer; padding:12px 16px; font-size:.92rem; background:var(--pale); border-radius:6px; }
+details.quiz[open] summary { border-radius:6px 6px 0 0; }
+details.quiz .answer { padding:2px 18px 10px; border-top:1px solid var(--line); font-size:.95rem; }
+footer.pager { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; border-top:2px solid var(--accent); margin-top:48px; padding-top:18px; font-size:.88rem; }
+footer.pager a,footer.pager span { max-width:48%; }
+@media (max-width:900px) { .layout { grid-template-columns:1fr; gap:0; } nav.toc { position:static; max-height:none; padding-top:16px; } .wrap { padding:26px 16px 48px; } h1 { font-size:1.5rem; } }
+@media print { nav.toc { display:none; } .layout { display:block; } .code.term { background:#fff; border-color:#999; } .code.term pre,.term .cmd { color:#111; } }
+
+.wrap { max-width:1180px; } header.doc { border-bottom:1px solid var(--accent); }
+.intro { margin:0; } .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0 6px; }
+.two .card b { font-family:sans-serif; } .two .card p { font-size:.88rem; }
+.sec { font-family:sans-serif; display:flex; justify-content:space-between; align-items:baseline; margin:34px 0 12px; color:var(--muted); font-size:.82rem; }
+.sec h2 { margin:0; border:0; padding:0; font-size:1rem; color:var(--accent); }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:20px; }
+.course { border:1px solid var(--line); border-radius:4px; padding:22px; display:flex; flex-direction:column; }
+.course .t { font-family:sans-serif; font-size:.76rem; color:var(--muted); margin:0 0 4px; }
+.course h3 { margin:0 0 4px; font-size:1.12rem; } .course .d { font-size:.85rem; color:var(--muted); margin:0 0 14px; }
+.mats { list-style:none; padding:0; margin:0; } .mats li { margin:0 0 10px; }
+.m { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:12px 16px; background:var(--pale); border-radius:3px; text-decoration:none; color:#111; }
+.m:hover { background:#e4eef0; } .m b { display:block; color:var(--accent); font-family:sans-serif; font-size:.95rem; }
+.m small { font-family:sans-serif; color:var(--muted); font-size:.72rem; } .m.off { background:#F6F7F8; color:#9aa4a9; } .m.off b { color:#9aa4a9; }
+.legendbox { border:1px solid var(--line); border-radius:4px; padding:14px 20px; display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; font-family:sans-serif; font-size:.82rem; }
+.legendbox .legend { display:flex; flex-wrap:wrap; gap:6px 18px; }
+@media (max-width:600px) { .two { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="doc">
+<p class="eyebrow">GIT STUDY · NOTES</p>
+<h1>Git を <code>.git</code> から読む</h1>
+<p class="intro">「コマンドの使い方」ではなく、「そのコマンドが <code>.git</code> のどのファイルを書き換えたか」を追う解説資料。</p>
+<div class="chips" style="margin-top:12px"><span>git 2.50.1 / macOS</span><span>対象日 2026-09-17</span><span>出力はすべて実物</span></div>
+</header>
+<div class="sec"><h2>Git のコマンドがやることは、この 2 つだけ</h2></div>
+<div class="two">
+<div class="card c-obj"><small>その 1</small><b>.git/objects/ に「中身」を書き足す</b><p>不変・追記のみ。blob / tree / commit / tag の 4 種類</p></div>
+<div class="card c-head"><small>その 2</small><b>.git/refs/ や .git/HEAD の「文字列」を書き換える</b><p>ブランチや現在地を指す、数十バイトのテキスト</p></div>
+</div>
+<p style="font-size:.9rem">merge も rebase も pull も、この組み合わせです。<code>.git</code> の中の数個のテキストファイルが読めれば、Git の挙動はほぼ説明がつきます。</p>
+<div class="sec"><h2>読むコース</h2><span>通しで全部：約 1 時間 45 分　／　急ぐなら 01_1 → 01_5 → 01_8</span></div>
+<div class="grid"><section class="course"><p class="t">合計 27 分 · 3/3 公開</p><h3>まず全体をつかむ</h3><p class="d">.git の地図 → オブジェクト → git init</p><ul class="mats"><li><a class="m" href="01_0_Git_全体像と読む順番.html"><span><b>01_0　全体像と読む順番</b><small>目安 5 分</small></span><span aria-hidden="true">→</span></a></li><li><a class="m" href="01_1_Gitの世界観_4種類のオブジェクト.html"><span><b>01_1　4種類のオブジェクト</b><small>目安 11 分</small></span><span aria-hidden="true">→</span></a></li><li><a class="m" href="01_2_git-init_空のgitを1行ずつ.html"><span><b>01_2　git init 前編</b><small>目安 11 分</small></span><span aria-hidden="true">→</span></a></li></ul></section><section class="course"><p class="t">合計 32 分 · 0/3 公開</p><h3>ローカルの操作を理解する</h3><p class="d">hooks と bare → add / commit → branch</p><ul class="mats"><li><span class="m off"><span><b>01_3　git init 後編</b><small>準備中</small></span></span></li><li><span class="m off"><span><b>01_4　git add / commit</b><small>準備中</small></span></span></li><li><span class="m off"><span><b>01_5　git branch</b><small>準備中</small></span></span></li></ul></section><section class="course"><p class="t">合計 38 分 · 0/3 公開</p><h3>リモートの操作を理解する</h3><p class="d">remote → fetch → pull</p><ul class="mats"><li><span class="m off"><span><b>01_6　git remote add</b><small>準備中</small></span></span></li><li><span class="m off"><span><b>01_7　git fetch</b><small>準備中</small></span></span></li><li><span class="m off"><span><b>01_8　git pull</b><small>準備中</small></span></span></li></ul></section><section class="course"><p class="t">合計 10 分 · 0/1 公開</p><h3>困ったときだけ開く</h3><p class="d">早見表・復旧手順・worktree・gc</p><ul class="mats"><li><span class="m off"><span><b>01_9　困ったときの早見表</b><small>準備中</small></span></span></li></ul></section></div>
+<div class="sec"><h2>色の見かた</h2></div>
+<div class="legendbox"><span>各ページの図・表で同じ色を使います。</span><div class="legend">
+<span><i style="background:var(--commit)"></i>commit / objects</span><span><i style="background:var(--blob)"></i>blob</span>
+<span><i style="background:var(--tree)"></i>tree</span><span><i style="background:var(--tag)"></i>tag</span>
+<span><i style="background:var(--ref)"></i>refs（名札）</span><span><i style="background:var(--head)"></i>HEAD</span>
+<span><i style="background:var(--idx)"></i>index</span></div></div>
+</div>
+</body>
+</html>

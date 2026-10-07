@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="git init — できたての .git を 1 ファイルずつ（前編）（Git を .git の中身から理解する資料）">
+<title>01_2 git init — できたての .git を 1 ファイルずつ（前編）｜Git study</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23EFF5F6%22%2F%3E%3Cpath%20d%3D%22M6%207h8l2%202%202-2h8v19h-8l-2%202-2-2H6zM16%209v19%22%20fill%3D%22none%22%20stroke%3D%22%2322586B%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E">
+<style>
+:root { --accent:#22586B; --muted:#65747A; --pale:#EFF5F6; --line:#dee7e9;
+  --commit:#22586B; --commit-bg:#E3EEF2; --blob:#2F7D55; --blob-bg:#E4F2EA; --tree:#A86A12; --tree-bg:#FAF0DC;
+  --tag:#7A4B94; --tag-bg:#F0E8F5; --ref:#3B6FB0; --ref-bg:#E6EEF8; --head:#C0561F; --head-bg:#FBE9DE;
+  --idx:#B24A5E; --idx-bg:#F8E6EA; --warn:#B7791F; --warn-bg:#FFF7E3; --bad:#B3352B; --bad-bg:#FBEAE8; --ok:#2F7D55; }
+* { box-sizing:border-box; }
+html { background:#fff; color:#111; color-scheme:light; }
+body { margin:0; font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif CJK JP",serif; line-height:1.9; }
+h1,h2,h3,h4,nav,.eyebrow,.chips,.cap,figcaption,summary,th,.soon,footer,.legend { font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif; }
+code,pre { font-family:ui-monospace,"SF Mono",Menlo,monospace; }
+a { color:var(--accent); text-underline-offset:.2em; }
+a:hover { background:var(--pale); }
+a:focus-visible,summary:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.soon { color:var(--muted); border-bottom:1px dotted var(--muted); cursor:default; }
+.wrap { max-width:1180px; margin:0 auto; padding:40px 28px 64px; }
+.back { font-family:sans-serif; font-size:.83rem; margin:0 0 20px; }
+.back a { text-decoration:none; }
+header.doc { border-bottom:2px solid var(--accent); padding-bottom:22px; margin-bottom:8px; }
+.eyebrow { margin:0 0 6px; color:var(--accent); font-size:.85rem; letter-spacing:.04em; }
+h1 { font-size:1.8rem; line-height:1.5; margin:0 0 12px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; font-size:.75rem; }
+.chips span { background:var(--pale); color:var(--accent); padding:2px 10px; border-radius:999px; }
+.layout { display:grid; grid-template-columns:230px minmax(0,1fr); gap:44px; align-items:start; }
+nav.toc { position:sticky; top:20px; font-size:.8rem; line-height:1.55; padding-top:22px; max-height:calc(100vh - 40px); overflow:auto; }
+nav.toc p { margin:0 0 6px; color:var(--muted); font-weight:700; font-size:.75rem; }
+nav.toc ul { list-style:none; margin:0 0 20px; padding:0; border-left:2px solid var(--line); }
+nav.toc li a { display:block; padding:3px 10px; margin-left:-2px; border-left:2px solid transparent; color:var(--muted); text-decoration:none; }
+nav.toc li a:hover { color:var(--accent); border-left-color:var(--accent); background:none; }
+.legend { font-size:.75rem; display:grid; gap:5px; }
+.legend span { display:flex; align-items:center; gap:8px; color:var(--muted); }
+.legend i { width:14px; height:14px; border-radius:3px; display:inline-block; }
+article { min-width:0; max-width:860px; }
+h2 { font-size:1.45rem; line-height:1.5; margin:52px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--line); scroll-margin-top:20px; }
+h3 { font-size:1.12rem; color:var(--accent); margin:32px 0 10px; line-height:1.6; scroll-margin-top:20px; }
+h4 { font-size:1rem; margin:22px 0 6px; }
+.num { display:inline-block; font-size:.78em; background:var(--accent); color:#fff; border-radius:4px; padding:0 8px; margin-right:10px; line-height:1.6; vertical-align:2px; font-weight:600; }
+h3 .num { background:var(--pale); color:var(--accent); }
+p { margin:12px 0; overflow-wrap:anywhere; }
+ul,ol { padding-left:1.7em; margin:14px 0; } li { margin:6px 0; }
+code { font-size:.88em; background:#F1F4F5; padding:1px 5px; border-radius:3px; color:#1d3b46; }
+.obj { font-family:ui-monospace,monospace; font-size:.86em; font-weight:700; padding:1px 8px; border-radius:4px; }
+.obj.blob { background:var(--blob-bg); color:var(--blob); } .obj.tree { background:var(--tree-bg); color:var(--tree); }
+.obj.commit { background:var(--commit-bg); color:var(--commit); } .obj.tag { background:var(--tag-bg); color:var(--tag); }
+.callout { margin:20px 0; padding:4px 20px; border-radius:4px; border-left:5px solid; font-size:.95rem; }
+.callout.info { background:var(--pale); border-color:var(--accent); }
+.callout.warn { background:var(--warn-bg); border-color:var(--warn); }
+.callout.warn h3 { color:#8a5a0e; margin-top:14px; }
+.callout.warn h3::before { content:"⚠ "; }
+.callout p,.callout ul { margin:8px 0; }
+.tw { overflow-x:auto; margin:18px 0; }
+table { border-collapse:collapse; width:100%; font-size:.9rem; line-height:1.65; }
+th { background:var(--accent); color:#fff; text-align:left; padding:8px 12px; font-size:.82rem; white-space:nowrap; }
+td { padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+tbody tr:nth-child(even) td { background:#F8FBFB; }
+td.neg { background:var(--bad-bg) !important; } td.neg strong { color:var(--bad); }
+table.matrix td { text-align:center; } table.matrix td:first-child { text-align:left; }
+table.matrix td.add { background:var(--blob-bg) !important; color:var(--blob); font-weight:700; }
+table.matrix td.mod { background:var(--head-bg) !important; color:var(--head); font-weight:700; }
+table.matrix td.sync { background:var(--ref-bg) !important; color:var(--ref); font-weight:700; }
+table.matrix td.none { color:#b5bfc3; }
+.code { margin:18px 0; border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+.code .cap { font-size:.75rem; padding:5px 14px; background:#E4ECEE; color:var(--muted); }
+.code pre { margin:0; padding:14px 16px; overflow-x:auto; font-size:.82rem; line-height:1.65; }
+.code code { background:none; padding:0; font-size:inherit; color:inherit; }
+.code.term { background:#14232A; border-color:#14232A; } .code.term pre { color:#D6E2E6; }
+.code.term .cap { background:#1F343D; color:#9db3ba; }
+.term .ps { color:#7BD3A0; font-weight:700; } .term .cmd { color:#fff; }
+.term .note,.plain .note { color:#F0B35C; } .plain .note { color:#B7791F; }
+.term .hash { color:#8EC5DA; } .plain .hash { color:var(--accent); }
+.code.plain { background:#F8FBFB; }
+figure { margin:22px 0; } figcaption,.cap { font-size:.82rem; color:var(--muted); }
+figcaption { margin-top:8px; }
+figure.mm { background:#fff; border:1px solid var(--line); border-radius:6px; padding:18px 10px; text-align:center; overflow-x:auto; }
+figure.mm pre { font-size:.85rem; background:none; margin:0; }
+.card { border:1px solid; border-radius:6px; padding:12px 14px; line-height:1.5; }
+.card small { display:block; font-family:sans-serif; font-size:.72rem; font-weight:700; opacity:.85; }
+.card b { display:block; font-family:ui-monospace,monospace; font-size:1.02rem; }
+.card em { display:block; font-style:normal; font-family:sans-serif; font-size:.78rem; margin:2px 0 6px; }
+.card code { background:rgba(255,255,255,.7); font-size:.78rem; }
+.card p { margin:8px 0 0; font-size:.82rem; line-height:1.55; color:#222; }
+.c-obj,.c-core { background:var(--commit-bg); border-color:var(--commit); color:var(--commit); }
+.c-ref,.c-conf { background:var(--ref-bg); border-color:var(--ref); color:var(--ref); }
+.c-head { background:var(--head-bg); border-color:var(--head); color:var(--head); }
+.c-idx { background:var(--idx-bg); border-color:var(--idx); color:var(--idx); }
+.c-hook { background:var(--tag-bg); border-color:var(--tag); color:var(--tag); }
+.c-misc { background:#EEF0F2; border-color:#8a959b; color:#5B6770; }
+.c-old { background:#EEF0F2; border-color:#8a959b; color:#5B6770; } .c-new { background:var(--blob-bg); border-color:var(--blob); color:var(--blob); }
+.c-ghost { background:#fff; border:2px dashed #9aa6ab; color:#7b878d; }
+.four { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin:22px 0; }
+.four.files .card b { font-size:.9rem; margin-top:3px; }
+.change { display:flex; align-items:center; gap:14px; margin:20px 0; flex-wrap:wrap; }
+.change .card { flex:1 1 180px; } .arrow { font-family:sans-serif; font-size:.8rem; color:var(--muted); text-align:center; line-height:1.4; }
+.fmt .seg { display:flex; flex-wrap:wrap; font-family:ui-monospace,monospace; font-size:1.05rem; gap:0; }
+.fmt .b { padding:12px 16px 8px; text-align:center; border:1px solid #fff; color:#fff; font-weight:700; }
+.fmt .b i { display:block; font-family:sans-serif; font-size:.68rem; font-style:normal; font-weight:400; opacity:.9; margin-top:2px; }
+.fmt .k { background:var(--commit); } .fmt .s { background:#7C8A90; } .fmt .n { background:var(--tree); } .fmt .z { background:var(--idx); } .fmt .d { background:var(--blob); }
+.layers { margin:22px 0; display:grid; gap:0; border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+.layer { padding:14px 20px; } .layer b { font-family:sans-serif; margin-right:12px; } .layer p { margin:4px 0 0; font-size:.88rem; }
+.l-logic { background:var(--blob-bg); color:var(--blob); } .l-phys { background:var(--tree-bg); color:var(--tree); }
+.l-logic p,.l-phys p { color:#222; } .layer u { text-decoration:none; font-weight:700; }
+.treeupd { border:1px solid var(--line); border-radius:6px; padding:16px 20px; }
+.treeupd ul.tr,.treeupd ul.tr ul { list-style:none; padding-left:26px; margin:6px 0; border-left:2px solid var(--line); }
+.treeupd ul.tr { border:0; padding-left:0; }
+.nd { display:inline-block; font-family:ui-monospace,monospace; font-size:.82rem; padding:2px 10px; border-radius:4px; border:1px solid; margin:2px 0; }
+.nd em { font-style:normal; font-family:sans-serif; font-size:.68rem; font-weight:700; margin-left:8px; padding:0 6px; border-radius:3px; background:#fff; }
+.nd.new { border-width:2px; } .nd.old { opacity:.55; border-style:dashed; }
+.c-commit { background:var(--commit-bg); border-color:var(--commit); color:var(--commit); } .c-blob { background:var(--blob-bg); border-color:var(--blob); color:var(--blob); } .c-tree { background:var(--tree-bg); border-color:var(--tree); color:var(--tree); }
+.cfg { margin:22px 0; font-family:sans-serif; display:grid; gap:6px; }
+.lv { padding:9px 16px; border-radius:5px; background:var(--pale); display:flex; gap:14px; align-items:baseline; flex-wrap:wrap; font-size:.88rem; }
+.lv b { min-width:5.5em; color:var(--accent); } .lv span { color:#333; }
+.lv1 { margin-right:60px; } .lv2 { margin-right:40px; } .lv3 { margin-right:20px; } .lv4 { margin-right:0; }
+.lv.here { background:var(--head-bg); outline:2px solid var(--head); } .lv.here em { color:var(--head); font-style:normal; font-weight:700; }
+.win { font-size:.78rem; color:var(--muted); text-align:right; }
+.unborn { border:1px solid var(--line); border-radius:6px; padding:16px; }
+.unborn .row { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+.unborn .row .card { flex:1 1 200px; }
+.unborn .row.two { align-items:stretch; margin-bottom:0; }
+.reader { flex:1 1 220px; border-radius:6px; padding:10px 14px; font-family:sans-serif; font-size:.85rem; line-height:1.6; }
+.reader.ok { background:var(--blob-bg); } .reader.ng { background:var(--bad-bg); } .reader u { text-decoration:none; font-weight:700; }
+details.quiz { border:1px solid var(--line); border-radius:6px; margin:12px 0; }
+details.quiz summary { cursor:pointer; padding:12px 16px; font-size:.92rem; background:var(--pale); border-radius:6px; }
+details.quiz[open] summary { border-radius:6px 6px 0 0; }
+details.quiz .answer { padding:2px 18px 10px; border-top:1px solid var(--line); font-size:.95rem; }
+footer.pager { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; border-top:2px solid var(--accent); margin-top:48px; padding-top:18px; font-size:.88rem; }
+footer.pager a,footer.pager span { max-width:48%; }
+@media (max-width:900px) { .layout { grid-template-columns:1fr; gap:0; } nav.toc { position:static; max-height:none; padding-top:16px; } .wrap { padding:26px 16px 48px; } h1 { font-size:1.5rem; } }
+@media print { nav.toc { display:none; } .layout { display:block; } .code.term { background:#fff; border-color:#999; } .code.term pre,.term .cmd { color:#111; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="back"><a href="index.html">← ポータルに戻る</a></p>
+<header class="doc">
+<p class="eyebrow">GIT STUDY · 01-2</p>
+<h1>git init — できたての .git を 1 ファイルずつ（前編）</h1>
+<div class="chips"><span>目安 11 分</span><span>git 2.50.1 / macOS</span><span>対象日 2026-09-17</span></div>
+</header>
+<div class="layout">
+<nav class="toc" aria-label="目次"><p>目次</p><ul><li><a href="#s2.1">2.1 git init は「フォルダを 1 個作るだけ」のコマンド</a></li><li><a href="#s2.2">2.2 できたての .git の全ファイル</a></li><li><a href="#s2.3">2.3 .git/HEAD — 存在しないブランチを指している</a></li><li><a href="#s2.4">2.4 .git/config — 1 行ずつ意味がある</a></li><li><a href="#h8">理解度チェック（前編）</a></li><li><a href="#h9">次にどこを読むか</a></li></ul><p>色の見かた</p><div class="legend">
+<span><i style="background:var(--commit)"></i>commit / objects</span><span><i style="background:var(--blob)"></i>blob</span>
+<span><i style="background:var(--tree)"></i>tree</span><span><i style="background:var(--tag)"></i>tag</span>
+<span><i style="background:var(--ref)"></i>refs（名札）</span><span><i style="background:var(--head)"></i>HEAD</span>
+<span><i style="background:var(--idx)"></i>index</span></div></nav>
+<article>
+<aside class="callout info"><p><strong>このページは分冊です。</strong> 全体像は <a href="01_0_Git_全体像と読む順番.html">01_0</a>。対象日 2026-09-17 / git 2.50.1 (Apple Git-155) / macOS。<strong><code>git init</code> が作るファイルは Git のバージョンと OS で変わります。</strong> 数が合わなくても慌てないでください。前編では <code>git init</code> の挙動と、<code>HEAD</code> / <code>config</code> を読みます。<code>hooks</code> / <code>--bare</code> / <code>.git</code> がファイルになる例外は <span class="soon" title="準備中">後編</span>（§2.5〜§2.9）です。</p>
+</aside>
+<h2 id="s2.1"><span class="num">2.1</span><code>git init</code> は「フォルダを 1 個作るだけ」のコマンド</h2>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">mkdir myapp &amp;&amp; cd myapp</span>
+<span class="ps">$</span> <span class="cmd">git init</span>
+Initialized empty Git repository in .../lab/myapp/.git/</code></pre></div>
+<p>やっていることは、カレントディレクトリに <code>.git</code> を作り、雛形を展開することだけです。<strong>ネットワークにも、親ディレクトリにも、既存ファイルにも一切触りません。</strong>作業ツリーのファイルは 1 個も追跡対象になりません（<code>git status</code> で確認できます）。</p>
+
+<h3 id="h2">何度実行しても壊れない</h3>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">git init .../lab/t2</span>
+Reinitialized existing Git repository in .../lab/t2/.git/</code></pre></div>
+<p><code>Initialized</code> ではなく <code>Reinitialized</code> になります。既存の <code>.git</code> があるときは、<strong>足りない雛形を補うだけで、objects も refs も config も消しません</strong>。「うっかり 2 回 <code>git init</code> した」で履歴が飛ぶことはないので安心してください。</p>
+
+<p>ただし例外があります。<code>git init --initial-branch=xxx</code> を既存リポジトリで実行すると<code>HEAD</code> が書き換わります。コミット済みのリポジトリでは付けないでください。</p>
+
+<h2 id="s2.2"><span class="num">2.2</span>できたての <code>.git</code> の全ファイル</h2>
+
+<p><code>git init</code> 直後の実物です。<strong>これで全部</strong>です。</p>
+
+<div class="code plain"><div class="cap">myapp/.git（find .git | sort の実物）</div><pre><code>.git
+.git/HEAD
+.git/config
+.git/description
+.git/hooks
+.git/hooks/applypatch-msg.sample
+.git/hooks/commit-msg.sample
+.git/hooks/fsmonitor-watchman.sample
+.git/hooks/post-update.sample
+.git/hooks/pre-applypatch.sample
+.git/hooks/pre-commit.sample
+.git/hooks/pre-merge-commit.sample
+.git/hooks/pre-push.sample
+.git/hooks/pre-rebase.sample
+.git/hooks/pre-receive.sample
+.git/hooks/prepare-commit-msg.sample
+.git/hooks/push-to-checkout.sample
+.git/hooks/sendemail-validate.sample
+.git/hooks/update.sample
+.git/info
+.git/info/exclude
+.git/objects
+.git/objects/info
+.git/objects/pack
+.git/refs
+.git/refs/heads
+.git/refs/tags</code></pre></div>
+<p>役割で分けると 4 つです。</p>
+
+<div class="four files">
+<div class="card c-core"><small>本体（Git の全部）</small><b>HEAD</b><b>objects/</b><b>refs/heads・refs/tags</b><p>今どこにいるか／データ本体／名札置き場。最初は objects と refs が空</p></div>
+<div class="card c-conf"><small>設定</small><b>config</b><b>info/exclude</b><p>このリポジトリ限定の設定と、共有しない .gitignore</p></div>
+<div class="card c-hook"><small>拡張ポイント</small><b>hooks/*.sample</b><p>全部サンプル。.sample を外さない限り動かない</p></div>
+<div class="card c-misc"><small>ほぼ使わない</small><b>description</b><p>GitWeb 用の 1 行説明</p></div>
+</div>
+<p><strong><code>.git/index</code> はまだ存在しません。</strong></p>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">ls -la .git/index</span>
+ls: .git/index: No such file or directory</code></pre></div>
+<p>これが「まだ一度も <code>git add</code> していない」ことの機械的な判定条件です。</p>
+
+<h2 id="s2.3"><span class="num">2.3</span><code>.git/HEAD</code> — 存在しないブランチを指している</h2>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">cat .git/HEAD</span>
+ref: refs/heads/main
+<span class="ps">$</span> <span class="cmd">wc -c .git/HEAD</span>
+      21 .git/HEAD</code></pre></div>
+<p>21 バイトのテキスト 1 行です。<code>ref: </code> で始まるものを <strong>symbolic ref</strong> と呼び、「<code>refs/heads/main</code> というファイルを見に行け」という転送指示になります。</p>
+
+<p><code>HEAD</code> には<strong>ハッシュが入っていない</strong>点に注意してください。40 桁のハッシュを直接持つのはブランチ側（<code>refs/heads/main</code>、41 バイト）です。<code>HEAD</code> がハッシュを直接持つのは detached HEAD のときだけで、それが「detached（切り離された）」と呼ばれる理由です（<span class="soon" title="準備中">01_5 §5.5</span>）。</p>
+
+<section class="callout warn">
+<h3 id="h5">ここが <code>git init</code> 最大の引っかかりどころ</h3>
+
+<p><code>.git/refs/heads/main</code> は<strong>まだ存在しません</strong>（§2.2 の find 出力を見てください）。つまり <code>HEAD</code> は<strong>壊れたリンク</strong>を指している状態です。これは異常ではなく、正常な初期状態です。</p>
+<figure class="unborn">
+<div class="row"><div class="card c-head"><small>.git/HEAD</small><code>ref: refs/heads/main</code></div>
+<div class="arrow">▶ 指す</div>
+<div class="card c-ghost"><small>.git/refs/heads/main</small><code>まだ存在しない</code></div></div>
+<div class="row two">
+<div class="reader ok"><b>git status</b>は HEAD の<u>テキスト</u>を読む<br>→ <code>On branch main</code></div>
+<div class="reader ng"><b>git branch</b>は refs/heads/ の<u>ファイル</u>を列挙<br>→ 何も出ない</div></div>
+<figcaption>どちらも正しい。見ている場所が違うだけ。最初の <code>git commit</code> で refs/heads/main ができる。</figcaption></figure>
+<p>Git はこれを「unborn branch（まだ生まれていないブランチ）」として特別扱いします。</p>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">git status</span>
+On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+
+<span class="ps">$</span> <span class="cmd">git branch</span>
+（何も出力されない）
+
+<span class="ps">$</span> <span class="cmd">git symbolic-ref HEAD</span>
+refs/heads/main
+
+<span class="ps">$</span> <span class="cmd">git rev-parse HEAD</span>
+fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.</code></pre></div>
+<p><code>git status</code> は「On branch main」と言うのに <code>git branch</code> には 1 行も出ない。この食い違いは、<strong><code>git branch</code> が <code>refs/heads/</code> のファイルを列挙している</strong>のに対し、<strong><code>git status</code> は <code>HEAD</code> のテキストを読んでいる</strong>ためです。実装の違いがそのまま出ています。</p>
+
+<p><code>refs/heads/main</code> は、最初の <code>git commit</code> のときに初めて作られます（§4.3）。</p>
+
+<p>ブランチ名を変えたいなら init 時に指定できます。</p>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">git init --initial-branch=develop .../lab/t2</span>
+Initialized empty Git repository in .../lab/t2/.git/
+<span class="ps">$</span> <span class="cmd">cat .git/HEAD</span>
+ref: refs/heads/develop</code></pre></div>
+<p>既定値は <code>init.defaultBranch</code> 設定で決まります。設定していないと Git が警告を出します。</p>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">git config --list --show-scope | head -4</span>
+unknown	credential.helper=osxkeychain
+unknown	init.defaultbranch=main
+global	user.name=...
+global	user.email=...</code></pre></div>
+<p><code>unknown</code> スコープは、Xcode Command Line Tools 版 Git が持っているシステム設定です（<code>/Applications/Xcode.app/...</code> 配下など、<code>git config --show-origin</code> で実体が見えます）。</p>
+
+</section>
+<h2 id="s2.4"><span class="num">2.4</span><code>.git/config</code> — 1 行ずつ意味がある</h2>
+
+<div class="code plain"><div class="cap">myapp/.git/config（git init 直後の実物）</div><pre><code>[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true</code></pre></div>
+<div class="tw"><table><thead><tr><th>キー</th><th>意味</th><th>変えるとどうなるか</th></tr></thead><tbody><tr><td><code>repositoryformatversion</code></td><td><code>.git</code> のフォーマット世代。<code>0</code> が通常、<code>1</code> は拡張機能あり</td><td>手で触らない。SHA-256 リポジトリなどで <code>1</code> になる</td></tr><tr><td><code>filemode</code></td><td>実行ビット（<code>100755</code>）の変化を差分として扱うか</td><td><code>false</code> にすると chmod が無視される。Windows 共有や Docker マウントで <code>true</code> のままだと<strong>全ファイルが変更扱い</strong>になる事故が起きる</td></tr><tr><td><code>bare</code></td><td>作業ツリーを持たないか</td><td>§2.8</td></tr><tr><td><code>logallrefupdates</code></td><td>reflog（<code>.git/logs/</code>）を書くか</td><td><code>false</code> にすると <code>git reflog</code> で復旧できなくなる。<strong>絶対に切らない</strong></td></tr><tr><td><code>ignorecase</code></td><td>ファイル名の大小を区別しないファイルシステムか</td><td>macOS / Windows で <code>true</code>。<code>README.md</code> → <code>Readme.md</code> のリネームが認識されない原因</td></tr><tr><td><code>precomposeunicode</code></td><td>macOS の NFD 正規化（濁点分解）を NFC に戻すか</td><td>macOS 専用。<code>false</code> だと「が」が「か + ゛」として記録され、Linux 側で別ファイルに見える</td></tr></tbody></table></div>
+<p><code>ignorecase</code> と <code>precomposeunicode</code> は<strong>環境を見て自動で決まった値</strong>です。Linux で <code>git init</code> すればどちらも出てきません。ここが <code>.git/config</code> の面白いところで、<strong>リポジトリを作った環境の性質が固定値として焼き付きます</strong>。</p>
+
+<h3 id="h7">設定は 4 段重ねで、下が勝つ</h3>
+
+<div class="cfg">
+<div class="lv lv1"><b>system</b><span>Git が入っている場所。全ユーザー共通</span></div>
+<div class="lv lv2"><b>global</b><span>~/.gitconfig。あなた個人</span></div>
+<div class="lv lv3 here"><b>local</b><span>.git/config。このリポジトリだけ</span><em>← git init が作るのはここ</em></div>
+<div class="lv lv4"><b>worktree</b><span>.git/config.worktree。使うことは稀</span></div>
+<div class="win">下の段ほど強い（上書きする）</div>
+</div>
+<p>どこで決まっているか分からなくなったら <code>--show-origin</code> で追えます。</p>
+
+<div class="code term"><pre><code><span class="ps">$</span> <span class="cmd">git config --show-origin --get core.ignorecase</span>
+file:.git/config	true</code></pre></div>
+<p>なお <code>user.name</code> / <code>user.email</code> は <code>git init</code> では<strong>書かれません</strong>。global にも無いと最初の <code>git commit</code> で止まります。</p>
+
+<h2 id="h8">理解度チェック（前編）</h2>
+
+<details class="quiz"><summary><b>Q1.</b> <code>git init</code> 直後、<code>git status</code> は "On branch main" と言うのに <code>git branch</code> は何も出さない。どちらが正しい？</summary><div class="answer"><p><strong>A.</strong> どちらも正しい。<code>.git/HEAD</code> には <code>ref: refs/heads/main</code> と書かれている（status はこれを読む）が、<code>.git/refs/heads/main</code> というファイルはまだ存在しない（branch はこれを列挙する）。最初の <code>git commit</code> で実体が作られる。 → §2.3</p>
+</div></details>
+<details class="quiz"><summary><b>Q2.</b> Docker でマウントしたリポジトリで、何も触っていないのに全ファイルが変更扱いになった。どこを見る？</summary><div class="answer"><p><strong>A.</strong> <code>.git/config</code> の <code>core.filemode</code>。ホストとコンテナで実行ビットの見え方が違うと、<code>100644</code> ↔ <code>100755</code> の変化として全ファイルが差分になる。<code>git config core.filemode false</code> で止まる。 → §2.4</p>
+</div></details>
+<details class="quiz"><summary><b>Q3.</b> 既存のリポジトリでうっかり <code>git init</code> をもう一度実行してしまった。履歴は消えた？</summary><div class="answer"><p><strong>A.</strong> 消えない。<code>Reinitialized existing Git repository</code> と出て、足りない雛形を補うだけ。ただし <code>--initial-branch=xxx</code> を付けると <code>HEAD</code> が書き換わるので、コミット済みリポジトリでは付けないこと。 → §2.1</p>
+</div></details>
+<h2 id="h9">次にどこを読むか</h2>
+
+<div class="tw"><table><thead><tr><th>知りたいこと</th><th>行き先</th></tr></thead><tbody><tr><td>hooks / <code>--bare</code> / <code>.git</code> がファイルの場合</td><td><span class="soon" title="準備中">01_3 §2.5〜§2.9</span></td></tr><tr><td><code>refs/heads/main</code> はいつ作られるのか</td><td><span class="soon" title="準備中">01_4 §4.3</span></td></tr><tr><td><code>.git/index</code> の中身</td><td><span class="soon" title="準備中">01_4 §3.2</span></td></tr><tr><td><code>HEAD</code> が symbolic ref でなくなるとき</td><td><span class="soon" title="準備中">01_5 §5.5</span></td></tr></tbody></table></div>
+<footer class="pager"><span>← 前　<a href="01_1_Gitの世界観_4種類のオブジェクト.html">01_1 4種類のオブジェクト</a></span><span>次 →　<span class="soon" title="準備中">01_3 git init 後編（準備中）</span></span></footer>
+</article>
+</div>
+</div>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+mermaid.initialize({ startOnLoad: true, theme: "base", themeVariables: { fontFamily: "Yu Gothic, Hiragino Kaku Gothic ProN, sans-serif", primaryColor: "#EFF5F6", primaryBorderColor: "#22586B", lineColor: "#65747A", primaryTextColor: "#111" } });
+</script>
+</body>
+</html>

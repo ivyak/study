@@ -14,6 +14,9 @@ description:
   context.
 - Follow common git conventions (type prefix, short subject, wrapped body).
 - Include both summary and rationale in the body.
+- Write the human-readable commit subject and body in Japanese unless the user
+  explicitly requests another language. Keep required Git syntax, conventional
+  type/scope prefixes, commands, identifiers, and trailers as written.
 
 ## Inputs
 
@@ -34,8 +37,8 @@ description:
    for confirmation.
 6. Choose a conventional type and optional scope that match the change (e.g.,
    `feat(scope): ...`, `fix(scope): ...`, `refactor(scope): ...`).
-7. Write a subject line in imperative mood, <= 72 characters, no trailing
-   period.
+7. Write a concise Japanese subject line, <= 72 characters, with no trailing
+   period. Use a Japanese phrase that describes the change naturally.
 8. Write a body that includes:
    - Summary of key changes (what changed).
    - Rationale and trade-offs (why it changed).
@@ -58,18 +61,18 @@ description:
 Type and scope are examples only; adjust to fit the repo and changes.
 
 ```
-<type>(<scope>): <short summary>
+<type>(<scope>): <変更の要約>
 
-Summary:
-- <what changed>
-- <what changed>
+変更内容:
+- <何を変更したか>
+- <何を変更したか>
 
-Rationale:
-- <why>
-- <why>
+理由:
+- <なぜ変更したか>
+- <なぜ変更したか>
 
-Tests:
-- <command or "not run (reason)">
+検証:
+- <実行したコマンドと結果、または「未実施（理由）」>
 
 Co-authored-by: Codex <codex@openai.com>
 ```

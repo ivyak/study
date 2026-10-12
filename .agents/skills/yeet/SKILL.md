@@ -10,9 +10,16 @@ description: "Use only when the user explicitly asks to stage, commit, push, and
 
 ## Naming conventions
 
-- Branch: `{description}` when starting from main/master/default.
-- Commit: `{description}` (terse).
-- PR title: `{description}` summarizing the full diff.
+- Branch: a concise, Git-safe slug when starting from main/master/default.
+- Commit: a terse Japanese description of the change.
+- PR title: a Japanese description summarizing the full diff.
+
+Write generated human-readable text in Japanese, including the commit message,
+PR title, PR body, and any text filled into a PR template, unless the user
+explicitly requests another language. Keep conventional commit type/scope
+prefixes, code, identifiers, commands, URLs, required template headings, and
+GitHub syntax as written. An existing PR's meaningful content should be
+preserved when editing its body.
 
 ## PR template discovery
 
@@ -37,10 +44,10 @@ If multiple template files are found, stop before PR creation and ask which temp
 
 ## Workflow
 
-- If on main/master/default, create a branch: `git checkout -b "{description}"`
+- If on main/master/default, create a branch: `git checkout -b "{branch-slug}"`
 - Otherwise stay on the current branch.
 - Confirm status, then stage everything: `git status -sb` then `git add -A`.
-- Commit tersely with the description: `git commit -m "{description}"`
+- Commit with a terse Japanese message: `git commit -m "{japanese-description}"`
 - Run checks if not already. If checks fail due to missing deps/tools, install dependencies and rerun once.
 - Push with tracking: `git push -u origin $(git branch --show-current)`
 - If git push fails due to workflow auth errors, pull from master and retry the push.
@@ -73,12 +80,7 @@ Format: `<type>(<scope>): <subject>`
 ### Example
 
 ```
-feat: add hat wobble
-^--^  ^------------^
-|     |
-|     +-> Summary in present tense.
-|
-+-------> Type: chore, docs, feat, fix, refactor, style, or test.
+feat: 帽子の揺れを追加
 ```
 
 More Examples:
@@ -96,7 +98,7 @@ More Examples:
 
 When invoked, use `gh` to edit the pull request body and title to reflect the contents of the specified PR. Make sure to check the existing pull request body to see if there is key information that should be preserved. For example, NEVER remove an image in the existing pull request body, as the author may have no way to recover it if you remove it.
 
-When a repository PR template exists, adapt the final PR body to that template. Preserve meaningful headings, required checklists, and repo-specific prompts, but replace placeholder text with net-diff-specific content or `N/A` where the template asks for it. Do not discard template sections just because the fallback shape below is shorter.
+When a repository PR template exists, adapt the final PR body to that template. Preserve meaningful headings, required checklists, and repo-specific prompts, but replace placeholder text with net-diff-specific Japanese content or `該当なし` where the template asks for it. Do not discard template sections just because the fallback shape below is shorter.
 
 It is critically important to explain _why_ the change is being made. If the current conversation in which this skill is invoked has discussed the motivation, be sure to capture this in the pull request body.
 
@@ -106,9 +108,9 @@ Limit discussion to the _net change_ of the commit. It is generally frowned upon
 
 Avoid references to absolute paths on my local disk. When talking about a path that is within the repository, simply use the repo-relative path.
 
-Default to omitting `Verification`. Add it only when you have behavioral evidence worth preserving for reviewers: a reproduced bug, a before/after check, a targeted test that exercises the changed behavior, or a manual scenario with input and observed outcome. Do not use it for generic commands or automation results such as package tests, type checks, linters, formatters, pre-commit/pre-push hooks, or CI status.
+Default to omitting `検証`. Add it only when you have behavioral evidence worth preserving for reviewers: a reproduced bug, a before/after check, a targeted test that exercises the changed behavior, or a manual scenario with input and observed outcome. Do not use it for generic commands or automation results such as package tests, type checks, linters, formatters, pre-commit/pre-push hooks, or CI status.
 
-If the repository template requires a validation or verification section, keep that section and avoid generic filler: include meaningful commands/results, a targeted manual scenario, or `Not run` with a reason.
+If the repository template requires a validation or verification section, keep that section and avoid generic filler: include meaningful commands/results, a targeted manual scenario, or `未実施（理由）`.
 
 Use professional Markdown:
 
@@ -122,11 +124,11 @@ Use professional Markdown:
 Use this as a fallback when the repository does not have a PR template:
 
 ```markdown
-## Why
+## 理由
 
-Describe the user-facing or maintainer-facing problem, including cause and effect where useful.
+利用者または保守担当者が直面する問題を、必要に応じて原因と影響を添えて説明する。
 
-## What Changed
+## 変更内容
 
-Describe the net implementation change in concise prose.
+最終的に残った変更を簡潔に説明する。
 ```

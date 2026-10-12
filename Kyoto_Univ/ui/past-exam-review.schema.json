@@ -1,0 +1,173 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "partial"
+      ]
+    },
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "kuwiki",
+              "kuinfo2020",
+              "ku1025",
+              "past-exam-drive"
+            ]
+          },
+          "pages": {
+            "type": "integer"
+          },
+          "pending": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url",
+                "path",
+                "kind"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "path",
+                    "kind"
+                  ],
+                  "additionalProperties": false
+                },
+                "error": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "task",
+                "error"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "drive_listing_complete": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "source",
+          "pages",
+          "pending",
+          "errors",
+          "drive_listing_complete"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "materialTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "問題",
+                "講義資料",
+                "解答",
+                "演習問題",
+                "未確認"
+              ]
+            }
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "previewError": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "sources",
+          "paths",
+          "materialTypes",
+          "evidence",
+          "previewError"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "status",
+    "error",
+    "coverage",
+    "candidates"
+  ],
+  "additionalProperties": false
+}

@@ -4,9 +4,16 @@ from html import escape
 from html.parser import HTMLParser
 from pathlib import Path
 import re
+import json
 from urllib.parse import quote
+from past_exams import snapshot, resources
+from skill_catalog import build_skills
+from goal_reports import goal_records
+from article_reports import article_records
 
 ROOT = Path(__file__).resolve().parent
+SHELL_START = '<!-- LIFE-SHELL:START -->'
+SHELL_END = '<!-- LIFE-SHELL:END -->'
 
 
 class Metadata(HTMLParser):
@@ -16,10 +23,20 @@ class Metadata(HTMLParser):
         self.subtitle = []
         self.in_title = False
         self.in_subtitle = False
+        self.hidden_from_portal = False
+        self.fields = {}
+        self.in_body = False
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        if tag == 'title':
+        if tag == 'body':
+            self.in_body = True
+        if tag == 'meta' and attrs.get('name', '').startswith('study-'):
+            self.fields[attrs['name']] = attrs.get('content', '')
+        # タブから開く補助ページは、study-portal=hiddenで一覧への重複掲載を避ける。
+        if tag == 'meta' and attrs.get('name') == 'study-portal' and attrs.get('content') == 'hidden':
+            self.hidden_from_portal = True
+        if tag == 'title' and not self.in_body:
             self.in_title = True
         if tag == 'p' and 'subtitle' in attrs.get('class', '').split():
             self.in_subtitle = True
@@ -74,118 +91,107 @@ def documents(folder):
             continue
         metadata = Metadata()
         metadata.feed(path.read_text(encoding='utf-8-sig', errors='replace'))
+        if metadata.hidden_from_portal:
+            continue
         title = ''.join(metadata.subtitle).strip() or ''.join(metadata.title).strip() or path.stem
         result.append((title, relative, path.relative_to(folder)))
     return result
 
 
-STYLE = '''
-:root { --accent: #22586B; --muted: #65747A; --pale: #EFF5F6; --line: #dee7e9; }
-* { box-sizing: border-box; }
-html { background: #fff; color: #111; color-scheme: light; }
-body { margin: 0; font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", serif; line-height: 1.9; }
-main { max-width: 1640px; margin: 0 auto; padding: 38px 32px 56px; }
-h1, h2, nav, .eyebrow, .schedule, .count, footer { font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; }
-header { border-bottom: 1px solid var(--accent); padding-bottom: 24px; }
-.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: .85rem; letter-spacing: .04em; }
-h1 { margin: 0 0 10px; font-size: 1.8rem; line-height: 1.5; }
-.intro { margin: 0; font-size: 1rem; }
-.overview { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 24px 0 10px; }
-.overview p { margin: 0; color: var(--muted); font-size: .8rem; }
-nav { margin: 0 0 24px; font-size: .83rem; }
-nav ul { display: flex; flex-wrap: wrap; gap: 4px 18px; list-style: none; margin: 0; padding: 0; }
-nav li { margin: 3px 0; }
-nav a { display: inline-block; color: var(--muted); text-decoration: none; padding: 1px 5px; border-radius: 3px; }
-a { text-underline-offset: .22em; }
-a:hover { color: var(--accent); background: var(--pale); }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px; }
-.course { aspect-ratio: 1; min-width: 0; min-height: 0; padding: 24px; border: 1px solid var(--line); border-radius: 4px; display: flex; flex-direction: column; overflow: hidden; scroll-margin-top: 24px; }
-.course-content { flex: 1; min-height: 0; overflow-y: auto; margin-top: 14px; scrollbar-width: thin; }
-.course-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
-.schedule { margin: 0 0 4px; color: var(--muted); font-size: .76rem; }
-h2 { margin: 0; font-size: 1.12rem; color: var(--accent); line-height: 1.65; overflow-wrap: anywhere; }
-.count { flex-shrink: 0; color: var(--muted); font-size: .75rem; }
-.materials { list-style: none; margin: 0; padding: 0; }
-.materials li + li { margin-top: 10px; }
-.material { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #111; text-decoration: none; padding: 13px 16px; background: var(--pale); border-radius: 3px; }
-.material:hover { background: #e4eef0; }
-.material-title { display: block; color: var(--accent); font-size: .98rem; }
-.filename { display: block; color: var(--muted); font-family: sans-serif; font-size: .72rem; overflow-wrap: anywhere; margin-top: 3px; }
-.arrow { color: var(--accent); flex-shrink: 0; font-family: sans-serif; }
-.empty { margin: 12px 0 0; color: var(--muted); font-size: .85rem; }
-footer { border-top: 1px solid var(--accent); margin-top: 32px; padding-top: 16px; color: var(--muted); font-size: .73rem; }
-@media (max-width: 600px) {
-  main { padding: 26px 16px 40px; }
-  .course-grid { gap: 14px; }
-  .course { padding: 20px; }
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.05rem; }
-  .course-heading { gap: 10px; }
-  .material { padding: 12px; gap: 10px; }
-}
-@media print { main { max-width: none; padding: 0; } nav { display: none; } .course-grid { grid-template-columns: repeat(2, 1fr); } .course { break-inside: avoid; aspect-ratio: auto; min-height: 65mm; overflow: visible; } .course-content { overflow: visible; } }
-'''
+def material_data(title, relative):
+    path = ROOT / relative
+    metadata = Metadata()
+    metadata.feed(path.read_text(encoding='utf-8-sig', errors='replace'))
+    lesson_text = metadata.fields.get('study-lesson', '')
+    match = re.search(r'第([0-9０-９]+)回', path.stem)
+    if not lesson_text and match:
+        lesson_text = match[1].translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+    lesson = int(lesson_text) if lesson_text.isdigit() else None
+    kind = metadata.fields.get('study-kind')
+    if not kind:
+        kind = ('理解度クイズ' if 'クイズ' in path.stem else
+                '対応問題' if any(word in path.stem for word in ['演習問題', '対応問題']) else
+                '要約' if '要約' in path.stem else '解説')
+    return {
+        'title': title,
+        'url': quote(relative.as_posix(), safe='/'),
+        'lesson': lesson,
+        'kind': kind,
+        # Filesystem modification times are not document creation dates.
+        'created': metadata.fields.get('study-created', ''),
+    }
+
+
+def course_records():
+    folders = sorted((p for p in ROOT.iterdir()
+                      if p.is_dir() and not p.name.startswith(('.', '__'))
+                      and p.name != 'ui' and not p.is_symlink()), key=course_order)
+    entries = []
+    for folder in folders:
+        schedule, name = course_info(folder)
+        normalized = schedule.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+        match = re.fullmatch(r'(\d{4})(前期|後期)([月火水木金土日])(\d+)', normalized)
+        if not match:
+            continue
+        year, semester, day, period = match.groups()
+        docs = documents(folder)
+        past_exams = snapshot(folder)
+        entries.append({
+            'id': 'calculus2' if folder.name == '[2026後期木３]微分積分学続論II' else folder.name,
+            'name': name,
+            'folder': folder.name,
+            'term': year + semester,
+            'day': day,
+            'period': int(period),
+            'hasPastPaper': past_exams['hasPastPaper'],
+            'pastExams': past_exams,
+            'resources': {category: resources(folder, category) for category in ['weapons', 'practice']},
+            'documents': [material_data(title, relative) for title, relative, _ in docs],
+        })
+    entries.sort(key=lambda item: (item['term'][:4], 0 if item['term'].endswith('前期') else 1,
+                                   '月火水木金土日'.index(item['day']), item['period'], item['name']))
+    return entries
+
+
+def sync_document_shells(shell):
+    """Keep LIFE lesson pages on the same sidebar component as the portal."""
+    replacement = f'{SHELL_START}\n{shell.rstrip()}\n{SHELL_END}'
+    for path in ROOT.rglob('*.html'):
+        if path.is_relative_to(ROOT / 'ui') or path == ROOT / 'index.html':
+            continue
+        content = path.read_text(encoding='utf-8')
+        if 'data-life-page="document"' not in content:
+            continue
+        if content.count(SHELL_START) != 1 or content.count(SHELL_END) != 1:
+            raise ValueError(f'LIFE document is missing the shared shell markers: {path}')
+        start = content.index(SHELL_START)
+        end = content.index(SHELL_END) + len(SHELL_END)
+        updated = content[:start] + replacement + content[end:]
+        if updated != content:
+            path.write_text(updated, encoding='utf-8')
 
 
 def build():
-    folders = sorted((p for p in ROOT.iterdir() if p.is_dir() and not p.name.startswith(('.', '__')) and not p.is_symlink()), key=course_order)
-    entries = [(folder, documents(folder)) for folder in folders]
-    total = sum(len(docs) for _, docs in entries)
-    nav = []
-    sections = []
-    for index, (folder, docs) in enumerate(entries, 1):
-        schedule, name = course_info(folder)
-        ident = f'course-{index}'
-        nav.append(f'<li><a href="#{ident}">{escape(name)}</a></li>')
-        if docs:
-            rows = []
-            for title, relative, course_relative in docs:
-                url = quote(relative.as_posix(), safe='/')
-                rows.append(f'''<li><a class="material" href="{url}">
-<span class="material-title">{escape(title)}</span>
-<span class="arrow" aria-hidden="true">→</span>
-</a></li>''')
-            content = '<ul class="materials">\n' + '\n'.join(rows) + '\n</ul>'
-        else:
-            content = '<p class="empty">HTML資料はまだありません。</p>'
-        sections.append(f'''<section class="course" id="{ident}" aria-labelledby="{ident}-title">
-<p class="schedule">{escape(display_schedule(schedule))}</p>
-<div class="course-heading"><h2 id="{ident}-title">{escape(name)}</h2><span class="count">{len(docs)} 資料</span></div>
-<div class="course-content">{content}</div>
-</section>''')
-    favicon = quote('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EFF5F6"/><path d="M6 7h8l2 2 2-2h8v19h-8l-2 2-2-2H6zM16 9v19" fill="none" stroke="#22586B" stroke-width="2"/></svg>', safe='')
-    output = f'''<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light">
-<meta name="description" content="京都大学の授業ごとに講義ノート・HTML資料を閲覧する学習ポータル。">
-<title>授業ノート｜Kyoto Univ.</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,{favicon}">
-<style>{STYLE}</style>
-</head>
-<body>
-<main>
-<header>
-<p class="eyebrow">KYOTO UNIV. · STUDY NOTES</p>
-<h1>授業ノート</h1>
-<p class="intro">授業ごとのノートと資料を、ここから。</p>
-</header>
-<div class="overview"><p id="course-nav-label">授業一覧</p><p>{len(entries)} 授業 / {total} 資料</p></div>
-<nav aria-labelledby="course-nav-label"><ul>
-{chr(10).join(nav)}
-</ul></nav>
-<div class="course-grid">
-{chr(10).join(sections)}
-</div>
-<footer>Kyoto Univ. · 学習資料</footer>
-</main>
-</body>
-</html>
-'''
+    ui = ROOT / 'ui'
+    template = (ui / 'portal.html').read_text(encoding='utf-8')
+    shell = (ui / 'shell.html').read_text(encoding='utf-8')
+    sync_document_shells(shell)
+    entries = course_records()
+    skill_cards = build_skills(shell)
+    payload = json.dumps(entries, ensure_ascii=False).replace('<', chr(92) + 'u003c')
+    fallback = ['<p>授業資料（JavaScriptを有効にすると時間割から選べます）</p>']
+    for course in entries:
+        fallback.append(f"<h2>{escape(course['name'])}</h2><ul>")
+        for doc in course['documents']:
+            fallback.append(f'<li><a href="{escape(doc["url"], quote=True)}">{escape(doc["title"])}</a></li>')
+        fallback.append('</ul>')
+    output = template.replace('__SHELL__', shell).replace('__COURSE_DATA__', payload).replace('__FALLBACK_LINKS__', '\n'.join(fallback)).replace('__SKILL_CARDS__', skill_cards)
+    goals = json.dumps(goal_records(), ensure_ascii=False).replace('<', chr(92) + 'u003c')
+    output = output.replace('__GOAL_DATA__', goals)
+    articles = json.dumps(article_records(), ensure_ascii=False).replace('<', chr(92) + 'u003c')
+    output = output.replace('__ARTICLE_DATA__', articles)
     (ROOT / 'index.html').write_text(output, encoding='utf-8')
+    total = sum(len(course['documents']) for course in entries)
     print(f'index.html を更新しました：{len(entries)} 授業 / {total} 資料')
 
 

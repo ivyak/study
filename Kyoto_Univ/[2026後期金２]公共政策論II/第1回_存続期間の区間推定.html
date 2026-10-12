@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="description" content="公共政策論II第1回の講義写真p.42〜47をもとに、ベルリンの壁の存続期間の区間推定を解説。解答付き計算確認問題5問。"><title>第1回｜存続期間の区間推定｜公共政策論II</title><script src="assets/policy-lesson.js" defer></script>
+<link rel="stylesheet" href="assets/policy-lesson-life.css">
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<meta name="study-ui" content="life">
+<meta name="study-kind" content="解説">
+<meta name="study-lesson" content="1">
+<style>
+.legacy-page{--bg:var(--black);--panel:#151411;--ink:var(--white);--white:#f2f0e9;--muted:#bcb9af;--gold:#d7b66c;--line:#39352a;color:var(--white);background:transparent;min-width:0;font-size:16px;line-height:1.95}
+.legacy-page > .skip,.legacy-page > .menu-button,.legacy-page > .sidebar,.legacy-page > .top{display:none!important}
+.legacy-page > main,.legacy-page > .layout{margin:0!important;max-width:none!important;padding:0!important;width:100%!important;display:block!important}
+.legacy-page > .layout > aside{display:none!important}
+.legacy-page > .layout > main{margin:0!important;max-width:none!important;padding:0!important;width:100%!important}
+.legacy-page > .shell{display:block!important;grid-template-columns:none!important;margin:0!important;min-width:0!important;width:100%!important}
+.legacy-page > .shell > main{display:block!important;margin:0!important;max-width:none!important;padding:0!important;width:100%!important;min-width:0!important}
+.legacy-page .tabs{max-width:100%;min-width:0}
+.legacy-page .table-wrap{max-width:100%}
+
+.legacy-page .hero{padding-top:14px}
+.legacy-page .back-nav{display:none}
+.legacy-page .toc{display:none!important}
+.legacy-page .card,.legacy-page .formula,.legacy-page .note,.legacy-page details,.legacy-page .viz{background-color:rgba(215,182,108,.07);border-color:var(--line);color:var(--white)}
+.legacy-page a{color:var(--gold)}
+.legacy-page img,.legacy-page svg{max-width:100%}
+.legacy-page > main > header:first-child,.legacy-page .hero{border-bottom:1px solid var(--line)}
+.legacy-page h1,.legacy-page h2,.legacy-page h3{color:var(--white)}
+.legacy-page .eyebrow,.legacy-page .number,.legacy-page .label{color:var(--gold)}
+@media(max-width:650px){.legacy-page{font-size:15px}.legacy-page .card{padding:18px 14px}}
+</style></head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期金２]公共政策論II">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E9%87%91%EF%BC%92%5D%E5%85%AC%E5%85%B1%E6%94%BF%E7%AD%96%E8%AB%96II">公共政策論II</a><span>/</span><span>第1回 解説</span></div>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E9%87%91%EF%BC%92%5D%E5%85%AC%E5%85%B1%E6%94%BF%E7%AD%96%E8%AB%96II" aria-label="公共政策論IIの一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="section-rule"></div>
+<div class="reader">
+<article class="legacy-page lesson-document"><a class="skip" href="#main">本文へ移動</a><button class="menu-button" aria-controls="sidebar" aria-expanded="false">目次</button><aside class="sidebar" id="sidebar"><a class="back" href="../index.html">← 授業一覧（index）</a><p class="brand">PUBLIC POLICY II</p><h2>第1回の学習ノート</h2><p class="eyebrow">INTERVAL ESTIMATION</p><nav class="toc" aria-label="このページの目次"><a href="#setup">01　何を推定するのか：経過年数と総存続期間</a><a href="#model">02　出発点は「訪問時点が一様」という仮定</a><a href="#central">03　中央50%に入る、という出来事を書く</a><a href="#invert">04　不等式を反転して、θの区間を求める</a><a href="#interpret">05　区間推定・点推定と「50%」の読み方</a><a href="#after">06　講義の結末と、この推定が依存するもの</a><a href="#practice">07　計算確認：信頼水準を変えるとどうなるか</a></nav><hr><p class="quiet">読む → 自分で計算する → 解答を開く。<br>総存続期間と残り期間を分けて考えよう。</p><p class="ai">講義写真をもとにAIが構成・解説</p></aside><div class="shell"><nav class="tabs" aria-label="ページ内の学習項目"><a href="#setup">講義の解説</a><a href="#practice">計算確認問題</a><a href="#materials">原資料</a></nav><main id="main"><header class="hero"><p class="eyebrow">KYOTO UNIVERSITY / 2026 · LECTURE 01</p><h1>経過年数から、<br>存続期間を推定する</h1><p class="subtitle">公共政策論II · 第1回｜ベルリンの壁と区間推定</p><p class="lede">「もう8年続いている」から、「あと何年続く」をどう考えるか。一様分布の仮定から、50%信頼区間の意味まで。</p><p class="meta">講義写真 p.42〜47 / 計算確認 5問 / 区間の計算ツール付き</p></header><section id="setup" aria-labelledby="setup-title"><h2 id="setup-title"><span class="num">SECTION 01</span>何を推定するのか：経過年数と総存続期間</h2><p class="source"><a href="第1回/IMG_3542.jpg">講義写真 · p.42</a></p>
+<p>ベルリンの壁が1961年にでき、1969年に訪れたとします。訪問時点では<strong>「すでに8年続いている」</strong>ことは分かりますが、壁が最終的に何年間存続するかは分かりません。講義ではこの未知の総存続期間を θ（シータ）とし、観測済みの8年から θ を推定します。</p>
+<div class="flow"><div><b>1961年</b><span>壁の成立<br>経過時間 0</span></div><i>→</i><div><b>1969年</b><span>訪問・観測<br>X = 8 年</span></div><i>→</i><div><b>1961 + θ 年</b><span>壁の終わり<br>まだ分からない</span></div></div>
+<div class="table-wrap"><table><thead><tr><th scope="col">記号</th><th scope="col">意味</th><th scope="col">この例</th></tr></thead><tbody><tr><td>θ</td><td>成立から終わりまでの総存続期間（未知のパラメータ）</td><td>推定したい年数</td></tr><tr><td>X</td><td>成立から訪問までの経過年数（確率変数）</td><td>観測前はランダム</td></tr><tr><td>x</td><td>X の観測値・実現値</td><td>1969 − 1961 = 8 年</td></tr><tr><td>θ − x</td><td>訪問後に残っている期間</td><td>θ − 8 年</td></tr></tbody></table></div>
+<p>θ は<strong>壁の寿命全体</strong>、θ − 8 は<strong>訪問時点からの残り寿命</strong>です。この区別を最初に押さえると、最後に「8を引く」理由が分かります。</p><p class="quiet">提供資料は写真2枚に写ったp.42〜47です。以下はその範囲の解説で、第1回のそれ以前の内容は未確認です。年数は講義と同じく年単位で簡略化しています。</p></section><section id="model" aria-labelledby="model-title"><h2 id="model-title"><span class="num">SECTION 02</span>出発点は「訪問時点が一様」という仮定</h2><p class="source"><a href="第1回/IMG_3542.jpg">講義写真 · p.42–43</a></p>
+<p>壁が存在している間に訪れたので、必ず 0 ≤ X ≤ θ です。これが p.42 の Pr(0 ≤ X ≤ θ) = 1 の意味です。ただし、この条件だけでは区間推定の計算はできません。</p><p>p.43 ではさらに、「訪問は壁の存続期間内の特別でない時点に起こる」と考え、<strong>同じ長さの時間帯なら訪問する確率も等しい</strong>と仮定します。数式では、θ を固定したとき X が 0〜θ の一様分布に従うというモデルです。</p>
+<div class="formula">X ∼ Uniform(0, θ)<br>Pr(a ≤ X ≤ b) = (b − a) / θ　（0 ≤ a ≤ b ≤ θ）</div>
+<p>例えば、総存続期間の最初の4分の1に訪問する確率は25%、中央の半分に訪問する確率は50%になります。連続分布では一点だけの確率は0なので、ここでは端点の「≤」と「&lt;」の違いは結果に影響しません。</p><aside class="note"><span class="ai">AI補足・仮定の確認</span><p>「いつ訪れるか分からない」ことから、一様分布が自動的に導かれるわけではありません。観光の人気や出来事によって訪問時期が偏れば、このモデルは崩れます。以下の信頼水準は、この仮定が成り立つ場合の値です。</p></aside></section><section id="central" aria-labelledby="central-title"><h2 id="central-title"><span class="num">SECTION 03</span>中央50%に入る、という出来事を書く</h2><p class="source"><a href="第1回/IMG_3542.jpg">講義写真 · p.44</a></p>
+<p>中央50%を残すには、存続期間の最初と最後から<strong>25%ずつ</strong>を除きます。残る区間は θ/4 から 3θ/4 までで、長さは θ/2 です。</p><div class="interval-bar" role="img" aria-label="存続期間の最初25%、中央50%、最後25%"><span class="tail">除く 25%</span><span class="middle">残す 50%</span><span class="tail">除く 25%</span></div><div class="interval-labels"><span>0</span><span>θ/4</span><span>3θ/4</span><span>θ</span></div>
+<div class="formula">Pr(θ/4 ≤ X ≤ 3θ/4) = (3θ/4 − θ/4) / θ = 0.5</div>
+<p>この段階の区間は<strong>「X がどこに入るか」</strong>を表しています。しかし知りたいのは θ の方です。そこで同じ不等式を、θ が真ん中に来る形に変えます。</p></section><section id="invert" aria-labelledby="invert-title"><h2 id="invert-title"><span class="num">SECTION 04</span>不等式を反転して、θの区間を求める</h2><p class="source"><a href="第1回/IMG_3543.jpg">講義写真 · p.45</a></p>
+<p>2つの不等式を別々に解き、最後に合わせます。割る数は正なので、不等号の向きは変わりません。</p><div class="formula">θ/4 ≤ X　⇒　θ ≤ 4X<br>X ≤ 3θ/4　⇒　4X/3 ≤ θ<br>したがって　4X/3 ≤ θ ≤ 4X</div>
+<p>よって Pr(4X/3 ≤ θ ≤ 4X) = 0.5 です。観測値 x = 8 を代入すると、総存続期間の50%信頼区間が得られます。</p><div class="formula">θ の区間：[4 × 8 / 3, 4 × 8] = [32/3, 32] 年<br>約 10.67 ～ 32 年</div>
+<p>すでに経過した8年を両端から引けば、<strong>1969年からの残り期間</strong>の区間になります。</p><div class="formula">θ − 8 の区間：[32/3 − 8, 32 − 8]<br>= [8/3, 24] 年 = 2年8か月 ～ 24年</div>
+<p>終了する暦年で表すなら、総存続期間には1961年を足し、残り期間には1969年を足します。どちらも、講義の年単位の扱いでは約1971.67〜1993年となり、同じ結果です。</p>
+<div class="quiz"><p class="eyebrow">CHECK 01 <span class="ai">AI作成・計算確認</span></p><h3>経過年数が8年のとき、総存続期間と残り期間の50%区間を、何も見ずに求めてください。</h3><label for="answer-1">まず紙や下の欄で計算（メモはページを離れると消えます）</label><textarea id="answer-1" rows="3" placeholder="式 → 数値 → 結果の意味を書いてみましょう。"></textarea><details><summary>解答・途中式を開く</summary><div class="answer"><div><p>総存続期間は [4x/3, 4x] = [32/3, 32] 年。残り期間は [x/3, 3x] = [8/3, 24] 年です。</p><p>8/3年 = 2 + 2/3年。1年は12か月なので、2/3 × 12 = 8か月です。下限は「2年8か月」であり「2年6.7か月」ではありません。</p></div></div></details></div></section><section id="interpret" aria-labelledby="interpret-title"><h2 id="interpret-title"><span class="num">SECTION 05</span>区間推定・点推定と「50%」の読み方</h2><p class="source"><a href="第1回/IMG_3543.jpg">講義写真 · p.46</a></p>
+<p>未知の θ を幅のある区間で求めるのが<strong>区間推定</strong>（interval estimation）、一つの数で求めるのが<strong>点推定</strong>（point estimation）です。p.46 は今回の区間を「50%信頼区間」と呼んでいます。1969年時点では θ の終わりが未来にあるため、この推定が将来予測にもつながります。</p>
+<p>講義は点推定の例として区間の中央を挙げています。今回の<strong>総存続期間</strong>の中央は、次の値です。</p><div class="formula">(32/3 + 32) / 2 = 64/3 ≈ 21.33 年<br>対応する残り期間：64/3 − 8 = 40/3 ≈ 13.33 年</div>
+<p>p.46 の「21.3年」は総存続期間の値です。残り期間の値ではありません。また、区間の中央を選ぶのは点推定の一例で、それだけで最良の推定値や期待値だと証明されたわけではありません。</p>
+<aside class="note"><span class="ai">AI補足・信頼区間の厳密な意味</span><p>頻度論では θ は固定された未知の値で、ランダムなのは X と、X から作る区間 [4X/3, 4X] です。同じ θ の下で訪問時点を一様に繰り返し選び、その都度区間を作ると、その50%が真の θ を含みます。</p><p>観測後の固定区間 [32/3, 32] について、「θ が50%の確率でここにある」という事後確率を、そのまま主張するものではありません。θ 自体に確率を与えるには別途モデルが必要です。p.45 の吹き出しは、この区間を作る手続きの被覆率として読むと正確です。</p></aside>
+<div class="quiz"><p class="eyebrow">CHECK 02 <span class="ai">AI作成・計算確認</span></p><h3>経過年数が12年なら、50%区間と、区間の中央による点推定を求めてください。</h3><label for="answer-2">まず紙や下の欄で計算（メモはページを離れると消えます）</label><textarea id="answer-2" rows="3" placeholder="式 → 数値 → 結果の意味を書いてみましょう。"></textarea><details><summary>解答・途中式を開く</summary><div class="answer"><div><p>総存続期間：[4 × 12/3, 4 × 12] = <strong>[16, 48] 年</strong>。残り期間：[16 − 12, 48 − 12] = <strong>[4, 36] 年</strong>。</p><p>総存続期間の点推定は (16 + 48)/2 = <strong>32年</strong>。対応する残り期間は 32 − 12 = <strong>20年</strong>です。</p></div></div></details></div></section><section id="after" aria-labelledby="after-title"><h2 id="after-title"><span class="num">SECTION 06</span>講義の結末と、この推定が依存するもの</h2><p class="source"><a href="第1回/IMG_3543.jpg">講義写真 · p.47</a></p>
+<p>p.47 は、この計算による予測が訪問時点から「2年8か月後〜24年後」であり、壁の崩壊が予測から約20年後だったと説明しています。講義の年単位の比較では、結果はこの50%区間に入っています。</p><p>また、考案者として Richard Gott を紹介し、訪問時点を特別扱いしない発想を「コペルニクスの原理」と結び付けています。ここでの統計的な要点は、<strong>その発想を一様分布という具体的な仮定に置き換えている</strong>ことです。</p><aside class="note"><span class="ai">AI補足・結果の評価</span><p>この一例が区間に入ったことだけで、一様分布の仮定や予測方法全体の正しさを確認できるわけではありません。仮定の下でも50%区間は半分の確率で外れます。また、経過年数以外の政治的・社会的情報は、この計算には入っていません。</p></aside></section><section id="practice" aria-labelledby="practice-title"><h2 id="practice-title"><span class="num">SECTION 07</span>計算確認：信頼水準を変えるとどうなるか</h2><p class="source">AI補足・p.44〜45の計算を一般化／以下の確認問題はAI作成</p>
+<p>同じ考え方で中央の割合を c（0 &lt; c &lt; 1）とし、両端から a = (1 − c)/2 ずつ除きます。例えば c = 0.95 なら a = 0.025 です。</p><div class="formula">Pr(aθ ≤ X ≤ (1 − a)θ) = c<br>⇒　X/(1 − a) ≤ θ ≤ X/a<br>観測後の総存続期間：[x/(1 − a), x/a]<br>残り期間：[ax/(1 − a), (1 − a)x/a]</div>
+<p>信頼水準を上げると両端から除く部分が小さくなり、θ の区間は広がります。より多くの場合に真値を含めるため、予測の幅を大きくするという関係です。</p>
+<div class="quiz"><p class="eyebrow">CHECK 03 <span class="ai">AI作成・計算確認</span></p><h3>経過8年のとき、中央95%を使った総存続期間と残り期間の区間は？</h3><label for="answer-3">まず紙や下の欄で計算（メモはページを離れると消えます）</label><textarea id="answer-3" rows="3" placeholder="式 → 数値 → 結果の意味を書いてみましょう。"></textarea><details><summary>解答・途中式を開く</summary><div class="answer"><div><p>a = (1 − 0.95)/2 = 0.025。総存続期間は [8/0.975, 8/0.025] = <strong>[約8.21, 320] 年</strong>。</p><p>残り期間は [8/0.975 − 8, 320 − 8] = <strong>[約0.21, 312] 年</strong>。下限の正確な値は8/39年（約2.46か月）です。50%区間 [約2.67, 24] 年より広くなります。</p></div></div></details></div><div class="quiz"><p class="eyebrow">CHECK 04 <span class="ai">AI作成・計算確認</span></p><h3>経過10年、中央80%の場合、両端に除く割合と残り期間の区間を求めてください。</h3><label for="answer-4">まず紙や下の欄で計算（メモはページを離れると消えます）</label><textarea id="answer-4" rows="3" placeholder="式 → 数値 → 結果の意味を書いてみましょう。"></textarea><details><summary>解答・途中式を開く</summary><div class="answer"><div><p>a = (1 − 0.8)/2 = 0.1 なので、除くのは両端に各10%です。各20%ではありません。</p><p>総存続期間は [10/0.9, 10/0.1] = [100/9, 100] 年。残り期間は [100/9 − 10, 100 − 10] = <strong>[10/9, 90] 年 ≈ [1.11, 90] 年</strong>です。</p></div></div></details></div><div class="quiz"><p class="eyebrow">CHECK 05 <span class="ai">AI作成・計算確認</span></p><h3>総存続期間が実際には24年だったと仮定します。どの訪問時点Xなら、作った50%区間が真の24年を含みますか？</h3><label for="answer-5">まず紙や下の欄で計算（メモはページを離れると消えます）</label><textarea id="answer-5" rows="3" placeholder="式 → 数値 → 結果の意味を書いてみましょう。"></textarea><details><summary>解答・途中式を開く</summary><div class="answer"><div><p>区間が24年を含む条件は 4X/3 ≤ 24 ≤ 4X。左側から X ≤ 18、右側から X ≥ 6 なので、<strong>6 ≤ X ≤ 18</strong> です。</p><p>X は0〜24の一様分布だから、確率は (18 − 6)/24 = <strong>0.5</strong>。これが「区間を作る手続きの50%が真値を含む」という意味を直接確かめる計算です。</p></div></div></details></div>
+<div class="lab"><p class="eyebrow">INTERACTIVE · 計算を確かめる</p><h3>経過年数と信頼水準を変えてみる</h3><div class="lab-grid"><label for="elapsed">経過年数 x（年）<input type="number" id="elapsed" value="8" min="0.01" step="any"></label><label for="confidence">中央に残す割合（信頼水準）<select id="confidence"><option value="0.5">50%</option><option value="0.8">80%</option><option value="0.9">90%</option><option value="0.95">95%</option></select></label></div><output id="interval-result" aria-live="polite"></output><p class="quiet">自分で計算してから検算に使ってください。JavaScriptが無効でも、上の解答は読めます。</p></div>
+</section><div class="sources" id="materials"><h2>原資料</h2><p>提供された講義写真の範囲に対応しています。本文の分布記法、信頼区間の厳密な読み方、一般信頼水準への拡張、計算確認問題はAIによる補足です。</p><details><summary>講義写真 p.42〜44 を見る</summary><a href="第1回/IMG_3542.jpg">元の画像を開く</a><img src="第1回/IMG_3542.jpg" alt="講義スライドp.42〜44：壁の存続期間θ、経過年数X、一様な訪問時点と中央50%" loading="lazy"></details><details><summary>講義写真 p.45〜47 を見る</summary><a href="第1回/IMG_3543.jpg">元の画像を開く</a><img src="第1回/IMG_3543.jpg" alt="講義スライドp.45〜47：区間の式変形、区間推定と点推定、ベルリンの壁の予測の結末" loading="lazy"></details></div><nav class="pager" aria-label="ページの移動"><a href="../index.html">← 授業一覧（index）</a><a href="#main">ページの先頭へ ↑</a></nav></main></div></article>
+<nav class="toc" aria-label="ページ内目次">
+<button class="toc-toggle" aria-expanded="false" aria-controls="life-toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+<div class="toc-panel" id="life-toc-panel" hidden><ul>
+<li><a href="#setup">01 何を推定するのか：経過年数と総存続期間</a></li>
+<li><a href="#model">02 出発点は「訪問時点が一様」という仮定</a></li>
+<li><a href="#central">03 中央50%に入る、という出来事を書く</a></li>
+<li><a href="#invert">04 不等式を反転して、θの区間を求める</a></li>
+<li><a href="#interpret">05 区間推定・点推定と「50%」の読み方</a></li>
+<li><a href="#after">06 講義の結末と、この推定が依存するもの</a></li>
+<li><a href="#practice">07 計算確認：信頼水準を変えるとどうなるか</a></li>
+</ul></div>
+</nav>
+</div>
+</main>
+</div>
+</body></html>

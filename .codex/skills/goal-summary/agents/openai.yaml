@@ -1,0 +1,4 @@
+interface:
+  display_name: "目標サマリ"
+  short_description: "Notionの目標と現状を取得して日付付きの短いサマリを保存"
+  default_prompt: "$goal-summary を使って、目標サマリを作成・更新してください。"

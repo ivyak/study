@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>微分積分学続論II｜第2回：同次形・完全形と線積分</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="2">
+<meta name="study-kind" content="解説">
+<script>
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "displayMath": [
+      [
+        "\\[",
+        "\\]"
+      ]
+    ],
+    "processEscapes": true,
+    "macros": {
+      "dd": "\\mathop{}\\!\\mathrm{d}"
+    }
+  },
+  "chtml": {
+    "displayAlign": "center"
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+</head>
+
+<body data-life-page="document" data-portal="../index.html" data-course="calculus2">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=calculus2">微分積分学続論II</a><span>/</span><span>第2回 解説</span></div>
+<div class="document-back"><a class="back-step" style="width:52px" href="../index.html#course=calculus2" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="reader">
+<article class="lesson-document" aria-labelledby="document-title">
+<header class="document-header">
+<p class="eyebrow">2026年度 後期 · 木曜3限　講義ノート清書 / 第2回</p>
+<h1 id="document-title">微分積分学続論II</h1>
+<p class="subtitle">同次形・完全形の常微分方程式と線積分</p>
+</header>
+<p class="muted">出典：<a href="第2回.pdf">第2回.pdf</a>、全17ページ。原典の順序に沿って、文章・数式・証明・注記と図の意味を整えた。原典の式の省略を補う箇所や適用条件の追記は「清書時の補足」として区別する。ページ番号はPDFの通し番号。</p>
+
+<h2 id="homogeneous">同次形のODEの解法</h2>
+<p class="source">原典：p. 1</p>
+<p>同次形の常微分方程式</p>
+<div class="equation key-equation">\[\frac{\dd y}{\dd x}=F\!\left(\frac{y}{x}\right)\]</div>
+<p>については、変数変換 \(z=y/x\) を用いる。\(y=y(x)\)、\(z=z(x)\) として</p>
+<div class="equation">\[y(x)=xz(x)\]</div>
+<p>と書き、両辺を \(x\) で微分する。積の微分と元のODEより</p>
+<div class="equation">\[y'=z+xz'=F(z)\]</div>
+<p>となる。これで \(y\) が消去されたODEができ、</p>
+<div class="equation key-equation">\[z'=\frac{F(z)-z}{x}\]</div>
+<p>という<strong>変数分離形</strong>になる。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　この変換は \(x\ne0\) の区間で行う。さらに \(F(z)-z\) で割って積分するときは、\(F(z_0)=z_0\) を満たす定数解 \(z=z_0\)、すなわち \(y=z_0x\) を別に確認する。</p></aside>
+<h3 id="homogeneous-example">例題と解法の覚え方</h3>
+<p class="source">原典：pp. 2–3 冒頭</p>
+<p>この公式をそのまま覚えるよりも、<strong>\(z=y/x\) と置き、\(y=xz\) を積の微分で微分する</strong>流れを覚えた方がよい。</p>
+<p><strong>例</strong>　次の微分方程式を解く。</p>
+<div class="equation">\[y'=\frac{y-x}{x}\]</div>
+<p><strong>1．同次形にする。</strong></p>
+<div class="equation">\[y'=\frac{y}{x}-1\]</div>
+<p><strong>2．\(z=y/x\) と置き、積の微分を使う。</strong></p>
+<div class="equation">\[y=xz\quad\Longrightarrow\quad y'=xz'+z\]</div>
+<div class="equation">\[xz'+z=z-1\quad\Longrightarrow\quad z'=-\frac1x\]</div>
+<div class="equation">\[z(x)=-\log|x|+C\]</div>
+<p>したがって、</p>
+<div class="equation key-equation">\[y(x)=x\bigl(-\log|x|+C\bigr)\]</div>
+<p><strong>ここでも検算は必須。</strong></p>
+<aside class="note"><p><strong>清書時の補足（検算）</strong>　\(x\ne0\) で、</p>
+<div class="equation">\[y'=-\log|x|+C-1=\frac{y}{x}-1=\frac{y-x}{x}\]</div>
+<p>となり、元のODEに一致する。</p></aside>
+<h2 id="exact">1.2　完全形のODE</h2>
+<h3 id="exact-definition">完全（exact）の定義と陰的な解</h3>
+<p class="source">原典：pp. 3–4</p>
+<p>次の形のODEを考える。</p>
+<div class="equation">\[\frac{\dd y}{\dd x}=-\frac{P(x,y)}{Q(x,y)}\]</div>
+<p><strong>注</strong>　この形を</p>
+<div class="equation">\[P(x,y)\dd x+Q(x,y)\dd y=0\]</div>
+<p>と書くことが多い。</p>
+<p><strong>定義</strong>　このODEが<strong>完全（exact）</strong>であるとは、なめらかな関数 \(f(x,y)\) が存在して</p>
+<div class="equation key-equation">\[\begin{cases}
+P(x,y)=\displaystyle\frac{\partial f}{\partial x}(x,y),\\[6pt]
+Q(x,y)=\displaystyle\frac{\partial f}{\partial y}(x,y)
+\end{cases}\]</div>
+<p>を満たすことをいう。</p>
+<p>もしODEが完全であれば、\(f_x=\partial f/\partial x\)、\(f_y=\partial f/\partial y\) などと表して</p>
+<div class="equation">\[y'=-\frac{f_x}{f_y}\]</div>
+<p>である。したがって、</p>
+<div class="equation">\[f_x\bigl(x,y(x)\bigr)+f_y\bigl(x,y(x)\bigr)y'(x)=0\]</div>
+<p>となる。一方、合成関数の微分より</p>
+<div class="equation">\[\frac{\dd}{\dd x}f\bigl(x,y(x)\bigr)
+=f_x\bigl(x,y(x)\bigr)+f_y\bigl(x,y(x)\bigr)y'(x)\]</div>
+<p>だから、</p>
+<div class="equation">\[\frac{\dd}{\dd x}f\bigl(x,y(x)\bigr)=0\]</div>
+<div class="equation key-equation">\[f\bigl(x,y(x)\bigr)=C\]</div>
+<p>を得る。これで<strong>陰的（implicit）に解けている</strong>。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　分数表示は \(Q=f_y\ne0\) の範囲で用いる。\(f(x,y)=C\) から局所的に \(y=y(x)\) を取り出す際にも、この条件があれば陰関数定理を使える。</p></aside>
+<h3 id="exact-example">例題と検算</h3>
+<p class="source">原典：pp. 4–5</p>
+<p><strong>例</strong>　次のODEを解く。</p>
+<div class="equation">\[y'=-\frac{x}{y}\]</div>
+<p>\(f_x=x\)、\(f_y=y\) を満たす \(f\) が存在する。</p>
+<div class="equation">\[f(x,y)=\frac12(x^2+y^2)\]</div>
+<p>したがって、積分定数を取り直すと</p>
+<div class="equation key-equation">\[x^2+y^2=C\]</div>
+<p>が解である。</p>
+<p><strong>検算</strong>　\(x^2+y(x)^2=C\) に注意して微分すると</p>
+<div class="equation">\[2x+2y\,y'=0\quad\Longrightarrow\quad y'=-\frac{x}{y}\]</div>
+<p>となり、元のODEに一致する。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　実数値の解 \(y(x)\) としては \(y\ne0\) の枝を取る。具体的には \(C&gt;0\)、\(|x|&lt;\sqrt C\) で \(y=\pm\sqrt{C-x^2}\) となる。</p></aside>
+<h3 id="exact-criterion">判定定理とポテンシャルの構成</h3>
+<p class="source">原典：pp. 5–7</p>
+<p><strong>疑問</strong></p>
+<ol><li>与えられたODEが完全かどうか、どのように判定するのか。</li><li>完全だった場合に、\(f\) をどのように見つけるのか。</li></ol>
+<p><strong>定理</strong>　\(P(x,y)\)、\(Q(x,y)\) が \(\mathbb R^2\) の「広い領域」でなめらかであるとする。このとき、</p>
+<div class="equation key-equation">\[y'=-\frac{P(x,y)}{Q(x,y)}\ \text{が完全}
+\quad\Longleftrightarrow\quad
+\frac{\partial P}{\partial y}(x,y)=\frac{\partial Q}{\partial x}(x,y)\]</div>
+<aside class="note"><p><strong>清書時の補足（定義域の条件）</strong>　「広い領域」は原典の表現。逆向きの主張を領域全体で成立させるには、例えば単連結な開領域であるという条件が必要になる。以下の座標方向の積分による証明では、積分経路が領域内に収まる長方形領域を考えると確実である。任意の開領域では \(P_y=Q_x\) だけから大域的な完全性は結論できない。</p></aside>
+<p><strong>証明（\(\Rightarrow\)）</strong>　ODEが完全なので、なめらかな \(f(x,y)\) が存在し、</p>
+<div class="equation">\[f_x(x,y)=P(x,y),\qquad f_y(x,y)=Q(x,y)\]</div>
+<p>を満たす。このとき \(f\) のなめらかさから混合偏微分を交換できるので、</p>
+<div class="equation">\[\begin{aligned}
+\frac{\partial P}{\partial y}(x,y)
+&amp;=\frac{\partial}{\partial y}\!\left(\frac{\partial f}{\partial x}(x,y)\right)\\
+&amp;=\frac{\partial}{\partial x}\!\left(\frac{\partial f}{\partial y}(x,y)\right)
+=\frac{\partial Q}{\partial x}(x,y)
+\end{aligned}\]</div>
+<p>が成立する。</p>
+<p><strong>証明（\(\Leftarrow\)）</strong>　まず、\(\partial f/\partial x=P\) を満たすように \(x\) で積分し、</p>
+<div class="equation">\[f(x,y)=\int_{x_0}^{x}P(\xi,y)\dd\xi+g(y)\]</div>
+<p>と置く。\(y\) で微分し、仮定 \(P_y=Q_x\) を使うと、</p>
+<div class="equation">\[\begin{aligned}
+\frac{\partial f}{\partial y}(x,y)
+&amp;=\int_{x_0}^{x}\frac{\partial P}{\partial y}(\xi,y)\dd\xi+g'(y)\\
+&amp;=\int_{x_0}^{x}\frac{\partial Q}{\partial x}(\xi,y)\dd\xi+g'(y)\\
+&amp;=Q(x,y)-Q(x_0,y)+g'(y)
+\end{aligned}\]</div>
+<p>となる。\(f_y=Q\) とするには、</p>
+<div class="equation">\[g'(y)=Q(x_0,y)\]</div>
+<p>とすればよい。よって、</p>
+<div class="equation">\[g(y)=g(y_0)+\int_{y_0}^{y}Q(x_0,\eta)\dd\eta\]</div>
+<p>から、定数をまとめて</p>
+<div class="equation key-equation">\[f(x,y)=C+\int_{x_0}^{x}P(\xi,y)\dd\xi
++\int_{y_0}^{y}Q(x_0,\eta)\dd\eta\]</div>
+<p>を得る。これは</p>
+<div class="equation">\[\frac{\partial f}{\partial x}=P,\qquad\frac{\partial f}{\partial y}=Q\]</div>
+<p>を満たすので、完全であることが分かる。</p>
+<p class="proof-end">□</p>
+<aside class="note"><p><strong>清書時の補足（式の整理）</strong>　原典p. 6の途中式には \(f(x_0,y_0)\) という定数項も書かれている。任意関数 \(g(y)\) に吸収できるため、ここではまとめて表示した。上の構成式の \(C\) は \(f\) に加える定数であり、解を表す \(f(x,y)=\text{定数}\) の定数とは役割が異なる。</p></aside>
+<h3 id="paths">積分経路と定義域の問題</h3>
+<p class="source">原典：pp. 8–9 前半</p>
+<p>この証明で与えられる \(f(x,y)\) は、\((x_0,y_0)\) からまず縦に \((x_0,y)\) へ進み、次に横に \((x,y)\) へ進む経路に沿った積分になっている。</p>
+<figure>
+<svg viewBox="0 0 680 230" role="img" aria-labelledby="path-title path-desc">
+<title id="path-title">縦から横、横から縦の二つの積分経路</title>
+<desc id="path-desc">左は基点から縦方向にQを積分し、横方向にPを積分。右は横方向にPを積分してから縦方向にQを積分する。</desc>
+<defs><marker id="arrow-path" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#e4c16f"/></marker></defs>
+<path class="gold" d="M65 170V55" marker-end="url(#arrow-path)"/><path class="gold" d="M65 55H270" marker-end="url(#arrow-path)"/>
+<text x="28" y="198">(x₀, y₀)</text><text x="15" y="35">(x₀, y)</text><text x="250" y="35">(x, y)</text>
+<text x="78" y="120">Q(x₀, η)</text><text x="132" y="78">P(ξ, y)</text>
+<path class="gold" d="M405 170H610" marker-end="url(#arrow-path)"/><path class="gold" d="M610 170V55" marker-end="url(#arrow-path)"/>
+<text x="365" y="198">(x₀, y₀)</text><text x="580" y="198">(x, y₀)</text><text x="585" y="35">(x, y)</text>
+<text x="450" y="150">P(ξ, y₀)</text><text x="515" y="110">Q(x, η)</text>
+</svg>
+<figcaption>原典p. 8の図を再構成。左が証明で用いた経路、右が順序を交換した経路。</figcaption>
+</figure>
+<p>これが解を与えるならば、逆の順序で進む経路によって得られる</p>
+<div class="equation">\[f(x,y)=C+\int_{x_0}^{x}P(\xi,y_0)\dd\xi
++\int_{y_0}^{y}Q(x,\eta)\dd\eta\]</div>
+<p>も、完全性を示す関数となるはずである。さらに、階段状に進むなど、別の経路を取ることも可能である。</p>
+<figure>
+<svg viewBox="0 0 600 230" role="img" aria-labelledby="stairs-title">
+<title id="stairs-title">同じ始点と終点を結ぶ階段状の経路と折れ線経路</title>
+<path class="gold" d="M100 175V145H155V115H210V85H265V55H320" marker-end="url(#arrow-path)"/>
+<path class="white dashed" d="M100 175H320V55"/>
+<circle cx="100" cy="175" r="4" fill="#e4c16f"/><circle cx="320" cy="55" r="4" fill="#e4c16f"/>
+<text x="55" y="205">(x₀, y₀)</text><text x="325" y="50">(x, y)</text><text x="365" y="110">階段状の経路も可能</text><text x="365" y="140">全経路が定義域内か？</text>
+</svg>
+<figcaption>原典p. 9上部の図の意味。経路やその端点でP、Qが定義されているかが問題になる。</figcaption>
+</figure>
+<p>ただし、経路を変えたとき、その場所で \(P(x,y)\)、\(Q(x,y)\) が定義されているかは不明である。これを<strong>ベクトル解析</strong>で考える。</p>
+<h2 id="vector-calculus">ベクトル解析への接続</h2>
+<p class="source">原典：p. 9 後半</p>
+<p>そもそもベクトル解析とは何か。1変数では、\(y=f(x)\) の積分について、\(F'=f\) となる原始関数 \(F\) が分かれば</p>
+<div class="equation key-equation">\[F(b)-F(a)=\int_a^b f(x)\dd x\]</div>
+<p>により面積が分かる。これを<strong>高次元でやろうとしている</strong>。</p>
+<figure>
+<svg viewBox="0 0 600 220" role="img" aria-labelledby="area-title">
+<title id="area-title">関数y=f(x)のグラフとaからbまでの積分の面積</title>
+<path class="white" d="M65 180H520M85 200V25"/>
+<path d="M165 180V120Q240 170 365 55V180Z" fill="#e4c16f" fill-opacity=".16"/>
+<path class="gold" d="M100 75Q220 210 400 30"/>
+<path class="white dashed" d="M165 180V120M365 180V55"/>
+<text x="157" y="202">a</text><text x="358" y="202">b</text><text x="409" y="35">y = f(x)</text><text x="530" y="184">x</text><text x="65" y="24">y</text>
+</svg>
+<figcaption>原典p. 9下部の図を再構成。積分と原始関数の差を対応させる。</figcaption>
+</figure>
+<h3 id="scalar-integral">復習：スカラー関数の線積分</h3>
+<p class="source">原典：pp. 10–11</p>
+<p>\(\gamma\subset\mathbb R^2\) を自己交差しないなめらかな曲線とする。そのパラメータ表示を</p>
+<div class="equation">\[\gamma=\{(x(t),y(t))\,;\ a\le t\le b\}\]</div>
+<p>とする。\(\gamma\) の近傍で定義される連続なスカラー関数 \(f(x,y)\) に対して、次の積分が定まる。</p>
+<div class="equation key-equation">\[\int_a^b f(x(t),y(t))\sqrt{\left(\frac{\dd x}{\dd t}\right)^2+\left(\frac{\dd y}{\dd t}\right)^2}\dd t
+=\int_\gamma f(x,y)\dd s\]</div>
+<p>右辺は簡略化した表記であり、これを<strong>\(f\) の \(\gamma\) に沿う線積分</strong>という。左辺は、\(t\) を代入したら通常の積分になる。</p>
+<p>\(\int_\gamma f(x,y)\dd s\) を眺めているだけでは計算できない。<strong>\(\gamma\) をパラメータ表示し、\(t\) の積分の形に直す</strong>必要がある。</p>
+<p><strong>注</strong>　この値はパラメータ付け \((x(t),y(t))\) に依らないことが知られている。計算しやすいパラメータを工夫して導入する。ただし、パラメータの取り方がまずいと計算できない場合もある。</p>
+<h3 id="mass">線積分のイメージ：曲線の質量</h3>
+<p class="source">原典：pp. 12–13 前半</p>
+<p>\(f(x,y)\) が曲線 \(\gamma\) 上の点 \((x,y)\) での密度を表すとする。\(\gamma\) の質量はどのように求められるだろうか。</p>
+<figure>
+<svg viewBox="0 0 600 240" role="img" aria-labelledby="mass-title">
+<title id="mass-title">曲線を小さい線分に分けて質量を近似する</title>
+<path class="gold" d="M60 200C130 30 250 60 345 100S455 125 540 45"/>
+<path class="white dashed" d="M60 200L105 130L160 88L220 80L280 86L345 100L415 111L480 91L540 45"/>
+<circle cx="160" cy="88" r="4" fill="#f4f2ed"/><circle cx="220" cy="80" r="4" fill="#f4f2ed"/>
+<path d="M160 88L220 80" stroke="#e4c16f" stroke-width="5"/>
+<text x="120" y="58">tₖ</text><text x="205" y="53">tₖ₊₁</text><text x="330" y="160">γ</text><text x="135" y="205">短い線分ごとに「密度 × 長さ」を足す</text>
+</svg>
+<figcaption>原典p. 12の図を再構成。隣り合う分点の間の曲線を線分で近似する。</figcaption>
+</figure>
+<p>\(a=t_0&lt;t_1&lt;\cdots&lt;t_n=b\) と分割する。隣り合う2点を結ぶ線分の長さは</p>
+<div class="equation">\[\Delta s_k=\sqrt{\bigl(x(t_{k+1})-x(t_k)\bigr)^2+\bigl(y(t_{k+1})-y(t_k)\bigr)^2}\]</div>
+<p>である。Taylor展開を使って、</p>
+<div class="equation">\[\begin{aligned}
+x(t_{k+1})-x(t_k)&amp;\approx x'(t_k)\Delta t_k,\\
+y(t_{k+1})-y(t_k)&amp;\approx y'(t_k)\Delta t_k,
+\qquad\Delta t_k=t_{k+1}-t_k
+\end{aligned}\]</div>
+<p>だから、</p>
+<div class="equation">\[\Delta s_k\approx\sqrt{x'(t_k)^2+y'(t_k)^2}\,\Delta t_k\]</div>
+<p>となる。線分上の密度を \(f(x(t_k),y(t_k))\) と近似すれば、</p>
+<div class="equation">\[\text{線分の質量}\approx f(x(t_k),y(t_k))\sqrt{x'(t_k)^2+y'(t_k)^2}\,\Delta t_k\]</div>
+<p>である。これらを足し合わせると、曲線の質量は</p>
+<div class="equation">\[\sum_{k=0}^{n-1}f(x(t_k),y(t_k))\sqrt{x'(t_k)^2+y'(t_k)^2}\,\Delta t_k\]</div>
+<p>で近似される。\(|\Delta|=\max_k\Delta t_k\to0\) として、</p>
+<div class="equation key-equation">\[\int_a^b f(x(t),y(t))\sqrt{x'(t)^2+y'(t)^2}\dd t\]</div>
+<p>が得られる。</p>
+<aside class="note"><p><strong>清書時の補足（微小区間の長さ）</strong>　原典pp. 12–13の近似式では \(\Delta t_k\) が省略されている。長さ・質量の近似と積分への移行に必要なので、上では明示した。また、質量の解釈では密度 \(f\ge0\) を考える。</p></aside>
+<h3 id="vector-integral">復習：ベクトル場の線積分</h3>
+<p class="source">原典：p. 13 後半–p. 15 前半</p>
+<p>\(\gamma\) の単位接ベクトルを \(\boldsymbol\tau\) とする。今度は \(f\) をスカラー関数ではなく、</p>
+<div class="equation">\[\boldsymbol f(x,y)=\bigl(P(x,y),Q(x,y)\bigr)\]</div>
+<p>という<strong>ベクトル場</strong>とする。このとき、内積を用いた</p>
+<div class="equation key-equation">\[\int_\gamma\bigl(P(x,y),Q(x,y)\bigr)\cdot\boldsymbol\tau\,\dd s
+=\int_\gamma(P,Q)\cdot\dd\boldsymbol s\]</div>
+<p>が定まる。右辺は簡略化した表記で、これを<strong>ベクトル場 \((P,Q)\) の \(\gamma\) に沿う線積分</strong>という。</p>
+<p>これは、次の形でよく使う。\(\boldsymbol\tau=(\tau_1,\tau_2)\) とすると、</p>
+<div class="equation">\[\dd x=\tau_1\dd s,\qquad\dd y=\tau_2\dd s\]</div>
+<figure>
+<svg viewBox="0 0 600 240" role="img" aria-labelledby="tangent-title">
+<title id="tangent-title">接線方向の微小変位dsとその成分dx、dy</title>
+<path class="gold" d="M90 210Q155 90 340 35"/>
+<path class="white" d="M160 140L300 55" marker-end="url(#arrow-path)"/>
+<path class="white dashed" d="M160 140H300V55"/>
+<text x="200" y="90">τ</text><text x="210" y="165">dx = τ₁ ds</text><text x="315" y="105">dy = τ₂ ds</text><text x="95" y="110">ds</text>
+</svg>
+<figcaption>原典p. 14の図を再構成。単位接ベクトルの成分から微小変位を表す。</figcaption>
+</figure>
+<p>したがって、</p>
+<div class="equation">\[\begin{aligned}
+\int_\gamma(P,Q)\cdot(\tau_1,\tau_2)\dd s
+&amp;=\int_\gamma P\tau_1\dd s+Q\tau_2\dd s\\
+&amp;=\int_\gamma P(x,y)\dd x+Q(x,y)\dd y
+\end{aligned}\]</div>
+<p>となる。原典ではこの段階で「\(y\) で微分すると？」という問いかけも添えられている。</p>
+<aside class="note"><p><strong>清書時の補足（表記と計算）</strong>　原典ではスカラー関数にもベクトル場にも \(f\) を用いているが、ここでは後者を太字にした。\(\dd\boldsymbol s=\boldsymbol\tau\dd s\) は向きのある微小変位である。向きに沿ったパラメータ表示を使うと、</p>
+<div class="equation">\[\int_\gamma P\dd x+Q\dd y
+=\int_a^b\bigl(P(x(t),y(t))x'(t)+Q(x(t),y(t))y'(t)\bigr)\dd t\]</div>
+<p>となる。ベクトル場の線積分は曲線の向きを逆にすると符号が変わる。</p></aside>
+<h3 id="green">平面のGreenの公式</h3>
+<p class="source">原典：p. 15 後半</p>
+<p><strong>定理（平面のGreenの公式）</strong>　\(D\subset\mathbb R^2\) を有界領域とし、その境界 \(\partial D\) はなめらかであるとする。</p>
+<div class="equation key-equation">\[\int_{\partial D}P(x,y)\dd x+Q(x,y)\dd y
+=\iint_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\dd x\dd y\]</div>
+<p>左辺は領域の<strong>表面（境界）</strong>に沿う積分、右辺は領域の<strong>内部</strong>での積分である。</p>
+<aside class="note"><p><strong>清書時の補足（適用条件と向き）</strong>　\(P,Q\) は \(\overline D\) を含む開集合上で \(C^1\) 級とする。境界は領域を左側に見る正の向きでたどる。単純な外周なら反時計回りであり、穴があればその内周は時計回りになる。区分的になめらかな境界にも使える。</p></aside>
+<h3 id="path-independence">経路独立性とポテンシャル</h3>
+<p class="source">原典：p. 16</p>
+<p><strong>定理</strong>　\(P_y=Q_x\) とする。\(\gamma\) は \(\mathbb R^2\) のなめらかで自己交差しない曲線とする。</p>
+<ol>
+<li>線積分
+<div class="equation">\[\int_\gamma P(x,y)\dd x+Q(x,y)\dd y\]</div>
+は \(\gamma\) の<strong>始点と終点のみに依存する</strong>。</li>
+<li>\(\gamma\) の始点を固定し、終点を \((x,y)\) として
+<div class="equation">\[f(x,y)=\int_\gamma P\dd x+Q\dd y\]</div>
+とすると、
+<div class="equation key-equation">\[\nabla f=(P,Q)\]</div>
+つまり、
+<div class="equation">\[\frac{\partial f}{\partial x}(x,y)=P(x,y),\qquad
+\frac{\partial f}{\partial y}(x,y)=Q(x,y)\]</div>
+となる。</li>
+</ol>
+<aside class="note"><p><strong>清書時の補足（領域の条件）</strong>　この主張は、例えば \(P,Q\) が \(\mathbb R^2\) 全体で \(C^1\) 級なら成立する。一般には、\(P,Q\) が定義される単連結な開領域の中の経路を考える。\(P_y=Q_x\) と曲線が自己交差しないという条件だけでは、定義域の穴の影響を除けない。</p></aside>
+<h3 id="path-proof">経路独立性の証明</h3>
+<p class="source">原典：p. 17</p>
+<p><strong>①の証明</strong>　同じ始点・終点を持つ2本の経路 \(\gamma_1\)、\(\gamma_2\) を考える。\(\gamma_1\) を進み、続いて \(-\gamma_2\)（\(\gamma_2\) を逆向きにたどる経路）を進むと閉曲線になる。この閉曲線が囲む領域を \(D\) とする。</p>
+<figure>
+<svg viewBox="0 0 600 240" role="img" aria-labelledby="loop-title">
+<title id="loop-title">二つの経路で囲まれる領域D</title>
+<path d="M120 185Q140 50 440 45Q420 175 120 185Z" fill="#e4c16f" fill-opacity=".12"/>
+<path class="white" d="M120 185Q140 50 440 45" marker-end="url(#arrow-path)"/>
+<path class="gold" d="M120 185Q420 175 440 45" marker-end="url(#arrow-path)"/>
+<circle cx="120" cy="185" r="4" fill="#f4f2ed"/><circle cx="440" cy="45" r="4" fill="#f4f2ed"/>
+<text x="175" y="75">γ₂</text><text x="365" y="175">γ₁</text><text x="275" y="125">D</text><text x="70" y="214">始点</text><text x="455" y="45">終点</text>
+</svg>
+<figcaption>原典p. 17の図を再構成。γ₁とγ₂はともに始点から終点へ向かい、閉曲線ではγ₂を逆向きにたどる。</figcaption>
+</figure>
+<p>Greenの公式と仮定 \(P_y=Q_x\) より、</p>
+<div class="equation">\[\begin{aligned}
+\int_{\gamma_1+(-\gamma_2)}P\dd x+Q\dd y
+&amp;=\iint_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\dd x\dd y\\
+&amp;=0
+\end{aligned}\]</div>
+<p>したがって、</p>
+<div class="equation key-equation">\[\int_{\gamma_1}P\dd x+Q\dd y
+=\int_{\gamma_2}P\dd x+Q\dd y\]</div>
+<p>となり、始点と終点が同じなら線積分の値も同じである。</p>
+<p class="proof-end">□</p>
+<aside class="note"><p><strong>清書時の補足（証明の範囲）</strong>　原典の図では、2本の経路が単純な閉曲線を作る場合を扱っている。この議論では、囲む領域 \(D\) とその境界の近傍で \(P,Q\) が定義されている必要がある。経路同士が交差する場合には、閉曲線を分割するなどの処理を加える。</p><p>原典は①の証明までで終わり、②の証明は記載されていない。</p></aside>
+</article>
+<nav class="toc" aria-label="ページ内目次">
+<button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+<div class="toc-panel" id="toc-panel" hidden><ul>
+<li><a href="#homogeneous">同次形のODEの解法</a><ul>
+<li><a href="#homogeneous-example">例題と解法の覚え方</a></li></ul></li>
+<li><a href="#exact">1.2　完全形のODE</a><ul>
+<li><a href="#exact-definition">完全（exact）の定義と陰的な解</a></li>
+<li><a href="#exact-example">例題と検算</a></li>
+<li><a href="#exact-criterion">判定定理とポテンシャルの構成</a></li>
+<li><a href="#paths">積分経路と定義域の問題</a></li></ul></li>
+<li><a href="#vector-calculus">ベクトル解析への接続</a><ul>
+<li><a href="#scalar-integral">復習：スカラー関数の線積分</a></li>
+<li><a href="#mass">線積分のイメージ：曲線の質量</a></li>
+<li><a href="#vector-integral">復習：ベクトル場の線積分</a></li>
+<li><a href="#green">平面のGreenの公式</a></li>
+<li><a href="#path-independence">経路独立性とポテンシャル</a></li>
+<li><a href="#path-proof">経路独立性の証明</a></li></ul></li>
+</ul>
+</div>
+</nav>
+</div>
+<nav class="back-nav back-nav-bottom" aria-label="関連資料"><a href="微分積分学続論II_常微分方程式.html">← 前回：常微分方程式の導入と変数分離型</a>　·　<a href="../index.html#course=calculus2">授業一覧</a>　·　<a href="第2回.pdf">原典PDF</a></nav>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="熱力学第1回の講義資料22ページを、原スライド画像とともに相図・相律・エネルギー保存則の順に解説。">
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="1">
+<meta name="study-kind" content="解説">
+<meta name="study-created" content="2026-10-12">
+<title>熱力学｜第1回：相図・相律とエネルギー保存則</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    processEscapes: true
+  },
+  chtml: { displayAlign: "center" }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.reader{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}
+.reader article{grid-area:1 / 1;min-width:0}
+.summary{min-height:170px}
+.lesson-document .summary h2{font-size:16px;color:var(--gold);margin:0 0 35px;padding:0;border:0}
+.chapter-title{margin:34px 0 0!important;padding:20px 0 18px!important;border-top:1px solid var(--line)!important;color:var(--gold)}
+.explanation{padding:30px 0;border-top:1px solid var(--line);scroll-margin-top:30px}
+.explanation-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.lesson-document .explanation h2{font-size:19px;margin:0 0 14px;padding:0;border:0}
+.slide-title{font-size:15px;color:var(--gold);margin:0 0 12px!important}
+.slide-claim{font-size:17px;margin:0 0 10px!important}
+.slide-meta{font-size:12px;color:var(--gold);margin:0!important}
+.slide{aspect-ratio:4/3;border:1px solid var(--gold);display:block;overflow:hidden;background:#111;line-height:0}
+.slide img{width:100%;height:100%;display:block;object-fit:contain}
+.explanation-body{margin-top:22px}
+.chapter-time{font-size:12px;color:var(--gold);margin:0 0 12px!important}
+.lesson-document .math-display{overflow-x:auto;padding:14px 18px;margin:16px 0;background:rgba(215,182,108,.08);border-left:2px solid var(--gold);font-family:Cambria,"Times New Roman",serif;font-size:1.08em;white-space:pre-wrap}
+.lesson-document .math-inline{font-family:Cambria,"Times New Roman",serif;font-size:1.05em}
+.lesson-document .table-wrap{overflow:auto;margin:16px 0}
+.lesson-document table{width:100%;border-collapse:collapse}
+.lesson-document th,.lesson-document td{padding:9px 11px;border:1px solid var(--line);text-align:left;vertical-align:top}
+.lesson-document th{color:var(--gold);font-weight:500}
+.toc{grid-area:1 / 1;position:sticky;top:30px;width:84px;z-index:10;justify-self:end}
+.toc-toggle{background:var(--black);display:flex;align-items:center;justify-content:center;gap:9px;width:84px;min-height:44px;border:1px solid var(--gold);border-radius:4px;font-size:12px}
+.toc-toggle svg{width:16px;height:16px}
+.toc-panel{animation:toc-reveal 220ms cubic-bezier(.22,1,.36,1);transform-origin:top right;position:absolute;right:0;top:100%;width:min(320px,calc(100vw - 40px));max-height:calc(100svh - 110px);overflow-y:auto;overscroll-behavior:contain;padding:8px;background:var(--black);border:1px solid var(--gold);border-radius:4px}
+.toc-panel ul{list-style:none;margin:0;padding:0}.toc-panel ul ul{padding-left:14px;border-left:1px solid var(--line)}.toc-panel li{padding:0;margin:0}.toc a{color:var(--white);display:block;text-decoration:none;font-size:12px;padding:8px 10px;line-height:1.6;border-radius:3px}
+@keyframes toc-reveal{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:650px){.explanation-grid{grid-template-columns:1fr}.slide{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.toc-panel{animation:none}}
+</style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期火１]熱力学">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E7%81%AB%EF%BC%91%5D%E7%86%B1%E5%8A%9B%E5%AD%A6">熱力学</a><span>/</span><span>第1回 解説</span></div>
+<div class="document-back"><a class="back-step" style="width:52px" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E7%81%AB%EF%BC%91%5D%E7%86%B1%E5%8A%9B%E5%AD%A6" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="section-rule"></div>
+<div class="reader">
+<article class="lesson-document" aria-labelledby="document-title">
+<header class="document-header">
+<p class="eyebrow">2026年度 後期 · 火曜1限　講義スライド解説 / 第1回</p>
+<h1 id="document-title">熱力学</h1>
+<p class="subtitle">第1回｜相図・相律とエネルギー保存則</p>
+</header>
+<p class="muted">資料判定：第1回への対応は推定（指定された「熱力学 第1回.txt」とPDFの話題・順序・終点が一致）。資料順は不明。出典：<a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf">20261006 - 熱力学資料.pdf</a>（全22ページ）。1ページ1枚、印字スライド番号がないためPDFページ番号で対応。口頭説明の具体例も反映し、原典を優先して誤認識を補正。</p>
+<p class="muted">想定読了時間：約19〜22分。日本語毎分400〜600字を目安に数式・図の照合時間を加算。原PDFの熟読や計算の自力再現は含めない。過去問・演習未確認のため詳しさは内容上の必要性で暫定判断。</p>
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><p>物質の相は温度と圧力で決まり、複数の相が共存するには平衡条件を満たす必要がある。一方、状態を変えるときのエネルギーは熱と仕事の両方で出入りするので、定容・定圧という実験条件に合わせて内部エネルギーやエンタルピーを使い分ける。この二つを結ぶ入口が、相図・相律と熱力学第1法則である。</p></section>
+<h2 class="chapter-title" id="chapter-01">授業の見通しと1.1：なぜ熱力学を使うか</h2>
+<p class="chapter-time">この章の想定読了時間：約3分</p>
+<section class="explanation" id="slide-001" aria-labelledby="slide-heading-001">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-001">解説 1</h2>
+<p class="slide-title">PDF p.1 — 条件に合わせて自由エネルギーを選ぶ</p>
+<p class="slide-claim"><strong>定容と定圧の両方を扱えると、実際の反応を議論しやすくなる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=1">原典 PDF p.1</a> · 標準／約1〜2分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=1" aria-label="原典PDF p.1を開く"><img src="assets/slides/thermo-001.png" alt="原典スライド画像 PDF p.1"></a>
+</div>
+<div class="explanation-body">
+<p>熱力学でいう<strong>系</strong>は、いま注目している物質や容器の中身で、それ以外を外界と呼ぶ。定容は系の体積が一定、定圧は圧力が一定という条件である。ここで登場する<span class="math-inline">U</span>は系の内部エネルギー、<span class="math-inline">T</span>は絶対温度（単位K）、<span class="math-inline">S</span>はエントロピー、<span class="math-inline">H</span>はエンタルピーというエネルギー量である。エントロピーは状態を特徴づける量で、熱のやり取りや変化の向きの議論に使う。厳密な定義は今回の範囲外。エンタルピーの定義は<a href="#slide-020">p.20</a>で説明する。</p>
+<div class="math-display" role="math">F=U-TS,   G=H-TS.</div>
+<p><span class="math-inline">F</span>はヘルムホルツの自由エネルギー、<span class="math-inline">G</span>はギブズエネルギー。補足として、物質が出入りせず、外から膨張以外の仕事を与えない通常の条件では、温度・体積一定なら<span class="math-inline">F</span>、温度・圧力一定なら<span class="math-inline">G</span>が減る向きに自発変化を判定する。「どんな条件でも内部エネルギーが低下する」とは考えない。文字起こし冒頭の「エネルギーが下がる方向」という説明は、固定条件に合う自由エネルギーについて読む。</p>
+<p>PDFの「理想的，定容／実在の系，定圧」は授業での使い分けの案内であり、<span class="math-inline">F</span>が理想気体専用という意味ではない。口頭説明の密閉された剛体容器・ボンブは定容の例、大気圧下の反応は定圧の例である。教科書はPDFに明示された阿竹徹著『熱力学』（丸善）。</p></div>
+</section>
+<section class="explanation" id="slide-002" aria-labelledby="slide-heading-002">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-002">解説 2</h2>
+<p class="slide-title">PDF p.2 — 全粒子の追跡をしなくても状態を議論したい</p>
+<p class="slide-claim"><strong>多数の粒子を含む物質には、全体を記述する方法が必要になる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=2">原典 PDF p.2</a> · 概要／約30秒。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=2" aria-label="原典PDF p.2を開く"><img src="assets/slides/thermo-002.png" alt="原典スライド画像 PDF p.2"></a>
+</div>
+<div class="explanation-body">
+<p>モルは物質量の単位で、1 molには約<span class="math-inline">6.0×10<sup>23</sup></span>個の粒子がある。仮に全粒子対の相互作用を数えると、粒子数<span class="math-inline">N</span>に対して<span class="math-inline">N(N-1)/2</span>組になり、1粒子追加するだけで<span class="math-inline">N</span>組増える。粒子間の相互作用とは、互いに及ぼす力やそれに対応するエネルギーのことである。</p>
+<p>熱力学は、この膨大な運動を一つずつ解かず、温度・圧力などの全体量から可能な状態を議論する。優先度低・概要でよい：計算化学の計算量評価が目的ではなく、次のページの「記述する尺度の違い」を理解するための導入だからである。</p></div>
+</section>
+<section class="explanation" id="slide-003" aria-labelledby="slide-heading-003">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-003">解説 3</h2>
+<p class="slide-title">PDF p.3 — 相転移は集合体としての現象</p>
+<p class="slide-claim"><strong>孤立分子の性質と、物質全体の状態変化では見る尺度が違う。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=3">原典 PDF p.3</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=3" aria-label="原典PDF p.3を開く"><img src="assets/slides/thermo-003.png" alt="原典スライド画像 PDF p.3"></a>
+</div>
+<div class="explanation-body">
+<p>図の左は孤立分子、右は多数の分子の集合体。量子力学は微視的な状態を、解析力学は古典的な運動を扱う。統計力学は多数の微視的状態と全体の性質を結び、熱力学は温度・圧力・体積などの<strong>マクロ物性</strong>、つまり物質全体として測れる性質を記述する。</p>
+<p><strong>相</strong>とは、物質の状態や性質が一様な部分で、固相・液相・気相などをいう。相転移は相が変わる現象。口頭説明の「水が氷になる」例では、分子1個の性質だけでなく、集合体としてどの状態が安定かを問う。図の両向き矢印は記述同士の関係を示し、孤立分子が自動的に集合体へ変化するという意味ではない。</p></div>
+</section>
+<h2 class="chapter-title" id="chapter-02">1.2：相図・臨界点とボンベの中身</h2>
+<p class="chapter-time">この章の想定読了時間：約4〜5分</p>
+<section class="explanation" id="slide-004" aria-labelledby="slide-heading-004">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-004">解説 4</h2>
+<p class="slide-title">PDF p.4 — 二酸化炭素の相図を読む</p>
+<p class="slide-claim"><strong>同じ物質でも、温度と圧力を指定しないと相は決まらない。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=4">原典 PDF p.4</a> · 標準／約1〜2分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=4" aria-label="原典PDF p.4を開く"><img src="assets/slides/thermo-004.png" alt="原典スライド画像 PDF p.4"></a>
+</div>
+<div class="explanation-body">
+<p><strong>相図（状態図）</strong>は、条件に応じて安定な相を示す図。横軸は<span class="math-inline">T</span>（K）、縦軸は圧力<span class="math-inline">p</span>（MPa）。<span class="math-inline">1 MPa=10<sup>6</sup> Pa</span>なので、1気圧は図上では約<span class="math-inline">0.101 MPa</span>である。一定圧力で加熱するなら右へ、一定温度で圧縮するなら上へ進む。境界線上では隣接する二つの相が平衡で共存する。</p>
+<p>図の<strong>三重点</strong>は固体・液体・気体が共存する点で、CO₂では<span class="math-inline">216.6 K</span>、<span class="math-inline">0.518 MPa</span>と表示されている。1気圧はその圧力より低いので、加熱したドライアイスは液体を経ずに気体になる。これを昇華という。対して授業で採る室温<span class="math-inline">298 K</span>では、加圧により気液境界を横切って液化できる。</p>
+<p><strong>臨界点</strong>は液体と気体の共存線が終わる点。図のCO₂の臨界温度<span class="math-inline">304.1 K</span>は室温より高い。原典の「7 MPa」は授業の概略値として扱い、298 Kでの厳密な境界圧力と断定しない。口頭説明のbarとの比較は、<span class="math-inline">1 bar=10<sup>5</sup> Pa</span>で1気圧とは少し異なる、という単位の補足に限って採用する。</p></div>
+</section>
+<section class="explanation" id="slide-005" aria-labelledby="slide-heading-005">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-005">解説 5</h2>
+<p class="slide-title">PDF p.5 — CO₂は減っても圧力がほぼ変わらない</p>
+<p class="slide-claim"><strong>液体と気体が共存している間、圧力は残量に比例しない。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=5">原典 PDF p.5</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=5" aria-label="原典PDF p.5を開く"><img src="assets/slides/thermo-005.png" alt="原典スライド画像 PDF p.5"></a>
+</div>
+<div class="explanation-body">
+<p>追加されたボンベ図は、上が気体、青い下部が液体。気体を取り出すと液体の一部が気化し、液面は下がるが気液共存が保たれる。温度が同じで十分に平衡へ戻れば、圧力はその温度での共存圧力に戻る。そのため「半分使ったら圧力も半分」という推測はできない。</p>
+<p>図の「最後」も液体が残っており、使い切った状態ではない。液体がなくなった後はこの説明が変わる。口頭説明では、使用中のボンベを横にすると出口へ液体が入り得ることも具体例にしている。図は相の配置と残量・圧力の関係を理解するための模式図である。</p></div>
+</section>
+<section class="explanation" id="slide-006" aria-labelledby="slide-heading-006">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-006">解説 6</h2>
+<p class="slide-title">PDF p.6 — Heとの違いは室温と臨界温度の関係</p>
+<p class="slide-claim"><strong>室温のHeには、CO₂のような気液共存による圧力維持がない。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=6">原典 PDF p.6</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=6" aria-label="原典PDF p.6を開く"><img src="assets/slides/thermo-006.png" alt="原典スライド画像 PDF p.6"></a>
+</div>
+<div class="explanation-body">
+<p>上段は<a href="#slide-005">p.5</a>の復習、下段にHeの比較が加わる。Heの臨界温度は室温より低いため、室温のまま加圧しても液体と気体の境界線を横切らない。高密度へ連続的に変わり得るが、CO₂のように液体の気化が圧力を維持する状況にはならない。</p>
+<p>補足として、理想気体とは<span class="math-inline">pV=nRT</span>を満たす気体のモデル。<span class="math-inline">V</span>は体積、<span class="math-inline">n</span>は物質量（mol）、<span class="math-inline">R</span>は気体定数である。一定温度・一定容積でこのモデルを使えば<span class="math-inline">p∝ n</span>となり、半分取り出すと15 MPaから7.5 MPaになる。高圧の実在気体での厳密な比例を保証する図ではない。また、臨界温度を超えているだけで常に超臨界状態と呼ぶのではなく、超臨界状態は臨界圧力も超えた領域をいう。</p></div>
+</section>
+<section class="explanation" id="slide-007" aria-labelledby="slide-heading-007">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-007">解説 7</h2>
+<p class="slide-title">PDF p.7 — 等温線の水平部は気液共存</p>
+<p class="slide-claim"><strong>実在気体の相転移は、理想気体の双曲線だけでは表せない。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=7">原典 PDF p.7</a> · 標準／約1〜2分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=7" aria-label="原典PDF p.7を開く"><img src="assets/slides/thermo-007.png" alt="原典スライド画像 PDF p.7"></a>
+</div>
+<div class="explanation-body">
+<p>横軸<span class="math-inline">V<sub>m</sub></span>はモル体積<span class="math-inline">V/n</span>で、単位は<span class="math-inline">L mol<sup>-1</sup></span>。縦軸は圧力。各曲線は温度一定の<strong>等温線</strong>である。理想気体なら、同じ物質量と温度について<span class="math-inline">pV=一定</span>なので、体積を増やすと圧力が滑らかに下がる。</p>
+<p>図の20 ℃の線は、右の気体側から圧縮するとCで液化が始まり、C〜Eの水平区間では圧力をほぼ一定に保ったまま気体の割合が減る。Eより左ではほぼ液体となり、少し圧縮するだけでも圧力が大きく上がる。逆に左から膨張させれば、水平区間で液体の割合が減って気体が増える。水平線は「一つの気体相が理想気体則に反している」のではなく、二相の比率が変化している区間である。</p>
+<p>臨界温度より高い40 ℃・50 ℃の曲線では、この共存の水平区間がなくなる。左下の手書き図も、圧力一定のまま体積が変わる点を強調している。口頭説明の「等温で圧力一定のまま膨張する」は、この二相共存区間について読む。</p></div>
+</section>
+<h2 class="chapter-title" id="chapter-03">1.3：相律と共存条件</h2>
+<p class="chapter-time">この章の想定読了時間：約3分</p>
+<section class="explanation" id="slide-008" aria-labelledby="slide-heading-008">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-008">解説 8</h2>
+<p class="slide-title">PDF p.8 — 相律は独立に動かせる条件の数を数える</p>
+<p class="slide-claim"><strong>相が増えるほど、平衡を保ちながら選べる条件は減る。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=8">原典 PDF p.8</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=8" aria-label="原典PDF p.8を開く"><img src="assets/slides/thermo-008.png" alt="原典スライド画像 PDF p.8"></a>
+</div>
+<div class="explanation-body">
+<p><strong>自由度</strong>は、共存する相を変えずに独立に指定できる強度変数の数。強度変数とは温度・圧力のように、試料を倍にしても値が倍にならない量である。相律では、独立な成分の数を<span class="math-inline">C</span>、相の数を<span class="math-inline">P</span>として</p>
+<div class="math-display" role="math">F=C-P+2</div>
+<p>と書く。<strong>この式の\(F\)は自由度で、p.1の自由エネルギー\(F\)とは別物。\(P\)も圧力ではなく相数である。</strong> 混同を避け、以下の補足では自由度を<span class="math-inline">f</span>、相数を<span class="math-inline">r</span>、圧力を<span class="math-inline">p</span>と書く。成分は組成を独立に表すために必要な物質で、純粋な水なら氷・水・水蒸気を合わせても成分数は1。</p>
+<p>原典の水の図は定性的な模式図で、二相共存を線、三相共存を点として示す。氷と水の境界が負の傾きを持つことも読み取れる。口頭説明ではCO₂との傾きの違いに触れるが、その導出は後続内容なのでここでは図の特徴の確認にとどめる。</p></div>
+</section>
+<section class="explanation" id="slide-009" aria-labelledby="slide-heading-009">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-009">解説 9</h2>
+<p class="slide-title">PDF p.9 — 純物質なら領域・線・点に対応する</p>
+<p class="slide-claim"><strong>単相では2自由度、二相では1自由度、三相では0自由度となる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=9">原典 PDF p.9</a> · 重点／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=9" aria-label="原典PDF p.9を開く"><img src="assets/slides/thermo-009.png" alt="原典スライド画像 PDF p.9"></a>
+</div>
+<div class="explanation-body">
+<p>純水なので<span class="math-inline">C=1</span>。氷だけの領域では<span class="math-inline">f=1-1+2=2</span>となり、同じ相の領域内なら温度と圧力を独立に変えられる。氷と水が共存する線では<span class="math-inline">f=1-2+2=1</span>。例えば温度を決めると共存できる圧力も決まり、任意の圧力をさらに選ぶことはできない。</p>
+<p>図中の三重点にも同じ計算を適用すると<span class="math-inline">f=1-3+2=0</span>で、三相共存の温度・圧力は固定される。ただし相の量や割合まで相律で決まるわけではない。問題では「成分数→相数→自由度→図の領域・線・点」の順に確認する。文字起こしの例でも、温度・圧力・体積を三つとも自由に選べないことが強調されている。体積は物質量や状態方程式とも関係するためである。</p></div>
+</section>
+<section class="explanation" id="slide-010" aria-labelledby="slide-heading-010">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-010">解説 10</h2>
+<p class="slide-title">PDF p.10 — 共存条件が自由度を減らす</p>
+<p class="slide-claim"><strong>氷と水が平衡で共存するには、物質が移る駆動力が消える必要がある。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=10">原典 PDF p.10</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=10" aria-label="原典PDF p.10を開く"><img src="assets/slides/thermo-010.png" alt="原典スライド画像 PDF p.10"></a>
+</div>
+<div class="explanation-body">
+<p>水の中の氷を描いた図では、二相の間で水分子が移っても一方が一方的に増えない条件を考える。<strong>化学ポテンシャル</strong><span class="math-inline">μ</span>は、その成分をわずかに加えたときのギブズエネルギーの増え方で、純物質の一相ではモル当たりのギブズエネルギー<span class="math-inline">G/n</span>に等しい。同じ温度・圧力での共存条件は</p>
+<div class="math-display" role="math">μ<sub>氷</sub>(T,p)=μ<sub>水</sub>(T,p).</div>
+<p>この等式が温度と圧力に一つの制約を課すので、自由度が2から1へ減る。原典の「氷の自由エネルギー＝水の自由エネルギー」は、括弧にある化学ポテンシャル、つまり量をそろえた比較として読む。氷と水の総量が違えば、全体の<span class="math-inline">G</span>自体が等しい必要はない。口頭説明の「物質量で割って比較する」がこの点を補っている。相律全体の一般的な導出は今回の資料の範囲外。</p></div>
+</section>
+<h2 class="chapter-title" id="chapter-04">2.1前半：熱の移動と第1法則</h2>
+<p class="chapter-time">この章の想定読了時間：約4分</p>
+<section class="explanation" id="slide-011" aria-labelledby="slide-heading-011">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-011">解説 11</h2>
+<p class="slide-title">PDF p.11 — 熱平衡と熱の移動方向を区別する</p>
+<p class="slide-claim"><strong>二つの物体が接触すると共通の温度へ近づく。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=11">原典 PDF p.11</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=11" aria-label="原典PDF p.11を開く"><img src="assets/slides/thermo-011.png" alt="原典スライド画像 PDF p.11"></a>
+</div>
+<div class="explanation-body">
+<p>温度<span class="math-inline">T<sub>A</sub>&gt;T<sub>B</sub></span>のブロックAとBを接触させ、最終温度を<span class="math-inline">T<sub>F</sub></span>とする。<strong>熱</strong>は温度差に伴って移動するエネルギーであり、<strong>熱平衡</strong>は接触させても正味の熱移動が起きない状態。<span class="math-inline">C<sub>A</sub>,C<sub>B</sub></span>はそれぞれの熱容量で、温度を1 K上げるのに必要な熱量を表す。外へ熱が逃げず、相変化や無視できない仕事がなければ、最終温度は二つの初期温度の間に来る。</p>
+<p>第0法則は「AとCが熱平衡、BとCも熱平衡なら、AとBも熱平衡」という関係であり、共通の温度を定義できる根拠になる。補足として、高温側から低温側へ自発的に熱が流れる向きは第2法則に関わる内容で、第0法則だけから決まるわけではない。図の矢印と、第0法則の記述の役割を分けて読む。</p></div>
+</section>
+<section class="explanation" id="slide-012" aria-labelledby="slide-heading-012">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-012">解説 12</h2>
+<p class="slide-title">PDF p.12 — 放出量と受け取る量を対応させる</p>
+<p class="slide-claim"><strong>温度変化と熱容量から、移動した熱量を求める。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=12">原典 PDF p.12</a> · 標準／約30秒〜1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=12" aria-label="原典PDF p.12を開く"><img src="assets/slides/thermo-012.png" alt="原典スライド画像 PDF p.12"></a>
+</div>
+<div class="explanation-body">
+<p>熱容量をこの温度範囲で一定とみなすと、Aから出た熱の大きさは<span class="math-inline">C<sub>A</sub>(T<sub>A</sub>-T<sub>F</sub>)</span>、Bが受け取った熱は<span class="math-inline">q<sub>B</sub>=C<sub>B</sub>(T<sub>F</sub>-T<sub>B</sub>)</span>。どちらも正の大きさとして書かれている。<span class="math-inline">q</span>は熱量で、<span class="math-inline">C</span>を<span class="math-inline">J K<sup>-1</sup></span>、温度差をKで入れれば熱量はJとなる。</p>
+<p>計算では「出た量の大きさ」を使うか、「系へ入った向きを正」とするかを最初に決める。温度によって熱容量が大きく変わる場合は単純な積でなく<span class="math-inline">q=∫ C(T) dT</span>を使う。このページの式は一定熱容量の近似である。</p></div>
+</section>
+<section class="explanation" id="slide-013" aria-labelledby="slide-heading-013">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-013">解説 13</h2>
+<p class="slide-title">PDF p.13 — 両方を「受け取った熱」で統一する</p>
+<p class="slide-claim"><strong>符号をそろえるとエネルギー保存が一つの式になる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=13">原典 PDF p.13</a> · 重点／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=13" aria-label="原典PDF p.13を開く"><img src="assets/slides/thermo-013.png" alt="原典スライド画像 PDF p.13"></a>
+</div>
+<div class="explanation-body">
+<p>Aが受け取った熱は<span class="math-inline">q<sub>A</sub>=C<sub>A</sub>(T<sub>F</sub>-T<sub>A</sub>)&lt;0</span>。Aは熱を失うので負になる。一方、Bは<span class="math-inline">q<sub>B</sub>&gt;0</span>。A+B全体が外部へ熱を逃がさず、仕事を無視できるなら</p>
+<div class="math-display" role="math">q<sub>A</sub>+q<sub>B</sub>=0,    C<sub>A</sub>(T<sub>F</sub>-T<sub>A</sub>)+C<sub>B</sub>(T<sub>F</sub>-T<sub>B</sub>)=0.</div>
+<p>補足として整理すると、<span class="math-inline">T<sub>F</sub>=(C<sub>A</sub>T<sub>A</sub>+C<sub>B</sub>T<sub>B</sub>)/(C<sub>A</sub>+C<sub>B</sub>)</span>。最終温度は熱容量で重みをつけた平均であり、単純な平均になるのは<span class="math-inline">C<sub>A</sub>=C<sub>B</sub></span>のときだけ。口頭説明の符号の言い直しも、この「入る向きを正にそろえる」という理解にまとめられる。</p></div>
+</section>
+<section class="explanation" id="slide-014" aria-labelledby="slide-heading-014">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-014">解説 14</h2>
+<p class="slide-title">PDF p.14 — 熱だけの収支から、仕事も含む収支へ</p>
+<p class="slide-claim"><strong>一般の状態変化では、熱の収支だけでは足りない。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=14">原典 PDF p.14</a> · 標準／約30秒。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=14" aria-label="原典PDF p.14を開く"><img src="assets/slides/thermo-014.png" alt="原典スライド画像 PDF p.14"></a>
+</div>
+<div class="explanation-body">
+<p>ここまでの熱収支に「仕事も合わせる」という視点が加わる。仕事は、力による変位や電気的作用などを通じたエネルギー移動である。口頭説明の例では、加熱された物体が膨張すると外へ仕事をするため、入った熱のすべてが物体の内部に残るとは限らない。</p>
+<p>したがって<span class="math-inline">q<sub>A</sub>+q<sub>B</sub>=0</span>は特定の熱交換モデルの式。一般のエネルギー保存は、次の<span class="math-inline">Δ U=q+w</span>で扱う。</p></div>
+</section>
+<section class="explanation" id="slide-015" aria-labelledby="slide-heading-015">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-015">解説 15</h2>
+<p class="slide-title">PDF p.15 — 熱と仕事は系へ入る向きを正とする</p>
+<p class="slide-claim"><strong>内部エネルギーの変化は、熱と仕事による流入の合計である。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=15">原典 PDF p.15</a> · 重点／約30秒〜1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=15" aria-label="原典PDF p.15を開く"><img src="assets/slides/thermo-015.png" alt="原典スライド画像 PDF p.15"></a>
+</div>
+<div class="explanation-body">
+<div class="math-display" role="math">Δ U=q+w,   Δ U=U<sub>後</sub>-U<sub>前</sub>.</div>
+<p>この授業では、<span class="math-inline">q</span>は熱として系が受け取ったエネルギー、<span class="math-inline">w</span>は仕事として系が受け取ったエネルギー。例えば熱を100 J受け取り、外へ仕事を30 Jしたなら<span class="math-inline">q=100  J</span>、<span class="math-inline">w=-30  J</span>で、<span class="math-inline">Δ U=70  J</span>。</p>
+<p>文字起こしでも触れているように、教科書によっては外へした仕事を正に定義する。その場合の<span class="math-inline">Δ U=q-W</span>とは記号の約束が違うだけなので、式だけを混ぜず「系が受け取る／外へする」を確認する。</p></div>
+</section>
+<section class="explanation" id="slide-016" aria-labelledby="slide-heading-016">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-016">解説 16</h2>
+<p class="slide-title">PDF p.16 — 孤立系では内部エネルギーが一定</p>
+<p class="slide-claim"><strong>外界とエネルギーを交換しない全体の内部エネルギーは変わらない。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=16">原典 PDF p.16</a> · 標準／約30秒。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=16" aria-label="原典PDF p.16を開く"><img src="assets/slides/thermo-016.png" alt="原典スライド画像 PDF p.16"></a>
+</div>
+<div class="explanation-body">
+<p><strong>孤立系</strong>は外界と物質もエネルギーも交換しない系。熱も仕事も境界を通らないため<span class="math-inline">q=w=0</span>で、<a href="#slide-015">p.15</a>より<span class="math-inline">Δ U=0</span>となる。これがここで示された第1法則の表現である。</p>
+<p>孤立したA+B全体でAからBへ熱が移っても、AとBそれぞれの内部エネルギーは変わり得る。「全体が一定」と「各部分が一定」を区別する。また、物質が出入りしない閉じた容器でも、加熱できるなら孤立系ではない。</p></div>
+</section>
+<h2 class="chapter-title" id="chapter-05">2.1後半：膨張仕事・熱容量・エンタルピー</h2>
+<p class="chapter-time">この章の想定読了時間：約5〜6分</p>
+<section class="explanation" id="slide-017" aria-labelledby="slide-heading-017">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-017">解説 17</h2>
+<p class="slide-title">PDF p.17 — 膨張すると、系が受け取る仕事は負になる</p>
+<p class="slide-claim"><strong>体積仕事は外圧と体積変化から求める。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=17">原典 PDF p.17</a> · 重点／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=17" aria-label="原典PDF p.17を開く"><img src="assets/slides/thermo-017.png" alt="原典スライド画像 PDF p.17"></a>
+</div>
+<div class="explanation-body">
+<p><span class="math-inline">Δ V=V<sub>2</sub>-V<sub>1</sub></span>とすると、外圧一定の膨張仕事は<span class="math-inline">w=-p<sub>ext</sub>Δ V</span>。<span class="math-inline">p<sub>ext</sub></span>は系が押し返す外界の圧力である。膨張では<span class="math-inline">Δ V&gt;0</span>なので<span class="math-inline">w&lt;0</span>、圧縮では逆に<span class="math-inline">w&gt;0</span>。圧力の単位Paと体積の単位<span class="math-inline">m<sup>3</sup></span>を掛けるとJになる。</p>
+<p>外圧が変わる場合は</p>
+<div class="math-display" role="math">w=-∫<sub>V_1</sub><sup>V_2</sup>p<sub>ext</sub> dV.</div>
+<p>PDFでは圧力を<span class="math-inline">P</span>とだけ書くが、補足として一般には外圧を積分する。系の圧力をそのまま代入できるのは、機械的平衡を保つ可逆な極限などで両者を対応させられる場合。この条件が次の導出で必要になる。</p></div>
+</section>
+<section class="explanation" id="slide-018" aria-labelledby="slide-heading-018">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-018">解説 18</h2>
+<p class="slide-title">PDF p.18 — 対数の仕事式には「等温」が必要</p>
+<p class="slide-claim"><strong>理想気体の可逆等温変化なら仕事を対数で表せる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=18">原典 PDF p.18</a> · 重点／約1〜2分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=18" aria-label="原典PDF p.18を開く"><img src="assets/slides/thermo-018.png" alt="原典スライド画像 PDF p.18"></a>
+</div>
+<div class="explanation-body">
+<p>ピストン図では、体積<span class="math-inline">V<sub>1</sub></span>から<span class="math-inline">V<sub>2</sub></span>へ膨張する。理想気体の状態方程式<span class="math-inline">p=nRT/V</span>を仕事の積分に代入する。物質量一定、温度一定、機械的平衡を保つ可逆な極限を仮定すれば</p>
+<div class="math-display" role="math">w=-∫<sub>V_1</sub><sup>V_2</sup>(nRT)/(V) dV =-nRTln(V<sub>2</sub>)/(V<sub>1</sub>).</div>
+<p><span class="math-inline">ln</span>は自然対数。温度一定だから<span class="math-inline">nRT</span>を積分の外へ出せる。対数の中は体積同士の比で無次元でなければならない。<span class="math-inline">V<sub>2</sub>&gt;V<sub>1</sub></span>なら対数が正で<span class="math-inline">w&lt;0</span>、圧縮では逆、という符号の確認ができる。</p>
+<p>PDF本文には「平衡状態を実現しながら」とあるが、等温条件は明記されていない。口頭説明の「温度が変化しない条件なら外へ出せる」「断熱なら外へ出せない」を採用して補った。<strong>断熱</strong>は熱が出入りしない<span class="math-inline">q=0</span>という条件で、温度一定という意味ではない。さらに外圧ゼロでの自由膨張は<span class="math-inline">w=0</span>であり、この対数式を当てはめない。</p></div>
+</section>
+<section class="explanation" id="slide-019" aria-labelledby="slide-heading-019">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-019">解説 19</h2>
+<p class="slide-title">PDF p.19 — 定容では、熱が内部エネルギーの増加になる</p>
+<p class="slide-claim"><strong>熱容量は、温度を変えるときに何を固定するかで異なる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=19">原典 PDF p.19</a> · 標準／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=19" aria-label="原典PDF p.19を開く"><img src="assets/slides/thermo-019.png" alt="原典スライド画像 PDF p.19"></a>
+</div>
+<div class="explanation-body">
+<p>定容熱容量<span class="math-inline">C<sub>V</sub></span>は体積一定、定圧熱容量<span class="math-inline">C<sub>p</sub></span>は圧力一定での熱容量。物質量一定で膨張仕事だけを考えるなら、定容では<span class="math-inline">w=0</span>なので<span class="math-inline">q<sub>V</sub>=Δ U</span>。したがって</p>
+<div class="math-display" role="math">C<sub>V</sub>=((∂ U)/(∂ T))<sub>V,n</sub>.</div>
+<p>偏微分<span class="math-inline">∂</span>は他の指定変数を固定して変化率を見る記号で、下付きの<span class="math-inline">V,n</span>が固定条件を表す。PDFの<span class="math-inline">dU/dT</span>にはこの条件を補って読む。定圧では加熱に伴う膨張で外へ仕事をするため、理想気体では同じ温度上昇により多くの熱が必要になる。</p>
+<p>原典の「仕事<span class="math-inline">R</span>」は、理想気体1 molの温度を1 K上げるときの膨張仕事の大きさに対応する熱容量の寄与である。任意の試料で仕事そのものが常に<span class="math-inline">R</span>になるわけではない。</p></div>
+</section>
+<section class="explanation" id="slide-020" aria-labelledby="slide-heading-020">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-020">解説 20</h2>
+<p class="slide-title">PDF p.20 — 定圧の熱をエンタルピーで表す</p>
+<p class="slide-claim"><strong>定圧では、膨張に必要な分もまとめてエンタルピー変化で扱える。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=20">原典 PDF p.20</a> · 重点／約1〜2分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=20" aria-label="原典PDF p.20を開く"><img src="assets/slides/thermo-020.png" alt="原典スライド画像 PDF p.20"></a>
+</div>
+<div class="explanation-body">
+<p><strong>エンタルピー</strong>の定義は<span class="math-inline">H=U+pV</span>。物質量一定、圧力一定、外圧と系の圧力が対応し、仕事が膨張仕事だけなら、第1法則より<span class="math-inline">Δ U=q<sub>p</sub>-pΔ V</span>。一方、<span class="math-inline">Δ H=Δ U+pΔ V</span>なので<span class="math-inline">q<sub>p</sub>=Δ H</span>となる。よって</p>
+<div class="math-display" role="math">C<sub>p</sub>=((∂ H)/(∂ T))<sub>p,n</sub>.</div>
+<p>原典の「内部エネルギーに熱膨張を加えたもの」は定圧での使い方を表す案内であり、一般の定義は<span class="math-inline">U+pV</span>。圧力が変わるなら<span class="math-inline">H</span>の変化には<span class="math-inline">p</span>の変化の寄与もある。</p>
+<p>理想気体では<span class="math-inline">H=U+nRT</span>で、<span class="math-inline">U</span>は温度だけの関数になるため、試料全体の熱容量は<span class="math-inline">C<sub>p</sub>-C<sub>V</sub>=nR</span>。モル熱容量<span class="math-inline">C<sub>p,m</sub>=C<sub>p</sub>/n</span>、<span class="math-inline">C<sub>V,m</sub>=C<sub>V</sub>/n</span>に直すと</p>
+<div class="math-display" role="math">C<sub>p,m</sub>-C<sub>V,m</sub>=R.</div>
+<p>PDFの<span class="math-inline">C<sub>p</sub>=C<sub>V</sub>+R</span>は明示された「モル当たり」の式として読む。口頭説明でも、モル当たりという前提が省略される場合に注意するよう述べている。実在気体一般へこの差をそのまま適用しない。</p></div>
+</section>
+<section class="explanation" id="slide-021" aria-labelledby="slide-heading-021">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-021">解説 21</h2>
+<p class="slide-title">PDF p.21 — 定容・定圧の対応を一本につなぐ</p>
+<p class="slide-claim"><strong>熱容量、熱を対応させる量、自由エネルギーを固定条件で整理する。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=21">原典 PDF p.21</a> · 標準／約30秒〜1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=21" aria-label="原典PDF p.21を開く"><img src="assets/slides/thermo-021.png" alt="原典スライド画像 PDF p.21"></a>
+</div>
+<div class="explanation-body">
+<div class="table-wrap"><table><thead><tr><th scope="col">固定条件</th><th scope="col">熱容量</th><th scope="col">膨張仕事のみの場合の熱</th><th scope="col">自発変化の判定に使う量</th></tr></thead><tbody><tr><td>体積一定</td><td><span class="math-inline">C<sub>V</sub></span></td><td><span class="math-inline">q<sub>V</sub>=Δ U</span></td><td>温度も一定なら<span class="math-inline">F=U-TS</span></td></tr><tr><td>圧力一定</td><td><span class="math-inline">C<sub>p</sub></span></td><td><span class="math-inline">q<sub>p</sub>=Δ H</span></td><td>温度も一定なら<span class="math-inline">G=H-TS</span></td></tr></tbody></table></div>
+<p>表の最右列には<a href="#slide-001">p.1</a>の物質の出入り・仕事に関する条件も適用する。「一定体積」だけでは<span class="math-inline">F</span>減少を、「一定圧力」だけでは<span class="math-inline">G</span>減少を判断できない。問題を読み始めるとき、どの条件が固定され、熱を内部エネルギーとエンタルピーのどちらへ対応させられるかを確認する。</p></div>
+</section>
+<section class="explanation" id="slide-022" aria-labelledby="slide-heading-022">
+<div class="explanation-grid">
+<div>
+<h2 id="slide-heading-022">解説 22</h2>
+<p class="slide-title">PDF p.22 — 熱容量は単位まで読んで区別する</p>
+<p class="slide-claim"><strong>試料全体・単位質量・1 mol当たりを混ぜると熱量が合わなくなる。</strong></p>
+<p class="slide-meta"><a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=22">原典 PDF p.22</a> · 重点／約1分。</p>
+</div>
+<a class="slide" href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf#page=22" aria-label="原典PDF p.22を開く"><img src="assets/slides/thermo-022.png" alt="原典スライド画像 PDF p.22"></a>
+</div>
+<div class="explanation-body">
+<div class="table-wrap"><table><thead><tr><th scope="col">量</th><th scope="col">記号（補足）</th><th scope="col">単位</th><th scope="col">試料全体との関係</th></tr></thead><tbody><tr><td>熱容量</td><td><span class="math-inline">C</span></td><td><span class="math-inline">J K<sup>-1</sup></span></td><td>試料全体</td></tr><tr><td>比熱：単位質量当たりの熱容量</td><td><span class="math-inline">c</span></td><td><span class="math-inline">J kg<sup>-1</sup> K<sup>-1</sup></span></td><td><span class="math-inline">C=mc</span></td></tr><tr><td>モル熱容量</td><td><span class="math-inline">C<sub>m</sub></span></td><td><span class="math-inline">J mol<sup>-1</sup> K<sup>-1</sup></span></td><td><span class="math-inline">C=nC<sub>m</sub></span></td></tr></tbody></table></div>
+<p><span class="math-inline">m</span>は質量。熱容量一定の範囲なら、対応する条件で<span class="math-inline">q=CΔ T=mcΔ T=nC<sub>m</sub>Δ T</span>。質量をgで使う表では比熱の単位も<span class="math-inline">J g<sup>-1</sup> K<sup>-1</sup></span>へそろえる。温度差はKと℃で数値が同じだが、状態方程式や自由エネルギーの<span class="math-inline">T</span>には絶対温度を使う。</p>
+<p>PDFでは化学物質の表は定圧モル熱容量をよく用いると説明し、口頭説明では大気圧下の実験や定容のボンブ実験を対比している。表を見るときは<span class="math-inline">p</span>か<span class="math-inline">V</span>か、モル当たりか試料全体かを単位と一緒に確認する。文字起こしの終盤もここで第1回を終え、次回に2章の残りへ進むという案内になっている。</p></div>
+</section>
+<footer class="muted">原典：<a href="%E6%8E%88%E6%A5%AD%E8%B3%87%E6%96%99/20261006%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E8%B3%87%E6%96%99.pdf">20261006 - 熱力学資料.pdf</a> · 口頭説明：<a href="熱力学%20%E7%AC%AC1%E5%9B%9E.txt">熱力学 第1回.txt</a><br>資料全22ページを原順に解説。画像を選ぶと原PDFの該当ページを開く。</footer>
+</article>
+<nav class="toc" aria-label="ページ内目次">
+<button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+<div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li>
+<li><a href="#chapter-01">授業の見通しと1.1：なぜ熱力学を使うか</a><ul>
+<li><a href="#slide-001">解説 1</a></li>
+<li><a href="#slide-002">解説 2</a></li>
+<li><a href="#slide-003">解説 3</a></li>
+</ul></li>
+<li><a href="#chapter-02">1.2：相図・臨界点とボンベの中身</a><ul>
+<li><a href="#slide-004">解説 4</a></li>
+<li><a href="#slide-005">解説 5</a></li>
+<li><a href="#slide-006">解説 6</a></li>
+<li><a href="#slide-007">解説 7</a></li>
+</ul></li>
+<li><a href="#chapter-03">1.3：相律と共存条件</a><ul>
+<li><a href="#slide-008">解説 8</a></li>
+<li><a href="#slide-009">解説 9</a></li>
+<li><a href="#slide-010">解説 10</a></li>
+</ul></li>
+<li><a href="#chapter-04">2.1前半：熱の移動と第1法則</a><ul>
+<li><a href="#slide-011">解説 11</a></li>
+<li><a href="#slide-012">解説 12</a></li>
+<li><a href="#slide-013">解説 13</a></li>
+<li><a href="#slide-014">解説 14</a></li>
+<li><a href="#slide-015">解説 15</a></li>
+<li><a href="#slide-016">解説 16</a></li>
+</ul></li>
+<li><a href="#chapter-05">2.1後半：膨張仕事・熱容量・エンタルピー</a><ul>
+<li><a href="#slide-017">解説 17</a></li>
+<li><a href="#slide-018">解説 18</a></li>
+<li><a href="#slide-019">解説 19</a></li>
+<li><a href="#slide-020">解説 20</a></li>
+<li><a href="#slide-021">解説 21</a></li>
+<li><a href="#slide-022">解説 22</a></li>
+</ul></li>
+</ul></div></nav>
+</div></main></div></body></html>

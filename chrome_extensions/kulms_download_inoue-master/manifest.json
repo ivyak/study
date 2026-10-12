@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "KULMS Downloader and Timetable",
+  "version": "1.0",
+  "description": "京都大学のKULMSの授業資料および課題資料を階層を維持して一括ダウンロードします。また、履修登録した科目を時間割形式で表示します",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://lms.gakusei.kyoto-u.ac.jp/portal/*"
+      ],
+      "js": [
+        "jszip.min.js",
+        "content.js"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "https://lms.gakusei.kyoto-u.ac.jp/*"
+  ]
+}

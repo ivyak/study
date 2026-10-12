@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Epic Free Games Notifier",
+  "version": "1.0",
+  "description": "Epic Gamesの無料配布を通知し、ストアを開きます。",
+  "permissions": [
+    "notifications",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://store-site-backend-static.ak.epicgames.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "無料ゲームをチェック"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}

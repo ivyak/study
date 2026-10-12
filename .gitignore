@@ -23,3 +23,8 @@ build/
 target/
 
 .venv/
+
+# Python の生成物と一時実行状態
+__pycache__/
+*.py[cod]
+article_management/execution.json

@@ -24,7 +24,6 @@ window.LifeArticles = (() => {
     svg.append(path); button.append(svg); return button;
   }
   function markAppearance(button, selected, title) {
-    button.textContent = '★';
     button.setAttribute('aria-pressed', String(selected));
     const label = `${title}：${selected ? 'しおりを外す' : 'しおりを付ける'}`;
     button.setAttribute('aria-label', label); button.title = label;

@@ -2,6 +2,96 @@
 (() => {
   const isPortal = document.body.dataset.lifePage === 'portal';
   const portal = document.body.dataset.portal || 'index.html';
+  const progressKey = 'life.lesson.progress';
+  let progress = {};
+  try { progress = JSON.parse(localStorage.getItem(progressKey) || '{}') || {}; } catch {}
+  const saveProgress = () => { try { localStorage.setItem(progressKey, JSON.stringify(progress)); return true; } catch { return false; } };
+  const documentKey = () => decodeURIComponent(location.pathname).split('/Kyoto_Univ/').at(-1).replace(/^\//, '');
+  const progressStatus = key => progress[key]?.status || 'unread';
+  async function progressRequest(path, options = {}) {
+    const origin = location.protocol === 'file:' ? 'http://127.0.0.1:8765' : location.origin;
+    const response = await fetch(origin + path, {...options, signal: AbortSignal.timeout(2500)});
+    if (!response.ok) throw new Error('接続できません');
+    return response.json();
+  }
+  async function syncProgress() {
+    try {
+      const remote = (await progressRequest('/api/lesson-progress')).progress;
+      for (const [key, value] of Object.entries(remote)) {
+        if (!progress[key] || !progress[key].pending && Date.parse(value.updatedAt) > Date.parse(progress[key].updatedAt || 0)) progress[key] = value;
+      }
+      saveProgress();
+      for (const [key, value] of Object.entries(progress)) {
+        if (!value.pending) continue;
+        try {
+          const token = (await progressRequest('/api/runtime')).token;
+          const saved = await progressRequest('/api/lesson-progress', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-LIFE-Token': token}, body: JSON.stringify({path: key, ...value})});
+          if (progress[key] === value) { progress[key] = saved.progress; saveProgress(); }
+        } catch {}
+      }
+      if (isPortal) { renderTimetable(); updateLessonStatuses(); }
+      else { updateDocumentControls?.(); updateDocumentBookmarks?.(); }
+    } catch {}
+  }
+  let updateDocumentControls = null;
+  let updateDocumentBookmarks = null;
+  if (!isPortal) {
+    const article = document.querySelector('article.lesson-document');
+    if (article) {
+      const key = documentKey();
+      const controls = document.createElement('div'); controls.className = 'lesson-progress-controls';
+      controls.setAttribute('role', 'group'); controls.setAttribute('aria-label', 'この資料の学習ステータス');
+      const label = document.createElement('span'); label.textContent = '学習ステータス：'; controls.append(label);
+      const buttons = ['unread', 'reading', 'read'].map((state, index) => {
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'article-reading-button';
+        button.textContent = ['未読', '勉強中', '完了'][index];
+        button.addEventListener('click', async () => {
+          progress[key] = {...progress[key], status: state, updatedAt: new Date().toISOString(), pending: true};
+          const stored = saveProgress(); updateDocumentControls();
+          note.textContent = stored ? 'このブラウザーに保存しました。' : '保存できませんでした。';
+          await syncProgress();
+          if (!progress[key]?.pending) note.textContent = 'ステータスを保存しました。';
+        });
+        controls.append(button); return button;
+      });
+      const note = document.createElement('span'); note.className = 'lesson-progress-note'; note.setAttribute('role', 'status'); controls.append(note);
+      updateDocumentControls = () => buttons.forEach((button, index) => button.setAttribute('aria-pressed', String(progressStatus(key) === ['unread', 'reading', 'read'][index])));
+      const header = article.querySelector('header');
+      if (header) header.insertAdjacentElement('afterend', controls); else article.prepend(controls);
+      updateDocumentControls();
+      const headings = [...article.querySelectorAll('h2,h3,h4')].filter(heading => !heading.closest('header, .toc'));
+      const marks = [];
+      let bookmarkRestored = Boolean(location.hash);
+      headings.forEach((heading, index) => {
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'lesson-section-bookmark';
+        const title = heading.textContent.trim();
+        heading.classList.add('lesson-bookmarked-heading'); heading.prepend(button);
+        const update = () => {
+          const selected = progress[key]?.bookmark === index;
+          button.setAttribute('aria-pressed', String(selected));
+          button.setAttribute('aria-label', `${title}：しおりを${selected ? '外す' : '付ける'}`);
+          button.title = button.getAttribute('aria-label');
+        };
+        marks.push(update); update();
+        button.addEventListener('click', async () => {
+          bookmarkRestored = true;
+          progress[key] = {...progress[key], bookmark: progress[key]?.bookmark === index ? null : index, updatedAt: new Date().toISOString(), pending: true};
+          if (!saveProgress()) { note.textContent = 'しおりを保存できませんでした。'; return; }
+          marks.forEach(mark => mark()); await syncProgress();
+        });
+      });
+      updateDocumentBookmarks = () => {
+        marks.forEach(mark => mark());
+        const saved = progress[key]?.bookmark;
+        if (!bookmarkRestored && Number.isInteger(saved) && headings[saved]) {
+          bookmarkRestored = true;
+          requestAnimationFrame(() => headings[saved].scrollIntoView({block: 'start'}));
+        }
+      };
+      updateDocumentBookmarks();
+    }
+    syncProgress();
+  }
   const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const icon = name => {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -91,13 +181,22 @@
     button.classList.toggle('active', active);
     if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current');
   });
+  const lessonState = docs => {
+    const explanations = docs.filter(doc => doc.kind === '解説');
+    if (!explanations.length) return null;
+    const states = explanations.map(doc => progressStatus(decodeURIComponent(doc.url)));
+    return states.every(value => value === 'read') ? 'read' : states.includes('reading') || states.includes('read') ? 'reading' : 'unread';
+  };
+  const stateLabels = {unread: '未読', reading: '勉強中', read: '完了'};
   const status = course => {
     const container = document.createElement('span'); container.className = 'course-status';
     const dots = document.createElement('span'); dots.className = 'dots';
     for (let number = 1; number <= 14; number++) {
-      const exists = course.documents.some(doc => doc.lesson === number);
-      const dot = document.createElement('i'); dot.className = `dot${exists ? ' done' : ''}`;
-      dot.title = `第${number}回：AI作成ページ${exists ? 'あり' : 'なし'}`;
+      const docs = course.documents.filter(doc => doc.lesson === number);
+      const exists = docs.length > 0;
+      const state = lessonState(docs);
+      const dot = document.createElement('i'); dot.className = `dot${exists ? ' done' : ''}${state ? ` lesson-${state}` : ''}`;
+      dot.title = `第${number}回：${state ? stateLabels[state] : `解説${exists ? 'なし' : '未作成'}`}`;
       dots.append(dot);
     }
     const resources = document.createElement('span'); resources.className = 'resource-dots';
@@ -136,6 +235,19 @@
     const tabs = [...document.querySelectorAll('[data-term]')];
     tabs.forEach(button => { const active = button.dataset.term === term; button.setAttribute('aria-selected', String(active)); button.tabIndex = active ? 0 : -1; });
   };
+  const updateLessonStatuses = () => {
+    if (!currentCourse) return;
+    document.querySelectorAll('#lesson-list .lesson').forEach(button => {
+      const number = Number(button.dataset.lesson);
+      const state = lessonState(currentCourse.documents.filter(doc => doc.lesson === number));
+      const badge = button.querySelector('.lesson-progress-badge');
+      badge.hidden = !state;
+      badge.className = `lesson-progress-badge${state ? ` lesson-progress-${state}` : ''}`;
+      badge.textContent = state ? stateLabels[state] : '';
+      button.setAttribute('aria-label', `第${number}回${state ? `：${stateLabels[state]}` : ''}の資料を選ぶ`);
+    });
+  };
+  syncProgress();
   const menuItems = () => [...menu.querySelectorAll('a,button:not(:disabled)')];
   const openMenu = (number, event) => {
     if (!menu.hidden && trigger === event.currentTarget) { closeMenu(true); return; }
@@ -199,9 +311,13 @@
       button.setAttribute('aria-label', `第${number}回の資料を選ぶ`); button.setAttribute('aria-haspopup', 'menu'); button.setAttribute('aria-expanded', 'false'); button.setAttribute('aria-controls', 'lesson-actions');
       const round = document.createElement('span'); round.className = 'lesson-number'; round.textContent = `第${number}回`;
       const title = document.createElement('span'); title.className = 'lesson-overview'; title.textContent = docs.map(doc => doc.title).join(' / ') || '未作成';
+      const meta = document.createElement('span'); meta.className = 'lesson-meta';
       const date = document.createElement('span'); date.className = 'lesson-date'; date.textContent = docs.find(doc => doc.created)?.created || '—';
-      button.append(round, title, date); button.addEventListener('click', event => openMenu(number, event)); list.append(button);
+      const badge = document.createElement('span'); badge.className = 'lesson-progress-badge';
+      meta.append(date, badge);
+      button.append(round, title, meta); button.addEventListener('click', event => openMenu(number, event)); list.append(button);
     }
+    updateLessonStatuses();
     const extra = document.getElementById('extra-materials'); extra.replaceChildren();
     const otherDocs = course.documents.filter(doc => !doc.lesson || doc.lesson > 14);
     extra.hidden = !otherDocs.length;

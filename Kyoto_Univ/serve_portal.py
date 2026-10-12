@@ -10,6 +10,7 @@ import subprocess
 import sys
 import threading
 from article_reports import article_records, update_read_status, update_bookmark
+from lesson_progress import records as lesson_progress_records, update as update_lesson_progress
 from urllib.parse import unquote, urlsplit
 
 from past_exams import ROOT, SKILL, SOURCE_NAMES, MATERIAL_TYPES, from_listing, load_report, now, save_report, snapshot, save_markdown, normalize_candidate, candidate_key
@@ -207,6 +208,8 @@ class Handler(SimpleHTTPRequestHandler):
                           'reviewAvailable': bool(shutil.which('codex'))})
         elif path == '/api/articles':
             self.respond({'articles': article_records()})
+        elif path == '/api/lesson-progress':
+            self.respond({'progress': lesson_progress_records()})
         elif path.startswith('/api/exams/'):
             course = get_course(path[len('/api/exams/'):])
             self.respond(snapshot(ROOT / course['folder']) if course else {'error': '教科が見つかりません'}, 200 if course else 404)
@@ -224,6 +227,18 @@ class Handler(SimpleHTTPRequestHandler):
             self.respond({'error': 'ローカルの接続を確認してください'}, 403)
             return
         path = unquote(urlsplit(self.path).path)
+        if path == '/api/lesson-progress':
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if not 0 < length <= 4096:
+                    raise ValueError('学習ステータスが不正です')
+                payload = json.loads(self.rfile.read(length))
+                with JOBS_LOCK:
+                    result = update_lesson_progress(payload.get('path'), payload.get('status'), payload.get('bookmark'))
+                self.respond({'progress': result})
+            except (ValueError, TypeError, AttributeError) as error:
+                self.respond({'error': str(error)}, 400)
+            return
         if path.startswith('/api/articles/') and path.endswith('/bookmark'):
             try:
                 length = int(self.headers.get('Content-Length', '0'))

@@ -1,0 +1,1385 @@
+{
+  "schema": 2,
+  "course": "工業数学Ａ１",
+  "teacher": "",
+  "academicYear": 2026,
+  "previousYear": 2025,
+  "execution": {
+    "status": "partial",
+    "stage": "追加調査：試験問題1件を本文確認・配置済み。他の候補と取得できない一覧は未確認。",
+    "startedAt": "2026-10-11T17:07:09+00:00",
+    "updatedAt": "2026-10-11T18:29:36+00:00"
+  },
+  "coverage": [
+    {
+      "source": "kuwiki",
+      "pages": 2,
+      "pending": [],
+      "errors": [],
+      "drive_listing_complete": false,
+      "page_limit": 200,
+      "page_limit_reached": false,
+      "note": "保存一覧の科目候補は照合済み。候補の本文確認、教員・授業年度の確定はまだ完了していないため「なし」とは判定しない。"
+    },
+    {
+      "source": "kuinfo2020",
+      "pages": 635,
+      "pending": [],
+      "errors": [
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1slEDnky1RSGHLtTFlJrRvR3-DEXMqAbp",
+            "path": "kuinfo2020/他学部聴講/理学部/数学系/解析学II/2023(筒井)/演習問題/宿題/第4回 10／28/第5回 11／4",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1FRw_oG8LsX-Wq1nKgAeoYuiFi9eDeAdU",
+            "path": "kuinfo2020/他学部聴講/理学部/数学系/解析学II/2023(筒井)/演習問題/宿題/第6回 11／11/第7回 11／18",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1Ipsprm29uYSCVDeJ5taAJ2Mzjm1nF5cE",
+            "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/7_ニューラルネットワーク/cpp_files",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1IN3V6zqeIDe2xbzCE3eD0XopsgBslwvt",
+            "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/7_ニューラルネットワーク/gp_files",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1K7o3ks36vPRQ_8KAfjZzJyri10IxSAqb",
+            "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/cpp_files",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1Lj_kXD2ftOTD3Le2xynVBHoc_w5t-vzt",
+            "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/csv_files",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1h89Jr6y2NariiM8265CZsWFl2aIH3HWW",
+            "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/eps_files",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1xTzlChKErRLoWOcpOxBRWSI9zVlcBnin",
+            "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/gp_files",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1NO6DbEHzSlmofa8eO7Gtejcbs63ineos",
+            "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定/確率論基礎/2026(難波)/⚠️2026の期末試験は2025と同じでした",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/18WjYFV1q5vNd7THz1SXz34xlENHRN7ae",
+            "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定以外/確率論基礎(A1~8)",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15tJEAiSLbw4mEry82LOWtWTvqsRA82xz",
+            "path": "kuinfo2020/自然/前期後期あんまり関係なかった/学科指定でない科目/対称性の数理",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/10Dr-JrL86K5-LJrHEygX6gGvYAVXTAxm",
+            "path": "kuinfo2020/他学部聴講/理学部/物理系/解析力学2/2022(細川)",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1yWWgFwW_4dsdu8nhutdnvEsXpa-cJiLU",
+            "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定/確率論基礎/2021(世良)",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/18lfVDinKc8h67Lbx2QDx9PlsFzigMyZ_",
+            "path": "kuinfo2020/本棚/集合位相/位相への30講",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15L23RuaclS23HrXnSl6MlJk9Ln-45bD_",
+            "path": "kuinfo2020/他学部聴講/理学部/数学系/函数解析学",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15OV8A0JnajnuJCTeg9xL3BjshEmQrYkb",
+            "path": "kuinfo2020/他学部聴講/理学部/数学系/函数解析学続論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1-IqaMWDosOsQeI9B6r8B0bfEb2oNr_zN",
+            "path": "kuinfo2020/大学院科目/先端数理/非線形物理学特論/2024",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1CAaou4OpEyHa0kz_-w2c9qNIxowZ9Ej8",
+            "path": "kuinfo2020/大学院科目/先端数理/非線形物理学特論/2025",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1WynZNIc4bvLRHekUcKuxYvbS_FrzqQVg",
+            "path": "kuinfo2020/専門(共通)/1st/アルゴリズムとデータ構造/2020",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15zkoCWAAYz45qgt3JzEioMF_ifzXHJt0",
+            "path": "kuinfo2020/専門(数理)/2nd/システム解析入門(数理)/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1_dpcQTwe3D09ApLc_nh3Z0Lke4qhgVr4",
+            "path": "kuinfo2020/専門(数理)/2nd/解析力学/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/169n3XzZ6HmUskxOy99dKB4FDZmnpbn_q",
+            "path": "kuinfo2020/専門(数理)/2nd/論理システム(数理)/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/16LDhdEkeTVDjhQ7qGQ2oNdxYikeHd___",
+            "path": "kuinfo2020/専門(数理)/3rd/情報符号理論続論/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/16U6yUBsrm01c0N7qSTxwc8SXKo2gFm0T",
+            "path": "kuinfo2020/専門(数理)/3rd/流体力学/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/16T9mE2y2FNOISv_9-8MIjxheeckxHCMc",
+            "path": "kuinfo2020/専門(数理)/3rd/物理統計学/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/16JlhPiQQdFK3RyzYTMKuU_Swen5nA-kY",
+            "path": "kuinfo2020/専門(数理)/3rd/確率と統計/2021",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15HUtyFCbYg57gysIuVva94Vl7BMnA7Mg",
+            "path": "kuinfo2020/情報学科目/情報と社会",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/158_Vp_BpUhrca9PldXzX1DJLCsM7rQ2s",
+            "path": "kuinfo2020/情報学科目/情報基礎実践",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1tgAAMTW2Sk95OB-brVuF7_t7BcVwgv_b",
+            "path": "kuinfo2020/本棚/ベイズ学習理論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1fx5h0GqJ9YpfRmqabQD6SDKGz9KpXBzs",
+            "path": "kuinfo2020/本棚/光物性",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1Kww3rtENAqjwoZnuNTJXcC7zGVKguxJv",
+            "path": "kuinfo2020/本棚/情報学",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/19l-GDbyaWIxIEoizewfYOLDhYGGjufNb",
+            "path": "kuinfo2020/本棚/相対論関係",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1LEpDNGgAuhR2eUKr1cdGHYOktK7puwRr",
+            "path": "kuinfo2020/本棚/確率と測度",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15glMuqUXRhKPjNPxoxxZzMtVtqo55n9U",
+            "path": "kuinfo2020/他学部聴講/理学部/重力特論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1-4UzAfMdz99WBYVhlXAG9SzALrH46MtD",
+            "path": "kuinfo2020/大学院科目/先端数理/応用数理学通論B",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/13A4kaUfkObfwTRibGgHV7QFNK0QHDBT_",
+            "path": "kuinfo2020/大学院科目/先端数理/応用解析学通論A",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1hwItf7zWfEYPy7-obdIwuO8kHyk1oCVS",
+            "path": "kuinfo2020/大学院科目/数理工学/システム解析通論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/11jQoZuJQnFuWbwqjrbX5qlO4UGek7tJz",
+            "path": "kuinfo2020/大学院科目/数理工学/制御システム特論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1Vv9KsTmX4-qv5X4MaG-kDYvuGbW0AgXD",
+            "path": "kuinfo2020/大学院科目/数理工学/力学系理論特論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1hMwURXrX0EfG5pcGs-nw3clhSCenSiAh",
+            "path": "kuinfo2020/大学院科目/数理工学/数理物理学通論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1Dc5ZpE244E1BcjdGnreUplkNWOEYOfBc",
+            "path": "kuinfo2020/大学院科目/数理工学/数理解析特論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1ATB7nishcpqLwPzIO_5MPihveHTgcGM5",
+            "path": "kuinfo2020/大学院科目/数理工学/物理統計学特論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1Sn8l54V4RHqElE5xYlJQVNpog4dh9pFT",
+            "path": "kuinfo2020/大学院科目/数理工学/計画数学通論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1xKxjKgAXoV2b0EaMk9R9qTuajp5ZT8l1",
+            "path": "kuinfo2020/大学院科目/数理工学/離散数理特論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1RJmYNbM-4HNV2CNCXEqu_ESBBtcNmWb3",
+            "path": "kuinfo2020/専門(共通)/3rd/工業数学A3",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1RD_07ahbKJrrBK1YrgHuoBE5eGTEspJF",
+            "path": "kuinfo2020/専門(共通)/4th/情報と職業",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1dSEgIaoDgrj2ouzT2JPD-T1NjTxK9P3m",
+            "path": "kuinfo2020/専門(数理)/3rd/システム工学実験",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1_y1KQvzHDXkpM4VQUTLZvPqgrgF3f6x9",
+            "path": "kuinfo2020/専門(数理)/4th/情報システム理論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/13Bokw7ymcDX6w90OQKcatf2QI5rABONP",
+            "path": "kuinfo2020/専門(計算機)/2nd/計算機科学実験及演習1",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1KDc5ZOprNF7Ext0NJTFogX_XnGhNns6V",
+            "path": "kuinfo2020/専門(計算機)/2nd/計算機科学実験及演習2",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1bfI7jo5EnKxkEKq64wz1aXE78fhsMyQG",
+            "path": "kuinfo2020/専門(計算機)/3rd/オペレーティングシステム",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/10Rs1QNW-0XQHNsVOXPZR-brr7ceIEa7P",
+            "path": "kuinfo2020/専門(計算機)/3rd/ヒューマンインタフェース",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1IU5corbqMOFdplj7JNrocO-dnQAY_iNu",
+            "path": "kuinfo2020/専門(計算機)/3rd/計算機科学実験及演習3",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1tSnt66iS4qlmG5TGzjgeg9cJsO-Na-cD",
+            "path": "kuinfo2020/専門(計算機)/3rd/計算機科学実験及演習4",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/19uNo7NEv4fJsofb6GKafkFuHPj9QahkV",
+            "path": "kuinfo2020/専門(計算機)/4th/基礎通信論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/15p8DoU19bL_8FuCNaDbM8QtKGVa1MxEB",
+            "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定/数理統計(上木)",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        }
+      ],
+      "drive_listing_complete": false,
+      "page_limit": 200,
+      "page_limit_reached": false,
+      "note": "専門(共通)/2nd/工業数学A1を追加調査し、ユーザー提示フォルダ内の試験問題を本文で確認。ほかの条件と全件取得は未確認。"
+    },
+    {
+      "source": "ku1025",
+      "pages": 17,
+      "pending": [],
+      "errors": [],
+      "drive_listing_complete": false,
+      "page_limit": 200,
+      "page_limit_reached": false,
+      "note": "保存一覧の科目候補は照合済み。候補の本文確認、教員・授業年度の確定はまだ完了していないため「なし」とは判定しない。"
+    },
+    {
+      "source": "past-exam-drive",
+      "pages": 45,
+      "pending": [],
+      "errors": [
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1-DNmRlbPAoY7Ebj6ZUz1-qntEQCnYICv",
+            "path": "past-exam-drive/4回B(後期)",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1BgoHeYaQ64vdcWnrcz8gFjjmcwmCaUMV",
+            "path": "past-exam-drive/人社等",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1-54z51BlSj3OKg-Y1VHS7juDz7FkeHTO",
+            "path": "past-exam-drive/4回A(前期)",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1FpBiNUz4rHF2Zmf6dP3vFLXqwyGEqX3X",
+            "path": "past-exam-drive/1回A(前期)/専門/プログラミング入門",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1GJu3TsZBO1OWpLt-P0wVniPrvnwpRjfj",
+            "path": "past-exam-drive/1回A(前期)/専門/情報基礎実践",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1-Gn-2t6QO0gajvsJlduKtKRZp-CPagw_",
+            "path": "past-exam-drive/1回A(前期)/専門/数理工学概論",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1L3zo1AhpSmoP_8HcRxpucUYyNUtV4Lya",
+            "path": "past-exam-drive/1回A(前期)/自然/物理学基礎論A",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/17NSH-tT9y8OmkaG0RJPY6s03NvMLGsRA",
+            "path": "past-exam-drive/1回B(後期)/専門/線形計画",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        },
+        {
+          "task": {
+            "url": "https://drive.google.com/drive/folders/1yvJhPf4GoqVpzf_UiItPkgWwkLh4v50q",
+            "path": "past-exam-drive/1回B(後期)/自然/微分積分学B",
+            "kind": "drive"
+          },
+          "error": "Drive listing unavailable; empty folder not established"
+        }
+      ],
+      "drive_listing_complete": false,
+      "page_limit": 200,
+      "page_limit_reached": false,
+      "note": "保存一覧の科目候補は照合済み。候補の本文確認、教員・授業年度の確定はまだ完了していないため「なし」とは判定しない。"
+    }
+  ],
+  "candidates": [
+    {
+      "url": "https://drive.google.com/file/d/1DkuyE0nyRWOQt8YgONotKgX4s6dXkYFz/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/工業数学A1(柴山)2025.pdf",
+      "name": "工業数学A1(柴山)2025.pdf",
+      "mime": "application/pdf",
+      "source": "kuinfo2020",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2020,
+        2025
+      ],
+      "previous_year_in_path": true,
+      "sources": [
+        "kuinfo2020"
+      ],
+      "paths": [
+        "kuinfo2020/専門(共通)/2nd/工業数学A1/工業数学A1(柴山)2025.pdf"
+      ],
+      "materialTypes": [
+        "問題"
+      ],
+      "evidence": "2026-10-12に公開PDF全1ページを確認。本文見出し「工業数学A1 期末試験」、設問1〜5と「各20点、100点満点」を確認し、科目の試験問題と判定。ファイル名は「工業数学A1(柴山)2025.pdf」だが、本文に試験日・授業年度・教員名の記載がないため、2025年度および教員の同定は未確認。",
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "柴山",
+        "year": 2025,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１"
+    },
+    {
+      "url": "https://drive.google.com/file/d/14hb9y3lqpKa47DoPhCUHA3Bgs3GJrpn7",
+      "path": "ku1025/工学部専門科目/情報学科専門科目/工業数学A1/工業数学A1(柴山)2023.pdf",
+      "name": "工業数学A1(柴山)2023.pdf",
+      "mime": "unknown",
+      "source": "ku1025",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2023
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "ku1025"
+      ],
+      "paths": [
+        "ku1025/工学部専門科目/情報学科専門科目/工業数学A1/工業数学A1(柴山)2023.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "柴山",
+        "year": 2023,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1xFR1wtpMShfDcgOibND9ZTiqxmBioLP9/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2019後)工業数学A1（柴山）.jpg",
+      "name": "2019後)工業数学A1（柴山）.jpg",
+      "mime": "image/jpeg",
+      "source": "kuinfo2020",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2019,
+        2020
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuinfo2020"
+      ],
+      "paths": [
+        "kuinfo2020/専門(共通)/2nd/工業数学A1/2019後)工業数学A1（柴山）.jpg"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "柴山",
+        "year": 2019,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1jyBypduZQUNOumQKzoHiAQzqdJpiLkTV/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2021(柴山)/a1.pdf",
+      "name": "a1.pdf",
+      "mime": "application/pdf",
+      "source": "kuinfo2020",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2020,
+        2021
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuinfo2020"
+      ],
+      "paths": [
+        "kuinfo2020/専門(共通)/2nd/工業数学A1/2021(柴山)/a1.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": false,
+        "teacherName": null,
+        "year": null,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/130WVlQ4pLW9rySzJ-DKNYw6MibgupP5a/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2021(柴山)/工業数学A1（2021 柴山）.pdf",
+      "name": "工業数学A1（2021 柴山）.pdf",
+      "mime": "application/pdf",
+      "source": "kuinfo2020",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2020,
+        2021
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuinfo2020"
+      ],
+      "paths": [
+        "kuinfo2020/専門(共通)/2nd/工業数学A1/2021(柴山)/工業数学A1（2021 柴山）.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": null,
+        "year": 2021,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1BP0yaskfZSorvxTGgyZffsCTMtlM0x1A/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2023(柴山)/ans2023.pdf",
+      "name": "ans2023.pdf",
+      "mime": "application/pdf",
+      "source": "kuinfo2020",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2020,
+        2023
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuinfo2020"
+      ],
+      "paths": [
+        "kuinfo2020/専門(共通)/2nd/工業数学A1/2023(柴山)/ans2023.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": false,
+        "teacherName": null,
+        "year": 2023,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1W6XV6t23JoC_jyHXtFXNdgBGLH6XIa6X/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2023(柴山)/exercise.pdf",
+      "name": "exercise.pdf",
+      "mime": "application/pdf",
+      "source": "kuinfo2020",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2020,
+        2023
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuinfo2020"
+      ],
+      "paths": [
+        "kuinfo2020/専門(共通)/2nd/工業数学A1/2023(柴山)/exercise.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": false,
+        "teacherName": null,
+        "year": null,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1c9EKQaQbnNrKzAZJRkPOBdqCqwVjcf-w/view",
+      "path": "kuwiki/工業数学A1/工業数学A1(吉川仁)2018後.pdf",
+      "name": "工業数学A1(吉川仁)2018後.pdf",
+      "mime": "application/pdf",
+      "source": "kuwiki",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2018
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuwiki"
+      ],
+      "paths": [
+        "kuwiki/工業数学A1/工業数学A1(吉川仁)2018後.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "吉川仁",
+        "year": 2018,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1HMpO1TefEXOn258yZSbUYdVd_OZPl-K5/view",
+      "path": "kuwiki/工業数学A1/工業数学A1(吉川仁)2018後期解答例.pdf",
+      "name": "工業数学A1(吉川仁)2018後期解答例.pdf",
+      "mime": "application/pdf",
+      "source": "kuwiki",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2018
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuwiki"
+      ],
+      "paths": [
+        "kuwiki/工業数学A1/工業数学A1(吉川仁)2018後期解答例.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "吉川仁",
+        "year": 2018,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1MfIEPh4vXz9L9XSSlaenY7VmBGyG2lod/view",
+      "path": "kuwiki/工業数学A1/工業数学A1(柴山)2016.jpg",
+      "name": "工業数学A1(柴山)2016.jpg",
+      "mime": "image/jpeg",
+      "source": "kuwiki",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2016
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuwiki"
+      ],
+      "paths": [
+        "kuwiki/工業数学A1/工業数学A1(柴山)2016.jpg"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "柴山",
+        "year": 2016,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1MbM4z-HPHHorXiNoB-ef3N_-bUFcNxVS/view",
+      "path": "kuwiki/工業数学A1/工業数学A1(柴山)2019.pdf",
+      "name": "工業数学A1(柴山)2019.pdf",
+      "mime": "application/pdf",
+      "source": "kuwiki",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2019
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuwiki"
+      ],
+      "paths": [
+        "kuwiki/工業数学A1/工業数学A1(柴山)2019.pdf"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "柴山",
+        "year": 2019,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    },
+    {
+      "url": "https://drive.google.com/file/d/1zcAMOXwxaBrLZRIX3jmQNoxn9gH1f8lm/view",
+      "path": "kuwiki/工業数学A1/工業数学A1(柴山)2019後.jpg",
+      "name": "工業数学A1(柴山)2019後.jpg",
+      "mime": "image/jpeg",
+      "source": "kuwiki",
+      "teacher_name_in_path": false,
+      "year_tokens": [
+        2019
+      ],
+      "previous_year_in_path": false,
+      "sources": [
+        "kuwiki"
+      ],
+      "paths": [
+        "kuwiki/工業数学A1/工業数学A1(柴山)2019後.jpg"
+      ],
+      "filenameMatch": {
+        "courseMatched": true,
+        "teacherName": "柴山",
+        "year": 2019,
+        "teacherRelation": "unknown",
+        "groups": []
+      },
+      "subjectName": "工業数学Ａ１",
+      "materialTypes": [
+        "未確認"
+      ],
+      "evidence": ""
+    }
+  ],
+  "filenameResults": {
+    "sameTeacherPreviousYear": "未確認",
+    "sameTeacherEarlier": "未確認",
+    "differentTeacher": "未確認"
+  },
+  "unscanned": [
+    {
+      "url": "https://drive.google.com/file/d/14hb9y3lqpKa47DoPhCUHA3Bgs3GJrpn7",
+      "path": "ku1025/工学部専門科目/情報学科専門科目/工業数学A1/工業数学A1(柴山)2023.pdf",
+      "source": "ku1025",
+      "reason": "内容未確認"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15HUtyFCbYg57gysIuVva94Vl7BMnA7Mg",
+      "path": "kuinfo2020/情報学科目/情報と社会",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/158_Vp_BpUhrca9PldXzX1DJLCsM7rQ2s",
+      "path": "kuinfo2020/情報学科目/情報基礎実践",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1tgAAMTW2Sk95OB-brVuF7_t7BcVwgv_b",
+      "path": "kuinfo2020/本棚/ベイズ学習理論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1fx5h0GqJ9YpfRmqabQD6SDKGz9KpXBzs",
+      "path": "kuinfo2020/本棚/光物性",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1Kww3rtENAqjwoZnuNTJXcC7zGVKguxJv",
+      "path": "kuinfo2020/本棚/情報学",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/19l-GDbyaWIxIEoizewfYOLDhYGGjufNb",
+      "path": "kuinfo2020/本棚/相対論関係",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1LEpDNGgAuhR2eUKr1cdGHYOktK7puwRr",
+      "path": "kuinfo2020/本棚/確率と測度",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15glMuqUXRhKPjNPxoxxZzMtVtqo55n9U",
+      "path": "kuinfo2020/他学部聴講/理学部/重力特論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1-4UzAfMdz99WBYVhlXAG9SzALrH46MtD",
+      "path": "kuinfo2020/大学院科目/先端数理/応用数理学通論B",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/13A4kaUfkObfwTRibGgHV7QFNK0QHDBT_",
+      "path": "kuinfo2020/大学院科目/先端数理/応用解析学通論A",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1hwItf7zWfEYPy7-obdIwuO8kHyk1oCVS",
+      "path": "kuinfo2020/大学院科目/数理工学/システム解析通論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/11jQoZuJQnFuWbwqjrbX5qlO4UGek7tJz",
+      "path": "kuinfo2020/大学院科目/数理工学/制御システム特論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1Vv9KsTmX4-qv5X4MaG-kDYvuGbW0AgXD",
+      "path": "kuinfo2020/大学院科目/数理工学/力学系理論特論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1hMwURXrX0EfG5pcGs-nw3clhSCenSiAh",
+      "path": "kuinfo2020/大学院科目/数理工学/数理物理学通論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1Dc5ZpE244E1BcjdGnreUplkNWOEYOfBc",
+      "path": "kuinfo2020/大学院科目/数理工学/数理解析特論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1ATB7nishcpqLwPzIO_5MPihveHTgcGM5",
+      "path": "kuinfo2020/大学院科目/数理工学/物理統計学特論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1Sn8l54V4RHqElE5xYlJQVNpog4dh9pFT",
+      "path": "kuinfo2020/大学院科目/数理工学/計画数学通論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1xKxjKgAXoV2b0EaMk9R9qTuajp5ZT8l1",
+      "path": "kuinfo2020/大学院科目/数理工学/離散数理特論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1RJmYNbM-4HNV2CNCXEqu_ESBBtcNmWb3",
+      "path": "kuinfo2020/専門(共通)/3rd/工業数学A3",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1RD_07ahbKJrrBK1YrgHuoBE5eGTEspJF",
+      "path": "kuinfo2020/専門(共通)/4th/情報と職業",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1dSEgIaoDgrj2ouzT2JPD-T1NjTxK9P3m",
+      "path": "kuinfo2020/専門(数理)/3rd/システム工学実験",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1_y1KQvzHDXkpM4VQUTLZvPqgrgF3f6x9",
+      "path": "kuinfo2020/専門(数理)/4th/情報システム理論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/13Bokw7ymcDX6w90OQKcatf2QI5rABONP",
+      "path": "kuinfo2020/専門(計算機)/2nd/計算機科学実験及演習1",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1KDc5ZOprNF7Ext0NJTFogX_XnGhNns6V",
+      "path": "kuinfo2020/専門(計算機)/2nd/計算機科学実験及演習2",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1bfI7jo5EnKxkEKq64wz1aXE78fhsMyQG",
+      "path": "kuinfo2020/専門(計算機)/3rd/オペレーティングシステム",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/10Rs1QNW-0XQHNsVOXPZR-brr7ceIEa7P",
+      "path": "kuinfo2020/専門(計算機)/3rd/ヒューマンインタフェース",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1IU5corbqMOFdplj7JNrocO-dnQAY_iNu",
+      "path": "kuinfo2020/専門(計算機)/3rd/計算機科学実験及演習3",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1tSnt66iS4qlmG5TGzjgeg9cJsO-Na-cD",
+      "path": "kuinfo2020/専門(計算機)/3rd/計算機科学実験及演習4",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/19uNo7NEv4fJsofb6GKafkFuHPj9QahkV",
+      "path": "kuinfo2020/専門(計算機)/4th/基礎通信論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/18lfVDinKc8h67Lbx2QDx9PlsFzigMyZ_",
+      "path": "kuinfo2020/本棚/集合位相/位相への30講",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15L23RuaclS23HrXnSl6MlJk9Ln-45bD_",
+      "path": "kuinfo2020/他学部聴講/理学部/数学系/函数解析学",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15OV8A0JnajnuJCTeg9xL3BjshEmQrYkb",
+      "path": "kuinfo2020/他学部聴講/理学部/数学系/函数解析学続論",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1-IqaMWDosOsQeI9B6r8B0bfEb2oNr_zN",
+      "path": "kuinfo2020/大学院科目/先端数理/非線形物理学特論/2024",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1CAaou4OpEyHa0kz_-w2c9qNIxowZ9Ej8",
+      "path": "kuinfo2020/大学院科目/先端数理/非線形物理学特論/2025",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1WynZNIc4bvLRHekUcKuxYvbS_FrzqQVg",
+      "path": "kuinfo2020/専門(共通)/1st/アルゴリズムとデータ構造/2020",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/file/d/1xFR1wtpMShfDcgOibND9ZTiqxmBioLP9/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2019後)工業数学A1（柴山）.jpg",
+      "source": "kuinfo2020",
+      "reason": "内容未確認"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15zkoCWAAYz45qgt3JzEioMF_ifzXHJt0",
+      "path": "kuinfo2020/専門(数理)/2nd/システム解析入門(数理)/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1_dpcQTwe3D09ApLc_nh3Z0Lke4qhgVr4",
+      "path": "kuinfo2020/専門(数理)/2nd/解析力学/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/169n3XzZ6HmUskxOy99dKB4FDZmnpbn_q",
+      "path": "kuinfo2020/専門(数理)/2nd/論理システム(数理)/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/16LDhdEkeTVDjhQ7qGQ2oNdxYikeHd___",
+      "path": "kuinfo2020/専門(数理)/3rd/情報符号理論続論/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/16U6yUBsrm01c0N7qSTxwc8SXKo2gFm0T",
+      "path": "kuinfo2020/専門(数理)/3rd/流体力学/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/16T9mE2y2FNOISv_9-8MIjxheeckxHCMc",
+      "path": "kuinfo2020/専門(数理)/3rd/物理統計学/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/16JlhPiQQdFK3RyzYTMKuU_Swen5nA-kY",
+      "path": "kuinfo2020/専門(数理)/3rd/確率と統計/2021",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15p8DoU19bL_8FuCNaDbM8QtKGVa1MxEB",
+      "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定/数理統計(上木)",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/18WjYFV1q5vNd7THz1SXz34xlENHRN7ae",
+      "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定以外/確率論基礎(A1~8)",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/15tJEAiSLbw4mEry82LOWtWTvqsRA82xz",
+      "path": "kuinfo2020/自然/前期後期あんまり関係なかった/学科指定でない科目/対称性の数理",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/10Dr-JrL86K5-LJrHEygX6gGvYAVXTAxm",
+      "path": "kuinfo2020/他学部聴講/理学部/物理系/解析力学2/2022(細川)",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/file/d/1jyBypduZQUNOumQKzoHiAQzqdJpiLkTV/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2021(柴山)/a1.pdf",
+      "source": "kuinfo2020",
+      "reason": "内容未確認"
+    },
+    {
+      "url": "https://drive.google.com/file/d/130WVlQ4pLW9rySzJ-DKNYw6MibgupP5a/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2021(柴山)/工業数学A1（2021 柴山）.pdf",
+      "source": "kuinfo2020",
+      "reason": "内容未確認"
+    },
+    {
+      "url": "https://drive.google.com/file/d/1BP0yaskfZSorvxTGgyZffsCTMtlM0x1A/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2023(柴山)/ans2023.pdf",
+      "source": "kuinfo2020",
+      "reason": "内容未確認"
+    },
+    {
+      "url": "https://drive.google.com/file/d/1W6XV6t23JoC_jyHXtFXNdgBGLH6XIa6X/view",
+      "path": "kuinfo2020/専門(共通)/2nd/工業数学A1/2023(柴山)/exercise.pdf",
+      "source": "kuinfo2020",
+      "reason": "内容未確認"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1yWWgFwW_4dsdu8nhutdnvEsXpa-cJiLU",
+      "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定/確率論基礎/2021(世良)",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1Ipsprm29uYSCVDeJ5taAJ2Mzjm1nF5cE",
+      "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/7_ニューラルネットワーク/cpp_files",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1IN3V6zqeIDe2xbzCE3eD0XopsgBslwvt",
+      "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/7_ニューラルネットワーク/gp_files",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1K7o3ks36vPRQ_8KAfjZzJyri10IxSAqb",
+      "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/cpp_files",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1Lj_kXD2ftOTD3Le2xynVBHoc_w5t-vzt",
+      "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/csv_files",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1h89Jr6y2NariiM8265CZsWFl2aIH3HWW",
+      "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/eps_files",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1xTzlChKErRLoWOcpOxBRWSI9zVlcBnin",
+      "path": "kuinfo2020/専門(数理)/2nd/数理工学実験/2023/templates/gp_files",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1NO6DbEHzSlmofa8eO7Gtejcbs63ineos",
+      "path": "kuinfo2020/自然/前期後期あんまり関係なかった/クラス指定/確率論基礎/2026(難波)/⚠️2026の期末試験は2025と同じでした",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1slEDnky1RSGHLtTFlJrRvR3-DEXMqAbp",
+      "path": "kuinfo2020/他学部聴講/理学部/数学系/解析学II/2023(筒井)/演習問題/宿題/第4回 10／28/第5回 11／4",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1FRw_oG8LsX-Wq1nKgAeoYuiFi9eDeAdU",
+      "path": "kuinfo2020/他学部聴講/理学部/数学系/解析学II/2023(筒井)/演習問題/宿題/第6回 11／11/第7回 11／18",
+      "source": "kuinfo2020",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://www.kuwiki.net/",
+      "path": "kuwiki",
+      "source": "kuwiki",
+      "reason": "一覧の全件取得は未確認"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1-54z51BlSj3OKg-Y1VHS7juDz7FkeHTO",
+      "path": "past-exam-drive/4回A(前期)",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1-DNmRlbPAoY7Ebj6ZUz1-qntEQCnYICv",
+      "path": "past-exam-drive/4回B(後期)",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1BgoHeYaQ64vdcWnrcz8gFjjmcwmCaUMV",
+      "path": "past-exam-drive/人社等",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1FpBiNUz4rHF2Zmf6dP3vFLXqwyGEqX3X",
+      "path": "past-exam-drive/1回A(前期)/専門/プログラミング入門",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1GJu3TsZBO1OWpLt-P0wVniPrvnwpRjfj",
+      "path": "past-exam-drive/1回A(前期)/専門/情報基礎実践",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1-Gn-2t6QO0gajvsJlduKtKRZp-CPagw_",
+      "path": "past-exam-drive/1回A(前期)/専門/数理工学概論",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1L3zo1AhpSmoP_8HcRxpucUYyNUtV4Lya",
+      "path": "past-exam-drive/1回A(前期)/自然/物理学基礎論A",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/17NSH-tT9y8OmkaG0RJPY6s03NvMLGsRA",
+      "path": "past-exam-drive/1回B(後期)/専門/線形計画",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/1yvJhPf4GoqVpzf_UiItPkgWwkLh4v50q",
+      "path": "past-exam-drive/1回B(後期)/自然/微分積分学B",
+      "source": "past-exam-drive",
+      "reason": "取得失敗（Drive listing unavailable; empty folder not established）"
+    }
+  ],
+  "hasPastPaper": true
+}

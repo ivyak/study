@@ -164,6 +164,8 @@ def update_read_status(report_id, read_status):
     path = REPORTS / f'{report_id}.json'
     report = json.loads(path.read_text(encoding='utf-8'))
     report.update(readStatus=read_status, readStatusUpdatedAt=now())
+    if read_status == 'read':
+        report.update(bookmarkIndex=None, bookmarkUpdatedAt=now())
     temporary = path.with_suffix('.tmp')
     temporary.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     temporary.replace(path)

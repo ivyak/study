@@ -1,0 +1,4 @@
+interface:
+  display_name: "講義スライド解説"
+  short_description: "講義PDFを1枚ずつ解説し、LIFE科目ページをmock形式で整える"
+  default_prompt: "$lecture-slide-explainer を使って、共通の横タブとmock.htmlの目次・要旨・解説と原スライド画像の構成で、この講義PDFを科目ページにまとめてください。"

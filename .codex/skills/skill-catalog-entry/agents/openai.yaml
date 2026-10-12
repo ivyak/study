@@ -1,0 +1,4 @@
+interface:
+  display_name: "スキル解説ページ追加"
+  short_description: "LIFEのスキル紹介カードと解説ページを定義から追加・更新"
+  default_prompt: "$skill-catalog-entry を使って、スキル解説ページ追加を作成・更新してください。"

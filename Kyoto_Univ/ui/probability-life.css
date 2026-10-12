@@ -1,0 +1,45 @@
+/* Both probability lesson pages share LIFE's gold, white, and black palette. */
+.legacy-page {
+  --accent: var(--gold);
+  --ink: var(--white);
+  --muted: var(--white);
+  --paper: var(--black);
+  --line: #39352a;
+  color-scheme: dark;
+}
+
+.legacy-page .subtitle,
+.legacy-page .source,
+.legacy-page .meta,
+.legacy-page .answer-label,
+.legacy-page footer,
+.legacy-page .note {
+  color: var(--white);
+}
+
+.legacy-page .note {
+  border-left-color: var(--gold);
+  background: rgba(215, 182, 108, .08);
+}
+
+.legacy-page .problem-number,
+.legacy-page .eyebrow,
+.legacy-page summary {
+  color: var(--gold);
+}
+
+.legacy-page .tools button {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: var(--black);
+  color: var(--gold);
+  box-shadow: none;
+}
+
+.legacy-page .tools button:hover,
+.legacy-page .tools button:focus-visible,
+.legacy-page summary:hover {
+  background: rgba(215, 182, 108, .16);
+}

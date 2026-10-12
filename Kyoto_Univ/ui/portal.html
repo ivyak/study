@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LIFE｜授業資料</title>
+  <link rel="stylesheet" href="ui/life.css">
+  <script defer src="ui/resources.js"></script>
+  <script defer src="ui/articles.js"></script>
+  <script defer src="ui/life.js"></script>
+</head>
+<body data-life-page="portal">
+<div class="shell">
+__SHELL__
+    <main>
+      <section id="timetable-view">
+        <header class="page-head"><h1>授業資料</h1></header>
+        <div class="tabs" role="tablist" aria-label="学期" id="term-tabs"></div>
+        <div class="table-scroll"><table class="schedule" aria-label="時間割"><thead><tr><th scope="col">時限</th><th scope="col">月</th><th scope="col">火</th><th scope="col">水</th><th scope="col">木</th><th scope="col">金</th></tr></thead><tbody id="schedule-body"></tbody></table></div>
+        <div class="legend"><span><i class="dot done"></i>AI作成ページあり</span><span><i class="dot"></i>なし</span><span><i class="dot resource-flag weapons available"></i>武器一覧</span><span><i class="dot resource-flag practice available"></i>演習問題</span><span><i class="dot resource-flag exams available"></i>過去問</span><span>塗りつぶし：あり ／ 枠のみ：資料なし・未確認</span></div>
+      </section>
+      <section id="lessons-view" hidden>
+        <div class="breadcrumb"><button data-home>授業資料</button><span>/</span><span class="term-label"></span></div>
+        <header class="page-head detail-head"><button class="back-step" data-back="timetable" aria-label="時間割に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><h1 id="course-title"></h1></header>
+        <nav class="course-tools" aria-label="教科の学習資料"><a data-resource="weapons">武器一覧</a><a data-resource="practice">演習問題</a><a data-resource="exams">過去問<span class="search-badge"></span></a></nav>
+        <div class="list-heading"><span>授業回</span><span>概要</span><span style="text-align:right">作成日</span></div>
+        <div id="lesson-list"></div><div class="extra-materials" id="extra-materials" hidden></div>
+
+      </section>
+      <section id="resource-view" hidden>
+        <div class="breadcrumb"><button data-home>授業資料</button><span>/</span><button id="resource-course-link"></button><span>/</span><span id="resource-crumb"></span></div>
+        <header class="page-head detail-head"><button class="back-step" id="resource-back" aria-label="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><h1 id="resource-title"></h1></header>
+        <div id="resource-content"></div>
+      </section>
+      <section id="goals-view" hidden>
+        <header class="page-head"><h1>目標</h1></header>
+        <div class="list-heading goal-list-heading"><span>日付</span><span>サマリ</span></div>
+        <div id="goal-list"></div>
+      </section>
+      <section id="goal-detail-view" hidden>
+        <header class="page-head detail-head"><button class="back-step" id="goal-back" aria-label="目標一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><h1 id="goal-title"></h1></header>
+        <article class="goal-summary" id="goal-content"></article>
+      </section>
+      <section id="articles-view" hidden>
+        <header class="page-head article-list-head"><h1>記事解説</h1></header>
+        <p class="article-intro">記事解説の作成はCodexのチャットで <code>$article-explainer</code> にURL・本文・画像を渡してください。</p>
+        <div class="list-heading article-list-heading"><span>記事</span><span>記事執筆時</span><span>生成日時（日本時間）</span></div>
+        <p id="article-reading-status" role="status" aria-live="polite"></p>
+        <div id="article-list"></div>
+      </section>
+      <section id="article-detail-view" hidden>
+        <header class="page-head detail-head"><button class="back-step" id="article-back" aria-label="記事一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div><h1 id="article-title"></h1><p class="article-dates" id="article-dates"></p></div></header>
+        <p id="article-detail-reading-status" role="status" aria-live="polite"></p>
+        <article class="goal-summary article-summary" id="article-content"></article>
+      </section>
+      <section id="skills-view" hidden>
+        <header class="page-head skill-head"><h1>スキル</h1></header>
+        <div class="skill-grid">__SKILL_CARDS__</div>
+      </section>
+      <section id="empty-view" hidden><header class="page-head"><h1 id="empty-title"></h1></header><div class="empty-state"><span>コンテンツはまだありません</span></div></section>
+    </main>
+  </div>
+  <div class="lesson-actions" id="lesson-actions" role="menu" aria-label="授業の資料" hidden></div>
+  <script type="application/json" id="course-data">__COURSE_DATA__</script>
+  <script type="application/json" id="goal-data">__GOAL_DATA__</script>
+  <script type="application/json" id="article-data">__ARTICLE_DATA__</script>
+  <noscript>__FALLBACK_LINKS__</noscript>
+</body>
+</html>

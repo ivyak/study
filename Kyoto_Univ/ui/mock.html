@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LIFE — UI Mock</title>
+  <style>
+    :root{color-scheme:dark;--black:#000;--white:#fff;--gold:#d7b66c;--red:#ed5b5b;--line:rgba(255,255,255,.2);--soft:rgba(255,255,255,.1)}
+    *{box-sizing:border-box}body{margin:0;background:var(--black);color:var(--white);font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;font-size:14px;line-height:1.7}button{font:inherit;color:inherit;cursor:pointer;background:transparent;border:0}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:5px}[hidden]{display:none!important}svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    .shell{min-height:100vh;display:grid;grid-template-columns:240px minmax(0,1fr)}.sidebar{position:sticky;top:0;height:100vh;border-right:1px solid var(--line);padding:42px 22px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:14px;font-size:28px;font-weight:600;letter-spacing:.16em;text-align:left;padding:0 16px}.brand svg{width:34px;height:34px}.side-nav{display:grid;gap:14px;margin-top:64px}.side-nav button{display:flex;align-items:center;gap:17px;padding:16px;text-align:left;border:1px solid transparent;border-radius:5px;white-space:nowrap}.side-nav button.active{color:var(--gold);border-color:var(--gold)}.sidebar-foot{margin-top:auto;padding:20px 16px 0;font-size:10px;letter-spacing:.18em;color:var(--gold)}main{padding:43px clamp(24px,4.5vw,82px) 48px;min-width:0}h1{font-weight:500;font-size:28px;line-height:1.5;margin:0;letter-spacing:.05em}h2{font-weight:500;font-size:19px;margin:0}.page-head{margin-bottom:36px}.tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:38px;gap:8px}.tabs button{padding:12px 23px;border:1px solid transparent;margin-bottom:-1px;white-space:nowrap}.tabs button[aria-selected=true]{border-color:var(--gold);border-bottom-color:var(--black);color:var(--gold);border-radius:5px 5px 0 0}.table-scroll{overflow-x:auto}.schedule{width:100%;min-width:650px;border-collapse:collapse;table-layout:fixed}.schedule th,.schedule td{border:1px solid var(--line)}.schedule th{height:46px;font-weight:400;font-size:12px;letter-spacing:.1em}.schedule th:first-child{width:44px}.schedule tbody th{color:var(--gold);font-size:11px}.schedule td{height:112px;padding:9px;vertical-align:top}.course{width:100%;height:100%;padding:12px;text-align:left;border:1px solid var(--gold);border-radius:3px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}.course-title{font-size:15px}.dots{display:flex;gap:5px;flex-wrap:wrap}.dot{width:7px;height:7px;border:1px solid var(--gold)}.dot.done{background:var(--gold)}.legend{display:flex;gap:22px;align-items:center;margin-top:18px;font-size:10px}.legend span{display:flex;gap:7px;align-items:center}.legend .dot{width:6px;height:6px}.breadcrumb{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:12px;margin-bottom:20px}.breadcrumb button{padding:0}.breadcrumb span{color:var(--gold)}.list-heading{position:sticky;top:0;z-index:5;background:var(--black);display:grid;grid-template-columns:100px 1fr 130px;padding:12px 22px;font-size:11px;border-bottom:1px solid var(--gold);color:var(--gold)}.lesson{scroll-margin-top:52px;display:grid;grid-template-columns:100px minmax(0,1fr) 130px;align-items:center;text-align:left;width:100%;min-height:94px;border-bottom:1px solid var(--line);padding:20px 22px;position:relative}.lesson.selected{box-shadow:inset 2px 0 var(--gold);color:var(--gold)}.lesson-number{font-size:15px}.lesson-date{font-size:12px;text-align:right}.skeleton{height:1px;background:var(--line);width:70%;display:block}.lesson .skeleton{max-width:310px}.lesson-actions{position:fixed;z-index:20;border:1px solid var(--gold);width:min(250px,calc(100vw - 24px));max-height:calc(100svh - 24px);overflow-y:auto;background:var(--black);border-radius:6px;display:grid}.lesson-actions button{text-align:left;display:flex;gap:16px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}.lesson-actions button:last-child{border-bottom:0}.lesson-actions button:first-child{color:var(--gold)}.section-rule{height:1px;background:var(--line);margin:27px 0 35px}.reader{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}.reader article{grid-area:1 / 1;min-width:0}.summary{min-height:170px}.summary h2{font-size:16px;color:var(--gold);margin-bottom:35px}.summary-line{display:flex;gap:22px;align-items:center;margin-top:25px}.summary-line span:first-child{color:var(--gold)}.explanation{padding:30px 0;border-top:1px solid var(--line)}.explanation-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.explanation h2{margin-bottom:30px}.text-lines{display:grid;gap:23px;margin-top:30px}.text-lines .skeleton{width:100%}.text-lines .skeleton:nth-child(2){width:86%}.text-lines .skeleton:nth-child(3){width:92%}.slide{aspect-ratio:4/3;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-size:12px;letter-spacing:.15em}.toc{grid-area:1 / 1;position:sticky;top:30px;width:84px;z-index:10;justify-self:end}.toc-toggle{background:var(--black);display:flex;align-items:center;justify-content:center;gap:9px;width:84px;min-height:44px;border:1px solid var(--gold);border-radius:4px;font-size:12px}.toc-toggle svg{width:16px;height:16px}.toc-panel{animation:toc-reveal 220ms cubic-bezier(.22,1,.36,1);transform-origin:top right;position:absolute;right:0;top:100%;width:200px;padding:8px;background:var(--black);border:1px solid var(--gold);border-radius:4px}.toc a{color:var(--white);display:block;text-decoration:none;font-size:12px;padding:12px;border-radius:3px}.empty-state{min-height:420px;border-top:1px solid var(--line);display:grid;place-items:center}.empty-state span{font-size:12px;color:var(--gold)}.back{display:flex;align-items:center;gap:10px;padding:0;margin-top:30px;font-size:12px}
+
+    @media(max-width:1000px){.shell{grid-template-columns:190px minmax(0,1fr)}.sidebar{padding:32px 12px}.side-nav button{gap:12px;padding:14px 10px;font-size:12px}.brand{font-size:23px;padding:0 10px}.tabs button{padding:12px 15px}.lesson,.list-heading{grid-template-columns:75px 1fr 100px;padding-left:15px;padding-right:15px}}
+    @media(max-width:650px){.shell{display:block}.sidebar{position:static;height:auto;padding:20px 18px 0;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0;font-size:22px}.brand svg{width:28px;height:28px}.side-nav{display:flex;overflow-x:auto;margin-top:22px;gap:5px;padding-bottom:15px}.side-nav button{padding:10px;gap:7px;flex-shrink:0}.side-nav svg{width:18px;height:18px}.sidebar-foot{display:none}main{padding:24px 20px 36px}h1{font-size:23px}.tabs{overflow-x:auto;margin-bottom:24px;gap:0}.tabs button{padding:11px 16px}.page-head{margin-bottom:24px}.schedule td{height:104px}.explanation-grid{grid-template-columns:1fr}.lesson,.list-heading{grid-template-columns:63px minmax(0,1fr) 82px;padding-left:8px;padding-right:8px}.lesson-date{font-size:10px}.legend{gap:15px}}
+    /* The timetable fills the available viewport, including all five periods. */
+    #timetable-view{height:calc(100svh - 91px);min-height:360px;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto}
+    #timetable-view .page-head{margin-bottom:20px}
+    #timetable-view .tabs{margin-bottom:22px}
+    .table-scroll{min-height:0}.schedule{height:100%}.schedule thead th{height:40px}.schedule tbody tr{height:20%}.schedule tbody th{height:auto}.schedule td{height:auto;padding:8px}
+    .course{gap:8px;padding:10px}.course-status{display:flex;gap:12px;align-items:flex-end}.dots{display:grid;grid-template-columns:repeat(7,7px);gap:5px}.dot{flex-shrink:0}.dot.past-paper{border-color:var(--red);background:transparent}.dot.past-paper.available{background:var(--red)}
+    .legend{flex-wrap:wrap;gap:6px 20px;margin-top:14px}
+    .detail-head{display:flex;align-items:center;gap:18px}.back-step{display:grid;place-items:center;min-width:52px;min-height:52px;border:1px solid var(--line);border-radius:6px}.back-step:hover{border-color:var(--gold)}.back{min-height:48px;padding:8px 16px;border:1px solid var(--line);border-radius:6px}
+    button,.toc a{transition:background-color .18s,border-color .18s,box-shadow .18s}
+    @media(hover:hover){button:hover,.toc a:hover{background-color:rgba(215,182,108,.3)}}
+    button:active,.toc a:active{background-color:rgba(215,182,108,.4)}
+    button:focus-visible,.toc a:focus-visible{background-color:rgba(215,182,108,.3)}
+    @media(max-width:650px){#timetable-view{height:calc(100svh - 203px);min-height:330px}#timetable-view .page-head{margin-bottom:12px}#timetable-view .tabs{margin-bottom:14px}.schedule td{padding:6px}.course{padding:8px}.course-title{font-size:13px}.legend{gap:5px 12px;font-size:9px}.detail-head{gap:12px}.detail-head h1{font-size:20px}.detail-head h1 span{display:block;margin-left:0!important}}
+    @keyframes toc-reveal{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media(prefers-reduced-motion:reduce){button,.toc a{transition:none}.toc-panel{animation:none}}
+  </style>
+</head>
+<body>
+  <svg hidden aria-hidden="true"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+  <div class="shell">
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg><use href="#cap"/></svg>授業資料</button>
+        <button data-section="学習コンテンツ"><svg><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+    <main>
+      <section id="timetable-view">
+        <header class="page-head"><h1>授業資料</h1></header>
+        <div class="tabs" role="tablist" aria-label="学期">
+          <button role="tab" aria-selected="false" tabindex="-1" data-term="1回前期">1回前期</button>
+          <button role="tab" aria-selected="false" tabindex="-1" data-term="1回後期">1回後期</button>
+          <button role="tab" aria-selected="false" tabindex="-1" data-term="2回前期">2回前期</button>
+          <button role="tab" aria-selected="true" data-term="2回後期">2回後期</button>
+        </div>
+        <div class="table-scroll"><table class="schedule" aria-label="2回後期の時間割"><thead><tr><th scope="col">時限</th><th scope="col">月</th><th scope="col">火</th><th scope="col">水</th><th scope="col">木</th><th scope="col">金</th></tr></thead><tbody id="schedule-body"></tbody></table></div>
+        <div class="legend"><span><i class="dot done"></i>AI作成ページあり</span><span><i class="dot"></i>なし</span><span><i class="dot past-paper available"></i>過去問あり</span><span><i class="dot past-paper"></i>なし</span></div>
+      </section>
+      <section id="lessons-view" hidden>
+        <div class="breadcrumb"><button data-home>授業資料</button><span>/</span><span class="term-label">2回後期</span></div>
+        <header class="page-head detail-head"><button class="back-step" data-back="timetable" aria-label="時間割に戻る" title="時間割に戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><h1>木曜1限 <span style="color:var(--gold);margin-left:16px">数理統計</span></h1></header>
+        <div class="list-heading"><span>授業回</span><span>概要</span><span style="text-align:right">作成日</span></div>
+        <div id="lesson-list"></div>
+        <div class="lesson-actions" id="lesson-actions" role="menu" aria-label="選択した授業の資料" hidden>
+          <button role="menuitem" data-kind="解説"><svg><use href="#slide-icon"/></svg>解説</button>
+          <button role="menuitem" data-kind="要約"><svg><use href="#scroll"/></svg>要約</button>
+          <button role="menuitem" data-kind="理解度クイズ"><svg><use href="#book"/></svg>理解度クイズ</button>
+          <button role="menuitem" data-kind="対応問題"><svg><use href="#pen"/></svg>対応問題</button>
+        </div>
+      </section>
+      <section id="reader-view" hidden>
+        <div class="breadcrumb"><button data-home>授業資料</button><span>/</span><button data-lessons>数理統計</button><span>/</span><span id="reader-crumb">第2回 解説</span></div>
+        <header class="detail-head"><button class="back-step" data-back="lessons" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><h1 id="reader-title">第2回 解説</h1></header>
+        <div class="section-rule"></div>
+        <div class="reader">
+          <article>
+            <section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><div class="summary-line"><span>01</span><span class="skeleton" aria-hidden="true"></span></div><div class="summary-line"><span>02</span><span class="skeleton" style="width:48%" aria-hidden="true"></span></div></section>
+            <section class="explanation" id="explanation-1"><div class="explanation-grid"><div><h2>解説 1</h2><div class="text-lines" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div></div><div class="slide">SLIDE 01</div></div><div class="text-lines" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div></section>
+            <section class="explanation" id="explanation-2"><div class="explanation-grid"><div><h2>解説 2</h2><div class="text-lines" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div></div><div class="slide">SLIDE 02</div></div></section>
+          </article>
+          <nav class="toc" aria-label="ページ内目次">
+            <button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+            <div class="toc-panel" id="toc-panel" hidden><a href="#summary">講義の要点</a><a href="#explanation-1">解説 1</a><a href="#explanation-2">解説 2</a></div>
+          </nav>
+        </div>
+        <div class="empty-state" id="other-material" hidden><span>本文はまだありません</span></div>
+        <button class="back" data-back="lessons"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>授業一覧に戻る</button>
+      </section>
+      <section id="empty-view" hidden><header class="page-head"><h1 id="empty-title"></h1></header><div class="empty-state"><span>コンテンツはまだありません</span></div></section>
+    </main>
+  </div>
+  <script>
+    const views=['timetable','lessons','reader','empty'];
+    let term='2回後期',lesson=2;
+    const toc=document.querySelector('.toc'),tocToggle=toc.querySelector('button'),tocPanel=document.getElementById('toc-panel');
+    let tocPinned=false,tocHovered=false;
+    function setTocOpen(open){tocPanel.hidden=!open;tocToggle.setAttribute('aria-expanded',String(open))}
+    function closeToc(){tocPinned=false;tocHovered=false;setTocOpen(false)}
+    toc.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){tocHovered=true;setTocOpen(true)}});
+    toc.addEventListener('pointerleave',()=>{tocHovered=false;if(!tocPinned)setTocOpen(false)});
+    toc.addEventListener('focusin',()=>setTocOpen(true));
+    toc.addEventListener('focusout',event=>{if(!toc.contains(event.relatedTarget)&&!tocPinned&&!tocHovered)setTocOpen(false)});
+    tocToggle.addEventListener('click',()=>{tocPinned=!tocPinned;setTocOpen(tocPinned||tocHovered)});
+    toc.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();tocToggle.focus({preventScroll:true});closeToc()}});
+    document.addEventListener('pointerdown',event=>{if(!toc.contains(event.target))closeToc()});
+    tocPanel.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{closeToc();const heading=document.querySelector(link.getAttribute('href')+' h2');heading.tabIndex=-1;heading.focus({preventScroll:true})}));
+    let currentView='timetable';
+    function show(name,direction=1){
+      closeLessonMenu();closeToc();
+      const changed=currentView!==name;
+      views.forEach(view=>document.getElementById(view+'-view').hidden=view!==name);
+      const target=document.getElementById(name+'-view');
+      if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+        target.getAnimations().forEach(animation=>animation.cancel());
+        target.animate([{opacity:0,transform:`translateX(${direction*20}px)`},{opacity:1,transform:'translateX(0)'}],{duration:260,easing:'cubic-bezier(.22,1,.36,1)'});
+      }
+      currentView=name;window.scrollTo(0,0);
+      if(changed){const heading=target.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true})}
+    }
+    function home(){selectSection('授業資料');show('timetable')}
+    function selectSection(name){document.querySelectorAll('[data-section]').forEach(button=>{const active=button.dataset.section===name;button.classList.toggle('active',active);if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current')})}
+    function lessons(){document.querySelector('.term-label').textContent=term;show('lessons')}
+    const lessonMenu=document.getElementById('lesson-actions');
+    document.body.append(lessonMenu);
+    let menuTrigger=null;
+    function closeLessonMenu(restoreFocus=false){
+      lessonMenu.hidden=true;
+      if(menuTrigger){menuTrigger.classList.remove('selected');menuTrigger.setAttribute('aria-expanded','false');if(restoreFocus)menuTrigger.focus({preventScroll:true})}
+      menuTrigger=null;
+    }
+    function selectLesson(number,event){
+      const trigger=event.currentTarget;
+      if(!lessonMenu.hidden&&menuTrigger===trigger){closeLessonMenu(true);return}
+      closeLessonMenu();lesson=number;menuTrigger=trigger;
+      trigger.classList.add('selected');trigger.setAttribute('aria-expanded','true');
+      lessonMenu.setAttribute('aria-label',`第${number}回の資料`);lessonMenu.hidden=false;
+      const row=trigger.getBoundingClientRect();
+      const keyboard=event.detail===0;
+      const x=keyboard?row.left+Math.min(row.width/2,180):event.clientX;
+      const y=keyboard?row.bottom:event.clientY;
+      const {width,height}=lessonMenu.getBoundingClientRect();
+      const margin=12;
+      let left=x+margin,top=y+margin;
+      if(left+width>innerWidth-margin)left=x-width-margin;
+      if(top+height>innerHeight-margin)top=y-height-margin;
+      lessonMenu.style.left=`${Math.max(margin,Math.min(left,innerWidth-width-margin))}px`;
+      lessonMenu.style.top=`${Math.max(margin,Math.min(top,innerHeight-height-margin))}px`;
+      lessonMenu.getAnimations().forEach(animation=>animation.cancel());
+      if(!matchMedia('(prefers-reduced-motion: reduce)').matches)lessonMenu.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:160,easing:'ease-out'});
+      if(keyboard)lessonMenu.querySelector('button').focus({preventScroll:true});
+    }
+    document.addEventListener('pointerdown',event=>{if(!lessonMenu.hidden&&!lessonMenu.contains(event.target)&&!menuTrigger?.contains(event.target))closeLessonMenu()});
+    document.addEventListener('keydown',event=>{if(!lessonMenu.hidden&&event.key==='Escape'){event.preventDefault();closeLessonMenu(true)}});
+    lessonMenu.addEventListener('keydown',event=>{
+      const items=[...lessonMenu.querySelectorAll('button')];let index=items.indexOf(document.activeElement);
+      if(event.key==='ArrowDown')index=(index+1)%items.length;
+      else if(event.key==='ArrowUp')index=(index+items.length-1)%items.length;
+      else if(event.key==='Home')index=0;
+      else if(event.key==='End')index=items.length-1;
+      else if(event.key==='Tab'){closeLessonMenu(true);return}
+      else return;
+      event.preventDefault();items[index].focus();
+    });
+    window.addEventListener('resize',()=>closeLessonMenu());
+    document.addEventListener('scroll',event=>{if(!lessonMenu.contains(event.target))closeLessonMenu()},true);
+    function reader(kind){document.getElementById('reader-crumb').textContent=`第${lesson}回 ${kind}`;document.getElementById('reader-title').textContent=`第${lesson}回 ${kind}`;document.querySelector('.reader').hidden=kind!=='解説';document.getElementById('other-material').hidden=kind==='解説';show('reader')}
+    // Sample mock data: one flag per lesson, plus a separate past-paper flag.
+    const mockCourse={aiPagesByLesson:Array.from({length:14},(_,index)=>index<3),hasPastPaper:true};
+    function courseStatus(){
+      const status=document.createElement('span');status.className='course-status';
+      const dots=document.createElement('span');dots.className='dots';
+      mockCourse.aiPagesByLesson.forEach((hasPage,index)=>{const dot=document.createElement('i');dot.className='dot'+(hasPage?' done':'');dot.title=`第${index+1}回：AI作成ページ${hasPage?'あり':'なし'}`;dots.append(dot)});
+      const pastPaper=document.createElement('i');pastPaper.className='dot past-paper'+(mockCourse.hasPastPaper?' available':'');pastPaper.title=`過去問${mockCourse.hasPastPaper?'あり':'なし'}`;
+      status.append(dots,pastPaper);return status;
+    }
+    const body=document.getElementById('schedule-body');
+    for(let row=1;row<=5;row++){const tr=document.createElement('tr');const th=document.createElement('th');th.scope='row';th.textContent=row;tr.append(th);for(let day=0;day<5;day++){const td=document.createElement('td');if(row===1&&day===3){const button=document.createElement('button');button.className='course';button.setAttribute('aria-label',`木曜1限 数理統計の授業一覧を開く。全14回中${mockCourse.aiPagesByLesson.filter(Boolean).length}回にAI作成ページあり。過去問${mockCourse.hasPastPaper?'あり':'なし'}`);button.innerHTML='<span class="course-title">数理統計</span>';button.append(courseStatus());button.addEventListener('click',lessons);td.append(button)}tr.append(td)}body.append(tr)}
+    for(let number=1;number<=14;number++){const button=document.createElement('button');button.className='lesson';button.dataset.lesson=number;button.setAttribute('aria-label',`第${number}回の資料を選ぶ`);button.setAttribute('aria-haspopup','menu');button.setAttribute('aria-expanded','false');button.setAttribute('aria-controls','lesson-actions');button.innerHTML=`<span class="lesson-number">第${number}回</span><span class="skeleton" aria-hidden="true"></span><span class="lesson-date">— / — / —</span>`;button.addEventListener('click',event=>selectLesson(number,event));document.getElementById('lesson-list').append(button)}
+    document.querySelectorAll('[data-back]').forEach(button=>button.addEventListener('click',()=>show(button.dataset.back,-1)));
+    document.querySelectorAll('[data-home]').forEach(button=>button.addEventListener('click',home));
+    document.querySelectorAll('[data-lessons]').forEach(button=>button.addEventListener('click',lessons));
+    document.querySelectorAll('[data-kind]').forEach(button=>button.addEventListener('click',()=>reader(button.dataset.kind)));
+    document.querySelectorAll('[data-section]').forEach(button=>button.addEventListener('click',()=>{const name=button.dataset.section;selectSection(name);if(name==='授業資料')home();else{document.getElementById('empty-title').textContent=name;show('empty')}}));
+    const tabs=[...document.querySelectorAll('[data-term]')];
+    function selectTerm(button){term=button.dataset.term;tabs.forEach(tab=>{const selected=tab===button;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1});document.querySelector('.schedule').setAttribute('aria-label',term+'の時間割')}
+    tabs.forEach((button,index)=>{button.addEventListener('click',()=>selectTerm(button));button.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();selectTerm(tabs[next]);tabs[next].focus()})});
+  </script>
+</body>
+</html>

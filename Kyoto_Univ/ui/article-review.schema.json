@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "publishedAt": {
+      "type": "string"
+    },
+    "knownKnowledge": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "string"
+    },
+    "inputUrl": {
+      "type": "string",
+      "description": "ユーザーが入力したURL。なければ空文字"
+    },
+    "inputText": {
+      "type": "string",
+      "description": "ユーザーが入力した原文。なければ空文字"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "partial",
+        "failed"
+      ]
+    },
+    "error": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string",
+      "description": "この記事が言いたいこと。主張・理由・意味を短い文章で示すHTML。"
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string",
+            "description": "原典の短い引用と出典、その意味・理由・具体例をつないだ文章。用語や前提知識は登場位置のdetails/summaryで説明。必要な図をfigureで挿入。"
+          },
+          "slides": {
+            "type": "array",
+            "description": "この節を補う任意のスライド。不要なら空配列。",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "html": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "html"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "title",
+          "html",
+          "slides"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "title",
+    "publishedAt",
+    "knownKnowledge",
+    "sources",
+    "inputUrl",
+    "inputText",
+    "status",
+    "error",
+    "summary",
+    "sections"
+  ],
+  "additionalProperties": false
+}

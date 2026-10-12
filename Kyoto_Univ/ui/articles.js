@@ -1,7 +1,7 @@
 /* Article explanations are created in Codex chat and read here as illustrated articles. */
 window.LifeArticles = (() => {
   let records = JSON.parse(document.getElementById('article-data').textContent);
-  const labels = {unread: '未読', reading: '読書中', read: '読了'};
+  const labels = {unread: '未読', reading: '勉強中', read: '完了'};
   const storageKey = 'life.article.read-status';
   const bookmarkKey = 'life.article.bookmarks';
   let bookmarks = {};
@@ -50,10 +50,11 @@ window.LifeArticles = (() => {
     if (!response.ok) throw new Error(data.error || '接続を確認してください');
     return data;
   }
-  function readingStatus(report) {
+  function completionStatus(report) {
     const cached = local[report.id];
     return cached && (cached.pending || Date.parse(cached.updatedAt) > (Date.parse(report.readStatusUpdatedAt) || 0)) ? cached.status : report.readStatus || 'unread';
   }
+  function readingStatus(report) { return Number.isInteger(bookmarkIndex(report)) ? 'reading' : completionStatus(report) === 'read' ? 'read' : 'unread'; }
   function store() { try { localStorage.setItem(storageKey, JSON.stringify(local)); return true; } catch { return false; } }
   function bookmarkIndex(report) {
     const cached = bookmarks[report.id];
@@ -79,26 +80,30 @@ window.LifeArticles = (() => {
     if (local[id] !== cached) return;
     local[id] = {status: result.readStatus, updatedAt: result.readStatusUpdatedAt, pending: false}; store();
     const report = records.find(item => item.id === id);
-    if (report) { report.readStatus = result.readStatus; report.readStatusUpdatedAt = result.readStatusUpdatedAt; }
+    if (report) { report.readStatus = result.readStatus; report.readStatusUpdatedAt = result.readStatusUpdatedAt; report.bookmarkIndex = result.bookmarkIndex; report.bookmarkUpdatedAt = result.bookmarkUpdatedAt; }
   }
   function controls(report) {
     const wrapper = element('div', '', 'article-reading-controls');
-    wrapper.setAttribute('role', 'group'); wrapper.setAttribute('aria-label', 'この記事の読書ステータス');
-    wrapper.append(element('span', '読書ステータス：', 'article-reading-label'));
-    const buttons = Object.entries(labels).map(([key, label]) => {
-      const choice = element('button', label, 'article-reading-button');
-      choice.type = 'button'; choice.setAttribute('aria-pressed', String(key === readingStatus(report)));
-      choice.addEventListener('click', async () => {
-        local[report.id] = {status: key, updatedAt: new Date().toISOString(), pending: true};
-        const stored = store();
-        buttons.forEach(button => { button.setAttribute('aria-pressed', String(button === choice)); button.disabled = true; });
-        try { await persist(report.id); document.getElementById('article-detail-reading-status').textContent = 'ステータスを保存しました。'; }
-        catch { document.getElementById('article-detail-reading-status').textContent = stored ? 'このブラウザーに保存しました。サーバー接続時に同期します。' : '保存できませんでした。'; }
-        finally { buttons.forEach(button => { button.disabled = false; }); }
-      });
-      wrapper.append(choice); return choice;
-    });
+    const label = element('span', '', 'article-reading-label'); wrapper.append(label);
+    report.updateReadingStatus = () => { label.textContent = `読書ステータス：${labels[readingStatus(report)]}`; };
+    report.updateReadingStatus();
     return wrapper;
+  }
+  function completeButton(report, content) {
+    const wrapper = element('div', '', 'article-complete-controls');
+    const button = element('button', '確認完了', 'reading-complete-button'); button.type = 'button';
+    button.addEventListener('click', async () => {
+      const now = new Date().toISOString();
+      local[report.id] = {status: 'read', updatedAt: now, pending: true};
+      bookmarks[report.id] = {index: null, updatedAt: now, pending: false};
+      const stored = store();
+      try { localStorage.setItem(bookmarkKey, JSON.stringify(bookmarks)); } catch {}
+      report.updateBookmarks?.();
+      report.updateReadingStatus();
+      try { await persist(report.id); document.getElementById('article-detail-reading-status').textContent = '完了を保存しました。'; }
+      catch { document.getElementById('article-detail-reading-status').textContent = stored ? 'このブラウザーに保存しました。サーバー接続時に同期します。' : '保存できませんでした。'; }
+    });
+    wrapper.append(button); content.append(wrapper);
   }
   function list() {
     const target = document.getElementById('article-list'); target.replaceChildren();
@@ -106,7 +111,9 @@ window.LifeArticles = (() => {
       const row = element('div', '', 'lesson article-row');
       const title = element('a', report.title, 'lesson-overview');
       title.href = '#' + new URLSearchParams({section: '記事解説', article: report.id});
-      const heading = element('div', '', 'article-row-heading'); heading.append(title);
+      const heading = element('div', '', 'article-row-heading');
+      const badge = element('span', labels[readingStatus(report)], `article-status-badge article-status-${readingStatus(report)}`);
+      heading.append(title, badge);
       row.append(heading, element('span', report.publishedAt, 'article-date'), element('span', date(report.generatedAt), 'article-date'));
       target.append(row);
     }
@@ -157,7 +164,7 @@ window.LifeArticles = (() => {
         bookmarks[report.id] = {index: bookmarkIndex(report) === index ? null : index, updatedAt: new Date().toISOString(), pending: true};
         try { localStorage.setItem(bookmarkKey, JSON.stringify(bookmarks)); }
         catch { bookmarks[report.id] = previous; document.getElementById('article-detail-reading-status').textContent = 'しおりを保存できませんでした。'; return; }
-        marks.forEach(fn => fn());
+        marks.forEach(fn => fn()); report.updateReadingStatus();
         try { await persistBookmark(report.id); }
         catch { document.getElementById('article-detail-reading-status').textContent = 'しおりはこのブラウザーに保存しました。サーバー接続時に同期します。'; }
       });
@@ -184,7 +191,8 @@ window.LifeArticles = (() => {
       }
       nodes.push(wrapper); content.append(wrapper);
     });
-    content.append(sourceDetails(report));
+    report.updateBookmarks = () => marks.forEach(update => update());
+    content.append(sourceDetails(report)); completeButton(report, content);
     const saved = bookmarkIndex(report);
     if (!keepPosition && Number.isInteger(saved)) requestAnimationFrame(() => {
       if (currentId === report.id) nodes[Math.max(0, Math.min(saved, nodes.length - 1))]?.scrollIntoView({block: 'start'});
@@ -221,17 +229,18 @@ window.LifeArticles = (() => {
       const marked = bookmarkIndex(report) === slideIndex;
       markAppearance(bookmark, marked, slide?.title || '解説');
     }
+    report.updateBookmarks = () => show(slideIndex);
     prev.addEventListener('click', () => show(slideIndex - 1)); next.addEventListener('click', () => show(slideIndex + 1));
     bookmark.addEventListener('click', async () => {
       const previous = bookmarks[id];
       bookmarks[id] = {index: bookmarkIndex(report) === slideIndex ? null : slideIndex, updatedAt: new Date().toISOString(), pending: true};
       try { localStorage.setItem(bookmarkKey, JSON.stringify(bookmarks)); }
       catch { bookmarks[id] = previous; document.getElementById('article-detail-reading-status').textContent = 'しおりを保存できませんでした。'; return; }
-      show(slideIndex);
+      show(slideIndex); report.updateReadingStatus();
       try { await persistBookmark(id); }
       catch { document.getElementById('article-detail-reading-status').textContent = 'しおりはこのブラウザーに保存しました。サーバー接続時に同期します。'; }
     });
-    nav.append(prev, count, next); content.append(stage, nav, sourceDetails(report)); show(initialIndex);
+    nav.append(prev, count, next); content.append(stage, nav, sourceDetails(report)); completeButton(report, content); show(initialIndex);
   }
   async function refresh(id) {
     try {

@@ -7,7 +7,7 @@
   try { progress = JSON.parse(localStorage.getItem(progressKey) || '{}') || {}; } catch {}
   const saveProgress = () => { try { localStorage.setItem(progressKey, JSON.stringify(progress)); return true; } catch { return false; } };
   const documentKey = () => decodeURIComponent(location.pathname).split('/Kyoto_Univ/').at(-1).replace(/^\//, '');
-  const progressStatus = key => progress[key]?.status || 'unread';
+  const progressStatus = key => Number.isInteger(progress[key]?.bookmark) ? 'reading' : progress[key]?.status === 'read' ? 'read' : 'unread';
   async function progressRequest(path, options = {}) {
     const origin = location.protocol === 'file:' ? 'http://127.0.0.1:8765' : location.origin;
     const response = await fetch(origin + path, {...options, signal: AbortSignal.timeout(2500)});
@@ -40,22 +40,9 @@
     if (article) {
       const key = documentKey();
       const controls = document.createElement('div'); controls.className = 'lesson-progress-controls';
-      controls.setAttribute('role', 'group'); controls.setAttribute('aria-label', 'この資料の学習ステータス');
-      const label = document.createElement('span'); label.textContent = '学習ステータス：'; controls.append(label);
-      const buttons = ['unread', 'reading', 'read'].map((state, index) => {
-        const button = document.createElement('button'); button.type = 'button'; button.className = 'article-reading-button';
-        button.textContent = ['未読', '勉強中', '完了'][index];
-        button.addEventListener('click', async () => {
-          progress[key] = {...progress[key], status: state, updatedAt: new Date().toISOString(), pending: true};
-          const stored = saveProgress(); updateDocumentControls();
-          note.textContent = stored ? 'このブラウザーに保存しました。' : '保存できませんでした。';
-          await syncProgress();
-          if (!progress[key]?.pending) note.textContent = 'ステータスを保存しました。';
-        });
-        controls.append(button); return button;
-      });
-      const note = document.createElement('span'); note.className = 'lesson-progress-note'; note.setAttribute('role', 'status'); controls.append(note);
-      updateDocumentControls = () => buttons.forEach((button, index) => button.setAttribute('aria-pressed', String(progressStatus(key) === ['unread', 'reading', 'read'][index])));
+      controls.setAttribute('aria-label', 'この資料の学習ステータス');
+      const label = document.createElement('span'); controls.append(label);
+      updateDocumentControls = () => { label.textContent = `学習ステータス：${{unread: '未読', reading: '勉強中', read: '完了'}[progressStatus(key)]}`; };
       const header = article.querySelector('header');
       if (header) header.insertAdjacentElement('afterend', controls); else article.prepend(controls);
       updateDocumentControls();
@@ -75,9 +62,10 @@
         marks.push(update); update();
         button.addEventListener('click', async () => {
           bookmarkRestored = true;
-          progress[key] = {...progress[key], bookmark: progress[key]?.bookmark === index ? null : index, updatedAt: new Date().toISOString(), pending: true};
-          if (!saveProgress()) { note.textContent = 'しおりを保存できませんでした。'; return; }
-          marks.forEach(mark => mark()); await syncProgress();
+          const previous = progress[key];
+          progress[key] = {...previous, bookmark: previous?.bookmark === index ? null : index, updatedAt: new Date().toISOString(), pending: true};
+          if (!saveProgress()) { progress[key] = previous; return; }
+          marks.forEach(mark => mark()); updateDocumentControls(); await syncProgress();
         });
       });
       updateDocumentBookmarks = () => {
@@ -89,6 +77,17 @@
         }
       };
       updateDocumentBookmarks();
+      const footer = document.createElement('div'); footer.className = 'lesson-complete-controls';
+      const complete = document.createElement('button'); complete.type = 'button'; complete.className = 'reading-complete-button'; complete.textContent = '確認完了';
+      const note = document.createElement('span'); note.className = 'lesson-progress-note'; note.setAttribute('role', 'status');
+      complete.addEventListener('click', async () => {
+        progress[key] = {...progress[key], status: 'read', bookmark: null, updatedAt: new Date().toISOString(), pending: true};
+        const stored = saveProgress(); marks.forEach(mark => mark()); updateDocumentControls();
+        note.textContent = stored ? 'このブラウザーに保存しました。' : '保存できませんでした。';
+        await syncProgress();
+        if (!progress[key]?.pending) note.textContent = '完了を保存しました。';
+      });
+      footer.append(complete, note); article.append(footer);
     }
     syncProgress();
   }

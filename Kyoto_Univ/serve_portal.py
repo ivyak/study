@@ -263,7 +263,7 @@ class Handler(SimpleHTTPRequestHandler):
                 with JOBS_LOCK:
                     report = update_read_status(path[len('/api/articles/'):-len('/read-status')], payload.get('readStatus'))
                     build()
-                self.respond({'readStatus': report['readStatus'], 'readStatusUpdatedAt': report['readStatusUpdatedAt']})
+                self.respond({'readStatus': report['readStatus'], 'readStatusUpdatedAt': report['readStatusUpdatedAt'], 'bookmarkIndex': report.get('bookmarkIndex'), 'bookmarkUpdatedAt': report.get('bookmarkUpdatedAt', '')})
             except FileNotFoundError:
                 self.respond({'error': '記事が見つかりません'}, 404)
             except (ValueError, TypeError, AttributeError) as error:

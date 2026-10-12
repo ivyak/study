@@ -410,12 +410,20 @@ body[data-life-page="document"] main { animation: page-enter 260ms cubic-bezier(
 .dot.lesson-read { background: var(--gold); border-color: var(--green); }
 .lesson-progress-controls { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 20px 0 28px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .lesson-progress-controls > span:first-child { font-size: 13px; color: rgba(255,255,255,.75); }
+.lesson-complete-controls,.article-complete-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 36px 0 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+.reading-complete-button { padding: 9px 18px; border: 1px solid var(--green); border-radius: 4px; color: var(--green); background: transparent; font: inherit; font-size: 13px; cursor: pointer; }
+.reading-complete-button:hover { background: rgba(89, 190, 132, .12); }
+.reading-complete-button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.article-complete-controls { flex: 0 0 auto; margin: 8px 0 0; padding-top: 8px; }
 .lesson-progress-note { font-size: 12px; color: rgba(255,255,255,.65); }
 .lesson-bookmarked-heading { scroll-margin-top: 24px; }
 article.lesson-document .lesson-section-bookmark { display: inline-grid; place-items: center; vertical-align: middle; width: 24px; height: 24px; padding: 0; margin: 0 8px 0 0; border: 0; border-radius: 50%; background: transparent; line-height: 1; }
 .lesson-progress-badge { justify-self: center; display: inline-block; padding: 2px 7px; border: 1px solid var(--white); border-radius: 4px; color: var(--white); font-size: 10px; line-height: 1.4; white-space: nowrap; }
 .lesson-progress-badge.lesson-progress-reading { border-color: #64a9ff; color: #91c0ff; }
 .lesson-progress-badge.lesson-progress-read { border-color: var(--green); color: var(--green); }
+.article-status-badge { justify-self: start; padding: 2px 7px; border: 1px solid var(--white); border-radius: 4px; color: var(--white); font-size: 10px; line-height: 1.4; }
+.article-status-badge.article-status-reading { border-color: #64a9ff; color: #91c0ff; }
+.article-status-badge.article-status-read { border-color: var(--green); color: var(--green); }
 #lesson-list .lesson,#lessons-view .list-heading { grid-template-columns: 100px minmax(0,1fr) 175px; }
 .lesson-meta,.lesson-list-meta-heading { display: grid; grid-template-columns: minmax(0,1fr) 48px; gap: 8px; align-items: center; min-width: 0; }
 .lesson-list-meta-heading > :first-child { text-align: right; }

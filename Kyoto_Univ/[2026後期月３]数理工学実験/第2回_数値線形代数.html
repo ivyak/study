@@ -1,124 +1,23 @@
-<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
-<title>第2回：数値線形代数｜数理工学実験</title>
-<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-<link rel="stylesheet" href="../ui/life.css">
-<script defer src="../ui/life.js"></script>
-<style>
-
-  .legacy-page{ --accent: #22586B; --muted: #65747A; --pale: #EFF5F6; }
-  .legacy-page *{ box-sizing: border-box; }
-  .legacy-page{ background: #fff; color: #111; }
-  .legacy-page{ margin: 0; font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", serif; line-height: 1.9; }
-  .legacy-page main{ max-width: 850px; margin: 0 auto; padding: 54px 64px 72px; }
-  .legacy-page .document-header{ border-bottom: 1px solid var(--accent); padding-bottom: 24px; margin-bottom: 20px; }
-  .legacy-page .eyebrow{ font: 0.85rem/1.7 sans-serif; color: var(--accent); margin: 0 0 8px; }
-  .legacy-page h1{ font-size: 1.8rem; line-height: 1.5; margin: 0 0 12px; }
-  .legacy-page .subtitle{ font-size: 1.1rem; margin: 0; }
-  .legacy-page h1, .legacy-page h2, .legacy-page h3{ font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; font-weight: 700; }
-  .legacy-page h2{ margin: 44px 0 18px; font-size: 1.45rem; line-height: 1.5; }
-  .legacy-page h3{ color: var(--accent); font-size: 1.1rem; line-height: 1.6; margin: 30px 0 10px; }
-  .legacy-page h3.numbered{ color: #111; }
-  .legacy-page p{ margin: 12px 0; overflow-wrap: anywhere; }
-  .legacy-page .source, .legacy-page .muted, .legacy-page .note{ color: var(--muted); font-size: 0.85rem; }
-  .legacy-page .source{ margin: 0 0 18px; }
-  .legacy-page .note{ margin: 18px 0; }
-  .legacy-page .note p{ margin: 0; }
-  .legacy-page ol{ padding-left: 1.8em; margin: 16px 0; }
-  .legacy-page li{ padding-left: 0.15em; margin: 5px 0; }
-  .legacy-page code{ font-family: ui-monospace, monospace; font-size: 0.95em; }
-  .legacy-page .equation{ overflow-x: auto; padding: 10px 4px; margin: 14px 0; text-align: center; }
-  .legacy-page mjx-container[display="true"]{ margin: 0 !important; min-width: max-content; }
-  .legacy-page .key-equation{ width: fit-content; max-width: 100%; margin: 22px auto; padding: 16px 22px; background: var(--pale); }
-  .legacy-page .equation-types{ margin: 20px 0; }
-  .legacy-page .type-row{ display: grid; grid-template-columns: minmax(10em, 1fr) 1.4fr; align-items: center; gap: 18px; padding: 12px 0; }
-  .legacy-page dt{ text-align: right; }
-  .legacy-page dd{ margin: 0; padding: 8px 0; overflow-x: auto; }
-  .legacy-page dd mjx-container[display="true"]{ text-align: left !important; }
-  .legacy-page .section-break{ border: 0; height: 0; margin: 48px 0 0; }
-  @media (max-width: 600px) {
-    .legacy-page main{ padding: 28px 20px 48px; }
-    .legacy-page h1{ font-size: 1.5rem; }
-    .legacy-page h2{ font-size: 1.3rem; }
-    .legacy-page .type-row{ grid-template-columns: 1fr; gap: 4px; }
-    .legacy-page dt{ text-align: left; }
-  }
-  @page { size: A4; margin: 20mm 22mm; }
-  @media print {
-    .legacy-page main{ max-width: none; padding: 0; }
-    .legacy-page{ font-size: 10pt; line-height: 1.65; }
-    .legacy-page h2, .legacy-page h3, .legacy-page .source{ break-after: avoid; }
-    .legacy-page .equation, .legacy-page .type-row, .legacy-page .note{ break-inside: avoid; overflow: visible; }
-    .legacy-page .key-equation{ print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-    .legacy-page .section-break{ break-before: page; margin: 0; }
-  }
-
-  .legacy-page h2[id], .legacy-page h3[id]{ scroll-margin-top: 24px; }
-  .legacy-page .toc{ margin: 24px 0 28px; max-width: 540px; font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif; font-size: 0.82rem; line-height: 1.6; }
-  .legacy-page .toc-title{ margin: 0 0 6px; color: var(--muted); font-size: 0.75rem; font-weight: 600; }
-  .legacy-page .toc ul{ list-style: none; margin: 0; padding: 0; }
-  .legacy-page .toc ul ul{ margin-left: 9px; padding-left: 15px; border-left: 1px solid var(--pale); }
-  .legacy-page .toc li{ margin: 1px 0; padding: 0; }
-  .legacy-page .toc a{ display: inline-block; color: var(--muted); text-decoration: none; padding: 1px 5px; border-radius: 3px; }
-  .legacy-page .toc > ul > li > a{ color: var(--accent); font-weight: 600; }
-  .legacy-page .toc a:hover, .legacy-page .toc a:focus-visible{ color: var(--accent); background: var(--pale); }
-  .legacy-page .toc a:focus-visible, .legacy-page .toc summary:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
-  .legacy-page .toc summary{ cursor: pointer; color: var(--muted); }
-  .legacy-page .toc summary::marker{ font-size: 0.75em; }
-  @media print { .legacy-page .toc{ break-inside: avoid; } }
-
-  .legacy-page a{ color: var(--accent); text-underline-offset: .2em; }
-  .legacy-page h4{ font-size: 1rem; margin: 24px 0 8px; }
-  .legacy-page h2[id], .legacy-page h3[id]{ scroll-margin-top: 24px; }
-  .legacy-page .back-nav{ margin: 0 0 22px; font-family: sans-serif; font-size: .83rem; }
-  .legacy-page .back-nav a{ text-decoration: none; }
-  .legacy-page .statement{ padding: 12px 20px; background: var(--pale); margin: 20px 0; }
-  .legacy-page .rules li{ margin: 14px 0; }
-  .legacy-page .rules .equation{ margin: 4px 0; }
-  .legacy-page footer{ display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--accent); padding-top: 18px; margin-top: 44px; color: var(--muted); font-size: .8rem; }
-  .legacy-page a:focus-visible{ outline: 2px solid var(--accent); outline-offset: 4px; }
-
-  .legacy-page main{ max-width: 1000px; }
-  .legacy-page .key{ border-left: 3px solid var(--accent); background: var(--pale); padding: 10px 18px; margin: 20px 0; }
-  .legacy-page .supplement{ border-left: 2px solid #a6b5b9; padding-left: 16px; margin: 18px 0; }
-  .legacy-page .table-wrap{ overflow-x: auto; margin: 18px 0; }
-  .legacy-page table{ width: 100%; border-collapse: collapse; font-size: .9rem; }
-  .legacy-page th, .legacy-page td{ text-align: left; vertical-align: top; border-bottom: 1px solid #dee7e9; padding: 10px 12px; min-width: 8em; }
-  .legacy-page th{ background: var(--pale); }
-  .legacy-page .depth{ color: var(--accent); font-family: sans-serif; font-size: .85rem; }
-  .legacy-page nav ul{ padding-left: 1.3em; }
-  @media print { .legacy-page .table-wrap{ overflow: visible; } .legacy-page tr{ break-inside: avoid; } .legacy-page .portal-link{ display: none; } }
-
-</style>
-<meta name="study-ui" content="life">
-<meta name="study-kind" content="解説">
-<meta name="study-lesson" content="2">
-<style>
-.legacy-page{--bg:var(--black);--panel:#151411;--ink:var(--white);--white:#f2f0e9;--muted:#bcb9af;--gold:#d7b66c;--line:#39352a;color:var(--white);background:transparent;min-width:0;font-size:16px;line-height:1.95}
-.legacy-page > .skip,.legacy-page > .menu-button,.legacy-page > .sidebar,.legacy-page > .top{display:none!important}
-.legacy-page > main,.legacy-page > .layout{margin:0!important;max-width:none!important;padding:0!important;width:100%!important;display:block!important}
-.legacy-page > .layout > aside{display:none!important}
-.legacy-page > .layout > main{margin:0!important;max-width:none!important;padding:0!important;width:100%!important}
-.legacy-page > .shell{display:block!important;grid-template-columns:none!important;margin:0!important;min-width:0!important;width:100%!important}
-.legacy-page > .shell > main{display:block!important;margin:0!important;max-width:none!important;padding:0!important;width:100%!important;min-width:0!important}
-.legacy-page .tabs{max-width:100%;min-width:0}
-.legacy-page .table-wrap{max-width:100%}
-
-.legacy-page .hero{padding-top:14px}
-.legacy-page .back-nav{display:none}
-.legacy-page .toc{display:none!important}
-.legacy-page .card,.legacy-page .formula,.legacy-page .note,.legacy-page details,.legacy-page .viz{background-color:rgba(215,182,108,.07);border-color:var(--line);color:var(--white)}
-.legacy-page a{color:var(--gold)}
-.legacy-page img,.legacy-page svg{max-width:100%}
-.legacy-page > main > header:first-child,.legacy-page .hero{border-bottom:1px solid var(--line)}
-.legacy-page h1,.legacy-page h2,.legacy-page h3{color:var(--white)}
-.legacy-page .eyebrow,.legacy-page .number,.legacy-page .label{color:var(--gold)}
-@media(max-width:650px){.legacy-page{font-size:15px}.legacy-page .card{padding:18px 14px}}
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>数理工学実験｜第2回 第2章 数値線形代数</title><link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script><meta name="study-ui" content="life"><meta name="study-lesson" content="2"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-13"><script>window.MathJax={tex:{inlineMath:[["\\(","\\)"]],displayMath:[["\\[","\\]"]],processEscapes:true},chtml:{displayAlign:"center"}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script><style>
+.chapter-heading{margin:48px 0 18px;padding-top:18px;border-top:1px solid var(--gold)}
+.chapter-heading h2{margin:0!important;border:0!important;padding:0!important}
+.chapter-title,.explanation-heading{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.reading-time{font-size:11px;line-height:1.4;color:var(--muted);font-weight:400;white-space:nowrap;text-align:right}
+.summary{padding-bottom:28px}
+.summary h2{border:0;padding:0;margin:0 0 18px}
+.summary p{max-width:85ch}
+.summary .reading-time{display:block;margin:4px 0 18px auto}
+.explanation-grid{display:flow-root!important}
+.explanation-heading{margin-bottom:12px}
+.explanation h2{margin:0!important;padding:0!important;border:0!important;font-size:20px!important}
+.explanation .claim{font-weight:600;margin-top:0}
+.explanation .slide{display:block;float:right;width:min(49%,520px);height:auto;aspect-ratio:auto;overflow:hidden;background:#fff;line-height:0;margin:0 0 18px 25px}
+.explanation .slide img{display:block;width:100%;height:auto}
+.explanation .slide a{display:block}
+.explanation-grid>p{margin:12px 0;max-width:none}
+@media(max-width:650px){.explanation .slide{float:none;width:100%;max-width:none;margin:0 0 18px}.chapter-title,.explanation-heading{align-items:flex-start}.reading-time{font-size:10px}}
 </style></head>
-<body data-life-page="document" data-portal="../index.html" data-course="[2026後期月３]数理工学実験">
-<div class="shell">
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期月３]数理工学実験"><div class="shell">
 <!-- LIFE-SHELL:START -->
   <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
     <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
@@ -149,287 +48,47 @@
     </aside>
 <!-- LIFE-SHELL:END -->
 <main>
-<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%9C%88%EF%BC%93%5D%E6%95%B0%E7%90%86%E5%B7%A5%E5%AD%A6%E5%AE%9F%E9%A8%93">数理工学実験</a><span>/</span><span>第2回 解説</span></div>
-<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%9C%88%EF%BC%93%5D%E6%95%B0%E7%90%86%E5%B7%A5%E5%AD%A6%E5%AE%9F%E9%A8%93" aria-label="数理工学実験の一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=[2026後期月３]数理工学実験">数理工学実験</a><span>/</span><span>第2回 解説</span></div>
+<div class="document-back"><a class="back-step" href="../index.html#course=[2026後期月３]数理工学実験" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
 <div class="section-rule"></div>
-<div class="reader">
-<article class="legacy-page lesson-document"><main>
-<header class="document-header">
-<p class="eyebrow">京都大学 · 数理工学実験 · 2026年度後期</p>
-<h1>数値線形代数</h1>
-<p class="subtitle">第2回：第2章の式・証明・主張と、課題に使う知識</p>
-<p class="source">原典：<a href="授業資料/数理工学実験2026.pdf#page=19">数理工学実験2026.pdf 第2章 pp.19–30</a>。本資料のページ番号は原典の紙面番号（PDFページ番号と一致）。</p>
-<p>連立1次方程式を解く方法と、固有値を求める方法を学ぶ。原典の節順に、主要な式、その式が成り立つ理由、課題での使いどころをまとめる。証明は再現に必要な骨格を残し、課題1〜7の実装と考察に直結する知識を厚く扱う。</p>
-<p class="note">「補足」は原典の説明を補う導出・実装上の注意。課題の実験結果や完成解答は含めていない。重要度は本章末の課題を基準にしている。</p>
-<a class="portal-link" href="../index.html">← 授業一覧に戻る</a>
-</header>
-<nav class="toc" aria-label="目次">
-<p class="toc-title">この授業の内容</p>
-<ul>
-<li><a href="#purpose">2.1 何を数値的に求めるか</a></li>
-<li><a href="#norm">2.2 ノルムと内積</a></li>
-<li><a href="#linear">2.3 誤差・消去法・LU分解</a></li>
-<li><a href="#eigen">2.4 固有値問題の前提と評価</a></li>
-<li><a href="#power">2.4.1 べき乗法</a></li>
-<li><a href="#inverse">2.4.2 逆反復法</a></li>
-<li><a href="#qr-factor">2.4.3 QR分解</a></li>
-<li><a href="#qr">2.4.4 QR法</a></li>
-<li><a href="#accelerate">2.4.5 シフトと減次</a></li>
-<li><a href="#assignments">2.5 課題と必要知識の対応</a></li>
-<li><a href="#cost">補足：課題3の演算回数の数え方</a></li>
-</ul>
-</nav>
-
-<section id="purpose">
-<h2>2.1 何を数値的に求めるか</h2>
-<p class="source">p.19 · 式(2.1), (2.2)</p>
-<p class="depth">意味を理解：計算の目的と、採用する方法を区別する。</p>
-<div class="equation">\[Ax=b \qquad\text{と}\qquad Ax=\lambda x\quad(x\ne0).\]</div>
-<p>前者は与えられた \(A,b\) から解 \(x\) を求める問題、後者は与えられた \(A\) から固有値 \(\lambda\) と固有ベクトル \(x\) を求める問題である。正則な \(A\) なら \(x=A^{-1}b\) と書けるが、数値計算では通常、逆行列を明示的につくらずに解く。固有値も \(\det(zI-A)=0\) の根として定義できるが、本章では行列の構造を使う反復法で求める。</p>
-<p><strong>直接法</strong>は、誤差のない演算を仮定すれば有限回の四則演算で解を得る方法で、消去法・LU分解による解法が該当する。<strong>反復法</strong>は近似列を更新し、停止条件を満たした時点で答えとする方法で、ここではべき乗法・逆反復法・QR法を学ぶ。</p>
-<p class="note">原典で紹介される他の算法・LAPACK・参考書、および注意2.1.1の実験環境は概要だけでよい。原典の秒数はその環境での測定値であり、自分の実験では次数や反復回数との関係を調べる。</p>
-</section>
-
-<section id="norm">
-<h2>2.2 準備：ノルムと内積</h2>
-<p class="source">pp.19–20 · 2.2.1, 2.2.2 · 式(2.3)</p>
-<p class="depth">計算を再現：誤差・残差・正規化に用いる。内積はQR分解の基礎。</p>
-<h3>ベクトルと行列の大きさ</h3>
-<div class="equation">\[\|x\|_p=\left(\sum_{i=1}^n|x_i|^p\right)^{1/p}\ (p\ge1),\qquad \|x\|_\infty=\max_i|x_i|.\]</div>
-<p>\(\|x\|_2\) はユークリッドノルム。どのノルムでも非負で、零になるのは零ベクトルだけであり、\(\|cx\|=|c|\|x\|\) を満たす。原典の \(\|\cdot\|\) は種類を指定しないノルムを表すが、実験では使用した種類を明記し、比較中は統一する。</p>
-<div class="equation">\[\|A\|=\max_{x\ne0}\frac{\|Ax\|}{\|x\|}=\max_{\|x\|=1}\|Ax\|,\qquad \|A\|_{\max}=\max_{i,j}|a_{i,j}|.\]</div>
-<p>左はベクトルノルムから定まる<strong>作用素ノルム</strong>、右は成分の絶対値の最大値。行列でも非負性・零の判定・スカラー倍の性質を満たす。</p>
-<p class="supplement"><strong>補足：</strong>この2つを混同しない。例えばベクトルの∞ノルムに対応する作用素ノルムは \(\|A\|_\infty=\max_i\sum_j|a_{i,j}|\) であり、\(\|A\|_{\max}\) とは異なる。作用素ノルムなら定義から \(\|Ax\|\le\|A\|\|x\|\) が使える。</p>
-<h3>複素内積と直交</h3>
-<div class="equation">\[(x,y)=x^*y=\sum_{i=1}^n\overline{x_i}y_i,\qquad A^*=\overline A^{\mathsf T},\qquad (x,x)=\|x\|_2^2.\]</div>
-<p>\((x,y)=0\) を直交という。複素数では<strong>第1引数を共役にする</strong>。QR分解では内積に対応する2ノルムを使って \(q=b/\|b\|_2\) と正規化する。ここを∞ノルムに置き換えると、長さ1の直交列にならない。</p>
-</section>
-
-<section id="linear">
-<h2>2.3 連立1次方程式の数値解法</h2>
-<p class="source">pp.20–23 · 仮定：\(A\in\mathbb C^{n\times n}\) は正則</p>
-<h3>解の精度：相対誤差と残差</h3>
-<p class="depth">条件まで理解：課題1〜3で測定する量。</p>
-<div class="equation">\[\text{相対誤差}=\frac{\|x-\widetilde x\|}{\|x\|}\quad\text{(2.4)},\qquad \text{残差ノルム}=\|b-A\widetilde x\|\quad\text{(2.5)}.\]</div>
-<p>相対誤差は「答えがどれだけ違うか」、残差は「方程式をどれだけ満たすか」を測る。真の解が不明でも残差は計算できるので、実装の検証に便利である。相対誤差は \(x\ne0\) のときに定義される。</p>
-<div class="supplement">
-<p><strong>補足：残差が小さくても誤差が小さいとは限らない。</strong>\(r=b-A\widetilde x\) とおくと、\(x-\widetilde x=A^{-1}r\)。整合する作用素ノルムを使えば</p>
-<div class="equation">\[\frac{\|x-\widetilde x\|}{\|x\|}\le \kappa(A)\frac{\|r\|}{\|b\|},\qquad \kappa(A)=\|A\|\|A^{-1}\|\quad(b\ne0).\]</div>
-<p>これは \(\|x-\widetilde x\|\le\|A^{-1}\|\|r\|\) と \(\|b\|\le\|A\|\|x\|\) を組み合わせたもの。条件数 \(\kappa(A)\) が大きい行列では、小さい残差と大きい誤差が両立する。次数 \(n\) だけで精度が決まるわけではない。</p>
-</div>
-
-<h3>2.3.1 消去法：前進消去と後退代入</h3>
-<p class="source">pp.20–22 · 課題1・3</p>
-<p class="depth">計算を再現：行交換、消去係数、更新範囲、代入の順序。</p>
-<p>行基本変形で \((A,b)\) を \((U,b')\) に変形し、上三角系 \(Ux=b'\) を解く。第 \(k\) 段では、現在の第 \(k\) 列の \(k\) 行目以下からピボットを選ぶ。</p>
-<div class="equation">\[p\in\operatorname*{arg\,max}_{k\le i\le n}|a_{i,k}|,\qquad m_{i,k}=\frac{a_{i,k}}{a_{k,k}}\quad(i&gt;k).\]</div>
-<p>行 \(k,p\) を交換してから係数 \(m_{i,k}\) を求め、</p>
-<div class="equation">\[a_{i,j}\leftarrow a_{i,j}-m_{i,k}a_{k,j}\quad(j=k+1,\ldots,n),\qquad b_i\leftarrow b_i-m_{i,k}b_k,\qquad a_{i,k}\leftarrow0\]</div>
-<p>と更新する。\(k=1,\ldots,n-1\) を終えれば、下から順に</p>
-<div class="equation">\[x_i=\frac{b'_i-\sum_{j=i+1}^n u_{i,j}x_j}{u_{i,i}},\qquad i=n,n-1,\ldots,1\]</div>
-<p>を計算する。空の和は0とする。</p>
-<p><strong>正しさの理由：</strong>行交換と「他の行の定数倍を引く」操作は可逆なので、解集合を変えない。正則性から各段で非零ピボットを選べ、最後には対角成分が非零の上三角系になる。後退代入では、その時点で既知の \(x_{i+1},\ldots,x_n\) を使って \(x_i\) が一意に決まる。</p>
-<p><strong>ピボット選択の意味：</strong>非零であるだけでは数値的に十分とはいえない。極端に小さい値で割ると丸め誤差が増幅されうるため、原典は絶対値最大の候補を選ぶ方法を勧めている。行交換は \(A\) と \(b\) の両方に行う。</p>
-<p class="note">原典の図2.1–2.3：100次行列を用いた単精度実験では、相対誤差はおおむね \(10^{-6}\)〜\(10^{-5}\)、時間は試行間でほぼ一定だった。これらは例示された観測値。直接法は同じ次数なら演算回数がほぼ同じ、という考察の筋道を押さえる。原典の倍精度解も数値近似である。</p>
-
-<h3>2.3.2 LU分解：消去の操作を保存する</h3>
-<p class="source">p.22 · 式(2.6), (2.7) · 課題2・3、逆反復法</p>
-<p class="depth">定義・計算は再現、存在証明は筋道を理解。</p>
-<div class="equation key-equation">\[PA=LU,\qquad L:\text{単位下三角},\quad U:\text{上三角}.\]</div>
-<p>「単位下三角」は対角成分がすべて1の下三角行列という意味。\(P=P_\pi\) は行交換をまとめた置換行列で、\((Pb)_i=b_{\pi(i)}\)。正則行列でも、行交換なしの \(A=LU\) が常に可能とは限らない。</p>
-<p><strong>証明の骨格：</strong>原典の消去行列を \(L_k\)、第 \(k\) 段の行交換を \(P_{\tau_k}\) とすると、消去全体は</p>
-<div class="equation">\[L_{n-1}P_{\tau_{n-1}}\cdots L_1P_{\tau_1}A=U.\]</div>
-<p>後で行う置換を使って各 \(L_k\) を共役変換したものを \(L'_k\) とすると、これらは単位下三角のまま保たれ、置換をまとめて \((L'_{n-1}\cdots L'_1)PA=U\) と書ける。よって</p>
-<div class="equation">\[L=(L'_1)^{-1}\cdots(L'_{n-1})^{-1}\quad\Longrightarrow\quad PA=LU.\]</div>
-<p>単位下三角行列は逆行列も積も単位下三角なので、求める分解になる。課題では置換の添字を暗記するより、<strong>消去係数を \(L\) に、消去後の行列を \(U\) に保存する</strong>ことを理解する。</p>
-<div class="supplement"><p><strong>実装補足：</strong>\(L=I\) から始める実装なら、行交換時に \(L\) の<strong>既に計算した第1〜\(k-1\)列だけ</strong>の該当行を交換する。\(\ell_{i,k}=m_{i,k}\) は消去前の値から保存し、最後の対角成分も1にする。原典の手順(4)の \(a_{i,k}/a_{k,k}\) を、手順(3)で零にした後の成分から計算してはいけない。</p></div>
-<p>分解の検証には、上書き前の \(A\) を保存して \(\|PA-LU\|\) を調べる。</p>
-
-<h3>2.3.3 LU分解による解法</h3>
-<p class="source">p.23 · 課題2・3・5</p>
-<div class="equation">\[Ax=b\iff LUx=Pb\iff\begin{cases}Ly=Pb,\\Ux=y.\end{cases}\]</div>
-<div class="equation">\[y_i=b_{\pi(i)}-\sum_{j=1}^{i-1}\ell_{i,j}y_j\quad(i=1,\ldots,n),\qquad x_i=\frac{y_i-\sum_{j=i+1}^nu_{i,j}x_j}{u_{i,i}}\quad(i=n,\ldots,1).\]</div>
-<p>前進代入で \(y\)、後退代入で \(x\) を求める。\(L\) の対角は1なので前進代入では除算がない。密行列の分解は \(O(n^3)\)、分解後に1本の右辺を解く処理は \(O(n^2)\)。<strong>同じ \(A\) で右辺だけ変わるときに、分解を再利用できる</strong>のが大きな利点である。</p>
-</section>
-
-<section id="eigen">
-<h2>2.4 固有値問題の前提と精度評価</h2>
-<p class="source">p.23 · 式(2.8)–(2.12)</p>
-<p class="depth">条件まで理解：収束の議論と、課題4〜7の測定の前提。</p>
-<div class="equation">\[|\lambda_1|&gt;|\lambda_2|&gt;\cdots&gt;|\lambda_n|&gt;0,\qquad V=(v_1,\ldots,v_n),\qquad AV=V\Lambda.\]</div>
-<p>原典では<strong>絶対値の大きい順</strong>に固有値を番号づける。「第1固有値」は値そのものが最大という意味ではない。この仮定では固有値は互いに異なり、固有ベクトルは基底をなすため、\(V\) は可逆で \(A=V\Lambda V^{-1}\) と対角化できる。</p>
-<div class="equation">\[e_{\lambda,i}=\frac{|\lambda_i-\widetilde\lambda_i|}{|\lambda_i|},\qquad e_{v,i}=\frac{\|v_i-\widetilde v_i\|}{\|v_i\|},\qquad r_i=\|\widetilde\lambda_i\widetilde v_i-A\widetilde v_i\|.\]</div>
-<p>固有ベクトルは非零の定数倍をしても同じ固有方向を表す。そのまま引き算せず、原典の指定どおり<strong>ノルムを等しくし、共通の成分がともに正実数となるよう位相をそろえる</strong>。実数なら符号をそろえる操作に相当する。選ぶ成分は両方で非零でなければならず、小さすぎる成分は避ける。</p>
-<p class="supplement"><strong>補足：</strong>両方をノルム1にした後、共通の添字 \(k\) を選び、それぞれ \(v\leftarrow(\overline{v_k}/|v_k|)v\) とすればよい。残差もベクトルの大きさに比例するため、実験間で正規化をそろえる。QR法の結果と参照解の比較では、固有値と対応する固有ベクトルを同じ並びに対応づける。</p>
-</section>
-
-<section id="power">
-<h2>2.4.1 べき乗法</h2>
-<p class="source">pp.24–26 · 課題4・5</p>
-<p class="depth">反復式を再現し、収束条件と収束率を説明できるようにする。</p>
-<h3>なぜ最大絶対値の固有値が見えるか</h3>
-<p>初期ベクトルを \(x_0=\sum_i c_iv_i\) と展開すると、</p>
-<div class="equation key-equation">\[A^kx_0=\lambda_1^k\left[c_1v_1+\sum_{i=2}^n c_i\left(\frac{\lambda_i}{\lambda_1}\right)^kv_i\right].\]</div>
-<p>\(|\lambda_i/\lambda_1|&lt;1\) なので、括弧内の第2項以降は零に近づく。<strong>\(c_1\ne0\)</strong> なら第1固有方向が支配的になる。\(A^kx_0\) 自体が一定のベクトルへ収束するわけではなく、大きさや符号・位相を除いた方向が近づく、という主張である。</p>
-<h3>実際の更新と停止条件</h3>
-<div class="equation">\[y_k=Ax_k,\qquad \mu_k=\frac{y_{k;i}}{x_{k;i}}\ (x_{k;i}\ne0),\qquad x_{k+1}=\frac{y_k}{\|y_k\|}.\]</div>
-<p>割る成分 \(i\) には、\(|x_{k;i}|\) が最大のものを選ぶと小さな分母を避けられる。\(x_k\) が固有方向へ近づけば \(y_k\approx\lambda_1x_k\) となるので \(\mu_k\to\lambda_1\)。毎回正規化するのは、巨大な数や微小な数が発生するのを抑えるためである。</p>
-<div class="equation">\[\frac{|\mu_k-\mu_{k-1}|}{|\mu_k|}&lt;\varepsilon\]</div>
-<p>が原典の停止判定例。終了時の \(\mu_k,x_k\) を固有値・固有ベクトルの近似とする。</p>
-<p><strong>収束率：</strong>支配的な不要成分は \((\lambda_2/\lambda_1)^k\) の大きさで減るため、原典の基本的な収束率は \(q=|\lambda_2|/|\lambda_1|\) の1次収束。\(q\) が小さければ速く、1に近いと遅い。初期ベクトルに第2固有成分がない場合などは、実際に残る成分によってさらに速くなることもある。</p>
-<p class="supplement"><strong>実装・考察の補足：</strong>反復上限と分母零の処理を決め、停止時の残差も確認する。固有値の変化が小さいことだけでは、誤差が \(\varepsilon\) 以下とは保証できない。密行列では1反復 \(O(n^2)\)、\(K\) 反復で \(O(Kn^2)\)。時間が増えた理由を考察するときは、次数と反復回数を分けて見る。</p>
-<p class="note">図2.4–2.6では、単精度・\(\varepsilon=10^{-6}\) の実験で、固有値の相対誤差は多くが \(10^{-6}\) 程度、固有ベクトルは \(10^{-6}\)〜\(10^{-5}\) 程度だった。一方、反復回数は数百回から1万回以上までばらついた。原典はこれを固有値比の違いで説明している。精度の数値は普遍的な保証ではない。</p>
-</section>
-
-<section id="inverse">
-<h2>2.4.2 逆反復法</h2>
-<p class="source">p.26 · 式(2.13) · 課題5、QR法からの固有ベクトル計算</p>
-<p class="depth">変換の意味、元の固有値への戻し方、LU分解の再利用を理解する。</p>
-<div class="equation">\[Av_i=\lambda_iv_i\quad\Longrightarrow\quad (A-\sigma I)^{-1}v_i=\frac1{\lambda_i-\sigma}v_i.\]</div>
-<p>\(\sigma\) は \(A\) の固有値ではないとする。\(A-\sigma I\) を逆にすると、固有ベクトルはそのままで固有値が \(1/(\lambda_i-\sigma)\) に変わる。この絶対値が最大になるのは、\(\sigma\) に最も近い固有値である。</p>
-<div class="equation key-equation">\[(A-\sigma I)y_k=x_k,\qquad \mu_k=\frac{y_{k;i}}{x_{k;i}},\qquad x_{k+1}=\frac{y_k}{\|y_k\|},\qquad \widetilde\lambda=\sigma+\frac1{\mu_k}.\]</div>
-<p>逆行列を計算せず、毎回連立1次方程式を解く。固定した \(\sigma\) なら \(A-\sigma I\) のLU分解は最初の1回だけでよく、その後は右辺 \(x_k\) を入れ替えて前進・後退代入する。</p>
-<p>\(\sigma\) に最も近い固有値を \(\lambda_i\)、2番目に近いものを \(\lambda_j\) とすると、べき乗法の比を変換後の固有値に適用して</p>
-<div class="equation">\[q_{\mathrm{inv}}=\frac{|\lambda_i-\sigma|}{|\lambda_j-\sigma|}&lt;1\]</div>
-<p>を得る。最も近い固有値が一意で、初期ベクトルにその固有成分があることが必要。\(\sigma\) が目標に近いほど速いが、ちょうど固有値に一致すると係数行列が特異になる。</p>
-<p class="supplement"><strong>課題5への接続：</strong>べき乗法で得た近似値を \(\sigma\) に使えること、逆反復法が「\(\sigma\) に最も近い固有値」を選ぶことが設計の根拠となる。切替時点・シフト更新の有無・分解の回数は比較対象の一部。固定シフトなら総計算量は \(O(n^3+Kn^2)\) だが、シフトを更新すれば通常は再分解が必要になる。反復回数だけで速度を比較しない。</p>
-<p class="note">原典の算法は式(2.13)の右辺を \(x_k\) としている。直後の説明文にある \(y_k=(A-\sigma I)^{-1}x_{k-1}\) は添字が一致しないため、本資料では算法に合わせて \(x_k\) に統一した。</p>
-</section>
-
-<section id="qr-factor">
-<h2>2.4.3 行列のQR分解</h2>
-<p class="source">pp.26–27 · 式(2.14), (2.15) · 課題6・7の基礎</p>
-<p class="depth">直交化の式と、分解・直交性の2種類の検証を再現する。</p>
-<div class="equation">\[A=QR,\qquad Q^*Q=I,\qquad R:\text{上三角}.\]</div>
-<p>\(Q\) はユニタリ行列で、実数の場合は直交行列という。以下の正規化をそのまま実行するには、列ベクトルが1次独立であることが必要である。</p>
-<h3>Gram–Schmidt法とその証明</h3>
-<div class="equation">\[b_j=a_j-\sum_{i=1}^{j-1}(q_i,a_j)q_i,\qquad q_j=\frac{b_j}{\|b_j\|_2}.\]</div>
-<p>既に得た \(q_1,\ldots,q_{j-1}\) が正規直交なら、各 \(\ell&lt;j\) について</p>
-<div class="equation">\[(q_\ell,b_j)=(q_\ell,a_j)-\sum_{i&lt;j}(q_i,a_j)(q_\ell,q_i)=0.\]</div>
-<p>よって \(q_j\) は既存の列と直交し、長さ1になる。また \(r_{i,j}=(q_i,a_j)\ (i&lt;j)\)、\(r_{j,j}=\|b_j\|_2\) とおけば、</p>
-<div class="equation">\[a_j=\sum_{i=1}^{j}q_ir_{i,j}\]</div>
-<p>なので、列ごとにまとめて \(A=QR\) が成り立つ。これが分解の証明である。</p>
-<h3>修正Gram–Schmidt法</h3>
-<div class="equation">\[b_{1,j}=a_j,\qquad r_{i,j}=(q_i,b_{i,j}),\qquad b_{i+1,j}=b_{i,j}-r_{i,j}q_i\quad(i=1,\ldots,j-1),\]</div>
-<div class="equation">\[r_{j,j}=\|b_{j,j}\|_2,\qquad q_j=\frac{b_{j,j}}{r_{j,j}}.\]</div>
-<p>通常の方法は元の \(a_j\) との内積を取るが、修正版は<strong>既に射影成分を取り除いた現在のベクトル</strong>との内積を取る。厳密演算では両者は同値だが、丸め誤差のある演算では修正版のほうが直交性の悪化を抑えやすい。</p>
-<div class="key"><p>QR分解の検証は \(\|A-QR\|\) と \(\|I-Q^*Q\|\) の両方で行う。前者は積が元の行列を再現するか、後者は \(Q\) の列が正規直交しているかを調べる。</p></div>
-<p class="supplement"><strong>補足：</strong>修正版でも有限精度で完全な直交性が保証されるわけではない。\(r_{j,j}=0\) では正規化できず、極端に小さい場合も精度に注意が必要。一般の特異行列にもQR分解は存在するが、ここに書いた単純な直交化手順には追加処理が必要となる。</p>
-</section>
-
-<section id="qr">
-<h2>2.4.4 QR法</h2>
-<p class="source">pp.27–28 · 式(2.16) · 課題6・7</p>
-<p class="depth">更新と停止判定を再現し、固有値保存の証明を説明する。同時反復との関係は筋道を理解。</p>
-<h3>QR分解して、逆順に掛ける</h3>
-<div class="equation key-equation">\[A_0=A,\qquad A_k=Q_kR_k,\qquad A_{k+1}=R_kQ_k.\]</div>
-<p><strong>固有値が保存される理由：</strong>\(R_k=Q_k^*A_k\) より</p>
-<div class="equation">\[A_{k+1}=Q_k^*A_kQ_k=Q_k^{-1}A_kQ_k.\]</div>
-<p>これは相似変換なので、各 \(A_k\) の固有値は元の \(A\) と同じである。上三角行列に近づけば、対角成分が固有値の近似となる。三角行列では \(\det(zI-T)=\prod_i(z-t_{i,i})\) だからである。</p>
-<h3>なぜ上三角化するか：同時反復との関係</h3>
-<p>同時反復法は、複数のベクトルにまとめて \(A\) を掛け、毎回QR分解で正規直交化する方法である。添字を \(k=0,1,\ldots\) にそろえると、</p>
-<div class="equation">\[Y_k=AX_k=X_{k+1}R_k\]</div>
-<p>となるように \(X_{k+1}\) を選ぶ。第1列はべき乗法と同様にふるまい、第 \(j\) 列は先頭 \(j\) 個の固有方向の張る空間に近づく、というのが原典の説明である。</p>
-<p>QR法に対して \(X_0=I\)、\(X_k=Q_0\cdots Q_{k-1}\) とおくと、</p>
-<div class="equation">\[A_k=X_k^*AX_k,\qquad AX_k=X_{k+1}R_k,\qquad A_k=(V^{-1}X_k)^{-1}\Lambda(V^{-1}X_k).\]</div>
-<p>したがってQR法はこの同時反復と結びついており、\(V^{-1}X_k\) が上三角化すると \(A_k\) も上三角化する。原典は同時反復の詳しい収束証明を参考文献[1]に委ねている。</p>
-<p class="supplement"><strong>条件の補足：</strong>固有値の絶対値が相異なることに加えて、狙う固有空間が初期列に含まれるという条件も必要になる。標準的な十分条件は \(V^{-1}X_0\) の先頭主小行列式がすべて非零であること。任意の初期配置に対して、必ず絶対値順の対角へ収束するという無条件の主張にはしない。実験結果は参照解と対応づけて比較する。</p>
-<h3>停止条件・収束率・固有ベクトル</h3>
-<div class="equation">\[\frac{|a_{k;i,j}|}{|a_{k;i,i}|}&lt;\varepsilon\quad(\text{すべての }i&gt;j).\]</div>
-<p>これが原典の停止条件例。対角成分を出力するので、消すべきものは<strong>狭義下三角部分</strong>であり、上三角部分が零になることは要求しない。</p>
-<div class="equation">\[\rho_{i,j}=\frac{|\lambda_i|}{|\lambda_j|}\quad(i&gt;j),\qquad q_{\mathrm{QR}}=\max_{1\le i&lt;n}\frac{|\lambda_{i+1}|}{|\lambda_i|}.\]</div>
-<p>原典の収束条件・固有値の並びの下では、この比が1に近い箇所が1つでもあると遅くなる。素朴な密行列QR分解と行列積では1反復 \(O(n^3)\)、\(K\) 反復で \(O(Kn^3)\) となる。</p>
-<p class="supplement"><strong>補足：</strong>元の固有値が非零でも、途中の対角成分が零になる場合はある。停止判定には零除算への処理が必要で、例えば行列の大きさを使った絶対・相対許容誤差の併用が考えられる。採用した判定をレポートに明記する。QR法の対角だけから固有ベクトルは得られず、原典の注意2.4.3では求めた近似固有値をシフトにした逆反復法を使う。シフトを真の固有値に厳密に一致させると特異になる点に注意する。</p>
-</section>
-
-<section id="accelerate">
-<h2>2.4.5 QR法の高速化</h2>
-<p class="source">pp.28–29 · 式(2.17) · 課題7</p>
-<p class="depth">シフトで収束を速め、減次で1回の計算を小さくする仕組みを理解する。</p>
-<h3>シフト：固有値間の比を変える</h3>
-<div class="equation">\[A'=A-\sigma I,\qquad \lambda_i'=\lambda_i-\sigma,\qquad \rho'_{i,j}=\frac{|\lambda_i-\sigma|}{|\lambda_j-\sigma|}.\]</div>
-<p>原典では、末尾固有値の近似として例えば現在の末尾対角成分を \(\sigma\) に取り、行列をシフトして反復を続ける。\(\sigma\) が目標固有値に近く、他の固有値から離れていれば、末尾行の不要成分の収束を速められる。</p>
-<div class="supplement"><p><strong>補足：シフトの戻し忘れを防ぐ。</strong>シフトした行列の固有値は元の固有値ではない。原典どおり行列を置き換えて進めるなら、累積シフト量を保存して最後に戻す。各反復でシフトを戻す等価な書き方は</p>
-<div class="equation">\[A_k-\sigma_kI=Q_kR_k,\qquad A_{k+1}=R_kQ_k+\sigma_kI=Q_k^*A_kQ_k.\]</div>
-<p>こちらでは各 \(A_k\) の固有値が元のもののまま保たれる。両方式のシフト管理を混ぜない。</p>
-<p><strong>収束率の読み方：</strong>原典の「シフト後の比が小さくなる」は、すべての固有値ペアで一律に保証されるわけではない。確実な着眼点は、目標に対応する分子 \(|\lambda_n-\sigma|\) を小さくできること。シフト後は絶対値の大小関係も変わりうる。</p></div>
-<h3>減次：収束した固有値を切り離す</h3>
-<div class="equation">\[A_k\approx\begin{pmatrix}B_k&amp;c\\0&amp;\alpha\end{pmatrix},\qquad \alpha=a_{k;n,n}.\]</div>
-<p>末尾行の対角以外が十分小さくなったら、\(\alpha\) を1つの固有値として採用し、残りを \((n-1)\) 次行列 \(B_k\) から求める。右上の列 \(c\) は零でなくてもよい。</p>
-<p><strong>理由：</strong>下左が厳密に零なら、</p>
-<div class="equation">\[\det(zI-A_k)=(z-\alpha)\det(zI-B_k).\]</div>
-<p>よって固有値は \(\alpha\) と \(B_k\) の固有値に分かれる。近似的に零ならこの分離を近似として使う。原典は末尾行の全成分に対し \(|a_{k;n,j}|/|a_{k;n,n}|&lt;\varepsilon\ (j&lt;n)\) を判定する。</p>
-<p class="supplement"><strong>課題7への接続：</strong>シフトは必要反復数を減らし、減次は以後の行列サイズを縮める。密行列をそのまま扱う場合は末尾行の全成分を確認する。反復数に加え、各反復での行列サイズと全体の計算時間を見ると高速化の理由を説明できる。近似的な切り離しなので、最後に精度も比較する。</p>
-</section>
-
-<section id="assignments">
-<h2>2.5 課題と必要知識の対応</h2>
-<p class="source">pp.29–30 · 課題1〜7、注意2.5.1</p>
-<p>次の表は課題の要求と、それに取り組む前に使えるようにしておく知識の対応である。課題1・2・4・6はいずれも、<strong>各次数につき100例</strong>を生成する。</p>
-<div class="table-wrap"><table>
-<thead><tr><th>課題・次数</th><th>要求される測定・比較</th><th>必要な知識と考察の軸</th></tr></thead>
-<tbody>
-<tr><td>1：消去法<br>100, 200, 400, 800</td><td>残差、解の相対誤差、時間をプロット。精度・時間と次数の関係。</td><td>ピボット選択、後退代入。誤差と残差の違い、\(O(n^3)\) と測定時間。</td></tr>
-<tr><td>2：LU分解<br>課題1と同じ</td><td>課題1と同じ実験をLU解法で実施。</td><td>\(PA=LU\)、右辺の置換、前進・後退代入。分解も計時に含める。</td></tr>
-<tr><td>3：両解法の比較</td><td>精度・速度に加え、加減算・乗算・除算の回数を考察。</td><td>両者の主要な消去処理は共通。同じ入力・精度・ピボット方針で比較。下の演算回数を参照。</td></tr>
-<tr><td>4：べき乗法<br>50, 100, 200, 400</td><td>固有対の残差、固有値と固有ベクトルの相対誤差、時間、反復回数。精度・時間と次数。</td><td>第1固有成分を含む初期値、正規化・位相合わせ、収束率 \(|\lambda_2/\lambda_1|\)、\(O(Kn^2)\)。</td></tr>
-<tr><td>5：べき乗法＋逆反復法</td><td>組み合わせた高速化算法をつくり、べき乗法と精度・速度を比較。</td><td>固有値の変換、シフトの選び方、LU再利用。切替・再分解を含めた総時間。</td></tr>
-<tr><td>6：QR法<br>10, 20, 40, 80</td><td>固有値ごとの残差の最大値、相対誤差の最大値、時間、反復回数。精度・時間と次数。</td><td>修正Gram–Schmidt、相似変換、下三角部分の停止判定、固有値の対応づけ、\(O(Kn^3)\)。</td></tr>
-<tr><td>7：シフト＋減次</td><td>QR法を高速化し、元の方法と精度・速度を比較。</td><td>シフトの管理、末尾行の収束、ブロック三角行列の固有値。反復回数と行列サイズの両方。</td></tr>
-</tbody></table></div>
-<h3>課題6で使う残差は、参照固有ベクトルに対するもの</h3>
-<div class="equation">\[\max_i\|(A-\widetilde\lambda_iI)v_i\|,\qquad \max_i\frac{|\lambda_i-\widetilde\lambda_i|}{|\lambda_i|}.\]</div>
-<p>ここで \(\lambda_i,v_i\) は数値計算パッケージから得る参照解であり、\(v_i\) はQR法が計算したベクトルではない。課題4の残差 \(\|\widetilde\lambda_1\widetilde v_1-A\widetilde v_1\|\) と区別する。比較前に対応をそろえ、参照固有ベクトルも一定のノルムに正規化する。</p>
-<h3>実験条件として押さえること</h3>
-<ol>
-<li><strong>行列の生成方法。</strong>注意2.5.1では、実行列の共役複素固有値は同じ絶対値になりうるため、乱数行列 \(G\) から \(A=G+G^{\mathsf T}\) として実対称行列をつくる工夫を示している。これは実固有値を保証するが、非零性や絶対値の相異性まで保証するものではない。</li>
-<li><strong>参照解。</strong>課題1・2・6はMATLABやPythonの数値計算パッケージの解を真値の代わりに使う指定。課題4も同様に信頼できる参照固有対を用意する。参照解も近似値なので、使った精度・方法を明記する。小さい固有値では相対誤差が大きくなりやすい。</li>
-<li><strong>公平な比較。</strong>同じ入力行列、数値精度、ノルム、停止基準を用いる。停止基準が方法間で同一にできない場合は、得られた残差・誤差も併せて比較する。乱数の生成や参照解の計算を解法本体の計時から分ける。逆反復法のLU分解など必要な準備は計時に含め、再利用時の時間は別に示す。</li>
-<li><strong>次数と時間。</strong>同じ条件なら \(n\) を2倍にして \(O(n^3)\) の部分は約8倍、\(O(n^2)\) の部分は約4倍が目安。ただし反復法では \(K\) も変わる。実測の差には実装・メモリ・測定環境の影響もある。</li>
-<li><strong>失敗例の扱い。</strong>非収束や反復上限到達を記録する。誤差の大きい試行を黙って除外せず、固有値比、条件数、残差などを手がかりに原因を考える。</li>
-</ol>
-<p class="note">原典の章末参考文献：[1] 杉原正顯・室田一雄『線形計算の数理』、[2] 山本有作・曽我部知広『計算科学のための基本数理アルゴリズム』、[3] LAPACK。詳細な収束理論を調べる際の参照先として把握すればよい。</p>
-</section>
-
-<section id="cost">
-<h2>補足：課題3の演算回数の数え方</h2>
-<p class="source">原典p.29の課題3に対応する導出。以下の回数は、ここで明示する実装を仮定したもの。</p>
-<p>密な実行列を対象とし、消去係数を1回だけ除算で計算して使い回す。零になる成分は代入で設定し、ピボット探索・比較・行交換・代入・添字計算は四則演算に含めない。積和を積1回＋減算1回と数え、複素演算を実演算へ展開する場合は別途数え直す。</p>
-<p>第 \(k\) 段では \(n-k\) 個の消去係数を計算し、残る \((n-k)\times(n-k)\) ブロックを更新する。ここから</p>
-<div class="equation">\[S_1=\sum_{k=1}^{n-1}(n-k)=\frac{n(n-1)}2,\qquad S_2=\sum_{k=1}^{n-1}(n-k)^2=\frac{n(n-1)(2n-1)}6\]</div>
-<p>を使う。後退代入は各行で必要な項を順に引く実装とする。</p>
-<div class="table-wrap"><table>
-<thead><tr><th>処理</th><th>乗算</th><th>加減算</th><th>除算</th></tr></thead>
-<tbody>
-<tr><td>係数行列の前進消去／LU分解</td><td>\(S_2\)</td><td>\(S_2\)</td><td>\(S_1\)</td></tr>
-<tr><td>消去法で右辺を更新</td><td>\(S_1\)</td><td>\(S_1\)</td><td>0</td></tr>
-<tr><td>LU解法の前進代入</td><td>\(S_1\)</td><td>\(S_1\)</td><td>0</td></tr>
-<tr><td>後退代入（両者共通）</td><td>\(S_1\)</td><td>\(S_1\)</td><td>\(n\)</td></tr>
-</tbody></table></div>
-<p>したがって1本の右辺を最初から解く場合、どちらもこの実装では</p>
-<div class="equation">\[N_{\mathrm{mul}}=N_{\mathrm{add/sub}}=S_2+2S_1,\qquad N_{\mathrm{div}}=S_1+n.\]</div>
-<p>乗算と加減算を合計した主要項は \(\frac23n^3\)。LU法では「右辺の消去」が「前進代入」に置き換わるため、1回の求解が本質的に低い次数の計算になるわけではない。</p>
-<p>同じ \(A\) に対して \(m\) 本の右辺を解くなら、分解を再利用するLU法は \(O(n^3+mn^2)\)。毎回係数行列から消去し直す実装は \(O(mn^3)\) になる。この違いが逆反復法で効く。課題3では、自分のループや演算の数え方がこの仮定と一致するか確認してから理論値と実測を結びつける。</p>
-</section>
-<footer><a href="../index.html">授業一覧に戻る</a><a href="授業資料/数理工学実験2026.pdf#page=19">原典の第2章を開く</a><span>第2回 · 原典 pp.19–30</span></footer>
-</main></article>
-<nav class="toc" aria-label="ページ内目次">
-<button class="toc-toggle" aria-expanded="false" aria-controls="life-toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
-<div class="toc-panel" id="life-toc-panel" hidden><ul>
-<li><a href="#purpose">2.1 何を数値的に求めるか</a></li>
-<li><a href="#norm">2.2 ノルムと内積</a></li>
-<li><a href="#linear">2.3 誤差・消去法・LU分解</a></li>
-<li><a href="#eigen">2.4 固有値問題の前提と評価</a></li>
-<li><a href="#power">2.4.1 べき乗法</a></li>
-<li><a href="#inverse">2.4.2 逆反復法</a></li>
-<li><a href="#qr-factor">2.4.3 QR分解</a></li>
-<li><a href="#qr">2.4.4 QR法</a></li>
-<li><a href="#accelerate">2.4.5 シフトと減次</a></li>
-<li><a href="#assignments">2.5 課題と必要知識の対応</a></li>
-<li><a href="#cost">補足：課題3の演算回数の数え方</a></li>
-</ul></div>
-</nav>
-</div>
-</main>
-</div>
-</body></html>
+<div class="reader"><article class="lesson-document" aria-labelledby="document-title">
+<header class="document-header"><p class="eyebrow">2026年度後期 · 数理工学実験 · 第2回</p><h1 id="document-title">第2章 数値線形代数</h1><p class="subtitle">連立1次方程式から固有値計算まで</p></header>
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約27分</span><p>数値線形代数では、方程式や固有値を「解ける」だけでなく、丸め誤差・残差・計算時間を見て方法の良し悪しを判断する。消去法とLU分解、べき乗法・逆反復法・QR法をつなぎ、課題1〜7の実験を設計できるようにする。</p></section>
+<section class="chapter-heading" id="chapter-01"><div class="chapter-title"><h2>準備と数値解の評価</h2><span class="reading-time">想定読了時間 約4分</span></div></section>
+<section class="explanation" id="slide-001"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 1｜目的とベクトルノルム</h2><span class="reading-time">想定読了時間 約2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=19" aria-label="原PDF 19ページを開く"><img src="assets/chapter2/pdf-page-19.png" alt="数理工学実験2026 第2章 PDF 19ページの原画像" loading="lazy"></a></div><p class="claim">計算する対象は連立方程式と固有値問題の二つ。</p><p>この章は、連立1次方程式 \(Ax=b\) の解と、固有値問題 \(Ax=\lambda x\) の固有値・固有ベクトルを数値的に求める。\(A\) は係数行列、\(b\) は既知の右辺、\(x\) は未知ベクトルである。後者では \(x\ne0\) が必要で、\(\lambda\) が固有値になる。理論上の公式をそのまま計算するのではなく、有限精度で安定して実装できる算法を選ぶ、というのが全章の狙いである。</p><p>右列で導入される<strong>ノルム</strong>はベクトルの大きさを測る量。\(p\) ノルムは \(\|x\|_p=(\sum_i|x_i|^p)^{1/p}\)、最大値ノルムは \(\|x\|_\infty=\max_i|x_i|\) である。以後の「誤差」「残差」を一つの数で比較するための準備になる。冒頭の実験環境表は再現時の条件であり、算法の定義ではない。</p></div></section>
+<section class="explanation" id="slide-002"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 2｜行列ノルム・内積と誤差</h2><span class="reading-time">想定読了時間 約2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=20" aria-label="原PDF 20ページを開く"><img src="assets/chapter2/pdf-page-20.png" alt="数理工学実験2026 第2章 PDF 20ページの原画像" loading="lazy"></a></div><p class="claim">残差と真の誤差を区別して計算結果を評価する。</p><p>行列の<strong>作用素ノルム</strong> \(\|A\|=\max_{x\ne0}\|Ax\|/\|x\|\) は「入力を最大何倍に伸ばすか」を表す。教材の \(\|A\|_{\max}=\max_{i,j}|a_{ij}|\) は各成分を見て計算しやすい別の行列ノルムである。複素ベクトルの内積 \((x,y)=x^*y\) では \(^*\) は共役転置を意味し、\((x,x)=\|x\|_2^2\)。QR分解で「直交」を使うとき、この複素内積でゼロかを判定する。</p><p>連立方程式の近似解を \(\tilde x\)、真の解を \(x\) とすると、相対誤差は \(\|x-\tilde x\|/\|x\|\)。真の解が分からない実験では残差 \(\|b-A\tilde x\|\) を計算する。残差が小さくても、\(A\) が悪条件なら真の誤差が小さいとは限らない。両者を同じ「精度」と呼ばず、課題ではどちらを描いたか明示する。</p></div></section>
+<section class="chapter-heading" id="chapter-02"><div class="chapter-title"><h2>連立1次方程式の数値解法</h2><span class="reading-time">想定読了時間 約6分</span></div></section>
+<section class="explanation" id="slide-003"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 3｜ピボット選択と消去法の実験</h2><span class="reading-time">想定読了時間 約2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=21" aria-label="原PDF 21ページを開く"><img src="assets/chapter2/pdf-page-21.png" alt="数理工学実験2026 第2章 PDF 21ページの原画像" loading="lazy"></a></div><p class="claim">行交換でゼロ除算と大きな桁落ちを避ける。</p><p><strong>前進消去</strong>は拡大係数行列 \((A,b)\) の第 \(k\) 列で非零のピボットを選び、行交換後に下側の成分を消す。上三角形になったら <strong>後退代入</strong>で \(x_n\) から順に求める。教材が最大絶対値の成分をピボットに選ぶのは、割る数が極端に小さいと丸め誤差が増幅されるからである。全ての候補がゼロなら、正則行列という前提を疑う。</p><p>右の図2.1〜2.3は100組のランダムな問題に対する残差、相対誤差、計算時間。横軸は試行、縦軸は対数目盛で、赤い破線は平均値である。残差の散らばりから実装が概ね方程式を満たしていると読めるが、図2.2の相対誤差は倍精度の解を基準にした近似評価であり、数学的な真値ではない。図2.3の時間は次元を固定した試行間のばらつきを示す。</p></div></section>
+<section class="explanation" id="slide-004"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 4｜行列のLU分解</h2><span class="reading-time">想定読了時間 約2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=22" aria-label="原PDF 22ページを開く"><img src="assets/chapter2/pdf-page-22.png" alt="数理工学実験2026 第2章 PDF 22ページの原画像" loading="lazy"></a></div><p class="claim">消去の操作を保存すると、同じ行列を何度も解く際に使える。</p><p>前進消去で行った「何倍を引くか」を下三角行列 \(L\) に保存し、消去後の上三角行列を \(U\) とする。行交換を含むので教材の形は \(P_\pi A=LU\)。\(P_\pi\) は行の並べ替えを表す置換行列、\(L\) は対角が1である。左列の消去行列の積を並べ替え直す議論が、なぜ単一の \(L\) にまとめられるかを説明している。</p><p>右列の手順で重要なのは、\(A\) の行だけでなく、以前に保存した \(L\) の対応する行と置換 \(\pi\) も一緒に更新すること。ここを忘れると \(P_\pi A=LU\) が壊れる。実装後は行列ノルム \(\|P_\pi A-LU\|\) で分解の整合性を確認できる。</p></div></section>
+<section class="explanation" id="slide-005"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 5｜LU分解による解法と固有値の前提</h2><span class="reading-time">想定読了時間 約2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=23" aria-label="原PDF 23ページを開く"><img src="assets/chapter2/pdf-page-23.png" alt="数理工学実験2026 第2章 PDF 23ページの原画像" loading="lazy"></a></div><p class="claim">三角方程式を順に解き、固有値実験の評価方法を整える。</p><p>\(P_\pi A=LU\) なら \(Ax=b\) は \(Ly=P_\pi b\)、\(Ux=y\) に分けられる。まず下三角方程式を前進代入し、次に上三角方程式を後退代入する。同じ \(A\) に対して右辺 \(b\) が何度も変わるなら、分解を一度だけ行い、二つの代入を繰り返せばよい。課題2・3で消去法との時間・計算量を比較する際の中心である。</p><p>後半は固有値問題に移る。\(A\) の固有値を絶対値順に \(|\lambda_1|>|\lambda_2|>\cdots>|\lambda_n|>0\) と仮定し、\(Av_i=\lambda_i v_i\) とする。この単純で非零なスペクトルの仮定が、後の収束率の説明を支える。固有ベクトルにはスカラー倍の自由があるため、相対誤差を比較する場合は同じノルムで正規化し、対応する成分の位相や符号をそろえる。実装チェックには固有方程式の残差 \(\|A\tilde v_i-\tilde\lambda_i\tilde v_i\|\) を使う。</p></div></section>
+<section class="chapter-heading" id="chapter-03"><div class="chapter-title"><h2>固有値問題の数値解法</h2><span class="reading-time">想定読了時間 約11分</span></div></section>
+<section class="explanation" id="slide-006"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 6｜べき乗法</h2><span class="reading-time">想定読了時間 約2〜3分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=24" aria-label="原PDF 24ページを開く"><img src="assets/chapter2/pdf-page-24.png" alt="数理工学実験2026 第2章 PDF 24ページの原画像" loading="lazy"></a></div><p class="claim">繰り返し掛け算で最大絶対値の固有成分を選び出す。</p><p>初期ベクトルを固有ベクトルの和 \(x_0=\sum_i c_i v_i\) と書けるとき、\(A^kx_0=\lambda_1^k(c_1v_1+\sum_{i>1}c_i(\lambda_i/\lambda_1)^kv_i)\)。\(c_1\ne0\) かつ \(|\lambda_2/\lambda_1|<1\) なら後者が消え、方向が \(v_1\) に近づく。毎回 \(Ax_k\) をノルムで割るのは数の桁が発散・消失しないようにするためで、固有値推定値は対応する非零成分の比から得る。</p><p>収束判定には連続する固有値推定値 \(\mu_k\) の相対変化を使うが、「推定値が変わらない」だけでは正しい固有対とは言えない。図2.4の残差を併せて見る。理論上の速度を決めるのは \(|\lambda_2/\lambda_1|\) で、この比が1に近いと長い反復が必要になる。</p></div></section>
+<section class="explanation" id="slide-007"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 7｜べき乗法の精度と計算時間</h2><span class="reading-time">想定読了時間 約1〜2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=25" aria-label="原PDF 25ページを開く"><img src="assets/chapter2/pdf-page-25.png" alt="数理工学実験2026 第2章 PDF 25ページの原画像" loading="lazy"></a></div><p class="claim">収束回数と一回当たりの計算量を分けて読む。</p><p>図2.5は固有値と固有ベクトルの相対誤差を上下で示す。青点が個々の試行、赤い破線が平均で、縦軸は対数目盛である。固有値の誤差が小さくても固有ベクトルの誤差は同じ桁になるとは限らない。正規化と基準解の取り方をそろえて比較する。</p><p>図2.6では上段の時間と下段の反復回数が似た散らばりを示す。密行列なら一反復の行列ベクトル積はおよそ \(O(n^2)\) で、固定した \(n\) の実験では時間が反復回数にほぼ比例するためである。課題4では \(n\) も変えるので、時間の増加を反復回数の変化と一反復の計算量の両方から説明する。</p></div></section>
+<section class="explanation" id="slide-008"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 8｜逆反復法</h2><span class="reading-time">想定読了時間 約2分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=26" aria-label="原PDF 26ページを開く"><img src="assets/chapter2/pdf-page-26.png" alt="数理工学実験2026 第2章 PDF 26ページの原画像" loading="lazy"></a></div><p class="claim">シフトした行列の連立方程式で、狙った固有値を拡大する。</p><p>\(\sigma\) が \(A\) の固有値でないとき、\((A-\sigma I)^{-1}\) の固有値は \(1/(\lambda_i-\sigma)\)。よって \(\sigma\) に近い固有値ほど逆行列側では絶対値が大きくなる。これが<strong>逆反復法</strong>の狙いで、反復ごとに \((A-\sigma I)y_k=x_k\) を解き、\(y_k\) を正規化する。逆行列を直接作る必要はない。教材の成分比による推定値を \(\mu_k\) とすれば、求める固有値は \(\lambda\approx\sigma+1/\mu_k\) で戻す。</p><p>係数行列は毎回同じなので、\(A-\sigma I\) を一度LU分解して再利用するのが効率的。\(\sigma\) が固有値に極端に近いと行列が悪条件または特異になるため、数値的な残差確認が重要である。左列の図2.5・2.6の説明は前ページから続き、右列末尾で次のQR分解へ入る。</p></div></section>
+<section class="explanation" id="slide-009"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 9｜QR分解とQR法への入口</h2><span class="reading-time">想定読了時間 約2〜3分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=27" aria-label="原PDF 27ページを開く"><img src="assets/chapter2/pdf-page-27.png" alt="数理工学実験2026 第2章 PDF 27ページの原画像" loading="lazy"></a></div><p class="claim">直交化した基底を使い、固有値を行列の対角へ集める。</p><p><strong>QR分解</strong>は \(A=QR\) と表し、\(Q^*Q=I\) を満たすユニタリ行列 \(Q\) と上三角行列 \(R\) に分けること。\(^*\) は共役転置である。Gram–Schmidt法は各列から以前の \(q_i\) 方向の成分を引いて直交化するが、丸め誤差で直交性が崩れやすい。教材の修正Gram–Schmidt法は残りの列をその都度更新し、この影響を抑える。列が一次従属なら \(r_{jj}=0\) となり、正規化できないことにも注意する。</p><p>分解後の \(\|A-QR\|\) は再構成の誤差、\(\|I-Q^*Q\|\) は直交性の誤差を測る。両方を確認して初めて、QR法に渡す分解が適切か判断できる。右列下の同時反復法は複数ベクトルへ \(A\) を掛けてQR分解する手順で、次ページのQR法の仕組みにつながる。</p></div></section>
+<section class="explanation" id="slide-010"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 10｜QR法とシフトの考え方</h2><span class="reading-time">想定読了時間 約2〜3分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=28" aria-label="原PDF 28ページを開く"><img src="assets/chapter2/pdf-page-28.png" alt="数理工学実験2026 第2章 PDF 28ページの原画像" loading="lazy"></a></div><p class="claim">相似変換を繰り返して全固有値を対角へ近づける。</p><p>QR法は \(A_k=Q_kR_k\) と分解し、順序を逆にした \(A_{k+1}=R_kQ_k=Q_k^*A_kQ_k\) を反復する。右端の式は<strong>相似変換</strong>なので各 \(A_k\) の固有値は元の \(A\) と同じ。狭義下三角部分が小さくなれば対角成分を固有値の近似として読める。左列の \(X_k=Q_0\cdots Q_{k-1}\) は各回の基底変換をまとめたもので、同時反復法との対応を示す。</p><p>下三角成分の収束率は概ね固有値の絶対値の比に支配される。隣接する固有値の大きさが近いと遅いので、右列末尾は \(A-\sigma I\) を使う<strong>シフト</strong>を導入する。対角の近似値 \(\sigma\) に応じて比を小さくできれば、該当成分の収束が速くなる。実装ではQR分解のたびに \(A-\sigma I\) を作り、得た \(RQ\) に \(\sigma I\) を戻す。</p></div></section>
+<section class="chapter-heading" id="chapter-04"><div class="chapter-title"><h2>シフト・減次と課題</h2><span class="reading-time">想定読了時間 約5分</span></div></section>
+<section class="explanation" id="slide-011"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 11｜シフト・減次と課題1〜4</h2><span class="reading-time">想定読了時間 約2〜3分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=29" aria-label="原PDF 29ページを開く"><img src="assets/chapter2/pdf-page-29.png" alt="数理工学実験2026 第2章 PDF 29ページの原画像" loading="lazy"></a></div><p class="claim">収束した固有値を切り離し、実験で測る量を決める。</p><p>シフト後の収束率は \(|\lambda_i-\sigma|/|\lambda_j-\sigma|\) に変わる。\(\sigma\) を末尾の固有値へ近づけると、最後の狭義下三角成分が速く小さくなる。<strong>減次</strong>はその成分が相対閾値以下になった時点で末尾の対角成分を固有値として確定し、残った左上の小行列だけを続ける操作。単に反復を止めるのではなく、次元を減らして残りを解く。</p><p>課題1は消去法の残差・相対誤差・時間、課題2は同じ条件でLU分解、課題3は両者の精度と速度および加減乗除の回数を比較する。課題4はべき乗法で次元ごとに100行列を試し、固有方程式の残差、固有値・固有ベクトルの相対誤差、時間、反復回数を描く。これらはこの章の直接の演習なので、実装・比較の重点対象である。図示する「真値」は教材の指示どおり数値計算パッケージの結果を参照値として用い、厳密値とは区別する。</p></div></section>
+<section class="explanation" id="slide-012"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 12｜課題5〜7と参考文献</h2><span class="reading-time">想定読了時間 約2〜3分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=30" aria-label="原PDF 30ページを開く"><img src="assets/chapter2/pdf-page-30.png" alt="数理工学実験2026 第2章 PDF 30ページの原画像" loading="lazy"></a></div><p class="claim">改良算法を基準法と同じ精度・速度の軸で比べる。</p><p>課題5はべき乗法と逆反復法の組合せを作り、べき乗法より速いかを精度と速度で比べる。課題6はQR法で全固有値を求め、各固有方程式の残差の最大値、相対誤差の最大値、時間、反復回数を次元別に比較する。QR法だけでは固有ベクトルを直接得ないので、評価に必要なら逆反復などで求め、基準の固有値との対応もそろえる。</p><p>課題7はシフトと減次を加えたQR法を元のQR法と比べる。効果を確かめるには、同じ行列・同じ収束閾値・同じ計測方法で比較する。注意2.5.1にあるとおり、ランダムな実行列には複素共役の固有値対が現れうる。教材の単純な収束仮定から外れるため、実対称行列でまず算法を確認する選択にも意味がある。末尾の参考文献は追加学習先であり、この章の実験指示ではない。</p></div></section>
+</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li>
+<li><a href="#chapter-01">準備と数値解の評価</a><ul>
+<li><a href="#slide-001">解説 1　目的とベクトルノルム</a></li>
+<li><a href="#slide-002">解説 2　行列ノルム・内積と誤差</a></li>
+</ul></li>
+<li><a href="#chapter-02">連立1次方程式の数値解法</a><ul>
+<li><a href="#slide-003">解説 3　ピボット選択と消去法の実験</a></li>
+<li><a href="#slide-004">解説 4　行列のLU分解</a></li>
+<li><a href="#slide-005">解説 5　LU分解による解法と固有値の前提</a></li>
+</ul></li>
+<li><a href="#chapter-03">固有値問題の数値解法</a><ul>
+<li><a href="#slide-006">解説 6　べき乗法</a></li>
+<li><a href="#slide-007">解説 7　べき乗法の精度と計算時間</a></li>
+<li><a href="#slide-008">解説 8　逆反復法</a></li>
+<li><a href="#slide-009">解説 9　QR分解とQR法への入口</a></li>
+<li><a href="#slide-010">解説 10　QR法とシフトの考え方</a></li>
+</ul></li>
+<li><a href="#chapter-04">シフト・減次と課題</a><ul>
+<li><a href="#slide-011">解説 11　シフト・減次と課題1〜4</a></li>
+<li><a href="#slide-012">解説 12　課題5〜7と参考文献</a></li>
+</ul></li>
+</ul></div></nav></div></main></div></body></html>

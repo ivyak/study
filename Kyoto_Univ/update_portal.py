@@ -14,6 +14,9 @@ from article_reports import article_records
 ROOT = Path(__file__).resolve().parent
 SHELL_START = '<!-- LIFE-SHELL:START -->'
 SHELL_END = '<!-- LIFE-SHELL:END -->'
+# One experiment course spans four timetable cells. Share its documents and
+# resources so edits to the canonical folder appear in every cell.
+MATH_EXPERIMENT_SLOTS = (('月', 3), ('月', 4), ('火', 3), ('火', 4))
 
 
 class Metadata(HTMLParser):
@@ -148,6 +151,13 @@ def course_records():
             'resources': {category: resources(folder, category) for category in ['weapons', 'practice']},
             'documents': [material_data(title, relative) for title, relative, _ in docs],
         })
+    experiment = next((entry for entry in entries
+                       if entry['id'] == '[2026後期月３]数理工学実験'), None)
+    if experiment:
+        for day, period in MATH_EXPERIMENT_SLOTS[1:]:
+            entries.append({**experiment,
+                            'id': f'[2026後期{day}{period}]数理工学実験',
+                            'day': day, 'period': period})
     entries.sort(key=lambda item: (item['term'][:4], 0 if item['term'].endswith('前期') else 1,
                                    '月火水木金土日'.index(item['day']), item['period'], item['name']))
     return entries

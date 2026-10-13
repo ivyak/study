@@ -1,0 +1,190 @@
+\documentclass[a4paper,11pt]{ujarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{ascmac}
+\geometry{margin=25mm}
+\lstset{basicstyle=\ttfamily\small,frame=single,breaklines=true,numbers=left}
+\newcommand{\todo}[1]{\par\noindent\fbox{\parbox{.94\linewidth}{\textbf{TODO（本人が記入）}：#1}}\par}
+\newcommand{\source}[1]{\par\noindent{\small\textbf{原典}：数理工学実験2026，第2章，#1（PDFページ＝印刷ページ）}\par}
+\newcommand{\answer}{\par\noindent\textbf{解答・実験記録}\par}
+\begin{document}
+\begin{titlepage}
+\centering
+{\Large 数理工学実験\par}
+\vspace{12mm}
+{\LARGE テーマ1：数値線形代数\par}
+\vspace{8mm}
+{\large 第2章レポートひな型（未完成）\par}
+\vspace{25mm}
+\begin{tabular}{ll}
+実験日 & \underline{\hspace{85mm}}\\[8mm]
+提出日 & \underline{\hspace{85mm}}\\[8mm]
+提出先 & \underline{\hspace{85mm}}\\[8mm]
+氏名 & \underline{\hspace{85mm}}\\[8mm]
+学籍番号 & \underline{\hspace{85mm}}
+\end{tabular}
+\vfill
+\end{titlepage}
+
+\section{要約}
+\todo{目的、実施した課題、主要な結果、結論を実験後に簡潔に記す。}
+
+\section{目的・共通条件}
+本章では連立1次方程式（2.1）と固有値問題（2.2）を扱う。
+\begin{align*}Ax&=b &&\text{(2.1)}, & Ax&=\lambda x &&\text{(2.2)}.\end{align*}
+以下の課題文は教材の第2章2.5節から転記した。数値計算パッケージの値は教材の指示に沿った\emph{参照値}として扱い、厳密解と混同しない。
+\source{pp.19, 29--30}
+\todo{実際の実行環境、言語、数値型、乱数生成法・シード、停止条件、時間計測範囲、使用したノルム、記号と単位、参照値を得たパッケージと版を記す。}
+\noindent 教材で参照する評価量は次のとおりである。
+\begin{align*}
+\text{連立方程式の相対誤差（2.4）}&\quad \frac{\|x-\tilde x\|}{\|x\|},\\
+\text{連立方程式の残差（2.5）}&\quad \|b-A\tilde x\|,\\
+\text{固有値の相対誤差（2.10）}&\quad \frac{|\lambda_i-\tilde\lambda_i|}{|\lambda_i|},\\
+\text{固有ベクトルの相対誤差（2.11）}&\quad \frac{\|v_i-\tilde v_i\|}{\|v_i\|},\\
+\text{固有方程式の残差（2.12）}&\quad \|\tilde\lambda_i\tilde v_i-A\tilde v_i\|.
+\end{align*}
+式(2.11)の比較ではノルムと符号・位相をそろえる条件がある。
+\source{pp.20, 23}
+
+\section{課題1・2：連立1次方程式}
+\subsection{課題1：消去法}
+\source{p.29，課題1}
+\begin{itembox}[l]{課題1（共通）}
+消去法により，連立1次方程式 (2.1) の解を求める数値実験を行う．
+\[n=100,200,400,800\]
+のそれぞれに対して，$n$ 次の行列 $A$ とベクトル $b$ のペアをランダムに100個生成し，各ペアに対して連立1次方程式 (2.1) の数値解を求めよ．
+\end{itembox}
+\begin{itembox}[l]{課題1-(1)}
+各 $n$ に対して，数値解 $\tilde x$ の残差ノルム (2.5)，相対誤差 (2.4)，計算時間をそれぞれプロットせよ．ただし真の解は不明なので，MATLAB や Python における数値計算パッケージで得られるものを真の解として用いよ．
+\end{itembox}
+\answer
+\todo{消去法とピボット選択の実装、提出コード名、行列・右辺の生成条件、参照解の算出法を記す。各次元100件の残差・相対誤差・時間を単位とともに図示し、本文で図番号を参照する。}
+\begin{itembox}[l]{課題1-(2)}
+数値解の精度と次数 $n$ の関係について考察せよ．
+\end{itembox}
+\answer
+\todo{精度と次数の観測結果を示し、その結果から考察する。}
+\begin{itembox}[l]{課題1-(3)}
+計算時間と次数 $n$ の関係について考察せよ．
+\end{itembox}
+\answer
+\todo{時間と次数の観測結果、計測単位を示し、その結果から考察する。}
+
+\subsection{課題2：LU分解による解法}
+\source{p.29，課題2}
+\begin{itembox}[l]{課題2}
+課題1と同じ内容を，LU 分解による解法に替えて行え．
+\end{itembox}
+\answer
+\todo{課題1と同じ入力・参照解・計測条件で行ったことを示す。分解・前進代入・後退代入、コード名、(1) の3種類の図と (2)(3) の考察を記す。行交換の扱いを明示する。}
+
+\subsection{課題3：両解法の比較}
+\source{p.29，課題3}
+\begin{itembox}[l]{課題3}
+連立1次方程式に対する消去法と LU 分解による解法を，数値解の精度と計算速度の観点から比較せよ．その際，理論的な計算量（加減算，乗算，除算それぞれの回数）についても考察せよ．
+\end{itembox}
+\answer
+\todo{同一入力に対する精度・時間の比較表または図を示す。実測と理論的な加減算・乗算・除算回数を区別し、数え方と比較条件を記す。}
+
+\section{課題4・5：第1固有値と第1固有ベクトル}
+\subsection{課題4：べき乗法}
+\source{p.29，課題4}
+\begin{itembox}[l]{課題4（共通）}
+べき乗法により，行列 $A$ の第1固有値と第1固有ベクトルを求める数値実験を行う．
+\[n=50,100,200,400\]
+のそれぞれに対して，$n$ 次行列 $A$ をランダムに100個生成し，各 $A$ の第1固有値と第1固有ベクトルを数値的に求めよ．
+\end{itembox}
+\begin{itembox}[l]{課題4-(1)}
+各 $n$ に対して，数値的に求めた第1固有値 $\tilde\lambda_1$ と第1固有ベクトル $\tilde v_1$ に対する固有方程式の残差ノルム (2.12)，$\tilde\lambda_1$ の相対誤差 (2.10)，$\tilde v_1$ の相対誤差 (2.11)，計算時間，収束までに要した反復回数をそれぞれプロットせよ．
+\end{itembox}
+\answer
+\todo{行列生成、初期ベクトル、停止条件、未収束の扱い、参照固有対と符号・位相の対応、コード名を記す。5種類の図を作成し、本文で参照する。}
+\begin{itembox}[l]{課題4-(2)}
+$\tilde\lambda_1,\tilde v_1$ の精度と次数 $n$ の関係について考察せよ．
+\end{itembox}
+\answer
+\todo{固有値・固有ベクトルの精度について、観測結果と考察を分けて記す。}
+\begin{itembox}[l]{課題4-(3)}
+計算時間と次数 $n$ の関係について考察せよ．
+\end{itembox}
+\answer
+\todo{時間と次数の観測結果、単位、反復回数との関係を記して考察する。}
+\noindent\textbf{注意2.5.1（p.29）}　べき乗法や QR 法の収束性は，与えられた行列の固有値の絶対値がすべて相異なる場合に保証される．しかし，ランダムな実行列は共役な複素固有値を含む可能性があり，その場合にはアルゴリズムの収束が保証されない．そこで，生成した実行列 $A$ にその転置 $A^{\mathsf T}$ を加えるなどして実対称行列を生成し，それを用いて実験するなどの工夫をすると良い．
+\todo{注意2.5.1を踏まえ、実際に使用した行列の種類を課題4-(1)に記す。}
+
+\subsection{課題5：べき乗法と逆反復法}
+\source{p.30，課題5}
+\begin{itembox}[l]{課題5}
+べき乗法と逆反復法を組み合わせて，第1固有値と第1固有ベクトルを数値的に求めるための算法として，べき乗法より高速なものをつくれ．つくった算法とべき乗法を精度と速度の面から比較せよ．
+\end{itembox}
+\answer
+\todo{組合せた算法、シフトの選び方・更新法、停止条件、提出コード名を記す。課題4と比較可能な入力・精度指標・時間計測範囲で結果を示し、観測と考察を分ける。}
+
+\section{課題6・7：全固有値}
+\subsection{課題6：QR法}
+\source{p.30，課題6}
+\begin{itembox}[l]{課題6（共通）}
+QR 法により，行列 $A$ の全ての固有値を求める数値実験を行う．
+\[n=10,20,40,80\]
+のそれぞれに対して，$n$ 次行列 $A$ をランダムに100個生成し，各 $A$ の固有値
+\[\lambda_1,\ldots,\lambda_n\]
+を数値的に求めよ．
+\end{itembox}
+\begin{itembox}[l]{課題6-(1)}
+各 $n$ に対して，数値的に求めた固有値 $\tilde\lambda_1,\ldots,\tilde\lambda_n$ に対する固有方程式の残差ノルムの最大値
+\begin{equation*}\max_{1\le i\le n}\|(A-\tilde\lambda_i I)v_i\|,\end{equation*}
+相対誤差の最大値
+\begin{equation*}\max_{1\le i\le n}\frac{|\lambda_i-\tilde\lambda_i|}{|\lambda_i|},\end{equation*}
+計算時間，収束までに要した反復回数をそれぞれプロットせよ．ただし真の固有値 $\lambda_i$ と固有ベクトル $v_i$ は不明なので，MATLAB や Python における数値計算パッケージで得られるものを真の固有値および固有ベクトルとして用いよ．
+\end{itembox}
+\answer
+\todo{QR分解法、収束判定、固有値の対応づけ、参照固有対の計算法とコード名を記す。原式は $v_i$ を使用しているので、評価に用いた参照ベクトルを明示する。4種類の図を示す。}
+\begin{itembox}[l]{課題6-(2)}
+$\tilde\lambda_1,\ldots,\tilde\lambda_n$ の精度と次数 $n$ の関係について考察せよ．
+\end{itembox}
+\answer
+\todo{各次元の精度の観測結果と考察を分けて記す。}
+\begin{itembox}[l]{課題6-(3)}
+計算時間と次数 $n$ の関係について考察せよ．
+\end{itembox}
+\answer
+\todo{各次元の時間の観測結果、単位、反復回数との関係を記して考察する。}
+
+\subsection{課題7：シフト・減次による高速化}
+\source{p.30，課題7}
+\begin{itembox}[l]{課題7}
+シフトと減次を用いて QR 法を高速化せよ．つくった算法と元々の QR 法を精度と速度の面から比較せよ．
+\end{itembox}
+\answer
+\todo{シフトと減次の条件・手順、提出コード名、元のQR法と共通の入力・停止条件・精度指標・計測範囲を記す。比較図表と考察を示す。}
+
+\section{実験結果の図表・コードの記載例}
+\todo{図や表を実データで作成し、本文中で「図\textbackslash ref\{fig:example\}に示す」のように参照する。以下のコメント例を必要な箇所に移して編集する。}
+% 図\ref{fig:example}に、対象量と単位を示す。
+% \begin{figure}[htbp]\centering
+% \includegraphics[width=.8\linewidth]{figures/your-plot.pdf}
+% \caption{TODO: 対象量、条件、単位を記す。}\label{fig:example}
+% \end{figure}
+% 表\ref{tab:example}に比較条件と結果を示す。
+% \begin{table}[htbp]\centering\caption{TODO: 比較対象と条件}\label{tab:example}
+% \begin{tabular}{cc}\hline 条件 & 結果\\\hline TODO & TODO\\\hline\end{tabular}\end{table}
+% 外部コードを本文に掲載する場合は次を有効にする（言語は実際のものを指定）。
+% \lstinputlisting[language=Python,caption={TODO: コードの説明},label={lst:solver}]{src/your_code.py}
+\todo{実際に提出する、動作確認済みのソースファイル名・実行方法・依存ライブラリを一覧にする。}
+
+\section{結論}
+\todo{各課題の結果から支持される結論と適用条件・残る制約を記す。}
+
+\section{参考文献}
+\begin{thebibliography}{9}
+\bibitem{handout} 京都大学工学部情報学科数理工学コース実験演習ワーキンググループ編，\textit{数理工学実験（2026年度版）}，第2章，pp.~19--30，2026．
+% \bibitem{ref} TODO: 実際に参照した原典を記す。Web資料はURLと閲覧日を付す。
+\end{thebibliography}
+\todo{実際に参照した資料を追加し、本文中の引用箇所を対応づける。}
+
+\section{生成AIの利用}
+本レポートのひな型作成に生成AIを利用した。
+\todo{使用したツール名、用途、影響した箇所、本人が原典・計算・コード・図表をどう確認したかを記す。本人が後でAIを使った作業も追記する。未使用の用途を宣言しない。}
+\end{document}

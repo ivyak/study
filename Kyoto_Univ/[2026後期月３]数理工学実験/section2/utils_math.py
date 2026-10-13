@@ -87,6 +87,7 @@ def residual_norm(A: list[list[float]], x: list[float], b: list[float]):
 # 正方行列をLU分解
 def LU_decomposition(A: list[list[float]]):
   n: int = len(A)
+  U: list[list[float]] = [row[:] for row in A]
   L: list[list[float]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
   P_pi: list[list[int]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
 
@@ -94,21 +95,29 @@ def LU_decomposition(A: list[list[float]]):
     pivot_row: int = i
 
     for j in range(i + 1, n):
-      if abs(A[j][i]) > abs(A[pivot_row][i]):
+      if abs(U[j][i]) > abs(U[pivot_row][i]):
         # ピボット行を更新
         pivot_row = j
-      if pivot_row != i:
-        A[i], A[pivot_row] = A[pivot_row], A[i]
-        L[i], L[pivot_row] = L[pivot_row], L[i]
-        P_pi[i], P_pi[pivot_row] = P_pi[pivot_row], P_pi[i]
+    if pivot_row != i:
+      U[i], U[pivot_row] = U[pivot_row], U[i]
+      # Lでは計算済みの列だけを交換し、対角成分は動かさない
+      L[i][:i], L[pivot_row][:i] = L[pivot_row][:i], L[i][:i]
+      P_pi[i], P_pi[pivot_row] = P_pi[pivot_row], P_pi[i]
 
     for j in range(i + 1, n):
-      if A[j][i] != 0:
-        factor: float = A[j][i] / A[i][i]
-        L[j][i] = factor
-        for k in range(i, n):
-          A[j][k] -= factor * A[i][k]
-
-  U: list[list[float]] = A
+      factor: float = U[j][i] / U[i][i]
+      L[j][i] = factor
+      U[j][i] = 0
+      for k in range(i + 1, n):
+        U[j][k] -= factor * U[i][k]
 
   return L, U, P_pi
+
+def forward_substitution_LU(L: list[list[float]], b: list[float]):
+  n: int = len(L)
+  y: list[float] = [0] * n
+
+  for i in range(n):
+    sum_ly: float = sum(L[i][j] * y[j] for j in range(i))
+    y[i] = (b[i] - sum_ly) / L[i][i]
+  return y

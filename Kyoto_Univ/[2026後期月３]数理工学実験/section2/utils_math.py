@@ -73,4 +73,5 @@ def matrix_vector_product(A: list[list[float]], x: list[float]):
 
 # 残差ノルムを求める
 def residual_norm(A: list[list[float]], x: list[float], b: list[float]):
-  return infinity_norm([matrix_vector_product(A, x)[i] - b[i] for i in range(len(b))])
+  Ax: list[float] = matrix_vector_product(A, x)
+  return infinity_norm([Ax[i] - b[i] for i in range(len(b))])

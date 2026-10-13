@@ -1,5 +1,4 @@
 import utils_math
-import numpy as np
 
 n: list[int] = [100, 200, 400, 800]
 

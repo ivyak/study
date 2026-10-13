@@ -1,5 +1,9 @@
 import random
 
+# ------------------------------
+# 課題1用の関数
+# ------------------------------
+
 # n次正方行列作成
 def make_square_matrix(n: int):
   return [[random.random() for _ in range(n)] for _ in range(n)]
@@ -75,3 +79,36 @@ def matrix_vector_product(A: list[list[float]], x: list[float]):
 def residual_norm(A: list[list[float]], x: list[float], b: list[float]):
   Ax: list[float] = matrix_vector_product(A, x)
   return infinity_norm([Ax[i] - b[i] for i in range(len(b))])
+
+# ------------------------------
+# 課題2用の関数
+# ------------------------------
+
+# 正方行列をLU分解
+def LU_decomposition(A: list[list[float]]):
+  n: int = len(A)
+  L: list[list[float]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
+  P_pi: list[list[int]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
+
+  for i in range(n):
+    pivot_row: int = i
+
+    for j in range(i + 1, n):
+      if abs(A[j][i]) > abs(A[pivot_row][i]):
+        # ピボット行を更新
+        pivot_row = j
+      if pivot_row != i:
+        A[i], A[pivot_row] = A[pivot_row], A[i]
+        L[i], L[pivot_row] = L[pivot_row], L[i]
+        P_pi[i], P_pi[pivot_row] = P_pi[pivot_row], P_pi[i]
+
+    for j in range(i + 1, n):
+      if A[j][i] != 0:
+        factor: float = A[j][i] / A[i][i]
+        L[j][i] = factor
+        for k in range(i, n):
+          A[j][k] -= factor * A[i][k]
+
+  U: list[list[float]] = A
+
+  return L, U, P_pi

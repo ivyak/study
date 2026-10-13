@@ -3,6 +3,7 @@
   "name": "KULMS Downloader and Timetable",
   "version": "1.0",
   "description": "京都大学のKULMSの授業資料および課題資料を階層を維持して一括ダウンロードします。また、履修登録した科目を時間割形式で表示します",
+  "permissions": ["storage"],
   "content_scripts": [
     {
       "matches": [

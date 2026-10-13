@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="1">
+<meta name="study-kind" content="解説">
+<meta name="study-created" content="2026-10-13">
+<title>解析力学（数理）｜第1回：極座標の単位ベクトル</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.basis-figure{max-width:600px;margin:24px auto;text-align:center}
+.basis-figure svg{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.025)}
+.basis-figure figcaption{margin-top:8px;color:var(--gold);font-size:12px}
+.basis-figure text{fill:currentColor;font:15px sans-serif}
+.basis-figure .fixed{stroke:#ed7777;fill:#ed7777}.basis-figure .moving{stroke:#d7b66c;fill:#d7b66c}
+.basis-figure .axis{stroke:rgba(255,255,255,.7)}
+</style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水２]解析力学（数理）">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%92%5D%E8%A7%A3%E6%9E%90%E5%8A%9B%E5%AD%A6%EF%BC%88%E6%95%B0%E7%90%86%EF%BC%89">解析力学（数理）</a><span>/</span><span>第1回 解説</span></div>
+<div class="document-back"><a class="back-step" style="width:52px" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%92%5D%E8%A7%A3%E6%9E%90%E5%8A%9B%E5%AD%A6%EF%BC%88%E6%95%B0%E7%90%86%EF%BC%89" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="section-rule"></div>
+<div class="reader">
+<article class="lesson-document" aria-labelledby="document-title">
+<header class="document-header">
+<p class="eyebrow">2026年度 後期 · 水曜2限　追加ノートの清書 / 第1回</p>
+<h1 id="document-title">解析力学（数理）</h1>
+<p class="subtitle">極座標の単位ベクトルの時間微分</p>
+</header>
+<p class="muted">出典：<a href="第1回_追加.pdf">第1回_追加.pdf</a>、全2ページ。原典の図と式を文章・数式で清書した。原典にない説明は「清書時の補足」と記す。</p>
+<p class="muted">想定読了時間：約8分（要旨・目次を含む）。本文は毎分400〜600字を目安に数式を読む時間を加算した。原典の熟読や自力での計算は含まない。過去問・演習未確認。詳しさは内容上の必要性で暫定判断した。</p>
+
+<section class="summary" id="summary">
+<h2>講義を通して言いたいこと</h2>
+<p>極座標では、点の位置が動くと半径方向と接線方向の単位ベクトルも回転する。固定された直交基底でそれらを表してから時間微分すると、基底の変化を角速度 \(\dot\theta\) で表せる。</p>
+</section>
+
+<h2 class="chapter-title" id="chapter-01">固定基底による表示</h2>
+<p class="chapter-time">この章の想定読了時間：約3分</p>
+<section class="explanation" id="explanation-001" aria-labelledby="heading-001">
+<h3 id="heading-001">解説 1　半径方向と接線方向</h3>
+<p class="slide-claim"><strong>動く極座標の基底を、向きの変わらない \(x,y\) 軸の基底で表す。</strong></p>
+<p class="source">原典：PDF 1ページ・図と「方針」 · 想定読了時間：約3分</p>
+<p>平面の点を、原点からの距離 \(r\) と正の \(x\) 軸から反時計回りに測った角度 \(\theta\) で表す。固定された \(x,y\) 軸方向の単位ベクトルを \(\boldsymbol e_1,\boldsymbol e_2\) とする。点から外向きの単位ベクトルが \(\boldsymbol e_r\)、\(\theta\) が増える向きに直交する単位ベクトルが \(\boldsymbol e_\theta\) である。</p>
+<figure class="basis-figure">
+<svg viewBox="0 0 520 270" role="img" aria-label="原点から角度θの位置にある点と、そこでの固定基底e1、e2、極座標の基底er、eθの向き">
+<defs><marker id="arrow-axis" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="rgba(255,255,255,.7)"/></marker><marker id="arrow-fixed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#ed7777"/></marker><marker id="arrow-moving" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#d7b66c"/></marker></defs>
+<path class="axis" d="M65 222 H465 M65 222 V25" fill="none" stroke-width="2" marker-end="url(#arrow-axis)"/><text x="475" y="228">x</text><text x="55" y="22">y</text>
+<path class="axis" d="M65 222 L300 105" fill="none" stroke-width="2"/><path class="axis" d="M112 222 A47 47 0 0 0 107 201" fill="none"/><text x="119" y="209">θ</text><text x="181" y="151">r</text><circle cx="300" cy="105" r="3" fill="currentColor"/>
+<path class="fixed" d="M300 105 H389 M300 105 V26" fill="none" stroke-width="2.5" marker-end="url(#arrow-fixed)"/><text class="fixed" x="398" y="111">e₁</text><text class="fixed" x="306" y="25">e₂</text>
+<path class="moving" d="M300 105 L383 64 M300 105 L258 22" fill="none" stroke-width="3" marker-end="url(#arrow-moving)"/><text class="moving" x="393" y="63">eᵣ</text><text class="moving" x="213" y="24">eθ</text>
+</svg>
+<figcaption>原典1ページの向きの関係を描き直した説明用の図</figcaption>
+</figure>
+<p>図の \(x,y\) 軸への射影を読むと、原典の二式は次のようになる。</p>
+<div class="equation key-equation">\[\boxed{\begin{aligned}
+\boldsymbol e_r&amp;=\cos\theta\,\boldsymbol e_1+\sin\theta\,\boldsymbol e_2,\\
+\boldsymbol e_\theta&amp;=-\sin\theta\,\boldsymbol e_1+\cos\theta\,\boldsymbol e_2.
+\end{aligned}}\]</div>
+<p>\(\boldsymbol e_\theta\) は \(\boldsymbol e_r\) を反時計回りに直角だけ回した向きである。したがって、\(\boldsymbol e_\theta\) の \(x\) 成分には負号が付く。この分解が次の微分の出発点となる。</p>
+</section>
+
+<h2 class="chapter-title" id="chapter-02">時間微分とその意味</h2>
+<p class="chapter-time">この章の想定読了時間：約4分</p>
+<section class="explanation" id="explanation-002" aria-labelledby="heading-002">
+<h3 id="heading-002">解説 2　回転する基底の微分</h3>
+<p class="slide-claim"><strong>\(\boldsymbol e_r\) の変化は接線方向、\(\boldsymbol e_\theta\) の変化は半径の内向きに現れる。</strong></p>
+<p class="source">原典：PDF 2ページ・全体 · 想定読了時間：約3分</p>
+<p>\(\theta=\theta(t)\) とする。固定基底は時間に依存しないので \(\dot{\boldsymbol e}_1=\dot{\boldsymbol e}_2=\boldsymbol 0\) である。原典1ページの二式を時間で微分し、連鎖律 \(\frac{\mathrm d}{\mathrm dt}\sin\theta=\cos\theta\,\dot\theta\) などを使う。</p>
+<div class="equation">\[\begin{aligned}
+\dot{\boldsymbol e}_r
+&amp;=-\sin\theta\,\dot\theta\,\boldsymbol e_1+\cos\theta\,\dot\theta\,\boldsymbol e_2\\
+&amp;=\dot\theta\left(-\sin\theta\,\boldsymbol e_1+\cos\theta\,\boldsymbol e_2\right)
+=\dot\theta\,\boldsymbol e_\theta,\\[6pt]
+\dot{\boldsymbol e}_\theta
+&amp;=-\cos\theta\,\dot\theta\,\boldsymbol e_1-\sin\theta\,\dot\theta\,\boldsymbol e_2\\
+&amp;=-\dot\theta\left(\cos\theta\,\boldsymbol e_1+\sin\theta\,\boldsymbol e_2\right)
+=-\dot\theta\,\boldsymbol e_r.
+\end{aligned}\]</div>
+<p>括弧の中身を最初の二式と見比べると、結論が得られる。</p>
+<div class="equation key-equation">\[\boxed{\dot{\boldsymbol e}_r=\dot\theta\,\boldsymbol e_\theta,\qquad
+\dot{\boldsymbol e}_\theta=-\dot\theta\,\boldsymbol e_r.}\]</div>
+<p>角度が一定なら \(\dot\theta=0\) なので両方の微分はゼロになる。角度が増える場合は \(\boldsymbol e_r\) が \(\boldsymbol e_\theta\) の向きへ、\(\boldsymbol e_\theta\) が \(-\boldsymbol e_r\) の向きへ回る。式の符号は図とも一致する。</p>
+</section>
+
+<section class="explanation" id="explanation-003" aria-labelledby="heading-003">
+<h3 id="heading-003">解説 3　位置ベクトルを微分するとき</h3>
+<p class="slide-claim"><strong>極座標で速度を出すときは、成分 \(r\) と基底 \(\boldsymbol e_r\) の両方を微分する。</strong></p>
+<p class="source">清書時の補足（原典の二式の使いどころ） · 想定読了時間：約1分</p>
+<p>\(\dot\theta=\mathrm d\theta/\mathrm dt\) は角速度である。位置ベクトル \(\boldsymbol x=r\boldsymbol e_r\) を時間微分すると、積の微分と上の結論から</p>
+<div class="equation">\[\boldsymbol v=\dot{\boldsymbol x}
+=\dot r\,\boldsymbol e_r+r\dot\theta\,\boldsymbol e_\theta\]</div>
+<p>となる。\(r\) が一定でも \(\theta\) が変われば接線方向の速度が残る。このように、極座標で運動を計算する際は基底の向きの変化を忘れない。</p>
+</section>
+<footer class="muted">原典：<a href="第1回_追加.pdf">第1回_追加.pdf</a>（全2ページ）。図は説明用に再構成した。</footer>
+</article>
+<nav class="toc" aria-label="ページ内目次">
+<button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+<div class="toc-panel" id="toc-panel" hidden><ul>
+<li><a href="#summary">講義の要点</a></li>
+<li><a href="#chapter-01">固定基底による表示</a><ul><li><a href="#explanation-001">解説 1　半径方向と接線方向</a></li></ul></li>
+<li><a href="#chapter-02">時間微分とその意味</a><ul><li><a href="#explanation-002">解説 2　回転する基底の微分</a></li><li><a href="#explanation-003">解説 3　位置ベクトルを微分するとき</a></li></ul></li>
+</ul></div>
+</nav>
+</div>
+</main>
+</div>
+</body>
+</html>

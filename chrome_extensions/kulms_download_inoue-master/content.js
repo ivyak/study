@@ -96,10 +96,14 @@
 
     const itemAllCourses = createMenuItem('全教科を一括DL', '📚');
     const itemCurrentCourse = createMenuItem('選択中の教科のみDL', '📖', !site_id);
-    itemCurrentCourse.style.borderBottom = 'none';
+    const itemFullAllCourses = createMenuItem('全教科を再度フルダウンロード', '🔄');
+    const itemFullCurrentCourse = createMenuItem('選択中の教科を再度フルダウンロード', '🔄', !site_id);
+    itemFullCurrentCourse.style.borderBottom = 'none';
 
     menu.appendChild(itemAllCourses);
     menu.appendChild(itemCurrentCourse);
+    menu.appendChild(itemFullAllCourses);
+    menu.appendChild(itemFullCurrentCourse);
     dlContainer.appendChild(mainBtn);
     dlContainer.appendChild(menu);
 
@@ -126,32 +130,88 @@
     
     document.addEventListener('click', (e) => { if (!dlContainer.contains(e.target)) toggleMenu(true); });
 
+    // サイトごとに保存する。日時がない項目は安全に同一判定できないため記録しない。
+    const historyKey = 'kulmsDownloadedSourcesV1';
+    const readHistory = async () => {
+        try {
+            if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+                const stored = (await chrome.storage.local.get(historyKey))[historyKey];
+                if (stored) return stored;
+            }
+        } catch (error) {
+            console.warn('Chrome のダウンロード履歴を読み込めませんでした', error);
+        }
+        try {
+            return JSON.parse(localStorage.getItem(historyKey)) || {};
+        } catch (error) {
+            console.warn('ダウンロード履歴を読み込めませんでした', error);
+            return {};
+        }
+    };
+
+    const writeHistory = async (history) => {
+        try {
+            if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+                await chrome.storage.local.set({ [historyKey]: history });
+                return true;
+            }
+        } catch (error) {
+            console.warn('Chrome にダウンロード履歴を保存できませんでした', error);
+        }
+        try {
+            localStorage.setItem(historyKey, JSON.stringify(history));
+            return true;
+        } catch (error) {
+            console.error('ダウンロード履歴を保存できませんでした', error);
+            return false;
+        }
+    };
+    const sourceDate = (item) => {
+        const fields = ['createdDate', 'creationDate', 'dateCreated', 'addedDate', 'addedAt',
+            'createdTime', 'created', 'modifiedDate', 'dateModified', 'lastModified'];
+        if (!item) return null;
+        for (const field of fields) {
+            const value = item[field];
+            if (value !== undefined && value !== null && value !== '') return String(value);
+        }
+        return null;
+    };
+
+    const sourceKey = (name, date) => name && date ? JSON.stringify([name, date]) : null;
+
     async function addFileToZip(zipFolder, url, path) {
-        if (!url || typeof url !== 'string') return;
+        if (!url || typeof url !== 'string') return false;
         
         // 学外リンク（YouTube等）の場合は、直接Windowsショートカット(.url)として作成
         if (!url.includes('lms.gakusei.kyoto-u.ac.jp') && url.startsWith('http')) {
             const shortcutContent = `[InternetShortcut]\r\nURL=${url}`;
             if (!path.toLowerCase().endsWith('.url')) path += '.url';
             zipFolder.file(path, shortcutContent);
-            return;
+            return true;
         }
 
         try {
             const res = await fetch(url);
-            if (!res.ok) return;
+            if (!res.ok) return false;
             const blob = await res.blob(); 
             zipFolder.file(path, blob);
+            return true;
         } catch (e) { 
             console.error('DL Error:', url, e); 
             // 取得に失敗した場合も、URLショートカットとして保存して代替する
             const shortcutContent = `[InternetShortcut]\r\nURL=${url}`;
             if (!path.toLowerCase().endsWith('.url')) path += '.url';
             zipFolder.file(path, shortcutContent);
+            return false;
         }
     }
 
-    async function processCourse(zipFolder, targetSiteId) {
+    async function processCourse(zipFolder, targetSiteId, downloaded, pending, forceFull) {
+        const addSource = async (url, path, name, item) => {
+            const key = sourceKey(name, sourceDate(item));
+            if (!forceFull && key && (downloaded.has(key) || pending.has(key))) return;
+            if (await addFileToZip(zipFolder, url, path) && key) pending.add(key);
+        };
         // --- 授業資料の取得 ---
         try {
             const resApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/content/site/${targetSiteId}.json`;
@@ -168,7 +228,8 @@
                         // 外部リンクなどパスが抽出できない場合は、タイトルをファイル名として禁則文字を置換
                         path = path.replace(/[\\/:*?"<>|]/g, '_');
                     }
-                    await addFileToZip(zipFolder, item.url, `授業資料/${path}`);
+                    const sourceName = m ? path.split('/').pop() : item.title;
+                    await addSource(item.url, `授業資料/${path}`, sourceName, item);
                 }
             }
         } catch (e) { console.error(e); }
@@ -185,7 +246,7 @@
                     const baseDir = `課題資料/${title}`;
                     if (asgn.attachments) {
                         for (const att of asgn.attachments) {
-                            await addFileToZip(zipFolder, att.url, `${baseDir}/先生の配布資料/${att.name}`);
+                            await addSource(att.url, `${baseDir}/先生の配布資料/${att.name}`, att.name, att);
                         }
                     }
                     const detailApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/assignment/item/${asgn.id}.json`;
@@ -196,12 +257,12 @@
                         if (sub) {
                             if (sub.submittedAttachments) {
                                 for (const att of sub.submittedAttachments) {
-                                    await addFileToZip(zipFolder, att.url, `${baseDir}/提出したファイル/${att.name}`);
+                                    await addSource(att.url, `${baseDir}/提出したファイル/${att.name}`, att.name, att);
                                 }
                             }
                             if (sub.feedbackAttachments) {
                                 for (const att of sub.feedbackAttachments) {
-                                    await addFileToZip(zipFolder, att.url, `${baseDir}/返却・フィードバック/${att.name}`);
+                                    await addSource(att.url, `${baseDir}/返却・フィードバック/${att.name}`, att.name, att);
                                 }
                             }
                         }
@@ -220,7 +281,7 @@
                 for (const syl of syllabuses) {
                     if (syl.attachments) {
                         for (const att of syl.attachments) {
-                            await addFileToZip(zipFolder, att.url, `概要/${att.name}`);
+                            await addSource(att.url, `概要/${att.name}`, att.name, att);
                         }
                     }
                 }
@@ -238,7 +299,7 @@
                     if (ann.attachments) {
                         const title = ann.title ? ann.title.replace(/[\\/:*?"<>|]/g, '_') : '無題';
                         for (const att of ann.attachments) {
-                            await addFileToZip(zipFolder, att.url, `お知らせ/${title}/${att.name}`);
+                            await addSource(att.url, `お知らせ/${title}/${att.name}`, att.name, att);
                         }
                     }
                 }
@@ -246,16 +307,20 @@
         } catch(e) { console.error(e); }
     }
 
-    const startDownload = async (mode) => {
+    const startDownload = async (mode, forceFull = false) => {
         toggleMenu(true);
         if (mode === 'current' && !site_id) return;
+        if (mainBtn.style.pointerEvents === 'none') return;
 
         const originalText = mainBtn.innerHTML;
+        mainBtn.title = '';
         mainBtn.innerHTML = '⏳ 準備中...';
         mainBtn.style.pointerEvents = 'none';
 
         try {
             const zip = new JSZip();
+            const saved = await readHistory();
+            const pendingBySite = {};
 
             let targetSites = [];
             let siteDict = {};
@@ -266,7 +331,7 @@
                 if (siteRes.ok) {
                     const siteData = await siteRes.json();
                     (siteData.site_collection || []).forEach(site => {
-                        siteDict[site.id] = site.title.replace(/[\\/:*?"<>|]/g, '_');
+                        siteDict[site.id] = site.title.replace(/[\\/:*?"<>|]/g, '_').trim();
                         if (mode === 'all' && !site.id.startsWith('~')) {
                             // マイページなどは除外
                             targetSites.push({ id: site.id, name: siteDict[site.id] });
@@ -276,15 +341,31 @@
             } catch (e) { console.error(e); }
 
             if (mode === 'current') {
-                targetSites = [{ id: site_id, name: siteDict[site_id] || site_id }];
+                let courseName = siteDict[site_id];
+                if (!courseName) {
+                    const currentSiteRes = await fetch(`https://lms.gakusei.kyoto-u.ac.jp/direct/site/${site_id}.json`);
+                    if (!currentSiteRes.ok) throw new Error('教科名を取得できませんでした');
+                    const currentSite = await currentSiteRes.json();
+                    courseName = currentSite.title?.replace(/[\\/:*?"<>|]/g, '_').trim();
+                }
+                if (!courseName) throw new Error('教科名を取得できませんでした');
+                targetSites = [{ id: site_id, name: courseName }];
             }
+            if (targetSites.length === 0) throw new Error('教科一覧を取得できませんでした');
 
             for (let i = 0; i < targetSites.length; i++) {
                 const target = targetSites[i];
                 // 進行状況の表示（文字が崩れないように調整）
                 mainBtn.innerHTML = `⏳ 処理中 (${i+1}/${targetSites.length})`;
-                const folder = mode === 'all' ? zip.folder(target.name) : zip;
-                await processCourse(folder, target.id);
+                const folder = zip.folder(target.name);
+                const pending = new Set();
+                pendingBySite[target.id] = pending;
+                await processCourse(folder, target.id, new Set(saved[target.id] || []), pending, forceFull);
+            }
+
+            if (Object.keys(zip.files).every(path => zip.files[path].dir)) {
+                mainBtn.innerHTML = '✅ 新しい資料はありません';
+                return;
             }
 
             mainBtn.innerHTML = '📦 ZIP圧縮中...';
@@ -297,14 +378,20 @@
             const downloadName = mode === 'all' ? '全教科一括DL.zip' : `${targetSites[0].name}.zip`;
             a.download = downloadName; 
             a.click(); 
-            URL.revokeObjectURL(downloadUrl);
+            setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
 
-            mainBtn.innerHTML = '✅ 完了！';
+            for (const [id, keys] of Object.entries(pendingBySite)) {
+                saved[id] = [...new Set([...(saved[id] || []), ...keys])];
+            }
+            const historySaved = await writeHistory(saved);
+
+            mainBtn.innerHTML = historySaved ? '✅ 完了！' : '⚠️ ZIP保存済・履歴保存失敗';
             mainBtn.style.backgroundColor = 'rgba(40, 167, 69, 0.8)';
 
         } catch (error) {
             console.error(error);
-            mainBtn.innerHTML = '❌ エラー';
+            mainBtn.title = String(error?.message || error);
+            mainBtn.innerHTML = '❌ エラー（カーソルを合わせて詳細を確認）';
             mainBtn.style.backgroundColor = 'rgba(220, 53, 69, 0.8)';
         } finally {
             setTimeout(() => {
@@ -316,8 +403,10 @@
     };
 
     itemAllCourses.addEventListener('click', () => startDownload('all'));
+    itemFullAllCourses.addEventListener('click', () => startDownload('all', true));
     if (site_id) {
         itemCurrentCourse.addEventListener('click', () => startDownload('current'));
+        itemFullCurrentCourse.addEventListener('click', () => startDownload('current', true));
     }
 
     masterContainer.appendChild(dlContainer);

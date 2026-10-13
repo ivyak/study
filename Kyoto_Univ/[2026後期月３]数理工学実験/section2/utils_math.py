@@ -89,7 +89,7 @@ def LU_decomposition(A: list[list[float]]):
   n: int = len(A)
   U: list[list[float]] = [row[:] for row in A]
   L: list[list[float]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
-  P_pi: list[list[int]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
+  P_pi: list[list[float]] = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
 
   for i in range(n):
     pivot_row: int = i
@@ -113,11 +113,12 @@ def LU_decomposition(A: list[list[float]]):
 
   return L, U, P_pi
 
-def forward_substitution_LU(L: list[list[float]], b: list[float]):
+def forward_substitution_LU(L: list[list[float]], P_pi: list[list[float]], b: list[float]):
   n: int = len(L)
+  Pb: list[float] = matrix_vector_product(P_pi, b)
   y: list[float] = [0] * n
 
   for i in range(n):
     sum_ly: float = sum(L[i][j] * y[j] for j in range(i))
-    y[i] = (b[i] - sum_ly) / L[i][i]
+    y[i] = Pb[i] - sum_ly
   return y

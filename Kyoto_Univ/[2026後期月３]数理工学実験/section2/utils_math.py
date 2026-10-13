@@ -64,7 +64,7 @@ def infinity_norm(vector: list[float]):
   return max(abs(x) for x in vector)
 
 # 相対誤差を求める
-def relative_error(x_true: list[float], x_approx: list[float]):
+def relative_error(x_true, x_approx: list[float]):
   return infinity_norm([x_true[i] - x_approx[i] for i in range(len(x_true))]) / infinity_norm(x_true)
 
 # 行列×ベクトルを求める

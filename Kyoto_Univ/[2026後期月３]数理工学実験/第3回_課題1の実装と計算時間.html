@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="study-ui" content="life">
+  <meta name="study-lesson" content="3">
+  <meta name="study-kind" content="解説">
+  <meta name="study-created" content="2026-10-13">
+  <title>数理工学実験｜第3回 課題1の実装と計算時間</title>
+  <link rel="stylesheet" href="../ui/life.css">
+  <script defer src="../ui/life.js"></script>
+  <style>
+    .lesson-document{max-width:1100px}
+    .lesson-document .lead{font-size:17px;max-width:72ch}
+    .lesson-document .summary{min-height:0;padding:4px 0 28px}
+    .lesson-document .summary h2{margin:0 0 12px;padding:0;border:0;font-size:17px}
+    .lesson-document .summary p{max-width:80ch}
+    .lesson-document .topic{border-top:1px solid var(--line);padding:28px 0 8px}
+    .lesson-document .topic h2{border:0;padding:0;margin:0 0 16px}
+    .lesson-document .topic h3{margin:18px 0 9px}
+    .lesson-document .compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+    .lesson-document .code-card{min-width:0;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#0d0d0d}
+    .lesson-document .code-card.before{border-color:rgba(237,91,91,.65)}
+    .lesson-document .code-card.after{border-color:rgba(97,201,144,.65)}
+    .lesson-document .code-card h3{margin:0;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px}
+    .lesson-document .code-card.before h3{color:var(--red)}
+    .lesson-document .code-card.after h3{color:var(--green)}
+    .lesson-document pre{margin:0;padding:15px;overflow-x:auto;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4;white-space:pre}
+    .lesson-document pre code{font:inherit}
+    .lesson-document .wide-code{border:1px solid var(--gold);border-radius:5px;background:#0d0d0d;margin:20px 0}
+    .lesson-document .wide-code>p{margin:0;padding:10px 15px;color:var(--gold);font-size:13px;border-bottom:1px solid var(--line)}
+    .lesson-document .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}
+    .lesson-document .metric{border:1px solid var(--line);border-radius:4px;padding:14px}
+    .lesson-document .metric strong{display:block;color:var(--gold);font-size:22px;font-weight:500}
+    .lesson-document .metric span{display:block;font-size:12px;line-height:1.5}
+    .lesson-document .table-wrap{overflow-x:auto}
+    .lesson-document table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}
+    .lesson-document th,.lesson-document td{text-align:left;border-bottom:1px solid var(--line);padding:10px 12px;vertical-align:top}
+    .lesson-document th{color:var(--gold);font-weight:500}
+    .lesson-document .flow{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:20px 0}
+    .lesson-document .flow span{border:1px solid var(--gold);border-radius:4px;padding:8px 11px;font-size:13px}
+    .lesson-document .flow b{color:var(--gold);font-weight:400}
+    .lesson-document .small{font-size:13px;color:#bbb}
+    .lesson-document .source-list{padding-left:1.4em}
+    @media(max-width:850px){.lesson-document .compare{grid-template-columns:1fr}.lesson-document .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:500px){.lesson-document .metric-grid{grid-template-columns:1fr 1fr}.lesson-document .metric strong{font-size:19px}}
+  </style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期月３]数理工学実験">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+  <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=[2026後期月３]数理工学実験">数理工学実験</a><span>/</span><span>第3回 解説</span></div>
+  <div class="document-back"><a class="back-step" href="../index.html#course=[2026後期月３]数理工学実験" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+  <div class="section-rule"></div>
+  <div class="reader">
+  <article class="lesson-document" aria-labelledby="document-title">
+    <header class="document-header" id="top">
+      <p class="eyebrow">2026年度後期 · 数理工学実験 · 第3回</p>
+      <h1 id="document-title">課題1の実装と計算時間</h1>
+      <p class="subtitle">課題1：残差・メモリ・描画の修正記録</p>
+    </header>
+
+    <section class="summary" id="overview">
+      <h2>この資料の要点</h2>
+      <p class="lead">教材の第2章・課題1は、100・200・400・800次の行列を各100個作り、消去法の残差ノルム、相対誤差、計算時間を比較する実験である。実行時間が長かった主因は、純Pythonによる消去法そのものに加え、同じ解の再計算と、残差での行列ベクトル積の重複だった。大量の行列を一度に保存する構造もメモリを圧迫した。</p>
+      <p class="small">想定読了時間：約22分。最初にPythonのメモリと実行時間の読み方を整理し、その後に課題1の修正前後を追う。「修正前」はこのセッションの開始時に確認したコードと描画の途中段階、「修正後」は実際に反映した処理を示す。末尾の全体例は、現在のソースを読みやすく整理した同等の実装である。</p>
+      <div class="flow" aria-label="改善後の処理順"><span>行列を1個生成</span><b>→</b><span>消去法を1回計測</span><b>→</b><span>基準解と比較</span><b>→</b><span>数値だけ保存</span><b>→</b><span>100回分を描画</span></div>
+    </section>
+
+    <section class="topic" id="python-memory">
+      <h2>基礎A｜8バイトの数が、リストでは約32バイト以上になる理由</h2>
+      <p>まず、次の2×2行列を考える。画面上では数字が4個並んでいるだけに見えるが、Pythonのリストでは「行列全体を入れるリスト」「各行を入れる2個のリスト」「4個の数値」という階層になっている。</p>
+      <div class="wide-code"><p>小さい行列をリストで表す</p><pre><code>A = [[1.0, 2.0],
+     [3.0, 4.0]]
+
+A[0]     # 1行目を入れるリスト [1.0, 2.0]
+A[0][1]  # 1行目・2列目の値 2.0</code></pre></div>
+      <div class="flow" aria-label="Pythonの行列の構造"><span>外側のリスト A</span><b>→</b><span>各行のリスト</span><b>→</b><span>各 float オブジェクト</span></div>
+      <p>「64ビットの浮動小数点数は8バイト」は、<strong>数値の中身を64ビットで表す</strong>という意味である。ここでの64ビットは数値形式の幅であり、OSやCPUが64ビットであることとは別の話。NumPyの <code>float64</code> 配列なら、連続したデータ領域に1要素8バイトずつ並ぶ。一方、64ビット版CPythonの通常の <code>float</code> は、数値の中身に加えて型や参照数を管理する領域を持つ独立したオブジェクトで、この環境では1個24バイトだった。これはCPythonの実装に依存し、Pythonの仕様で常に24バイトと決まっているわけではない。</p>
+      <p>ここでいう<strong>オブジェクト</strong>は、値に「これは <code>float</code> である」という型の情報などを付けて管理する単位。<strong>参照</strong>は、値が置かれている場所を指す印と考えればよい。リストは数値の中身を直接並べるのではなく、その参照を並べる。64ビット環境では参照1個の場所がおおむね8バイト。したがって、ランダムに生成した別々の <code>float</code> をリストへ入れると、要素1個につき <code>24 + 8 ≈ 32</code> バイトが目安となる。リスト自体の管理領域も別に必要だ。</p>
+      <p>800次では要素が <code>800 × 800 = 640,000</code> 個ある。数値データだけなら <code>640,000 × 8 = 5,120,000</code> バイト。Pythonリストでは、数値オブジェクトと参照だけで <code>640,000 × (24 + 8) = 20,480,000</code> バイトになり、行リストなどの分がさらに加わる。小さな差が数十万回積み重なるため、行列では無視できなくなる。</p>
+      <div class="table-wrap"><table><thead><tr><th>入れ方</th><th>1要素の主な内訳</th><th>800×800行列1個の目安</th></tr></thead><tbody><tr><td>NumPy <code>float64</code></td><td>数値データ8バイト</td><td>5,120,000バイト（5.12 MB）＋配列本体</td></tr><tr><td>Pythonのリスト内の <code>float</code></td><td><code>float</code> オブジェクト約24バイト＋参照約8バイト</td><td>実測約20,915,736バイト（20.9 MB）</td></tr></tbody></table></div>
+      <p><code>sys.getsizeof(A)</code> は外側のリストだけを数え、行リストと <code>float</code> の大きさは含まない。次のコードは各層の大きさを足す。この例では各計算で新しい <code>float</code> を作るので、同じオブジェクトを重複して足す問題はない。一般には同じオブジェクトを複数箇所で参照する場合もあるため、この方法が常に正確な「深いサイズ」になるわけではない。</p>
+      <div class="wide-code"><p>この環境での大きさの確認方法</p><pre><code>import sys
+import numpy as np
+
+print(sys.getsizeof(0.0))  # 24: CPythonのfloatオブジェクト
+A = [[0.1 * (i + j) for j in range(800)] for i in range(800)]
+deep_bytes = (sys.getsizeof(A)
+              + sum(sys.getsizeof(row)
+                    + sum(sys.getsizeof(value) for value in row)
+                    for row in A))
+print(deep_bytes)             # リスト、行、要素を合算
+print(np.asarray(A).nbytes)   # 数値データ領域だけ</code></pre></div>
+      <p>同じ800次の行列を100個保持すると、Pythonリスト側は約2.09 GBに達する。さらに100個をまとめてNumPy配列へ変換すると、別の数値データ領域だけで約512 MBが加わる。<code>np.asarray(A)</code> は、元が入れ子のPythonリストなら配列用データを新たに作る。一方、すでにNumPy配列ならコピーを作らずに済む場合もある。<strong>配列に変換しても、変数 <code>A_list</code> が元のリストを指している間は元の行列も残る</strong>。だから100個を同時に持たず、1個ずつ計算する。</p>
+    </section>
+
+    <section class="topic" id="python-comprehension">
+      <h2>基礎B｜リスト内包表記はどこまで速くするか</h2>
+      <p><strong>内包表記</strong>とは、<code>[式 for ...]</code> という形でリストを作る書き方である。たとえば <code>[i * i for i in range(3)]</code> は <code>[0, 1, 4]</code> を作る。「<code>i</code> を0、1、2と変え、そのたびに <code>i * i</code> を結果へ入れる」と読める。行列では、この書き方を二重に使う。</p>
+      <div class="wide-code"><p>n=2なら、内側の式が2行分実行される</p><pre><code>A = [[random.random() for _ in range(2)]
+     for _ in range(2)]
+# 外側: 行を2個作る
+# 内側: 各行の値を2個作る
+# 合計: random.random() を2×2=4回呼ぶ</code></pre></div>
+      <p><code>_</code> は「繰り返す回数だけが必要で、ループ変数の値は使わない」という慣習的な名前。内包表記でも通常の <code>for</code> と <code>append</code> でも、作る行と数値の個数は同じである。次の二つはどちらも <code>random.random()</code> を <code>n²</code> 回呼ぶ。</p>
+      <div class="compare">
+        <div class="code-card before"><h3>二重forとappend</h3><pre><code>A = []
+for _ in range(n):
+    row = []
+    for _ in range(n):
+        row.append(random.random())
+    A.append(row)</code></pre></div>
+        <div class="code-card after"><h3>リスト内包表記</h3><pre><code>A = [
+    [random.random() for _ in range(n)]
+    for _ in range(n)
+]</code></pre></div>
+      </div>
+      <p>この環境の400次の行列生成では、前者が約5.45 ms、後者が約4.67 msだった。差は約0.78 msで、内包表記の方がこの測定では約14%短かった。ループで <code>append</code> を呼ぶ処理などが減るためで、乱数を作る回数は変わらない。両方とも160,000個のPythonの <code>float</code> を作り、メモリもほぼ同じ。Pythonや処理内容が変われば差も変わる。</p>
+      <p>この課題で重要なのは、<strong>短く書けても、必要な計算の回数までは減らない</strong>こと。修正前の残差計算では、<code>Ax</code> 全体を計算する関数を内包表記の中で400回呼んでいた。<code>Ax</code> 1回には400×400回ほどの掛け算と足し算が必要なので、約160,000回の仕事を400回繰り返す。<code>Ax</code> を先に1回だけ計算して保存すれば、式が少し長くなっても仕事量を大幅に減らせる。</p>
+      <p class="note">内包表記は<strong>Pythonのループを短く書く方法</strong>。NumPyの配列演算は、多数の数値をまとめて処理する<strong>別の実装方法</strong>。内包表記に書き換えるだけで、消去法の三重ループが自動でNumPyの高速な処理に変わるわけではない。</p>
+    </section>
+
+    <section class="topic" id="python-costs">
+      <h2>基礎C｜何に何ミリ秒かかるか</h2>
+      <p>1 ms（ミリ秒）は0.001秒。1000 msが1秒である。表の「約703 ms」は、400次の<strong>行列1個を消去法で解く一連の処理</strong>に約0.703秒かかった、という意味。100個なら単純計算で約70秒になる。ただし実際の実行では行列生成などの時間も加わる。</p>
+      <p>「足し算1回は何ms」という値は小さすぎて、時間を測る関数そのものの呼び出しや周囲のPython処理に埋もれる。そこで、行列を1個作る・解く・残差を出す、という<strong>区切りのよい処理を1回</strong>として測る。次の値は400次の1行列について、処理ごとに独立に繰り返し測った中央値である。</p>
+      <div class="table-wrap"><table><thead><tr><th>処理の単位</th><th>1回あたり</th><th>何をしているか</th></tr></thead><tbody>
+        <tr><td>行列1個の生成（内包表記）</td><td>約4.67 ms</td><td>160,000個の乱数と <code>float</code> を生成</td></tr>
+        <tr><td>行列1個の生成（<code>append</code>）</td><td>約5.45 ms</td><td>同じ個数の生成を明示的な二重ループで実行</td></tr>
+        <tr><td>PythonリストからNumPy配列への変換</td><td>約2.66 ms</td><td>160,000個の値を読み、連続領域にコピー</td></tr>
+        <tr><td>拡大行列の作成</td><td>約1.26 ms</td><td>各行をコピーし、右辺の値を追加</td></tr>
+        <tr><td>前進消去</td><td>約676 ms</td><td>ピボット選択と行更新。純Pythonの三重ループが中心</td></tr>
+        <tr><td>後退代入</td><td>約3.41 ms</td><td>上三角行列から解を求める</td></tr>
+        <tr><td>消去法全体</td><td>約703 ms</td><td>拡大行列、前進消去、後退代入を含む</td></tr>
+        <tr><td>行列ベクトル積 <code>Ax</code></td><td>約5.08 ms</td><td>400個の内積を計算</td></tr>
+        <tr><td>修正後の残差ノルム</td><td>約5.01 ms</td><td><code>Ax</code>を1回作って最大絶対値を計算</td></tr>
+        <tr><td>修正前の残差ノルム</td><td>約2,043 ms</td><td><code>Ax</code>を400回作り直す</td></tr>
+        <tr><td><code>np.linalg.solve</code></td><td>約1.41 ms</td><td>数値計算ライブラリで基準解を求める</td></tr>
+      </tbody></table></div>
+      <p>表の中央を見ると、消去法全体の約703 msのうち、前進消去だけで約676 msかかる。このため、消去法の中を速くするなら、まず前進消去の行更新を調べる。さらに修正前の残差計算は約2,043 ms、つまり約2秒もかかっていた。消去法より長いので、先に直す価値が高い。</p>
+      <p>たとえば400次の1試行で、古い実装は消去法を2回（約703 ms×2）と残差計算を1回（約2,043 ms）行っていた。これだけで概算約3.45秒。修正後は消去法1回と残差1回で約0.71秒になる。これは表の独立測定値からの見積もりで、実際の1試行の総時間を測った値ではない。</p>
+      <p><code>np.linalg.solve</code> はライブラリ内部で最適化された処理を使い、ここでは比較用の解を作る。自作の消去法と同じ条件の速度競争と読むべきではない。各値は別々に測った中央値なので、表の行を足して正確な総実行時間にはできない。</p>
+      <div class="wide-code"><p>「行列1個を解く時間」を測る区間</p><pre><code>import time
+
+start = time.perf_counter()             # 開始時刻（秒）
+x = utils_math.Gaussian_elimination(A, b)
+elapsed_ms = (time.perf_counter() - start) * 1000
+print(f"消去法1回: {elapsed_ms:.1f} ms")</code></pre></div>
+      <p>測りたい処理を開始時刻と終了時刻で挟む。<code>perf_counter()</code> の差は秒なので、ミリ秒で表示するときは1000を掛ける。この例では行列生成やNumPyの基準解を時刻の間に入れていないため、消去法そのものの所要時間を読める。</p>
+      <p class="small">測定条件：CPython 3.12.3、NumPy 2.5.3、400×400のランダム行列、<code>OPENBLAS_NUM_THREADS=1</code>。<code>timeit.repeat</code> の中央値を主に使用し、前進消去の内訳は3回の中央値。実行環境、乱数、CPU負荷で数値は変わる。前節までの単発測定と値が少し違うのもそのためである。</p>
+    </section>
+
+    <section class="topic" id="python-principles">
+      <h2>基礎D｜Pythonで時間を減らすときの順序</h2>
+      <p>ここで <code>n</code> は行列の縦横の長さ。<strong>計算量</strong>とは、<code>n</code> を大きくしたときに処理回数がどのくらい増えるかを表す目安である。1本のループなら約 <code>n</code> 回、二重ループなら約 <code>n²</code> 回、三重ループなら約 <code>n³</code> 回になる。400次から800次へ2倍にすると、<code>n²</code> は約4倍、<code>n³</code> は約8倍になる。実時間はメモリや実装の影響も受けるので、必ずしもぴったり4倍・8倍にはならない。</p>
+      <div class="table-wrap"><table><thead><tr><th>処理回数の型</th><th>400次</th><th>800次</th><th>典型例</th></tr></thead><tbody><tr><td><code>n</code></td><td>400</td><td>800</td><td>結果の各成分を1回ずつ見る</td></tr><tr><td><code>n²</code></td><td>160,000</td><td>640,000</td><td>行列の全要素を見る、<code>Ax</code> を1回作る</td></tr><tr><td><code>n³</code></td><td>64,000,000</td><td>512,000,000</td><td>密行列の消去法のおおよその増え方、<code>Ax</code> を各成分ごとに作り直す</td></tr></tbody></table></div>
+      <p>下の順序は「高速な文法を探す」前に確認すること。短く書くより先に、同じ大きな仕事を何度行っているかを見る。</p>
+      <ol>
+        <li><strong>何の時間を知りたいか決める。</strong>「消去法そのものの速さ」を調べるなら、その関数の前後だけを測る。「プログラムが終わるまでの待ち時間」を知りたいなら、行列生成や描画を含む全体も別に測る。二つを混ぜると、どこが遅いか分からない。</li>
+        <li><strong>同じ答えを作り直していないか見る。</strong>すでに求めた解 <code>x</code> を捨ててもう一度消去法を呼ぶ、すでに求めた <code>Ax</code> を作り直す、といった箇所を探す。計算結果を変数に置き、必要な場所で再利用する。</li>
+        <li><strong>繰り返しの内側を確認する。</strong>「100個の行列」×「各行列について400行」×「各行で400成分」のように掛け算で考える。内側で高価な関数を呼ぶと、その費用も全部の回数だけ増える。</li>
+        <li><strong>大きいデータを必要な間だけ持つ。</strong>今回なら1個の行列を作って解き、その残差・誤差・時間を保存したら次へ進む。行列100個を同時に保持する必要はない。これは主にメモリを減らす工夫だが、メモリ不足による極端な遅さも避けられる。</li>
+        <li><strong>それでも遅い部分だけ実装を変える。</strong>表では前進消去の行更新が長い。そこで、消去法の手順は自分で書いたまま、行の数値計算をNumPy配列にまとめて任せる方法を考える。すべてを一度に書き換えず、同じ結果になるか残差で確かめる。</li>
+      </ol>
+      <p>短い処理は1回の計測値が不安定なので、<code>timeit.repeat</code> で何回か測って中央値を見る。下の例では行列生成を5回ずつ、5組測る。得られる5個の時間はそれぞれ「5回分の秒数」なので、中央値を5で割って1回分にし、1000倍してmsに直す。</p>
+      <div class="wide-code"><p>短い処理を繰り返して測る例（section2 で実行）</p><pre><code>import statistics
+import timeit
+import utils_math
+
+times = timeit.repeat(
+    lambda: utils_math.make_square_matrix(400),
+    number=5, repeat=5,
+)
+ms_per_matrix = statistics.median(times) / 5 * 1000
+print(f"{ms_per_matrix:.2f} ms / 行列1個")</code></pre></div>
+      <p class="small">比較するときは入力サイズとデータの種類をそろえる。初回だけのライブラリ初期化や描画準備を除き、必要なら事前に一度動かしてから測る。処理別の時間分布を探す道具として <code>cProfile</code> もあるが、道具を使うこと自体に時間がかかるため、最後は <code>perf_counter()</code> で実行時間を確認する。</p>
+    </section>
+
+    <section class="topic" id="baseline">
+      <h2>1｜まず、どこに時間がかかるか</h2>
+      <p>現在の <code>Gaussian_elimination</code> はPythonのリストを用い、前進消去を三重ループで進める。計算量はおおむね次数 <code>n</code> の3乗に比例する。実測では1行列あたり次の時間だった。</p>
+      <div class="metric-grid">
+        <div class="metric"><strong>0.012秒</strong><span>100次を1個解く時間</span></div>
+        <div class="metric"><strong>0.088秒</strong><span>200次を1個解く時間</span></div>
+        <div class="metric"><strong>0.813秒</strong><span>400次を1個解く時間</span></div>
+        <div class="metric"><strong>7.36秒</strong><span>800次を1個解く時間</span></div>
+      </div>
+      <p>800次を100回解くだけで約12分。以前のコードは同じ問題を2回解いていたので、その部分だけで約24分になる。これはこの環境での単発測定からの概算であり、全400試行を通した実測値ではない。</p>
+      <p class="note">NumPyで行単位の演算を使う自作の消去法を試作したところ、800次1個で約0.47秒だった。アルゴリズムを消去法のまま保ち、要素ごとの反復処理をNumPy側へ移すと改善できる。ただし以下の修正だけでも重複計算とメモリ消費を大きく減らせる。</p>
+    </section>
+
+    <section class="topic" id="residual">
+      <h2>2｜残差で <code>Ax</code> 全体を毎回作っていた</h2>
+      <p>残差ノルムは <code>max_i |(Ax)_i - b_i|</code>。<code>matrix_vector_product(A, x)</code> は <code>Ax</code> の全成分を計算してリストで返す。修正前は、そのリストから1成分を取り出す処理を <code>n</code> 回繰り返していた。</p>
+      <div class="compare">
+        <div class="code-card before"><h3>修正前 · utils_math.py</h3><pre><code>def residual_norm(A, x, b):
+    return infinity_norm([
+        matrix_vector_product(A, x)[i] - b[i]
+        for i in range(len(b))
+    ])</code></pre></div>
+        <div class="code-card after"><h3>修正後 · Axを一度だけ計算</h3><pre><code>def residual_norm(A, x, b):
+    Ax = matrix_vector_product(A, x)
+    return infinity_norm([
+        Ax[i] - b[i] for i in range(len(b))
+    ])</code></pre></div>
+      </div>
+      <p>400次なら、修正前は400成分の <code>Ax</code> を400回作る。行列ベクトル積は約 <code>n²</code> 回の演算なので、残差全体は約 <code>n³</code> 回。修正後は <code>Ax</code> が1回で済み、約 <code>n²</code> 回になる。求める値は同じである。</p>
+      <div class="table-wrap"><table><thead><tr><th>次数</th><th>修正前の残差計算</th><th>修正後の残差計算</th></tr></thead><tbody><tr><td>100</td><td>約0.041秒</td><td>約0.00037秒</td></tr><tr><td>200</td><td>約0.259秒</td><td>約0.00139秒</td></tr><tr><td>400</td><td>約2.33秒</td><td>約0.00577秒</td></tr></tbody></table></div>
+      <p class="small">上表はこの環境で各次数1個のランダム行列を使った測定。<a href="section2/utils_math.py">現在の実装を開く</a>。</p>
+    </section>
+
+    <section class="topic" id="duplicate">
+      <h2>3｜計測後に同じ消去法を再実行していた</h2>
+      <p>修正前の <code>get_execution_time</code> は処理時間だけを返すため、後で解 <code>x</code> を得る目的でもう一度消去法を呼んでいた。時間を測る際に得た解をそのまま使えば、各行列について消去法は1回で済む。</p>
+      <div class="compare">
+        <div class="code-card before"><h3>修正前 · kadai1_1.py</h3><pre><code>execution_times = [
+    get_execution_time(
+        lambda: Gaussian_elimination(A_list[j], b_list[j])
+    ) for j in range(100)
+]
+x_list = [
+    Gaussian_elimination(A_list[j], b_list[j])
+    for j in range(100)
+]</code></pre></div>
+        <div class="code-card after"><h3>修正後 · 1回の結果と時間を保存</h3><pre><code>start = time.perf_counter()
+x = utils_math.Gaussian_elimination(A, b)
+elapsed = time.perf_counter() - start
+
+times.append(elapsed)
+# この x を残差と相対誤差の計算に使う</code></pre></div>
+      </div>
+      <p><code>perf_counter()</code> の差には消去法だけを含める。行列の生成、NumPyによる基準解、残差計算、描画は測定区間の外に置くと、各次数の計算時間を比較しやすい。</p>
+    </section>
+
+    <section class="topic" id="memory">
+      <h2>4｜100個の行列を一度に持っていた</h2>
+      <p>800次の行列には <code>800 × 800 = 640,000</code> 個の数が入る。Pythonの浮動小数点数とリスト内の参照を合わせて、1行列あたり概算約20MB、100個で約2GBになる。さらにNumPy配列へ100個まとめてコピーすると、倍精度の要素だけで <code>100 × 800 × 800 × 8 = 512,000,000</code> バイト、約512MBが加わる。</p>
+      <div class="compare">
+        <div class="code-card before"><h3>修正前 · 100個とコピーを保持</h3><pre><code>A_list = [
+    utils_math.make_square_matrix(n)
+    for _ in range(100)
+]
+b_list = [utils_math.make_vector(n)
+          for _ in range(100)]
+A_list_true = np.array(A_list)
+b_list_true = np.array(b_list)</code></pre></div>
+        <div class="code-card after"><h3>修正後 · 1個ずつ処理</h3><pre><code>residuals, errors, times = [], [], []
+for _ in range(100):
+    A = utils_math.make_square_matrix(n)
+    b = utils_math.make_vector(n)
+    # A, b を解き、3つの数値を追加する
+    # 次の反復では前の A, b は不要</code></pre></div>
+      </div>
+      <p>3つの結果リストはそれぞれ100個の数値だけなので、行列100個と比べてごく小さい。基準解を作る <code>np.asarray(A)</code> は、その試行で必要な時だけ行えばよい。次の試行でも同じ行列を参照し続けるリストがなければ、古い行列は回収できる。</p>
+      <p class="small">上の容量は64ビット環境における概算。Python実装や一時配列により実際のピーク使用量は変わる。</p>
+    </section>
+
+    <section class="topic" id="plot">
+      <h2>5｜各次数のグラフが同じ位置に重なっていた</h2>
+      <p>最初の描画コードは外側の <code>n</code> のループが進んでも、毎回 <code>subplot(4, 3, 1)</code>、<code>2</code>、<code>3</code> を使っていた。100次だけが描画されるわけではなく、4種類の曲線が最初の3枠に重なる。また、<code>plt.plot(n, 値)</code> の形で1点だけ描く場合は、線を結ぶ相手がなく、標準設定では点が見えにくい。</p>
+      <div class="compare">
+        <div class="code-card before"><h3>修正前 · subplotの番号が固定</h3><pre><code>for n in [100, 200, 400, 800]:
+    # 100回分の結果を計算
+    plt.subplot(4, 3, 1)
+    plt.plot(residuals)
+    plt.subplot(4, 3, 2)
+    plt.plot(errors)
+    plt.subplot(4, 3, 3)
+    plt.plot(times)</code></pre></div>
+        <div class="code-card after"><h3>修正後 · nごとに1行を使う</h3><pre><code>for row, n in enumerate([100, 200, 400, 800]):
+    # 100回分の結果を計算
+    for col, (values, title) in enumerate([
+        (residuals, "残差ノルム"),
+        (errors, "相対誤差"),
+        (times, "計算時間"),
+    ]):
+        ax = plt.subplot(4, 3, row * 3 + col + 1)
+        ax.plot(range(1, 101), values)
+        ax.set_title(f"n={n}: {title}")</code></pre></div>
+      </div>
+      <p>途中で <code>for row, n in enumerate(...)</code> を元の <code>for n in ...</code> の内側へ追加した状態もあった。そのままでは各次数の結果を4行すべてに描いてしまう。<code>enumerate</code> を外側のループそのものに使い、100回の計算後に描画するのが正しい。</p>
+      <p><code>row * 3 + col + 1</code> は、100次を1〜3枠、200次を4〜6枠、400次を7〜9枠、800次を10〜12枠に割り当てる。横軸は次数ではなく、同じ次数で行った試行番号1〜100である。次数ごとの代表値を1枚の図で比較したい場合は、100回の平均または中央値を別に集計して描く。</p>
+    </section>
+
+    <section class="topic" id="complete">
+      <h2>6｜課題1の処理をまとめた完成例</h2>
+      <p>以下は、上の4点を一つにまとめた <code>kadai1_1.py</code> の例である。<code>utils_math.py</code> 側では、2節の修正版 <code>residual_norm</code> を使う。現在のソースも同じ処理順で、描画する行を外側のループで決めている。</p>
+      <div class="wide-code"><p>修正後の全体例 · kadai1_1.py</p><pre><code>import time
+import numpy as np
+import matplotlib.pyplot as plt
+import utils_math
+
+sizes = [100, 200, 400, 800]
+fig, axes = plt.subplots(4, 3, figsize=(14, 12))
+
+for row, n in enumerate(sizes):
+    residuals = []
+    errors = []
+    times = []
+
+    for _ in range(100):
+        A = utils_math.make_square_matrix(n)
+        b = utils_math.make_vector(n)
+
+        start = time.perf_counter()
+        x = utils_math.Gaussian_elimination(A, b)
+        times.append(time.perf_counter() - start)
+
+        x_true = np.linalg.solve(np.asarray(A), np.asarray(b))
+        residuals.append(utils_math.residual_norm(A, x, b))
+        errors.append(utils_math.relative_error(x_true, x))
+
+    for col, (values, title) in enumerate([
+        (residuals, "残差ノルム"),
+        (errors, "相対誤差"),
+        (times, "計算時間 [s]"),
+    ]):
+        ax = axes[row, col]
+        ax.plot(range(1, 101), values, marker=".", markersize=3)
+        ax.set_title(f"n = {n}｜{title}")
+        ax.set_xlabel("試行番号")
+        ax.grid(alpha=0.25)
+
+fig.tight_layout()
+plt.show()</code></pre></div>
+      <p>相対誤差関数は <code>relative_error(x_true, x_approx)</code> の順で受け取るため、NumPyの基準解 <code>x_true</code> を第1引数にする。教材は「真の解は不明」として数値計算パッケージの結果を基準にするよう指定しているので、これは厳密な真値との誤差ではなく基準解との相対差である。</p>
+    </section>
+
+    <section class="topic" id="check">
+      <h2>7｜実行前に確認すること</h2>
+      <ol>
+        <li>最初は各次数2〜3回に減らし、12枚のグラフが表示されるか確かめる。</li>
+        <li>各 <code>n</code> で100回に戻し、残差・相対誤差・計算時間の分布を記録する。</li>
+        <li>消去法の計算時間には、行列生成・基準解・残差計算を混ぜない。</li>
+        <li>800次が長すぎる場合は、消去法の行更新をNumPyの配列演算へ移す。その際も部分ピボット選択と後退代入を自分の実装として保持する。</li>
+      </ol>
+      <p class="note">別ファイル <code>kadai1_0.py</code> にある <code>n[i]</code> は、<code>i</code> が100などの行列サイズなので添字として使えない。<code>for n in [100, 200, 400, 800]:</code> として、そのまま <code>make_square_matrix(n)</code> に渡す。</p>
+    </section>
+
+    <section class="topic" id="sources">
+      <h2>参照先</h2>
+      <ul class="source-list">
+        <li><a href="授業資料/数理工学実験2026.pdf#page=29">数理工学実験2026.pdf 第2章・課題1（PDF 29頁）</a></li>
+        <li><a href="section2/kadai1_1.py">現在の実験コード kadai1_1.py</a> ／ <a href="section2/utils_math.py">補助関数 utils_math.py</a></li>
+        <li><a href="第2回_数値線形代数.html">第2回：数値線形代数の解説</a></li>
+      </ul>
+      <p class="small">計測値はこのセッションでの実測。行列や実行環境で時間は変わる。メモリ値と100回分の所要時間は概算。</p>
+    </section>
+    <div class="back-nav-bottom"><a href="../index.html#course=[2026後期月３]数理工学実験">← 数理工学実験の授業一覧へ</a></div>
+  </article>
+  <nav class="toc" aria-label="ページ内目次">
+    <button class="toc-toggle" aria-expanded="false" aria-controls="life-toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+    <div class="toc-panel" id="life-toc-panel" hidden><ul>
+      <li><a href="#overview">要点</a></li><li><a href="#python-memory">基礎A：数値とメモリ</a></li><li><a href="#python-comprehension">基礎B：内包表記</a></li><li><a href="#python-costs">基礎C：処理別の時間</a></li><li><a href="#python-principles">基礎D：速くする順序</a></li><li><a href="#baseline">課題1の実測値</a></li><li><a href="#residual">残差の重複計算</a></li><li><a href="#duplicate">消去法の再計算</a></li><li><a href="#memory">行列100個の保持</a></li><li><a href="#plot">グラフの重なり</a></li><li><a href="#complete">完成例</a></li><li><a href="#check">実行前の確認</a></li><li><a href="#sources">参照先</a></li>
+    </ul></div>
+  </nav>
+  </div>
+</main>
+</div>
+</body>
+</html>

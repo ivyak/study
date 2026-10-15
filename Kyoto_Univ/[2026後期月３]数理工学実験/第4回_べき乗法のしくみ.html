@@ -24,6 +24,7 @@
  .iteration-table{width:100%;border-collapse:collapse;min-width:620px}
  .iteration-table th,.iteration-table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
  .iteration-table th{color:var(--gold);font-weight:500}
+ .explanation pre{clear:both;overflow-x:auto;padding:18px;border:1px solid var(--line);border-radius:8px;background:rgba(0,0,0,.2);font-size:13px;line-height:1.6}
  </style></head>
 <body data-life-page="document" data-portal="../index.html" data-course="[2026後期月３]数理工学実験"><div class="shell">
 <!-- LIFE-SHELL:START -->
@@ -61,7 +62,7 @@
 <div class="section-rule"></div>
 <div class="reader"><article class="lesson-document" aria-labelledby="document-title">
 <header class="document-header"><p class="eyebrow">2026年度後期 · 数理工学実験 · 第4回</p><h1 id="document-title">べき乗法のしくみ</h1><p class="subtitle">第4回｜固有方向への分解と式の導出</p></header>
-<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約12分</span><p>べき乗法は、同じ行列を繰り返し掛けると、絶対値が最大の固有値に対応する方向が目立つようになることを利用する。鍵になる式 \(A^k x=V\Lambda^k c\) は、固有ベクトルを列に並べた等式 \(AV=V\Lambda\) を繰り返して得られる。</p></section>
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約16分</span><p>べき乗法は、同じ行列を繰り返し掛けると、絶対値が最大の固有値に対応する方向が目立つようになることを利用する。鍵になる式 \(A^k x=V\Lambda^k c\) は、固有ベクトルを列に並べた等式 \(AV=V\Lambda\) を繰り返して得られる。課題4で固有ベクトルの誤差を比べるときは、基準ベクトルと近似ベクトルの長さと位相をそろえる。</p></section>
 <section class="chapter-heading" id="chapter-01"><div class="chapter-title"><h2>固有値からべき乗法へ</h2><span class="reading-time">想定読了時間 約6分</span></div></section>
 <section class="explanation" id="slide-001"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 1｜なぜ \(A^k x=V\Lambda^k c\) なのか</h2><span class="reading-time">想定読了時間 約6分</span></div><div class="slide"><a href="授業資料/2.4 固有値問題.png" aria-label="固有値問題と式(2.9)の画像を開く"><img src="授業資料/2.4 固有値問題.png" alt="教材2.4 固有値問題の画像。固有ベクトルを並べた行列と式(2.9)" loading="lazy"></a><a href="授業資料/2.4.1 べき乗法.png" aria-label="べき乗法の原文画像を開く"><img src="授業資料/2.4.1 べき乗法.png" alt="教材2.4.1 べき乗法の画像。反復と固有方向への展開" loading="lazy"></a></div>
 <p class="claim">各固有方向は、\(A\) を一度掛けるたびに、それぞれの固有値の倍率で伸び縮みする。</p>
@@ -109,4 +110,43 @@
 <p>二つの成分の差はいつも \(1\) だが、成分の大きさは \(3^k\) とともに増える。したがって差は相対的に小さくなり、正規化した \(x_k\) は \((1,1)^{\mathsf T}/\sqrt2\) に近づく。表でも成分比は \(2:1\)、\(5:4\)、\(14:13\) と \(1:1\) に近づいている。</p>
 <p>固有ベクトルに十分近づくと \(y_k=Ax_k\approx3x_k\) なので、ゼロでない第1成分の比も \(\mu_k\approx3\) になる。画像の手順ではこの \(\mu_k\) の変化が小さくなったら止め、最後の \(x_k\) を第1固有ベクトルの近似として採用する。実際の計算では、停止時に \(\|Ax_k-\mu_kx_k\|\) も小さいか確かめると、固有方程式を満たしているか確認できる。</p>
 </div></section>
-</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li><li><a href="#chapter-01">固有値からべき乗法へ</a><ul><li><a href="#slide-001">解説 1　べき乗法のしくみ</a></li><li><a href="#eigen">固有値とは</a></li><li><a href="#basic">べき乗法とは</a></li><li><a href="#basis">固有方向への分解</a></li><li><a href="#derivation">式の導出</a></li><li><a href="#limit">第1固有方向が残る理由</a></li></ul></li><li><a href="#chapter-02">数値的な手順を具体例で追う</a><ul><li><a href="#slide-002">解説 2　反復で固有ベクトルが見えてくる</a></li><li><a href="#initial-vector">初期ベクトルの条件</a></li></ul></li></ul></div></nav></div></main></div></body></html>
+<section class="chapter-heading" id="chapter-03"><div class="chapter-title"><h2>課題4｜固有ベクトルの相対誤差</h2><span class="reading-time">想定読了時間 約4分</span></div></section>
+<section class="explanation" id="slide-003"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 3｜基準ベクトルを求め、長さと位相をそろえる</h2><span class="reading-time">想定読了時間 約4分</span></div><div class="slide"><a href="授業資料/2.4 固有ベクトルの相対誤差.png" aria-label="教材の固有ベクトルの相対誤差の画像を開く"><img src="授業資料/2.4 固有ベクトルの相対誤差.png" alt="教材の式(2.11)。固有ベクトルの相対誤差と、同じノルム・共通成分が正実数という二つの正規化条件" loading="lazy"></a></div>
+<p class="claim">固有ベクトルは何倍しても同じ固有方向を表す。比較前に倍率と符号・位相を決めてから、式(2.11)を計算する。</p>
+<h3 id="reference-vector">「真の固有ベクトル」はどう用意するか</h3>
+<p>厳密な \(v_i\) を手計算で得られる行列なら、\(\det(A-\lambda I)=0\) から \(\lambda_i\) を求め、\((A-\lambda_i I)v_i=0\) の非零解を取る。しかし課題4のランダム行列では、厳密な固有ベクトルを通常は求めない。<code>np.linalg.eig(A)</code> で得た数値解を比較用の<strong>基準ベクトル</strong>とする。これは数学的な真値ではないので、得られる値は厳密な真値との誤差ではなく、数値基準との相対差である。</p>
+<p><code>np.linalg.eig(A)</code> は固有値の配列 <code>values</code> と、固有ベクトルを<strong>列</strong>に並べた行列 <code>vectors</code> を返す。べき乗法の結果 \(\tilde v_1\) は絶対値最大の固有値に対応するため、<code>i = np.argmax(np.abs(values))</code> として <code>vectors[:, i]</code> を取る。<code>vectors[i, :]</code> は行なので違う。一般の第 \(i\) 固有ベクトルを比べる場合も、配列の番号をそのまま信じず、対応する固有値を照合する。</p>
+<h3 id="phase-normalization">条件(1)(2)を満たす正規化</h3>
+<p>ここでは既存の誤差・残差関数と同じ最大値ノルム \(\|z\|_\infty=\max_j|z_j|\) を使い、両方をそれぞれのノルムで割る。すると \(\|v_1\|_\infty=\|\tilde v_1\|_\infty=1\) となり、条件(1)を満たす。片方だけを正規化しても条件(1)は保証されない。</p>
+<p>次に、両方でゼロでない成分番号 \(k\) を一つ選ぶ。実数ベクトルなら、それぞれ第 \(k\) 成分が負のときベクトル全体に \(-1\) を掛ければよい。複素数にも通用する書き方は \(z\leftarrow z\,\overline{z_k}/|z_k|\)。この単位複素数を掛けると第 \(k\) 成分は \(|z_k|>0\) となり、ノルムも変わらない。\(v_1\) と \(\tilde v_1\) のそれぞれに行う。\(k\) は両方で成分の絶対値が十分大きい位置を選ぶと、丸め誤差に強い。</p>
+<div class="formula">\[\frac{\|v_1-\tilde v_1\|_\infty}{\|v_1\|_\infty}=\|v_1-\tilde v_1\|_\infty\qquad(\text{両方の最大値ノルムを1にした場合}).\]</div>
+<p>たとえば基準が \((1,1)^{\mathsf T}\)、近似が \((-1,-0.75)^{\mathsf T}\) なら、\(k=1\) で後者を全体ごと反転して \((1,0.75)^{\mathsf T}\) にする。両方の最大値ノルムは1なので、相対誤差は \(\max(0,0.25)=0.25\)。反転前のまま引くと、固有方向の違いではなく符号の違いを数えてしまう。</p>
+<h3 id="error-code">課題4の実装例</h3>
+<pre><code>import numpy as np
+
+def dominant_eigenvector_error(A, eigenvector):
+    values, vectors = np.linalg.eig(np.asarray(A, dtype=float))
+    i = np.argmax(np.abs(values))  # べき乗法が狙う固有値
+    v_ref = vectors[:, i].astype(complex)
+    v_num = np.asarray(eigenvector, dtype=complex)
+    if np.linalg.norm(v_num, ord=np.inf) == 0:
+        raise ValueError("近似固有ベクトルがゼロです")
+
+    # 条件(1): 両方の最大値ノルムを1にする
+    v_ref /= np.linalg.norm(v_ref, ord=np.inf)
+    v_num /= np.linalg.norm(v_num, ord=np.inf)
+
+    # 条件(2): 両方で十分大きい共通成分を選び、正実数にする
+    k = np.argmax(np.minimum(np.abs(v_ref), np.abs(v_num)))
+    if abs(v_ref[k]) == 0 or abs(v_num[k]) == 0:
+        raise ValueError("共通の非零成分がありません")
+    v_ref *= np.conj(v_ref[k]) / abs(v_ref[k])
+    v_num *= np.conj(v_num[k]) / abs(v_num[k])
+
+    return np.linalg.norm(v_ref - v_num, ord=np.inf)
+
+# 課題4の各試行で: eigenvector は power_method(A) の戻り値
+eigenvectors_errors.append(dominant_eigenvector_error(A, eigenvector))</code></pre>
+<p class="note">この関数はべき乗法が最大絶対値の<strong>単純な</strong>固有値に対応する方向へ収束した場合の比較用。近い大きさの固有値や重複固有値があると、列の対応や「1本の真の固有ベクトル」との比較自体に注意が要る。既存の <code>kadai4_1.py</code> では、連立方程式用の <code>np.linalg.solve(A, b)</code> や未定義の <code>b</code>・<code>x</code> が残っているため、固有値の基準値にも <code>np.linalg.eig(A)</code> を使って各誤差を計算する。</p>
+</div></section>
+</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li><li><a href="#chapter-01">固有値からべき乗法へ</a><ul><li><a href="#slide-001">解説 1　べき乗法のしくみ</a></li><li><a href="#eigen">固有値とは</a></li><li><a href="#basic">べき乗法とは</a></li><li><a href="#basis">固有方向への分解</a></li><li><a href="#derivation">式の導出</a></li><li><a href="#limit">第1固有方向が残る理由</a></li></ul></li><li><a href="#chapter-02">数値的な手順を具体例で追う</a><ul><li><a href="#slide-002">解説 2　反復で固有ベクトルが見えてくる</a></li><li><a href="#initial-vector">初期ベクトルの条件</a></li></ul></li><li><a href="#chapter-03">課題4｜固有ベクトルの相対誤差</a><ul><li><a href="#slide-003">解説 3　基準ベクトルと正規化</a></li><li><a href="#reference-vector">基準ベクトルの求め方</a></li><li><a href="#phase-normalization">二つの正規化条件</a></li><li><a href="#error-code">実装例</a></li></ul></li></ul></div></nav></div></main></div></body></html>

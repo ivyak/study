@@ -14,11 +14,16 @@
 .explanation .slide{display:block;float:right;width:min(49%,520px);height:auto;aspect-ratio:auto;overflow:hidden;background:#fff;line-height:0;margin:0 0 18px 25px}
 .explanation .slide img{display:block;width:100%;height:auto}
 .explanation .slide a{display:block}
+.explanation .slide a + a{margin-top:12px}
 .explanation-grid>p{margin:12px 0;max-width:none}
 @media(max-width:650px){.explanation .slide{float:none;width:100%;max-width:none;margin:0 0 18px}.chapter-title,.explanation-heading{align-items:flex-start}.reading-time{font-size:10px}}
  .explanation h3{margin:30px 0 10px;font-size:17px;color:var(--gold)}
  .explanation .formula{overflow-x:auto;margin:16px 0;padding:8px 0}
  .explanation .note{border-left:2px solid var(--gold);padding:8px 14px;color:var(--muted)}
+ .iteration-table-wrap{clear:both;overflow-x:auto;margin:20px 0}
+ .iteration-table{width:100%;border-collapse:collapse;min-width:620px}
+ .iteration-table th,.iteration-table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+ .iteration-table th{color:var(--gold);font-weight:500}
  </style></head>
 <body data-life-page="document" data-portal="../index.html" data-course="[2026後期月３]数理工学実験"><div class="shell">
 <!-- LIFE-SHELL:START -->
@@ -56,19 +61,19 @@
 <div class="section-rule"></div>
 <div class="reader"><article class="lesson-document" aria-labelledby="document-title">
 <header class="document-header"><p class="eyebrow">2026年度後期 · 数理工学実験 · 第4回</p><h1 id="document-title">べき乗法のしくみ</h1><p class="subtitle">第4回｜固有方向への分解と式の導出</p></header>
-<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約6〜7分</span><p>べき乗法は、同じ行列を繰り返し掛けると、絶対値が最大の固有値に対応する方向が目立つようになることを利用する。鍵になる式 \(A^k x=V\Lambda^k c\) は、固有ベクトルを列に並べた等式 \(AV=V\Lambda\) を繰り返して得られる。</p></section>
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約11分</span><p>べき乗法は、同じ行列を繰り返し掛けると、絶対値が最大の固有値に対応する方向が目立つようになることを利用する。鍵になる式 \(A^k x=V\Lambda^k c\) は、固有ベクトルを列に並べた等式 \(AV=V\Lambda\) を繰り返して得られる。</p></section>
 <section class="chapter-heading" id="chapter-01"><div class="chapter-title"><h2>固有値からべき乗法へ</h2><span class="reading-time">想定読了時間 約6分</span></div></section>
-<section class="explanation" id="slide-001"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 1｜なぜ \(A^k x=V\Lambda^k c\) なのか</h2><span class="reading-time">想定読了時間 約6分</span></div><div class="slide"><a href="授業資料/数理工学実験2026.pdf#page=24" aria-label="原PDF 24ページを開く"><img src="assets/chapter2/pdf-page-24.png" alt="数理工学実験2026 PDF 24ページ、べき乗法と式の原画像" loading="lazy"></a></div>
+<section class="explanation" id="slide-001"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 1｜なぜ \(A^k x=V\Lambda^k c\) なのか</h2><span class="reading-time">想定読了時間 約6分</span></div><div class="slide"><a href="授業資料/2.4 固有値問題.png" aria-label="固有値問題と式(2.9)の画像を開く"><img src="授業資料/2.4 固有値問題.png" alt="教材2.4 固有値問題の画像。固有ベクトルを並べた行列と式(2.9)" loading="lazy"></a><a href="授業資料/2.4.1 べき乗法.png" aria-label="べき乗法の原文画像を開く"><img src="授業資料/2.4.1 べき乗法.png" alt="教材2.4.1 べき乗法の画像。反復と固有方向への展開" loading="lazy"></a></div>
 <p class="claim">各固有方向は、\(A\) を一度掛けるたびに、それぞれの固有値の倍率で伸び縮みする。</p>
 <h3 id="eigen">そもそも固有値とは</h3>
 <p>行列 \(A\) をベクトルに掛けると、普通は向きも長さも変わる。しかし、あるゼロでないベクトル \(v\) は掛けても同じ直線上にとどまり、倍率だけが変わる。このとき \(v\) を<strong>固有ベクトル</strong>、倍率 \(\lambda\) を<strong>固有値</strong>と呼び、\(Av=\lambda v\) と書く。倍率が負なら向きは反転し、複素数なら位相も変わる。</p>
 <h3 id="basic">べき乗法とは</h3>
-<p>最初のベクトル \(x\) に同じ行列を何度も掛ける。並びは \(x,Ax,A^2x,A^3x,\ldots\)。各固有方向の成分は、掛けるたびに対応する固有値の倍率で変わる。たとえば \(A=\operatorname{diag}(3,1)\)、\(x=(1,1)^{\mathsf T}\) なら、\(A^kx=(3^k,1)^{\mathsf T}\)。\(k\) を増やすと、第1成分が第2成分より大きくなり、ベクトルの方向は第1固有ベクトルへ近づく。</p>
+<p>最初のベクトル \(x\) に同じ行列を何度も掛ける。並びは \(x,Ax,A^2x,A^3x,\ldots\)。各固有方向の成分は、掛けるたびに対応する固有値の倍率で変わる。たとえば \(A=\begin{pmatrix}3&amp;0\\0&amp;1\end{pmatrix}\)、\(x=(1,1)^{\mathsf T}\) なら、\(A^kx=(3^k,1)^{\mathsf T}\)。\(k\) を増やすと、第1成分が第2成分より大きくなり、ベクトルの方向は第1固有ベクトルへ近づく。</p>
 <p>数値を大きくしすぎないため、実際には \(y_k=Ax_k\) を計算するたびに長さを1にそろえる。\(y_k\ne0\) のとき、反復は次の形になる。</p>
 <div class="formula">\[x_{k+1}=\frac{Ax_k}{\|Ax_k\|}.\]</div>
 <p>この操作は長さだけを変えるので、繰り返し掛けて現れる固有方向の優劣は変わらない。教材はこの後、固有値の推定と収束判定も示している。ここでは方向が選ばれる理由に集中する。</p>
 <h3 id="basis">最初のベクトルを固有方向へ分ける</h3>
-<p>教材の <a href="授業資料/数理工学実験2026.pdf#page=23">p.23 の式(2.9)</a> では、固有ベクトル \(v_1,\ldots,v_n\) を列に並べて \(V=(v_1,\ldots,v_n)\)、固有値を対角に並べて \(\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)\) とする。第 \(i\) 列どうしで \(Av_i=\lambda_i v_i\) が成り立つため、列をまとめれば</p>
+<p>教材の <a href="授業資料/数理工学実験2026.pdf#page=23">p.23 の式(2.9)</a> では、固有ベクトル \(v_1,\ldots,v_n\) を列に並べて \(V=(v_1,\ldots,v_n)\)、固有値を対角に並べて \(\Lambda=\begin{pmatrix}\lambda_1&amp;&amp;0\\&amp;\ddots&amp;\\0&amp;&amp;\lambda_n\end{pmatrix}\) とする。第 \(i\) 列どうしで \(Av_i=\lambda_i v_i\) が成り立つため、列をまとめれば</p>
 <div class="formula">\[AV=(Av_1,\ldots,Av_n)=(\lambda_1v_1,\ldots,\lambda_nv_n)=V\Lambda.\tag{2.9}\]</div>
 <p>教材は \(|\lambda_1|>|\lambda_2|>\cdots>|\lambda_n|>0\) を仮定する。固有値がすべて異なるので固有ベクトルは一次独立で、\(V\) は逆行列を持つ。だから任意の \(x\in\mathbb C^n\) を \(x=Vc=c_1v_1+\cdots+c_nv_n\) と一意に表せる。\(c_i\) は、最初の \(x\) に第 \(i\) 固有方向がどれだけ含まれるかを表す係数である。</p>
 <h3 id="derivation">質問の式を一行ずつ導く</h3>
@@ -83,4 +88,22 @@
 <p>教材の仮定では \(i\ge2\) に対して \(|\lambda_i/\lambda_1|<1\)。だから \((\lambda_i/\lambda_1)^k\) は \(k\to\infty\) で0に近づく。括弧の中では他の固有方向が小さくなり、\(c_1\ne0\) なら \(c_1v_1\) が残る。これが「第1固有ベクトルの成分が支配的になる」の正確な意味である。</p>
 <p class="note">\(c_1=0\) なら最初から第1固有方向が含まれず、この説明ではそこへ近づかない。また、正規化後のベクトルそのものは \(\lambda_1<0\) なら符号が交互に変わり、複素固有値なら位相が回ることがある。「近づく」のは符号や位相を同一視した方向である。</p>
 </div></section>
-</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li><li><a href="#chapter-01">固有値からべき乗法へ</a><ul><li><a href="#slide-001">解説 1　べき乗法のしくみ</a></li><li><a href="#eigen">固有値とは</a></li><li><a href="#basic">べき乗法とは</a></li><li><a href="#basis">固有方向への分解</a></li><li><a href="#derivation">式の導出</a></li><li><a href="#limit">第1固有方向が残る理由</a></li></ul></li></ul></div></nav></div></main></div></body></html>
+<section class="chapter-heading" id="chapter-02"><div class="chapter-title"><h2>数値的な手順を具体例で追う</h2><span class="reading-time">想定読了時間 約4〜5分</span></div></section>
+<section class="explanation" id="slide-002"><div class="explanation-grid"><div class="explanation-heading"><h2>解説 2｜反復で固有ベクトルが見えてくる</h2><span class="reading-time">想定読了時間 約4〜5分</span></div><div class="slide"><a href="授業資料/2.4 べき乗法の数値的解法.png" aria-label="べき乗法の数値的解法の画像を開く"><img src="授業資料/2.4 べき乗法の数値的解法.png" alt="教材のべき乗法の手順。行列を掛け、成分比で固有値を推定し、正規化する" loading="lazy"></a></div>
+<p class="claim">毎回の正規化は長さを抑えるだけで、固有ベクトルへ近づく向きはそのまま残る。</p>
+<p>画像の \(x_k=(x_{k;i})_i\) は「\(k\) 回目のベクトル \(x_k\) は、成分 \(x_{k;1},x_{k;2},\ldots\) を並べたもの」という意味。\(k\) は反復回数、\(i\) はその中の成分番号で、セミコロンは二つの番号を区切っている。2成分なら \(x_k=(x_{k;1},x_{k;2})^{\mathsf T}\)。同様に \(y_k=(y_{k;i})_i\) と書き、\(y_{k;i}\) は \(y_k\) の第 \(i\) 成分を表す。たとえば下の例の \(x_0=(1,0)^{\mathsf T}\) では \(x_{0;1}=1\)、\(x_{0;2}=0\) である。</p>
+<p>対角行列ではない例として、\(A=\begin{pmatrix}2&amp;1\\1&amp;2\end{pmatrix}\)、初期ベクトルを \(x_0=\begin{pmatrix}1\\0\end{pmatrix}\) とする。この行列には \(v_1=(1,1)^{\mathsf T}\)、\(v_2=(1,-1)^{\mathsf T}\) という二つの固有ベクトルがあり、実際に掛けると \(Av_1=3v_1\)、\(Av_2=v_2\) となる。絶対値が最大の固有値は \(3\) で、目標は \(v_1\) の方向である。</p>
+<p>画像の手順どおり、まず \(y_0=Ax_0=(2,1)^{\mathsf T}\) を計算する。第1成分が \(x_{0;1}=1\ne0\) なので、固有値の推定値は \(\mu_0=y_{0;1}/x_{0;1}=2\)。次に \(x_1=y_0/\|y_0\|=(2,1)^{\mathsf T}/\sqrt5\) と正規化する。\(\mu_0=2\) はまだ真の固有値 \(3\) ではないが、反復を続けると近づく。</p>
+<p>各回で同じく \(y_k=Ax_k\) を求め、第1成分の比 \(\mu_k=y_{k;1}/x_{k;1}\) を計算してから、\(x_{k+1}=y_k/\|y_k\|\) とする。この例では第1成分は常にゼロでない。はじめの数回は次のようになる。</p>
+<div class="iteration-table-wrap"><table class="iteration-table"><thead><tr><th>\(k\)</th><th>正規化した \(x_k\)</th><th>掛けた結果 \(y_k=Ax_k\)</th><th>成分比 \(\mu_k\)</th></tr></thead><tbody>
+<tr><td>0</td><td>\((1,0)^{\mathsf T}\)</td><td>\((2,1)^{\mathsf T}\)</td><td>\(2\)</td></tr>
+<tr><td>1</td><td>\((2,1)^{\mathsf T}/\sqrt5\)</td><td>\((5,4)^{\mathsf T}/\sqrt5\)</td><td>\(5/2=2.5\)</td></tr>
+<tr><td>2</td><td>\((5,4)^{\mathsf T}/\sqrt{41}\)</td><td>\((14,13)^{\mathsf T}/\sqrt{41}\)</td><td>\(14/5=2.8\)</td></tr>
+<tr><td>3</td><td>\((14,13)^{\mathsf T}/\sqrt{365}\)</td><td>\((41,40)^{\mathsf T}/\sqrt{365}\)</td><td>\(41/14\approx2.93\)</td></tr>
+</tbody></table></div>
+<p>なぜ \(x_k\) が \(v_1\) の方向へ近づくのか。最初の \(x_0\) は \(\tfrac12(1,1)^{\mathsf T}+\tfrac12(1,-1)^{\mathsf T}\) と分けられる。前者には毎回 \(3\)、後者には毎回 \(1\) が掛かるので、正規化する前は</p>
+<div class="formula">\[A^kx_0=\frac{3^k}{2}\begin{pmatrix}1\\1\end{pmatrix}+\frac12\begin{pmatrix}1\\-1\end{pmatrix}=\frac12\begin{pmatrix}3^k+1\\3^k-1\end{pmatrix}.\]</div>
+<p>二つの成分の差はいつも \(1\) だが、成分の大きさは \(3^k\) とともに増える。したがって差は相対的に小さくなり、正規化した \(x_k\) は \((1,1)^{\mathsf T}/\sqrt2\) に近づく。表でも成分比は \(2:1\)、\(5:4\)、\(14:13\) と \(1:1\) に近づいている。</p>
+<p>固有ベクトルに十分近づくと \(y_k=Ax_k\approx3x_k\) なので、ゼロでない第1成分の比も \(\mu_k\approx3\) になる。画像の手順ではこの \(\mu_k\) の変化が小さくなったら止め、最後の \(x_k\) を第1固有ベクトルの近似として採用する。実際の計算では、停止時に \(\|Ax_k-\mu_kx_k\|\) も小さいか確かめると、固有方程式を満たしているか確認できる。</p>
+</div></section>
+</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li><li><a href="#chapter-01">固有値からべき乗法へ</a><ul><li><a href="#slide-001">解説 1　べき乗法のしくみ</a></li><li><a href="#eigen">固有値とは</a></li><li><a href="#basic">べき乗法とは</a></li><li><a href="#basis">固有方向への分解</a></li><li><a href="#derivation">式の導出</a></li><li><a href="#limit">第1固有方向が残る理由</a></li></ul></li><li><a href="#chapter-02">数値的な手順を具体例で追う</a><ul><li><a href="#slide-002">解説 2　反復で固有ベクトルが見えてくる</a></li></ul></li></ul></div></nav></div></main></div></body></html>

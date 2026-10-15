@@ -122,3 +122,12 @@ def forward_substitution_LU(L: list[list[float]], P_pi: list[list[float]], b: li
     sum_ly: float = sum(L[i][j] * y[j] for j in range(i))
     y[i] = Pb[i] - sum_ly
   return y
+
+def back_substitution_LU(U: list[list[float]], y: list[float]):
+  n: int = len(U)
+  x: list[float] = [0] * n
+
+  for i in range(n - 1, -1, -1):
+    sum_ux: float = sum(U[i][j] * x[j] for j in range(i + 1, n))
+    x[i] = (y[i] - sum_ux) / U[i][i]
+  return x

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="1">
+<meta name="study-kind" content="解説">
+<meta name="study-created" content="2026-10-14">
+<title>数値解析｜第1回・浮動小数点数の精度と範囲</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.numeric-page .intro{max-width:850px}
+.numeric-page .read-time{float:right;color:var(--muted);font-size:12px;font-weight:400}
+.numeric-page .explanation-grid{display:block;min-height:0}
+.numeric-page .explanation-grid::after{content:"";display:block;clear:both}
+.numeric-page .slide{display:block;float:right;width:min(47%,540px);height:auto;aspect-ratio:auto;margin:0 0 18px 28px;padding:0;overflow:hidden;border:0;letter-spacing:normal}
+.numeric-page .slide-window{display:block;position:relative;width:100%;aspect-ratio:1.6;overflow:hidden;border:1px solid var(--gold);background:#fff}
+.numeric-page .slide-window img{position:absolute;bottom:0;left:0;width:200%;max-width:none;height:auto;display:block}
+.numeric-page .slide figcaption{line-height:1.5;color:var(--muted);font-size:12px}
+.numeric-page .slide a{display:block;color:var(--gold)}
+.numeric-page .data-table{border-collapse:collapse;width:100%;margin:16px 0 24px;font-size:14px}
+.numeric-page .data-table th,.numeric-page .data-table td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.numeric-page .data-table th{color:var(--gold);font-weight:500}
+.numeric-page .callout{padding:14px 18px;margin:20px 0;border-left:2px solid var(--gold);background:rgba(215,182,108,.08)}
+.numeric-page .callout p{margin:0}
+.numeric-page .equation{clear:none}
+.numeric-page .explanation h2{margin-top:28px}
+.numeric-page .question{clear:both}
+.numeric-page code{overflow-wrap:anywhere}
+@media(max-width:850px){.numeric-page .slide{float:none;width:min(100%,620px);margin:0 auto 24px}}
+</style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水４]数値解析">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90">数値解析</a><span>/</span><span>第1回</span></div>
+<div class="document-back"><a class="back-step" style="width:52px" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="section-rule"></div>
+<div class="reader">
+<article class="lesson-document numeric-page" aria-labelledby="document-title">
+<header class="document-header">
+<p class="eyebrow">2026年度 後期 · 水曜4限 / 第1回・スライド13/21 <span class="read-time">想定読了時間 約10分</span></p>
+<h1 id="document-title">数値解析</h1>
+<p class="subtitle">浮動小数点数のビット数・10進精度・表現範囲</p>
+</header>
+<p class="source">原典：<a href="第1回/IMG_3560.jpeg">第1回の配布スライド写真</a>の左下（印字番号13/21）。</p>
+
+<section class="summary" id="summary">
+<h2>このスライドで言いたいこと</h2>
+<p class="intro">単精度と倍精度では、保存するビット数を符号・小数部・指数部に分ける。小数部の先頭に補う「隠れた1」のため、有効数字のビット数だけが保存ビット数より1多い。この区別から、10進の精度と表現できる大きさの目安が読み取れる。</p>
+</section>
+
+<h2 id="chapter-01">スライド13：浮動小数点数の構造 <span class="read-time">約4分</span></h2>
+<section class="explanation" id="slide-013">
+<div class="explanation-grid">
+<figure class="slide"><a href="第1回/IMG_3560.jpeg" aria-label="原写真を開く"><span class="slide-window"><img src="第1回/IMG_3560.jpeg" alt="第1回の配布資料写真の左下。IEEE 754の単精度・倍精度の表と、三つの問いを掲載したスライド13" loading="lazy"></span></a><figcaption>スライド13/21（写真の左下）。クリックすると写真全体を開く。</figcaption></figure>
+<p>スライドの表で「全長」は実際に保存するビット数を指す。通常の有限な数は、符号 \(s\)、2進数の有効数字 \(1.f\)、指数 \(e\) を使って次の形で表す。</p>
+<div class="equation key-equation">\[x=(-1)^s(1.f)_2\,2^e\]</div>
+<p>\(f\) は小数点以下のビット列。たとえば \((1.01)_2=1+2^{-2}=1.25\) である。指数を変えると小数点の位置が動く。スライド上部の歴史の箇所は、この表現がIEEE 754として標準化されるまでの流れを短く示している。</p>
+<table class="data-table"><thead><tr><th scope="col">種類</th><th scope="col">実際に保存する内訳</th><th scope="col">合計</th><th scope="col">有効数字</th></tr></thead><tbody>
+<tr><th scope="row">単精度</th><td>符号1 + 小数部23 + 指数部8</td><td>32ビット</td><td>先頭の1 + 小数部23 = 24ビット</td></tr>
+<tr><th scope="row">倍精度</th><td>符号1 + 小数部52 + 指数部11</td><td>64ビット</td><td>先頭の1 + 小数部52 = 53ビット</td></tr>
+</tbody></table>
+<h3 id="hidden-bit">なぜ全部足すと1ビット多く見えるのか</h3>
+<p>表の「小数部 \(1+23\)」「\(1+52\)」にある最初の1は、保存領域を1ビット増やす意味ではない。0以外の<strong>正規化された数</strong>は有効数字を必ず \((1.f)_2\) の形にできるため、先頭が1だと分かっている。そこで、その1をメモリには書かず、読み出すときに補う。これを<strong>隠れたビット</strong>という。</p>
+<div class="callout"><p>単精度なら「保存する数」\(1+23+8=32\)、「有効数字として使える数」\(1+23=24\)。\(1+(1+23)+8=33\) と足すと、保存しない先頭の1まで保存ビットとして数えてしまう。</p></div>
+<p>先頭の1を補えるのは正規化された数の場合に限る。ゼロや、ゼロに近い<strong>非正規化数</strong>では先頭は \(0.f\) になり、同じ24ビット・53ビットの精度は得られない。</p>
+<h3 id="subnormal-significand">「非正規仮数」とは何か</h3>
+<p>仮数は \(1.f\) のように数の有効数字を担う部分である。正規化数では先頭が必ず1なので、1を省略して小数部 \(f\) だけ保存できる。一方、指数をそれ以上小さくできないところでゼロに近い数も表すには、先頭を<strong>0</strong>とみなして \(0.f\) を使う。これが非正規化数の仮数（非正規仮数）であり、新しい保存欄を増やすわけではない。</p>
+<div class="equation">\[\text{正規化数：}\;(1.f)_2\,2^e,\qquad
+\text{非正規化数：}\;(0.f)_2\,2^{e_{\min}}.\]</div>
+<p>非正規化数では指数を最小の \(e_{\min}\) に固定し、\(f\) の1の位置を右へずらして値を小さくする。単精度で \(e_{\min}=-126\) とすると、\(0.100\ldots0\times2^{-126}=2^{-127}\)。さらに右へずらした最小値は \(0.00\ldots01\times2^{-126}=2^{-149}\) となる。先頭に0が増えるぶん有効な1から先のビットが減り、ゼロに近いほど精度が落ちる。</p>
+</div>
+</section>
+
+<h2 id="chapter-02">スライド下の三つの問い <span class="read-time">約6分</span></h2>
+<section class="question" id="question-1">
+<h3>問1　10進で約7.2桁・16.0桁なのはなぜか</h3>
+<p>有効数字が \(p\) ビットなら、\(1\le x&lt;2\) に並ぶ数の間隔は \(2^{-(p-1)}\)。最近値に丸める際の最大のずれは、その半分の \(2^{-p}\) である。この誤差の大きさを10進の桁数 \(d\) に換算するため、\(10^{-d}=2^{-p}\) とおくと \(d=p\log_{10}2\) になる。</p>
+<div class="equation">\[\begin{aligned}p=24&:\quad 24\log_{10}2\approx7.22,\\p=53&:\quad 53\log_{10}2\approx15.95.\end{aligned}\]</div>
+<p>倍精度では小数部が23ビットから52ビットへ増え、隠れた1を含む有効数字は24ビットから53ビットになる。増えた29ビットは \(29\log_{10}2\approx8.73\) 桁分なので、10進精度は約7.2桁から約16.0桁へ増える。<strong>有効数字の桁数を増やすのは小数部のビット数</strong>であり、指数部のビット数が増えると表せる数の大きさの範囲が広がる。</p>
+<p>これが表の「約7.2桁」「約16.0桁」の由来。<strong>どんな10進数でもその桁数が必ず正しい</strong>という保証ではない。10進数を2進数に直すと無限に続くこともあり、丸めた値を演算すればさらに誤差が生じる。目安として、単精度は約7桁、倍精度は約16桁の有効数字を持つ、と読む。</p>
+</section>
+<section class="question" id="question-2">
+<h3>問2　表現できる数の範囲とは何か</h3>
+<p>小数部は数字の細かさを、指数部は小数点をどれほど動かせるかを決める。指数部が8ビットの単精度では、正規化された数の指数は \(-126\le e\le127\)。11ビットの倍精度では \(-1022\le e\le1023\) となる。指数部のビット列をすべて通常の指数に使うわけではなく、ゼロに近い数や無限大・NaNなどのために一部を使う。</p>
+<table class="data-table"><thead><tr><th scope="col">種類</th><th scope="col">最小の正の正規化数</th><th scope="col">最大の有限数</th><th scope="col">最小の正の非正規化数</th></tr></thead><tbody>
+<tr><th scope="row">単精度</th><td>\(2^{-126}\approx1.18\times10^{-38}\)</td><td>約 \(3.40\times10^{38}\)</td><td>\(2^{-149}\approx1.40\times10^{-45}\)</td></tr>
+<tr><th scope="row">倍精度</th><td>\(2^{-1022}\approx2.23\times10^{-308}\)</td><td>約 \(1.80\times10^{308}\)</td><td>\(2^{-1074}\approx4.94\times10^{-324}\)</td></tr>
+</tbody></table>
+<h3 id="max-finite">最大有限数の \(3.40\) と \(1.80\) はどこから来るか</h3>
+<p>最大値にするには、指数を最大にし、小数部 \(f\) のビットをすべて1にする。単精度の小数部は23ビットなので、仮数は \((1.111\ldots111)_2=2-2^{-23}\)。倍精度では52ビットなので \(2-2^{-52}\) になる。</p>
+<div class="equation">\[\begin{aligned}
+\text{単精度の最大値}
+&=(2-2^{-23})\,2^{127}
+=(1-2^{-24})\,2^{128}
+\approx 3.4028235\times10^{38},\\
+\text{倍精度の最大値}
+&=(2-2^{-52})\,2^{1023}
+=(1-2^{-53})\,2^{1024}
+\approx 1.7976931\times10^{308}.
+\end{aligned}\]</div>
+<p>係数 \(3.40\)、\(1.80\) は \(2\) のべき乗を10進表示した結果である。たとえば \(2^{128}\approx3.4028237\times10^{38}\) で、実際の最大値はこれより少し小さい。「\(10^{38}\) まで」というだけでは係数を落としているので、表では桁の目安として読めばよい。</p>
+<p>スライドの \(10^{\pm38}\)、\(10^{\pm308}\) は、正規化された数についての<strong>桁単位の目安</strong>である。たとえば単精度の「\(10^{-38}\)」より小さい正の数も非正規化数で表せるが、ゼロに近づくほど有効数字は減る。また、表の範囲内にある実数をすべて正確に表せるわけではない。</p>
+</section>
+<section class="question" id="question-3">
+<h3>問3　倍精度の計算結果は常に単精度より正しいか</h3>
+<p>一つの実数をそれぞれの形式へ<strong>最近値丸め</strong>するだけなら、倍精度のほうが単精度以上に元の値へ近い。ただし、複数の演算では各段階で丸めが入り、誤差が増幅したり、偶然打ち消し合ったりする。したがって最終結果が常に倍精度のほうが真値に近いとは言えない。</p>
+<p>たとえば、十進数としての真値が \(0.1\times3-0.3=0\) である計算を、それぞれの精度で各演算を丸めながら行うと、単精度では \(0\)、倍精度では \(5.551115123125783\times10^{-17}\) になる例がある。単精度の誤差がこの式では偶然打ち消された。もちろん一般には、倍精度のほうが丸め誤差を小さくしやすい。</p>
+<div class="callout"><p>計算を評価するときは「何ビット使ったか」だけでなく、真値との差、引き算による桁落ち、問題そのものの誤差への敏感さも見る。</p></div>
+</section>
+</article>
+<nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul>
+<li><a href="#summary">このスライドの要点</a></li>
+<li><a href="#chapter-01">ビット数と隠れた1</a></li>
+<li><a href="#subnormal-significand">非正規仮数</a></li>
+<li><a href="#question-1">問1　10進の精度</a></li>
+<li><a href="#question-2">問2　表現範囲</a></li>
+<li><a href="#max-finite">最大有限数の係数</a></li>
+<li><a href="#question-3">問3　倍精度は常に正しいか</a></li>
+</ul></div></nav>
+</div>
+</main>
+</div>
+</body>
+</html>

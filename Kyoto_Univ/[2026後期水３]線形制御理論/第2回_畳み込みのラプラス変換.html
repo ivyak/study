@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="2">
+<meta name="study-kind" content="解説">
+<meta name="study-created" content="2026-10-14">
+<title>線形制御理論｜第2回：畳み込みと重複極の逆ラプラス変換</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.control-slide-page .intro{max-width:900px}
+.control-slide-page .step-label{display:inline-block;color:var(--gold);font-size:13px;letter-spacing:.04em}
+.control-slide-page .definition-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+.control-slide-page .definition-card{border:1px solid var(--line);padding:16px;min-width:0;background:rgba(215,182,108,.035)}
+.control-slide-page .definition-card h3{margin:0 0 8px;font-size:16px}
+.control-slide-page .definition-card .equation{margin:0}
+.control-slide-page .domain-figure{max-width:640px;margin:25px auto}
+.control-slide-page .domain-figure svg{background:rgba(255,255,255,.025);border-radius:4px}
+.control-slide-page .domain-figure .region{fill:rgba(215,182,108,.21)}
+.control-slide-page .domain-figure .axis{stroke:var(--white);stroke-width:2}
+.control-slide-page .domain-figure .boundary{stroke:var(--gold);stroke-width:2;stroke-dasharray:5 5}
+.control-slide-page .domain-figure .slice{stroke:#8dc3df;stroke-width:4}
+.control-slide-page .domain-figure .slice-label{fill:#8dc3df}
+.control-slide-page .source-link{color:var(--gold)}
+.control-slide-page .line-map{padding-left:1.5em}
+.control-slide-page .line-map li{margin:6px 0}
+.control-slide-page .equation{scrollbar-width:thin}
+@media(max-width:700px){.control-slide-page .definition-grid{grid-template-columns:1fr}}
+.control-slides .summary{padding-bottom:25px}
+.control-slides .summary h2{border:0;padding:0;margin:0 0 18px;font-size:18px;color:var(--gold)}
+.control-slides .chapter-heading{border-top:1px solid var(--gold);padding-top:22px;margin-top:34px}
+.control-slides .chapter-title,.control-slides .explanation-heading{display:flex;justify-content:space-between;align-items:baseline;gap:18px}
+.control-slides .chapter-title h2{border:0;padding:0;margin:0;font-size:22px}
+.control-slides .reading-time{font-size:11px;line-height:1.5;color:var(--muted);font-weight:400;white-space:nowrap;text-align:right}
+.control-slides .summary .reading-time{display:block;margin:0 0 15px auto}
+.control-slides .explanation-grid{display:flow-root!important}
+.control-slides .explanation-heading{margin-bottom:12px}
+.control-slides .explanation-heading h2{border:0!important;padding:0!important;margin:0!important;font-size:19px!important}
+.control-slides .slide{display:block;float:right;width:min(49%,520px);height:auto;aspect-ratio:auto;overflow:hidden;background:#fff;line-height:0;margin:0 0 18px 26px;padding:0}
+.control-slides .slide a,.control-slides .slide img{display:block;width:100%}
+.control-slides .slide img{height:auto}
+.control-slides .claim{font-weight:600;margin-top:0;color:var(--white)}
+.control-slides .equation{overflow-x:auto;max-width:100%}
+.control-slides .source-note{font-size:13px;color:var(--muted)}
+.control-slides .source-note a{color:var(--gold)}
+.control-slides .point-list{padding-left:1.5em}
+.control-slides .point-list li{margin:7px 0}
+@media(max-width:650px){.control-slides .slide{float:none;width:100%;max-width:none;margin:0 0 18px}.control-slides .chapter-title,.control-slides .explanation-heading{align-items:flex-start}.control-slides .reading-time{font-size:10px}}
+</style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水３]線形制御理論">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96">線形制御理論</a><span>/</span><span>第2回 解説</span></div>
+<div class="document-back"><a class="back-step" style="width:52px" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="section-rule"></div>
+<div class="reader">
+<article class="lesson-document control-slide-page control-slides" aria-labelledby="document-title">
+<header class="document-header">
+<p class="eyebrow">2026年度 後期 · 水曜3限 / 第2回・PDF 10・28〜31枚目</p>
+<h1 id="document-title">線形制御理論</h1>
+<p class="subtitle">10枚目の畳み込み／28〜31枚目の重複極と逆変換</p>
+</header>
+<p class="source">原典：<a class="source-link" href="授業資料/線形制御理論【第2回】講義資料.pdf#page=10">線形制御理論【第2回】講義資料.pdf・10枚目</a>。ラプラス変換の定義は同資料3枚目。</p>
+
+<section class="summary" id="summary">
+<h2>このページで示したいこと</h2>
+<p class="intro">二つの関数の畳み込み \(f*g\) をラプラス変換すると、それぞれのラプラス変換の積になる：\(\mathcal L[f*g](s)=\mathcal L[f](s)\mathcal L[g](s)\)。スライドの計算では、まず二つの定義を代入し、次に積分範囲の見方を変えています。後半では重複極の部分分数分解から逆ラプラス変換へ進みます。</p>
+</section>
+
+<h2 id="definitions">0．最初の行に出てくる二つの定義</h2>
+<div class="definition-grid">
+<div class="definition-card"><h3>ラプラス変換</h3><div class="equation">\[\mathcal L[h](s)=\int_0^\infty h(t)e^{-st}\,dt\]</div><p>関数 \(h(t)\) を受け取り、\(s\) の関数を作る。資料3枚目の定義。</p></div>
+<div class="definition-card"><h3>畳み込み</h3><div class="equation">\[(f*g)(t)=\int_0^t f(t-\tau)g(\tau)\,d\tau\]</div><p>まず \(t\) を一つ決め、\(\tau\) を0から \(t\) まで動かして得る値。\(f*g\) も \(t\) の関数。</p></div>
+</div>
+<p>畳み込みの \(*\) は普通の掛け算ではない。たとえば \(t=5\) のとき、\((f*g)(5)=\int_0^5 f(5-\tau)g(\tau)\,d\tau\) である。\(\tau\) はこの積分の中だけで使う変数で、畳み込みの結果には残らない。</p>
+
+<h2 id="first-line">1．スライドの1行目：定義を順番に代入する</h2>
+<span class="step-label">\(h=f*g\) としてラプラス変換の定義へ</span>
+<div class="equation key-equation">\[\begin{aligned}
+\mathcal L[f*g](s)
+&amp;=\int_0^\infty (f*g)(t)e^{-st}\,dt\\
+&amp;=\int_0^\infty\underbrace{\left(\int_0^t f(t-\tau)g(\tau)\,d\tau\right)}_{(f*g)(t)}e^{-st}\,dt.
+\end{aligned}\]</div>
+<p>これがスライドの1行目である。内側の積分で、固定した \(t\) に対する \((f*g)(t)\) を作る。外側の積分で、その関数をラプラス変換する。\(e^{-st}\) は外側のラプラス変換から来ており、内側の畳み込みの定義には含まれない。</p>
+<div class="note"><p>積分の順番は「まず \(\tau\)、次に \(t\)」。\(\int_0^\infty\bigl[\int_0^t\cdots d\tau\bigr]dt\) と括弧を付けると読みやすい。</p></div>
+
+<h2 id="domain">2．2行目：積分する領域を見直す</h2>
+<p>1行目では、外側の \(t\) が \(0\) 以上を動き、その都度、内側の \(\tau\) が \(0\le\tau\le t\) を動く。したがって積分する点 \((\tau,t)\) の条件は</p>
+<div class="equation">\[0\le t&lt;\infty,\qquad 0\le\tau\le t.\]</div>
+<p>同じ点を「先に \(\tau\) を決める」順序で列挙すると、\(\tau\) は0以上なら何でもよく、\(t\) はその \(\tau\) 以上になる。</p>
+<div class="equation key-equation">\[0\le\tau&lt;\infty,\qquad \tau\le t&lt;\infty.\]</div>
+<figure class="domain-figure"><svg viewBox="0 0 520 330" role="img" aria-label="横軸がτ、縦軸がt。積分範囲は直線t=τより上側。τを一つ固定するとtはτから無限大へ動く">
+<defs><marker id="control-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#eee"/></marker></defs>
+<path class="region" d="M75 275 L75 35 L325 35 Z"/>
+<path class="axis" d="M75 275 H470 M75 275 V24" fill="none" marker-end="url(#control-arrow)"/>
+<path class="boundary" d="M75 275 L325 35" fill="none"/>
+<path class="slice" d="M180 174 V36" fill="none"/>
+<circle cx="180" cy="174" r="4" fill="#8dc3df"/>
+<text x="55" y="301">0</text><text x="477" y="282">τ</text><text x="62" y="23">t</text>
+<text x="292" y="151">t = τ</text><text class="slice-label" x="188" y="75">τを固定</text><text class="slice-label" x="188" y="177">t = τ から上へ</text>
+</svg><figcaption>赤い領域はスライド右下の図に対応する。図では途中で切れているが、実際の範囲は上方へ無限に続く。</figcaption></figure>
+<p>たとえば \(\tau=2\) を選ぶと、\(t\) の範囲は \(2\le t&lt;\infty\)。これをすべての \(\tau\ge0\) について行うのが、積分順序の交換である。</p>
+<div class="equation">\[\int_0^\infty\int_0^t f(t-\tau)g(\tau)e^{-st}\,d\tau\,dt
+=\int_0^\infty\int_\tau^\infty f(t-\tau)g(\tau)e^{-st}\,dt\,d\tau.\]</div>
+<p>さらに \(t=(t-\tau)+\tau\) だから、指数法則により \(e^{-st}=e^{-s(t-\tau)}e^{-s\tau}\)。これを入れるとスライドの2行目になる。</p>
+<div class="equation">\[\int_0^\infty\int_\tau^\infty
+f(t-\tau)e^{-s(t-\tau)}g(\tau)e^{-s\tau}\,dt\,d\tau.\]</div>
+
+<h2 id="substitution">3．3行目：\(t'=t-\tau\) と置く</h2>
+<p>内側の積分では \(\tau\) を固定している。そこで \(t'=t-\tau\) と置くと、\(dt'=dt\)。端点は次のように移る。</p>
+<div class="equation">\[t=\tau\;\Longrightarrow\;t'=0,\qquad t\to\infty\;\Longrightarrow\;t'\to\infty.\]</div>
+<p>\(\tau=2\) なら \(t'=t-2\) であり、\(t=2,3,4,\ldots\) に対し \(t'=0,1,2,\ldots\) となる。スライドの3行目は</p>
+<div class="equation key-equation">\[\int_0^\infty\int_0^\infty
+f(t')e^{-st'}g(\tau)e^{-s\tau}\,dt'\,d\tau\]</div>
+<p>である。ここで両方の積分範囲が \(0\) から \(\infty\) になったのが核心。\(t'\) の範囲は \(\tau\) に依存しなくなった。</p>
+
+<h2 id="factor">4．4・5行目：二つの積分に分ける</h2>
+<p>\(f(t')e^{-st'}\) は \(t'\) だけに、\(g(\tau)e^{-s\tau}\) は \(\tau\) だけに依存する。積分範囲も互いに独立なので、積に分けられる。</p>
+<div class="equation">\[\begin{aligned}
+&amp;\int_0^\infty\int_0^\infty f(t')e^{-st'}g(\tau)e^{-s\tau}\,dt'\,d\tau\\
+&amp;\quad=\left(\int_0^\infty f(t')e^{-st'}\,dt'\right)
+\left(\int_0^\infty g(\tau)e^{-s\tau}\,d\tau\right)\\
+&amp;\quad=\boxed{\mathcal L[f](s)\mathcal L[g](s)}.
+\end{aligned}\]</div>
+<p>\(t'\) や \(\tau\) は積分変数の名前にすぎない。括弧内の二つの積分は、最初に見たラプラス変換の定義と同じ形である。</p>
+
+<h2 id="check">具体例で確認する</h2>
+<p>\(f(t)=g(t)=1\) とする。畳み込みは \((f*g)(t)=\int_0^t 1\,d\tau=t\)。一方、資料4枚目より \(\mathcal L[1](s)=1/s\)（\(\operatorname{Re}s&gt;0\)）。だから今の式は \(\mathcal L[t](s)=1/s^2\) を与える。</p>
+<div class="equation key-equation">\[\underbrace{\mathcal L[1*1](s)}_{\mathcal L[t](s)}
+=\underbrace{\mathcal L[1](s)\mathcal L[1](s)}_{(1/s)(1/s)}
+=\frac1{s^2}.\]</div>
+<div class="note"><p>積分順序の交換と積への分離には収束条件が要る。たとえば \(f,g\) のラプラス積分が、考えている \(s\) でともに絶対収束するなら、ここでの操作は正当化できる。</p></div>
+<p class="muted">原典：<a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=10">第2回講義資料・10枚目</a>。領域図、途中の説明、例は理解のために追加した。</p>
+
+<section class="slide-range-intro" id="slides-28-31">
+<h2>28〜31枚目：重複極と逆ラプラス変換</h2>
+<span class="reading-time">この範囲の想定読了時間 約12分</span>
+<p>重複した極では、同じ \(s-p\) を分母にもつ項が \(1\) 乗から重複度まで現れる。各項を逆ラプラス変換すると、極 \(p\) に対応する指数関数 \(e^{pt}\) に \(t\) の多項式が掛かる。最後の例題で、係数を求めて時間の関数へ戻すところまで確認する。</p>
+</section>
+
+<section class="chapter-heading" id="chapter-01"><div class="chapter-title"><h2>重複極を部分分数にする</h2><span class="reading-time">想定読了時間 約5分</span></div></section>
+
+<section class="explanation" id="slide-028"><div class="explanation-grid">
+<div class="explanation-heading"><h2>解説 28｜重複度が分解の形を決める</h2><span class="reading-time">想定読了時間 約2〜3分</span></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=28" aria-label="第2回講義資料 PDF 28ページを開く"><img src="assets/第2回-page-28.png" alt="第2回講義資料 PDF 28ページ、重複した極の部分分数分解" loading="lazy"></a></div>
+<p class="claim">極が重なったら、その重複度のぶんだけ同じ極の項を用意する。</p>
+<p><strong>極</strong> \(p_i\) は分母が零になる \(s\) の値、<strong>重複度</strong> \(n_i\) は分母に因子 \((s-p_i)^{n_i}\) が何回現れるかを表す。異なる極を \(p_1,\ldots,p_m\) として並べるので、同じ極は重複度で数え、別の \(p_i\) にはしない。講義でいう「プロパー」は、分子の次数が分母の次数を超えない有理関数である（23枚目）。</p>
+<p>スライドの \(G_i(s)/(s-p_i)^{n_i}\) は、極 \(p_i\) に対応する一まとまり。\(G_i\) は次数が \(n_i\) 未満の多項式で、最終的にこの分子を展開して \(1/(s-p_i),\ldots,1/(s-p_i)^{n_i}\) へ分ける。たとえば \((s-p)^2\) が分母にあれば、\(A/(s-p)+B/(s-p)^2\) の二項が必要になる。</p>
+<div class="equation">\[F(s)=c_0+\sum_{i=1}^{m}\frac{G_i(s)}{(s-p_i)^{n_i}},\qquad c_0=\lim_{s\to\infty}F(s).\]</div>
+<p>\(c_0\) は分解後に残る定数項。分子の次数が分母より小さければ \(F(s)\to0\) なので \(c_0=0\)。両者の次数が等しい場合は、先頭係数の比が \(c_0\) になる。</p>
+</div></section>
+
+<section class="explanation" id="slide-029"><div class="explanation-grid">
+<div class="explanation-heading"><h2>解説 29｜分子を展開して標準形へ</h2><span class="reading-time">想定読了時間 約2〜3分</span></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=29" aria-label="第2回講義資料 PDF 29ページを開く"><img src="assets/第2回-page-29.png" alt="第2回講義資料 PDF 29ページ、G_i の展開と部分分数の標準形" loading="lazy"></a></div>
+<p class="claim">\(G_i(s)\) を \(s-p_i\) の多項式で書けば、逆変換しやすい分母の累乗になる。</p>
+<p>\(G_i\) の次数は \(n_i\) 未満だから、\(s-p_i\) の \(n_i-1\) 乗までで表せる。スライドは係数を \(c_{ij}\) とし、指数を \(n_i-1-j\) の順に並べている。これを分母の \((s-p_i)^{n_i}\) で割ると、指数の差が \(-(j+1)\) となる。</p>
+<div class="equation">\[\frac{G_i(s)}{(s-p_i)^{n_i}}
+=\frac{\sum_{j=0}^{n_i-1}c_{ij}(s-p_i)^{n_i-1-j}}{(s-p_i)^{n_i}}
+=\sum_{j=0}^{n_i-1}\frac{c_{ij}}{(s-p_i)^{j+1}}.\]</div>
+<p>たとえば重複度2なら \(G_i(s)=c_{i0}(s-p_i)+c_{i1}\) であり、\(G_i(s)/(s-p_i)^2=c_{i0}/(s-p_i)+c_{i1}/(s-p_i)^2\)。<strong>添字 \(j=0\) が1乗、\(j=1\) が2乗</strong>という対応をつかめば、30枚目の逆変換をそのまま読める。</p>
+</div></section>
+
+<section class="chapter-heading" id="chapter-02"><div class="chapter-title"><h2>逆変換して例題で確かめる</h2><span class="reading-time">想定読了時間 約6分</span></div></section>
+
+<section class="explanation" id="slide-030"><div class="explanation-grid">
+<div class="explanation-heading"><h2>解説 30｜分母の累乗が \(t\) の累乗になる</h2><span class="reading-time">想定読了時間 約2分</span></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=30" aria-label="第2回講義資料 PDF 30ページを開く"><img src="assets/第2回-page-30.png" alt="第2回講義資料 PDF 30ページ、重複極を含む有理関数の逆ラプラス変換公式" loading="lazy"></a></div>
+<p class="claim">各項を逆変換すると、極 \(p_i\) は指数 \(e^{p_i t}\)、重複度は \(t^j\) に現れる。</p>
+<p>22枚目の変換表にある \(\mathcal L[t^je^{p_it}](s)=j!/(s-p_i)^{j+1}\) を逆向きに使う。したがって、部分分数の \(c_{ij}/(s-p_i)^{j+1}\) は \(c_{ij}t^je^{p_it}/j!\) になる。分解した項ごとに逆変換し、最後に足せばよい。</p>
+<div class="equation key-equation">\[\mathcal L^{-1}\!\left[\frac{c_{ij}}{(s-p_i)^{j+1}}\right](t)
+=\frac{c_{ij}}{j!}t^j e^{p_i t}.\]</div>
+<p>定数項 \(c_0\) は \(c_0\delta(t)\) に対応する。\(\delta\) は時刻0に集中する<strong>ディラックのデルタ</strong>で、普通の連続関数ではなく一般化関数である。今回の31枚目の例では \(c_0=0\) なので現れない。\(t&gt;0\) の通常の時間応答を読む際にも、この項を通常の定数関数と取り違えない。</p>
+</div></section>
+
+<section class="explanation" id="slide-031"><div class="explanation-grid">
+<div class="explanation-heading"><h2>解説 31｜省略された係数も求める</h2><span class="reading-time">想定読了時間 約4分</span></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=31" aria-label="第2回講義資料 PDF 31ページを開く"><img src="assets/第2回-page-31.png" alt="第2回講義資料 PDF 31ページ、重複極を含む逆ラプラス変換の例題" loading="lazy"></a></div>
+<p class="claim">\(s=1\) の二重極が \(e^t\) と \(te^t\) の二項を生む。</p>
+<p>分母を因数分解すると \(s^3-3s+2=(s-1)^2(s+2)\)。分子は2次、分母は3次なので \(c_0=0\)。極は \(1\)（重複度2）と \(-2\)（重複度1）であり、まず形を</p>
+<div class="equation">\[F(s)=\frac{A}{s-1}+\frac{B}{(s-1)^2}+\frac{C}{s+2}\]</div>
+<p>と決める。\(s=-2\) で \((s+2)F(s)\) の極限を取ると \(C=4\)。\(s=1\) で \((s-1)^2F(s)\) の極限を取ると \(B=2\)。これはスライドに書かれている二つの計算である。</p>
+<div class="equation">\[C=\left.\frac{7s^2-3s+2}{(s-1)^2}\right|_{s=-2}=4,\qquad
+B=\left.\frac{7s^2-3s+2}{s+2}\right|_{s=1}=2.\]</div>
+<p>残る \(A\) は、スライドでは「分母を払って係数比較」とだけある。手早く出すなら \(s=0\) を代入する。左辺は \(F(0)=2/2=1\)、右辺は \(-A+B+C/2=-A+2+2\)。よって \(1=4-A\)、すなわち \(A=3\)。</p>
+<div class="equation key-equation">\[F(s)=\frac{3}{s-1}+\frac{2}{(s-1)^2}+\frac{4}{s+2}.\]</div>
+<p>30枚目の公式を各項に使う。\(1/(s-1)\) は \(e^t\)、\(1/(s-1)^2\) は \(te^t\)、\(1/(s+2)\) は \(e^{-2t}\) に対応する。したがって</p>
+<div class="equation key-equation">\[\boxed{f(t)=3e^t+2te^t+4e^{-2t}\qquad(t\ge0).}\]</div>
+<p>検算では三項をそれぞれ変換して通分すると、分母が \((s-1)^2(s+2)\)、分子が \(7s^2-3s+2\) に戻る。変換が収束する範囲は、この例では \(\operatorname{Re}s&gt;1\) である。</p>
+</div></section>
+
+<p class="source-note">原典：<a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=28">線形制御理論【第2回】講義資料.pdf・28〜31枚目</a>。係数 \(A\) の代入計算と収束範囲の確認は解説として補った。</p>
+</article>
+<nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul>
+<li><a href="#summary">結論</a></li><li><a href="#definitions">二つの定義</a></li><li><a href="#first-line">1行目</a></li><li><a href="#domain">2行目</a></li><li><a href="#substitution">3行目</a></li><li><a href="#factor">4・5行目</a></li><li><a href="#check">具体例</a></li><li><a href="#slides-28-31">28〜31枚目：重複極と逆変換</a><ul><li><a href="#slide-028">28枚目｜重複度</a></li><li><a href="#slide-029">29枚目｜標準形</a></li><li><a href="#slide-030">30枚目｜逆変換公式</a></li><li><a href="#slide-031">31枚目｜例題</a></li></ul></li>
+</ul></div></nav>
+</div>
+</main>
+</div>
+</body>
+</html>

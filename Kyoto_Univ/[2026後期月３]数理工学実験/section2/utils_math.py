@@ -131,3 +131,10 @@ def back_substitution_LU(U: list[list[float]], y: list[float]):
     sum_ux: float = sum(U[i][j] * x[j] for j in range(i + 1, n))
     x[i] = (y[i] - sum_ux) / U[i][i]
   return x
+
+#LU分解を用いて連立一次方程式を解く全体の関数
+def LU_solve(A: list[list[float]], b: list[float]):
+  L, U, P_pi = LU_decomposition(A)
+  y: list[float] = forward_substitution_LU(L, P_pi, b)
+  x: list[float] = back_substitution_LU(U, y)
+  return x

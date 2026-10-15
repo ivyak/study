@@ -1,9 +1,11 @@
 import utils_math
 
-n: list[int] = [100, 200, 400, 800]
+for n in [100, 200, 400, 800]:
+  solutions: list[list[float]] = []
 
-for i in n:
-  A_list: list[list[list[float]]] = [utils_math.make_square_matrix(i) for _ in range(100)]
-  b_list: list[list[float]] = [utils_math.make_vector(i) for _ in range(100)]
+  for _ in range(100):
+    A: list[list[float]] = utils_math.make_square_matrix(n)
+    b: list[float] = utils_math.make_vector(n)
 
-  x_list: list[list[float]] = [utils_math.Gaussian_elimination(A_list[j], b_list[j]) for j in range(100)]
+    x: list[float] = utils_math.Gaussian_elimination(A, b)
+    solutions.append(x)

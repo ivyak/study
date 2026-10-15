@@ -68,7 +68,7 @@ def infinity_norm(vector: list[float]):
   return max(abs(x) for x in vector)
 
 # 相対誤差を求める
-def relative_error(x_true, x_approx: list[float]):
+def relative_error_Gaussian(x_true, x_approx: list[float]):
   return infinity_norm([x_true[i] - x_approx[i] for i in range(len(x_true))]) / infinity_norm(x_true)
 
 # 行列×ベクトルを求める
@@ -76,7 +76,7 @@ def matrix_vector_product(A: list[list[float]], x: list[float]):
   return [sum(A[i][j] * x[j] for j in range(len(x))) for i in range(len(A))]
 
 # 残差ノルムを求める
-def residual_norm(A: list[list[float]], x: list[float], b: list[float]):
+def residual_norm_Gaussian(A: list[list[float]], x: list[float], b: list[float]):
   Ax: list[float] = matrix_vector_product(A, x)
   return infinity_norm([Ax[i] - b[i] for i in range(len(b))])
 
@@ -158,3 +158,13 @@ def power_method(A: list[list[float]]):
     x: list[float] = [y[i] / infinity_norm(y) for i in range(len(y))]
 
   return mu, x
+
+
+# 残差ノルムを求める
+def residual_norm_PowerMethod(eigenvalue: float, eigenvector: list[float], A: list[list[float]]):
+  Av: list[float] = matrix_vector_product(A, eigenvector)
+  return infinity_norm([eigenvalue * eigenvector[i] - Av[i] for i in range(len(eigenvector))])
+
+def relative_error_PowerMethod(x_true, x_approx: list[float]):
+
+  return infinity_norm([x_true[i] - x_approx[i] for i in range(len(x_true))]) / infinity_norm(x_true)

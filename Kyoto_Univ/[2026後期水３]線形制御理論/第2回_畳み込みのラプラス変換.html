@@ -178,7 +178,7 @@ f(t')e^{-st'}g(\tau)e^{-s\tau}\,dt'\,d\tau\]</div>
 
 <section class="explanation" id="slide-028"><div class="explanation-grid">
 <div class="explanation-heading"><h2>解説 28｜重複度が分解の形を決める</h2><span class="reading-time">想定読了時間 約2〜3分</span></div>
-<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=28" aria-label="第2回講義資料 PDF 28ページを開く"><img src="assets/第2回-page-28.png" alt="第2回講義資料 PDF 28ページ、重複した極の部分分数分解" loading="lazy"></a></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=28" aria-label="第2回講義資料 PDF 28ページを開く" target="_blank" rel="noopener noreferrer"><img src="assets/第2回-page-28-300dpi.png" alt="第2回講義資料 PDF 28ページ、重複した極の部分分数分解" loading="lazy"></a></div>
 <p class="claim">極が重なったら、その重複度のぶんだけ同じ極の項を用意する。</p>
 <p><strong>極</strong> \(p_i\) は分母が零になる \(s\) の値、<strong>重複度</strong> \(n_i\) は分母に因子 \((s-p_i)^{n_i}\) が何回現れるかを表す。異なる極を \(p_1,\ldots,p_m\) として並べるので、同じ極は重複度で数え、別の \(p_i\) にはしない。講義でいう「プロパー」は、分子の次数が分母の次数を超えない有理関数である（23枚目）。</p>
 <p>スライドの \(G_i(s)/(s-p_i)^{n_i}\) は、極 \(p_i\) に対応する一まとまり。\(G_i\) は次数が \(n_i\) 未満の多項式で、最終的にこの分子を展開して \(1/(s-p_i),\ldots,1/(s-p_i)^{n_i}\) へ分ける。たとえば \((s-p)^2\) が分母にあれば、\(A/(s-p)+B/(s-p)^2\) の二項が必要になる。</p>
@@ -188,7 +188,7 @@ f(t')e^{-st'}g(\tau)e^{-s\tau}\,dt'\,d\tau\]</div>
 
 <section class="explanation" id="slide-029"><div class="explanation-grid">
 <div class="explanation-heading"><h2>解説 29｜分子を展開して標準形へ</h2><span class="reading-time">想定読了時間 約2〜3分</span></div>
-<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=29" aria-label="第2回講義資料 PDF 29ページを開く"><img src="assets/第2回-page-29.png" alt="第2回講義資料 PDF 29ページ、G_i の展開と部分分数の標準形" loading="lazy"></a></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=29" aria-label="第2回講義資料 PDF 29ページを開く" target="_blank" rel="noopener noreferrer"><img src="assets/第2回-page-29-300dpi.png" alt="第2回講義資料 PDF 29ページ、G_i の展開と部分分数の標準形" loading="lazy"></a></div>
 <p class="claim">\(G_i(s)\) を \(s-p_i\) の多項式で書けば、逆変換しやすい分母の累乗になる。</p>
 <p>\(G_i\) の次数は \(n_i\) 未満だから、\(s-p_i\) の \(n_i-1\) 乗までで表せる。スライドは係数を \(c_{ij}\) とし、指数を \(n_i-1-j\) の順に並べている。これを分母の \((s-p_i)^{n_i}\) で割ると、指数の差が \(-(j+1)\) となる。</p>
 <div class="equation">\[\frac{G_i(s)}{(s-p_i)^{n_i}}
@@ -201,7 +201,7 @@ f(t')e^{-st'}g(\tau)e^{-s\tau}\,dt'\,d\tau\]</div>
 
 <section class="explanation" id="slide-030"><div class="explanation-grid">
 <div class="explanation-heading"><h2>解説 30｜分母の累乗が \(t\) の累乗になる</h2><span class="reading-time">想定読了時間 約2分</span></div>
-<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=30" aria-label="第2回講義資料 PDF 30ページを開く"><img src="assets/第2回-page-30.png" alt="第2回講義資料 PDF 30ページ、重複極を含む有理関数の逆ラプラス変換公式" loading="lazy"></a></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=30" aria-label="第2回講義資料 PDF 30ページを開く" target="_blank" rel="noopener noreferrer"><img src="assets/第2回-page-30-300dpi.png" alt="第2回講義資料 PDF 30ページ、重複極を含む有理関数の逆ラプラス変換公式" loading="lazy"></a></div>
 <p class="claim">各項を逆変換すると、極 \(p_i\) は指数 \(e^{p_i t}\)、重複度は \(t^j\) に現れる。</p>
 <p>22枚目の変換表にある \(\mathcal L[t^je^{p_it}](s)=j!/(s-p_i)^{j+1}\) を逆向きに使う。したがって、部分分数の \(c_{ij}/(s-p_i)^{j+1}\) は \(c_{ij}t^je^{p_it}/j!\) になる。分解した項ごとに逆変換し、最後に足せばよい。</p>
 <div class="equation key-equation">\[\mathcal L^{-1}\!\left[\frac{c_{ij}}{(s-p_i)^{j+1}}\right](t)
@@ -211,7 +211,7 @@ f(t')e^{-st'}g(\tau)e^{-s\tau}\,dt'\,d\tau\]</div>
 
 <section class="explanation" id="slide-031"><div class="explanation-grid">
 <div class="explanation-heading"><h2>解説 31｜省略された係数も求める</h2><span class="reading-time">想定読了時間 約4分</span></div>
-<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=31" aria-label="第2回講義資料 PDF 31ページを開く"><img src="assets/第2回-page-31.png" alt="第2回講義資料 PDF 31ページ、重複極を含む逆ラプラス変換の例題" loading="lazy"></a></div>
+<div class="slide"><a href="授業資料/線形制御理論【第2回】講義資料.pdf#page=31" aria-label="第2回講義資料 PDF 31ページを開く" target="_blank" rel="noopener noreferrer"><img src="assets/第2回-page-31-300dpi.png" alt="第2回講義資料 PDF 31ページ、重複極を含む逆ラプラス変換の例題" loading="lazy"></a></div>
 <p class="claim">\(s=1\) の二重極が \(e^t\) と \(te^t\) の二項を生む。</p>
 <p>分母を因数分解すると \(s^3-3s+2=(s-1)^2(s+2)\)。分子は2次、分母は3次なので \(c_0=0\)。極は \(1\)（重複度2）と \(-2\)（重複度1）であり、まず形を</p>
 <div class="equation">\[F(s)=\frac{A}{s-1}+\frac{B}{(s-1)^2}+\frac{C}{s+2}\]</div>

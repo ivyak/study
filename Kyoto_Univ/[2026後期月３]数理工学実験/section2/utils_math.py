@@ -138,3 +138,23 @@ def LU_solve(A: list[list[float]], b: list[float]):
   y: list[float] = forward_substitution_LU(L, P_pi, b)
   x: list[float] = back_substitution_LU(U, y)
   return x
+
+# ------------------------------
+# 課題4用の関数
+# ------------------------------
+
+def power_method(A: list[list[float]]):
+  x: list[float] = [random.random() for _ in range(len(A))]
+  mu: float = 0.0
+  while True:
+    y: list[float] = matrix_vector_product(A, x)
+
+    mu_prev: float = mu
+    mu: float = infinity_norm(y) / infinity_norm(x)
+
+    if abs(mu - mu_prev) / abs(mu) < 1e-6:
+      break
+
+    x: list[float] = [y[i] / infinity_norm(y) for i in range(len(y))]
+
+  return mu, x

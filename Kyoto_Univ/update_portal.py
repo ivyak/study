@@ -182,6 +182,8 @@ def sync_document_shells(shell):
 
 
 def build():
+    from favicon import sync_favicons
+
     ui = ROOT / 'ui'
     template = (ui / 'portal.html').read_text(encoding='utf-8')
     shell = (ui / 'shell.html').read_text(encoding='utf-8')
@@ -201,6 +203,7 @@ def build():
     articles = json.dumps(article_records(), ensure_ascii=False).replace('<', chr(92) + 'u003c')
     output = output.replace('__ARTICLE_DATA__', articles)
     (ROOT / 'index.html').write_text(output, encoding='utf-8')
+    sync_favicons()
     total = sum(len(course['documents']) for course in entries)
     print(f'index.html を更新しました：{len(entries)} 授業 / {total} 資料')
 

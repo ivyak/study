@@ -32,10 +32,23 @@ window.LifeResources = (() => {
     const status = report?.execution?.status || 'unsearched';
     return { state: status === 'unsearched' ? 'unsearched' : 'searched', label: statuses[status] || '未確認' };
   }
-  function files(content, items) {
+  function files(content, items, withNotes = false) {
     if (!items.length) { content.append(element('p', '資料はまだありません。', 'resource-empty')); return; }
     const list = element('div', null, 'resource-files');
-    items.forEach(item => list.append(link(item.name, item.url)));
+    items.forEach(item => {
+      const source = link(item.name, item.url);
+      if (!withNotes) { list.append(source); return; }
+      const row = element('div', null, 'resource-file-row');
+      source.className = 'resource-source';
+      const note = item.noteUrl ? link('メモ', item.noteUrl) : element('a', 'メモ');
+      note.className = 'resource-note';
+      note.setAttribute('aria-label', `${item.name}のメモ${item.noteUrl ? 'を開く' : '（未作成）'}`);
+      if (!item.noteUrl) {
+        note.setAttribute('aria-disabled', 'true'); note.setAttribute('tabindex', '-1');
+        note.title = 'メモはまだありません';
+      }
+      row.append(source, note); list.append(row);
+    });
     content.append(list);
   }
   function table(headers, rows) {
@@ -149,7 +162,7 @@ window.LifeResources = (() => {
     const content = document.getElementById('resource-content'); content.replaceChildren();
     document.getElementById('resource-title').textContent = names[kind];
     document.getElementById('resource-crumb').textContent = names[kind];
-    if (kind !== 'exams') { files(content, course.resources?.[kind] || []); return; }
+    if (kind !== 'exams') { files(content, course.resources?.[kind] || [], kind === 'practice'); return; }
     displayReport(content, course, course.pastExams || {}, token, onUpdate);
     try {
       await connect(); const report = await request(`/api/exams/${encodeURIComponent(course.id)}`);

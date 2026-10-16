@@ -178,11 +178,27 @@ def public_file(path):
 def resources(folder, category):
     pattern = r'武器|weapons' if category == 'weapons' else r'演習|練習問題|対応問題|課題|practice|exercise|kadai'
     extensions = {'.html', '.htm', '.pdf', '.md', '.txt', '.py', '.png', '.jpg', '.jpeg'}
-    return [public_file(path) for path in sorted(folder.rglob('*'))
+    # Explicit registrations supplement filename-based discovery without renaming sources.
+    registry = folder / 'study/resources.json'
+    registered = set()
+    notes = {}
+    if registry.is_file():
+        data = json.loads(registry.read_text(encoding='utf-8'))
+        registered = set(data.get(category, []))
+        notes = data.get('notes', {}) if category == 'practice' else {}
+    result = [public_file(path) for path in sorted(folder.rglob('*'))
             if path.is_file() and path.suffix.lower() in extensions
             and path.resolve().is_relative_to(folder.resolve())
             and not any(part.startswith('.') for part in path.relative_to(folder).parts)
-            and re.search(pattern, path.relative_to(folder).as_posix(), re.I)]
+            and (path.relative_to(folder).as_posix() in registered
+                 or re.search(pattern, path.relative_to(folder).as_posix(), re.I))]
+    for item in result:
+        note = notes.get(Path(item['path']).relative_to(folder.relative_to(ROOT)).as_posix())
+        if isinstance(note, str):
+            path = folder / note
+            if path.is_file() and path.suffix.lower() in {'.html', '.htm'} and path.resolve().is_relative_to(folder.resolve()):
+                item['noteUrl'] = public_file(path)['url']
+    return result
 
 
 def from_listing(result, previous=None):

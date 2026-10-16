@@ -1,0 +1,4 @@
+interface:
+  display_name: "講義要約"
+  short_description: "講義画像・PDFを1〜2分の要約と公式・定義・用語の一覧にまとめる"
+  default_prompt: "$lecture-summary を使って、この授業資料から1〜2分で読める要約と、名前と式・用語と意味だけの一覧を作成してください。"

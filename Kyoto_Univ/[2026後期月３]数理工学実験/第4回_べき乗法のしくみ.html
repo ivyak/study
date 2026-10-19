@@ -123,31 +123,36 @@
 <div class="formula">\[\frac{\|v_1-\tilde v_1\|_\infty}{\|v_1\|_\infty}=\|v_1-\tilde v_1\|_\infty\qquad(\text{両方の最大値ノルムを1にした場合}).\]</div>
 <p>たとえば基準が \((1,1)^{\mathsf T}\)、近似が \((-1,-0.75)^{\mathsf T}\) なら、\(k=1\) で後者を全体ごと反転して \((1,0.75)^{\mathsf T}\) にする。両方の最大値ノルムは1なので、相対誤差は \(\max(0,0.25)=0.25\)。反転前のまま引くと、固有方向の違いではなく符号の違いを数えてしまう。</p>
 <h3 id="error-code">課題4の実装例</h3>
-<pre><code>import numpy as np
-
-def dominant_eigenvector_error(A, eigenvector):
-    values, vectors = np.linalg.eig(np.asarray(A, dtype=float))
-    i = np.argmax(np.abs(values))  # べき乗法が狙う固有値
-    v_ref = vectors[:, i].astype(complex)
-    v_num = np.asarray(eigenvector, dtype=complex)
-    if np.linalg.norm(v_num, ord=np.inf) == 0:
-        raise ValueError("近似固有ベクトルがゼロです")
-
+<p><code>utils_math.py</code> の書きかけの <code>eigenvector_error</code> に合わせる。既存の <code>infinity_norm</code> と <code>relative_error</code> を使い、条件(2)では共通の成分番号を選んで、両方の成分を正にする。</p>
+<pre><code># utils_math.py に書く関数（実数ベクトル用）
+def eigenvector_error(true_vector: list[float], eigenvector: list[float]):
     # 条件(1): 両方の最大値ノルムを1にする
-    v_ref /= np.linalg.norm(v_ref, ord=np.inf)
-    v_num /= np.linalg.norm(v_num, ord=np.inf)
+    true_vector_normalized: list[float] = [x / infinity_norm(true_vector) for x in true_vector]
+    eigenvector_normalized: list[float] = [x / infinity_norm(eigenvector) for x in eigenvector]
 
-    # 条件(2): 両方で十分大きい共通成分を選び、正実数にする
-    k = np.argmax(np.minimum(np.abs(v_ref), np.abs(v_num)))
-    if abs(v_ref[k]) == 0 or abs(v_num[k]) == 0:
-        raise ValueError("共通の非零成分がありません")
-    v_ref *= np.conj(v_ref[k]) / abs(v_ref[k])
-    v_num *= np.conj(v_num[k]) / abs(v_num[k])
+    # 条件(2): 両方でゼロでない成分番号kを選ぶ
+    for k in range(len(true_vector)):
+        if true_vector_normalized[k] != 0 and eigenvector_normalized[k] != 0:
+            break
+    else:
+        raise ValueError(&quot;共通の非零成分がありません&quot;)
 
-    return np.linalg.norm(v_ref - v_num, ord=np.inf)
+    # それぞれの第k成分が正になるように、ベクトル全体を反転する
+    if true_vector_normalized[k] &lt; 0:
+        true_vector_normalized = [-x for x in true_vector_normalized]
+    if eigenvector_normalized[k] &lt; 0:
+        eigenvector_normalized = [-x for x in eigenvector_normalized]
 
-# 課題4の各試行で: eigenvector は power_method(A) の戻り値
-eigenvectors_errors.append(dominant_eigenvector_error(A, eigenvector))</code></pre>
-<p class="note">この関数はべき乗法が最大絶対値の<strong>単純な</strong>固有値に対応する方向へ収束した場合の比較用。近い大きさの固有値や重複固有値があると、列の対応や「1本の真の固有ベクトル」との比較自体に注意が要る。既存の <code>kadai4_1.py</code> では、連立方程式用の <code>np.linalg.solve(A, b)</code> や未定義の <code>b</code>・<code>x</code> が残っているため、固有値の基準値にも <code>np.linalg.eig(A)</code> を使って各誤差を計算する。</p>
+    return relative_error(true_vector_normalized, eigenvector_normalized)
+
+# kadai4_1.py の各試行で呼び出す
+true_values, true_vectors = np.linalg.eig(A)
+i = np.argmax(np.abs(true_values))
+eigenvectors_errors.append(utils_math.eigenvector_error(true_vectors[:, i], eigenvector))</code></pre>
+<p><code>for</code> は、両方でゼロでない成分を先頭から探す。見つかった番号を <code>k</code> に残し、<code>break</code> で探索を終える。<code>for</code> に付いた <code>else</code> は、最後まで見つからなかった場合だけ実行される。</p>
+<p>その後の2つの <code>if</code> は、それぞれの第 <code>k</code> 成分が負かどうかを調べる。負なら全成分に \(-1\) を掛けるので、第 <code>k</code> 成分は両方とも正になり、条件(2)を満たす。全体の符号を反転しても、固有ベクトルとしての性質と最大値ノルムは変わらない。Pythonは0始まりなので、<code>k = 0</code> は数学でいう第1成分に当たる。</p>
+<p>たとえば \(u=(-1,-0.5)\)、\(v=(1,0.4)\) なら、<code>k = 0</code> が選ばれる。\(u\) だけを反転して \((1,0.5)\) とし、\(v\) はそのままにする。両方の第1成分が正になり、相対誤差は \(0.1\) となる。</p>
+<p>両方の最大値ノルムは1なので、最後の <code>relative_error</code> は成分の差の絶対値の最大値になる。</p>
+<p class="note">この実装例は実数ベクトル用。複素固有ベクトルでは正負を比較できないため、上で説明した共通成分の位相補正を使う。</p>
 </div></section>
 </article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li><li><a href="#chapter-01">固有値からべき乗法へ</a><ul><li><a href="#slide-001">解説 1　べき乗法のしくみ</a></li><li><a href="#eigen">固有値とは</a></li><li><a href="#basic">べき乗法とは</a></li><li><a href="#basis">固有方向への分解</a></li><li><a href="#derivation">式の導出</a></li><li><a href="#limit">第1固有方向が残る理由</a></li></ul></li><li><a href="#chapter-02">数値的な手順を具体例で追う</a><ul><li><a href="#slide-002">解説 2　反復で固有ベクトルが見えてくる</a></li><li><a href="#initial-vector">初期ベクトルの条件</a></li></ul></li><li><a href="#chapter-03">課題4｜固有ベクトルの相対誤差</a><ul><li><a href="#slide-003">解説 3　基準ベクトルと正規化</a></li><li><a href="#reference-vector">基準ベクトルの求め方</a></li><li><a href="#phase-normalization">二つの正規化条件</a></li><li><a href="#error-code">実装例</a></li></ul></li></ul></div></nav></div></main></div></body></html>

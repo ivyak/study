@@ -14,16 +14,17 @@ for row, n in enumerate([50, 100, 200, 400]):
 
   for _ in range(100):
     A: list[list[float]] = utils_math.make_square_matrix(n)
+    B = [[A[i][j] + A[j][i] for j in range(n)] for i in range(n)]
 
     start: float = time.perf_counter()
-    eigenvalue, eigenvector, iter_num = utils_math.power_method(A)
+    eigenvalue, eigenvector, iter_num = utils_math.power_method(B)
     times.append(time.perf_counter() - start)
     iteration_num.append(iter_num)
 
-    true_values, true_vectors = np.linalg.eig(np.array(A))
+    true_values, true_vectors = np.linalg.eig(np.array(B))
     i = np.argmax(np.abs(true_values))  # 第1固有値のインデックスを取得
 
-    residuals.append(utils_math.residual_norm_PowerMethod(eigenvalue, eigenvector, A))
+    residuals.append(utils_math.residual_norm_PowerMethod(eigenvalue, eigenvector, B))
     eigenvalues_errors.append(utils_math.eigenvalue_error(true_values[i], eigenvalue))
     eigenvectors_errors.append(utils_math.eigenvector_error(true_vectors[:, i], eigenvector))
 

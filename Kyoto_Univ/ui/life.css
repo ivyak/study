@@ -87,7 +87,7 @@ a { color: var(--white); text-underline-offset: .2em; }
 .lesson-document figcaption { font-size: 13px; margin-top: 12px; }
 .lesson-document .proof-end { text-align: right; color: var(--gold); }
 h2[id], h3[id] { scroll-margin-top: 24px; }
-.document-back { margin-bottom: 24px; }
+.document-back { position: sticky; top: 30px; z-index: 10; width: 52px; border-radius: 6px; background: var(--black); margin-bottom: 24px; }
 .document-back .back-step { width: 52px; height: 52px; min-width: 52px; min-height: 52px; padding: 0; }
 .back-nav-bottom { margin: 36px 0 0; border-top: 1px solid var(--line); padding-top: 16px; font-size: 12px; }
 .back-nav-bottom a { display: inline-block; padding: 8px; }

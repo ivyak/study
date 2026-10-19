@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ja"><head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>数理工学実験｜第5回 実対称行列の作り方</title>
+<meta name="study-ui" content="life"><meta name="study-lesson" content="5">
+<meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-19">
+<link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
+<style>.lesson-document pre{overflow-x:auto;padding:18px;border:1px solid var(--line);border-radius:8px;font-size:13px;line-height:1.7;background:rgba(0,0,0,.2)}.note{border-left:2px solid var(--gold);padding:8px 16px}.lesson-document section{margin:32px 0}.lesson-document blockquote{margin:16px 0;padding:8px 16px;border-left:2px solid var(--line);color:var(--muted)}
+.task5-tabs{flex-wrap:wrap}.task5-tabs button{white-space:normal;text-align:left}
+.task5-formula{padding:14px 18px;background:rgba(215,182,108,.06);border:1px solid var(--line);overflow-x:auto}
+.task5-table{width:100%;border-collapse:collapse;min-width:480px}.task5-table th,.task5-table td{padding:10px;text-align:left;border-bottom:1px solid var(--line)}
+.task5-problem-image{float:right;width:48%;margin:0 0 20px 24px}.task5-problem-image img{display:block;width:100%;height:auto}#panel-task5{display:flow-root}#panel-task5[hidden]{display:none}#panel-task5>section{clear:both}
+@media(max-width:650px){.task5-problem-image{float:none;width:100%;margin:16px 0 20px}}
+
+#panel-inverse .chapter-heading{margin:48px 0 20px;padding-top:20px;border-top:1px solid var(--gold)}
+#panel-inverse .chapter-heading h2,#panel-inverse .summary h2,#panel-inverse .explanation>h2{border:0;padding:0;margin:0 0 14px}
+#panel-inverse .reading-time{display:block;color:var(--muted);font-size:12px;margin:6px 0 16px}
+#panel-inverse .claim{font-weight:600}#panel-inverse .explanation{display:flow-root}#panel-inverse .source-image{float:right;box-sizing:border-box;width:48%;max-width:none;margin:0 0 20px 24px;padding:10px}
+#panel-inverse .source-image img{display:block;width:100%;height:auto;background:white}#panel-inverse figcaption{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.6}
+#panel-inverse table{width:100%;border-collapse:collapse;min-width:540px;font-size:14px}#panel-inverse th,#panel-inverse td{padding:12px;border-bottom:1px solid var(--line);text-align:left}#panel-inverse th{color:var(--gold)}
+#panel-inverse .flow{border:1px solid var(--gold);padding:16px 20px;line-height:2}.inverse-contents{display:flex;flex-wrap:wrap;gap:8px 20px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px}
+@media(max-width:650px){#panel-inverse .source-image{float:none;width:100%;margin:18px 0;padding:6px}}
+</style>
+<script>window.MathJax={"tex":{"inlineMath":[["\\(","\\)"]],"displayMath":[["\\[","\\]"]],"processEscapes":true},"chtml":{"displayAlign":"center"}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+</head><body data-life-page="document" data-portal="../index.html" data-course="[2026後期月３]数理工学実験"><div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main><div class="document-back"><a class="back-step" href="../index.html#course=[2026後期月３]数理工学実験" aria-label="数理工学実験の授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="reader"><article class="lesson-document" aria-labelledby="document-title">
+<header class="document-header"><p class="eyebrow">2026年度後期 · 数理工学実験 · 第5回</p><h1 id="document-title">実対称行列の作り方</h1><p class="subtitle">第5回｜実対称行列の生成・課題5・逆反復法</p></header>
+<div class="tabs task5-tabs" role="tablist" aria-label="第5回の補足資料">
+<button type="button" id="tab-symmetric" role="tab" aria-controls="panel-symmetric" aria-selected="true">実対称行列の作り方</button>
+<button type="button" id="tab-task5" role="tab" aria-controls="panel-task5" aria-selected="false" tabindex="-1">課題5：べき乗法＋逆反復法</button>
+<button type="button" id="tab-inverse" role="tab" aria-controls="panel-inverse" aria-selected="false" tabindex="-1">逆反復法のしくみ</button>
+</div>
+<div id="panel-symmetric" role="tabpanel" aria-labelledby="tab-symmetric" tabindex="0">
+<p>べき乗法・QR法を実験するときは、ランダムな実行列 <code>A</code> から <strong><code>B = A + Aᵀ</code></strong> を作り、<code>B</code> を入力にする。Pythonの二重リストなら、転置側の成分は <code>A[j][i]</code> と書ける。</p>
+<section><h2>1．そのまま実行できる最小例</h2>
+<p>追加ライブラリは不要。<code>n</code> が行列のサイズで、各成分を0以上1未満の乱数で作る。</p>
+<pre><code>import random
+
+random.seed(0)  # 同じ行列で実験を再現する
+n = 3
+
+# ランダムな実行列
+A = [[random.random() for j in range(n)] for i in range(n)]
+
+# B = A + A^T：新しい行列として作る
+B = [[A[i][j] + A[j][i] for j in range(n)] for i in range(n)]
+
+for row in B:
+    print([round(value, 3) for value in row])
+
+print(&quot;対称か:&quot;, all(B[i][j] == B[j][i]
+                      for i in range(n) for j in range(n)))</code></pre>
+<p><a href="section2/symmetric_matrix_example.py" download>Pythonコードをダウンロード</a></p>
+<p><code>B[i][j] = A[i][j] + A[j][i]</code> なので、添字を入れ替えても <code>B[j][i] = A[j][i] + A[i][j]</code> と同じ値になる。これが対称行列になる理由。対角成分は <code>2 * A[i][i]</code> になる。</p>
+<p class="note">元の <code>A</code> をループ中に書き換えると、後の計算で変更済みの成分を使ってしまう。上のように別の行列 <code>B</code> を作ればよい。</p>
+</section>
+<section><h2>2．既存の実験コードで使う</h2>
+<p><code>section2</code> 内のコードでは、行列を生成した直後に対称化する。べき乗法への入力は次のように変えられる。</p>
+<pre><code>import utils_math
+
+n = 50
+A = utils_math.make_square_matrix(n)
+B = [[A[i][j] + A[j][i] for j in range(n)] for i in range(n)]
+
+# 現在の power_method の返り値は3個
+mu, x, iteration_num = utils_math.power_method(B)
+print(mu, iteration_num)</code></pre>
+<p>QR法でも同様に、元の <code>A</code> の代わりに <code>B</code> を渡す。両手法の結果を比較する場合は同じ <code>B</code> を使い、入力を書き換える実装には <code>[row[:] for row in B]</code> で行までコピーして渡す。</p>
+</section>
+<section><h2>3．なぜ対称にするのか</h2>
+<p>実行列に非実の固有値 <code>a + bi</code> があれば、共役な <code>a − bi</code> も固有値になり、両者の絶対値は等しい。これが、教材の「固有値の絶対値がすべて相異なる」という条件に反する。</p>
+<p>実対称行列の固有値はすべて実数なので、この複素共役対の問題を避けられる。ただし、<strong>対称にするだけで収束条件がすべて満たされるわけではない</strong>。例えば対角成分が <code>1, −1</code> の対称行列は、固有値の絶対値が等しい。</p>
+<p>べき乗法では、絶対値が最大の固有値が一つに定まり、その固有方向が初期ベクトルに含まれることが基本条件。最大固有値が負の場合はベクトルの符号が交互に変わるため、方向や残差で収束を確認する。QR法ではここで、シフトなし反復で対角化を目指す教材の設定を考えている。</p>
+<p class="note">現在の <code>utils_math.power_method</code> はノルムの比で固有値を推定するため、符号を区別できない。上の0以上の乱数を使う例に合わせた使用例であり、負の固有値も扱うよう一般化するときは、固有値の推定と収束判定も見直す。</p>
+</section>
+<details><summary>原資料</summary><p>ユーザー提示の「注意2.5.1」に基づく第5回補足資料。コードと補足説明は新たに作成。</p><p><a href="授業資料/数理工学実験2026.pdf">数理工学実験2026（教材PDF）</a></p></details>
+</div>
+<div id="panel-task5" role="tabpanel" aria-labelledby="tab-task5" tabindex="0" hidden>
+<p class="eyebrow">教材 p.30 課題5 · 解き方と実装の補助</p>
+<figure class="task5-problem-image">
+  <a href="assets/task5-problem.png" target="_blank" rel="noopener noreferrer" aria-label="課題5の問題文画像を開く"><img src="assets/task5-problem.png" width="994" height="356" style="display:block;max-width:100%;height:auto" alt="課題5：べき乗法と逆反復法を組み合わせて、第1固有値と第1固有ベクトルを数値的に求めるための算法として、べき乗法より高速なものをつくれ。つくった算法とべき乗法を精度と速度の面から比較せよ。"></a>
+</figure>
+<p><strong>まずべき乗法で「狙う固有値がどの辺にあるか」を調べ、次に逆反復法で、その固有値に対応する方向へ素早く近づける。</strong>課題5では、この2段階の方法を作り、べき乗法だけの場合と精度・計算時間を比べる。</p>
+<p>以下では、2×2行列を手で計算しながら仕組みを確認する。説明用の例では正解がわかっているが、実際のプログラムでは正解を使わず、反復の途中で得た近似値を使う。<span class="reading-time">解説1・2の読了目安：約10〜12分（手計算を除く）</span></p>
+<p>原典：<a href="授業資料/数理工学実験2026.pdf#page=30">p.30 課題5</a>、<a href="授業資料/数理工学実験2026.pdf#page=24">p.24 べき乗法</a>、<a href="授業資料/数理工学実験2026.pdf#page=26">p.26 逆反復法</a>。レイリー商や切替条件は、2手法を比較しやすくするための補助案。</p>
+<section><h2 id="task5-idea">1．小さな行列で、2つの方法の役割をつかむ</h2>
+<h3>まず何を求めたいのか</h3>
+<p>固有値・固有ベクトルとは、<strong>行列を掛けても向きが同じ直線上に残り、倍率だけが変わる組</strong>のこと。式では \(Av=\lambda v\) と書く。\(v\) がゼロでない固有ベクトル、\(\lambda\) がその倍率である固有値。教材の「第1」は、固有値の<strong>絶対値が最大</strong>のものを指す。</p>
+<div class="task5-formula">\[A=\begin{pmatrix}3&0\\0&2\end{pmatrix},\qquad
+A\begin{pmatrix}1\\0\end{pmatrix}=3\begin{pmatrix}1\\0\end{pmatrix},\qquad
+A\begin{pmatrix}0\\1\end{pmatrix}=2\begin{pmatrix}0\\1\end{pmatrix}.\]</div>
+<p>この例の正解は、第1固有値が3、第1固有ベクトルの方向が \((1,0)^{\mathsf T}\)。上付きの \(\mathsf T\) は縦ベクトルにする記号。\((2,0)^{\mathsf T}\) も同じ固有方向なので、答えるときは長さをそろえる。</p>
+<h3>べき乗法：行列を掛けると、3倍される方向が少しずつ勝つ</h3>
+<p>初期ベクトルを \(x_0=(1,1)^{\mathsf T}\) とする。1回掛けると \(Ax_0=(3,2)^{\mathsf T}\)。このまま掛け続けると値が大きくなるので、全成分を最大の絶対値3で割り、\(x_1=(1,2/3)^{\mathsf T}\) とする。これを<strong>正規化</strong>と呼ぶ。全体を同じ数で割るため、方向は変わらない。</p>
+<div class="table-scroll"><table class="task5-table"><thead><tr><th>回数</th><th>正規化したベクトル</th><th>消したい第2成分</th></tr></thead><tbody>
+<tr><td>開始</td><td>\((1,1)^{\mathsf T}\)</td><td>1</td></tr>
+<tr><td>1回</td><td>\((1,2/3)^{\mathsf T}\)</td><td>約0.6667</td></tr>
+<tr><td>2回</td><td>\((1,(2/3)^2)^{\mathsf T}\)</td><td>約0.4444</td></tr>
+<tr><td>3回</td><td>\((1,(2/3)^3)^{\mathsf T}\)</td><td>約0.2963</td></tr>
+</tbody></table></div>
+<p>目標の \((1,0)^{\mathsf T}\) に近づいている。毎回、第2成分は前の <strong>2/3倍</strong>になる。これがべき乗法の基本的な仕組みである。</p>
+<p>では、固有値が3と2でなく<strong>10と9.9</strong>だったらどうか。同じ計算で、消したい成分は毎回 \(9.9/10=0.99\) 倍にしかならない。100回繰り返しても \(0.99^{100}\approx0.366\)。このように、最大の固有値と次の固有値の絶対値が近いと、べき乗法は遅くなる。</p>
+<h3>逆反復法：目標に近い数を選び、その方向を強く増幅する</h3>
+<p>元の3と2の例に戻る。3に近い数として、ひとまず <strong>2.9</strong> を選ぶ。この選んだ数を<strong>シフト</strong>と呼び、\(\sigma\)（シグマ）で表す。まず \(A\) の対角成分から2.9を引く。</p>
+<div class="task5-formula">\[A-2.9I=\begin{pmatrix}0.1&0\\0&-0.9\end{pmatrix}.\]</div>
+<p>\(I\) は対角成分が1、他が0の単位行列。だから \(A-\sigma I\) は「全成分から引く」操作ではなく、<strong>対角成分だけから \(\sigma\) を引く</strong>操作になる。</p>
+<p>逆反復法では、今のベクトルを \(x\) として、次の方程式を \(y\) について解く。</p>
+<div class="task5-formula">\[(A-\sigma I)y=x.\]</div>
+<p>例えば \(x=(1,0.3)^{\mathsf T}\) まで近づいたところで切り替えると、解く方程式は次の2本になる。</p>
+<div class="task5-formula">\[0.1y_1=1,\quad -0.9y_2=0.3
+\quad\Longrightarrow\quad y=\begin{pmatrix}10\\-1/3\end{pmatrix}
+\quad\Longrightarrow\quad x_{\mathrm{new}}=\begin{pmatrix}1\\-1/30\end{pmatrix}.\]</div>
+<p>最後は最大絶対値10で割って正規化した。消したい成分は <strong>0.3から約−0.0333へ、絶対値で1/9倍</strong>になった。べき乗法の2/3倍より、一気に小さくなる。負号は第2成分の向きが反転しただけで、目標への近さを見るときは絶対値で比べればよい。</p>
+<p>理由は、方程式を解く操作が、第1成分を \(1/(3-2.9)=10\) 倍、第2成分を \(1/(2-2.9)=-10/9\) 倍するから。正規化した後の第2成分の倍率は \((-10/9)/10=-1/9\) となる。<strong>シフトに近い固有値ほど、引き算の後の値が小さく、逆数の絶対値が大きくなる</strong>のがポイント。</p>
+<h3>同じ途中結果から、その後の3回を比べる</h3>
+<p>べき乗法を3回行った \(x=(1,8/27)^{\mathsf T}\) から出発する。右の方法は、説明用にシフトを2.9に固定したもの。</p>
+<div class="table-scroll"><table class="task5-table"><thead><tr><th>追加した回数</th><th>べき乗法の第2成分</th><th>逆反復法の第2成分</th></tr></thead><tbody>
+<tr><td>切替前</td><td>0.296296</td><td>0.296296</td></tr>
+<tr><td>1回</td><td>0.197531</td><td>−0.032922</td></tr>
+<tr><td>2回</td><td>0.131687</td><td>0.003658</td></tr>
+<tr><td>3回</td><td>0.087791</td><td>−0.000406</td></tr>
+</tbody></table></div>
+<p>どちらも第1成分を1にそろえているので、第2成分の絶対値がそのまま、正解 \((1,0)^{\mathsf T}\) との差になる。逆反復法で仕上げると、少ない反復で方向がそろうことが見える。ただし、<strong>1回にかかる時間は同じではない</strong>ので、最終的には実行時間も測る。</p>
+<h3>でも、正解が未知なのに、なぜ2.9を選べるのか</h3>
+<p>ここを、最初のべき乗法に任せる。近似ベクトル \(x\) が得られたら、そこから固有値の近似値を計算し、それをシフトにする。その計算が次の節のレイリー商である。</p>
+<p>逆反復法だけを適当なシフトから始めると、別の固有値を求めることがある。この例で \(\sigma=2.1\) を選ぶと、3より2に近いため、第2固有値2の方向が強く増幅される。<strong>べき乗法は狙う固有値の近くまで案内し、逆反復法はその近くで精度を上げる</strong>。これが組み合わせる理由である。</p>
+<details><summary>一般の行列でも同じことが起きる理由と、収束率の式</summary>
+<p>対角行列以外でも、固有ベクトル \(v_i\) は \(Av_i=\lambda_i v_i\) を満たす。したがって \((A-\sigma I)v_i=(\lambda_i-\sigma)v_i\)。逆の操作では同じ固有方向が \(1/(\lambda_i-\sigma)\) 倍される。座標の第1・第2成分の代わりに、各固有方向の成分で考えれば、上の例と同じである。ここでは実対称行列を扱い、絶対値最大の固有値が一つで、初期ベクトルにその固有方向が含まれるとする。</p>
+<div class="task5-formula">\[\rho_{\mathrm{power}}=\left|\frac{\lambda_2}{\lambda_1}\right|,\qquad
+\rho_{\mathrm{inverse}}=\frac{|\lambda_1-\sigma|}{\min_{j\ne1}|\lambda_j-\sigma|}.\]</div>
+<p>この比は、目標以外の成分が目標成分に比べてどれだけ残るかを表す。小さいほど速い。逆反復側の式は、\(\sigma\) に最も近い固有値が \(\lambda_1\) の場合のもの。</p>
+</details>
+</section>
+<section><h2 id="task5-algorithm">2．実際のプログラムで必要な3つの判断</h2>
+<h3>① 近似ベクトルから、固有値をどう見積もるか</h3>
+<p>もし \(x\) が正確な固有ベクトルなら \(Ax=\lambda x\)。両辺に左から \(x^{\mathsf T}\) を掛けて割ると、\(\lambda=(x^{\mathsf T}Ax)/(x^{\mathsf T}x)\) となる。まだ正確でない \(x\) にもこの式を使い、固有値を見積もる。これを<strong>レイリー商</strong>と呼ぶ。</p>
+<div class="task5-formula">\[\widehat\lambda=\frac{x^{\mathsf T}Ax}{x^{\mathsf T}x}.
+\qquad A=\begin{pmatrix}3&0\\0&2\end{pmatrix},\ x=\begin{pmatrix}1\\r\end{pmatrix}
+\ \Longrightarrow\ \widehat\lambda=\frac{3+2r^2}{1+r^2}.\]</div>
+<p>ハット付きの \(\widehat\lambda\) は「近似値」を表す。第2成分 \(r\) が0へ近づくと、この値は3に近づく。上のべき乗法3回後なら \(r=8/27\) なので、\(\widehat\lambda\approx2.9193\)。<strong>この値をそのまま \(\sigma\) にすれば、正解の3を知らずに逆反復法へ進める</strong>。前節の2.9は手計算用の値で、コードでは丸めずに使う。</p>
+<h3>② いつ切り替え、いつ終了するか</h3>
+<p>近似値がどれくらい固有方程式を満たしているかは、<strong>残差</strong>で調べる。\(Ax\) と \(\widehat\lambda x\) を計算し、その差を見る。完全に一致すれば残差は0である。</p>
+<div class="task5-formula">\[r_{\mathrm{res}}=\|Ax-\widehat\lambda x\|_\infty.\]</div>
+<p>\(\|\cdot\|_\infty\) は「成分の絶対値の最大」。例えば \(x=(1,0.1)^{\mathsf T}\) なら、\(\widehat\lambda\approx2.9901\)、\(Ax=(3,0.2)^{\mathsf T}\)、\(\widehat\lambda x\approx(2.9901,0.2990)^{\mathsf T}\)。差は約 \((0.0099,-0.0990)^{\mathsf T}\) で、残差は約0.0990となる。</p>
+<p>コードでは、行列全体の倍率が違っても基準をそろえやすいよう、残差を次の量で割る。\(x\) は最大絶対値1に正規化しておく。</p>
+<div class="task5-formula">\[\eta=\frac{\|Ax-\widehat\lambda x\|_\infty}{\|A\|_\infty+|\widehat\lambda|}.\]</div>
+<p>\(\eta\) はイータと読み、小さいほど固有方程式によく合っている。行列の \(\|A\|_\infty\) は<strong>各行の絶対値の和を計算し、その最大を取ったもの</strong>。上の対角行列では3である。コードでは \(\eta\) に対して、2種類の基準を設ける。</p>
+<ul><li><strong>切替基準 <code>switch_tol</code></strong>：例えば <code>1e-3</code>（0.001）より小さくなったら、べき乗法から逆反復法へ進む。</li>
+<li><strong>終了基準 <code>tol</code></strong>：例えば <code>1e-10</code>（0.0000000001）より小さくなったら、答えとして採用する。</li></ul>
+<p>前節の「べき乗法3回で切替」は仕組みを見るための例。実装では回数を3に固定せず、この基準で切り替える。両手法の最終終了基準は同じにして、同程度に方程式を満たすまでの時間を比較する。</p>
+<p class="note">残差が小さいことだけでは「第1固有値を求めた」とは言えない。例えばこの行列で \(x=(0,1)^{\mathsf T}\)、\(\widehat\lambda=2\) でも残差は0になる。比較用の参照解で、最大絶対値の固有値に到達したかも調べる。別の固有値へ進んだら、切替基準を小さくして、べき乗法を長く続ける。<code>1e-3</code> は出発点となる設定例である。</p>
+<h3>③ 連立方程式を毎回解くと、かえって遅くならないか</h3>
+<p>逆反復法で毎回解くのは \((A-\sigma I)y=x\)。シフトを固定すれば、<strong>左側の行列は毎回同じで、右側のベクトルだけが変わる</strong>。そこで、連立方程式の課題で使った<strong>LU分解</strong>を使い回す。</p>
+<p>LU分解は、行列を下三角・上三角の形に分け、後で解きやすくする準備計算。準備は1回だけ行い、その後は新しい右辺に対して前進代入と後退代入だけで解く。下のコードで <code>L, U, P = ...</code> が逆反復のループの外にあるのは、このため。\(P\) は行の入れ替えを記録する行列である。</p>
+<p>逆行列 \((A-\sigma I)^{-1}\) は、仕組みの説明には便利だが、プログラムで実際に作る必要はない。<strong>「逆行列を掛ける代わりに、連立方程式を解く」</strong>と覚えればよい。</p>
+<h3>ここまでを1本の手順にする</h3>
+<ol><li>実対称行列 \(A\) と、ゼロでない初期ベクトル \(x\) を用意し、\(x\) を正規化する。</li>
+<li>\(Ax\) を掛けて正規化するべき乗法を繰り返す。各段階でレイリー商と \(\eta\) を計算する。</li>
+<li>\(\eta\) が切替基準より小さくなったら、その時のレイリー商を \(\sigma\) とし、\(x\) も引き継ぐ。</li>
+<li>\(A-\sigma I\) を1回だけLU分解する。</li>
+<li>\((A-\sigma I)y=x\) を解き、\(y\) を正規化して新しい \(x\) にする。</li>
+<li>レイリー商と \(\eta\) を計算し、終了基準を満たすまで5を繰り返す。最後のレイリー商と \(x\) が答え。</li></ol>
+<p>べき乗法の段階で最終終了基準まで満たしたら、切り替えずに終了してよい。\(\sigma\) が固有値そのものだと \(A-\sigma I\) は特異になり、通常のLU分解では解けないので、必要以上に正解に一致させてから切り替える必要はない。</p>
+</section>
+<section><h2 id="task5-code">3．シンプルなPython実装</h2>
+<p>数値計算の本体に追加ライブラリは不要。既存の <code>utils_math.py</code> の行列積・LU分解・代入関数を使う。次のファイルを同じ <code>section2</code> 内で実行すればよい。返り値は <code>(固有値, 固有ベクトル, べき乗の回数, 逆反復の回数)</code>。</p>
+<p>コードを読むときは、まず <code>hybrid</code> の2つのループを見る。前半は <code>x = normalize(Ax)</code> で行列を掛け、後半は代入関数で連立方程式を解く。<code>normalize</code> は正規化、<code>estimate</code> はレイリー商と残差の計算、<code>power</code> は比較対象のべき乗法、<code>measure</code> は時間計測を担当する。</p>
+<p><a href="section2/kadai5_example.py" download>実行用コードをダウンロード</a></p>
+<details><summary>実装と実行例を開く</summary><pre><code>&quot;&quot;&quot;課題5：べき乗法 → 固定シフト逆反復法（utils_math.py と同じ場所で実行）。&quot;&quot;&quot;
+import random
+from statistics import median
+from time import perf_counter
+import utils_math as um
+
+
+def normalize(x):
+    size = um.infinity_norm(x)
+    return [v / size for v in x]
+
+
+def estimate(A, x, scale):
+    Ax = um.matrix_vector_product(A, x)
+    # レイリー商：負の固有値の符号も保てる
+    lam = sum(x[i] * Ax[i] for i in range(len(x))) / sum(v * v for v in x)
+    residual = um.infinity_norm([Ax[i] - lam * x[i] for i in range(len(x))])
+    eta = residual / (scale + abs(lam))  # ||x||_inf = 1
+    return lam, eta, Ax
+
+
+def power(A, x0, tol=1e-10, max_iter=100000):
+    scale = max(sum(abs(v) for v in row) for row in A)
+    x = normalize(x0)
+    for k in range(max_iter + 1):
+        lam, eta, Ax = estimate(A, x, scale)
+        if eta &lt; tol:
+            return lam, x, k, 0
+        x = normalize(Ax)
+    raise RuntimeError(&quot;べき乗法が収束しません&quot;)
+
+
+def hybrid(A, x0, tol=1e-10, switch_tol=1e-3, max_iter=100000):
+    scale = max(sum(abs(v) for v in row) for row in A)
+    x = normalize(x0)
+    # 第1段階：べき乗法で粗い固有値・固有ベクトルを得る
+    for p in range(max_iter + 1):
+        lam, eta, Ax = estimate(A, x, scale)
+        if eta &lt; tol:
+            return lam, x, p, 0
+        if eta &lt; switch_tol:
+            break
+        x = normalize(Ax)
+    else:
+        raise RuntimeError(&quot;切替条件に達しません&quot;)
+
+    # 第2段階：シフトを固定し、LU分解を1回だけ行う
+    sigma = lam
+    n = len(A)
+    B = [[A[i][j] - (sigma if i == j else 0.0)
+          for j in range(n)] for i in range(n)]
+    L, U, P = um.LU_decomposition(B)
+    for q in range(1, max_iter + 1):
+        z = um.forward_substitution_LU(L, P, x)
+        y = um.back_substitution_LU(U, z)
+        x = normalize(y)
+        lam, eta, _ = estimate(A, x, scale)
+        if eta &lt; tol:
+            return lam, x, p, q
+    raise RuntimeError(&quot;逆反復法が収束しません&quot;)
+
+
+def measure(method, A, x0):
+    times = []
+    for _ in range(5):
+        start = perf_counter()
+        result = method(A, x0)
+        times.append(perf_counter() - start)
+    return result, median(times)
+
+
+if __name__ == &quot;__main__&quot;:
+    random.seed(0)
+    n = 50
+    R = [[random.random() for _ in range(n)] for _ in range(n)]
+    A = [[R[i][j] + R[j][i] for j in range(n)] for i in range(n)]
+    x0 = [random.random() for _ in range(n)]
+
+    # 2手法に同じ行列・初期ベクトル・最終許容誤差を使う
+    for name, method in [(&quot;power&quot;, power), (&quot;hybrid&quot;, hybrid)]:
+        (lam, x, p, q), seconds = measure(method, A, x0)
+        residual = um.residual_norm_PowerMethod(lam, x, A)
+        print(f&quot;{name}: lambda={lam:.12g}, residual={residual:.3e}, &quot;
+              f&quot;time={seconds:.6f}s, power={p}, inverse={q}&quot;)
+</code></pre></details>
+<p><code>LU_solve</code> を毎回呼ぶと、そのたびにLU分解し直して遅くなる。この例の <code>L, U, P = ...</code> が逆反復のループの外にある点が、速度を上げるための要点。</p>
+<p>σ は最終精度まで求めず、粗い段階で固定する。σ が固有値そのものだと <code>A − σI</code> は特異になり解けない。最終許容誤差を先に満たした場合は、LU分解せず終了する。浮動小数点計算で分解に失敗する場合は、その試行を記録し、σ を少しずらしてやり直す。小さい残差だけで精度を断定せず、次の参照解とも比較する。</p>
+</section>
+<section><h2 id="task5-comparison">4．精度と速度をどう比較するか</h2>
+<p>課題4を引き継ぐなら、<code>n = 50, 100, 200, 400</code> の各サイズで実対称行列を100個生成し、各行列・初期ベクトルを2手法で共有する。<strong>課題5自体にはサイズや試行数の指定はない</strong>ので、まず小さいサイズで動作を確認してから広げればよい。</p>
+<p>精度は「答えがどれだけ正しいか」、速度は「その答えまでに何秒かかったか」。まず同じ行列・同じ初期ベクトルで両手法を動かす。片方だけ簡単な行列にしたり、終了基準を緩くしたりすると比較できない。</p>
+<p>固有値の相対誤差は、正解との差を正解の大きさで割ったもの。正解3に対して2.99なら <code>0.01 / 3 ≈ 0.00333</code>（約0.33%）。固有ベクトルは、倍率や符号をそろえてから比べる。例えば <code>(1, 0)</code> と <code>(−2, 0)</code> は同じ固有方向なので、そのまま引き算してはいけない。</p>
+<p>大きな行列では正解を手計算できないため、比較の基準になる値をライブラリで求める。それを<strong>参照解</strong>と呼び、下では添字 <code>ref</code> で表す。参照解の計算時間は、自作した算法の実行時間に含めない。</p>
+<div class="table-scroll"><table class="task5-table"><thead><tr><th>比較項目</th><th>記録する量</th></tr></thead><tbody>
+<tr><td>固有方程式の残差</td><td>‖Ax − λx‖∞（同じ ‖x‖∞ = 1 で比較）</td></tr>
+<tr><td>固有値の相対誤差</td><td>|λ − λref| / |λref|</td></tr>
+<tr><td>固有ベクトルの相対誤差</td><td>両方を最大値ノルム1にし、同じ非零成分の符号をそろえて ‖x − vref‖∞ を取る（教材 p.23 式(2.11)）</td></tr>
+<tr><td>実行時間</td><td>べき乗段階＋LU分解＋逆反復＋停止判定の合計。行列生成・参照解計算・表示は除外</td></tr>
+<tr><td>反復回数</td><td>べき乗の回数 p と逆反復の回数 q を別々に記録</td></tr>
+<tr><td>高速化率</td><td>べき乗法の時間 / 組合せ法の時間（1より大きければ高速化）</td></tr>
+</tbody></table></div>
+<p>参照解にはNumPyの <code>eigh</code> を使い、<strong>固有値の絶対値が最大の添字</strong>を選ぶ。<code>eigh</code> の最後の値が常に第1固有値とは限らない。以下は実行ファイルを読み込んで精度を確かめる例で、参照解にだけNumPyを使う。</p>
+<pre><code>import numpy as np
+from kadai5_example import hybrid
+
+# A, x0 は実験で使ったもの
+lam, x, p, q = hybrid(A, x0)
+w, V = np.linalg.eigh(np.array(A))
+j = np.argmax(np.abs(w))
+v = V[:, j] / np.max(np.abs(V[:, j]))
+x = np.array(x)
+k = np.argmax(np.abs(v))  # 参照ベクトルの非零成分
+if x[k] * v[k] &lt; 0:
+    x = -x
+print("固有値の相対誤差:", abs(lam - w[j]) / abs(w[j]))
+print("固有ベクトルの相対誤差:", np.max(np.abs(x - v)))</code></pre>
+<p>上の2つの誤差が大きいのに残差だけが小さい場合は、別の固有対への収束を疑う。λref = 0 では固有値の相対誤差を定義できないため絶対誤差を使うが、ここでは非零の第1固有値を持つ行列を対象とする。</p>
+<p>時間は複数回測った中央値を使い、両手法の実行順も入れ替えて確かめる。サイズ別に誤差・残差・時間をプロットし、切替閾値を <code>1e-2, 1e-3, 1e-4</code> などに変えた結果を比較する。誤収束・未収束は成功した試行の平均から黙って除かず、件数も記録する。</p>
+</section>
+<section><h2 id="task5-speed">5．「回数が減った」だけでは高速化にならない</h2>
+<p>逆反復法は少ない回数で済んでも、最初にLU分解の準備が必要になる。例えば、べき乗法だけで10回なら終わる行列で、組合せ法が「べき乗3回＋逆反復1回」になっても、準備に時間を使い、合計では遅くなることがある。一方、べき乗法だけでは千回以上かかるなら、準備をしても得になる可能性がある。</p>
+<details><summary>計算量の式で、この費用を確かめる</summary>
+<p><code>n</code> は行列のサイズ、<code>k</code> はべき乗法だけの場合の反復回数、<code>p</code> と <code>q</code> は組合せ法のべき乗・逆反復の回数。<code>O(n²)</code> は、サイズを2倍にしたとき主な計算量が約4倍に増える、という増え方を表す。実行時間そのものの値ではない。</p>
+<div class="task5-formula">べき乗法：O(k n²)<br>組合せ法：O(p n² + n³ + q n²)</div>
+<p>べき乗法の1回は行列とベクトルの積で O(n²)。逆反復の代入も O(n²) だが、最初のLU分解に O(n³) かかる。したがって、<strong>べき乗法の節約分がLU分解の費用を上回る場合に速くなる</strong>。|λ₂/λ₁| が1に近く、べき乗法に多くの反復が必要なときが狙い目。</p>
+</details>
+<p>最初のタブと同じ「0以上の乱数を対称化した行列」は、第1固有値が他から離れ、べき乗法だけで速く収束することが多い。実装確認でも、既定の n = 50 の例ではべき乗法が約10回で終わり、組合せ法はLU分解の負担で遅くなった。この場合はその結果を記載し、なぜ速くならなかったかを上の計算量で説明する。</p>
+<details><summary>速くなる条件を調べるための、固有値が近い行列</summary>
+<p>これは課題指定の乱数実験に追加する<strong>補助実験</strong>。左上の2×2部分の固有値を10と9.9にし、残りを8以下にする。べき乗法が遅い条件を明示して比較できる。<code>kadai5_example.py</code> の実行部分で、行列と初期ベクトルの生成を次に置き換える。</p>
+<pre><code>n = 50
+A = [[0.0] * n for _ in range(n)]
+A[0][0] = A[1][1] = 9.95
+A[0][1] = A[1][0] = 0.05
+for i in range(2, n):
+    A[i][i] = 8.0 * (n - i) / (n - 2)
+x0 = [1.0, 0.2] + [1.0] * (n - 2)
+# この下の計測ループはそのまま使う</code></pre>
+<p>真の第1固有値は10、最大値ノルム1の第1固有ベクトルは <code>[1, 1, 0, …, 0]</code>。切替閾値を緩くしすぎると9.9側に収束しうるので、速度と一緒に「10を求められたか」も確認する。</p>
+</details>
+<p>実装確認時の測定例（2026-10-19、n = 50、各5回の中央値、上のコードの既定閾値）。時間は環境によって変わるため、自分の実行結果で比較する。</p>
+<div class="table-scroll"><table class="task5-table"><thead><tr><th>入力</th><th>べき乗法</th><th>組合せ法</th><th>時間比</th></tr></thead><tbody>
+<tr><td>0以上の乱数を対称化</td><td>10回 / 約1.8 ms</td><td>べき乗3回＋逆反復1回 / 約4.7 ms</td><td>約0.38倍</td></tr>
+<tr><td>上の固有値10・9.9の補助例</td><td>1724回 / 約266 ms</td><td>べき乗116回＋逆反復6回 / 約24.5 ms</td><td>約10.9倍</td></tr>
+</tbody></table></div>
+<p>補助例の固有ベクトル相対誤差は、べき乗法で約4.0×10⁻⁸、組合せ法で約2.7×10⁻⁹だった。同じ残差の許容値で止めても、最終的な誤差は完全には一致しない。また近接固有値では、残差が小さくても固有ベクトルの誤差が比較的大きくなりうるので、両方を記録する。</p>
+
+</section>
+<section><h2 id="task5-report">6．レポートで説明する順番</h2>
+<ol><li>粗い近似値をシフトとして固定し、LU分解を使い回す算法を、切替条件と停止条件を含めて記す。</li>
+<li>収束率の式から仕上げの反復が速くなる理由を説明し、O(n³) の初期費用も示す。</li>
+<li>同じ入力・最終停止条件で、固有値誤差・固有ベクトル誤差・残差・合計時間を比較する。</li>
+<li>速くなった条件と遅くなった条件を、固有値の配置・行列サイズ・切替時点から考察する。測定していない速度や精度は結果として書かない。</li></ol>
+<p>まず固定シフト版で完了させればよい。発展として、逆反復のたびにレイリー商で σ を更新する方法もあるが、通常はそのたびにLU分解が必要になり、反復回数と時間の関係も変わる。</p>
+</section>
+</div>
+<div id="panel-inverse" role="tabpanel" aria-labelledby="tab-inverse" tabindex="0" hidden>
+<nav class="inverse-contents" aria-label="逆反復法の目次"><a href="#inverse-summary">要点</a><a href="#inverse-explanation-001">1．原理</a><a href="#inverse-explanation-002">2．倍率の比較</a><a href="#inverse-explanation-003">3．反復の手順</a><a href="#inverse-explanation-004">4．計算例</a><a href="#inverse-explanation-005">5．LU分解</a><a href="#inverse-explanation-006">6．収束率</a></nav><section class="summary" id="inverse-summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約18分（要旨・目次を含む）</span>
+<p><strong>逆反復法は、目印として選んだ数 \(\sigma\) に最も近い固有値と、その固有ベクトルを探す方法</strong>である。\((A-\sigma I)^{-1}\) を考えると、狙う固有値に対応する倍率が最大になる。実際の計算では逆行列を作らず、同じ係数行列の連立方程式を繰り返し解く。</p>
+<p>まず「なぜ近い固有値を選べるのか」を理解し、次に2×2行列の例で教材の手順を一つずつ追う。最後に、LU分解による高速化とシフトの選び方を整理する。</p>
+<p class="note">提示画像3枚の範囲を解説する。例題・残差による確認・発展部分は理解のための補足。関連する教材の課題5を既存資料で確認済み。外部過去問は未確認。読了時間は本文を読み数式を追う目安で、原画像の熟読や自力での再計算は含めない。</p></section>
+<section class="chapter-heading" id="inverse-chapter-01"><h2>1．「近い固有値」が目立つ仕組み</h2><span class="reading-time">約6分</span></section>
+<section class="explanation" id="inverse-explanation-001"><h2>解説1｜べき乗法から逆反復法へ</h2><span class="reading-time">約3分</span>
+<p class="claim">固有値から目印を引いて逆数にすると、目印に近いほど絶対値が大きくなる。</p>
+<figure class="source-image"><a href="assets/inverse-iteration/principle.png" target="_blank" rel="noopener noreferrer"><img src="assets/inverse-iteration/principle.png" width="968" height="932" alt="提示画像1：逆反復法の原理。変換後の固有値は1/(λ−σ)となり、σに最も近い固有値が支配的になる。"></a><figcaption>教材画像1｜2.4.2 逆反復法の原理。画像を押すと拡大表示。</figcaption></figure>
+<p>まず固有値を復習しよう。ゼロでないベクトル \(v\) に対し \(Av=\lambda v\) となるとき、\(v\) が<strong>固有ベクトル</strong>、倍率 \(\lambda\) が<strong>固有値</strong>である。べき乗法は \(A\) を繰り返し掛け、絶対値が最大の固有値の方向を目立たせる方法だった。<a href="第4回_べき乗法のしくみ.html">第4回の解説</a>で詳しく復習できる。</p>
+<p>今度は最大のものとは限らない、ある数の近くの固有値を探したい。その数を<strong>シフト \(\sigma\)</strong>と呼ぶ。\(I\) は対角成分が1、それ以外が0の単位行列。\(A-\sigma I\) は、\(A\) の対角成分から \(\sigma\) を引いた行列である。</p>
+
+<p>新しい行列を \(B=(A-\sigma I)^{-1}\) と置く。\(B\) の役割は「\(A-\sigma I\) の作用を元に戻すこと」。\(\sigma\) が \(A\) の固有値でなければ、この逆行列が存在する。\(Av=\lambda v\) から順に計算すると、</p>
+<div class="equation">\[(A-\sigma I)v=(\lambda-\sigma)v,\qquad v=(\lambda-\sigma)Bv,\]</div>
+<div class="key-equation equation">\[Bv=\frac{1}{\lambda-\sigma}v.\]</div>
+<p><strong>固有ベクトルは同じまま、固有値だけが \(\lambda\mapsto1/(\lambda-\sigma)\) に変わる</strong>。距離 \(|\lambda-\sigma|\) が小さいほど、その逆数は大きい。したがって \(B\) にべき乗法を使えば、\(\sigma\) に最も近い固有値の方向を取り出せる。教材の「第1固有値」は絶対値が最大という意味なので、変換後の \(B\) と元の \(A\) を区別しよう。</p>
+</section>
+<section class="explanation" id="inverse-explanation-002"><h2>解説2｜倍率を数字で比べてみる</h2><span class="reading-time">約3分</span>
+<p class="claim">シフトを変えると、同じ行列でも狙う固有方向を変えられる。</p>
+<p>このページでは一貫して次の実対称行列を使う。転置記号 \(\mathsf T\) は、横に書いた成分を縦に並べることを表す。</p>
+<div class="equation">\[A=\begin{pmatrix}2&amp;1\\1&amp;2\end{pmatrix},\qquad v_3=\begin{pmatrix}1\\1\end{pmatrix},\quad v_1=\begin{pmatrix}1\\-1\end{pmatrix}.\]</div>
+<p>実際に掛ければ \(Av_3=(3,3)^{\mathsf T}=3v_3\)、\(Av_1=(1,-1)^{\mathsf T}=v_1\)。固有値は3と1である。添字はこの例の固有値を表す。普通のべき乗法では3の方向が優勢になるが、\(\sigma=0.8\) とすると事情が変わる。</p>
+<div class="table-scroll"><table><thead><tr><th>元の固有値</th><th>\(\sigma=0.8\) からの距離</th><th>変換後の固有値</th></tr></thead><tbody><tr><td>\(3\)</td><td>\(2.2\)</td><td>\(1/2.2=5/11\approx0.455\)</td></tr><tr><td>\(1\)</td><td>\(0.2\)</td><td>\(1/0.2=5\)</td></tr></tbody></table></div>
+<p>逆反復の1回ごとに、\(v_1\) 方向は5倍、\(v_3\) 方向は約0.455倍になる。\(v_3\) 成分を \(v_1\) 成分と比べた比率は、毎回 \((5/11)/5=1/11\) 倍になる。こちらの反復で求まるのは固有値1の方向である。</p>
+<p>例えば初期ベクトル \(x_0=(1,0)^{\mathsf T}\) は \(x_0=\tfrac12v_1+\tfrac12v_3\) と分けられる。この例では</p>
+<div class="equation">\[B^kx_0=\frac{5^k}{2}\left(v_1+\left(\frac1{11}\right)^k v_3\right).\]</div>
+<p>前の \(5^k/2\) は全体の長さを変えるだけ。括弧の中では余分な \(v_3\) 成分が小さくなり、\(v_1\) の方向に近づく。逆に \(\sigma=2.8\) なら、3の方向の倍率は5、1の方向は \(-5/9\)。今度は3の方向が選ばれる。</p>
+<p class="note">基本的な収束の説明では、固有ベクトルで初期ベクトルを展開できること（対角化可能）、最も近い固有値が一つに定まること、その方向の成分が初期ベクトルに含まれることを仮定する。実対称行列は直交する固有ベクトルで展開できる。この例でも \(x_0=v_3\) とすると、\(v_1\) 成分が最初から0なので、固有値1の方向には進まない。</p>
+</section>
+<section class="chapter-heading" id="inverse-chapter-02"><h2>2．教材の手順を手計算で追う</h2><span class="reading-time">約7分</span></section>
+<section class="explanation" id="inverse-explanation-003"><h2>解説3｜1回の反復で何をするのか</h2><span class="reading-time">約3分</span>
+<p class="claim">連立方程式を解き、倍率を読み取り、ベクトルの大きさをそろえる。</p>
+<figure class="source-image"><a href="assets/inverse-iteration/algorithm.png" target="_blank" rel="noopener noreferrer"><img src="assets/inverse-iteration/algorithm.png" width="954" height="1358" loading="lazy" alt="提示画像2：逆反復法の4手順。連立方程式を解く、成分比μを計算する、収束を判定する、正規化する。最後にσ+1/μで元の固有値を求める。"></a><figcaption>教材画像2｜反復の手順と元の固有値への戻し方。</figcaption></figure>
+
+<p>\(x_k\) は \(k\) 回目の入力ベクトル、\(y_k\) は連立方程式の解、\(\mu_k\) は変換後の固有値の推定値である。\(k\) は0から始まる。</p>
+<ol><li><strong>解く：</strong>\((A-\sigma I)y_k=x_k\) を解いて \(y_k\) を得る。これは数学的には \(y_k=Bx_k\) と同じ。</li><li><strong>倍率を読む：</strong>\(x_k\) のゼロでない成分を一つ選び、\(\mu_k=y_{k;i}/x_{k;i}\) とする。\(x_{k;i}\) は「\(x_k\) の第 \(i\) 成分」。小さな値で割ることを避けるため、\(|x_{k;i}|\) が最大の成分を選ぶのが実用的。</li><li><strong>止めるか決める：</strong>推定値が十分安定したかを調べる。後述の残差も確認すると、固有値の方程式をどれくらい満たすか分かる。</li><li><strong>大きさをそろえる：</strong>続けるなら \(x_{k+1}=y_k/\|y_k\|\) として、次の入力にする。</li></ol>
+<p>最後の操作を<strong>正規化</strong>と呼ぶ。方向を変えずに長さだけをそろえ、数が大きくなりすぎることを防ぐ。以下では手計算を簡単にするため、\(\|y\|_\infty=\max_i|y_i|\)（最大値ノルム）を使う。2ノルム \(\sqrt{\sum_i|y_i|^2}\) でも方向は同じである。</p>
+<h3>なぜ成分の割り算で固有値が出る？</h3>
+<p>\(x_k\) が固有ベクトルに近ければ \(y_k=Bx_k\approx\mu x_k\)。第 \(i\) 成分を比べると \(y_{k;i}\approx\mu x_{k;i}\) なので、比が \(\mu\) の近似値になる。ただし、これは \(A\) の固有値ではなく \(B\) の固有値である。</p>
+<div class="key-equation equation">\[\mu=\frac1{\lambda-\sigma}\quad\Longrightarrow\quad \widehat\lambda_k=\sigma+\frac1{\mu_k}.\]</div>
+<p>ハット付きの \(\widehat\lambda_k\) は近似値の印。正規化で得る \(\|y_k\|\) は常に非負なので、負の倍率の符号まで含めた \(\mu_k\) の代わりにはできない。有限回の途中で \(\mu_k=0\) になると、この戻し方は使えないため、反復を続けるか別の推定方法を使う。</p>
+</section>
+<section class="explanation" id="inverse-explanation-004"><h2>解説4｜実際に1回解くと、どこへ近づく？</h2><span class="reading-time">約4分</span>
+<p class="claim">この例では、\((1,0)^{\mathsf T}\) が \((1,-1)^{\mathsf T}\) の方向へ近づき、固有値の推定値は1へ近づく。</p>
+<p>引き続き \(\sigma=0.8=4/5\)、\(x_0=(1,0)^{\mathsf T}\) とする。第1回の連立方程式は次のとおり。</p>
+<div class="equation">\[\begin{pmatrix}6/5&amp;1\\1&amp;6/5\end{pmatrix}\begin{pmatrix}a\\b\end{pmatrix}=\begin{pmatrix}1\\0\end{pmatrix}.\]</div>
+<p>つまり \((6/5)a+b=1\)、\(a+(6/5)b=0\)。2本目から \(a=-(6/5)b\) を1本目に代入すると、\((-36/25+1)b=1\)。よって \(b=-25/11\)、\(a=30/11\) である。</p>
+<div class="equation">\[y_0=\begin{pmatrix}30/11\\-25/11\end{pmatrix},\qquad \mu_0=\frac{30/11}{1}=\frac{30}{11}.\]</div>
+<p>元の固有値の推定値と、次に使うベクトルは</p>
+<div class="equation">\[\widehat\lambda_0=\frac45+\frac{11}{30}=\frac76\approx1.166667,\qquad x_1=\frac{y_0}{30/11}=\begin{pmatrix}1\\-5/6\end{pmatrix}.\]</div>
+<p>初めの \((1,0)^{\mathsf T}\) よりも、\((1,-1)^{\mathsf T}\) に向きが近づいている。次は同じ行列で右辺だけを \(x_1\) に変えて解く。</p>
+<div class="equation">\[y_1=\begin{pmatrix}305/66\\-300/66\end{pmatrix},\quad \mu_1=\frac{305}{66},\quad \widehat\lambda_1=\frac{62}{61},\quad x_2=\begin{pmatrix}1\\-60/61\end{pmatrix}.\]</div>
+<p>第1成分がいつも最大なので、ここでは毎回その成分で \(\mu_k\) を求めた。以降も同じ計算をすると、次のようになる。</p>
+<div class="table-scroll"><table><thead><tr><th>反復 \(k\)</th><th>入力 \(x_k\)</th><th>元の固有値の推定 \(\widehat\lambda_k\)</th><th>正規化後 \(x_{k+1}\)</th></tr></thead><tbody>
+<tr><td>0</td><td>\((1,0)^{\mathsf T}\)</td><td>\(7/6\approx1.166667\)</td><td>\((1,-5/6)^{\mathsf T}\)</td></tr>
+<tr><td>1</td><td>\((1,-5/6)^{\mathsf T}\)</td><td>\(62/61\approx1.016393\)</td><td>\((1,-60/61)^{\mathsf T}\)</td></tr>
+<tr><td>2</td><td>\((1,-60/61)^{\mathsf T}\)</td><td>\(667/666\approx1.001502\)</td><td>\((1,-665/666)^{\mathsf T}\)</td></tr>
+<tr><td>3</td><td>\((1,-665/666)^{\mathsf T}\)</td><td>\(7322/7321\approx1.000137\)</td><td>\((1,-7320/7321)^{\mathsf T}\)</td></tr>
+</tbody></table></div>
+<h3>どこまで近づいたら終了する？</h3>
+<p>教材は \(\mu_k\) の収束を調べる。例えば \(|\mu_k-\mu_{k-1}|\le\varepsilon\max(1,|\mu_k|)\) を一つの基準にできる。\(\varepsilon\) は自分で決める小さな許容値。ただし、値の変化が小さいだけでは、固有ベクトルも十分正しいとは限らない。</p>
+<p>補足として、<strong>残差</strong> \(r_k=Ax_k-\widehat\lambda_kx_k\) も見るとよい。固有値・固有ベクトルの式を完全に満たせば0になる量である。上の例では \(k=1\) のとき \(r_1=(55/366,11/61)^{\mathsf T}\)、その後は0へ近づく。残差が小さくても、目的とは別の固有値に到達していないかは別途確認する。</p>
+<p>終了時には \(\widehat\lambda_k\) と、それを求めたときの \(x_k\) を組にして返せば教材の手順に沿う。\(x_{k+1}\) を採用する場合は、そのベクトルで固有値と残差を再評価してから結果とする。</p>
+</section>
+<section class="chapter-heading" id="inverse-chapter-03"><h2>3．速く、正しく使うために</h2><span class="reading-time">約4分</span></section>
+<section class="explanation" id="inverse-explanation-005"><h2>解説5｜逆行列を作らず、LU分解を使い回す</h2><span class="reading-time">約2分</span>
+<p class="claim">シフトが固定なら、連立方程式を解くための準備は最初の1回でよい。</p>
+<figure class="source-image"><a href="assets/inverse-iteration/convergence.png" target="_blank" rel="noopener noreferrer"><img src="assets/inverse-iteration/convergence.png" width="960" height="976" loading="lazy" alt="提示画像3：逆行列の積の代わりに連立方程式を解き、LU分解を再利用する。収束率は最も近い固有値と2番目に近い固有値の距離の比。"></a><figcaption>教材画像3｜実装上の工夫、収束率、シフト更新への問い。</figcaption></figure>
+
+<p>\(y=(A-\sigma I)^{-1}x\) は数学的に分かりやすい表現だが、欲しいのは逆行列の全成分ではなく、その右辺に対する解だけ。そこで \(C=A-\sigma I\) を一度作り、\(Cy=x\) を解く。</p>
+<p><strong>LU分解</strong>は、その行列を下三角行列 \(L\) と上三角行列 \(U\) に分ける準備計算である。行交換を表す置換行列 \(P\) を含めて \(PC=LU\) という約束なら、各反復ではまず \(Lz=Px_k\) を前進代入で解き、次に \(Uy_k=z\) を後退代入で解く。三角行列なので、一つずつ成分を決められる。</p>
+<div class="flow">最初に1回：シフトを選ぶ → \(C=A-\sigma I\) を作る → LU分解<br>各反復：右辺 \(x_k\) を入れる → 前進・後退代入 → 倍率と残差を確認 → 正規化</div>
+<p>密な \(n\times n\) 行列ならLU分解は概ね \(O(n^3)\)、各反復の代入は \(O(n^2)\) の計算量になる。例えば \(n\) を2倍にすると主な計算回数がそれぞれ約8倍、約4倍になるという増え方である。シフト固定なのに毎回LU分解をやり直すと、この利点を失う。</p>
+<p class="note">画像3冒頭は \(y_k=Bx_{k-1}\) と書かれているが、画像2の手順は \(y_k=Bx_k\)。ここでは画像2に添字を統一した。どちらも「今の入力に逆行列を作用させる」という同じ操作を指しており、反復の番号の付け方を混在させないことが大切。</p>
+</section>
+<section class="explanation" id="inverse-explanation-006"><h2>解説6｜どのシフトなら速い？ 途中で変えると？</h2><span class="reading-time">約2分</span>
+<p class="claim">狙う固有値に近く、他の固有値から離れたシフトほど、余分な方向が早く消える。</p>
+<p>\(\lambda_i\) をシフトに最も近い固有値、\(\lambda_j\) を2番目に近いものとする。変換後の「2番目の倍率 ÷ 最大の倍率」の絶対値は</p>
+<div class="key-equation equation">\[q=\frac{|1/(\lambda_j-\sigma)|}{|1/(\lambda_i-\sigma)|}=\frac{|\lambda_i-\sigma|}{|\lambda_j-\sigma|}.\]</div>
+<p>余分な固有方向の比率は、漸近的に1回ごとにおよそ \(q\) 倍になる。これが教材の<strong>1次収束</strong>の意味。小さい \(q\) ほど速い。この例の \(\sigma=0.8\) なら \(q=0.2/2.2=1/11\)、\(\sigma=0\) なら \(q=1/3\)。固有値1に近い0.8を使う方が速い。</p>
+<p>一方、\(\sigma=2\) は1と3のちょうど中間で \(q=1\)。変換後の固有値は \(-1\) と1なので、支配する方向が一つに決まらない。\(x_0=(1,0)^{\mathsf T}\) なら入力ベクトルは \((1,0)^{\mathsf T}\) と \((0,1)^{\mathsf T}\) を往復する。</p>
+<h3>シフトを途中で更新するという発展</h3>
+<p>正確な固有値は事前には分からない。まずべき乗法で粗い近似値を得て、それをシフトにするのが、<a href="#task5">同じ第5回の課題5の解説</a>につながる考え方である。</p>
+<p>さらに、反復中のベクトルから \(\sigma_k=(x_k^{\mathsf T}Ax_k)/(x_k^{\mathsf T}x_k)\) と更新する方法もある。この式は<strong>レイリー商</strong>といい、現在のベクトルから固有値を推定する。これを毎回シフトに使うのがレイリー商反復で、実対称行列では単純固有値の十分近くから始めると局所的に3次収束する。ただし、シフト更新のたびに係数行列が変わるため、通常はLU分解もやり直す。反復回数の減少が、そのまま計算時間の減少になるとは限らない。</p>
+<p class="note">\(\sigma\) が固有値に完全に一致すると \(A-\sigma I\) は特異行列となり、通常の逆反復の前提が崩れる。近づくほど連立方程式も丸め誤差の影響を受けやすくなるので、残差で到達精度を確認し、十分なら終了する。負の変換後固有値では正規化ベクトルの符号が交互に変わることがあるが、同じ固有方向を表すので、ベクトル差だけで未収束と判断しない。</p>
+</section>
+<p class="source">出典：提示画像1〜3（教材「2.4.2 逆反復法」）。授業回はユーザー指定の第5回。数値例、補足説明、章・節区分は本ページで追加した。</p>
+</div>
+</article></div></main></div><script>
+(() => {
+  const tabs = [...document.querySelectorAll('.task5-tabs [role="tab"]')];
+  function activate(tab, updateHash = false) {
+    tabs.forEach(item => {
+      const selected = item === tab;
+      item.setAttribute('aria-selected', String(selected));
+      item.tabIndex = selected ? 0 : -1;
+      document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+    });
+    if (updateHash) history.replaceState(null, '', tab.id === 'tab-inverse' ? '#inverse' : tab.id === 'tab-task5' ? '#task5' : '#symmetric');
+  }
+  function fromHash() {
+    const task = location.hash === '#task5' || location.hash.startsWith('#task5-');
+    const inverse = location.hash === '#inverse' || location.hash.startsWith('#inverse-');
+    activate(document.getElementById(inverse ? 'tab-inverse' : task ? 'tab-task5' : 'tab-symmetric'));
+  }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activate(tab, true));
+    tab.addEventListener('keydown', event => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = tabs.length - 1;
+      if (next === undefined) return;
+      event.preventDefault(); activate(tabs[next], true); tabs[next].focus();
+    });
+  });
+  fromHash(); window.addEventListener('hashchange', fromHash);
+})();
+</script></body></html>

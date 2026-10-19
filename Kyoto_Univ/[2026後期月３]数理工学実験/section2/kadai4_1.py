@@ -16,19 +16,25 @@ for row, n in enumerate([50, 100, 200, 400]):
     A: list[list[float]] = utils_math.make_square_matrix(n)
 
     start: float = time.perf_counter()
-    eigenvalue, eigenvector = utils_math.power_method(A)
+    eigenvalue, eigenvector, iter_num = utils_math.power_method(A)
     times.append(time.perf_counter() - start)
+    iteration_num.append(iter_num)
 
-    x_true = np.linalg.solve(np.asarray(A), np.asarray(b))
+    true_values, true_vectors = np.linalg.eig(np.array(A))
+    i = np.argmax(np.abs(true_values))  # 第1固有値のインデックスを取得
+
     residuals.append(utils_math.residual_norm_PowerMethod(eigenvalue, eigenvector, A))
-    eigenvalues_errors.append(utils_math.relative_error_Gaussian(x_true, x))
+    eigenvalues_errors.append(utils_math.eigenvalue_error(true_values[i], eigenvalue))
+    eigenvectors_errors.append(utils_math.eigenvector_error(true_vectors[:, i], eigenvector))
 
   for col, (values, title) in enumerate([
-      (residuals, "Residual Norm"),
-      (errors, "Relative Error"),
-      (times, "Execution Time"),
+    (residuals, "Residual Norm"),
+    (eigenvalues_errors, "Relative Error (Eigenvalues)"),
+    (eigenvectors_errors, "Relative Error (Eigenvectors)"),
+    (times, "Execution Time"),
+    (iteration_num, "Number of Iterations")
   ]):
-      ax = plt.subplot(4, 3, row * 3 + col + 1)
+      ax = plt.subplot(4, 5, row * 5 + col + 1)
       ax.plot(range(1, 101), values)
       ax.set_title(f"n = {n}: {title}")
       ax.set_xlabel("試行番号")

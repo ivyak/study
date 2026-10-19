@@ -68,7 +68,7 @@ def infinity_norm(vector: list[float]):
   return max(abs(x) for x in vector)
 
 # 相対誤差を求める
-def relative_error_Gaussian(x_true, x_approx: list[float]):
+def relative_error(x_true, x_approx: list[float]):
   return infinity_norm([x_true[i] - x_approx[i] for i in range(len(x_true))]) / infinity_norm(x_true)
 
 # 行列×ベクトルを求める
@@ -146,6 +146,7 @@ def LU_solve(A: list[list[float]], b: list[float]):
 def power_method(A: list[list[float]]):
   x: list[float] = [random.random() for _ in range(len(A))]
   mu: float = 0.0
+  iteration_num: int = 0
   while True:
     y: list[float] = matrix_vector_product(A, x)
 
@@ -156,8 +157,8 @@ def power_method(A: list[list[float]]):
       break
 
     x: list[float] = [y[i] / infinity_norm(y) for i in range(len(y))]
-
-  return mu, x
+    iteration_num += 1
+  return mu, x, iteration_num
 
 
 # 残差ノルムを求める
@@ -165,6 +166,25 @@ def residual_norm_PowerMethod(eigenvalue: float, eigenvector: list[float], A: li
   Av: list[float] = matrix_vector_product(A, eigenvector)
   return infinity_norm([eigenvalue * eigenvector[i] - Av[i] for i in range(len(eigenvector))])
 
-def relative_error_PowerMethod(x_true, x_approx: list[float]):
+def eigenvalue_error(true_value: float, computed_value: float):
+  return abs(true_value - computed_value) / abs(true_value)
 
-  return infinity_norm([x_true[i] - x_approx[i] for i in range(len(x_true))]) / infinity_norm(x_true)
+def eigenvector_error(true_vector, eigenvector: list[float]):
+    # 条件(1): 両方の最大値ノルムを1にする
+    true_vector_normalized: list[float] = [x / infinity_norm(true_vector) for x in true_vector]
+    eigenvector_normalized: list[float] = [x / infinity_norm(eigenvector) for x in eigenvector]
+
+    # 条件(2): 両方でゼロでない成分番号kを選ぶ
+    for k in range(len(true_vector)):
+        if true_vector_normalized[k] != 0 and eigenvector_normalized[k] != 0:
+            break
+    else:
+        raise ValueError("共通の非零成分がありません")
+
+    # それぞれの第k成分が正になるように、ベクトル全体を反転する
+    if true_vector_normalized[k] < 0:
+        true_vector_normalized = [-x for x in true_vector_normalized]
+    if eigenvector_normalized[k] < 0:
+        eigenvector_normalized = [-x for x in eigenvector_normalized]
+
+    return relative_error(true_vector_normalized, eigenvector_normalized)

@@ -19,7 +19,7 @@ for row, n in enumerate([100, 200, 400, 800]):
 
     x_true = np.linalg.solve(np.asarray(A), np.asarray(b))
     residuals.append(utils_math.residual_norm_Gaussian(A, x, b))
-    errors.append(utils_math.relative_error_Gaussian(x_true, x))
+    errors.append(utils_math.relative_error(x_true, x))
 
   for col, (values, title) in enumerate([
       (residuals, "Residual Norm"),

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
+
 def save_txt(*values, save_path):
   path = Path(save_path)
 
@@ -30,13 +31,13 @@ def plot_f(
     grid=True,
     legend=True,
     show_axes=True,
-    save_path="graph.png",
+    save_path="graph.svg",
     dpi=300,
 ):
   # * は、それ以降の引数は、名前を付けて指定するという区切り
-  # title: 図のタイトル。None で省略。
-  # label: 曲線の凡例。None で省略。
-  # color: 曲線の色（例: "red"）。None で自動選択。
+  # title: 図のタイトル
+  # label: 曲線の凡例
+  # color: 曲線の色（例: "red"）
   # linewidth: 曲線の太さ。
   # linestyle: 線の種類（"-": 実線、"--": 破線、":": 点線）。
   # marker: 各点の記号（例: "o"）。None で記号なし。

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja"><head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>熱力学｜第3回：第1法則・状態関数と完全微分</title>
+<meta name="study-ui" content="life"><meta name="study-lesson" content="3"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-20">
+<link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script></head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期火１]熱力学"><div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E7%81%AB%EF%BC%91%5D%E7%86%B1%E5%8A%9B%E5%AD%A6" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E7%81%AB%EF%BC%91%5D%E7%86%B1%E5%8A%9B%E5%AD%A6">熱力学</a><span>/</span><span>第3回 解説</span></div>
+<header class="document-header"><p class="eyebrow">2026年度 後期 · 火曜1限　板書清書 / 第3回</p><h1 id="document-title">熱力学</h1><p class="subtitle">第3回｜第1法則・状態関数と完全微分</p></header>
+<p class="muted">出典：<a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf">20261020 - 熱力学板書.pdf</a>　想定読了時間：約26分</p>
+<div class="section-rule"></div><div class="reader"><article class="lesson-document" aria-labelledby="document-title">
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><p>内部エネルギーは状態で決まる一方、熱と仕事は経路によって変わり、その和だけが第1法則で決まる。この違いを完全微分と不完全微分で表し、偏微分の固定条件を読むことで、定容の熱を内部エネルギー変化、定圧の熱をエンタルピー変化として計算できるようにする。</p><p class="source">要旨・目次：約1分。状態量を復習し、完全微分・偏微分を学ぶ。</p></section>
+<h2 id="chapter-law">3.3　熱力学第1法則</h2><p class="source">状態量とエネルギー収支 · 章の読了目安：約2分</p><section class="explanation" id="explanation-001"><h2>解説 1　第1法則と内部エネルギー</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=1">原典：PDF p.1</a> · 読了目安：約2分</p>
+<p><strong>熱と仕事の受け取り方が違っても、始状態と終状態が同じなら内部エネルギー変化は同じになる。</strong></p>
+<p>系は注目している物質、外界はその外側である。今回も第1回と同じく、系が受け取る熱を \(q&gt;0\)、系が外界から受ける仕事を \(W&gt;0\) とする。板書では仕事を大文字 \(W\) で記す（第1回の \(w\) と同じ意味）。物質が出入りしない閉じた系では、熱力学第1法則は</p>
+<div class="equation key-equation">\[\Delta U=q+W,\qquad \Delta U=U_f-U_i\]</div>
+<p>と書ける。\(U\) は系の内部に蓄えられたエネルギー、添字 \(i,f\) は始状態・終状態を表す。\(U\) は<strong>状態量</strong>であり、平衡状態が決まれば値が決まり、そこへ至る経路には依存しない。したがって二つの経路で \(q\) や \(W\) が異なっても、その和は同じ \(\Delta U\) になる。</p>
+<aside class="note"><p><strong>清書時の補足（表記）</strong>　p.1では差分を「\(\Delta U=\Delta U_f-\Delta U_i\)」のように記している。状態の値と変化量を区別して、本文では \(U_f-U_i\) と整えた。全体が孤立系なら熱・仕事ともに出入りせず、\(\Delta U=0\) である。</p></aside>
+<p>第1回の<a href="第1回_相図・相律とエネルギー保存則.html#slide-015">第1法則の符号規約</a>を、今回は微分と経路の言葉で扱い直す。</p></section>
+<h2 id="chapter-work">3.4　熱と仕事</h2><p class="source">体積仕事・準静的過程・経路依存性 · 章の読了目安：約8分</p><section class="explanation" id="explanation-002"><h2>解説 2　ピストンの体積仕事と微分形</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=1">原典：PDF p.1–2</a> · 読了目安：約3分</p>
+<p><strong>膨張は系から外界への仕事なので負、圧縮は外界から受ける仕事なので正になる。</strong></p>
+<p>断面積 \(A\) のピストンを、外圧 \(P_{\mathrm{ex}}\) が押す。圧力は単位面積当たりの力なので、力の大きさは \(F=P_{\mathrm{ex}}A\)。ピストンの高さを \(z\) とすれば、体積差は \(V_f-V_i=A(z_f-z_i)\) である。外圧が一定のとき、系が受け取る仕事は</p>
+<div class="equation">\[W=P_{\mathrm{ex}}A(z_i-z_f)=P_{\mathrm{ex}}(V_i-V_f)=-P_{\mathrm{ex}}\Delta V.\]</div>
+<p>板書p.2の図ではピストンが下がる圧縮を示しており、\(V_f&lt;V_i\) だから \(W&gt;0\)。膨張なら符号が逆になる。単位も \(\mathrm{Pa}\,\mathrm{m^3}=\mathrm{J}\) となり、エネルギーとして整合する。</p>
+<p>外圧が変化するときは微小な変化を足し合わせる。板書の \(d'\) は、後で説明する「状態量の全微分とは区別する」という印である。</p>
+<div class="equation key-equation">\[d'W=-P_{\mathrm{ex}}\,dV,\qquad W=-\int_{V_i}^{V_f}P_{\mathrm{ex}}\,dV\]</div>
+<div class="equation">\[dU=d'q+d'W=d'q-P_{\mathrm{ex}}\,dV\]</div>
+<p>積分では、その過程で系に作用する外圧を使う。系自身の圧力 \(P\) と外圧を置き換えられるのは、摩擦などを無視し、機械的平衡を保つ極限で \(P_{\mathrm{ex}}\simeq P\) とみなせるときである。</p>
+<aside class="note"><p><strong>清書時の補足（微分形の意味）</strong>　p.2には「\(U=q+W\)」と書かれているが、保存則は変化量に対する \(\Delta U=q+W\)。微小変化についての正確な関係を上の \(dU=d'q+d'W\) で表した。体積仕事以外の電気的な仕事などがあれば、別の仕事項も加える。</p></aside></section>
+<section class="explanation" id="explanation-003"><h2>解説 3　準静的過程と定容加熱</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=3">原典：PDF p.3</a> · 読了目安：約2分</p>
+<p><strong>準静的過程では、系が各段階で平衡にあるとみなせるほど、ゆっくり状態を変える。</strong></p>
+<p>板書の例は体積 \(100\,\mathrm{cm^3}\) の物質を体積一定のまま \(25\,{}^\circ\mathrm C\) から \(35\,{}^\circ\mathrm C\) に加熱するもの。Aは一気に10 K、Bは1 Kずつ10回、Cは \(1/10000\) Kずつ変え、その都度平衡になるまで待つ。刻みを小さくし十分に待つ極限が、準静的過程の考え方である。</p>
+<p>途中が平衡でなければ、系の場所によって温度が異なり、系全体を一つの温度で表せないことがある。準静的なら、各段階の \(P,V,T\) を定め、状態を結ぶ道筋を記述できる。一方、始状態・終状態が同じなら、加熱の速さによらず \(\Delta U\) は同じである。</p>
+<div class="equation">\[C_V=\left(\frac{\partial U}{\partial T}\right)_V,\qquad \Delta U=\int_{T_i}^{T_f} C_V(T,V)\,dT\quad(V\text{ 一定}).\]</div>
+<p>\(C_V\) は系全体の定容熱容量（単位 \(\mathrm{J\,K^{-1}}\)）。温度差10 Kは摂氏の差10度と同じだが、熱力学温度そのものはKで扱う。一定と近似できれば \(\Delta U=C_V(T_f-T_i)\)。</p>
+<aside class="note"><p><strong>清書時の補足</strong>　状態量の差を求める積分は、実際の速い加熱経路の記述を必要としない。同じ両端を結ぶ平衡状態の列で計算できる。また、ゆっくり進めても摩擦や有限の温度差による熱移動が残れば可逆とは限らない。</p></aside></section>
+<section class="explanation" id="explanation-004"><h2>解説 4　経路を変えると仕事と熱が変わる</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=4">原典：PDF p.4</a> · 読了目安：約3分</p>
+<p><strong>同じ二状態を結んでも仕事は変わる。第1法則から、熱も経路によって変わる。</strong></p>
+<p>板書は、始状態 \((P_1,V_1,T)\) と終状態 \((P_2,V_2,T)\) を結ぶ二つの道筋を比べる。経路Aは圧力 \(P_1\) 一定で体積を \(V_1\to V_2\) と変えてから、体積 \(V_2\) 一定で加熱する。経路Bは先に体積 \(V_1\) 一定で加熱し、圧力を \(P_2\) にしてから、圧力 \(P_2\) 一定で体積を変える。途中の温度は同じでなくてよい。</p>
+<div class="equation key-equation">\[W_A=-P_1(V_2-V_1),\qquad W_B=-P_2(V_2-V_1)\]</div>
+<p>体積一定の区間の体積仕事はゼロなので、仕事は体積が変わる区間の圧力で決まる。\(P_1\ne P_2\)、\(V_1\ne V_2\) なら \(W_A\ne W_B\)。</p>
+<div class="equation">\[q_A=\Delta U-W_A,\quad q_B=\Delta U-W_B,\quad q_A-q_B=(P_1-P_2)(V_2-V_1).\]</div>
+<p>両経路の \(\Delta U\) は等しいのに仕事は異なるため、熱も異なる。「熱が物体にどれだけ含まれるか」という状態量は置かず、<strong>熱は過程に伴って出入りするエネルギー</strong>として扱う。</p>
+<aside class="note"><p><strong>清書時の補足（図の読み方）</strong>　p.4のピストンの高さは模式的で、Bの加熱区間も高さが変わったように描かれている。本文では「体積一定」の注記と各状態の添字を優先した。</p></aside></section>
+<h2 id="chapter-differential">3.5　状態関数の性質</h2><p class="source">完全微分・全微分・偏微分 · 章の読了目安：約10分</p><section class="explanation" id="explanation-005"><h2>解説 5　状態関数・完全微分・不完全微分</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=5">原典：PDF p.5–7</a> · 読了目安：約3分</p>
+<p><strong>完全微分を積分した結果は両端の状態だけで決まり、不完全微分の積分は経路を指定する必要がある。</strong></p>
+<p>板書では質量 \(m\)、温度 \(T\)、体積 \(V\) を指定すると内部エネルギーが一義的に決まるとして \(U=U(m,T,V)\) と書く。質量一定なら \(U=U(T,V)\)。これは組成など他の条件を固定した、今回扱う系についての状態の表し方である。</p>
+<p>一変数関数 \(f(x)\) の微分を積分すると、グラフを途中でどうたどるかによらず、高さの差になる。</p>
+<div class="equation">\[\int_{x_1}^{x_2}df=f(x_2)-f(x_1).\]</div>
+<p>p.6はこれを二変数 \(f(x,y)\) の曲面で表している。横の二軸が \(x,y\)、縦軸が \(f\) で、同じ始点・終点の間を二つの経路で進んでも、最後の高さから最初の高さを引いた値は同じである。</p>
+<div class="equation key-equation">\[\int_{\Gamma}df=f(x_2,y_2)-f(x_1,y_1),\qquad \int_{\Gamma}dU=U_f-U_i\]</div>
+<p>\(\Gamma\) は状態空間内の経路を表す。ある関数の変化として書ける \(df\) を<strong>完全微分</strong>と呼ぶ。閉じた経路なら終点と始点が同じなので \(\oint df=0\)。一方、仕事や熱は一般には状態関数 \(W,q\) の差として表せず、\(d'W,d'q\) という<strong>不完全微分</strong>で区別する。</p>
+<div class="equation">\[\oint dU=0,\qquad \oint d'q+\oint d'W=0\]</div>
+<p>p.7は経路A・Bの例を再掲し、圧力 \(P\)・体積 \(V\) の平面で違う経路を通ると、仕事 \(W\) の積み上がり方も違うことを立体的に示している。<strong>清書時の補足：</strong>p.7の中間温度記号は細部が不鮮明なので転記せず、圧力・体積と両端の一致を読み取った。</p><p>一周しても熱と仕事の積分がそれぞれゼロになる必要はない。ただし第1法則により和はゼロになる。\(d'\) は「積分できない」という記号ではなく、積分に経路の情報が必要であることを示す。</p></section>
+<section class="explanation" id="explanation-006"><h2>解説 6　偏微分と全微分</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=8">原典：PDF p.8</a> · 読了目安：約3分</p>
+<p><strong>全微分は、各変数だけを動かしたときの変化率を使って、同時に変わる関数の変化を表す。</strong></p>
+<p>二変数関数 \(f(x,y)\) において、\(y\) を固定して \(x\) を動かしたときの傾きが偏微分 \((\partial f/\partial x)_y\) である。下付きの \(y\) は「何を固定したか」を示す。\((\partial f/\partial y)_x\) はその逆である。</p>
+<div class="equation key-equation">\[df=\left(\frac{\partial f}{\partial x}\right)_y dx+\left(\frac{\partial f}{\partial y}\right)_x dy\]</div>
+<p>p.8の曲面図では、一方の変数方向へ進んだ高さの変化と、もう一方の方向へ進んだ高さの変化を足している。有限の \(\Delta x,\Delta y\) なら、微分可能性から一次の近似として</p>
+<div class="equation">\[\Delta f=f_x\Delta x+f_y\Delta y+o\!\left(\sqrt{(\Delta x)^2+(\Delta y)^2}\right)\]</div>
+<p>となる。\(f_x,f_y\) は出発点での偏微分、\(o(\cdot)\) は変位に比べて小さくなる余りを示す。微分 \(df\) はこの一次部分を表す。</p>
+<aside class="note"><p><strong>清書時の補足（有限差分との区別）</strong>　板書は \(df(x,y)=f(x+dx,y+dy)-f(x,y)\) と書いてから全微分公式につなぐ。有限の差をそのまま一次式と等置するわけではないことを明示した。余りの表示は板書にはない補足である。</p></aside>
+<p>熱力学では、質量・組成一定なら</p>
+<div class="equation">\[dU=\left(\frac{\partial U}{\partial T}\right)_VdT+\left(\frac{\partial U}{\partial V}\right)_T dV=C_VdT+\left(\frac{\partial U}{\partial V}\right)_T dV.\]</div>
+<p>定容では第2項が消えるのでp.3の積分式につながる。一般の物質では、体積変化による項を根拠なくゼロにはできない。どの変数を固定するかによって測っている変化率が異なるため、偏微分の下付きは計算条件そのものになる。</p></section>
+<section class="explanation" id="explanation-007"><h2>解説 7　偏微分の三つの関係式</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=9">原典：PDF p.9</a> · 読了目安：約4分</p>
+<p><strong>固定する変数を確認すれば、混合偏微分の交換、逆数関係、連鎖関係を使い分けられる。</strong></p>
+<h3>混合偏微分の交換</h3>
+<div class="equation">\[\left[\frac{\partial}{\partial x}\left(\frac{\partial f}{\partial y}\right)_x\right]_y=\left[\frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right)_y\right]_x\]</div>
+<p>同じ関数を \(y\)、\(x\) の順に微分しても、\(x\)、\(y\) の順に微分しても等しいという式である。<strong>清書時の補足：</strong>二階の偏導関数が近傍で連続など、交換を保証するなめらかさを仮定する。全微分を \(df=Mdx+Ndy\) と書けば、\(M_y=N_x\) が成り立つ。逆向きにこれで完全性を判定するには、局所の議論か、領域に関する条件も必要になる。</p>
+<h3>同じ量を固定した逆数関係</h3>
+<div class="equation key-equation">\[\left(\frac{\partial x}{\partial y}\right)_f=\frac{1}{\left(\frac{\partial y}{\partial x}\right)_f}\]</div>
+<p>今度は \(f\) を固定し、等高線 \(f(x,y)=\text{一定}\) に沿って動く。\(y=y(x)\) とその逆関数 \(x=x(y)\) の傾きが互いに逆数になる。<strong>清書時の補足：</strong>局所的に逆関数が存在し、分母の傾きがゼロでない範囲で使う。固定する量が左右で違えば、この関係は使えない。</p>
+<h3>全微分から得る連鎖関係</h3>
+<p>等高線では \(df=0\) なので、</p>
+<div class="equation">\[0=f_x\,dx+f_y\,dy\quad\Longrightarrow\quad\left(\frac{\partial x}{\partial y}\right)_f=-\frac{f_y}{f_x}.\]</div>
+<p>一方、\(y\) を固定すれば \(df=f_xdx\) より \((\partial x/\partial f)_y=1/f_x\)。したがって板書の第3式は</p>
+<div class="equation key-equation">\[\left(\frac{\partial x}{\partial y}\right)_f=-\left(\frac{\partial x}{\partial f}\right)_y\left(\frac{\partial f}{\partial y}\right)_x\]</div>
+<p>となる。負号は、\(f\) を一定に保つために二つの変化を打ち消すことから現れる。<strong>清書時の補足：</strong>以上の導出と \(f_x\ne0\) の条件は式の使いどころを明確にするために加えた。</p>
+<p>問題ではまず独立な二変数を決め、次に固定量の下付きを付け、最後に必要な変化率へ変換する。記号を通常の分数のように無条件で約分すると、固定条件が変わったことを見落とす。</p></section>
+<h2 id="chapter-heat">3.6　熱が状態量となる場合と演習</h2><p class="source">定容・定圧の条件とエンタルピーの利用 · 章の読了目安：約5分</p><section class="explanation" id="explanation-008"><h2>解説 8　熱が状態量の変化と一致する条件</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=10">原典：PDF p.10</a> · 読了目安：約3分</p>
+<p><strong>定容の熱は内部エネルギー変化、定圧の熱はエンタルピー変化に一致する。ただし仕事の種類と圧力条件を確認する。</strong></p>
+<h3>3.6.1　体積一定のとき</h3>
+<p>体積仕事だけを考えると、\(dV=0\) なら仕事はゼロである。第1法則より</p>
+<div class="equation key-equation">\[q_V=\Delta U.\]</div>
+<p>下付き \(V\) は定容で受け取った熱であることを示す。この条件で測る熱から、内部エネルギー変化を知ることができる。</p>
+<h3>3.6.2　圧力一定のとき</h3>
+<p>第1法則を移項すると \(d'q=dU+P_{\mathrm{ex}}dV\)。エンタルピーを \(H=U+PV\) と定義すると、積の微分により</p>
+<div class="equation">\[dH=dU+P\,dV+V\,dP.\]</div>
+<p>圧力 \(P\) が一定で、外圧と系の圧力を等しいものとして扱える過程では、\(dP=0\)、\(P_{\mathrm{ex}}=P\) だから</p>
+<div class="equation key-equation">\[d'q_P=dH,\qquad q_P=\Delta H.\]</div>
+<p>有限過程でも、一定の外圧下で体積仕事だけが働き、始状態・終状態の系の圧力がその外圧に等しければ、\(q_P=\Delta U+P\Delta V=\Delta H\) が得られる。</p>
+<aside class="note"><p><strong>清書時の補足（「熱が状態量となる」の意味）</strong>　原典見出しを引き継いでいるが、熱一般が状態量になるわけではない。指定条件下の熱が、ある状態量の差と一致するという意味である。p.10の \(d(U+PV)=\int d'q=q_P\) という並びは微小量と有限量が混在するため、本文では \(dH=d'q_P\) と \(\Delta H=q_P\) に分けた。電気仕事などがあれば、定容でも \(q=\Delta U\) とは限らない。</p></aside></section>
+<section class="explanation" id="explanation-009"><h2>解説 9　演習：温度の異なる蒸発エンタルピー</h2><p class="source"><a href="授業資料/20261020%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=11">原典：PDF p.11</a> · 読了目安：約2分</p>
+<p><strong>蒸発エンタルピーの温度依存性は、液体と気体を加熱したときのエンタルピー変化の差で追える。</strong></p>
+<p>原典の問題：25 ℃における \(\mathrm{H_2O}\) の蒸発エンタルピーは \(44\,\mathrm{kJ\,mol^{-1}}\)。100 ℃における蒸発熱を求める。液体の水の定圧モル熱容量は \(C_p(l)=75\,\mathrm{J\,K^{-1}\,mol^{-1}}\)、気体の水蒸気は \(C_p(g)=36\,\mathrm{J\,K^{-1}\,mol^{-1}}\) とする。</p>
+<p>蒸発エンタルピーは、同じ温度の気体と液体のモルエンタルピーの差 \(\Delta_{\mathrm{vap}}H_m(T)=H_{m,g}(T)-H_{m,l}(T)\) である。添字 \(m\) は1 mol当たり、\(l,g\) は液体・気体を示す。定圧モル熱容量は \(C_{p,m}=(\partial H_m/\partial T)_P\) なので、各相の温度変化をエンタルピー変化に換算できる。</p>
+<h3>解くための道筋</h3>
+<ol><li>25 ℃の液体から100 ℃の気体へ行く道筋を二つ書く。一方は「25 ℃で蒸発してから気体を加熱」、もう一方は「液体を100 ℃まで加熱してから蒸発」。</li><li>各道筋で、加熱区間にはその相の定圧モル熱容量と温度差を使う。温度差は75 Kであり、\(44\,\mathrm{kJ}\) と熱容量の \(\mathrm{J}\) の単位をそろえる。</li><li>エンタルピーは状態量なので、二つの道筋の変化量を等置する。未知の100 ℃での蒸発エンタルピーを取り出す。</li><li>検算として、液体の熱容量の方が大きいとき、温度上昇で液体と気体のエンタルピー差がどう変わるかを確認する。</li></ol>
+<aside class="note"><p><strong>清書時の補足</strong>　与えられた熱容量を温度範囲内で一定と近似する問題として読む。25 ℃の気体という比較状態は、1気圧の沸騰を意味しない。相ごとのエンタルピーを比較する道筋である。圧力・標準状態の細かな指定は原典にないため追加で断定せず、ここでは問題の与条件で進める。完全解答と数値結果は掲載していない。</p></aside></section>
+</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><a href="#summary">講義を通して言いたいこと</a><a href="#chapter-law">3.3　熱力学第1法則</a><a href="#explanation-001">1　第1法則と内部エネルギー</a><a href="#chapter-work">3.4　熱と仕事</a><a href="#explanation-002">2　ピストンの体積仕事と微分形</a><a href="#explanation-003">3　準静的過程と定容加熱</a><a href="#explanation-004">4　経路を変えると仕事と熱が変わる</a><a href="#chapter-differential">3.5　状態関数の性質</a><a href="#explanation-005">5　状態関数・完全微分・不完全微分</a><a href="#explanation-006">6　偏微分と全微分</a><a href="#explanation-007">7　偏微分の三つの関係式</a><a href="#chapter-heat">3.6　熱が状態量となる場合と演習</a><a href="#explanation-008">8　熱が状態量の変化と一致する条件</a><a href="#explanation-009">9　演習：温度の異なる蒸発エンタルピー</a></div></nav></div></main></div></body></html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "トランスクリプト全文整文"
+  short_description: "講義や会議の文字起こしを、内容を省略せず見出し付きMarkdownに整える"
+  default_prompt: "$transcript-to-markdown を使って、このトランスクリプトを内容を省略せずに整文し、話題ごとの見出し付きMarkdownとして保存してください。"

@@ -1,4 +1,16 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+
+def save_txt(*values, save_path):
+  path = Path(save_path)
+
+  # parents=True：途中のフォルダもまとめて作る
+  path.parent.mkdir(parents=True, exist_ok=True)
+
+  path.write_text("\n".join(str(value) for value in values), encoding="utf-8")
+  
+  return path
 
 def plot_f(
     x,

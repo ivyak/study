@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja"><head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
+<title>言語・オートマトン｜第3回：テープ・ヘッド・受理状態の疑問を整理</title>
+<meta name="study-ui" content="life"><meta name="study-lesson" content="3"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-21"><link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
+<style>
+.lesson-document .reading-time{color:rgba(255,255,255,.58);font-size:12px;text-align:right;margin:4px 0 16px}
+.lesson-document .chapter-title{color:var(--gold);margin-top:38px}
+.lesson-document .explanation-grid{display:flow-root}
+.lesson-document .slide{display:block;float:right;width:52%;margin:0 0 22px 28px;padding:0;aspect-ratio:auto;border:1px solid var(--gold);background:#fff;line-height:0}
+.lesson-document .slide img{width:100%;height:auto;display:block}
+.lesson-document .explanation h3{margin-top:20px}
+.lesson-document .explanation h2{margin-top:0;padding-top:0;border:0;margin-bottom:12px;font-size:21px}
+.lesson-document .question{color:var(--gold);font-size:14px;margin:18px 0 6px}
+.lesson-document .answer{font-weight:600}
+.lesson-document .table-scroll{clear:both;margin:18px 0}
+.lesson-document table{border-collapse:collapse;width:100%;font-size:14px}
+.lesson-document th,.lesson-document td{padding:10px 14px;text-align:left;border:1px solid var(--line)}
+.lesson-document th{color:var(--gold);font-weight:500}
+.lesson-document .tape-example{clear:both;overflow-x:auto;border-left:2px solid var(--gold);background:rgba(215,182,108,.08);padding:16px 20px;line-height:1.8}
+.lesson-document .tape-example code{white-space:nowrap;font-size:18px;letter-spacing:.08em}
+.lesson-document .summary{padding-right:100px;min-height:0;margin-bottom:30px}
+.lesson-document .summary h2{margin-top:0;border:0;padding-top:0}
+@media(max-width:900px){.lesson-document .slide{float:none;width:100%;margin:0 0 24px}.lesson-document .summary{padding-right:0;padding-top:48px}}
+</style></head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水１]言語・オートマトン"><div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%91%5D%E8%A8%80%E8%AA%9E%E3%83%BB%E3%82%AA%E3%83%BC%E3%83%88%E3%83%9E%E3%83%88%E3%83%B3" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%91%5D%E8%A8%80%E8%AA%9E%E3%83%BB%E3%82%AA%E3%83%BC%E3%83%88%E3%83%9E%E3%83%88%E3%83%B3">言語・オートマトン</a><span>/</span><span>第3回 解説</span></div>
+<header class="document-header"><p class="eyebrow">2026年度 後期 · 水曜1限 / 第3回 補足資料</p><h1 id="document-title">テープ・ヘッド・受理状態</h1><p class="subtitle">授業中の4つの疑問から、有限状態オートマトンを理解する</p><p class="reading-time">想定読了時間 約5分</p></header>
+<div class="section-rule"></div>
+<div class="reader"><article class="lesson-document" aria-labelledby="document-title">
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2>
+<p>有限状態オートマトンは、入力を1文字ずつ読みながら、今まで読んだ内容に応じて<strong>状態</strong>を変える機械。<strong>有限の入力を全部読み終えたとき、受理状態にいるか</strong>で、その入力を受理するか決める。</p>
+<p class="muted">共有会話で疑問に挙がった範囲（スライド7・8）の補足。第3回全体を網羅する資料ではありません。画像を押すと元PDFの該当ページを開けます。</p></section>
+<h2 class="chapter-title" id="chapter-01">1. テープを読む仕組み</h2><p class="reading-time">章の想定読了時間 約2分</p>
+<section class="explanation" id="slide-007"><div class="explanation-grid">
+<a class="slide" href="授業資料/オートマトン2026Part1.pdf#page=7" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/part1-p007.png" alt="スライド7：受理機械に共通する性質。左下にテープとヘッドの図、右下に紙テープリーダーの写真。" width="3000" height="2250"></a>
+<h2>解説 1｜記号を読み、状態を変える</h2><p class="reading-time">想定読了時間 約2分</p>
+<p>このスライドの中心は、<strong>「現在の状態」と「いま読んでいる記号」をもとに、次の状態へ移る</strong>という仕組み。記号とは <code>a</code> や <code>b</code> のような文字で、使える記号の有限な集合を<strong>アルファベット Σ</strong>と呼ぶ。</p>
+<p class="question">疑問①「右下の写真は何？」</p>
+<p class="answer">紙テープに開けた穴を読み取る「紙テープリーダー」。</p>
+<p>昔のコンピュータなどで、データを入力するために使われた装置。穴の有無を0と1に対応させ、その並びをデータとして読む。写真の注記では、<strong>テープの幅方向の1行が6ビット</strong>で、テープを送りながら1行ずつ読み込む。この実物の写真が、「テープ上に並んだ情報を順番に読む」という仕組みをイメージさせている。</p>
+<p class="question">疑問②「ヘッドって何？」</p>
+<p class="answer">テープの記号を読み取る部分。機械がいま注目している場所に当たる。</p>
+<p>左下の図では、<strong>緑の矢印が指す1マス</strong>が、ヘッドが読んでいる位置。その記号と現在の状態によって、次の状態が決まる。この状態の変化を<strong>状態遷移</strong>という。</p>
+<aside class="note"><p><strong>補足：読む機械と、書ける機械</strong><br>一般には読み書きするヘッドもあるが、この後の<strong>有限状態オートマトンでは読むだけ</strong>で、記号を書き換えない。図でヘッドが動くという説明と、写真でテープを送る仕組みは、「次に読む位置が変わる」という点で対応する。</p></aside>
+</div></section>
+<h2 class="chapter-title" id="chapter-02">2. 入力の長さと、受理の判定</h2><p class="reading-time">章の想定読了時間 約3分</p>
+<section class="explanation" id="slide-008"><div class="explanation-grid">
+<a class="slide" href="授業資料/オートマトン2026Part1.pdf#page=8" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/part1-p008.png" alt="スライド8：有限状態オートマトン。入力記号列は有限長、テープは一方向に無限長。入力を読み終えた状態で受理・不受理を判定する。" width="3000" height="2250"></a>
+<h2>解説 2｜最後まで読んだ時点で判断する</h2><p class="reading-time">想定読了時間 約3分</p>
+<p>有限状態オートマトンでは、ヘッドは<strong>右にだけ進み、記号を書き換えない</strong>。有限個の状態を使い、読み進めるたびに状態を更新していく。</p>
+<p class="question">疑問③「入力記号列は有限長なのに、結局、無限なの？ 有限なの？」</p>
+<p class="answer">入力された文字列は有限。文字列を載せるテープは無限。</p>
+<p>「入力」と「入れ物であるテープ」の、別々の長さを説明している。例えば入力が <code>abc</code> なら、入力の長さは3文字で、残りのマスは空白で埋まっている。</p>
+<div class="tape-example" role="img" aria-label="入力abcの後に、空白のマスが無限に続くテープの説明図"><code>［a］［b］［c］［□］［□］［□］…</code><br><small>最初の3マスが入力。□は空白で、その先も空白のマスが続く。説明用の図。</small></div>
+<p><strong>無限に続く空白を全部読む必要はない。</strong>この講義の有限状態オートマトンは、入力 <code>abc</code> の3文字を読み終えた時点で判定する。</p>
+<aside class="note"><p><strong>「有限長」に固定の上限はない</strong><br>「最大100文字」という意味ではない。3文字でも100万文字でもよいが、個々の入力には必ず終わりがある。また「有限状態」の有限は、<strong>機械が持つ状態の個数</strong>についての制約。</p></aside>
+<p class="question">疑問④「受理状態にあるってどういうこと？」</p>
+<p class="answer">「この状態で入力を読み終えたら合格」と決めてある状態にいること。</p>
+<p><strong>状態</strong>は、読み進める途中の機械の内部状況。そのうち合格の目印が付いたものが<strong>受理状態</strong>である。例えば、使える文字が <code>a, b</code> で、「最後の文字が <code>a</code> の文字列」を受理したいなら、次の2状態を用意できる。</p>
+<div class="table-scroll"><table><caption>会話中の例：最後の1文字を状態で覚える</caption><thead><tr><th scope="col">状態</th><th scope="col">何を覚えているか</th><th scope="col">読み終えたとき</th></tr></thead><tbody><tr><th scope="row">A（受理状態）</th><td>最後に読んだ文字が a</td><td>受理する</td></tr><tr><th scope="row">B（初期状態）</th><td>まだ何も読んでいない、または最後の文字が b</td><td>不受理にする</td></tr></tbody></table></div>
+<p><strong>初期状態</strong>は読み始める前の状態。この例ではBから始め、<code>a</code> を読むとAへ、<code>b</code> を読むとBへ移る。文字列全体を記憶しなくても、最後の1文字に必要な情報だけを状態に残せばよい。</p>
+<div class="table-scroll"><table><caption>入力を読み終えるまでの状態の変化</caption><thead><tr><th scope="col">入力</th><th scope="col">初期状態 → 1文字読むごとの状態</th><th scope="col">判定</th></tr></thead><tbody><tr><td><code>bba</code></td><td>B → B → B → A</td><td>最後がAなので受理</td></tr><tr><td><code>aab</code></td><td>B → A → A → B</td><td>最後がBなので不受理</td></tr></tbody></table></div>
+<aside class="note"><p><strong>途中の受理状態は、合格確定ではない</strong><br><code>aab</code> は途中でAにいるが、最後の <code>b</code> でBに移るため不受理。見るのは、<strong>入力を全部読み終えたときの状態</strong>。</p></aside>
+</div></section>
+<footer class="muted"><p>出典：<a href="https://chatgpt.com/share/6ad80b65-df9c-83ee-a0fc-fafef3359f63" target="_blank" rel="noopener noreferrer">共有会話「紙テープリーダーの説明」</a>、講義資料「オートマトン2026Part1」スライド7・8。会話の説明を整理し、図の読み方と状態の遷移例を補足した。</p></footer>
+</article>
+<nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><a href="#summary">講義の要点</a><a href="#chapter-01">1. テープを読む仕組み</a><a href="#slide-007">紙テープリーダー／ヘッド</a><a href="#chapter-02">2. 入力の長さと、受理の判定</a><a href="#slide-008">有限と無限／受理状態</a></div></nav>
+</div></main></div></body></html>

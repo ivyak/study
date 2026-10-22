@@ -1,4 +1,4 @@
 interface:
-  display_name: "板書・手書き講義解説"
-  short_description: "板書画像や手書きノートを授業回ごとのHTMLに清書・解説する"
-  default_prompt: "$handwritten-lecture-explainer を使って、この板書画像または手書きノートを授業回ごとのLIFE科目ページにまとめてください。"
+  display_name: "板書・手書き講義清書"
+  short_description: "板書・手書きノートを順番どおり抜け漏れなく清書し、追加文は冒頭概要のみ"
+  default_prompt: "$handwritten-lecture-explainer を使って、この板書画像または手書きノートを原典の順番どおり抜け漏れなくLIFEのHTMLに清書してください。独自の文章は冒頭の概要だけにしてください。"

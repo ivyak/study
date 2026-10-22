@@ -77,7 +77,7 @@
 <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%89%8D%E6%9C%9F%E6%9C%A8%EF%BC%91%5D%E7%A2%BA%E7%8E%87%E8%AB%96%E5%9F%BA%E7%A4%8E">確率論基礎</a><span>/</span><span>第4回 解説</span></div>
 <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%89%8D%E6%9C%9F%E6%9C%A8%EF%BC%91%5D%E7%A2%BA%E7%8E%87%E8%AB%96%E5%9F%BA%E7%A4%8E" aria-label="確率論基礎の一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
 <div class="section-rule"></div>
-<div class="reader"><article class="lesson-document theorem-equations"><header class="document-header"><h1>第4回 講義資料</h1><p class="source"><a href="授業資料/講義資料/確率論基礎 演習問題_第4回_ 資料.pdf#page=1">原典 p.1・定理2</a></p></header>
+<div class="reader"><article class="lesson-document theorem-equations"><header class="document-header"><h1>第4回 講義資料</h1><p class="source"><a href="授業資料/講義資料/確率論基礎 演習問題_第4回_ 資料.pdf#page=1">原典 p.1・定理2・定義3・定理4</a></p></header>
 <h2 id="theorem2">定理2｜期待値の性質（離散型）</h2>
 <figure class="theorem-source"><img src="assets/lesson04/expectation-definition.png" alt="定義1（期待値）：離散型では値と確率の積の総和、連続型では値と確率密度の積の積分で定める。" width="2048" height="449"></figure>
 <figure class="theorem-source"><img src="assets/lesson04/expectation-transformation.png" alt="確率変数Y＝φ(X)の期待値：離散型ではφ(x_n)f(x_n)の総和、連続型ではφ(x)f(x)の積分で定める。" width="2048" height="410"></figure>
@@ -132,6 +132,68 @@ f_{X,Y}(x_n,y_m)=f_X(x_n)f_Y(y_m).
 &amp;=\left(\sum_{n=1}^{\infty}x_nf_X(x_n)\right)
   \left(\sum_{m=1}^{\infty}y_mf_Y(y_m)\right)\\
 &amp;=\operatorname{E}(X)\operatorname{E}(Y).
+\end{aligned}
+\]</div>
+
+<h2 id="variance">定義3・定理4｜分散とその性質</h2>
+<figure class="theorem-source"><img src="assets/lesson04/variance-definition.png" alt="定義3（分散）：μ_X＝E(X)とし、V(X)＝E((X−μ_X)²)、標準偏差σ(X)＝√V(X)と定める。" width="2252" height="476"></figure>
+<figure class="theorem-source"><img src="assets/lesson04/variance-theorem4.png" alt="定理4（分散の性質）：V(aX＋b)＝a²V(X)、V(X)＝E(X²)−E(X)²、XとYが独立ならV(X＋Y)＝V(X)＋V(Y)。" width="2174" height="544"></figure>
+<h3 id="variance-affine">① \(\operatorname{V}(aX+b)=a^2\operatorname{V}(X)\)</h3>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{V}(aX+b)
+&amp;=\operatorname{E}\!\left[\left\{aX+b-\operatorname{E}(aX+b)\right\}^2\right]\\
+&amp;=\operatorname{E}\!\left[\left\{aX+b-(a\operatorname{E}(X)+b)\right\}^2\right]\\
+&amp;=\operatorname{E}\!\left[a^2\left\{X-\operatorname{E}(X)\right\}^2\right]\\
+&amp;=a^2\operatorname{E}\!\left[\left\{X-\operatorname{E}(X)\right\}^2\right]\\
+&amp;=a^2\operatorname{V}(X).
+\end{aligned}
+\]</div>
+<h3 id="variance-second-moment">② \(\operatorname{V}(X)=\operatorname{E}(X^2)-\operatorname{E}(X)^2\)</h3>
+<p>期待値 \(\operatorname{E}(X)\) などは、有限に存在すれば定数であり、総和の外に出せる。</p>
+<div class="formula">\[
+\varphi(x)=x^2-2x\operatorname{E}(X)+\operatorname{E}(X)^2,
+\qquad U=\varphi(X).
+\]</div>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{E}(U)
+&amp;=\sum_{n=1}^{\infty}\varphi(x_n)f_X(x_n)\\
+&amp;=\sum_{n=1}^{\infty}\left\{x_n^2-2x_n\operatorname{E}(X)+\operatorname{E}(X)^2\right\}f_X(x_n).
+\end{aligned}
+\]</div>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{V}(X)
+&amp;=\operatorname{E}\!\left[\left\{X-\operatorname{E}(X)\right\}^2\right]\\
+&amp;=\operatorname{E}\!\left[X^2-2X\operatorname{E}(X)+\operatorname{E}(X)^2\right]\\
+&amp;=\sum_{n=1}^{\infty}\left\{x_n^2-2x_n\operatorname{E}(X)+\operatorname{E}(X)^2\right\}f_X(x_n)\\
+&amp;=\sum_{n=1}^{\infty}x_n^2f_X(x_n)
+ -\sum_{n=1}^{\infty}2x_n\operatorname{E}(X)f_X(x_n)
+ +\sum_{n=1}^{\infty}\operatorname{E}(X)^2f_X(x_n)\\
+&amp;=\sum_{n=1}^{\infty}x_n^2f_X(x_n)
+ -2\operatorname{E}(X)\sum_{n=1}^{\infty}x_nf_X(x_n)
+ +\operatorname{E}(X)^2\sum_{n=1}^{\infty}f_X(x_n)\\
+&amp;=\operatorname{E}(X^2)-2\operatorname{E}(X)\operatorname{E}(X)+\operatorname{E}(X)^2\cdot1\\
+&amp;=\operatorname{E}(X^2)-\operatorname{E}(X)^2.
+\end{aligned}
+\]</div>
+<h3 id="variance-sum">③ \(X\perp\!\!\!\perp Y\ \Longrightarrow\ \operatorname{V}(X+Y)=\operatorname{V}(X)+\operatorname{V}(Y)\)</h3>
+<div class="formula">\[
+X\perp\!\!\!\perp Y\quad\Longrightarrow\quad
+\operatorname{E}(XY)=\operatorname{E}(X)\operatorname{E}(Y).
+\]</div>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{V}(X+Y)
+&amp;=\operatorname{E}\!\left[(X+Y)^2\right]-\operatorname{E}(X+Y)^2\\
+&amp;=\operatorname{E}(X^2)+2\operatorname{E}(XY)+\operatorname{E}(Y^2)
+ -\left\{\operatorname{E}(X)+\operatorname{E}(Y)\right\}^2\\
+&amp;=\operatorname{E}(X^2)+2\operatorname{E}(X)\operatorname{E}(Y)+\operatorname{E}(Y^2)
+ -\operatorname{E}(X)^2-2\operatorname{E}(X)\operatorname{E}(Y)-\operatorname{E}(Y)^2\\
+&amp;=\left\{\operatorname{E}(X^2)-\operatorname{E}(X)^2\right\}
+ +\left\{\operatorname{E}(Y^2)-\operatorname{E}(Y)^2\right\}\\
+&amp;=\operatorname{V}(X)+\operatorname{V}(Y).
 \end{aligned}
 \]</div>
 </article></div></main></div></body></html>

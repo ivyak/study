@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja"><head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>第4回 講義資料｜確率論基礎</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<style>
+
+.legacy-page{color-scheme:light;--ink:#22332f;--muted:#697973;--accent:#17664f;--line:#dce5df;--paper:#fffefb}.legacy-page *{box-sizing:border-box}.legacy-page{scroll-behavior:smooth;scroll-padding-top:24px}.legacy-page{margin:0;background:#f2f5f0;color:var(--ink);font-family:"Noto Sans JP","Yu Gothic",Meiryo,sans-serif;font-size:16px;line-height:1.95}.legacy-page main{max-width:960px;margin:auto;padding:40px 24px 70px}.legacy-page nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}.legacy-page a{color:var(--accent);text-underline-offset:4px}.legacy-page nav a, .legacy-page .tools button{padding:7px 17px;border:1px solid var(--line);border-radius:30px;background:var(--paper);text-decoration:none;font-size:14px}.legacy-page nav a[aria-current]{background:var(--accent);color:white;border-color:var(--accent)}.legacy-page .eyebrow{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.18em}.legacy-page h1{font-size:clamp(28px,5vw,40px);line-height:1.4;letter-spacing:.03em;margin:9px 0 16px}.legacy-page header{margin-bottom:30px}.legacy-page .subtitle, .legacy-page .source, .legacy-page .meta{font-size:14px;color:var(--muted)}.legacy-page .source{border-top:1px solid var(--line);padding-top:16px}.legacy-page .toc{display:flex;flex-wrap:wrap;gap:10px 22px;padding:18px 0;margin-bottom:16px}.legacy-page .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin:22px 0;padding:28px 32px;box-shadow:0 4px 16px #17332304}.legacy-page h2{font-size:23px;line-height:1.6;margin:0 0 20px}.legacy-page h3{font-size:18px;line-height:1.7;margin:26px 0 12px}.legacy-page p{margin:12px 0}.legacy-page li{margin:8px 0}.legacy-page .formula{overflow-x:auto;padding:15px 5px;margin:12px 0;max-width:100%;background:#f6f8f3;border-radius:8px}.legacy-page math{font-size:1.12em}.legacy-page math[display=block]{margin:.35em 0;min-width:max-content}.legacy-page p math, .legacy-page li math{font-size:1.05em}.legacy-page .note{border-left:3px solid #a9ba91;padding:8px 16px;color:#54614f;font-size:14px;background:#f5f6ee}.legacy-page .problem-number{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:bold}.legacy-page .tools{display:flex;gap:10px;flex-wrap:wrap}.legacy-page button{font:inherit;cursor:pointer;color:var(--accent)}.legacy-page button:hover, .legacy-page summary:hover{background:#edf4ed}.legacy-page button:focus-visible, .legacy-page a:focus-visible, .legacy-page summary:focus-visible{outline:3px solid #ba8636;outline-offset:4px}.legacy-page details{margin-top:24px;border-top:1px solid var(--line)}.legacy-page summary{cursor:pointer;list-style:none;padding:15px 10px;color:var(--accent);font-weight:700;display:flex;justify-content:space-between;align-items:center;border-radius:6px}.legacy-page summary::-webkit-details-marker{display:none}.legacy-page summary::after{content:'＋';font-size:22px}.legacy-page details[open]>summary::after{content:'−'}.legacy-page .answer{overflow:hidden}.legacy-page .answer-inner{padding:1px 8px 14px}.legacy-page .answer-label{font-size:13px;color:var(--muted);margin:5px 0 12px}.legacy-page .meta{margin-top:-12px}.legacy-page footer{margin-top:38px;font-size:13px;color:var(--muted)}@media(max-width:600px){.legacy-page main{padding:24px 14px 50px}.legacy-page .card{padding:22px 17px}.legacy-page h2{font-size:21px}.legacy-page{font-size:15px}.legacy-page .formula{padding:13px 6px}.legacy-page math{font-size:1em}}@media(prefers-reduced-motion:reduce){.legacy-page{scroll-behavior:auto}}@media print{.legacy-page{background:white}.legacy-page main{max-width:none;padding:0}.legacy-page nav, .legacy-page .tools, .legacy-page .toc{display:none}.legacy-page .card{box-shadow:none;break-inside:avoid;border-radius:0}.legacy-page .formula{background:white}.legacy-page a{color:inherit}.legacy-page .source{font-size:11px}}
+
+</style>
+<meta name="study-ui" content="life">
+<meta name="study-kind" content="解説">
+<meta name="study-lesson" content="4">
+<style>
+.legacy-page{--bg:var(--black);--panel:#151411;--ink:var(--white);--white:#f2f0e9;--muted:#bcb9af;--gold:#d7b66c;--line:#39352a;color:var(--white);background:transparent;min-width:0;font-size:16px;line-height:1.95}
+.legacy-page > .skip,.legacy-page > .menu-button,.legacy-page > .sidebar,.legacy-page > .top{display:none!important}
+.legacy-page > main,.legacy-page > .layout{margin:0!important;max-width:none!important;padding:0!important;width:100%!important;display:block!important}
+.legacy-page > .layout > aside{display:none!important}
+.legacy-page > .layout > main{margin:0!important;max-width:none!important;padding:0!important;width:100%!important}
+.legacy-page > .shell{display:block!important;grid-template-columns:none!important;margin:0!important;min-width:0!important;width:100%!important}
+.legacy-page > .shell > main{display:block!important;margin:0!important;max-width:none!important;padding:0!important;width:100%!important;min-width:0!important}
+.legacy-page .tabs{max-width:100%;min-width:0}
+.legacy-page .table-wrap{max-width:100%}
+
+.legacy-page .hero{padding-top:14px}
+.legacy-page .back-nav{display:none}
+.legacy-page .toc{display:none!important}
+.legacy-page .card,.legacy-page .formula,.legacy-page .note,.legacy-page details,.legacy-page .viz{background-color:rgba(215,182,108,.07);border-color:var(--line);color:var(--white)}
+.legacy-page a{color:var(--gold)}
+.legacy-page img,.legacy-page svg{max-width:100%}
+.legacy-page > main > header:first-child,.legacy-page .hero{border-bottom:1px solid var(--line)}
+.legacy-page h1,.legacy-page h2,.legacy-page h3{color:var(--white)}
+.legacy-page .eyebrow,.legacy-page .number,.legacy-page .label{color:var(--gold)}
+@media(max-width:650px){.legacy-page{font-size:15px}.legacy-page .card{padding:18px 14px}}
+</style><link rel="stylesheet" href="../ui/probability-life.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.theorem-equations .formula{overflow-x:auto;overflow-y:hidden;padding:18px 4px;margin:12px 0 24px;max-width:100%}
+.theorem-equations mjx-container[display="true"]{width:max-content;min-width:100%;margin:0!important}
+.theorem-equations h2{margin-top:32px}.theorem-equations h3{margin-top:28px}
+.theorem-source{margin:20px 0}.theorem-source img{display:block;width:100%;height:auto;background:white}
+.theorem-equations .source{font-size:13px;color:var(--muted)}
+</style></head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026前期木１]確率論基礎">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%89%8D%E6%9C%9F%E6%9C%A8%EF%BC%91%5D%E7%A2%BA%E7%8E%87%E8%AB%96%E5%9F%BA%E7%A4%8E">確率論基礎</a><span>/</span><span>第4回 解説</span></div>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%89%8D%E6%9C%9F%E6%9C%A8%EF%BC%91%5D%E7%A2%BA%E7%8E%87%E8%AB%96%E5%9F%BA%E7%A4%8E" aria-label="確率論基礎の一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="section-rule"></div>
+<div class="reader"><article class="lesson-document theorem-equations"><header class="document-header"><h1>第4回 講義資料</h1><p class="source"><a href="授業資料/講義資料/確率論基礎 演習問題_第4回_ 資料.pdf#page=1">原典 p.1・定理2</a></p></header>
+<h2 id="theorem2">定理2｜期待値の性質（離散型）</h2>
+<figure class="theorem-source"><img src="assets/lesson04/expectation-definition.png" alt="定義1（期待値）：離散型では値と確率の積の総和、連続型では値と確率密度の積の積分で定める。" width="2048" height="449"></figure>
+<figure class="theorem-source"><img src="assets/lesson04/expectation-transformation.png" alt="確率変数Y＝φ(X)の期待値：離散型ではφ(x_n)f(x_n)の総和、連続型ではφ(x)f(x)の積分で定める。" width="2048" height="410"></figure>
+<figure class="theorem-source"><img src="assets/lesson04/expectation-joint-transformation.png" alt="同時確率変数の関数U＝φ(X,Y)の期待値の定義。離散型では同時確率関数を用いた二重和、連続型では同時確率密度関数を用いた二重積分で定める。" width="2370" height="600"></figure>
+<figure class="theorem-source"><img src="assets/lesson04/expectation-theorem2.png" alt="定理2（期待値の性質）：アフィン変換の期待値、和の期待値、独立な確率変数の積の期待値。" width="2048" height="568"></figure>
+<h3 id="affine">① \(\operatorname{E}(aX+b)=a\operatorname{E}(X)+b\)</h3><div class="formula">\[
+\begin{aligned}
+\operatorname{E}(aX+b)
+&amp;=\sum_{n=1}^{\infty}(ax_n+b)f_X(x_n)\\
+&amp;=a\sum_{n=1}^{\infty}x_nf_X(x_n)+b\sum_{n=1}^{\infty}f_X(x_n)\\
+&amp;=a\operatorname{E}(X)+b.
+\end{aligned}
+\]</div><h3 id="sum">② \(\operatorname{E}(X+Y)=\operatorname{E}(X)+\operatorname{E}(Y)\)</h3><div class="formula">\[
+\varphi(x,y)=x+y,\qquad U=\varphi(X,Y)=X+Y.
+\]</div>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{E}(U)
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}\varphi(x_n,y_m)f_{X,Y}(x_n,y_m)\\
+\operatorname{E}(X+Y)
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}(x_n+y_m)f_{X,Y}(x_n,y_m).
+\end{aligned}
+\]</div>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{E}(X+Y)
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}(x_n+y_m)f_{X,Y}(x_n,y_m)\\
+&amp;=\sum_{n=1}^{\infty}x_n\sum_{m=1}^{\infty}f_{X,Y}(x_n,y_m)
+ +\sum_{m=1}^{\infty}y_m\sum_{n=1}^{\infty}f_{X,Y}(x_n,y_m)\\
+&amp;=\sum_{n=1}^{\infty}x_nf_X(x_n)+\sum_{m=1}^{\infty}y_mf_Y(y_m)\\
+&amp;=\operatorname{E}(X)+\operatorname{E}(Y).
+\end{aligned}
+\]</div><h3 id="product">③ \(\operatorname{E}(XY)=\operatorname{E}(X)\operatorname{E}(Y)\)</h3><div class="formula">\[
+\varphi(x,y)=xy,\qquad U=\varphi(X,Y)=XY.
+\]</div>
+<div class="formula">\[
+\begin{aligned}
+\operatorname{E}(U)
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}\varphi(x_n,y_m)f_{X,Y}(x_n,y_m)\\
+\operatorname{E}(XY)
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}x_ny_mf_{X,Y}(x_n,y_m).
+\end{aligned}
+\]</div>
+<div class="formula">\[
+X\perp\!\!\!\perp Y\quad\Longrightarrow\quad
+f_{X,Y}(x_n,y_m)=f_X(x_n)f_Y(y_m).
+\]</div><div class="formula">\[
+\begin{aligned}
+\operatorname{E}(XY)
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}x_ny_mf_{X,Y}(x_n,y_m)\\
+&amp;=\sum_{n=1}^{\infty}\sum_{m=1}^{\infty}x_ny_mf_X(x_n)f_Y(y_m)\\
+&amp;=\left(\sum_{n=1}^{\infty}x_nf_X(x_n)\right)
+  \left(\sum_{m=1}^{\infty}y_mf_Y(y_m)\right)\\
+&amp;=\operatorname{E}(X)\operatorname{E}(Y).
+\end{aligned}
+\]</div>
+</article></div></main></div></body></html>

@@ -181,7 +181,7 @@ window.MathJax = {
 <h1>工業数学A1</h1>
 <p class="subtitle">第1回：複素関数と正則関数</p>
 </header>
-<p class="muted">原典：柴山允瑠「工業数学A1」（2026年9月30日版）<a href="授業資料/a1.pdf#page=3">第1・2章、pp. 3–8冒頭</a>。式・主張・証明の要点を原典の順にまとめた。第3章「初等関数」以降は含めない。「補足」は理解のために追加した説明。</p>
+<p class="muted">原典：柴山允瑠「工業数学A1」（2026年9月30日版）<a href="授業資料/a1.pdf#page=3">第1・2章、p. 3〜命題2.3の微分公式まで</a>。式・主張・証明の要点を原典の順にまとめた。コーシー–リーマンの関係式と証明、例2.4・2.5および定理2.6は第2回に掲載。「補足」は理解のために追加した説明。</p>
 <nav class="toc" aria-label="目次">
 <p class="toc-title">目次</p>
 <ul>
@@ -190,7 +190,7 @@ window.MathJax = {
 </ul></li>
 <li><a href="#holomorphic">2　正則関数</a><ul>
 <li><a href="#derivative">複素微分と例2.1・2.2</a></li><li><a href="#definition">正則性の定義</a></li><li><a href="#rules">命題2.3：微分公式</a></li>
-<li><a href="#cr">コーシー–リーマンの関係式と証明</a></li><li><a href="#examples">例2.4・2.5：CRによる判定</a></li><li><a href="#wirtinger">定理2.6：偏微分作用素による表現</a></li>
+
 </ul></li>
 </ul>
 </nav>
@@ -273,85 +273,8 @@ f'(z)=na_nz^{n-1}+(n-1)a_{n-1}z^{n-2}+\cdots+a_1.
 <li><strong>逆関数：</strong>正則な \(f\) に対し \(z=g(w)\) が \(w=f(z)\) の逆関数で、\(f'(z)\ne0\) のとき、<div class="equation">\[g'(f(z))=\frac1{f'(z)},\qquad\frac{dz}{dw}=\frac1{dw/dz}.\]</div></li>
 </ol>
 <p class="muted"><strong>証明について：</strong>原典では、実数値関数の場合と同様として命題2.3の証明を省略している。</p>
-<h3 id="cr">コーシー–リーマンの関係式と証明</h3>
-<p class="source">原典：<a href="授業資料/a1.pdf#page=6">pp. 6–7、式(1)〜(3)</a></p>
-<p>\(z=x+iy\)、\(f(x+iy)=u(x,y)+iv(x,y)\) と実部・虚部に分ける。\(u,v\) は実2変数の実数値関数である。</p>
-<div class="statement"><p><strong>主張：</strong>領域 \(U\) で \(f\) が正則であるための必要十分条件は、\(u,v\) が \(C^1\) 級であり、領域全体で</p>
-<div class="equation">\[\boxed{\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad \frac{\partial v}{\partial x}=-\frac{\partial u}{\partial y}}\tag{CR}\]</div>
-<p>を満たすこと。このとき、\(f'=\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}=\frac{\partial v}{\partial y}-i\frac{\partial u}{\partial y}\) である。</p></div>
-<h4>必要性：実軸・虚軸方向の差商を比較する</h4>
-<p>\(z_0=x_0+iy_0\) とし、\(\varepsilon\in\mathbb R\) を0に近づける。\(h=\varepsilon\) と \(h=i\varepsilon\) の2通りで差商の極限を計算すると、</p>
-<div class="equation">\[
-\begin{aligned}
-h=\varepsilon &: \quad f'(z_0)=\frac{\partial u}{\partial x}(x_0,y_0)+i\frac{\partial v}{\partial x}(x_0,y_0),\\
-h=i\varepsilon &: \quad f'(z_0)=\frac{\partial v}{\partial y}(x_0,y_0)-i\frac{\partial u}{\partial y}(x_0,y_0).
-\end{aligned}
-\]</div>
-<p>同じ微分係数になるため、実部と虚部を比べてCRを得る。正則性の定義では \(f'\) が連続なので、これらの等式から \(u,v\) の1階偏導関数も連続、すなわち \(u,v\in C^1\) となる。</p>
-<h4>十分性：実2変数の1次近似を複素数の形にまとめる</h4>
-<aside class="note"><p><strong>補足：\(C^1\) 級と全微分可能性</strong>　\(C^1\) 級とは、1階の偏導関数が存在し、連続であること。実多変数の微分の定理により、近傍で \(C^1\) 級ならその点で<strong>全微分可能</strong>である。これは、\(w=u,v\) のそれぞれについて、変化量を次のように1次近似できるという意味である。</p>
-<div class="equation">\[
-w(x,y)-w(x_0,y_0)=w_x(x_0,y_0)\Delta x+w_y(x_0,y_0)\Delta y+o(r).
-\]</div>
-<p>偏導関数の連続性により、近くでの傾きとその点での傾きの差が小さくなり、近似の誤差は移動距離 \(r\) で割ると0に近づく。以下の2式は、この一般形にCRから得る \(u_x=a,\ u_y=-b,\ v_x=b,\ v_y=a\) を代入したものである。</p></aside>
-<p>\(u,v\) が \((x_0,y_0)\) の近傍で \(C^1\) 級で、点 \((x_0,y_0)\) でCRを満たすとする。その点での値を</p>
-<div class="equation">\[a=\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad b=\frac{\partial v}{\partial x}=-\frac{\partial u}{\partial y}\]</div>
-<p>と置く。\(\Delta x=x-x_0\)、\(\Delta y=y-y_0\)、\(r=\sqrt{(\Delta x)^2+(\Delta y)^2}\) と書けば、全微分可能性から</p>
-<div class="equation">\[
-\begin{aligned}
-u(x,y)-u(x_0,y_0)&amp;=a\Delta x-b\Delta y+o(r),\\
-v(x,y)-v(x_0,y_0)&amp;=b\Delta x+a\Delta y+o(r).
-\end{aligned}
-\]</div>
-<p>上の式に \(i\) 倍した下の式を加え、\(z-z_0=\Delta x+i\Delta y\) とまとめると、</p>
-<div class="equation">\[
-f(z)-f(z_0)=(a+ib)(z-z_0)+o(|z-z_0|).
-\]</div>
-<p>\(z-z_0\) で割って極限を取れば、どの方向から近づいても誤差が消え、\(f'(z_0)=a+ib\) を得る。これが領域の各点で成り立ち、\(f'=\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}\) が連続なので \(f\) は正則である。</p>
-<aside class="note"><p><strong>補足</strong>　\(o(r)\) は、その絶対値を \(r\) で割ると0に近づく誤差。十分性ではこの評価によって、2方向だけでなくすべての近づき方を扱っている。</p></aside>
-<p class="muted">脚注2の要点：正則性を複素微分可能性だけで定義する場合は、実部・虚部の「各点での全微分可能性＋CR」と対応する。ここでは講義本文の「\(C^1\) 級＋CR」を用いる。脚注1・2の「??」は原典で未解決の参照表示である。</p>
-<h3 id="examples">例2.4・2.5：CRによる判定</h3>
-<p class="source">原典：<a href="授業資料/a1.pdf#page=7">p. 7</a></p>
-<h4>例2.4：\(f(z)=z^2\)</h4>
-<div class="equation">\[
-u=x^2-y^2,\quad v=2xy,\qquad
-\frac{\partial u}{\partial x}=2x,\quad \frac{\partial u}{\partial y}=-2y,\quad \frac{\partial v}{\partial x}=2y,\quad \frac{\partial v}{\partial y}=2x.
-\]</div>
-<p>\(u,v\) は \(C^1\) 級で、CRは全点で成立する。よって \(z^2\) は \(\mathbb C\) 上で正則である。</p>
-<h4>例2.5：\(f(z)=|z|^2\)</h4>
-<div class="equation">\[
-u=x^2+y^2,\quad v=0,\qquad
-\frac{\partial u}{\partial x}=2x,\quad \frac{\partial u}{\partial y}=2y,\quad \frac{\partial v}{\partial x}=0,\quad \frac{\partial v}{\partial y}=0.
-\]</div>
-<p>CRが成立するのは \(x=y=0\) のみ。原点だけでは領域にならないため、この関数はどの領域でも正則ではない。例2.2の「原点だけで微分可能」と矛盾しない。</p>
-<h3 id="wirtinger">定理2.6：偏微分作用素による表現</h3>
-<p class="source">原典：<a href="授業資料/a1.pdf#page=7">pp. 7–8冒頭</a></p>
-<p>\(z=x+iy\)、\(\bar z=x-iy\) より、</p>
-<div class="equation">\[x=\frac{z+\bar z}{2},\qquad y=\frac{z-\bar z}{2i}.\]</div>
-<p>\(z,\bar z\) を独立な変数のように扱う形式計算から、次の作用素を定義する。実際に独立な変数という意味ではなく、右辺の実偏微分作用素が厳密な定義である。</p>
-<div class="equation key-equation">\[
-\frac{\partial}{\partial z}=\frac12\left(\frac{\partial}{\partial x}-i\frac{\partial}{\partial y}\right),\qquad
-\frac{\partial}{\partial\bar z}=\frac12\left(\frac{\partial}{\partial x}+i\frac{\partial}{\partial y}\right).
-\]</div>
-<p><strong>定理2.6：</strong>実部・虚部の偏導関数が存在するとき、\(f\) がCRを満たすことと、\(\frac{\partial f}{\partial\bar z}=0\) は同値である。</p>
-<h4>証明の要点</h4>
-<p>\(f=u+iv\) を定義に代入して展開する。</p>
-<div class="equation">\[
-\frac{\partial f}{\partial\bar z}
-=\frac12(\frac{\partial}{\partial x}+i\frac{\partial}{\partial y})(u+iv)
-=\frac12\bigl[(\frac{\partial u}{\partial x}-\frac{\partial v}{\partial y})+i(\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x})\bigr].
-\]</div>
-<p>これが0であることは、実部と虚部がともに0、すなわち \(\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y}\)、\(\frac{\partial u}{\partial y}=-\frac{\partial v}{\partial x}\) と同値である。正則性の判定には、領域全体で \(u,v\in C^1\) であることも併せて用いる。</p>
-<h4>計算例と主張の読み方</h4>
-<p>実際の計算は、\(z\) を固定して \(\bar z\) について微分するように行える。</p>
-<div class="equation">\[
-f(z)=|z|^2=z\bar z\quad\Longrightarrow\quad
-\frac{\partial f}{\partial\bar z}=z.
-\]</div>
-<p>これは領域全体で0にはならず、正則でない。原典のもう一つの例 \(f(z)=z^3+\bar z z^2+3\) も正則でない。</p>
-<aside class="note"><p><strong>補足</strong>　後者も \(\partial f/\partial\bar z=z^2\) と確認できる。原典の「\(\bar z\) が現れない」という説明は計算上の見通しであり、式の相殺もあるため、厳密には \(\partial f/\partial\bar z=0\) で判定する。</p></aside>
 </section>
-<footer><a href="../index.html">← 授業一覧に戻る</a><span>第1回 · 第1・2章</span></footer>
+<footer><a href="../index.html">← 授業一覧に戻る</a><span>第1回 · 命題2.3の微分公式まで</span></footer>
 
 </article>
 </main>
@@ -366,9 +289,9 @@ f(z)=|z|^2=z\bar z\quad\Longrightarrow\quad
 <li><a href="#derivative">複素微分と例2.1・2.2</a></li>
 <li><a href="#definition">正則性の定義</a></li>
 <li><a href="#rules">命題2.3：微分公式</a></li>
-<li><a href="#cr">コーシー–リーマンの関係式と証明</a></li>
-<li><a href="#examples">例2.4・2.5：CRによる判定</a></li>
-<li><a href="#wirtinger">定理2.6：偏微分作用素による表現</a></li>
+
+
+
 </ul></div>
 </nav>
 </div>

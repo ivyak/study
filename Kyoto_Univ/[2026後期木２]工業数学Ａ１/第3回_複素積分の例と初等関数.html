@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>工業数学A1｜第3回：複素積分の例と初等関数</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="3">
+<meta name="study-kind" content="解説">
+<script>
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "displayMath": [
+      [
+        "\\[",
+        "\\]"
+      ]
+    ],
+    "processEscapes": true,
+    "macros": {
+      "dd": "\\mathop{}\\!\\mathrm{d}"
+    }
+  },
+  "chtml": {
+    "displayAlign": "center"
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<meta name="study-created" content="2026-10-22">
+<style>
+.math-a1 .reading-time{display:block;text-align:right;font-size:11px;color:var(--muted);font-weight:400;margin:5px 0 12px}
+.math-a1 .summary h2{border:0;padding:0;margin:0 0 15px;font-size:18px;color:var(--gold)}
+.math-a1 .chapter-heading{margin-top:36px;padding-top:20px;border-top:1px solid var(--gold)}
+.math-a1 .chapter-heading h2{margin:0;padding:0;border:0}
+.math-a1 .explanation-grid{display:flow-root}
+.math-a1 .explanation h3{margin:0 0 14px}
+.math-a1 .slide{float:right;display:block;width:48%;height:auto;aspect-ratio:auto;margin:0 0 18px 26px;background:white;padding:0;line-height:0}
+.math-a1 .slide a,.math-a1 .slide img{display:block;width:100%;height:auto}
+.math-a1 .claim{font-weight:600}
+.math-a1 .source{font-size:12px}
+.math-a1 .explanation h4{font-size:16px;margin:20px 0 8px;color:var(--gold)}
+.math-a1 .slide.source-excerpt{float:none;width:100%;margin:16px 0;border:0}
+@media(max-width:650px){.math-a1 .slide{float:none;width:100%;margin:0 0 18px}}
+</style>
+</head>
+
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期木２]工業数学Ａ１">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%9C%A8%EF%BC%92%5D%E5%B7%A5%E6%A5%AD%E6%95%B0%E5%AD%A6%EF%BC%A1%EF%BC%91">工業数学Ａ１</a><span>/</span><span>第3回 解説</span></div>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%9C%A8%EF%BC%92%5D%E5%B7%A5%E6%A5%AD%E6%95%B0%E5%AD%A6%EF%BC%A1%EF%BC%91" aria-label="工業数学Ａ１の授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<header class="page-head"><p class="eyebrow">2026年度 後期 · 木曜2限 / 第3回</p><h1>工業数学A1 · 第3回</h1><p class="subtitle">複素積分の例と初等関数</p><p class="source">原典：<a href="授業資料/a1.pdf" target="_blank" rel="noopener noreferrer">a1.pdf</a> · 例4.2〜4.4（pp.11–12）、第3章（pp.8–10冒頭）</p></header>
+<div class="section-rule"></div>
+<div class="reader">
+<article class="lesson-document math-a1">
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><span class="reading-time">想定読了時間 約7分</span><p>複素積分では、両端が同じでも経路によって値が変わることがある。三つの例を比べて、関数の正則性と経路の間の領域を見る必要性をつかむ。続いて、指数関数を出発点に複素数の三角関数・双曲三角関数を定義し、値の計算や微分を既知の式へ戻して扱う。</p></section>
+<div class="chapter-heading" id="chapter-01"><h2>第4章　例4.2・4.3・4.4：経路と積分値</h2><span class="reading-time">想定読了時間 約3分</span></div>
+<section class="explanation" id="slide-001"><div class="explanation-grid">
+<h3>解説 1　例4.2：線分と放物線に沿う積分</h3><span class="reading-time">想定読了時間 約1分</span>
+<p class="source">原典：PDF pp.11–12</p>
+<figure class="slide source-excerpt"><a href="授業資料/a1.pdf#page=11" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/example42-1.png" alt="例4.2：線分に沿う積分の問題文と計算（PDF p.11）" width="2356" height="510" loading="lazy"></a></figure>
+<figure class="slide source-excerpt"><a href="授業資料/a1.pdf#page=12" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/example42-2.png" alt="例4.2：放物線に沿う積分の計算（PDF p.12）" width="2192" height="530" loading="lazy"></a></figure>
+<figure class="slide source-excerpt"><a href="授業資料/a1.pdf#page=12" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/example42-3.png" alt="例4.2：二つの経路の積分値についての結論（PDF p.12）" width="2138" height="294" loading="lazy"></a></figure>
+<p class="note">この例で伝えたいことは、<strong>始点と終点が同じなら、途中の経路が違っても積分値が一致する場合がある</strong>ということ。ここでは、線分と放物線に沿う積分でそれを確かめている。</p>
+</div></section>
+<section class="explanation" id="slide-002"><div class="explanation-grid">
+<h3>解説 2　例4.3・例4.4</h3><span class="reading-time">想定読了時間 約2分</span>
+<figure class="slide"><a href="授業資料/a1.pdf#page=12" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/a1-p12.png" alt="工業数学A1 a1.pdf PDF p.12の原ページ" width="2480" height="3508" loading="lazy"></a></figure>
+<p class="source">原典：PDF p.12</p>
+
+<p class="claim">両端が同じという情報だけでは、積分値が等しいとは限らない。</p>
+<h4>例4.3：\(\bar z\)では経路によって異なる</h4>
+<div class="equation">\[\int_{C_1}\bar z\,dz=1,\qquad \int_{C_2}\bar z\,dz=1+\frac{i}{3}.\]</div>
+<p>\(\bar z\)は複素共役で、\(x+iy\)を\(x-iy\)に変える。線分では\(\overline{z(t)}=(1-i)t\)、放物線では\(t-it^2\)を代入し、\(dz\)は共役にしない。この関数は正則でなく、同じ両端でも値が異なる具体例になる。</p>
+<h4>例4.4：\(1/z\)では経路の間にある原点が問題</h4>
+<p>1から\(-1\)へ、上半円は\(z=e^{it}\)、下半円は\(z=e^{-it}\)（どちらも\(0\le t\le\pi\)）。ここで\(e^{it}=\cos t+i\sin t\)は単位円上の点を表す。上は反時計回り、下は時計回りなので、\(dz/z\)はそれぞれ\(i\,dt\)、\(-i\,dt\)になる。</p>
+<div class="equation">\[\int_{C_1}\frac{dz}{z}=i\pi,\qquad \int_{C_2}\frac{dz}{z}=-i\pi.\]</div>
+<p>\(1/z\)は各経路の近くでは正則だが、二つの経路の間にある原点では定義されない。「経路上で正則」だけで経路を自由に変えてよいとは言えないことが、この例の要点。</p>
+
+</div></section>
+<div class="chapter-heading" id="chapter-02"><h2>第3章　初等関数：指数関数から広げる</h2><span class="reading-time">想定読了時間 約4分</span></div>
+<section class="explanation" id="slide-003"><div class="explanation-grid">
+<h3>解説 3　指数関数と三角関数の定義</h3><span class="reading-time">想定読了時間 約1〜2分</span>
+<figure class="slide"><a href="授業資料/a1.pdf#page=8" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/a1-p08.png" alt="工業数学A1 a1.pdf PDF p.8の原ページ" width="2480" height="3508" loading="lazy"></a></figure>
+<p class="source">原典：PDF p.8</p>
+
+<p class="claim">実数で使っていた関数を、複素数を入れても意味が通る式で定義する。</p>
+<p>\(z=x+iy\)、\(x,y\in\mathbb R\)に対して、</p>
+<div class="equation key-equation">\[e^z=e^x(\cos y+i\sin y).\]</div>
+<p>実部\(x\)が絶対値\(e^x\)を決め、虚部\(y\)が角度を決める。\(e^{iy}\)は単位円上を動くので、前半の例4.4の円弧もこの式で表せる。指数法則\(e^{z_1+z_2}=e^{z_1}e^{z_2}\)も成り立つ。</p>
+<aside class="note">
+<p><strong>なぜ正則で、微分しても同じ関数になる？</strong>　\(u(x,y)=e^x\cos y\)、\(v(x,y)=e^x\sin y\)と分けると、</p>
+<div class="equation">\[u_x=e^x\cos y=v_y,\qquad v_x=e^x\sin y=-u_y.\]</div>
+<p>これらの偏導関数は全平面で連続で、コーシー–リーマンの関係式を満たす。したがって\(e^z\)は全平面で正則である。第2回で示した微分係数の式を\(z_0=x_0+iy_0\)で使うと、</p>
+<div class="equation">\[\begin{aligned}
+f'(z_0)&=u_x(x_0,y_0)+i\,v_x(x_0,y_0)\\
+&=v_y(x_0,y_0)-i\,u_y(x_0,y_0)\\
+&=e^{x_0}(\cos y_0+i\sin y_0)=e^{z_0}.
+\end{aligned}\]</div>
+<p>実軸方向からの差商の極限が1行目、虚軸方向からの極限が2行目に対応する。<strong>2方向で一致するだけでは十分ではなく、偏導関数の連続性とCRによって、すべての方向から同じ極限になることが保証される。</strong></p>
+</aside>
+<div class="equation">\[\cos z=\frac{e^{iz}+e^{-iz}}2,\qquad\sin z=\frac{e^{iz}-e^{-iz}}{2i},\qquad\tan z=\frac{\sin z}{\cos z}.\]</div>
+<p>複素数の三角関数は、角の図形的な意味より、この定義へ戻すと計算しやすい。例えば\(z=i\)なら\(e^{iz}=e^{-1}\)、\(e^{-iz}=e\)となる。今期の10月演習・問7〜9は、値・恒等式・方程式をこの形に直す練習に対応する。</p>
+
+</div></section>
+<section class="explanation" id="slide-004"><div class="explanation-grid">
+<h3>解説 4　三角関数の性質・双曲三角関数</h3><span class="reading-time">想定読了時間 約2分</span>
+<figure class="slide"><a href="授業資料/a1.pdf#page=9" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/a1-p09.png" alt="工業数学A1 a1.pdf PDF p.9の原ページ" width="2480" height="3508" loading="lazy"></a></figure>
+<p class="source">原典：PDF p.9</p>
+
+<p class="claim">微分公式は実数の場合と同じ形で使えるが、分母が0になる点を除く。</p>
+<p>指数関数の定義から\(\cos^2z+\sin^2z=1\)、\((\cos z)'=-\sin z\)、\((\sin z)'=\cos z\)が従う。\(\sin z,\cos z\)は全平面で正則だが、\(\tan z\)は\(z=\pi/2+k\pi\)（\(k\in\mathbb Z\)、整数）では定義できない。それ以外で\((\tan z)'=1/\cos^2z\)。</p>
+<div class="equation">\[\cosh z=\frac{e^z+e^{-z}}2,\qquad\sinh z=\frac{e^z-e^{-z}}2,\qquad\tanh z=\frac{\sinh z}{\cosh z}.\]</div>
+<p>双曲三角関数は指数関数の和と差をまとめた関数。\(\cosh z=\cos(iz)\)、\(\sinh z=\sin(iz)/i\)なので、三角関数に虚数倍の引数を入れたものとも結びつく。</p>
+<div class="equation">\[\cosh^2z-\sinh^2z=1,\qquad(\cosh z)'=\sinh z,\quad(\sinh z)'=\cosh z.\]</div>
+<p>\(\cosh,\sinh\)は全平面で正則。\(\tanh z\)は\(z=i(\pi/2+k\pi)\)を除いて正則で、導関数は\(1/\cosh^2z\)。三角関数の恒等式とは二乗の間の符号が違うことに注意する。今期の10月演習・問10の倍角公式も、指数関数の積へ戻すと導ける。</p>
+<p>ページ末尾の式\(\cos(x+iy)=\cos x\cosh y-i\sin x\sinh y\)は、実部と虚部を読み取るための形。\(i\)の付かない項が実部、\(i\)の係数が虚部になる。複素数では\(\sin z,\cos z\)の値を実数の範囲\([-1,1]\)に制限できない。</p>
+
+</div></section>
+<section class="explanation" id="slide-005"><div class="explanation-grid">
+<h3>解説 5　正則な拡張と多価性への予告</h3><span class="reading-time">想定読了時間 約30秒</span>
+<figure class="slide"><a href="授業資料/a1.pdf#page=10" target="_blank" rel="noopener noreferrer"><img src="assets/lesson03/a1-p10.png" alt="工業数学A1 a1.pdf PDF p.10の原ページ" width="2480" height="3508" loading="lazy"></a></figure>
+<p class="source">原典：PDF p.10</p>
+
+<p class="claim">実数の関数を複素数へ広げるとき、一つの入力に一つの値を決められるかが問題になる。</p>
+<p>第3章はこのページ冒頭まで。指数・三角・双曲三角関数の正則な拡張が一意であることは、後の一致の定理で扱う。ここでは結論を知る概要でよい。</p>
+<p>対数・一般のべき乗・逆三角関数は、複素数に広げると複数の値を取り得る（多価性）。例えば\(e^{z+2\pi i}=e^z\)なので、指数関数を逆にたどっても\(z\)を一つには決められない。詳しい定義は後の範囲で学ぶ。画像の「第4章 複素積分」以降は第2回で扱った内容。</p>
+
+</div></section>
+</article>
+<nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><ul><li><a href="#summary">講義の要点</a></li><li><a href="#chapter-01">第4章 · pp.11–12</a><ul><li><a href="#slide-001">例4.2：線分と放物線に沿う積分</a></li><li><a href="#slide-002">例4.3・例4.4</a></li></ul></li><li><a href="#chapter-02">第3章 · pp.8–10冒頭</a><ul><li><a href="#slide-003">指数関数と三角関数の定義</a></li><li><a href="#slide-004">三角関数の性質・双曲三角関数</a></li><li><a href="#slide-005">正則な拡張と多価性への予告</a></li></ul></li></ul></div></nav></div><nav class="back-nav back-nav-bottom" aria-label="関連資料"><a href="第2回_初等関数と複素積分.html">第2回：正則関数の続きと複素積分</a></nav></main></div></body></html>

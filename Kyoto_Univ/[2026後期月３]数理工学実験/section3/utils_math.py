@@ -1,4 +1,4 @@
-
+from math import isfinite
 # ------------------------------
 # 課題1用の関数
 # ------------------------------
@@ -33,7 +33,7 @@ def bisection(f, a, b, epsilon=1e-12):
       b = c
 
 
-# ニュートン法
+# 方程式f(x)=0を解くニュートン法
 def newton(f, df, x0, epsilon=1e-12):
   # step0
   if not epsilon > 0:
@@ -52,3 +52,65 @@ def newton(f, df, x0, epsilon=1e-12):
     if abs(f(x)) <= epsilon:
       return x
     # step3: 更新したxでstep1へ
+
+# ------------------------------
+# 課題2用の関数
+# ------------------------------
+
+def f_2(x):
+  return (x**3)/3 - x**2 - 3*x + 5/3
+
+def grad_f_2(x):
+  return x**2 - 2*x - 3
+
+def hess_f_2(x):
+  return 2*x - 2
+
+# step2で使う最急降下方向
+def steepest_direction(x, grad):
+  # xは共通の呼び出し形式に合わせて受け取る
+  return -grad
+
+
+# step2で使うニュートン方向
+def newton_direction(x, grad, hess_f):
+  hess = hess_f(x)
+  return -grad / hess
+
+
+# 降下法
+def descent(
+    grad_f,
+    x0,
+    t_k,
+    direction=steepest_direction,
+    epsilon=1e-6,
+    max_iter=10000
+  ):
+  # step0:
+  if epsilon <= 0:
+    raise ValueError("ε <= 0")
+  if max_iter <= 0:
+    raise ValueError("最大反復回数が0以下です")
+
+  x = float(x0)
+
+  for k in range(max_iter + 1):
+
+    # step1
+    grad = grad_f(x)
+    if abs(grad) <= epsilon:
+      return x
+    if k == max_iter:
+      break
+
+    # step2
+    d = direction(x, grad)
+
+    # step3
+    t = t_k(k)
+
+    # step4
+    x = x + t * d
+
+  raise RuntimeError("最大反復回数の更新で収束しませんでした")

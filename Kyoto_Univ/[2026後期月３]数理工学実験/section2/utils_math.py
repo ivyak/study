@@ -1,5 +1,4 @@
 import random
-import numpy as np
 
 # ------------------------------
 # 課題1用の関数
@@ -199,65 +198,18 @@ def eigenvector_error(true_vector, eigenvector: list[float]):
 # ------------------------------
 
 
-def LU_decomposition_kadai5(A: list[list[float]]):
-  n: int = len(A)
-  U = np.array(A, dtype=float, copy=True)
-  L = np.eye(n)
-  P_pi = np.eye(n)
-
-  for i in range(n):
-    pivot_row = i + int(np.argmax(np.abs(U[i:, i])))
-    if U[pivot_row, i] == 0:
-      raise ValueError("特異行列のためLU分解で一意に解けません")
-    if pivot_row != i:
-      U[[i, pivot_row]] = U[[pivot_row, i]]
-      # Lでは計算済みの列だけを交換し、対角成分は動かさない
-      L[[i, pivot_row], :i] = L[[pivot_row, i], :i]
-      P_pi[[i, pivot_row]] = P_pi[[pivot_row, i]]
-
-    # 各行の消去係数を求め、右下の成分をまとめて更新する
-    factors = U[i + 1:, i] / U[i, i]
-    L[i + 1:, i] = factors
-    U[i + 1:, i] = 0
-    U[i + 1:, i + 1:] -= factors[:, None] * U[i, i + 1:]
-
-  return L.tolist(), U.tolist(), P_pi.tolist()
-
-def forward_substitution_LU_kadai5(L, P_pi, b: list[float]):
-  n: int = len(L)
-  L = np.asarray(L)
-  # 置換行列との積は、bの成分の並べ替えで求められる
-  Pb = np.asarray(b)[np.argmax(P_pi, axis=1)]
-  y = np.zeros(n)
-
-  for i in range(n):
-    sum_ly = L[i, :i] @ y[:i]
-    y[i] = Pb[i] - sum_ly
-  return y.tolist()
-
-def back_substitution_LU_kadai5(U, y: list[float]):
-  n: int = len(U)
-  U = np.asarray(U)
-  x = np.zeros(n)
-
-  for i in range(n - 1, -1, -1):
-    sum_ux = U[i, i + 1:] @ x[i + 1:]
-    x[i] = (y[i] - sum_ux) / U[i][i]
-  return x.tolist()
-
 def inverse_iteration(A: list[list[float]], sigma: float, x0=None, residual_tol=None):
   n: int = len(A)
   x: list[float] = list(x0) if x0 is not None else [random.random() for _ in range(n)]
   B = [[A[i][j] - (sigma if i == j else 0) for j in range(n)] for i in range(n)]
-  L, U, P_pi = LU_decomposition_kadai5(B)
-  L, U, P_pi = np.asarray(L), np.asarray(U), np.asarray(P_pi)
+  L, U, P_pi = LU_decomposition(B)
   mu: float = 0.0
   iteration_num: int = 0
 
   while True:
     # (1) (A - sigma I)y = x を、計算済みのLU分解で解く
-    z = forward_substitution_LU_kadai5(L, P_pi, x)
-    y = back_substitution_LU_kadai5(U, z)
+    z = forward_substitution_LU(L, P_pi, x)
+    y = back_substitution_LU(U, z)
     iteration_num += 1
 
     # (2) xの絶対値最大の成分を選び、muを求める
@@ -275,6 +227,67 @@ def inverse_iteration(A: list[list[float]], sigma: float, x0=None, residual_tol=
     x = [y[i] / y_norm for i in range(n)]
 
   return 1 / mu + sigma, x, iteration_num
+
+import numpy as np
+
+
+def power_method_numpy(A, x0=None, residual_tol=1e-8, max_iter=10000):
+  """NumPy版のべき乗法。残差ノルムで収束を判定する。"""
+  A = np.asarray(A, dtype=float)
+  x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
+  x /= np.max(np.abs(x))
+
+  for iteration_num in range(1, max_iter + 1):
+    y = A @ x
+    i = np.argmax(np.abs(x))
+    eigenvalue = y[i] / x[i]
+    # 計算済みのy = Axを使い、残差のための行列積を省く
+    if np.max(np.abs(y - eigenvalue * x)) <= residual_tol:
+      return eigenvalue, x, iteration_num
+    x = y / np.max(np.abs(y))
+
+  raise RuntimeError("最大反復回数までにべき乗法が収束しませんでした")
+
+
+def inverse_iteration_numpy(A, sigma, x0=None, residual_tol=1e-8, max_iter=10000):
+  """NumPy版の固定シフト逆反復法。Aは対称行列を想定する。"""
+  A = np.asarray(A, dtype=float)
+  x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
+  x /= np.max(np.abs(x))
+  if np.max(np.abs(A @ x - sigma * x)) <= residual_tol:
+    return sigma, x, 0
+  shifted_A = A - sigma * np.eye(len(A))
+
+  for iteration_num in range(1, max_iter + 1):
+    # NumPyの連立方程式ソルバで、(A - sigma I)y = xを解く
+    y = np.linalg.solve(shifted_A, x)
+    x = y / np.max(np.abs(y))
+    Ax = A @ x
+    # 対称行列の固有値をレイリー商で評価する
+    eigenvalue = (x @ Ax) / (x @ x)
+    if np.max(np.abs(Ax - eigenvalue * x)) <= residual_tol:
+      return eigenvalue, x, iteration_num
+
+  raise RuntimeError("最大反復回数までに逆反復法が収束しませんでした")
+
+
+def power_inverse_numpy(A, x0=None, power_iterations=3, residual_tol=1e-8):
+  """べき乗法を少数回行い、その結果を固定シフト逆反復法に渡す。"""
+  A = np.asarray(A, dtype=float)
+  x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
+  x /= np.max(np.abs(x))
+
+  for _ in range(power_iterations):
+    x = A @ x
+    x /= np.max(np.abs(x))
+
+  Ax = A @ x
+  sigma = (x @ Ax) / (x @ x)
+  eigenvalue, eigenvector, inverse_iter = inverse_iteration_numpy(
+      A, sigma, x0=x, residual_tol=residual_tol,
+  )
+  return eigenvalue, eigenvector, power_iterations + inverse_iter
+
 
 # ------------------------------
 # 課題6用の関数

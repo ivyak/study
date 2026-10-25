@@ -12,6 +12,7 @@ residual_tol = 1e-8  # 両手法を同じ精度（残差ノルム）まで計算
 output_dir = Path(__file__).with_name("figures")
 output_dir.mkdir(parents=True, exist_ok=True)
 methods = ("Power method", "Power + inverse")
+# 両手法ともNumPy版を使い、配列への変換も計測に含める
 metrics = (
     ("residual", "Residual Norm"),
     ("eigenvalue_error", "Relative Error (Eigenvalues)"),
@@ -33,12 +34,10 @@ for k in range(100):
   for method in methods[::1 if k % 2 == 0 else -1]:
     start: float = time.perf_counter()
     if method == "Power method":
-      eigenvalue, eigenvector, iter_num = utils_math.power_method(B, x0=x0, residual_tol=residual_tol)
+      eigenvalue, eigenvector, iter_num = utils_math.power_method_numpy(B, x0=x0, residual_tol=residual_tol)
     else:
-      # べき乗法は粗い精度で止め、その結果から逆反復法を始める
-      sigma, x, power_iter = utils_math.power_method(B, tol=1e-2, x0=x0)
-      eigenvalue, eigenvector, inverse_iter = utils_math.inverse_iteration(B, sigma, x0=x, residual_tol=residual_tol)
-      iter_num = power_iter + inverse_iter
+      # べき乗法を3回だけ行い、その結果から逆反復法を始める
+      eigenvalue, eigenvector, iter_num = utils_math.power_inverse_numpy(B, x0=x0, residual_tol=residual_tol)
     elapsed = time.perf_counter() - start
 
     result = results[method]
@@ -57,7 +56,7 @@ for metric, ylabel in metrics:
         range(1, len(values) + 1), values,
         ax=ax,
         label=method,
-        title=f"n = {n}: {ylabel}",
+        title=f"n = {n} (NumPy): {ylabel}",
         xlabel="trials",
         ylabel=ylabel,
         yscale="linear" if metric == "iterations" else "log",

@@ -149,15 +149,17 @@ def power_method(A: list[list[float]]):
   iteration_num: int = 0
   while True:
     y: list[float] = matrix_vector_product(A, x)
+    iteration_num += 1
 
     mu_prev: float = mu
-    mu: float = infinity_norm(y) / infinity_norm(x)
+    i = max(range(len(x)), key=lambda j: abs(x[j]))
+    mu: float = y[i] / x[i]
 
     if abs(mu - mu_prev) / abs(mu) < 1e-6:
       break
 
-    x: list[float] = [y[i] / infinity_norm(y) for i in range(len(y))]
-    iteration_num += 1
+    y_norm = infinity_norm(y)
+    x: list[float] = [y[i] / y_norm for i in range(len(y))]
   return mu, x, iteration_num
 
 
@@ -188,3 +190,83 @@ def eigenvector_error(true_vector, eigenvector: list[float]):
         eigenvector_normalized = [-x for x in eigenvector_normalized]
 
     return relative_error(true_vector_normalized, eigenvector_normalized)
+
+# ------------------------------
+# 課題5用の関数
+# ------------------------------
+
+def inverse_iteration(A: list[list[float]], sigma: float):
+  n: int = len(A)
+  x: list[float] = [random.random() for _ in range(n)]
+  B = [[A[i][j] - (sigma if i == j else 0) for j in range(n)] for i in range(n)]
+  L, U, P_pi = LU_decomposition(B)
+  mu: float = 0.0
+  iteration_num: int = 0
+
+  while True:
+    # (1) (A - sigma I)y = x を、計算済みのLU分解で解く
+    z = forward_substitution_LU(L, P_pi, x)
+    y = back_substitution_LU(U, z)
+    iteration_num += 1
+
+    # (2) xの絶対値最大の成分を選び、muを求める
+    mu_prev = mu
+    i = max(range(n), key=lambda j: abs(x[j]))
+    mu = y[i] / x[i]
+
+    # (3) muが十分収束したら終了する
+    if abs(mu - mu_prev) < 1e-6 * abs(mu):
+      break
+
+    # (4) 次の反復のベクトルを最大値ノルムで正規化する
+    y_norm = infinity_norm(y)
+    x = [y[i] / y_norm for i in range(n)]
+
+  return 1 / mu + sigma, x, iteration_num
+
+# ------------------------------
+# 課題6用の関数
+# ------------------------------
+
+def modified_gram_schmidt(A):
+  n = len(A)
+
+  Q = [[0 for _ in range(n)] for _ in range(n)]
+  R = [[0 for _ in range(n)] for _ in range(n)]
+
+  for j in range(n):
+    b = [A[k][j] for k in range(n)]
+    # (1) 残りのベクトルbから、q_i方向の成分を順に取り除く
+    for i in range(j):
+      R[i][j] = sum(Q[k][i] * b[k] for k in range(n))
+      b = [b[k] - R[i][j] * Q[k][i] for k in range(n)]
+
+    # (2) r_jj = ||b||_2、q_j = b / r_jj
+    R[j][j] = sum(abs(x)**2 for x in b)**0.5
+    for k in range(n):
+      Q[k][j] = b[k] / R[j][j]
+
+  return Q, R
+
+
+def QR_method(A, epsilon=1e-6, max_iter=10000):
+  n = len(A)
+
+  Ak = [row[:] for row in A]
+
+  for iteration_num in range(max_iter + 1):
+
+    # (1) 全ての狭義下三角成分を、同じ行の対角成分と比較する
+    if all(abs(Ak[i][j]) <= epsilon * abs(Ak[i][i])
+        for i in range(n) for j in range(i)):
+      return [Ak[i][i] for i in range(n)], iteration_num
+    if iteration_num == max_iter:
+      break
+
+    # (2) Ak = Qk Rk
+    Q, R = modified_gram_schmidt(Ak)
+    # (3) A_{k+1} = Rk Qk
+    Ak = [[sum(R[i][k] * Q[k][j] for k in range(n))
+      for j in range(n)] for i in range(n)]
+
+  raise RuntimeError("最大反復回数までにQR法が収束しませんでした")

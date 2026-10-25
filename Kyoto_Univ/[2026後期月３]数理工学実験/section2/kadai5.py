@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import utils_math
-import utils_math_kadai5
 from utils_plot import plot_f
 import numpy as np
 import matplotlib.pyplot as plt
@@ -34,11 +33,11 @@ for k in range(100):
   for method in methods[::1 if k % 2 == 0 else -1]:
     start: float = time.perf_counter()
     if method == "Power method":
-      eigenvalue, eigenvector, iter_num = utils_math_kadai5.power_method(B, x0=x0, residual_tol=residual_tol)
+      eigenvalue, eigenvector, iter_num = utils_math.power_method(B, x0=x0, residual_tol=residual_tol)
     else:
       # べき乗法は粗い精度で止め、その結果から逆反復法を始める
-      sigma, x, power_iter = utils_math_kadai5.power_method(B, tol=1e-2, x0=x0)
-      eigenvalue, eigenvector, inverse_iter = utils_math_kadai5.inverse_iteration(B, sigma, x0=x, residual_tol=residual_tol)
+      sigma, x, power_iter = utils_math.power_method(B, tol=1e-2, x0=x0)
+      eigenvalue, eigenvector, inverse_iter = utils_math.inverse_iteration(B, sigma, x0=x, residual_tol=residual_tol)
       iter_num = power_iter + inverse_iter
     elapsed = time.perf_counter() - start
 

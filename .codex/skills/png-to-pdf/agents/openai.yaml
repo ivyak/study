@@ -1,0 +1,4 @@
+interface:
+  display_name: "PNGフォルダをPDF化"
+  short_description: "指定フォルダのPNGをファイル名順に並べ、指定した名前のPDFにまとめる"
+  default_prompt: "$png-to-pdf で、指定フォルダのPNGを名前順にまとめ、指定したPDF名で保存してください。"

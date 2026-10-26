@@ -1,0 +1,142 @@
+{
+  "tab:g-summary": {
+    "number": "1",
+    "printed_page": "2"
+  },
+  "fig:g-res": {
+    "number": "1",
+    "printed_page": "2"
+  },
+  "fig:g-err": {
+    "number": "2",
+    "printed_page": "3"
+  },
+  "fig:g-time": {
+    "number": "3",
+    "printed_page": "4"
+  },
+  "tab:lu-summary": {
+    "number": "2",
+    "printed_page": "5"
+  },
+  "fig:lu-res": {
+    "number": "4",
+    "printed_page": "6"
+  },
+  "fig:lu-err": {
+    "number": "5",
+    "printed_page": "7"
+  },
+  "fig:lu-time": {
+    "number": "6",
+    "printed_page": "8"
+  },
+  "tab:paired": {
+    "number": "3",
+    "printed_page": "9"
+  },
+  "tab:operations": {
+    "number": "4",
+    "printed_page": "9"
+  },
+  "eq:power-stop": {
+    "number": "1",
+    "printed_page": "10"
+  },
+  "tab:power": {
+    "number": "5",
+    "printed_page": "10"
+  },
+  "fig:p-res": {
+    "number": "7",
+    "printed_page": "11"
+  },
+  "fig:p-eval": {
+    "number": "8",
+    "printed_page": "12"
+  },
+  "fig:p-evec": {
+    "number": "9",
+    "printed_page": "13"
+  },
+  "fig:p-time": {
+    "number": "10",
+    "printed_page": "14"
+  },
+  "fig:p-iter": {
+    "number": "11",
+    "printed_page": "15"
+  },
+  "tab:ratio": {
+    "number": "6",
+    "printed_page": "16"
+  },
+  "eq:sigma-inverse": {
+    "number": "2",
+    "printed_page": "16"
+  },
+  "tab:inverse": {
+    "number": "7",
+    "printed_page": "17"
+  },
+  "fig:pi": {
+    "number": "12",
+    "printed_page": "18"
+  },
+  "eq:qr-stop": {
+    "number": "3",
+    "printed_page": "19"
+  },
+  "tab:qr": {
+    "number": "8",
+    "printed_page": "19"
+  },
+  "fig:qr-res": {
+    "number": "13",
+    "printed_page": "20"
+  },
+  "fig:qr-err": {
+    "number": "14",
+    "printed_page": "21"
+  },
+  "fig:qr-time": {
+    "number": "15",
+    "printed_page": "22"
+  },
+  "fig:qr-iter": {
+    "number": "16",
+    "printed_page": "23"
+  },
+  "eq:shift": {
+    "number": "4",
+    "printed_page": "24"
+  },
+  "eq:deflation": {
+    "number": "5",
+    "printed_page": "24"
+  },
+  "tab:shift": {
+    "number": "9",
+    "printed_page": "25"
+  },
+  "tab:shift-speed": {
+    "number": "10",
+    "printed_page": "25"
+  },
+  "fig:s-res": {
+    "number": "17",
+    "printed_page": "26"
+  },
+  "fig:s-err": {
+    "number": "18",
+    "printed_page": "27"
+  },
+  "fig:s-time": {
+    "number": "19",
+    "printed_page": "28"
+  },
+  "fig:s-iter": {
+    "number": "20",
+    "printed_page": "29"
+  }
+}

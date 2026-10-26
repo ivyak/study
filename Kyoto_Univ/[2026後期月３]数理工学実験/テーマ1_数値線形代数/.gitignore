@@ -1,0 +1,5 @@
+*.aux
+*.out
+*.xdv
+*.synctex.gz
+/report_template.pdf

@@ -1,130 +1,204 @@
-\documentclass[a4paper,11pt]{ujarticle}
-\usepackage[dvipdfmx]{graphicx}
+\documentclass[a4paper,11pt]{article}
+\usepackage{fontspec,xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Hiragino Sans}
+\usepackage{graphicx,booktabs,float,placeins,longtable,array,xcolor,hyperref}
+\renewcommand{\figurename}{図}
+\renewcommand{\tablename}{表}
+\renewcommand{\contentsname}{目次}
+\renewcommand{\abstractname}{アブストラクト}
+\linespread{1.12}
+\hypersetup{unicode=true,hidelinks}
 \usepackage{amsmath,amssymb}
 \usepackage{listings}
 \usepackage{geometry}
 \usepackage{ascmac}
-\geometry{margin=25mm}
+\geometry{margin=23mm}
 \lstset{basicstyle=\ttfamily\small,frame=single,breaklines=true,numbers=left}
-\newcommand{\todo}[1]{\par\noindent\fbox{\parbox{.94\linewidth}{\textbf{TODO（本人が記入）}：#1}}\par}
-\newcommand{\source}[1]{\par\noindent{\small\textbf{原典}：数理工学実験2026，第2章，#1（PDFページ＝印刷ページ）}\par}
-\newcommand{\answer}{\par\noindent\textbf{解答・実験記録}\par}
+\newcommand{\reportfig}[3]{\begin{figure}[htbp]\centering\includegraphics[width=\linewidth,height=.75\textheight,keepaspectratio]{figures/#1.pdf}\caption{#3}\label{#2}\end{figure}}
+\input{tables.tex}
 \begin{document}
+\hypersetup{pageanchor=false}
 \begin{titlepage}
 \centering
 {\Large 数理工学実験\par}
 \vspace{12mm}
 {\LARGE テーマ1：数値線形代数\par}
 \vspace{8mm}
-{\large 第2章レポートひな型（未完成）\par}
+{\large 数値実験レポート\par}
 \vspace{25mm}
 \begin{tabular}{ll}
-実験日 & \underline{\hspace{85mm}}\\[8mm]
-提出日 & \underline{\hspace{85mm}}\\[8mm]
-提出先 & \underline{\hspace{85mm}}\\[8mm]
-氏名 & \underline{\hspace{85mm}}\\[8mm]
-学籍番号 & \underline{\hspace{85mm}}
+提出日 & 2026年10月26日\\[8mm]
+学年 & 2回生\\[8mm]
+氏名 & 井上慧人\\[8mm]
+学籍番号 & 1029374191
 \end{tabular}
 \vfill
 \end{titlepage}
+\pagenumbering{arabic}
+\hypersetup{pageanchor=true}
 
-\section{要約}
-\todo{目的、実施した課題、主要な結果、結論を実験後に簡潔に記す。}
+\begin{abstract}
+消去法とLU法、べき乗法やQR法を使い、誤差と計算時間を比べた。消去法とLU法の計算時間の増え方は、$O(n^3)$から予想されるものに近かった。べき乗法と逆反復法を組み合わせると、100次では約1.27倍速くなった。通常のQR法は400回中267回、シフト・減次法は400回すべてで収束した。
+\end{abstract}
 
 \section{目的・共通条件}
-本章では連立1次方程式（2.1）と固有値問題（2.2）を扱う。
-\begin{align*}Ax&=b &&\text{(2.1)}, & Ax&=\lambda x &&\text{(2.2)}.\end{align*}
-以下の課題文は教材の第2章2.5節から転記した。数値計算パッケージの値は教材の指示に沿った\emph{参照値}として扱い、厳密解と混同しない。
-\source{pp.19, 29--30}
-\todo{実際の実行環境、言語、数値型、乱数生成法・シード、停止条件、時間計測範囲、使用したノルム、記号と単位、参照値を得たパッケージと版を記す。}
-\noindent 教材で参照する評価量は次のとおりである。
-\begin{align*}
-\text{連立方程式の相対誤差（2.4）}&\quad \frac{\|x-\tilde x\|}{\|x\|},\\
-\text{連立方程式の残差（2.5）}&\quad \|b-A\tilde x\|,\\
-\text{固有値の相対誤差（2.10）}&\quad \frac{|\lambda_i-\tilde\lambda_i|}{|\lambda_i|},\\
-\text{固有ベクトルの相対誤差（2.11）}&\quad \frac{\|v_i-\tilde v_i\|}{\|v_i\|},\\
-\text{固有方程式の残差（2.12）}&\quad \|\tilde\lambda_i\tilde v_i-A\tilde v_i\|.
-\end{align*}
-式(2.11)の比較ではノルムと符号・位相をそろえる条件がある。
-\source{pp.20, 23}
+\begin{itemize}
+\item \textbf{今回の実験の目的}：連立方程式$Ax=b$と固有値問題$Av=\lambda v$をいくつかの方法で解き、誤差と計算時間を比べた。
+\item \textbf{環境}：MacBook Air（M2・2022）、メモリ24 GB、macOS Tahoe 26.3。
+\item \textbf{実装}：Python 3.9.6、NumPy 2.0.2、SciPy 1.13.1、Matplotlib 3.9.4。課題6・7はC++17（\texttt{-O2}）とAccelerate/LAPACKを用いた。計算には倍精度の数値を使った。
+\item \textbf{入力}：各成分は、それぞれ独立な一様乱数$U[0,1)$で作った。固有値を求める実験では$A=G+G^{\mathsf T}$を用いた。
+\item \textbf{比較に使う値}：連立方程式には\texttt{numpy.linalg.solve}、固有値には\texttt{eigh}またはLAPACKの\texttt{dsyev}を用いた。これらも数値計算で求めた値であり、厳密な解ではない。
+\item \textbf{ノルム}：ノルムは主に$\|z\|_\infty=\max_i|z_i|$を用いた。
+\end{itemize}
 
 \section{課題1・2：連立1次方程式}
 \subsection{課題1：消去法}
-\source{p.29，課題1}
 \begin{itembox}[l]{課題1（共通）}
-消去法により，連立1次方程式 (2.1) の解を求める数値実験を行う．
+消去法により，連立1次方程式 $Ax=b$ の解を求める数値実験を行う．
 \[n=100,200,400,800\]
-のそれぞれに対して，$n$ 次の行列 $A$ とベクトル $b$ のペアをランダムに100個生成し，各ペアに対して連立1次方程式 (2.1) の数値解を求めよ．
+のそれぞれに対して，$n$ 次の行列 $A$ とベクトル $b$ のペアをランダムに100個生成し，各ペアに対して連立1次方程式 $Ax=b$ の数値解を求めよ．
 \end{itembox}
 \begin{itembox}[l]{課題1-(1)}
-各 $n$ に対して，数値解 $\tilde x$ の残差ノルム (2.5)，相対誤差 (2.4)，計算時間をそれぞれプロットせよ．ただし真の解は不明なので，MATLAB や Python における数値計算パッケージで得られるものを真の解として用いよ．
+各 $n$ に対して，数値解 $\tilde x$ の残差ノルム，相対誤差，計算時間をそれぞれプロットせよ．ただし真の解は不明なので，MATLAB や Python における数値計算パッケージで得られるものを真の解として用いよ．
 \end{itembox}
-\answer
-\todo{消去法とピボット選択の実装、提出コード名、行列・右辺の生成条件、参照解の算出法を記す。各次元100件の残差・相対誤差・時間を単位とともに図示し、本文で図番号を参照する。}
+\paragraph{計算方法}
+部分ピボット付き消去法を使った。それぞれの列で絶対値が最大の成分を選び、必要に応じて行を入れ替える設計にした。その後、前進消去と後退代入を行った。使った関数は\texttt{Gaussian\_elimination}である。
+
+\paragraph{結果}
+図\ref{fig:g-res}--\ref{fig:g-time}に各次数100試行、表\ref{tab:g-summary}に中央値を示した。
+
+\begin{table}[H]\centering\caption{消去法の各100試行の中央値}\label{tab:g-summary}\LinearGaussian\end{table}
+\reportfig{kadai1_1_residual}{fig:g-res}{消去法の残差$\|b-A\tilde x\|_\infty$。各グラフ100試行。左上から$n=100,200,400,800$。横軸は試行番号、縦軸は対数。}
+\reportfig{kadai1_1_error}{fig:g-err}{消去法の比較用の解に対する相対誤差。グラフの並び、試行数、横軸は図\ref{fig:g-res}と同じ。縦軸は対数。}
+\reportfig{kadai1_1_time}{fig:g-time}{消去法の計算時間（秒）。各次数100試行、対数縦軸。入力作成、比較用の計算、誤差計算、図の作成は時間に含めていない。}
+\FloatBarrier
 \begin{itembox}[l]{課題1-(2)}
 数値解の精度と次数 $n$ の関係について考察せよ．
 \end{itembox}
-\answer
-\todo{精度と次数の観測結果を示し、その結果から考察する。}
+\paragraph{結果}
+100次から800次で、残差の中央値は$1.70\times10^{-14}$から$7.46\times10^{-13}$、相対誤差の中央値は$1.06\times10^{-14}$から$2.37\times10^{-13}$へ増加している。
+
+\paragraph{考察}
+行列が大きくなると計算の回数が増えるため、丸め誤差もたまりやすくなると考える。
+
 \begin{itembox}[l]{課題1-(3)}
 計算時間と次数 $n$ の関係について考察せよ．
 \end{itembox}
-\answer
-\todo{時間と次数の観測結果、計測単位を示し、その結果から考察する。}
+\paragraph{結果}
+計算時間の中央値は$0.0447,0.342,3.18,20.2$秒で、次数を2倍にしたときの計算時間の比を計算すると$7.65,9.31,6.36$になる。
+
+\paragraph{考察}
+前進消去は$O(n^3)$、後退代入は$O(n^2)$であり、次数を2倍にすると計算時間は約8倍になると考えられる。実際の結果もこれに近い。丁度8倍にならないのは、Pythonの処理やメモリの使い方、実行中のパソコンの負荷が影響したためと考える。
 
 \subsection{課題2：LU分解による解法}
-\source{p.29，課題2}
 \begin{itembox}[l]{課題2}
 課題1と同じ内容を，LU 分解による解法に替えて行え．
 \end{itembox}
-\answer
-\todo{課題1と同じ入力・参照解・計測条件で行ったことを示す。分解・前進代入・後退代入、コード名、(1) の3種類の図と (2)(3) の考察を記す。行交換の扱いを明示する。}
+\paragraph{計算方法}
+部分ピボット付き分解$PA=LU$の後、$Ly=Pb$と$U\tilde x=y$を解いた。行を入れ替えるときは、$L$ではすでに計算した列だけを入れ替えた。使った関数は\texttt{LU\_solve}である。
+
+\paragraph{結果と考察}
+各100試行の結果を図\ref{fig:lu-res}--\ref{fig:lu-time}、中央値を表\ref{tab:lu-summary}に示した。誤差は消去法とほぼ同じ大きさで、次数が増えると誤差も大きくなった。どちらも前進消去を使うため、結果が似たと考える。
+
+\begin{table}[H]\centering\caption{LU法の各100試行の中央値}\label{tab:lu-summary}\LinearLU\end{table}
+\paragraph{計算時間の考察}
+計算時間の中央値は$0.0466,0.352,3.34,18.6$秒であった。毎回LU分解を行ったため、計算全体では$O(n^3)$かかる。
+
+\reportfig{kadai2_1_residual}{fig:lu-res}{LU法の残差。左上から$n=100,200,400,800$、各100試行。縦軸は対数、ノルムは無限大ノルム。}
+\reportfig{kadai2_1_error}{fig:lu-err}{LU法の相対誤差。グラフの並びは図\ref{fig:lu-res}と同じ。比較用の解はNumPyで求めている。}
+\reportfig{kadai2_1_time}{fig:lu-time}{LU法の計算時間（秒）。分解、前進代入、後退代入を含めた解法全体を計測した。}
+\FloatBarrier
 
 \subsection{課題3：両解法の比較}
-\source{p.29，課題3}
 \begin{itembox}[l]{課題3}
 連立1次方程式に対する消去法と LU 分解による解法を，数値解の精度と計算速度の観点から比較せよ．その際，理論的な計算量（加減算，乗算，除算それぞれの回数）についても考察せよ．
 \end{itembox}
-\answer
-\todo{同一入力に対する精度・時間の比較表または図を示す。実測と理論的な加減算・乗算・除算回数を区別し、数え方と比較条件を記す。}
+\paragraph{同じ入力での比較}
+各次数で同じ$(A,b)$を3組生成し、消去法とLU法を比較した。計算する順番を毎回入れ替え、中央値を表\ref{tab:paired}に示した。
+
+\begin{table}[H]\centering\small\caption{同じ入力に対する追加比較。各次数3組の中央値}\label{tab:paired}\PairedSummary\end{table}
+どちらの方法も誤差はほぼ同じで、計算時間にも大きな差はなかった。
+
+\paragraph{四則演算回数}
+比較・行交換・代入を除き、内積の各積を0へ加える操作も1回の加算と数えた。
+\[m=\frac{n(n-1)}2,\qquad S=\sum_{r=1}^{n-1}r^2=\frac{n(n-1)(2n-1)}6.\]
+消去法の前進消去は、ピボット列と右辺を含む成分を更新するため、乗算・減算が各$S+2m$回となる。LU分解では各$S$回である。代入と$Pb$の計算を加えた回数を表\ref{tab:operations}に示した。普通の行列とベクトルの積として計算したため、乗算・加算が各$n^2$回加わる。
+
+\begin{table}[H]\centering\caption{1本の右辺を解く際の実装に対応した演算回数。}\label{tab:operations}
+\begin{tabular}{lccc}\toprule 手法 & 加減算 & 乗算 & 除算\\\midrule
+消去法 & $S+3m+n$ & $S+3m$ & $m+n$\\
+LU法 & $S+2m+2n+n^2$ & $S+2m+n^2$ & $m+n$\\\bottomrule\end{tabular}\end{table}
+
 
 \section{課題4・5：第1固有値と第1固有ベクトル}
 \subsection{課題4：べき乗法}
-\source{p.29，課題4}
 \begin{itembox}[l]{課題4（共通）}
 べき乗法により，行列 $A$ の第1固有値と第1固有ベクトルを求める数値実験を行う．
 \[n=50,100,200,400\]
 のそれぞれに対して，$n$ 次行列 $A$ をランダムに100個生成し，各 $A$ の第1固有値と第1固有ベクトルを数値的に求めよ．
 \end{itembox}
 \begin{itembox}[l]{課題4-(1)}
-各 $n$ に対して，数値的に求めた第1固有値 $\tilde\lambda_1$ と第1固有ベクトル $\tilde v_1$ に対する固有方程式の残差ノルム (2.12)，$\tilde\lambda_1$ の相対誤差 (2.10)，$\tilde v_1$ の相対誤差 (2.11)，計算時間，収束までに要した反復回数をそれぞれプロットせよ．
+各 $n$ に対して，数値的に求めた第1固有値 $\tilde\lambda_1$ と第1固有ベクトル $\tilde v_1$ に対する固有方程式の残差ノルム，$\tilde\lambda_1$ の相対誤差，$\tilde v_1$ の相対誤差，計算時間，収束までに要した反復回数をそれぞれプロットせよ．
 \end{itembox}
-\answer
-\todo{行列生成、初期ベクトル、停止条件、未収束の扱い、参照固有対と符号・位相の対応、コード名を記す。5種類の図を作成し、本文で参照する。}
+\paragraph{計算方法と条件}
+$y_k=Ax_k$を計算し、$x_k$の絶対値最大成分$i$で$\mu_k=y_{k;i}/x_{k;i}$とした。停止条件は
+\begin{equation}\frac{|\mu_k-\mu_{k-1}|}{|\mu_k|}<10^{-6}\label{eq:power-stop}\end{equation}
+とした。この条件を満たさないときは$x_{k+1}=y_k/\|y_k\|_\infty$とした。最初のベクトルは一様乱数で作った。使った関数は\texttt{power\_method}で、比較用の計算には\texttt{numpy.linalg.eigh}を用いた。
+
+\paragraph{結果}
+図\ref{fig:p-res}--\ref{fig:p-iter}に5つの量、表\ref{tab:power}に中央値を示した。
+
+\begin{table}[H]\centering\small\caption{べき乗法の100試行の中央値。残差は無限大ノルム、時間は秒。}\label{tab:power}\PowerSummary\end{table}
+\reportfig{kadai4_residual}{fig:p-res}{べき乗法の残差。左上から$n=50,100,200,400$、各100試行}
+\reportfig{kadai4_eigenvalue_error}{fig:p-eval}{べき乗法の第1固有値の相対誤差。}
+\reportfig{kadai4_eigenvector_error}{fig:p-evec}{べき乗法の第1固有ベクトルの相対誤差。}
+\reportfig{kadai4_time}{fig:p-time}{べき乗法の計算時間（秒）。入力生成と参照の計算は計算時間に含めていない。}
+\reportfig{kadai4_iterations}{fig:p-iter}{べき乗法の反復回数。グラフの並びは図\ref{fig:p-res}と同じ。縦軸だけ通常の目盛。}
+\FloatBarrier
 \begin{itembox}[l]{課題4-(2)}
 $\tilde\lambda_1,\tilde v_1$ の精度と次数 $n$ の関係について考察せよ．
 \end{itembox}
-\answer
-\todo{固有値・固有ベクトルの精度について、観測結果と考察を分けて記す。}
+\paragraph{結果}
+固有値相対誤差は主に$10^{-8}$、固有ベクトル相対誤差は$10^{-8}$--$10^{-7}$の桁であった。次数が大きいほど誤差も大きくなる、という結果にはならなかった。
+
+\paragraph{考察}
+表\ref{tab:ratio}を見ると、固有値の比$|\lambda_2/\lambda_1|$が約0.111から0.0405へ小さくなっている。このため、大きな行列でも第1固有ベクトル以外の成分が1回の反復で減りやすくなり、精度を保てていたのではないかと考える。
+
 \begin{itembox}[l]{課題4-(3)}
 計算時間と次数 $n$ の関係について考察せよ．
 \end{itembox}
-\answer
-\todo{時間と次数の観測結果、単位、反復回数との関係を記して考察する。}
-\noindent\textbf{注意2.5.1（p.29）}　べき乗法や QR 法の収束性は，与えられた行列の固有値の絶対値がすべて相異なる場合に保証される．しかし，ランダムな実行列は共役な複素固有値を含む可能性があり，その場合にはアルゴリズムの収束が保証されない．そこで，生成した実行列 $A$ にその転置 $A^{\mathsf T}$ を加えるなどして実対称行列を生成し，それを用いて実験するなどの工夫をすると良い．
-\todo{注意2.5.1を踏まえ、実際に使用した行列の種類を課題4-(1)に記す。}
+\paragraph{結果}
+反復回数の中央値は8,7,6,6回とやや減ったが、計算時間は次数とともに増加した。
 
+\paragraph{考察}
+1回の反復にかかる計算量は$O(n^2)$、全体は$O(Kn^2)$である。今回は反復回数$K$が少し減っているので、1回の行列とベクトルの積にかかる時間が増えたことが主な原因だと考えられる。
+
+\begin{table}[H]\centering\caption{課題4で比較用の固有値から測った$|\lambda_2/\lambda_1|$の中央値。}\label{tab:ratio}\SpectralSummary\end{table}
 \subsection{課題5：べき乗法と逆反復法}
-\source{p.30，課題5}
 \begin{itembox}[l]{課題5}
 べき乗法と逆反復法を組み合わせて，第1固有値と第1固有ベクトルを数値的に求めるための算法として，べき乗法より高速なものをつくれ．つくった算法とべき乗法を精度と速度の面から比較せよ．
 \end{itembox}
-\answer
-\todo{組合せた算法、シフトの選び方・更新法、停止条件、提出コード名を記す。課題4と比較可能な入力・精度指標・時間計測範囲で結果を示し、観測と考察を分ける。}
+\paragraph{組み合わせた方法}
+べき乗を4回行った後、得られた$x$のレイリー商と言われるものを、シフトの値として使っている。途中でこの値は変えていない。
+\begin{equation}\sigma=\frac{x^{\mathsf T}Ax}{x^{\mathsf T}x}\label{eq:sigma-inverse}\end{equation}
+その後$(A-\sigma I)y=x$を繰り返し解き、無限大ノルムが1になるように大きさをそろえた。固有値はレイリー商で求め、LU分解は最初に求めたものを使い回した。どちらの方法も残差$10^{-12}$以下で停止し、上限は10000回を条件としている。
+
+\paragraph{比較条件と結果}
+$n=100$の同じ行列・初期ベクトル100組を用い、計算順を交替した。結果を表\ref{tab:inverse}と図\ref{fig:pi}に示した。(課題4とは停止条件を変更しており、ここで調べた2つの方法の間で比べている。)
+
+\begin{table}[H]\centering\small\caption{課題5の100組での比較の中央値。どちらの方法も残差の判定値は$10^{-12}$。}\label{tab:inverse}\InverseSummary\end{table}
+
+
+\begin{figure}[p]\centering
+\includegraphics[width=\linewidth,height=.84\textheight,keepaspectratio]{figures/kadai5_comparison.pdf}
+\caption{課題5の100組での比較。$n=100$、同じ行列・初期ベクトルを使用。青はべき乗法、橙は組合せ法。(a) 残差、(b) 固有値相対誤差、(c) 固有ベクトル相対誤差、(d) 計算時間（秒）、(e) 反復回数。組合せ法の時間にはLU分解、反復数にはべき乗4回を含む。誤差0の点は対数軸に表示されない。}\label{fig:pi}
+\end{figure}
+\FloatBarrier
 
 \section{課題6・7：全固有値}
 \subsection{課題6：QR法}
-\source{p.30，課題6}
 \begin{itembox}[l]{課題6（共通）}
 QR 法により，行列 $A$ の全ての固有値を求める数値実験を行う．
 \[n=10,20,40,80\]
@@ -139,52 +213,71 @@ QR 法により，行列 $A$ の全ての固有値を求める数値実験を行
 \begin{equation*}\max_{1\le i\le n}\frac{|\lambda_i-\tilde\lambda_i|}{|\lambda_i|},\end{equation*}
 計算時間，収束までに要した反復回数をそれぞれプロットせよ．ただし真の固有値 $\lambda_i$ と固有ベクトル $v_i$ は不明なので，MATLAB や Python における数値計算パッケージで得られるものを真の固有値および固有ベクトルとして用いよ．
 \end{itembox}
-\answer
-\todo{QR分解法、収束判定、固有値の対応づけ、参照固有対の計算法とコード名を記す。原式は $v_i$ を使用しているので、評価に用いた参照ベクトルを明示する。4種類の図を示す。}
+\paragraph{計算方法}
+修正Gram--Schmidt法で$A_k=Q_kR_k$を求め、$A_{k+1}=R_kQ_k$とした。停止条件は、式変形をし
+\begin{equation}|a_{k;i,j}|\leq10^{-6}|a_{k;i,i}|\label{eq:qr-stop}\end{equation}
+とした。10000回までに収束しな買った場合はNaNとして記録している。比較用の固有値と固有ベクトルはLAPACKの\texttt{dsyev}で求め、固有値を小さい順に並べて比べている。
+
+\paragraph{結果}
+表\ref{tab:qr}に収束した回数と、その結果の中央値を示した。400試行中267件が収束し、133件は未収束であった。収束しなかった結果は、図に載せず中央値の計算にも含めなかった。
+
+\begin{table}[H]\centering\small\caption{課題6。成功数は100回中で収束した回数。数値は収束した結果だけの中央値で、収束しなかった場合の誤差は含まない。}\label{tab:qr}\QRSummary\end{table}
+図\ref{fig:qr-res}--\ref{fig:qr-iter}は指定された4つの量である。
+\reportfig{kadai6_1_residual}{fig:qr-res}{通常QR法の最大残差。左上から$n=10,20,40,80$、各100試行を実行し、収束した97,95,64,11回分だけを表示した}
+\reportfig{kadai6_1_error}{fig:qr-err}{通常QR法の固有値最大相対誤差。収束しなかった点は表示しなかった。固有値は小さい順に並べて比べた。}
+\reportfig{kadai6_1_time}{fig:qr-time}{通常QR法の計算時間（秒）。収束した結果だけを示した。収束せず途中で止めた場合の時間は残っていない。}
+\reportfig{kadai6_1_iterations}{fig:qr-iter}{通常QR法の反復回数。収束した結果だけを線形目盛で示した。上限10000回の打切り例は欠測である。}
+\FloatBarrier
 \begin{itembox}[l]{課題6-(2)}
 $\tilde\lambda_1,\ldots,\tilde\lambda_n$ の精度と次数 $n$ の関係について考察せよ．
 \end{itembox}
-\answer
-\todo{各次元の精度の観測結果と考察を分けて記す。}
+\paragraph{結果}
+成功例の最大相対誤差の中央値は各次数とも約$5\times10^{-13}$であった。一方、収束した回数は97,95,64,11回と減った。
+
+\paragraph{考察}
+ここで比べているのは収束した結果だけなので、大きな行列でも同じ精度で解けるとはいえない。また、式\eqref{eq:qr-stop}は対角成分以外の値を見る条件であり、固有値の誤差を直接決めるものではない。
+
 \begin{itembox}[l]{課題6-(3)}
 計算時間と次数 $n$ の関係について考察せよ．
 \end{itembox}
-\answer
-\todo{各次元の時間の観測結果、単位、反復回数との関係を記して考察する。}
+\paragraph{結果}
+次数が増えると、収束するまでの時間と反復回数も増えた。80次では多くが上限の10000回までに収束しなかった。
+
+\paragraph{考察}
+10次から80次では、反復回数の中央値が378回から7563回へ約20倍に増えた。1回の計算量も$O(n^3)$で増えるため、計算時間が約0.001秒から10.6秒へ大きく増えたのは、この2つが重なったためと考えた。
 
 \subsection{課題7：シフト・減次による高速化}
-\source{p.30，課題7}
 \begin{itembox}[l]{課題7}
 シフトと減次を用いて QR 法を高速化せよ．つくった算法と元々の QR 法を精度と速度の面から比較せよ．
 \end{itembox}
-\answer
-\todo{シフトと減次の条件・手順、提出コード名、元のQR法と共通の入力・停止条件・精度指標・計測範囲を記す。比較図表と考察を示す。}
+\paragraph{シフトと減次}
+計算中の行列の次数を$m$とし、$\sigma=a_{k;m,m}$でシフトした。
+\begin{equation}A_k-\sigma I=Q_kR_k,\qquad A_{k+1}=R_kQ_k+\sigma I\label{eq:shift}\end{equation}
+引いたシフトを戻すと相似変換になり、固有値は変わらない。最終行がすべての$j<m$に対して
+\begin{equation}|a_{k;m,j}|\leq10^{-6}|a_{k;m,m}|\label{eq:deflation}\end{equation}
+を満たした時点で、右下成分を固有値として保存し、最終行と最終列を除いている。
 
-\section{実験結果の図表・コードの記載例}
-\todo{図や表を実データで作成し、本文中で「図\textbackslash ref\{fig:example\}に示す」のように参照する。以下のコメント例を必要な箇所に移して編集する。}
-% 図\ref{fig:example}に、対象量と単位を示す。
-% \begin{figure}[htbp]\centering
-% \includegraphics[width=.8\linewidth]{figures/your-plot.pdf}
-% \caption{TODO: 対象量、条件、単位を記す。}\label{fig:example}
-% \end{figure}
-% 表\ref{tab:example}に比較条件と結果を示す。
-% \begin{table}[htbp]\centering\caption{TODO: 比較対象と条件}\label{tab:example}
-% \begin{tabular}{cc}\hline 条件 & 結果\\\hline TODO & TODO\\\hline\end{tabular}\end{table}
-% 外部コードを本文に掲載する場合は次を有効にする（言語は実際のものを指定）。
-% \lstinputlisting[language=Python,caption={TODO: コードの説明},label={lst:solver}]{src/your_code.py}
-\todo{実際に提出する、動作確認済みのソースファイル名・実行方法・依存ライブラリを一覧にする。}
+\paragraph{比較条件}
+同じ行列、同じ収束の判定値、同じ反復回数の上限で比べた。QR分解も、どちらもLAPACKのHouseholder法を使った。計算する順番は、通常法、改良法の順とした。
+
+\paragraph{結果}
+改良法は各次数100件すべてで収束した（表\ref{tab:shift}）。表\ref{tab:shift-speed}の時間比は、どちらも収束した同じ試行での$T_{\rm original}/T_{\rm shifted}$の中央値である。
+
+\begin{table}[H]\centering\small\caption{課題7。数値は各方法で収束した結果の中央値}\label{tab:shift}\ShiftSummary\end{table}
+\begin{table}[H]\centering\caption{両方が収束したときの計算時間の比。通常法で収束しなかった結果は含めなかった。}\label{tab:shift-speed}\ShiftSpeedSummary\end{table}
+
+
+\reportfig{kadai7_residual}{fig:s-res}{課題7の最大残差。青は通常法、橙はシフト・減次法。通常法の成功数は97,95,64,11、改良法はいずれも100。}
+\reportfig{kadai7_error}{fig:s-err}{課題7の最大相対誤差。収束しなかった結果は表示していない}
+\reportfig{kadai7_time}{fig:s-time}{課題7の計算時間（秒）。QR分解はどちらも同じ方法を使った。途中で止めた場合の時間は表示しなかった。}
+\reportfig{kadai7_iterations}{fig:s-iter}{課題7の反復回数}
+\FloatBarrier
 
 \section{結論}
-\todo{各課題の結果から支持される結論と適用条件・残る制約を記す。}
+消去法とLU法の誤差はほぼ同じで、計算時間は主に$O(n^3)$で増えた。LU法では、同じ係数行列を使って右辺だけを変えるとき、一度求めた分解を使い回せる。
 
-\section{参考文献}
-\begin{thebibliography}{9}
-\bibitem{handout} 京都大学工学部情報学科数理工学コース実験演習ワーキンググループ編，\textit{数理工学実験（2026年度版）}，第2章，pp.~19--30，2026．
-% \bibitem{ref} TODO: 実際に参照した原典を記す。Web資料はURLと閲覧日を付す。
-\end{thebibliography}
-\todo{実際に参照した資料を追加し、本文中の引用箇所を対応づける。}
+べき乗法と逆反復法を組み合わせると、同じ残差の条件で反復回数と計算時間を減らせた。シフト・減次法も通常のQR法より速く、400回すべてで収束した。ただし、行列が大きい場合には誤差も大きくなった。
 
 \section{生成AIの利用}
-本レポートのひな型作成に生成AIを利用した。
-\todo{使用したツール名、用途、影響した箇所、本人が原典・計算・コード・図表をどう確認したかを記す。本人が後でAIを使った作業も追記する。未使用の用途を宣言しない。}
+OpenAI CodexおよびGithub Copilotを、コード作成の補助、C++への書き換え、結果の確認、レポートの壁打ちに使用しており、すべてを本人だけで書いたものではない。
 \end{document}

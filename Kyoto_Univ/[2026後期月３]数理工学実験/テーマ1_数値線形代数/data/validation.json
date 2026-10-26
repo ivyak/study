@@ -1,0 +1,35 @@
+{
+  "pages": 31,
+  "ai_declarations": 1,
+  "figures": 20,
+  "tables": 10,
+  "undefined_references": 0,
+  "overfull_underfull_boxes": 0,
+  "qr6_success": [
+    97,
+    95,
+    64,
+    11
+  ],
+  "qr7_shifted_success": [
+    100,
+    100,
+    100,
+    100
+  ],
+  "additional_paired_rows": 24,
+  "power_rows": 400,
+  "power_inverse_rows": 200,
+  "png_visual_review": "改訂後の全32ページを一覧画像と先頭拡大画像で確認",
+  "qr_check": "2次対称行列の厳密固有値、QR再構成、直交性、反復上限を確認",
+  "problem_boxes": 16,
+  "abstract_unnumbered": true,
+  "common_conditions_bulleted": true,
+  "source_details_in_pdf": false,
+  "revision": "課題6-(3)の考察を、1反復の計算量と実測反復回数の増加、成功例だけの時間である制約に沿って修正。",
+  "ai_declaration_location": "末尾のみ",
+  "seed_mentions_in_pdf": 0,
+  "answer_heading_repetitions": 0,
+  "mathematical_expressions_unchanged": true,
+  "question_boxes_unchanged": true
+}

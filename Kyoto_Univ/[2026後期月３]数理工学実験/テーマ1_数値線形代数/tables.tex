@@ -1,0 +1,59 @@
+\newcommand{\LinearGaussian}{\begin{tabular}{rrrr}\toprule $n$ & 残差 & 相対誤差 & 時間 / s\\\midrule
+100 & $1.70\times10^{-14}$ & $1.06\times10^{-14}$ & $0.0447$\\
+200 & $5.75\times10^{-14}$ & $3.76\times10^{-14}$ & $0.342$\\
+400 & $1.76\times10^{-13}$ & $8.77\times10^{-14}$ & $3.18$\\
+800 & $7.46\times10^{-13}$ & $2.37\times10^{-13}$ & $20.2$\\\bottomrule\end{tabular}}
+
+\newcommand{\LinearLU}{\begin{tabular}{rrrr}\toprule $n$ & 残差 & 相対誤差 & 時間 / s\\\midrule
+100 & $1.91\times10^{-14}$ & $1.73\times10^{-14}$ & $0.0466$\\
+200 & $5.53\times10^{-14}$ & $3.32\times10^{-14}$ & $0.352$\\
+400 & $1.65\times10^{-13}$ & $9.69\times10^{-14}$ & $3.34$\\
+800 & $4.77\times10^{-13}$ & $1.78\times10^{-13}$ & $18.6$\\\bottomrule\end{tabular}}
+
+\newcommand{\PairedSummary}{\begin{tabular}{rlrrr}\toprule $n$ & 手法 & 残差 & 相対誤差 & 時間 / s\\\midrule
+100 & 消去法 & $3.25\times10^{-14}$ & $3.16\times10^{-14}$ & $0.0451$\\
+100 & LU法 & $3.47\times10^{-14}$ & $3.19\times10^{-14}$ & $0.0469$\\
+200 & 消去法 & $3.31\times10^{-14}$ & $1.65\times10^{-14}$ & $0.347$\\
+200 & LU法 & $5.17\times10^{-14}$ & $1.48\times10^{-14}$ & $0.356$\\
+400 & 消去法 & $2.12\times10^{-13}$ & $2.52\times10^{-13}$ & $2.83$\\
+400 & LU法 & $2.53\times10^{-13}$ & $2.62\times10^{-13}$ & $2.89$\\
+800 & 消去法 & $6.86\times10^{-13}$ & $1.87\times10^{-13}$ & $23$\\
+800 & LU法 & $7.10\times10^{-13}$ & $1.82\times10^{-13}$ & $23.6$\\\bottomrule\end{tabular}}
+
+\newcommand{\PowerSummary}{\begin{tabular}{rrrrrr}\toprule $n$ & 残差 & 固有値誤差 & ベクトル誤差 & 時間 / s & 回数\\\midrule
+50 & $5.77\times10^{-6}$ & $2.97\times10^{-8}$ & $1.19\times10^{-7}$ & $0.00207$ & $8$\\
+100 & $8.28\times10^{-6}$ & $1.96\times10^{-8}$ & $8.25\times10^{-8}$ & $0.00668$ & $7$\\
+200 & $3.36\times10^{-5}$ & $7.34\times10^{-9}$ & $1.69\times10^{-7}$ & $0.0223$ & $6$\\
+400 & $1.84\times10^{-5}$ & $8.98\times10^{-9}$ & $4.57\times10^{-8}$ & $0.091$ & $6$\\\bottomrule\end{tabular}}
+
+\newcommand{\SpectralSummary}{\begin{tabular}{rr}\toprule $n$ & 比の中央値\\\midrule
+50 & $0.111$\\
+100 & $0.0792$\\
+200 & $0.0569$\\
+400 & $0.0405$\\\bottomrule\end{tabular}}
+
+\newcommand{\InverseSummary}{\begin{tabular}{lrrrrr}\toprule 手法 & 残差 & 固有値誤差 & ベクトル誤差 & 時間 / s & 回数\\\midrule
+べき乗法 & $1.56\times10^{-13}$ & $7.14\times10^{-16}$ & $2.89\times10^{-15}$ & $1.88\times10^{-4}$ & $14$\\
+組合せ法 & $8.53\times10^{-14}$ & $5.64\times10^{-16}$ & $2.39\times10^{-15}$ & $1.48\times10^{-4}$ & $5$\\\bottomrule\end{tabular}}
+
+\newcommand{\QRSummary}{\begin{tabular}{rrrrrr}\toprule $n$ & 成功数 & 最大残差 & 最大相対誤差 & 時間 / s & 回数\\\midrule
+10 & 97/100 & $4.32\times10^{-13}$ & $4.81\times10^{-13}$ & $9.49\times10^{-4}$ & $378$\\
+20 & 95/100 & $5.61\times10^{-13}$ & $4.94\times10^{-13}$ & $0.0171$ & $1336$\\
+40 & 64/100 & $6.41\times10^{-13}$ & $4.99\times10^{-13}$ & $0.409$ & $4480.5$\\
+80 & 11/100 & $5.66\times10^{-13}$ & $5.05\times10^{-13}$ & $10.6$ & $7563$\\\bottomrule\end{tabular}}
+
+\newcommand{\ShiftSummary}{\begin{tabular}{rlrrrrr}\toprule $n$ & 手法 & 成功数 & 最大残差 & 最大相対誤差 & 時間 / s & 回数\\\midrule
+10 & 通常法 & 97/100 & $4.36\times10^{-13}$ & $4.83\times10^{-13}$ & $0.00216$ & $378$\\
+10 & 改良法 & 100/100 & $3.43\times10^{-14}$ & $8.15\times10^{-14}$ & $9.15\times10^{-5}$ & $18$\\
+20 & 通常法 & 95/100 & $5.54\times10^{-13}$ & $4.94\times10^{-13}$ & $0.0223$ & $1336$\\
+20 & 改良法 & 100/100 & $6.86\times10^{-13}$ & $1.05\times10^{-12}$ & $3.83\times10^{-4}$ & $39.5$\\
+40 & 通常法 & 64/100 & $6.36\times10^{-13}$ & $5.03\times10^{-13}$ & $0.455$ & $4480.5$\\
+40 & 改良法 & 100/100 & $5.65\times10^{-12}$ & $6.21\times10^{-12}$ & $0.00314$ & $76$\\
+80 & 通常法 & 11/100 & $5.71\times10^{-13}$ & $5.10\times10^{-13}$ & $6.19$ & $7563$\\
+80 & 改良法 & 100/100 & $2.02\times10^{-11}$ & $1.93\times10^{-11}$ & $0.0378$ & $147.5$\\\bottomrule\end{tabular}}
+
+\newcommand{\ShiftSpeedSummary}{\begin{tabular}{rrr}\toprule $n$ & 対の数 & 時間比の中央値\\\midrule
+10 & 97 & $23.1$\\
+20 & 95 & $58.8$\\
+40 & 64 & $141$\\
+80 & 11 & $165$\\\bottomrule\end{tabular}}

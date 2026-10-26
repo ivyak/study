@@ -7,4 +7,4 @@ solution = [
   newton(f, df, 2.5)
 ]
 
-save_txt(*solution, save_path="Kyoto_Univ/[2026後期月３]数理工学実験/section3/kadai1_c.txt")
+save_txt(*solution, save_path="kadai1_c.txt")

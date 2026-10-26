@@ -7,4 +7,4 @@ solution = descent(
   t_k=lambda k: 1.0 / (k + 1)
 )
 
-save_txt(solution, save_path="Kyoto_Univ/[2026後期月３]数理工学実験/section3/kadai2_a.txt")
+save_txt(solution, save_path="kadai2_a.txt")

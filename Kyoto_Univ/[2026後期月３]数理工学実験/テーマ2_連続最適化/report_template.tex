@@ -1,0 +1,340 @@
+\documentclass[a4j]{jarticle}
+\usepackage{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm,algorithmic}
+\usepackage{listings}
+\lstset{%
+  language={C},
+  basicstyle={\small},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+
+%
+% 以後をレポート課題ごとに書き換える。
+%
+
+\begin{document}
+\title{サンプル\LaTeX}
+\author{名前（学籍番号 xxxx）}
+\date{2020年 x月 y日}
+\maketitle
+
+
+\begin{abstract}
+完成後に、目的、用いた手法、主要な結果と結論を簡潔にまとめる。数値は実際に得たもののみ記す。
+\end{abstract}
+
+% 以下は課題本文で使う記入欄。上の sample.tex 由来の冒頭は変更しない。
+\newcommand{\todo}[1]{\par\noindent\textbf{TODO：}#1\par\smallskip}
+\newcommand{\sourcepage}[1]{\par\noindent{\small 原典：教材第3章，PDF p.#1（印刷 p.#1）。}\par\smallskip}
+\newcommand{\aiuse}{\paragraph{生成AI利用の記録}本課題の問題文の転記・解答欄の構成にはCodexによる雛形を使用した。当該雛形部分は本人の執筆ではない。\todo{その他に使用したAIのツール名・用途・影響箇所、および本人が原典・出力を確認した内容を記す。}}
+\newcommand{\methodtodo}{\paragraph{手法・実験条件・コード}\todo{本人が用いた更新式・実装方針、実行ファイル名・実行方法、初期値、終了条件、最大反復回数を記す。}}
+\newcommand{\resulttodo}[1]{\paragraph{結果}\todo{#1}\paragraph{考察}\todo{得られた事実に基づき、手法・条件と結果の関係を説明する。}}
+\newcommand{\mathbb}[1]{\mathbf{#1}}
+\newcommand{\toprule}{\hline}
+\newcommand{\midrule}{\hline}
+\newcommand{\bottomrule}{\hline}
+
+\section{目的・共通の実験条件}
+\todo{零点探索・最適化について、今回の実験で確かめる目的を記す。}
+\begin{itemize}
+\item 実行環境：\todo{OS、CPU、メモリ、言語・処理系と使用ライブラリのバージョン。}
+\item 記号と条件：\todo{各課題の記号、用いたノルム、数値精度、終了判定、最大反復回数を定義する。量に単位がある場合は単位も記す。}
+\item 再現方法：\todo{コード・入力・出力の保存先と実行コマンド。乱数を使用した場合はシード。}
+\item 反復回数の数え方：\todo{初期点を0回とするか等を明記し、手法間で統一する。未収束時の扱いも記す。}
+\end{itemize}
+教材第3章はPythonによる実装を指示しているが、担当教員の指示によっては他言語でもよいと説明している（教材p.31）。
+\todo{担当教員の追加指示・提出期限を確認して記録する。課題6は教材の「（追加）」節の課題であり、提出対象かは担当教員の指示に従う。}
+
+\clearpage
+\section{課題1：関数の零点探索}
+\sourcepage{33}
+\aiuse
+\begin{itembox}[l]{課題1（共通）}
+次の関数 $f:\mathbb{R}\to\mathbb{R}$ を考える。
+\[
+f(x):=x^3+2x^2-5x-6
+\]
+Pythonを用いて，以下の課題に取り組め。
+\end{itembox}
+\begin{itembox}[l]{課題1-(a)}
+関数 $f$ を
+\[
+-10\le x\le 10,\qquad -10\le y\le 10
+\]
+の範囲で描写せよ。
+\end{itembox}
+\paragraph{実装・結果}
+\todo{使用ファイル名、描画刻み幅を記し、指定された表示範囲のグラフを掲載する。軸ラベル、キャプション、本文からの図参照を付ける。}
+\begin{itembox}[l]{課題1-(b)}
+二分法により関数 $f$ の全ての零点を求めよ。ただし，二つの異なる初期点は，(a)で描写した関数 $f$ の概形を参考にして適切に設定せよ。
+\end{itembox}
+\methodtodo
+\resulttodo{全ての零点について、初期区間、求めた点、残差 $|f(x)|$、反復回数を記す。各初期区間を選んだ根拠を(a)の図と対応させる。}
+\begin{itembox}[l]{課題1-(c)}
+ニュートン法により関数 $f$ の全ての零点を求めよ。ただし，(a)で描写した関数 $f$ の概形を参考にして，零点の近くに初期点を設定せよ。
+\end{itembox}
+\methodtodo
+\resulttodo{全ての零点について、初期点、求めた点、残差、反復回数を記す。初期点の選定を説明し、二分法と比較する場合は終了条件を明示する。}
+
+\clearpage
+\section{課題2：1変数の最適化}
+\sourcepage{36}
+\aiuse
+\begin{itembox}[l]{課題2（共通）}
+関数 $f:\mathbb{R}\to\mathbb{R}$ を以下で定義する。
+\[
+f(x):=\frac{1}{3}x^3-x^2-3x+\frac{5}{3}
+\]
+Pythonを用いて，
+\end{itembox}
+\begin{itembox}[l]{課題2-(a)}
+最急降下法を実装し，関数 $f$ の停留点を求めよ。ただし，初期点は
+\[
+x_0:=1/2
+\]
+と設定し，各反復 $k\in\mathbb{N}\cup\{0\}$ において，ステップサイズは
+\[
+t_k:=1/(k+1)
+\]
+を採用せよ。
+\end{itembox}
+\methodtodo
+\resulttodo{得られた停留点、導関数の残差、反復回数を記す。最小解と呼ぶ場合はその判定根拠を示す。}
+\begin{itembox}[l]{課題2-(b)}
+ニュートン法を実装し，関数 $f$ の停留点を求めよ。ただし，初期点は
+\[
+x_0:=5
+\]
+と設定し，各反復 $k\in\mathbb{N}\cup\{0\}$ において，ステップサイズは
+\[
+t_k:=1
+\]
+を採用せよ。
+\end{itembox}
+\methodtodo
+\resulttodo{得られた停留点、導関数の残差、反復回数を記す。比較では初期値とステップサイズが(a)と異なることも考慮する。}
+
+\clearpage
+\section{課題3：2変数の目的関数・勾配・ヘッセ行列}
+\sourcepage{38}
+\aiuse
+\begin{itembox}[l]{課題3（共通）}
+次の2次元の最適化問題を考える。
+\[
+\begin{aligned}
+\operatorname{minimize}\quad &f(x):=x_0^2+e^{x_0}+x_1^4+x_1^2-2x_0x_1+3\\
+\operatorname{subject\ to}\quad &x:=(x_0,x_1)^\top\in\mathbb{R}^2
+\end{aligned}
+\]
+Pythonを用いて，
+\end{itembox}
+\begin{itembox}[l]{課題3-(a)}
+点 $x$ が与えられたとき，目的関数の値 $f(x)$ を出力する関数を作成せよ。
+\end{itembox}
+\paragraph{実装・確認}
+\todo{作成した関数名、ファイル名、入出力の仕様を記す。本人が選んだ入力と出力、実装を確認した方法を記す。}
+\begin{itembox}[l]{課題3-(b)}
+点 $x$ が与えられたとき，勾配ベクトル $\nabla f(x)$ を出力する関数を作成せよ。
+\end{itembox}
+\paragraph{導出・実装・確認}
+\todo{本人が導出した勾配の式、関数名、実装、確認に用いた入力と出力を記す。}
+\begin{itembox}[l]{課題3-(c)}
+点 $x$ が与えられたとき，ヘッセ行列 $\nabla^2f(x)$ を出力する関数を作成せよ。
+\end{itembox}
+\paragraph{導出・実装・確認}
+\todo{本人が導出したヘッセ行列の式、関数名、実装、確認に用いた入力と出力を記す。}
+
+\clearpage
+\section{課題4：バックトラック法を用いた最適化}
+\sourcepage{38--39}
+\aiuse
+\begin{itembox}[l]{課題4（共通）}
+Pythonを用いて，
+\end{itembox}
+\begin{itembox}[l]{課題4-(a)}
+バックトラック法を用いた最急降下法を実装することで課題3の最適化問題を解き，最適解，最適値，および反復回数を与えよ。ただし，初期点は
+\[
+x^0=(1,1)^\top
+\]
+と設定し，またバックトラック法における $\xi,\rho,\bar t$ は，それぞれ
+\[
+\xi=10^{-4},\qquad\rho=0.5,\qquad\bar t=1
+\]
+と設定せよ。
+\end{itembox}
+\methodtodo
+\resulttodo{最適解、最適値、反復回数、終了時の勾配ノルムを記す。最適解と判断した根拠を説明する。}
+\begin{itembox}[l]{課題4-(b)}
+バックトラック法を用いたニュートン法を実装することで課題3の最適化問題を解き，最適解，最適値，および反復回数を与えよ。ただし，初期点は
+\[
+x^0=(1,1)^\top
+\]
+と設定し，またバックトラック法における $\xi,\rho,\bar t$ は，それぞれ
+\[
+\xi=10^{-4},\qquad\rho=0.5,\qquad\bar t=1
+\]
+と設定せよ。
+\end{itembox}
+\methodtodo
+\resulttodo{最適解、最適値、反復回数、終了時の勾配ノルムを記す。手法間の比較では終了条件を揃え、反復回数と1反復の計算負荷を区別する。}
+
+\clearpage
+\section{課題5：総合演習}
+\sourcepage{39--40}
+\aiuse
+\begin{itembox}[l]{課題5}
+Pythonを用いて，最急降下法およびニュートン法を実装することで次の最適化問題を解き，最適解および各手法の反復回数を与えよ。ただし，初期点は
+\[
+x^0=[2,0]^\top
+\]
+と設定し，またバックトラック法における $\xi,\rho,\bar t$ は，それぞれ
+\[
+\xi=10^{-4},\qquad\rho=0.5,\qquad\bar t=1
+\]
+と設定せよ。
+\[
+\begin{aligned}
+\operatorname{minimize}\quad &f(x):=\sum_{i=0}^{2} f_i(x)^2\\
+\operatorname{subject\ to}\quad &x\in\mathbb{R}^2
+\end{aligned}
+\]
+ただし，
+\[
+f_i(x):=y_i-[x]_0\bigl(1-[x]_1^{i+1}\bigr)\quad(i=0,1,2)
+\]
+と定義し，
+\[
+y_0=1.5,\qquad y_1=2.25,\qquad y_2=2.625
+\]
+である。（参考：最適値は0，最適解は $[3,0.5]^\top$ である。）
+\end{itembox}
+\paragraph{教材に記載されたヒント}
+教材p.40には次の式が示されている。実験結果とは区別して用いる。
+\[
+\begin{aligned}
+\nabla f(x)&=2\sum_{i=0}^{2}f_i(x)\nabla f_i(x),\\
+\nabla^2 f(x)&=2\sum_{i=0}^{2}\left(f_i(x)\nabla^2 f_i(x)+\nabla f_i(x)\nabla f_i(x)^\top\right).
+\end{aligned}
+\]
+\paragraph{導出・手法・コード}
+\todo{本人が計算した各 $f_i$ の勾配・ヘッセ行列と、使用した関数・ファイル名を記す。ニュートン方向を修正した場合は教材3.5.1節に対応させ、修正条件とパラメータを明示する。}
+\todo{両手法の終了条件、最大反復回数、バックトラックの打切り条件を記す。}
+\resulttodo{両手法の最適解と反復回数、最終目的関数値・勾配ノルムを示す。教材の参考値との差、未収束や修正の有無を報告する。}
+
+\clearpage
+\section{課題6：制約付き凸二次計画問題（追加）}
+\sourcepage{40--41}
+\noindent 本節は教材3.6節「（追加）」に対応する。提出範囲は担当教員の指示に従う。
+\aiuse
+\paragraph{共通の問題設定（教材式(3.3)）}
+\[
+\begin{aligned}
+\min_{x\in\mathbb{R}^n}\quad &\frac12 x^\top Qx+c^\top x\\
+\operatorname{subject\ to}\quad &Ax\le b.
+\end{aligned}\tag{3.3}\label{eq:qp}
+\]
+ここで $Q\in\mathbb{R}^{n\times n}$ は対称行列、$c\in\mathbb{R}^n$、$A\in\mathbb{R}^{m\times n}$、$b\in\mathbb{R}^m$ であり、不等号は要素ごとに成り立つ。
+\begin{itembox}[l]{課題6-1}
+二次計画問題として定式化することが自然な問題を1つ挙げよ。
+\end{itembox}
+\paragraph{解答}
+\todo{本人が選んだ問題を説明し、決定変数、目的関数、制約と各パラメータの意味を記す。参照した出典を付す。}
+\begin{itembox}[l]{課題6-2}
+二次計画問題(3.3)は，$Q$ が非負の固有値のみを持つ場合（$Q$ が半正定値行列の場合），凸二次計画問題と呼ばれる。$Q$ が正負両方の固有値を持つ場合に，二次計画問題がどのように難しくなるか調べよ。また文献も載せること（生成AIの回答を参照する場合は，その根拠となる文献まで調べて載せること）。
+\end{itembox}
+\paragraph{調査・解答}
+\todo{本人が確認した文献を示し、該当箇所に基づいて難しさを説明する。引用・文献の主張と本人の考察を分ける。}
+\begin{itembox}[l]{課題6-3}
+凸二次計画法の解法を調べ，そのアルゴリズムを述べよ。またその文献も載せること（生成AIの回答を参照する場合は，その根拠となる文献まで調べて載せること）。
+\end{itembox}
+\paragraph{調査・アルゴリズム}
+\todo{本人が選んだ解法の入力、仮定、初期化、反復手順、終了条件を述べ、確認した文献を付す。}
+\clearpage
+\sourcepage{40}
+\begin{itembox}[l]{課題6-4}
+二次計画問題(3.3)として，次のパラメータを持つ問題を考える。
+\[
+Q=\begin{bmatrix}2&0\\0&1\end{bmatrix},\qquad
+c=-\begin{bmatrix}1\\1\end{bmatrix},\qquad
+A=\begin{bmatrix}1&1\end{bmatrix},\qquad b=0.
+\]
+このとき，最適解 $x^*$ を数値的に求めよ。ソルバを使っても構わない。またこの問題は解析的に解けるので，解析解とも比較せよ。
+\end{itembox}
+\methodtodo
+\todo{ソルバを用いた場合は名称、バージョン、設定、終了状態を記す。解析解は本人が導出し、根拠を示す。}
+\resulttodo{数値解と解析解、両者の差、制約充足を示す。数値精度と許容誤差を記す。}
+\sourcepage{41}
+\begin{itembox}[l]{課題6-5}
+（最適制御問題）$T=3$ とし，次の問題を考える。
+\[
+\begin{aligned}
+\min_u\quad &u^\top u,\\
+\operatorname{subject\ to}\quad &x_{k+1}=Ax_k+Bu_k,\\
+&x_0=\begin{bmatrix}10\\1\end{bmatrix},\quad
+x_T=\begin{bmatrix}0\\0\end{bmatrix},\\
+&u=\begin{bmatrix}u_0\\\vdots\\u_{T-1}\end{bmatrix}\in\mathbb{R}^T.
+\end{aligned}
+\]
+ただし
+\[
+A=\begin{bmatrix}1.2&1\\0&0.9\end{bmatrix},\qquad
+B=\begin{bmatrix}0\\1\end{bmatrix}.
+\]
+この問題を凸二次計画問題に帰着させ，最適解 $u^*\in\mathbb{R}^T$ を求めよ。
+\end{itembox}
+\paragraph{定式化・手法・コード}
+\todo{本人が導出した凸二次計画問題を示す。状態と入力の次元、各行列の役割、制約の作り方、計算方法と実行ファイル名を記す。}
+\resulttodo{最適入力 $u^*$、目的関数値、状態列を記す。初期条件、状態更新、終端条件の充足を確認する。}
+
+\clearpage
+\section{結論}
+\todo{目的に対応する結論を、実験結果と根拠に基づいて簡潔に述べる。確認できたことと残る課題を区別する。}
+\section{コード・図表の掲載欄}
+\todo{コードを各設問の解答欄へ掲載するか、ここにまとめて掲載し、対応関係を記す。レポートに用いた動作するコード等もKULMSへ提出する。}
+% 言語に合わせてlanguage=Python等を追加する。下は外部ファイル取込の例。
+% \lstinputlisting[language=Python,caption={課題1-(b)の実装},label={lst:k1b}]{../section3/kadai1_b.py}
+% 本文からは「コード\ref{lst:k1b}」のように参照する。
+\begin{lstlisting}[caption={コード記入欄（実装を本人が追記する）},label={lst:placeholder}]
+# TODO: Insert your own code, or use lstinputlisting.
+\end{lstlisting}
+\paragraph{図表の書き方の例（実データは未掲載）}
+本人が作成した図は、図\ref{fig:placeholder}のように番号・キャプション・本文参照を付ける。表\ref{tab:placeholder}の空欄も本人の実測値で置き換える。不要な例は削除する。
+\begin{figure}[htbp]
+\centering
+\fbox{\parbox[c][25mm][c]{.8\linewidth}{\centering TODO：本人が作成した図を配置する。}}
+% \includegraphics[width=.85\linewidth]{figures/your_figure.pdf}
+\caption{図の記入例。対象、軸、単位、条件を本人が記す。}\label{fig:placeholder}
+\end{figure}
+\begin{table}[htbp]
+\centering
+\caption{結果表の記入例（数値未記入）。}\label{tab:placeholder}
+\begin{tabular}{llll}\toprule
+手法 & 得られた点 & 残差・勾配ノルム & 反復回数\\\midrule
+TODO & 未記入 & 未記入 & 未記入\\\bottomrule
+\end{tabular}
+\end{table}
+\begin{thebibliography}{9}
+\bibitem{textbook} 実験演習ワーキンググループ編，『数理工学実験（2026年度版）』，第3章「連続最適化」，pp.31--41。書法の参照：第1章，pp.8--18。生成AIの記載要件：p.2。
+\bibitem{guidance} 『数理工学実験ガイダンス資料』，2026年度，pp.1--3。
+\bibitem{ai} OpenAI，Codex，本雛形の構成・教材問題文のLaTeX転記の補助，利用日：2026年10月26日。\todo{モデル情報等、本人が確認できる情報と追加の利用内容を補う。}
+\end{thebibliography}
+\todo{実際に確認・参照した文献のみ追加する。課題6-2・6-3は根拠となる文献を必ず記す。Web資料は著者、表題、URL、閲覧日を付ける。}
+\end{document}

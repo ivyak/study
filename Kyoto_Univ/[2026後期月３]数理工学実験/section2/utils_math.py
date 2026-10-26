@@ -132,7 +132,6 @@ def back_substitution_LU(U: list[list[float]], y: list[float]):
     x[i] = (y[i] - sum_ux) / U[i][i]
   return x
 
-#LU分解を用いて連立一次方程式を解く全体の関数
 def LU_solve(A: list[list[float]], b: list[float]):
   L, U, P_pi = LU_decomposition(A)
   y: list[float] = forward_substitution_LU(L, P_pi, b)
@@ -144,7 +143,6 @@ def LU_solve(A: list[list[float]], b: list[float]):
 # ------------------------------
 
 def power_method(A: list[list[float]], tol: float = 1e-6, x0=None, residual_tol=None):
-  """既定では従来どおり。必要に応じて許容誤差・初期値・残差条件を指定する。"""
   x: list[float] = list(x0) if x0 is not None else [random.random() for _ in range(len(A))]
   mu: float = 0.0
   iteration_num: int = 0
@@ -165,7 +163,6 @@ def power_method(A: list[list[float]], tol: float = 1e-6, x0=None, residual_tol=
   return mu, x, iteration_num
 
 
-# 残差ノルムを求める
 def residual_norm_PowerMethod(eigenvalue: float, eigenvector: list[float], A: list[list[float]]):
   Av: list[float] = matrix_vector_product(A, eigenvector)
   return infinity_norm([eigenvalue * eigenvector[i] - Av[i] for i in range(len(eigenvector))])
@@ -174,22 +171,21 @@ def eigenvalue_error(true_value: float, computed_value: float):
   return abs(true_value - computed_value) / abs(true_value)
 
 def eigenvector_error(true_vector, eigenvector: list[float]):
-    # 条件(1): 両方の最大値ノルムを1にする
+    # 条件(1)
     true_vector_normalized: list[float] = [x / infinity_norm(true_vector) for x in true_vector]
     eigenvector_normalized: list[float] = [x / infinity_norm(eigenvector) for x in eigenvector]
 
-    # 条件(2): 両方でゼロでない成分番号kを選ぶ
+    # 条件(2)
     for k in range(len(true_vector)):
-        if true_vector_normalized[k] != 0 and eigenvector_normalized[k] != 0:
-            break
+      if true_vector_normalized[k] != 0 and eigenvector_normalized[k] != 0:
+        break
     else:
         raise ValueError("共通の非零成分がありません")
 
-    # それぞれの第k成分が正になるように、ベクトル全体を反転する
     if true_vector_normalized[k] < 0:
-        true_vector_normalized = [-x for x in true_vector_normalized]
+      true_vector_normalized = [-x for x in true_vector_normalized]
     if eigenvector_normalized[k] < 0:
-        eigenvector_normalized = [-x for x in eigenvector_normalized]
+      eigenvector_normalized = [-x for x in eigenvector_normalized]
 
     return relative_error(true_vector_normalized, eigenvector_normalized)
 
@@ -203,26 +199,27 @@ def inverse_iteration(A: list[list[float]], sigma: float, x0=None, residual_tol=
   x: list[float] = list(x0) if x0 is not None else [random.random() for _ in range(n)]
   B = [[A[i][j] - (sigma if i == j else 0) for j in range(n)] for i in range(n)]
   L, U, P_pi = LU_decomposition(B)
+
   mu: float = 0.0
   iteration_num: int = 0
 
   while True:
-    # (1) (A - sigma I)y = x を、計算済みのLU分解で解く
+    # (1) (A - sigma I)y = x
     z = forward_substitution_LU(L, P_pi, x)
     y = back_substitution_LU(U, z)
     iteration_num += 1
 
-    # (2) xの絶対値最大の成分を選び、muを求める
+    # (2)
     mu_prev = mu
     i = max(range(n), key=lambda j: abs(x[j]))
     mu = y[i] / x[i]
 
-    # (3) muが十分収束したら終了する
+    # (3)
     if abs(mu - mu_prev) < 1e-6 * abs(mu):
       if residual_tol is None or residual_norm_PowerMethod(1 / mu + sigma, x, A) <= residual_tol:
         break
 
-    # (4) 次の反復のベクトルを最大値ノルムで正規化する
+    # (4)
     y_norm = infinity_norm(y)
     x = [y[i] / y_norm for i in range(n)]
 
@@ -233,7 +230,7 @@ from scipy.linalg import lu_factor, lu_solve
 
 
 def power_method_numpy(A, x0=None, residual_tol=1e-8, max_iter=10000):
-  """NumPy版のべき乗法。残差ノルムで収束を判定する。"""
+
   A = np.asarray(A, dtype=float)
   x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
   x /= np.max(np.abs(x))
@@ -242,7 +239,7 @@ def power_method_numpy(A, x0=None, residual_tol=1e-8, max_iter=10000):
     y = A @ x
     i = np.argmax(np.abs(x))
     eigenvalue = y[i] / x[i]
-    # 計算済みのy = Axを使い、残差のための行列積を省く
+
     if np.max(np.abs(y - eigenvalue * x)) <= residual_tol:
       return eigenvalue, x, iteration_num
     x = y / np.max(np.abs(y))
@@ -251,30 +248,31 @@ def power_method_numpy(A, x0=None, residual_tol=1e-8, max_iter=10000):
 
 
 def inverse_iteration_numpy(A, sigma, x0=None, residual_tol=1e-8, max_iter=10000, Ax0=None):
-  """NumPy/SciPy版の固定シフト逆反復法。Aは対称行列を想定する。"""
   A = np.asarray(A, dtype=float)
+
   x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
   x_norm = np.max(np.abs(x))
   x /= x_norm
+
   Ax = A @ x if Ax0 is None else np.asarray(Ax0, dtype=float) / x_norm
+
   if np.max(np.abs(Ax - sigma * x)) <= residual_tol:
     return sigma, x, 0
+
   return _inverse_iteration_scipy(A, sigma, x, residual_tol, max_iter)
 
 
 def _inverse_iteration_scipy(A, sigma, x, residual_tol, max_iter=10000):
-  """入力準備が済んだベクトルから反復し、LU分解を再利用する。"""
-  # 分解で上書きできる専用の配列を作り、LU分解は1回だけ行う
   shifted_A = A.copy(order="F")
   shifted_A.flat[::len(A) + 1] -= sigma
+
   lu, piv = lu_factor(shifted_A, overwrite_a=True, check_finite=False)
 
   for iteration_num in range(1, max_iter + 1):
-    # 計算済みのLU分解を再利用し、(A - sigma I)y = xを解く
     x = lu_solve((lu, piv), x, overwrite_b=True, check_finite=False)
     x /= np.max(np.abs(x))
+
     Ax = A @ x
-    # 対称行列の固有値をレイリー商で評価する
     eigenvalue = (x @ Ax) / (x @ x)
     if np.max(np.abs(Ax - eigenvalue * x)) <= residual_tol:
       return eigenvalue, x, iteration_num
@@ -283,14 +281,13 @@ def _inverse_iteration_scipy(A, sigma, x, residual_tol, max_iter=10000):
 
 
 def power_inverse_numpy(A, x0=None, power_iterations=3, residual_tol=1e-8):
-  """べき乗法を少数回行い、その結果を固定シフト逆反復法に渡す。"""
   A = np.asarray(A, dtype=float)
   x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
   x /= np.max(np.abs(x))
 
   for step in range(power_iterations):
     x = A @ x
-    # 少数回のべき乗はまとめて行い、3回ごとと最後だけ正規化する
+
     if (step + 1) % 3 == 0 or step + 1 == power_iterations:
       x /= np.max(np.abs(x))
 
@@ -302,99 +299,3 @@ def power_inverse_numpy(A, x0=None, power_iterations=3, residual_tol=1e-8):
       A, sigma, x, residual_tol,
   )
   return eigenvalue, eigenvector, power_iterations + inverse_iter
-
-
-# ------------------------------
-# 課題6用の関数
-# ------------------------------
-
-def modified_gram_schmidt(A):
-  n = len(A)
-
-  Q = [[0 for _ in range(n)] for _ in range(n)]
-  R = [[0 for _ in range(n)] for _ in range(n)]
-
-  for j in range(n):
-    b = [A[k][j] for k in range(n)]
-    # (1) 残りのベクトルbから、q_i方向の成分を順に取り除く
-    for i in range(j):
-      R[i][j] = sum(Q[k][i] * b[k] for k in range(n))
-      b = [b[k] - R[i][j] * Q[k][i] for k in range(n)]
-
-    # (2) r_jj = ||b||_2、q_j = b / r_jj
-    R[j][j] = sum(abs(x)**2 for x in b)**0.5
-    for k in range(n):
-      Q[k][j] = b[k] / R[j][j]
-
-  return Q, R
-
-
-def QR_method(A, epsilon=1e-6, max_iter=10000):
-  n = len(A)
-
-  Ak = [row[:] for row in A]
-
-  for iteration_num in range(max_iter + 1):
-
-    # (1) 全ての狭義下三角成分を、同じ行の対角成分と比較する
-    if all(abs(Ak[i][j]) <= epsilon * abs(Ak[i][i])
-        for i in range(n) for j in range(i)):
-      return [Ak[i][i] for i in range(n)], iteration_num
-    if iteration_num == max_iter:
-      break
-
-    # (2) Ak = Qk Rk
-    Q, R = modified_gram_schmidt(Ak)
-    # (3) A_{k+1} = Rk Qk
-    Ak = [[sum(R[i][k] * Q[k][j] for k in range(n))
-      for j in range(n)] for i in range(n)]
-
-  raise RuntimeError("最大反復回数までにQR法が収束しませんでした")
-
-# ------------------------------
-# 課題7用の関数
-# ------------------------------
-
-def QR_method_numpy(A, epsilon=1e-6, max_iter=10000):
-  Ak = np.array(A, dtype=float)
-
-  for iteration_num in range(max_iter + 1):
-    # 全ての狭義下三角成分を、同じ行の対角成分と比較する。
-    if all(abs(Ak[i, j]) <= epsilon * abs(Ak[i, i])
-        for i in range(len(Ak)) for j in range(i)):
-      return np.diag(Ak), iteration_num
-    if iteration_num == max_iter:
-      break
-    Q, R = np.linalg.qr(Ak)
-    Ak = R @ Q
-
-  raise RuntimeError("最大反復回数までにQR法が収束しませんでした")
-
-
-def QR_method_shift_deflation(A, epsilon=1e-6, max_iter=10000):
-  """実対称行列の固有値を、シフトと減次を使ったQR法で求める。"""
-  Ak = np.array(A, dtype=float)
-  eigenvalues = []
-  iteration_num = 0
-
-  while len(Ak) > 1:
-    # 減次：最終行が式 (2.17) の条件を満たしたら、右下成分を採用する。
-    # 割り算を避け、|a_nj| <= epsilon * |a_nn| で判定する。
-    if np.all(np.abs(Ak[-1, :-1]) <= epsilon * abs(Ak[-1, -1])):
-      eigenvalues.append(Ak[-1, -1])
-      Ak = Ak[:-1, :-1].copy()
-      continue
-
-    if iteration_num >= max_iter:
-      raise RuntimeError("最大反復回数までにQR法が収束しませんでした")
-
-    # シフト：sigma = a_nn として Ak - sigma I をQR分解する。
-    sigma = Ak[-1, -1]
-    I = np.eye(len(Ak))
-    Q, R = np.linalg.qr(Ak - sigma * I)
-    # 引いたシフトを戻すと、元の行列と同じ固有値が保たれる。
-    Ak = R @ Q + sigma * I
-    iteration_num += 1
-
-  eigenvalues.append(Ak[0, 0])
-  return eigenvalues, iteration_num

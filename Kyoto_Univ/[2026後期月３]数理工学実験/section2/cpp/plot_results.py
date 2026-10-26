@@ -1,5 +1,3 @@
-"""C++の計算結果を、元の課題6・7と同じutils_plotで描く。"""
-
 import argparse
 import csv
 from pathlib import Path

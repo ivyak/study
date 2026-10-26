@@ -41,20 +41,6 @@ def plot_f(
     save_path=None,
     dpi=300,
 ):
-  """データを描画・保存し、(fig, ax) を返す。
-
-  ax を渡すと既存の描画領域に描く。省略すると新しい図を作る。
-  初期設定は点のみの描画。xlim / ylim が None なら表示範囲は自動。
-  yscale="log" で縦軸、xscale="log" で横軸を対数にできる。
-  linestyle="-", marker=None なら点を線で結んだグラフになる。
-  markersize は点の大きさ（ポイント単位）。
-  grid_which は "major"（主目盛）、"minor"（補助目盛）、"both"。
-  show_axes=True で原点を通る軸を表示する（対数軸には描かない）。
-  label を指定すると凡例を表示する。legend=False で非表示。
-  save_path=None なら保存しない。拡張子で保存形式を選ぶ。
-  dpi は PNG などの画像の解像度を指定する。
-  """
-
   # plt.subplots(): 図全体を表す fig ・実際にグラフを描く領域 ax
   if ax is None:
     fig, ax = plt.subplots(figsize=figsize)

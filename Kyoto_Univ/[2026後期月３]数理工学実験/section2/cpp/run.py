@@ -1,5 +1,3 @@
-"""C++版のビルド・実行・描画。引数は6_1または7。"""
-
 from pathlib import Path
 import subprocess
 import sys

@@ -6,13 +6,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import time
+import random
 
 n = 100
-residual_tol = 1e-8  # 両手法を同じ精度（残差ノルム）まで計算する
+residual_tol = 1e-12
+power_iterations = 4
+
 output_dir = Path(__file__).with_name("figures")
 output_dir.mkdir(parents=True, exist_ok=True)
+
 methods = ("Power method", "Power + inverse")
-# 両手法ともNumPy版を使い、配列への変換も計測に含める
+
 metrics = (
     ("residual", "Residual Norm"),
     ("eigenvalue_error", "Relative Error (Eigenvalues)"),
@@ -23,27 +27,25 @@ metrics = (
 results = {method: {metric: [] for metric, _ in metrics} for method in methods}
 
 for k in range(100):
-  A: list[list[float]] = utils_math.make_square_matrix(n)
-  B = [[A[i][j] + A[j][i] for j in range(n)] for i in range(n)]
-  x0 = utils_math.make_vector(n)
+  A = np.array(utils_math.make_square_matrix(n))
+  B = A + A.T
+  x0 = np.array(utils_math.make_vector(n))
 
-  true_values, true_vectors = np.linalg.eigh(np.array(B))
+  true_values, true_vectors = np.linalg.eigh(B)
   i = np.argmax(np.abs(true_values))
 
-  # 同じ行列・初期ベクトルで比較し、実行順序も交互にする
   for method in methods[::1 if k % 2 == 0 else -1]:
     start: float = time.perf_counter()
     if method == "Power method":
       eigenvalue, eigenvector, iter_num = utils_math.power_method_numpy(B, x0=x0, residual_tol=residual_tol)
     else:
-      # べき乗法を3回だけ行い、その結果から逆反復法を始める
-      eigenvalue, eigenvector, iter_num = utils_math.power_inverse_numpy(B, x0=x0, residual_tol=residual_tol)
+      eigenvalue, eigenvector, iter_num = utils_math.power_inverse_numpy(B, x0=x0, power_iterations=power_iterations, residual_tol=residual_tol)
     elapsed = time.perf_counter() - start
 
     result = results[method]
     result["time"].append(elapsed)
     result["iterations"].append(iter_num)
-    result["residual"].append(utils_math.residual_norm_PowerMethod(eigenvalue, eigenvector, B))
+    result["residual"].append(np.max(np.abs(B @ eigenvector - eigenvalue * eigenvector)))
     result["eigenvalue_error"].append(utils_math.eigenvalue_error(true_values[i], eigenvalue))
     result["eigenvector_error"].append(utils_math.eigenvector_error(true_vectors[:, i], eigenvector))
   print(f"{n}次行列, {k + 1}回目の試行")
@@ -56,17 +58,10 @@ for metric, ylabel in metrics:
         range(1, len(values) + 1), values,
         ax=ax,
         label=method,
-        title=f"n = {n} (NumPy): {ylabel}",
+        title=f"n = {n}: {ylabel}",
         xlabel="trials",
         ylabel=ylabel,
         yscale="linear" if metric == "iterations" else "log",
     )
   fig.savefig(output_dir / f"kadai5_n{n}_{metric}.svg", bbox_inches="tight")
   plt.close(fig)
-
-for method in methods:
-  print(f"\n{method}")
-  for metric, ylabel in metrics:
-    print(f"  {ylabel}: mean = {np.mean(results[method][metric]):.3e}")
-print("\n平均時間の比（べき乗法 / 組み合わせ）:",
-      np.mean(results[methods[0]]["time"]) / np.mean(results[methods[1]]["time"]))

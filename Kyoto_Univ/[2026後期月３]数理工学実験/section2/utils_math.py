@@ -229,6 +229,7 @@ def inverse_iteration(A: list[list[float]], sigma: float, x0=None, residual_tol=
   return 1 / mu + sigma, x, iteration_num
 
 import numpy as np
+from scipy.linalg import lu_factor, lu_solve
 
 
 def power_method_numpy(A, x0=None, residual_tol=1e-8, max_iter=10000):
@@ -249,19 +250,29 @@ def power_method_numpy(A, x0=None, residual_tol=1e-8, max_iter=10000):
   raise RuntimeError("最大反復回数までにべき乗法が収束しませんでした")
 
 
-def inverse_iteration_numpy(A, sigma, x0=None, residual_tol=1e-8, max_iter=10000):
-  """NumPy版の固定シフト逆反復法。Aは対称行列を想定する。"""
+def inverse_iteration_numpy(A, sigma, x0=None, residual_tol=1e-8, max_iter=10000, Ax0=None):
+  """NumPy/SciPy版の固定シフト逆反復法。Aは対称行列を想定する。"""
   A = np.asarray(A, dtype=float)
   x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
-  x /= np.max(np.abs(x))
-  if np.max(np.abs(A @ x - sigma * x)) <= residual_tol:
+  x_norm = np.max(np.abs(x))
+  x /= x_norm
+  Ax = A @ x if Ax0 is None else np.asarray(Ax0, dtype=float) / x_norm
+  if np.max(np.abs(Ax - sigma * x)) <= residual_tol:
     return sigma, x, 0
-  shifted_A = A - sigma * np.eye(len(A))
+  return _inverse_iteration_scipy(A, sigma, x, residual_tol, max_iter)
+
+
+def _inverse_iteration_scipy(A, sigma, x, residual_tol, max_iter=10000):
+  """入力準備が済んだベクトルから反復し、LU分解を再利用する。"""
+  # 分解で上書きできる専用の配列を作り、LU分解は1回だけ行う
+  shifted_A = A.copy(order="F")
+  shifted_A.flat[::len(A) + 1] -= sigma
+  lu, piv = lu_factor(shifted_A, overwrite_a=True, check_finite=False)
 
   for iteration_num in range(1, max_iter + 1):
-    # NumPyの連立方程式ソルバで、(A - sigma I)y = xを解く
-    y = np.linalg.solve(shifted_A, x)
-    x = y / np.max(np.abs(y))
+    # 計算済みのLU分解を再利用し、(A - sigma I)y = xを解く
+    x = lu_solve((lu, piv), x, overwrite_b=True, check_finite=False)
+    x /= np.max(np.abs(x))
     Ax = A @ x
     # 対称行列の固有値をレイリー商で評価する
     eigenvalue = (x @ Ax) / (x @ x)
@@ -277,14 +288,18 @@ def power_inverse_numpy(A, x0=None, power_iterations=3, residual_tol=1e-8):
   x = np.array(x0 if x0 is not None else make_vector(len(A)), dtype=float)
   x /= np.max(np.abs(x))
 
-  for _ in range(power_iterations):
+  for step in range(power_iterations):
     x = A @ x
-    x /= np.max(np.abs(x))
+    # 少数回のべき乗はまとめて行い、3回ごとと最後だけ正規化する
+    if (step + 1) % 3 == 0 or step + 1 == power_iterations:
+      x /= np.max(np.abs(x))
 
   Ax = A @ x
   sigma = (x @ Ax) / (x @ x)
-  eigenvalue, eigenvector, inverse_iter = inverse_iteration_numpy(
-      A, sigma, x0=x, residual_tol=residual_tol,
+  if np.max(np.abs(Ax - sigma * x)) <= residual_tol:
+    return sigma, x, power_iterations
+  eigenvalue, eigenvector, inverse_iter = _inverse_iteration_scipy(
+      A, sigma, x, residual_tol,
   )
   return eigenvalue, eigenvector, power_iterations + inverse_iter
 
@@ -335,3 +350,51 @@ def QR_method(A, epsilon=1e-6, max_iter=10000):
       for j in range(n)] for i in range(n)]
 
   raise RuntimeError("最大反復回数までにQR法が収束しませんでした")
+
+# ------------------------------
+# 課題7用の関数
+# ------------------------------
+
+def QR_method_numpy(A, epsilon=1e-6, max_iter=10000):
+  Ak = np.array(A, dtype=float)
+
+  for iteration_num in range(max_iter + 1):
+    # 全ての狭義下三角成分を、同じ行の対角成分と比較する。
+    if all(abs(Ak[i, j]) <= epsilon * abs(Ak[i, i])
+        for i in range(len(Ak)) for j in range(i)):
+      return np.diag(Ak), iteration_num
+    if iteration_num == max_iter:
+      break
+    Q, R = np.linalg.qr(Ak)
+    Ak = R @ Q
+
+  raise RuntimeError("最大反復回数までにQR法が収束しませんでした")
+
+
+def QR_method_shift_deflation(A, epsilon=1e-6, max_iter=10000):
+  """実対称行列の固有値を、シフトと減次を使ったQR法で求める。"""
+  Ak = np.array(A, dtype=float)
+  eigenvalues = []
+  iteration_num = 0
+
+  while len(Ak) > 1:
+    # 減次：最終行が式 (2.17) の条件を満たしたら、右下成分を採用する。
+    # 割り算を避け、|a_nj| <= epsilon * |a_nn| で判定する。
+    if np.all(np.abs(Ak[-1, :-1]) <= epsilon * abs(Ak[-1, -1])):
+      eigenvalues.append(Ak[-1, -1])
+      Ak = Ak[:-1, :-1].copy()
+      continue
+
+    if iteration_num >= max_iter:
+      raise RuntimeError("最大反復回数までにQR法が収束しませんでした")
+
+    # シフト：sigma = a_nn として Ak - sigma I をQR分解する。
+    sigma = Ak[-1, -1]
+    I = np.eye(len(Ak))
+    Q, R = np.linalg.qr(Ak - sigma * I)
+    # 引いたシフトを戻すと、元の行列と同じ固有値が保たれる。
+    Ak = R @ Q + sigma * I
+    iteration_num += 1
+
+  eigenvalues.append(Ak[0, 0])
+  return eigenvalues, iteration_num

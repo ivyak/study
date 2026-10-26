@@ -1,4 +1,5 @@
-from math import isfinite
+import numpy as np
+
 # ------------------------------
 # 課題1用の関数
 # ------------------------------
@@ -114,3 +115,16 @@ def descent(
     x = x + t * d
 
   raise RuntimeError("最大反復回数の更新で収束しませんでした")
+
+# ------------------------------
+# 課題3用の関数
+# ------------------------------
+
+def backtracking_line_search(f, grad_f, d, x: list[float], t0: float, xi: float, rho: float):
+  # Step 0: ξ ∈ (0, 1)，ρ ∈ (0, 1)，初期ステップサイズ t0 > 0 を選ぶ．t = t0とする．
+  t = t0
+  # Step 1: 次式を満たすまで t ← ρ t とする．
+  while f(x + t * d) > f(x) + xi * t * np.dot(grad_f(x), d):
+    t *= rho
+  # Step 2: tk = t として終了
+  return t

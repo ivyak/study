@@ -99,7 +99,7 @@ def descent(
   for k in range(max_iter + 1):
 
     # step1
-    grad = grad_f(x)
+    grad: float = grad_f(x)
     if abs(grad) <= epsilon:
       return x
     if k == max_iter:
@@ -117,14 +117,55 @@ def descent(
   raise RuntimeError("最大反復回数の更新で収束しませんでした")
 
 # ------------------------------
-# 課題3用の関数
+# 課題4用の関数
 # ------------------------------
 
 def backtracking_line_search(f, grad_f, d, x: list[float], t0: float, xi: float, rho: float):
   # Step 0: ξ ∈ (0, 1)，ρ ∈ (0, 1)，初期ステップサイズ t0 > 0 を選ぶ．t = t0とする．
   t = t0
   # Step 1: 次式を満たすまで t ← ρ t とする．
+  print(f(x + t * d), f(x) + xi * t * np.dot(grad_f(x), d))
   while f(x + t * d) > f(x) + xi * t * np.dot(grad_f(x), d):
     t *= rho
   # Step 2: tk = t として終了
   return t
+
+def norm_2(x):
+  return np.sqrt(np.sum(np.array(x)**2))
+
+# 降下法
+def descent_kadai4(
+    f,
+    grad_f,
+    x0,
+    direction=steepest_direction,
+    epsilon=1e-6,
+    max_iter=10000
+  ):
+  # step0:
+  if epsilon <= 0:
+    raise ValueError("ε <= 0")
+  if max_iter <= 0:
+    raise ValueError("最大反復回数が0以下です")
+
+  x = x0
+  for k in range(max_iter + 1):
+
+    # step1
+    grad: list[float] = grad_f(x)
+    if norm_2(grad) <= epsilon:
+      return x, f(x), k
+    if k == max_iter:
+      break
+
+    # step2
+    d = direction(x, grad)
+
+    # step3
+    t = backtracking_line_search(f, grad_f, d, x, t0=1.0, xi=1e-4, rho=0.5)
+
+    # step4
+    x = x + t * d
+
+  raise RuntimeError("最大反復回数の更新で収束しませんでした")
+

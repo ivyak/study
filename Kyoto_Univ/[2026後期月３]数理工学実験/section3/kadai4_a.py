@@ -1,18 +1,11 @@
-# Python を用いて，点 x が与えられたとき，目的関数の値 f(x)を出力する関数を作成せよ．
-import numpy as np
+from utils_math import descent_kadai4
+from kadai3 import f_3, grad_f_3
+from utils_plot import save_txt
 
-def f_3(x):
-  x0, x1 = x
-  return x0**2 + np.exp(x0) + x1**4 + x1**2 - 2*x0*x1 + 3
+x, fx, k = descent_kadai4(
+  f=f_3,
+  grad_f=grad_f_3,
+  x0=[1, 1],
+)
 
-def grad_f_3(x):
-  x0, x1 = x
-  return np.array([2*x0 + np.exp(x0) - 2*x1, 4*x1**3 + 2*x1 - 2*x0])
-
-def hess_f_3(x):
-  x0, x1 = x
-  f00 = 2 + np.exp(x0)
-  f01 = -2
-  f10 = -2
-  f11 = 12*x1**2 + 2
-  return np.array([[f00, f01], [f10, f11]])
+save_txt(x, fx, k, save_path="kadai4_a.txt")

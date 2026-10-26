@@ -1,4 +1,3 @@
-# Python を用いて，点 x が与えられたとき，目的関数の値 f(x)を出力する関数を作成せよ．
 import numpy as np
 
 def f_3(x):

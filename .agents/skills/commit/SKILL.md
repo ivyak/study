@@ -1,78 +1,36 @@
 ---
 name: commit
-description:
-  Create a well-formed git commit from current changes using session history for
-  rationale and summary; use when asked to commit, prepare a commit message, or
-  finalize staged work.
+description: "Commit Git changes in one of two modes: `-s` for changes made in the current session only, or `-a` for all current changes split into coherent commits. Use when asked to commit or prepare commits."
 ---
 
 # Commit
 
-## Goals
+## モード
 
-- Produce a commit that reflects the actual code changes and the session
-  context.
-- Follow common git conventions (type prefix, short subject, wrapped body).
-- Include both summary and rationale in the body.
-- Write the human-readable commit subject and body in Japanese unless the user
-  explicitly requests another language. Keep required Git syntax, conventional
-  type/scope prefixes, commands, identifiers, and trailers as written.
+- `-s`（session）：このセッションで加えた変更だけをコミットする。開始前から存在した変更は、同じファイルの別の行であっても含めない。指定がなく、依頼文から範囲を判断できない場合は `-s` を既定とする。
+- `-a`（all）：現在のリポジトリにあるステージ済み・未ステージ・未追跡の変更を対象にする。差分を読んで意味上の領域ごとに分け、必要な数のコミットを作る。領域はディレクトリ名だけで決めず、変更の目的と依存関係で判断する。単一のまとまりなら1コミットでよい。
 
-## Inputs
+依頼文に範囲が明記されていれば、フラグがなくても対応するモードを使う。`-a` と `-s` が同時に指定された場合や、明示された範囲とフラグが矛盾する場合は確認する。フラグはこのスキルのモード指定であり、`git commit -a` にそのまま渡すオプションではない。
 
-- Codex session history for intent and rationale.
-- `git status`, `git diff`, and `git diff --staged` for actual changes.
-- Repo-specific commit conventions if documented.
+## 対象の確認
 
-## Steps
+1. セッション履歴、`git status --short`、`git diff`、`git diff --cached`、未追跡ファイルの中身を確認する。リポジトリ固有のコミット規約があれば従う。
+2. `-s` ではセッション開始時の状態、履歴上の編集、差分を照合して対象のファイルと hunk を特定する。現在の `git diff HEAD` 全体をセッション内の変更と見なさない。開始時の状態が記録されておらず、既存の変更との境界を信頼して特定できない部分は推測でコミットしない。確実な部分を進め、残る曖昧な部分だけユーザーに確認する。
+3. `-a` では全変更を棚卸しする。新規ファイルも確認し、生成物、ログ、秘密情報など意図しない内容が紛れていれば対象と理由を示して扱いを確認する。問題のない変更を黙って除外しない。
+4. 競合中のファイルやサブモジュールなど、通常の差分として安全に扱えない変更を見つけたら、可能な範囲で解決・確認してからコミットする。
 
-1. Read session history to identify scope, intent, and rationale.
-2. Inspect the working tree and staged changes (`git status`, `git diff`,
-   `git diff --staged`).
-3. Stage intended changes, including new files (`git add -A`) after confirming
-   scope.
-4. Sanity-check newly added files; if anything looks random or likely ignored
-   (build artifacts, logs, temp files), flag it to the user before committing.
-5. If staging is incomplete or includes unrelated files, fix the index or ask
-   for confirmation.
-6. Choose a conventional type and optional scope that match the change (e.g.,
-   `feat(scope): ...`, `fix(scope): ...`, `refactor(scope): ...`).
-7. Write a concise Japanese subject line, <= 72 characters, with no trailing
-   period. Use a Japanese phrase that describes the change naturally.
-8. Write a body that includes:
-   - Summary of key changes (what changed).
-   - Rationale and trade-offs (why it changed).
-   - Tests or validation run (or explicit note if not run).
-9. Append a `Co-authored-by` trailer for Codex using `Codex <codex@openai.com>`
-   unless the user explicitly requests a different identity.
-10. Wrap body lines at 72 characters.
-11. Create the commit message with a here-doc or temp file and use
-    `git commit -F <file>` so newlines are literal (avoid `-m` with `\n`).
-12. Commit only when the message matches the staged changes: if the staged diff
-    includes unrelated files or the message describes work that isn't staged,
-    fix the index or revise the message before committing.
+## ステージと分割
 
-## Output
+- 各コミットの対象を先に決め、その内容だけをステージする。`-s` ではファイル全体の `git add` や `git add -A` で既存の変更を巻き込まない。同一ファイルに対象外の変更が混じる場合は hunk またはパッチ単位で分ける。
+- `-a` でも全件を一度にステージして1コミットにせず、領域ごとにステージ・検証・コミットを繰り返す。依存する変更は、各コミットが理解できる単位になるようまとめる。
+- 先にステージされていた別領域・対象外の変更を誤ってコミットしない。必要ならインデックスを安全に退避・復元し、ステージ状態を含めて最後に確認する。変更が重なって安全に分離できない場合は、その部分のコミットを保留して理由を伝える。
+- 各コミット前に `git diff --cached` と対象一覧を確認し、メッセージと実際のステージ内容を一致させる。最後に `git status` とコミット一覧で取りこぼしや対象外の混入がないか確認する。
 
-- A single commit created with `git commit` whose message reflects the session.
+## メッセージ
 
-## Template
+- 変更に合う Conventional Commit の type と必要なら scope を選ぶ。件名は末尾の句点なし、72文字以内の簡潔な日本語にする。ユーザーが他言語を指定した場合はそれに従う。
+- 本文には変更内容、理由・トレードオフ、実施した検証（または未実施の理由）を記す。本文は72文字程度で折り返す。
+- ユーザーが別の指定をしない限り、`Co-authored-by: Codex <codex@openai.com>` を付ける。
+- 複数行のメッセージは一時ファイルなどに正確に書き、`git commit -F <file>` を使う。各コミットの説明は、そのコミットに入る変更だけに対応させる。
 
-Type and scope are examples only; adjust to fit the repo and changes.
-
-```
-<type>(<scope>): <変更の要約>
-
-変更内容:
-- <何を変更したか>
-- <何を変更したか>
-
-理由:
-- <なぜ変更したか>
-- <なぜ変更したか>
-
-検証:
-- <実行したコマンドと結果、または「未実施（理由）」>
-
-Co-authored-by: Codex <codex@openai.com>
-```
+完了後は各コミットの短いハッシュと領域、残った変更とその理由を報告する。

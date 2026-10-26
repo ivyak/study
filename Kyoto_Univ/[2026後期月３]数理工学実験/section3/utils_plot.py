@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 
 def save_txt(*values, save_path):
   path = Path(__file__).with_name(save_path)
-  print(f"Saving values to {path}")
 
   # parents=True：途中のフォルダもまとめて作る
   path.parent.mkdir(parents=True, exist_ok=True)

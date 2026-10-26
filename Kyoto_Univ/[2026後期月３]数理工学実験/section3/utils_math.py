@@ -124,7 +124,6 @@ def backtracking_line_search(f, grad_f, d, x: list[float], t0: float, xi: float,
   # Step 0: ξ ∈ (0, 1)，ρ ∈ (0, 1)，初期ステップサイズ t0 > 0 を選ぶ．t = t0とする．
   t = t0
   # Step 1: 次式を満たすまで t ← ρ t とする．
-  print(f(x + t * d), f(x) + xi * t * np.dot(grad_f(x), d))
   while f(x + t * d) > f(x) + xi * t * np.dot(grad_f(x), d):
     t *= rho
   # Step 2: tk = t として終了
@@ -169,3 +168,42 @@ def descent_kadai4(
 
   raise RuntimeError("最大反復回数の更新で収束しませんでした")
 
+
+# ------------------------------
+# 課題5用の関数
+# ------------------------------
+
+def f_5(x):
+  a, b = x
+  f0 = 1.5 - a * (1 - b)
+  f1 = 2.25 - a * (1 - b**2)
+  f2 = 2.625 - a * (1 - b**3)
+  return f0**2 + f1**2 + f2**2
+
+
+def grad_f_5(x):
+  a, b = x
+  f0 = 1.5 - a * (1 - b)
+  f1 = 2.25 - a * (1 - b**2)
+  f2 = 2.625 - a * (1 - b**3)
+  return np.array([
+    2 * (f0 * (b - 1) + f1 * (b**2 - 1) + f2 * (b**3 - 1)),
+    2 * (f0 * a + f1 * 2 * a * b + f2 * 3 * a * b**2),
+  ])
+
+
+def hess_f_5(x):
+  a, b = x
+  f0 = 1.5 - a * (1 - b)
+  f1 = 2.25 - a * (1 - b**2)
+  f2 = 2.625 - a * (1 - b**3)
+
+  h00 = 2 * ((b - 1)**2 + (b**2 - 1)**2 + (b**3 - 1)**2)
+  h01 = 2 * (
+    f0 + a * (b - 1)
+    + 2 * b * f1 + 2 * a * b * (b**2 - 1)
+    + 3 * b**2 * f2 + 3 * a * b**2 * (b**3 - 1)
+  )
+  h11 = 2 * (a**2 + 2 * a * f1 + (2 * a * b)**2
+             + 6 * a * b * f2 + (3 * a * b**2)**2)
+  return np.array([[h00, h01], [h01, h11]])

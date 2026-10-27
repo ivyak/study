@@ -1,0 +1,90 @@
+\documentclass[a4j]{jarticle}
+\usepackage{graphicx}
+\usepackage{amsmath,ascmac}
+\usepackage{bm}
+\usepackage{algorithm,algorithmic}
+\usepackage{listings}
+\lstset{%
+  language={C},
+  basicstyle={\small},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\renewcommand{\lstlistingname}{コード}
+\renewcommand{\lstlistlistingname}{コード目次}
+
+%
+% 以後をレポート課題ごとに書き換える。
+%
+
+\usepackage{amssymb}
+
+\begin{document}
+\title{数値解析レポート課題（2026年10月21日）}
+\author{井上慧人（学籍番号: 1029374191 / 所属: 工学部情報学科 数理工学コース 2回生）}
+\date{提出期限：2026年 10月 28日}
+\maketitle
+
+\section*{問1}
+
+講義で示された事実より、$\mathbb{C}^n$ の任意の二つのノルム
+$\|\cdot\|_a$、$\|\cdot\|_b$ に対して、正の定数 $c,C$ が存在し、
+\begin{align}
+  c\|x\|_a \leq \|x\|_b \leq C\|x\|_a
+  \qquad (\forall x\in\mathbb{C}^n)
+  \label{eq:norm-equivalence}
+\end{align}
+が成り立つ。
+
+したがって、任意の列 $\{x_k\}\subset\mathbb{C}^n$ に対して、
+\begin{align}
+  c\|x_k\|_a \leq \|x_k\|_b \leq C\|x_k\|_a
+  \qquad (k=1,2,\ldots)
+  \label{eq:sequence-bounds}
+\end{align}
+が成り立つ。
+
+\paragraph{$(\Rightarrow)$}
+$\|x_k\|_a\to 0$ とする。\eqref{eq:sequence-bounds} より、
+\begin{align}
+  0\leq\|x_k\|_b\leq C\|x_k\|_a
+\end{align}
+であり、$C\|x_k\|_a\to 0$ であるから、はさみうちの原理により
+$\|x_k\|_b\to 0$ が成り立つ。
+
+\paragraph{$(\Leftarrow)$}
+$\|x_k\|_b\to 0$ とする。\eqref{eq:sequence-bounds} と $c>0$ より、
+\begin{align}
+  0\leq\|x_k\|_a\leq\frac{1}{c}\|x_k\|_b
+\end{align}
+であり、$\dfrac{1}{c}\|x_k\|_b\to 0$ であるから、はさみうちの原理により
+$\|x_k\|_a\to 0$ が成り立つ。
+
+以上より、
+\begin{align}
+  \|x_k\|_a\to 0
+  \quad\Longleftrightarrow\quad
+  \|x_k\|_b\to 0
+\end{align}
+\hfill$\square$
+
+\section*{問2}
+
+% 原稿では未記入のため、自分の講義の感想を以下に記入する。
+\noindent
+授業の板書は少し速く感じることがありますが、以前に学んだ内容との関連を示しながら説明してくださるので、新しい内容も理解しやすいと感じています。板書を整理する時間がもう少しあると、説明の内容をよりじっくり考えながら授業を受けられると思います。
+
+\end{document}

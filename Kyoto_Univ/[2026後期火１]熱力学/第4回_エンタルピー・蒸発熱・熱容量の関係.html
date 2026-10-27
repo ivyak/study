@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja"><head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>熱力学｜第4回：エンタルピー・蒸発熱・熱容量の関係</title>
+<meta name="study-ui" content="life"><meta name="study-lesson" content="4"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-27">
+<link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script><style>.lesson-document table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}.lesson-document th,.lesson-document td{text-align:left;border-bottom:1px solid var(--line);padding:12px 10px;overflow-wrap:anywhere}.lesson-document th{color:var(--gold);font-weight:500}</style></head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期火１]熱力学"><div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main><div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E7%81%AB%EF%BC%91%5D%E7%86%B1%E5%8A%9B%E5%AD%A6" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E7%81%AB%EF%BC%91%5D%E7%86%B1%E5%8A%9B%E5%AD%A6">熱力学</a><span>/</span><span>第4回 解説</span></div>
+<header class="document-header"><p class="eyebrow">2026年度 後期 · 火曜1限 / 第4回</p><h1 id="document-title">熱力学</h1><p class="subtitle">第4回｜エンタルピー・蒸発熱・熱容量の関係</p></header>
+<p class="muted">想定読了時間：約16分</p><p class="muted">出典：<a href="授業資料/20261027%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf">20261027 - 熱力学板書.pdf</a> ／ <a href="https://chatgpt.com/share/6ae004a3-fb74-83e8-9016-2ac8c85b1ee6">共有会話「d'Qの解説」</a></p>
+<div class="section-rule"></div><div class="reader"><article class="lesson-document" aria-labelledby="document-title">
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><p>定容では熱が内部エネルギーの変化、定圧ではエンタルピーの変化に対応する。この関係を蒸発熱の温度依存と熱容量の関係へつなげる。ここでは共有会話で説明されている範囲を扱う。</p></section>
+<section class="explanation" id="explanation-001"><h2>1　熱とエンタルピー — d′Qの意味 <span class="muted">約5分</span></h2><p class="source"><a href="授業資料/20261027%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=1">原典：pp. 1–2（熱容量の定義はp. 5）</a> ／ <a href="https://chatgpt.com/share/6ae004a3-fb74-83e8-9016-2ac8c85b1ee6">共有会話・回答1</a></p>
+<p>この板書は、<strong>「体積一定で加えた熱は内部エネルギー \(U\) の増加に、圧力一定で加えた熱はエンタルピー \(H\) の増加に等しい」</strong>という話です。順番に説明するね。</p>
+<p>まず、記号の意味はこうです。</p>
+<table><thead><tr><th>記号</th><th>意味</th></tr></thead><tbody><tr><td>\(U\)</td><td>内部エネルギー</td></tr><tr><td>\(p\)</td><td>圧力</td></tr><tr><td>\(V\)</td><td>体積</td></tr><tr><td>\(H=U+pV\)</td><td>エンタルピー</td></tr><tr><td>\(dU,dV\) など</td><td>それぞれの量の微小な変化</td></tr><tr><td>\(d'Q\)</td><td>外から系に加えた微小な熱量</td></tr></tbody></table>
+<p><strong>\(d'\) は「ダッシュ付きの微分記号」で、普通の \(d\) と区別するためのものです。</strong> \(d'Q\) は \(\delta Q\) とも書きます。\(Q\) の導関数という意味ではありません。</p>
+<p>なぜ区別するかというと、<strong>内部エネルギーは「今の状態」で決まるけど、加えた熱量は「そこまでの変化のさせ方」にも依存する</strong>からです。</p>
+<p>例えば、同じ状態Aから同じ状態Bへ移るなら、</p>
+<div class="equation">\[\Delta U=U_B-U_A\]</div>
+<p>は、どんな経路でも同じです。一方、途中でどれだけ膨張させて外に仕事をしたかによって、必要な熱量は変わります。</p>
+<p>つまり、</p><ul><li>\(dU\)：系が持つ状態量 \(U\) の変化。</li><li>\(d'Q\)：変化の途中で受け取った熱。ある状態に「蓄えられている熱 \(Q\)」の変化ではない。</li></ul><p>という違いです。</p>
+<p>ここから板書の式を導きます。以下では、系が外にする仕事は膨張・圧縮による仕事だけとし、その微小な仕事を \(p\,dV\) と書ける場合を考えます。</p>
+<h3>① 出発点は、エネルギー保存則です。</h3>
+<div class="equation">\[\underbrace{dU}_{\text{内部エネルギーの増加}}=\underbrace{d'Q}_{\text{加えた熱}}-\underbrace{p\,dV}_{\text{外にした仕事}}\]</div>
+<p>これを並べ替えると、</p>
+<div class="equation">\[\boxed{d'Q=dU+p\,dV}\]</div>
+<p>です。加えた熱は、内部エネルギーを増やす分と、外に仕事をする分に使われます。</p>
+<h3>② 体積一定なら、加えた熱がそのまま \(U\) を増やします。</h3>
+<p>体積一定では \(dV=0\) なので、</p>
+<div class="equation">\[\boxed{(d'Q)_V=(dU)_V}\]</div>
+<p>となります。下付きの \(V\) は「体積一定という条件で」という意味です。</p>
+<p>例えば、変形しない密閉容器に熱を加える場合、容器を膨らませる仕事がないため、加えた熱は内部エネルギーの増加になります。</p>
+<h3>③ 圧力一定では、膨張の仕事もまとめて扱うために \(H\) を使います。</h3>
+<p>定義は、</p><div class="equation">\[\boxed{H=U+pV}\]</div>
+<p>です。これを微分すると、積の微分から、</p>
+<div class="equation">\[dH=dU+d(pV)=dU+p\,dV+V\,dp\]</div>
+<p>となります。</p><p>圧力一定なら \(dp=0\) なので、</p>
+<div class="equation">\[(dH)_p=(dU)_p+p\,dV\]</div>
+<p>右辺は、①の「加えた熱」と同じ形です。したがって、</p>
+<div class="equation">\[\boxed{(d'Q)_p=(dH)_p}\]</div>
+<p>つまり、<strong>圧力一定で加えた熱は、エンタルピーの増加に等しい</strong>わけです。</p>
+<p>例えば、一定の圧力のもとで熱を \(100\,\mathrm{J}\) 加え、膨張によって外に \(30\,\mathrm{J}\) の仕事をしたなら、</p>
+<div class="equation">\[\Delta U=100-30=70\,\mathrm{J}\]</div>
+<p>ですが、</p><div class="equation">\[\Delta H=\Delta U+p\Delta V=70+30=100\,\mathrm{J}\]</div>
+<p>となります。</p>
+<p>板書上部の「圧力一定のとき、熱は状態量として取り扱える」は、正確には <strong>「その条件では、やり取りした熱量を状態量 \(H\) の変化で計算できる」</strong>という意味です。エンタルピー自体は、圧力一定でないときにも定義できます。</p>
+<p>最後に、板書にある「熱容量」とのつながりです。熱容量は「温度を \(1\,\mathrm{K}\) 上げるのに必要な熱量」なので、上の式を温度変化と結びつけると、</p>
+<div class="equation">\[\boxed{C_V=\left(\frac{\partial U}{\partial T}\right)_V},\qquad\boxed{C_p=\left(\frac{\partial H}{\partial T}\right)_p}\]</div>
+<p>になります。これが、定積熱容量には \(U\)、定圧熱容量には \(H\) が出てくる理由です。</p>
+</section>
+<section class="explanation" id="explanation-002"><h2>2　蒸発エンタルピーとヘスの法則 <span class="muted">約6分</span></h2><p class="source"><a href="授業資料/20261027%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=3">原典：pp. 3–4</a> ／ <a href="https://chatgpt.com/share/6ae004a3-fb74-83e8-9016-2ac8c85b1ee6">共有会話・回答2</a></p>
+<p>今回は、<strong>「蒸発に必要な熱量は温度で変わる」「その熱の一部は、膨張して外に仕事をするために使われる」</strong>という話です。前の \(H=U+pV\) とつながっています。</p>
+<p>まず、\(\Delta_{\mathrm{vap}}H\) は<strong>蒸発エンタルピー</strong>で、同じ温度・圧力における「気体と液体のエンタルピーの差」です。</p>
+<div class="equation">\[\boxed{\Delta_{\mathrm{vap}}H(T)=H_{\mathrm{気体}}(T)-H_{\mathrm{液体}}(T)}\]</div>
+<p>圧力一定で、膨張以外の仕事がなければ、これは<strong>その温度で液体を気体にするのに必要な熱量</strong>に等しくなります。蒸発中は、熱を加えても温度が上がらず、液体から気体へ変わるために使われます。これが「潜熱」です。</p>
+<p><strong>1枚目のグラフは、液体と気体の \(H\) を温度に対して描いたものです。</strong></p>
+<p>横軸が温度 \(T\)、縦軸がエンタルピーです。縦軸は板書では \(\Delta H\) となっていますが、基準から測ったエンタルピーだと思えば大丈夫です。</p>
+<ul><li>下の線：液体の水のエンタルピー。</li><li>上の線：水蒸気のエンタルピー。</li><li>同じ温度での上下の差：その温度の蒸発エンタルピー。</li></ul>
+<figure><svg viewBox="0 0 650 320" role="img" aria-labelledby="vap-graph-title"><title id="vap-graph-title">板書の温度とエンタルピーの図。25℃と100℃で液体と気体の差を比較する。</title><path class="white" d="M70 25V270H610M70 25l-5 10m5-10 5 10M610 270l-10-5m10 5-10 5"/><text x="15" y="50">ΔH</text><text x="610" y="300">T</text><path class="gold" d="M75 265 440 145M440 145 440 90 590 67"/><path class="gold dashed" d="M180 130 440 90"/><path class="white dashed" d="M180 130V270M440 145V270"/><path class="white" d="M195 225V130m-5 7 5-7 5 7m-10 81 5 7 5-7M455 145V90m-5 7 5-7 5 7m-10 40 5 7 5-7"/><text x="150" y="295">25℃</text><text x="415" y="295">100℃</text><text x="275" y="225">水</text><text x="320" y="83">水蒸気</text><text x="205" y="193">ΔᵥₐₚH°</text><text x="475" y="125">ΔᵥₐₚH (100℃)</text></svg><figcaption>原典：p. 3の図を描き直し</figcaption></figure>
+<p>したがって、\(100^\circ\mathrm C\) の縦の段差は、</p>
+<div class="equation">\[\Delta_{\mathrm{vap}}H(100^\circ\mathrm C)\]</div>
+<p>です。大気圧付近では、水を加熱すると「液体の線に沿って温度が上がる → 約 \(100^\circ\mathrm C\) で温度一定のまま蒸発する → 水蒸気の温度が上がる」と進みます。</p>
+<p>一方、\(25^\circ\mathrm C\) の上下の差も、液体と気体のエンタルピーの差として考えられます。<strong>沸点でなくても、蒸発エンタルピーは定義できる</strong>ということです。ただし、点線は計算のために延長した気体の状態を含み、すべてが大気圧下で安定に実現する状態というわけではありません。</p>
+<p>なお、\(\Delta_{\mathrm{vap}}H^\circ\) の右上の \(\circ\) は<strong>標準状態</strong>の印です。「温度が \(0^\circ\mathrm C\)」という意味ではなく、この板書では \(25^\circ\mathrm C\) の値を使っています。</p>
+<p><strong>2枚目の上の式は、同じ始点と終点を2通りの経路で結んでいます。</strong></p>
+<p>始点は「\(25^\circ\mathrm C\) の液体」、終点は「\(100^\circ\mathrm C\) の気体」です。</p>
+<table><thead><tr><th>経路</th><th>最初の変化</th><th>次の変化</th></tr></thead><tbody><tr><td>A</td><td>\(25^\circ\mathrm C\) で気体にする</td><td>気体を \(100^\circ\mathrm C\) まで温める</td></tr><tr><td>B</td><td>液体を \(100^\circ\mathrm C\) まで温める</td><td>\(100^\circ\mathrm C\) で気体にする</td></tr></tbody></table>
+<p>温度を上げるときのエンタルピー変化は、前に出てきた</p>
+<div class="equation">\[C_p=\left(\frac{\partial H}{\partial T}\right)_p\]</div>
+<p>から、</p><div class="equation">\[\Delta H=\int_{T_1}^{T_2}C_p\,dT\]</div>
+<p>です。つまり、<strong>熱容量を温度について足し合わせれば、温めるのに必要な熱量になる</strong>わけです。</p>
+<p>エンタルピーは状態量なので、始点と終点が同じなら、経路AとBで変化量は等しくなります。</p>
+<div class="equation">\[\underbrace{\Delta_{\mathrm{vap}}H(25^\circ\mathrm C)+\int_{25^\circ\mathrm C}^{100^\circ\mathrm C}C_p(g)\,dT}_{\text{経路A}}=\underbrace{\int_{25^\circ\mathrm C}^{100^\circ\mathrm C}C_p(l)\,dT+\Delta_{\mathrm{vap}}H(100^\circ\mathrm C)}_{\text{経路B}}\]</div>
+<p>\(g\) は気体、\(l\) は液体です。これが板書の「ヘスの法則」に当たります。</p>
+<p>整理すると、</p>
+<div class="equation">\[\boxed{\Delta_{\mathrm{vap}}H(100^\circ\mathrm C)=\Delta_{\mathrm{vap}}H(25^\circ\mathrm C)+\int_{25^\circ\mathrm C}^{100^\circ\mathrm C}\bigl[C_p(g)-C_p(l)\bigr]\,dT}\]</div>
+<p>となり、<strong>ある温度の蒸発エンタルピーと、液体・気体それぞれの熱容量が分かれば、別の温度の蒸発エンタルピーを求められます。</strong></p>
+<p>水ではこの温度範囲で \(C_p(l)&gt;C_p(g)\) なので、積分部分は負になり、蒸発エンタルピーは温度が上がると小さくなります。グラフでも、液体の線の方が急なので、上下の間隔が狭くなっています。</p>
+<p><strong>最後の式は、蒸発エンタルピーから内部エネルギーの変化を求めています。</strong></p>
+<div class="equation">\[H=U+pV\]</div>
+<p>より、圧力一定なら、</p>
+<div class="equation">\[\Delta_{\mathrm{vap}}H=\Delta_{\mathrm{vap}}U+p\Delta V\]</div>
+<p>したがって、</p>
+<div class="equation">\[\boxed{\Delta_{\mathrm{vap}}U=\Delta_{\mathrm{vap}}H-p\Delta V}\]</div>
+<p>です。蒸発すると体積が大きく増えるので、加えた熱の一部 \(p\Delta V\) は、周囲を押しのける仕事に使われます。その分、内部エネルギーの増加は小さくなります。</p>
+<p>さらに、</p><ul><li>液体の体積は気体に比べて無視できる。</li><li>蒸気を理想気体とみなせる。</li></ul>
+<p>とすると、物質量を \(n\) として、</p>
+<div class="equation">\[p\Delta V=p(V_g-V_l)\approx pV_g=nRT\]</div>
+<p>なので、</p>
+<div class="equation">\[\boxed{\Delta_{\mathrm{vap}}U\approx\Delta_{\mathrm{vap}}H-nRT}\]</div>
+<p>となります。<strong>最後の式にはこの2つの近似が入っています。</strong> \(T\) は絶対温度なので、\(100^\circ\mathrm C\) なら \(373.15\,\mathrm K\) を代入します。1 molあたりの値で計算するときは、差し引く項は \(RT\) です。</p>
+</section>
+<section class="explanation" id="explanation-003"><h2>3　定圧・定積熱容量を結ぶ式変形 <span class="muted">約4分</span></h2><p class="source"><a href="授業資料/20261027%20-%20%E7%86%B1%E5%8A%9B%E5%AD%A6%E6%9D%BF%E6%9B%B8.pdf#page=5">原典：pp. 5–6（理想気体の結果はpp. 7–8）</a> ／ <a href="https://chatgpt.com/share/6ae004a3-fb74-83e8-9016-2ac8c85b1ee6">共有会話・回答3</a></p>
+<p><strong>目的は、定圧熱容量 \(C_p\) と定積熱容量 \(C_V\) の関係を求めることです。</strong><br>特に理想気体なら、最終的に</p>
+<div class="equation">\[\boxed{C_p-C_V=nR}\]</div>
+<p>を導けます。板書は、そのための途中計算です。</p>
+<p>まず1枚目では、\(H=U+pV\) を使って、</p>
+<div class="equation">\[C_p=\left(\frac{\partial H}{\partial T}\right)_p=\left(\frac{\partial U}{\partial T}\right)_p+p\left(\frac{\partial V}{\partial T}\right)_p\]</div>
+<p>としています。</p>
+<p>ここで、最初の項をそのまま \(C_V\) に置き換えたくなりますが、</p>
+<div class="equation">\[C_V=\left(\frac{\partial U}{\partial T}\right)_{\!V}\]</div>
+<p>なので、<strong>固定しているものが違い、そのままでは置き換えられません。</strong> この違いを処理するのが2枚目です。</p>
+<p>圧力一定で温めると、普通は体積も変わります。したがって、\(U=U(T,V)\) の変化には、</p>
+<ul><li>温度が変わることによる変化</li><li>体積が変わることによる変化</li></ul>
+<p>の両方が含まれます。それを全微分で書いたのが、</p>
+<div class="equation">\[dU=\left(\frac{\partial U}{\partial T}\right)_V dT+\left(\frac{\partial U}{\partial V}\right)_T dV\]</div>
+<p>です。</p>
+<p>圧力一定という条件で、これを温度変化あたりに直すと、</p>
+<div class="equation">\[\boxed{\left(\frac{\partial U}{\partial T}\right)_p=\underbrace{\left(\frac{\partial U}{\partial T}\right)_V}_{C_V}+\underbrace{\left(\frac{\partial U}{\partial V}\right)_T\left(\frac{\partial V}{\partial T}\right)_p}_{\text{温度上昇に伴って体積も変わることの影響}}}\]</div>
+<p>となります。これは<strong>合成関数の微分（連鎖律）</strong>です。圧力一定では \(V=V(T,p)\) なので、温度が体積を通じても \(U\) に影響するわけです。</p>
+<p>これを1枚目の式に代入すれば、</p>
+<div class="equation">\[C_p=C_V+\left[\left(\frac{\partial U}{\partial V}\right)_T+p\right]\left(\frac{\partial V}{\partial T}\right)_p\]</div>
+<p>つまり、</p>
+<div class="equation">\[\boxed{C_p-C_V=\left[\left(\frac{\partial U}{\partial V}\right)_T+p\right]\left(\frac{\partial V}{\partial T}\right)_p}\]</div>
+<p>と、<strong>2種類の熱容量を結びつけられます。</strong></p>
+<p>理想気体の場合は、内部エネルギーが温度だけで決まるので、</p>
+<div class="equation">\[\left(\frac{\partial U}{\partial V}\right)_T=0\]</div>
+<p>また \(V=nRT/p\) から、</p>
+<div class="equation">\[\left(\frac{\partial V}{\partial T}\right)_p=\frac{nR}{p}\]</div>
+<p>よって、</p>
+<div class="equation">\[C_p-C_V=p\frac{nR}{p}=\boxed{nR}\]</div>
+<p>です。理想気体では、<strong>圧力一定で温めると膨張の仕事も必要になるため、その分だけ定積の場合より多くの熱が必要</strong>だと分かります。</p>
+</section>
+</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><a href="#summary">講義を通して言いたいこと</a><a href="#explanation-001">1　熱とエンタルピー — d′Qの意味</a><a href="#explanation-002">2　蒸発エンタルピーとヘスの法則</a><a href="#explanation-003">3　定圧・定積熱容量を結ぶ式変形</a></div></nav></div></main></div></body></html>

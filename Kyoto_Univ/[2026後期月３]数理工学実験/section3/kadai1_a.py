@@ -11,5 +11,5 @@ plot_f(
   x, 
   f(x),
   title="Graph of $f(x) = x^3 + 2x^2 - 5x - 6$",
-  save_path="kadai1_a.svg"
+  save_path="kadai1_a.png"
 )

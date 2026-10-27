@@ -2,12 +2,17 @@
 <html lang="ja"><head>
 <link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
-<meta name="study-ui" content="life"><meta name="study-lesson" content="2"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-21">
+<meta name="study-ui" content="life"><meta name="study-lesson" content="2"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-27">
 <title>数値解析｜第2回：丸め誤差・ガウスの消去法と軸選択</title>
 <link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
-<style>.numeric-clean .read-time{display:inline-block;font-size:12px;color:var(--muted);font-weight:400;margin-left:12px}.numeric-clean .claim{font-weight:500}.numeric-clean .lesson-meta{color:var(--muted);font-size:13px}</style>
+<style>.numeric-clean .read-time{display:inline-block;font-size:12px;color:var(--muted);font-weight:400;margin-left:12px}.numeric-clean .lesson-meta{color:var(--muted);font-size:13px}.numeric-clean .source{font-size:12px;color:var(--muted)}
+.numeric-clean .row-operation-images{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0 26px;align-items:start}
+.numeric-clean .row-operation-images a{display:block;min-width:0}
+.numeric-clean .row-operation-images img{display:block;width:100%;height:auto;background:#fff;border-radius:4px}
+@media(max-width:767px){.numeric-clean .row-operation-images{grid-template-columns:1fr;gap:16px}}
+</style>
 </head>
 <body data-life-page="document" data-portal="../index.html" data-course="[2026後期水４]数値解析">
 <div class="shell">
@@ -40,109 +45,107 @@
       <div class="sidebar-foot">LIFE / STUDY SPACE</div>
     </aside>
 <!-- LIFE-SHELL:END -->
+
 <main>
 <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
 <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90">数値解析</a><span>/</span><span>第2回 解説</span></div>
-<header class="page-head"><p class="eyebrow">2026年度 後期 · 水曜4限 / 第2回</p><h1 id="document-title">丸め誤差・ガウスの消去法と軸選択</h1><p class="subtitle">丸め誤差の増幅・ガウスの消去法・軸選択と計算量</p></header>
+<header class="page-head"><p class="eyebrow">2026年度 後期 · 水曜4限 / 第2回</p><h1 id="document-title">丸め誤差・ガウスの消去法と軸選択</h1><p class="subtitle">手書き資料「数値解析 2.pdf」の清書</p></header>
 <div class="section-rule"></div>
 <div class="reader"><article class="lesson-document numeric-clean" aria-labelledby="document-title">
 <section class="summary" id="summary"><h2>講義を通して言いたいこと</h2>
-<p>有限桁の計算では、小さな丸め誤差が繰り返し計算や消去の過程で増幅される。連立一次方程式は前進消去と後退代入で解けるが、軸選択で小さなピボットを避け、得た解を元の式で検算することが重要である。また、密行列の消去法の計算量は未知数の個数の3乗の規模で増える。</p>
-<p class="lesson-meta">想定読了時間：約32分（第1章7分・第2章14分・第3章7分、要旨・目次など4分）。本文毎分400〜600字を目安に、数式と推論の負荷を加算。原典の熟読・演習・自力計算は含まない。</p>
-<p class="source">出典：<a href="第2回/数値解析第2回20261014.pdf">数値解析第2回20261014.pdf</a>、全14ページ。以下のページ番号はPDFの先頭を1とする通し番号。第2回の対応はユーザー指定に基づく。2026年10月14日はファイル名による日付。</p>
-<p class="lesson-meta">関連問題：原典の問1〜3の解説、およびp. 11の演習を確認。別の過去問・課題本文は未確認。今回必要な定義・導出は本文に含め、原典にない追記や表記の整理は「清書時の補足」として示す。</p>
-</section><h2 id="chapter-01">浮動小数点数と誤差の増幅 <span class="read-time">約7分</span></h2><section class="explanation" id="explanation-001"><h3>解説 1　ビット数から10進の精度と範囲を読む <span class="read-time">約3分</span></h3><p class="source">原典：pp. 1–3 前半</p>
-<p><strong>有効数字のビット数は精度を、指数部のビット数は表現範囲を決める。</strong>前回の問いを振り返る。正規化された2進浮動小数点数は、符号 \(s\)、小数部 \(f\)、指数 \(e\) を使って \((-1)^s(1.f)_2 2^e\) と表す。先頭の1を保存せずに補うので、単精度の有効数字は \(1+23=24\) ビット、倍精度は \(1+52=53\) ビットになる。</p>
-<p>\(p\) ビットの情報量を10進の桁数 \(d\) に換算するには、\(2^p=10^d\) の両辺の常用対数を取る。</p>
-<div class="equation key-equation">\[d=p\log_{10}2,\qquad 24\log_{10}2\approx7.22,\quad53\log_{10}2\approx15.95.\]</div>
-<p>したがって単精度は約7桁、倍精度は約16桁が精度の目安になる。ここでいう精度は有効数字の細かさであり、小数点以下の桁数を固定するものではない。</p>
-<aside class="note"><p><strong>清書時の補足・表記の整理</strong>　p. 1の単精度の対数式は「\(2^4\log_{10}2\)」にも見えるが、直前の \(2^{24}=10^d\) と結果7.22に整合する式は \(24\log_{10}2\)。ここではその形を用いた。精度・範囲の詳細は<a href="第1回_浮動小数点数の精度と範囲.html">第1回の解説</a>も参照。</p></aside>
-<p>次に指数部を考える。ノートでは8ビットを符号1ビットと残り7ビットという簡略モデルで捉え、指数の大きさを約128と見積もっている。そこから、表現範囲の桁の目安を</p>
-<div class="equation">\[2^{-128}\sim2^{128},\qquad128\log_{10}2\approx38.53\quad\Longrightarrow\quad10^{-38}\sim10^{38}\]</div>
-<p>と読む。指数を動かすことで、非常に小さい数から大きい数まで扱えるわけである。</p>
-<aside class="note"><p><strong>清書時の補足（IEEE 754との区別）</strong>　実際の単精度の指数部は符号付き整数をそのまま保存する方式ではなく、バイアスを用いる。正規化数の指数は \(-126\le e\le127\)、最小の正の正規化数は \(2^{-126}\)、最大有限数は \((2-2^{-23})2^{127}\)。さらに小さい非正規化数もある。原典の \(2^{\pm128}\) は厳密な端点ではなく、桁の概算として使う。</p></aside>
+<p>浮動小数点数の精度と範囲を見積もり、漸化式と連立一次方程式の計算で丸め誤差が現れる様子を追う。ガウスの消去法では行の基本変形、軸選択、前進消去と後退代入を扱い、最後に計算量を考える。</p>
+<p class="lesson-meta">想定読了時間：約18分（第1章4分・第2章10分・アルゴリズムと計算量3分・概要と目次1分）。本文毎分400〜600字を目安に数式・図の読解負荷を加算。演習や自力計算は含まない。</p>
+<p class="source">出典：<a href="授業資料/数値解析%202.pdf">数値解析 2.pdf</a>、PDF全14ページ。以下のページはPDF先頭からの通し番号。</p>
 </section>
-<section class="explanation" id="explanation-002"><h3>解説 2　3項間漸化式：小さな誤差が別の解を育てる <span class="read-time">約4分</span></h3><p class="source">原典：p. 3 後半–p. 4 前半</p>
-<p><strong>計算の各段階の誤差が小さくても、繰り返した結果まで正しいとは限らない。</strong>ノートの「問3」は、次の3項間漸化式を例にしている。</p>
-<div class="equation key-equation">\[a_{n+2}=\frac{34}{11}a_{n+1}-\frac3{11}a_n,\qquad a_0=1,\quad a_1=\frac1{11}.\]</div>
-<p>漸化式は、前の項から次の項を決める規則である。この場合は直前の2項が必要になる。厳密な解は \(a_n=(1/11)^n\) なので、真の値は0へ近づく。</p>
-<p>なぜ数値計算では違う振る舞いが現れるのか。一般解、つまり初期値を固定する前の解全体を見ると、</p>
-<div class="equation">\[a_n=A\left(\frac1{11}\right)^n+B3^n\]</div>
-<p>と書ける。\(A,B\) は初期値で決まる定数で、二つの数列の線形結合になっている。原典の「解空間の基底」は、すべての解をこの二つの基本的な数列の組合せで表せる、という意味である。</p>
-<aside class="note"><p><strong>清書時の補足（一般解の導出）</strong>　\(a_n=r^n\) を代入すると \(11r^2-34r+3=(11r-1)(r-3)=0\)。異なる根 \(r=1/11,3\) が得られる。初期値を入れた \(A+B=1\)、\(A/11+3B=1/11\) から、厳密には \(A=1,B=0\) となる。</p></aside>
-<p>数値計算では \(1/11\) などを有限桁に丸めるため、増大する \(3^n\) の成分が完全に0とは限らない。原典は、この成分の係数を小さな \(B\) として説明している。\(|B|\ll1\) でも、\(n\) が大きくなると \(B3^n\) が支配し、\(B&gt;0\) なら正方向、\(B&lt;0\) なら負方向へ増大する。</p>
-<aside class="note"><p><strong>清書時の補足（増幅率）</strong>　初期値だけに \(\widetilde a_1=1/11+\delta\) のずれが入り、以後は厳密に漸化式を計算するモデルなら、\(B=11\delta/32\)。減衰成分に対する増大成分の比は \(\lvert B/A\rvert33^n\) となる。実際には途中の演算でも誤差が入るので、一定の \(A,B\) だけで全過程を厳密に表すわけではない。それでも「減衰する真の解に、増大する誤差成分が混ざる」という見方が本質である。</p></aside>
+<h2 id="chapter-01">問の解説 <span class="read-time">約4分</span></h2>
+<section class="explanation" id="explanation-001"><h3>問1　単精度の10進での精度は？ <span class="read-time">約1分</span></h3><p class="source">原典：PDF p. 1</p>
+<p>\(1+23\) bits \(\longrightarrow 2^{24}\) 個の情報を表せる。</p>
+<div class="equation">\[2^{24}=10^d\quad(10\text{進 }d\text{ 桁})\]</div>
+<p>だいたい10進法でどれくらいか？</p>
+<div class="equation">\[d=24\log_{10}2=7.22\ldots\text{ 桁}\]</div>
+<p>倍精度は</p>
+<div class="equation">\[2^{53}=10^d,\qquad d=53\log_{10}2=15.95\ldots\]</div>
+<p>\(\longrightarrow\) 16桁程度の情報を表せる。</p>
 </section>
-<h2 id="chapter-02">第2章 2.1　ガウスの消去法と軸選択 <span class="read-time">約14分</span></h2><section class="explanation" id="explanation-003"><h3>解説 3　線形方程式と、上三角化して解く方針 <span class="read-time">約3分</span></h3><p class="source">原典：p. 4 後半–p. 6</p>
-<p><strong>連立一次方程式を上三角の形へ変えれば、最後の未知数から順に求められる。</strong>第2章は次の問題を扱う。</p>
-<div class="equation">\[Ax=b,\qquad A=(a_{ij})\in\mathbb R^{N\times N},\quad x=(x_1,\ldots,x_N)^T,\quad b=(b_1,\ldots,b_N)^T.\]</div>
-<p>\(N\) は未知数の個数、\(a_{ij}\) は第 \(i\) 行・第 \(j\) 列の係数、\(b\) は右辺の既知のベクトルである。\(A\) は<strong>正則</strong>、つまり逆行列を持ち、解が一意に決まる行列と仮定する。方法の候補としてガウスの消去法、ヤコビ法、ガウス・ザイデル法、LU分解、コレスキー分解が挙げられている。今回はガウスの消去法を学ぶ。他の方法は名前だけの紹介なので、ここでは展開しない。</p>
-<p>方程式の解を変えない行の基本変形には、①ある行の定数倍を別の行に加える、②ある行を0でない定数倍する、③二つの行を交換する、の三つがある。ガウスの消去法では主に①と③を繰り返し、対角線より下の成分が0である<strong>上三角行列</strong>へ変える。</p>
-<div class="equation">\[\begin{cases}2x_1-x_2+x_3=3,\\x_2+3x_3=11,\\13x_3=39.\end{cases}\]</div>
-<p>この形なら、第3式から \(x_3=3\)、第2式から \(x_2=11-3\cdot3=2\)、第1式から \(x_1=(3+2-3)/2=1\)。この下から上への計算を<strong>後退代入</strong>という。上三角行列の対角成分が0でないことが、割り算を行う条件になる。</p>
+<section class="explanation" id="explanation-002"><h3>問2　表現できる数の範囲は <span class="read-time">約1分</span></h3><p class="source">原典：PDF pp. 2–3 前半</p>
+<div class="equation">\[(-1)^s\times 1.f\times2^e\]</div>
+<p>単精度では、指数部 \(e\) は8 bits。符号1 bit、残り7 bits使用。</p>
+<div class="equation">\[-2^7\le e\le 2^7=128\]</div>
+<p>表せる範囲はおよそ</p>
+<div class="equation">\[2^{-128}\sim2^{128}\]</div>
+<p>10進法にすると</p>
+<div class="equation">\[2^{128}=10^d,\qquad d=128\log_{10}2=38.53\ldots\]</div>
+<div class="equation">\[\text{およそ }10^{-38}\sim10^{38}\]</div>
 </section>
-<section class="explanation" id="explanation-004"><h3>解説 4　前進消去：決まった順番で下側を0にする <span class="read-time">約3分</span></h3><p class="source">原典：pp. 7–8 冒頭</p>
-<p><strong>各列で消去の元を一つ決め、その下の係数を順番に消す。</strong>全体を眺めて消しやすい行を探すのではなく、機械的に進められる手順を作る。原典の例は</p>
-<div class="equation">\[\begin{cases}2x_1-x_2+x_3=3,\\-4x_1+3x_2+x_3=5,\\2x_1-4x_2+5x_3=9.\end{cases}\]</div>
-<p>係数と右辺を一つに並べた<strong>拡大係数行列</strong>を使うと、右辺にも同じ行操作をすることを忘れずに済む。\(R_i\) は第 \(i\) 行を表す。</p>
-<div class="equation">\[\left[\begin{array}{rrr|r}2&-1&1&3\\-4&3&1&5\\2&-4&5&9\end{array}\right]
-\xrightarrow{\substack{R_2\leftarrow R_2+2R_1\\R_3\leftarrow R_3-R_1}}
-\left[\begin{array}{rrr|r}2&-1&1&3\\0&1&3&11\\0&-3&4&6\end{array}\right].\]</div>
-<p>第1列の消去が終わったら、第2行を元にして第3行の第2成分を消す。</p>
-<div class="equation">\[R_3\leftarrow R_3+3R_2\quad\Longrightarrow\quad
-\left[\begin{array}{rrr|r}2&-1&1&3\\0&1&3&11\\0&0&13&39\end{array}\right].\]</div>
-<p>これが前節の上三角系である。この上三角化の過程を<strong>前進消去</strong>という。原典では「掃き出し法と同様」と説明しているが、今回は対角成分をすべて1にしたり上側まで消したりせず、上三角になったところで後退代入に移る。</p>
+<section class="explanation" id="explanation-003"><h3>3項間漸化式 <span class="read-time">約2分</span></h3><p class="source">原典：PDF p. 3 後半–p. 4 前半</p>
+<div class="equation">\[a_{n+2}=\frac{34}{11}a_{n+1}-\frac3{11}a_n,\qquad a_0=1,\quad a_1=\frac1{11}\]</div>
+<p>厳密解を求めると</p><div class="equation">\[a_n=\left(\frac1{11}\right)^n\]</div>
+<p>一般解</p><div class="equation">\[a_n=A\left(\frac1{11}\right)^n+B\cdot3^n\]</div>
+<p>が漸化式を満たす。解空間の基底、線形結合。初期値によって \(A,B\) が決まる。</p>
+<p>数値計算では \(B=0\) とは限らない（\(|B|\ll1\) の場合）。\(n\) が小さいときは丸め誤差の影響は出ないが、\(n\to\infty\) にすると、\(B&gt;0\) では \(a_n\to+\infty\)、\(B&lt;0\) では \(a_n\to-\infty\)。よって丸め誤差の影響を無視できない。</p>
 </section>
-<section class="explanation" id="explanation-005"><h3>解説 5　軸選択：0のピボットを行交換で避ける <span class="read-time">約2分</span></h3><p class="source">原典：p. 8 中盤–p. 9 前半、p. 10 中盤</p>
-<p><strong>消去に使う対角成分が0なら、そのまま割らずに行を交換する。</strong>第 \(k\) 段階で消去の元にする成分 \(a_{kk}\) を<strong>軸（ピボット）</strong>という。例えば</p>
-<div class="equation">\[\begin{cases}0x_1+x_2=1,\\x_1+x_2=2\end{cases}\]</div>
-<p>は一意な解を持つのに、最初の対角成分が0なので、その成分を分母にする消去は実行できない。第1行と第2行を交換すれば続けられる。</p>
-<p>一般には、第 \(k\) 列のまだ使っていない成分 \(a_{k+1,k},\ldots,a_{Nk}\) から0でないものを探し、その行と第 \(k\) 行を交換する。前進消去の途中でも、係数は常にその時点で更新された値を使う。</p>
-<aside class="note"><p><strong>清書時の補足</strong>　\(A\) が正則なら、厳密な計算でこの候補がすべて0になることはない。その時点では左下ブロックも既に0なので、残りのブロックの第1列がすべて0なら行列全体も特異になり、正則性に反するためである。</p></aside>
-<p>さらに、ピボットが0でなくても、極端に小さい数で割ると誤差を増幅しやすい。ノートが示す選択基準は、</p>
-<div class="equation key-equation">\[i\in\operatorname*{arg\,max}_{k\le r\le N}|a_{rk}|\quad\text{を選び、}\quad R_k\leftrightarrow R_i.\]</div>
-<p>つまり第 \(k\) 列の候補の絶対値を比べ、最大のものを持つ行を上へ移す。これを<strong>部分軸選択</strong>と呼ぶ（名称は清書時に補足）。同じ列の中で選ぶので、未知数の並びを交換する必要はない。</p>
+<h2 id="chapter-02">第2章　線形方程式の数値解 <span class="read-time">約10分</span></h2>
+<section class="explanation" id="explanation-004"><h3>連立方程式・2.1 ガウスの消去法 <span class="read-time">約2分</span></h3><p class="source">原典：PDF p. 4 後半–p. 6</p>
+<p>連立方程式 \(Ax=b\) を解く（\(A\) は正則）。</p>
+<div class="equation">\[A=\begin{pmatrix}a_{11}&\cdots&a_{1N}\\\vdots&\ddots&\vdots\\a_{N1}&\cdots&a_{NN}\end{pmatrix},\qquad x=\begin{pmatrix}x_1\\\vdots\\x_N\end{pmatrix},\qquad b=\begin{pmatrix}b_1\\\vdots\\b_N\end{pmatrix}\]</div>
+<p>候補：1. ガウスの消去法、2. ヤコビ法、3. ガウス・ザイデル法、4. LU分解、5. コレスキー分解。</p>
+<p>2.1　ガウスの消去法。行列の基本変形（行）：①ある行の定数倍を別の行に加える、②ある行を定数倍、③ある行と別の行を交換する。</p>
+<div class="row-operation-images" role="group" aria-label="行列の行基本変形の例（①加算、②定数倍、③交換）">
+<a href="assets/row-operations/add-multiple.png" target="_blank" rel="noopener" aria-label="①ある行の定数倍を別の行に加える：画像を拡大"><img src="assets/row-operations/add-multiple.png" width="1102" height="762" loading="lazy" alt="定数倍を加える操作。第3行から第1行の2倍を引く例と、対応する基本行列。"></a>
+<a href="assets/row-operations/scale.png" target="_blank" rel="noopener" aria-label="②ある行を定数倍：画像を拡大"><img src="assets/row-operations/scale.png" width="1092" height="776" loading="lazy" alt="行の定数倍。第3行を2倍する例と、対応する基本行列。"></a>
+<a href="assets/row-operations/swap.png" target="_blank" rel="noopener" aria-label="③ある行と別の行を交換する：画像を拡大"><img src="assets/row-operations/swap.png" width="1078" height="762" loading="lazy" alt="行の交換。第1行と第3行を交換する例と、対応する基本行列。"></a>
+</div>
+<p>①（と③）を繰り返し、\(Ax=b\) の問題を「上三角行列による問題」にする。</p>
+<p>例</p><div class="equation">\[\begin{cases}2x_1-x_2+x_3=3,\\x_2+3x_3=11,\\13x_3=39.\end{cases}\]</div>
+<p>1. \(x_3\) から求める \(\longrightarrow x_3=3\)。2. \(x_2=2\)。3. \(x_1=1\)。つまり、\(x_3,x_2,x_1\) の順に求まる。</p>
+<div class="equation">\[\begin{pmatrix}2&-1&1\\0&1&3\\0&0&13\end{pmatrix}\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}=\begin{pmatrix}3\\11\\39\end{pmatrix}\]</div>
 </section>
-<section class="explanation" id="explanation-006"><h3>解説 6　10進3桁の例：同じ連立方程式でも計算順で結果が変わる <span class="read-time">約4分</span></h3><p class="source">原典：p. 9 後半–p. 11 前半</p>
-<p><strong>小さなピボットでの消去後に丸めると、後退代入で必要な情報が失われる。</strong>以下では、演算結果を10進の有効数字3桁へ丸める。原典の例は</p>
+<section class="explanation" id="explanation-005"><h3>機械的に上三角行列をつくる <span class="read-time">約2分</span></h3><p class="source">原典：PDF p. 7–p. 8 冒頭</p>
+<p>全体を見てやる方法は実行時間が長くなるので、コンピュータ的には×。</p>
+<p>例</p><div class="equation">\[\begin{cases}2x_1-x_2+x_3=3,\\-4x_1+3x_2+x_3=5,\\2x_1-4x_2+5x_3=9.\end{cases}\]</div>
+<p>これに対して「掃き出し法」と同様に行う。消去しやすい行などは探さずに一番上のものを使用。</p>
+<div class="equation">\[\left(\begin{array}{rrr|r}2&-1&1&3\\-4&3&1&5\\2&-4&5&9\end{array}\right)\longrightarrow\left(\begin{array}{rrr|r}2&-1&1&3\\0&1&3&11\\0&-3&4&6\end{array}\right)\longrightarrow\left(\begin{array}{rrr|r}2&-1&1&3\\0&1&3&11\\0&0&13&39\end{array}\right)\]</div>
+<p>\(\longrightarrow\) 消去元が0のときは？</p>
+</section>
+<section class="explanation" id="explanation-006"><h3>軸選択（pivoting） <span class="read-time">約2分</span></h3><p class="source">原典：PDF p. 8 中盤–p. 9 前半</p>
+<p>消去の元の行（\(k\) 行目）の対角成分が0ならアルゴリズムが停止する。</p>
+<p>例</p><div class="equation">\[\begin{cases}0x_1+x_2=1,\\x_1+x_2=2.\end{cases}\]</div>
+<p>\(a_{k+1,k},a_{k+2,k},\ldots,a_{N,k}\) の中で \(a_{ik}\ne0\) となる \(i\) を探す。\(k\) 行と \(i\) 行を交換して計算を続ける（見つからない場合は \(|A|\ne0\) に反するため考えない）。</p>
+<p>注：この操作（軸の交換）は \(a_{kk}\ne0\) でも有効なことがある。</p>
+</section>
+<section class="explanation" id="explanation-007"><h3>10進3桁の例 <span class="read-time">約3分</span></h3><p class="source">原典：PDF p. 9 後半–p. 11 前半</p>
 <div class="equation">\[\begin{cases}1.00\times10^{-4}x_1+1.00x_2=1.00,\\1.00x_1+1.00x_2=2.00.\end{cases}\]</div>
-<p>行交換せずに、第1行の \(10^4\) 倍を第2行から引く。丸める前の第2式は</p>
-<div class="equation">\[(1-10^4)x_2=2-10^4\quad\Longleftrightarrow\quad-9999x_2=-9998.\]</div>
-<p>3桁にすると係数も右辺も \(-1.00\times10^4\) となり、\(x_2=1.00\)。第1式へ戻ると \(10^{-4}x_1=1.00-1.00=0\) なので、\(x_1=0.00\) になる。</p>
-<p>一方、最初に第1行と第2行を交換すれば、ピボットは1になり、消去に使う倍率は \(10^{-4}\) となる。</p>
-<div class="equation">\[\begin{cases}x_1+x_2=2,\\10^{-4}x_1+x_2=1\end{cases}
-\quad\longrightarrow\quad
-\begin{cases}x_1+x_2=2,\\(1-10^{-4})x_2=1-2\cdot10^{-4}.\end{cases}\]</div>
-<p>第2式を3桁に丸めると \(1.00x_2=1.00\)。今度は第1式が \(x_1+x_2=2\) なので、\(x_2=1.00\)、\(x_1=1.00\) を得る。\(x_2\) の丸めた値が同じでも、戻って代入する式が異なるため、\(x_1\) の結果が変わった。</p>
-<aside class="note"><p><strong>清書時の補足（原典の途中式）</strong>　p. 11冒頭には行交換前と同じ \(-9999x_2=-9998\) が再記されている。行交換後の式として正確なのは直前p. 10の \((1-10^{-4})x_2=1-2\cdot10^{-4}\)。ここでは後者から計算した。</p></aside>
-<aside class="note"><p><strong>清書時の補足（検算）</strong>　厳密解は \(x_1=10000/9999\approx1.00010\)、\(x_2=9998/9999\approx0.999900\) なので、行交換後の結果は3桁で妥当である。また<strong>残差</strong> \(r=b-A\widetilde x\) は、計算した解 \(\widetilde x\) を元の式へ代入した際のずれを表す。\(\widetilde x=(0,1)^T\) では \(r=(0,1)^T\)、\((1,1)^T\) では \(r=(-10^{-4},0)^T\)。元の方程式にどれだけ合っているかを比べても、違いが分かる。</p></aside>
+<p>行を交換せずに計算：</p>
+<div class="equation">\[\begin{cases}1.00\times10^{-4}x_1+1.00x_2=1.00,\\(1-10^4)x_2=2-10^4.\end{cases}\]</div>
+<div class="equation">\[-9999x_2=-9998\quad\longrightarrow\quad-1.00\times10^4x_2=-1.00\times10^4\]</div>
+<p>\(\therefore x_2=1.00\)、\(\therefore x_1=0.00\)。そこで \(a_{11}\ne0\) だが軸交換を行う。</p>
+<p>軸の選択基準：\(a_{kk},a_{k+1,k},\ldots,a_{N,k}\) の中で \(|a_{ik}|\) が最大となる \(i\) を選び、\(i\) 行と \(k\) 行を交換する。</p>
+<p>1行と2行を交換して</p><div class="equation">\[\begin{cases}x_1+x_2=2,\\10^{-4}x_1+x_2=1\end{cases}\quad\longrightarrow\quad\begin{cases}x_1+x_2=2,\\(1-10^{-4})x_2=1-2\cdot10^{-4}.\end{cases}\]</div>
+<p>原典p. 11に再掲された途中式（原文どおり）：</p><div class="equation">\[-9999x_2=-9998\quad\longrightarrow\quad-1.00\times10^4x_2=-1.00\times10^4\]</div>
+<p>\(x_2=1.00\)、\(x_1=1.00\)。\(\longrightarrow\) 代入先の式が異なるため変わった。</p>
 </section>
-<section class="explanation" id="explanation-007"><h3>解説 7　原典の演習：軸選択を入れた場合を追う <span class="read-time">約2分</span></h3><p class="source">原典：p. 11 後半</p>
-<p><strong>軸を選ぶだけでなく、各演算でどの情報が丸め落とされるかを追う。</strong>原典は次の系を10進3桁で、軸選択付きガウス消去法により計算すると何が起きるか、と問うている。</p>
-<div class="equation key-equation">\[\begin{cases}(1.00\times10^1)x_1+(1.00\times10^5)x_2=1.00\times10^3,\\1.00x_1+1.00x_2=2.00.\end{cases}\]</div>
-<p>まず第1列の候補の絶対値10と1を比べ、規則がどちらを軸にするかを確かめる。次に倍率を求め、係数と右辺を更新するたびに3桁へ丸める。最後に後退代入し、得た値を元の2式へ戻してずれを調べよう。</p>
-<p>前節の成功例だけから「部分軸選択をすれば、どんな系でも必ず十分正確」と考えないことがこの問いの視点である。行ごとの係数の大きさが大きく違う点にも注目する。ここでは演習として、最終的な数値解は掲載しない。</p>
+<section class="explanation" id="explanation-008"><h3>問　10進3桁で <span class="read-time">約1分</span></h3><p class="source">原典：PDF p. 11 後半</p>
+<div class="equation">\[\begin{cases}(1.00\times10^1)x_1+(1.00\times10^5)x_2=1.00\times10^3,\\1.00x_1+1.00x_2=2.00.\end{cases}\]</div>
+<p>軸選択つきガウスの消去法で計算すると何が起きるか。考えよ。</p>
 </section>
-<h2 id="chapter-03">アルゴリズムと計算量 <span class="read-time">約7分</span></h2><section class="explanation" id="explanation-008"><h3>解説 8　実装するアルゴリズム：前進消去と後退代入 <span class="read-time">約4分</span></h3><p class="source">原典：pp. 12–13</p>
-<p><strong>右辺を第 \(N+1\) 列に置き、消去後はその列を解で上書きする。</strong>原典の代入記号を \(\leftarrow\) で明示して書き直す。これは数学的な恒等式ではなく、メモリに保存された値を更新する操作である。</p>
-<p>初めに \(N\times(N+1)\) の拡大係数行列を作り、\(a_{i,N+1}\leftarrow b_i\) とする。前進消去の手順は次のとおり。</p>
-<ol><li>\(k=1,2,\ldots,N-1\) の順に進める。</li><li>第 \(k\) 列の \(k\) 行目以降から絶対値最大の軸を選び、第 \(k\) 行と交換する。右辺の列も一緒に交換する。</li><li>各 \(i=k+1,\ldots,N\) について、倍率 \(m_{ik}=a_{ik}/a_{kk}\) を保存する。</li><li>\(j=k+1,\ldots,N+1\) の各成分を \(a_{ij}\leftarrow a_{ij}-m_{ik}a_{kj}\) と更新し、\(a_{ik}\leftarrow0\) とする。</li></ol>
-<div class="equation">\[m_{ik}=\frac{a_{ik}}{a_{kk}},\qquad a_{ij}\leftarrow a_{ij}-m_{ik}a_{kj}.\]</div>
-<aside class="note"><p><strong>清書時の補足（上書きの順番）</strong>　倍率を計算する前に \(a_{ik}\) を0にすると、消去に必要な値が失われる。原典の二重ループ内の比 \(a_{ik}/a_{kk}\) は、\(j\) の更新中に変えずに使う。上記のように倍率を一度保存しておけば、処理順を明確にできる。</p></aside>
-<p>前進消去が終わったら後退代入を行う。最後の行では、</p>
-<div class="equation">\[a_{N,N+1}\leftarrow\frac{a_{N,N+1}}{a_{NN}}.\]</div>
-<p>続いて \(k=N-1,N-2,\ldots,1\) の順に、</p>
-<div class="equation key-equation">\[a_{k,N+1}\leftarrow\frac{1}{a_{kk}}\left(a_{k,N+1}-\sum_{j=k+1}^N a_{kj}a_{j,N+1}\right).\]</div>
-<p>右辺の \(a_{j,N+1}\) は既に求めた \(x_j\) であり、左辺の更新により \(x_k\) が保存される。終了時には第 \(N+1\) 列が \((x_1,\ldots,x_N)^T\) を与える。元の \(A,b\) を使って検算したい場合は、上書き前に別に保存しておく。</p>
+<h2 id="chapter-03">ガウスの消去法のアルゴリズムと計算量 <span class="read-time">約3分</span></h2>
+<section class="explanation" id="explanation-009"><h3>前進消去・後退代入 <span class="read-time">約2分</span></h3><p class="source">原典：PDF pp. 12–13</p>
+<p>上三角行列を得るプロセス：前進消去。上三角行列を解くプロセス：後退代入。アルゴリズム：</p>
+<p>入力</p><div class="equation">\[\begin{pmatrix}a_{11}&\cdots&a_{1N}\\\vdots&\ddots&\vdots\\a_{N1}&\cdots&a_{NN}\end{pmatrix},\qquad\begin{pmatrix}b_1\\\vdots\\b_N\end{pmatrix}\]</div>
+<p>① 1つの行列にする。</p><div class="equation">\[\begin{pmatrix}a_{11}&\cdots&a_{1N}&a_{1,N+1}\\\vdots&\ddots&\vdots&\vdots\\a_{N1}&\cdots&a_{NN}&a_{N,N+1}\end{pmatrix}\]</div>
+<p>② 前進消去。\(k=1,2,\ldots,N-1\)（軸選択）。\(i=k+1,k+2,\ldots,N\)、\(j=k+1,k+2,\ldots,N+1\) について</p>
+<div class="equation">\[a_{ij}\leftarrow a_{ij}-\frac{a_{ik}}{a_{kk}}a_{kj},\qquad a_{ik}\leftarrow0\]</div>
+<p>「\(a_{ij}\leftarrow\)」はメモリに上書きするという意味。</p>
+<p>③ 後退代入：</p><div class="equation">\[a_{N,N+1}\leftarrow\frac{a_{N,N+1}}{a_{NN}}\]</div>
+<p>\(k=N-1,N-2,\ldots,2,1\) について</p>
+<div class="equation">\[a_{k,N+1}\leftarrow\frac{1}{a_{kk}}\left(a_{k,N+1}-\sum_{j=k+1}^{N}a_{kj}a_{j,N+1}\right)\]</div>
+<p>出力 \(a_{1,N+1},\ldots,a_{N,N+1}\) が解 \(x_1,\ldots,x_N\) を与える。前進消去の計算量は \(O(N^3)\)、後退代入は \(O(N^2)\)。</p>
 </section>
-<section class="explanation" id="explanation-009"><h3>解説 9　計算量：3次元の分割を細かくする代償 <span class="read-time">約3分</span></h3><p class="source">原典：pp. 12–13 の計算量注記、p. 14</p>
-<p><strong>未知数の個数が増えると、密行列のガウス消去法の計算量はおよそその3乗で増える。</strong>計算量 \(O(N^3)\) は、\(N\) を大きくしたときに主な演算回数が \(N^3\) に比例する規模で増えるという表し方であり、実行時間が正確に \(N^3\) 秒という意味ではない。</p>
-<p>前進消去では、軸の番号 \(k\)、消去する行 \(i\)、更新する列 \(j\) の三つを動かす。各段階の更新回数を足すと、</p>
-<div class="equation">\[\sum_{k=1}^{N-1}(N-k)(N+1-k)=\frac{N^3-N}{3},\]</div>
-<p>なので \(O(N^3)\) となる（回数の式は清書時の補足で、係数と右辺の各更新を1回と数えたもの）。一方、後退代入の和で使う項数は \(\sum_{k=1}^{N-1}(N-k)=N(N-1)/2\) だから \(O(N^2)\)。全体では前進消去が主要な負担になる。</p>
-<p>原典は3次元の立方体を例にする。一辺を \(K\) 分割すると、未知数の個数は概ね \(N\sim K^3\)。格子間隔を半分にするには各方向の分割数を2倍にするため、</p>
-<div class="equation">\[N_{\mathrm{new}}\sim(2K)^3=8K^3\sim8N,\qquad\frac{\text{新しい計算量}}{\text{元の計算量}}\approx8^3=512.\]</div>
-<p>格子間隔を10分の1にすると、各方向の分割数は10倍、未知数は \(10^3\) 倍となる。したがって計算量は \((10^3)^3=10^9\)、すなわち10億倍という見積もりになる。</p>
-<aside class="note"><p><strong>清書時の補足（適用範囲）</strong>　これは行列の成分を一般の密行列として処理する場合の規模の見積もり。格子から作る行列には0の成分が多いこともあり、その構造を使う専用の方法では計算量が変わる。今回の結論は、空間分割を細かくすると未知数も消去の負担も急増するため、解法の選択が重要になる、ということである。</p></aside>
+<section class="explanation" id="explanation-010"><h3>ガウスの消去法の計算量 \(O(N^3)\) による問題 <span class="read-time">約1分</span></h3><p class="source">原典：PDF p. 14</p>
+<p>例えば3次元（立方体）の一辺を \(K\) 分割。格子の数 \(\sim K^3=N\)。このとき分割を半分にする \(\longrightarrow\) 未知数 \(\sim(2K)^3=8K^3=8N\)。\(N\) が8倍 \(\longrightarrow\) 計算量は \(8^3=512\) 倍。</p>
+<p>\(1/10\) にする \(\longrightarrow\) 未知数 \(\sim(10K)^3=10^3K^3=10^3N\)。\(N\) が \(10^3\) 倍 \(\longrightarrow\) 計算量は \(10^9\)、すなわち10億倍。</p>
+<figure><svg viewBox="0 0 240 190" role="img" aria-label="立方体を三方向に格子分割した図の描き直し" style="display:block;max-width:280px;width:100%;height:auto"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M25 55 L135 55 L208 22 L98 22 Z M25 55 L25 160 L135 160 L135 55 M135 160 L208 126 L208 22 M25 160 L98 126 L208 126 M98 22 L98 126"/><path d="M52 55V160 M80 55V160 M108 55V160 M25 82H135 M25 108H135 M25 134H135 M52 55L125 22 M80 55L153 22 M108 55L181 22 M25 82L98 49 M25 108L98 75 M25 134L98 101 M135 82L208 49 M135 108L208 75 M135 134L208 101"/></g></svg><figcaption class="source">原図の描き直し：PDF p. 14</figcaption></figure>
 </section>
-</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><a href="#summary">講義を通して言いたいこと</a><a href="#chapter-01">浮動小数点数と誤差の増幅</a><a href="#explanation-001">1　ビット数から10進の精度と範囲を読む</a><a href="#explanation-002">2　3項間漸化式：小さな誤差が別の解を育てる</a><a href="#chapter-02">第2章 2.1　ガウスの消去法と軸選択</a><a href="#explanation-003">3　線形方程式と、上三角化して解く方針</a><a href="#explanation-004">4　前進消去：決まった順番で下側を0にする</a><a href="#explanation-005">5　軸選択：0のピボットを行交換で避ける</a><a href="#explanation-006">6　10進3桁の例：同じ連立方程式でも計算順で結果が変わる</a><a href="#explanation-007">7　原典の演習：軸選択を入れた場合を追う</a><a href="#chapter-03">アルゴリズムと計算量</a><a href="#explanation-008">8　実装するアルゴリズム：前進消去と後退代入</a><a href="#explanation-009">9　計算量：3次元の分割を細かくする代償</a></div></nav></div></main></div></body></html>
+</article>
+<nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden>
+<a href="#summary">講義を通して言いたいこと</a><a href="#chapter-01">問の解説</a><a href="#explanation-001">問1　10進での精度</a><a href="#explanation-002">問2　表現できる範囲</a><a href="#explanation-003">3項間漸化式</a><a href="#chapter-02">第2章　線形方程式の数値解</a><a href="#explanation-004">連立方程式・ガウスの消去法</a><a href="#explanation-005">機械的に上三角行列をつくる</a><a href="#explanation-006">軸選択</a><a href="#explanation-007">10進3桁の例</a><a href="#explanation-008">問　10進3桁で</a><a href="#chapter-03">アルゴリズムと計算量</a><a href="#explanation-009">前進消去・後退代入</a><a href="#explanation-010">計算量による問題</a></div></nav></div></main></div></body></html>

@@ -1,0 +1,114 @@
+<!doctype html><html lang="ja"><head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
+<meta name="study-ui" content="life"><meta name="study-lesson" content="3"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-10-27"><link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>.numeric-clean .read-time{font-size:12px;color:var(--muted);font-weight:400;margin-left:12px}.numeric-clean pre{max-width:100%;overflow:auto;padding:16px;border:1px solid var(--line);line-height:1.65}.numeric-clean .source-table{width:100%;border-collapse:collapse;min-width:420px}.numeric-clean .source-table th,.numeric-clean .source-table td{padding:10px;border:1px solid var(--line);font-weight:400;text-align:left}</style>
+
+<title>数値解析｜第3回：丸め誤差の演習・定常反復解法とノルム</title></head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水４]数値解析"><div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90">数値解析</a><span>/</span><span>第3回 解説</span></div>
+<header class="page-head"><p class="eyebrow">2026年度 後期 · 水曜4限 / 第3回</p><h1 id="document-title">丸め誤差の演習・定常反復解法とノルム</h1><p class="subtitle">数値解析 第3回 · 講義ノート清書</p></header><div class="section-rule"></div><div class="reader"><article class="lesson-document numeric-clean" aria-labelledby="document-title">
+<section class="summary" id="summary"><h2>講義を通して言いたいこと</h2><p>単精度・倍精度の計算とガウスの消去法の軸選択を振り返り、微分方程式の境界値問題から現れる疎な連立一次方程式を扱う。ヤコビ法とガウス・ザイデル法を示し、反復の収束を述べるためにノルムとノルムでの収束を定義する。</p><p class="muted">想定読了時間：約27分</p><p class="source">出典：<a href="授業資料/数値解析%203.pdf">数値解析 3.pdf</a></p></section>
+<h2 id="chapter-01">丸め誤差の演習と配布資料<span class="read-time">約8分</span></h2>
+<section class="explanation" id="explanation-001"><h3>1-(c) 単精度と倍精度<span class="read-time">約2分</span></h3><p class="source">原典：p. 1</p>
+<div class="table-scroll"><table class="source-table"><thead><tr><th></th><th>\(0.1+\cdots+1.0\)</th><th>\(0.01+\cdots+1.00\)</th></tr></thead><tbody>
+<tr><th>厳密値</th><td>5.5</td><td>50.5</td></tr>
+<tr><th>単精度（np.float32）</th><td>4.5 ?</td><td>50.499…</td></tr>
+<tr><th>倍精度（Pythonデフォルト）</th><td>5.5</td><td>49.5 ?</td></tr></tbody></table></div>
+<ul><li>単精度と倍精度の0は全く同じ（全てのbitが0）。</li><li>しかし、0.1など2進法では有限で表せない数は異なる。</li></ul></section>
+<section class="explanation" id="explanation-002"><h3>初回の講義の演習のプログラム例<span class="read-time">約4分</span></h3><p class="source">原典：p. 2</p>
+<p>例題：次のそれぞれを、単精度、倍精度で計算せよ。</p><div class="equation">\[0.1+0.2+0.3+\cdots+0.9+1.0\]</div><div class="equation">\[0.01+0.02+0.03+\cdots+0.99+1.00\]</div><p>・倍精度</p><pre><code>#include &lt;stdio.h&gt;
+
+int main(){
+
+  float x, dx, sum; /* 倍精度で実行するときは float を double にせよ */
+  sum = 0;
+  dx = 0.1;
+
+  for( x = 0; x &lt;= 1; x += dx )
+    sum += x;
+
+  printf( &quot;%g\n&quot;, sum );
+
+  return 0;
+}</code></pre><pre><code>import numpy as np
+
+sum = 0
+x = 0.1
+
+while x &lt;= 1:
+    sum += x
+    x += 0.1
+
+print(f&quot;{sum:.6f}&quot;)</code></pre><p>・単精度</p><pre><code>import numpy as np
+
+sum = np.float32(0)
+x = np.float32(0.1)
+
+while x &lt;= np.float32(1):
+    sum = np.float32(sum + x)
+    x = np.float32(x + np.float32(0.1))
+
+print(f&quot;{sum:.6f}&quot;)</code></pre><p>プログラム中の0.1をすべて1, 0.01等に変えて実行し、結果を検討せよ。</p></section>
+<section class="explanation" id="explanation-003"><h3>数値解析 レポート課題 2026年10月21日<span class="read-time">約3分</span></h3><p class="source">原典：p. 3</p>
+<ul><li>締切：2026年10月28日（水曜）午後1時00分。</li>
+<li>提出方法：TeX等で清書し、1つのPDFファイルにまとめてKULMS（新PandA）にアップロードすること。</li>
+<li>表紙をつける必要はない。解答に先立ち、所属・学年・氏名・学生番号を明記すること。</li>
+<li>KULMSでの再提出は、締切までであれば何度でも可能である。</li>
+<li>知人と相談してもよいが、自分で理解してレポートを作成すること。文献を参考にした場合は、引用元を明示すること。</li>
+<li>AIを参考として利用してもよいが、必ず自身で理解して解答を記述すること。（このレポートはAIを使うような難易度ではない。）</li></ul>
+<p><strong>1</strong>　次を示せ。講義で紹介した内容は証明なしに使ってよい。</p>
+<p>「\(\mathbb C^n\)のふたつのノルム \(\|\cdot\|_a,\|\cdot\|_b\) を考える。任意の \(\{x_n\}\subset\mathbb C^n\) に対して、\(\|x_n\|_a\to0\) と \(\|x_n\|_b\to0\) は同値である。」</p>
+<p><strong>2</strong>　本日の講義の感想をひとこと記せ。難しかった点や、説明がよくわからなかった点、興味を持てた点、「全体的に理解できた」、板書の仕方、進め方で教員に伝えたい点など、何でもよい。</p>
+<h4>次週のための予習</h4><ul><li>線型空間における「次元定理」</li><li>2項間（線型）漸化式 \(x_{k+1}=px_k+q\) の厳密解の求め方。</li></ul></section>
+<h2 id="chapter-02">ガウスの消去法と軸選択<span class="read-time">約4分</span></h2>
+<section class="explanation" id="explanation-004"><h3>問：10進3桁のガウスの消去法<span class="read-time">約3分</span></h3><p class="source">原典：p. 4–p. 5 上部の板書写真</p>
+<p>10進3桁で</p><div class="equation">\[\begin{cases}1.00\times10^1x+1.00\times10^5y=1.00\times10^5,\\1.00x+1.00y=2.00.\end{cases}\]</div><p>軸選択つきガウスの消去法で計算すると何が起きるか、考えよ。</p><p>前回のアルゴリズム</p><div class="equation">\[\begin{cases}1.00\times10^1x+1.00\times10^5y=1.00\times10^5,\\1.00x+1.00y=2.00.\end{cases}\quad \text{第1式を }-10^{-1}\text{ 倍して第2式へ}\]</div><div class="equation">\[\begin{cases}1.00\times10^1x+1.00\times10^5y=1.00\times10^3,\\0+(1-10^4)y=2-10^4.\end{cases}\]</div><p class="source">第1式の右辺の指数は原文どおり（上では5、下では3）。</p><div class="equation">\[\begin{aligned}\therefore\quad -9999y&=-9998,\\\therefore\quad -1.00\times10^4y&=-1.00\times10^4,\\\therefore\quad y&=1.00.\end{aligned}\]</div><p class="source">p. 5上部の板書写真（以下は写真中の記号）。</p><div class="equation">\[(-9999y=-9998),\qquad -1.00\times10^4y=-1.00\times10^4\ \longrightarrow\ \boxed{y=1.00}\]</div><div class="equation">\[1.00\times10^1x=0\ \longrightarrow\ \boxed{x=0.00}\]</div><div class="equation">\[-9999y=998,\qquad -1.00\times10^4y=-9.98\times10^2,\qquad \boxed{y=9.98\times10^2}\]</div><p class="source">写真右端の式は原文どおり。中央の \(10^2\) は右辺の下に書かれている。</p></section>
+<section class="explanation" id="explanation-005"><h3>対処方法：部分pivotingとfull pivoting<span class="read-time">約1分</span></h3><p class="source">原典：p. 5 中部–下部</p>
+<p>前回説明した列方向に要素の絶対値の最大値を探すだけでなく、行方向（つまり全ての成分）にも最大値を探索する。</p>
+<p>列方向：部分pivoting。行方向（つまり全ての成分）にも探索：full pivoting。</p>
+<p>通常は（計算時間の節約のため）部分pivotingを用いる。</p></section>
+<h2 id="chapter-03">§2.2 定常反復解法<span class="read-time">約14分</span></h2>
+<section class="explanation" id="explanation-006"><h3>微分方程式の境界値問題<span class="read-time">約2分</span></h3><p class="source">原典：p. 6</p>
+<p>そもそも連立方程式をときたいのはどういう時？</p><p>→ 微分方程式の境界値問題</p>
+<p>例　Find \(u(x),\ 0&lt;x&lt;1\), s.t.</p><div class="equation">\[\begin{cases}-u^{\prime\prime}(x)+au(x)=f(x),\\u(0)=u(1)=0.\end{cases}\]</div><p>cf. 微分方程式の初期値問題</p><div class="equation">\[\begin{cases}-u^{\prime\prime}(x)+au(x)=f(x),\\u(0)=0,\\u^{\prime}(0)=0.\end{cases}\]</div><p>これを解くために \(0&lt;x&lt;1\) 区間を \(N\) 等分して、\(h=1/N,\ x_j=jh\) とおき、\(u(x_j)=U_j\) とすると、</p></section>
+<section class="explanation" id="explanation-007"><h3>中心差分と連立一次方程式<span class="read-time">約3分</span></h3><p class="source">原典：p. 7–p. 8 冒頭</p>
+<figure><svg viewBox="0 0 580 100" role="img" aria-label="0から1までを等分した数直線。左端がx0、次がx1、右端がxN。"><path class="gold" d="M30 48H550m-10-7 10 7-10 7M60 39v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18m36-18v18"/><text x="48" y="26">x₀</text><text x="84" y="26">x₁</text><text x="475" y="26">x_N</text><text x="54" y="82">0</text><text x="486" y="82">1</text></svg><figcaption>原典p. 7左上の数直線を描き直したもの。</figcaption></figure><div class="equation">\[\begin{aligned}u(x+h)&\simeq u(x)+u^{\prime}(x)h+\frac12u^{\prime\prime}(x)h^2,\\u(x-h)&\simeq u(x)-u^{\prime}(x)h+\frac12u^{\prime\prime}(x)h^2.\end{aligned}\]</div><div class="equation">\[u(x+h)+u(x-h)\simeq2u(x)+u^{\prime\prime}(x)h^2\]</div><div class="equation">\[\therefore\quad u^{\prime\prime}(x)\simeq\frac{u(x+h)-2u(x)+u(x-h)}{h^2}\quad\text{（中心差分という）}\]</div><p>微分方程式を \(x=x_j\) で考え、中心差分を適用すると、</p><div class="equation">\[-\frac{U_{j+1}-2U_j+U_{j-1}}{h^2}+aU_j=f(x_j)\]</div><div class="equation">\[1\le j\le N-1\quad\text{かつ}\quad U_0=U_N=0\]</div><p>これは次の連立一次方程式を表す。</p><div class="equation">\[\begin{pmatrix}2+ah^2&-1&&&0\\-1&2+ah^2&-1&&\\0&-1&2+ah^2&-1&\\&&\ddots&\ddots&-1\\0&&&-1&2+ah^2\end{pmatrix}\begin{pmatrix}U_1\\U_2\\\vdots\\\vdots\\U_{N-1}\end{pmatrix}=h^2\begin{pmatrix}f(x_1)\\f(x_2)\\\vdots\\\vdots\\f(x_{N-1})\end{pmatrix}\]</div><p>このような「行列の成分が殆ど0」（疎行列）を念頭において考える。</p></section>
+<section class="explanation" id="explanation-008"><h3>ヤコビ法（Jacobi法）<span class="read-time">約2分</span></h3><p class="source">原典：p. 8（冒頭を除く）</p><p>例</p><div class="equation">\[\begin{cases}4x+y=6,\\x+2y=5.\end{cases}\]</div><p>① 各変数について整理する。</p><div class="equation">\[x=\frac14(6-y),\qquad y=\frac12(5-x)\]</div><p>② 左辺に \(k+1\)、右辺に \(k\) を付ける。</p><div class="equation">\[x_{k+1}=\frac14(6-y_k),\qquad y_{k+1}=\frac12(5-x_k)\]</div><p>③ \(x_0,y_0\) を適当に決める。</p><p>これをヤコビ法（Jacobi法）という。</p><p>片方の変数の更新時にもう片方を待たなくてよくなる。</p><div class="equation">\[\begin{array}{c|ccccc}k&0&1&2&3&5\\\hline\binom{x_k}{y_k}&\binom00&\binom{1.5}{2.5}&\binom{0.875}{1.75}&\binom{1.0625}{2.0625}&\binom{1.00781}{2.00781}\end{array}\]</div><p class="source">原典では \(k=3\) と \(k=5\) の間に「4」の表示があるが、ベクトル値は記載されていない。</p><p>テイラー展開のときに \(\simeq\) してるので、細かい桁を求めても意味がない。↓ \(k=5\) の値。</p></section>
+<section class="explanation" id="explanation-009"><h3>ガウス・ザイデル法（Gauss–Seidel法）と収束の問い<span class="read-time">約2分</span></h3><p class="source">原典：p. 9</p><p>例</p><div class="equation">\[\begin{cases}4x+y=6,\\x+2y=5.\end{cases}\]</div><p>① 各変数について整理する。</p><div class="equation">\[x=\frac14(6-y),\qquad y=\frac12(5-x)\]</div><p>② 左辺に \(k+1\)、右辺に \(k\) を付ける。</p><div class="equation">\[x_{k+1}=\frac14(6-y_k),\qquad y_{k+1}=\frac12(5-x_{k+1})\]</div><p>③ \(x_0,y_0\) を適当に決める。</p><p>これをガウス・ザイデル法（Gauss–Seidel法）という。（少ない \(k\) で終了する。）</p><div class="equation">\[\begin{array}{c|cccc}k&0&1&2&3\\\hline\binom{x_k}{y_k}&\binom00&\binom{1.5}{1.75}&\binom{1.0625}{1.96875}&\binom{1.00781}{1.99609}\end{array}\]</div><p>テイラー展開のときに \(\simeq\) してるので、細かい桁を求めても意味がない。↓ \(k=3\) の値。</p><h4>疑問</h4><p>Jacobi法、Gauss–Seidel法が収束する条件は？</p><p>収束するとは？ → ベクトルがベクトルに収束する。</p><p>ベクトルの大きさ、ベクトルとベクトルの距離を測るには「ノルム」を用いる。</p></section>
+<section class="explanation" id="explanation-010"><h3>定義：ノルムとその例<span class="read-time">約2分</span></h3><p class="source">原典：p. 10 前半–中部</p><p>\(V\)：ベクトル空間、\(\|\cdot\|:V\longmapsto\mathbb R\) について、写像 \(\|\cdot\|\) がノルム（norm）</p><div class="equation">\[\overset{\mathrm{def}}{\Longleftrightarrow}\quad\begin{cases}(1)\ \forall x\in V,\ \|x\|\ge0,\quad\text{特に}\ \|x\|=0\iff x=0,\\(2)\ \forall\alpha\in\mathbb C,\ \forall x\in V,\ \|\alpha x\|=|\alpha|\cdot\|x\|,\\(3)\ \forall x,y\in V,\ \|x+y\|\le\|x\|+\|y\|\quad\text{（三角不等式）}.\end{cases}\]</div><p>例　\(x=(x_1,\ldots,x_n)\in\mathbb C^n\)</p><div class="equation">\[\begin{aligned}(1)\quad \|x\|_1&=|x_1|+|x_2|+\cdots+|x_n|,\\(2)\quad \|x\|_2&=\left(|x_1|^2+|x_2|^2+\cdots+|x_n|^2\right)^{1/2},\\(3)\quad \|x\|_\infty&=\max\{|x_1|,|x_2|,\ldots,|x_n|\}.\end{aligned}\]</div></section>
+<section class="explanation" id="explanation-011"><h3>定義：ノルムでの収束／演習／事実<span class="read-time">約2分</span></h3><p class="source">原典：p. 10 下部–p. 11</p><p>定義　\(\{x_k\}\subset V,\ x_*\in V\) のとき、</p><p>「\(x_k\) が \(x_*\) に \(\|\cdot\|\) で収束する」</p><div class="equation">\[\overset{\mathrm{def}}{\Longleftrightarrow}\quad\lim_{k\to\infty}\|x_k-x_*\|=0\]</div><p>実数値としての極限。</p><h4>演習</h4><p>上の例の(1)〜(3)がノルムであることを示せ。</p><h4>事実　\(\mathbb C^n\)</h4><p>\(\mathbb C^n\) の任意のノルム \(\|\cdot\|_a,\|\cdot\|_b\) に対して、</p><div class="equation">\[\exists c,C>0,\quad\forall x\in\mathbb C^n,\quad c\|x\|_a\le\|x\|_b\le C\|x\|_a\]</div><p>→ この意味はレポート①で考える。</p><p class="source">「事実」の文と不等式はp. 11の板書写真から清書。</p></section>
+</article><nav class="toc" aria-label="ページ内目次"><button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button><div class="toc-panel" id="toc-panel" hidden><a href="#summary">講義を通して言いたいこと</a><a href="#chapter-01">丸め誤差の演習と配布資料</a><a href="#explanation-001">1-(c) 単精度と倍精度</a><a href="#explanation-002">初回の講義の演習のプログラム例</a><a href="#explanation-003">数値解析 レポート課題 2026年10月21日</a><a href="#chapter-02">ガウスの消去法と軸選択</a><a href="#explanation-004">問：10進3桁のガウスの消去法</a><a href="#explanation-005">対処方法：部分pivotingとfull pivoting</a><a href="#chapter-03">§2.2 定常反復解法</a><a href="#explanation-006">微分方程式の境界値問題</a><a href="#explanation-007">中心差分と連立一次方程式</a><a href="#explanation-008">ヤコビ法（Jacobi法）</a><a href="#explanation-009">ガウス・ザイデル法（Gauss–Seidel法）と収束の問い</a><a href="#explanation-010">定義：ノルムとその例</a><a href="#explanation-011">定義：ノルムでの収束／演習／事実</a></div></nav></div>
+<div class="back-nav-bottom"><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%94%5D%E6%95%B0%E5%80%A4%E8%A7%A3%E6%9E%90">授業一覧に戻る</a></div></main></div></body></html>

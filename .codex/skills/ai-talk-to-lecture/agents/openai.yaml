@@ -1,0 +1,4 @@
+interface:
+  display_name: "AIトークを授業資料へ"
+  short_description: "会話リンクの質問・画像・回答を原文のままHTML授業資料に保存する"
+  default_prompt: "$ai-talk-to-lecture この会話リンクを、指定した授業の第N回のHTML資料にして。概要以外は質問・入力画像・AIの回答をそのまま収録して。"

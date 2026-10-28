@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="3">
+<meta name="study-kind" content="解説">
+<meta name="study-created" content="2026-10-28">
+<title>線形制御理論｜第3回：デルタ関数の定義・ラプラス変換と畳み込み（p.19〜23）</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.control-slide-page .intro{max-width:900px}
+.control-slide-page .step-label{display:inline-block;color:var(--gold);font-size:13px;letter-spacing:.04em}
+.control-slide-page .definition-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+.control-slide-page .definition-card{border:1px solid var(--line);padding:16px;min-width:0;background:rgba(215,182,108,.035)}
+.control-slide-page .definition-card h3{margin:0 0 8px;font-size:16px}
+.control-slide-page .definition-card .equation{margin:0}
+.control-slide-page .domain-figure{max-width:640px;margin:25px auto}
+.control-slide-page .domain-figure svg{background:rgba(255,255,255,.025);border-radius:4px}
+.control-slide-page .domain-figure .region{fill:rgba(215,182,108,.21)}
+.control-slide-page .domain-figure .axis{stroke:var(--white);stroke-width:2}
+.control-slide-page .domain-figure .boundary{stroke:var(--gold);stroke-width:2;stroke-dasharray:5 5}
+.control-slide-page .domain-figure .slice{stroke:#8dc3df;stroke-width:4}
+.control-slide-page .domain-figure .slice-label{fill:#8dc3df}
+.control-slide-page .source-link{color:var(--gold)}
+.control-slide-page .line-map{padding-left:1.5em}
+.control-slide-page .line-map li{margin:6px 0}
+.control-slide-page .equation{scrollbar-width:thin}
+@media(max-width:700px){.control-slide-page .definition-grid{grid-template-columns:1fr}}
+.control-slides .summary{padding-bottom:25px}
+.control-slides .summary h2{border:0;padding:0;margin:0 0 18px;font-size:18px;color:var(--gold)}
+.control-slides .chapter-heading{border-top:1px solid var(--gold);padding-top:22px;margin-top:34px}
+.control-slides .chapter-title,.control-slides .explanation-heading{display:flex;justify-content:space-between;align-items:baseline;gap:18px}
+.control-slides .chapter-title h2{border:0;padding:0;margin:0;font-size:22px}
+.control-slides .reading-time{font-size:11px;line-height:1.5;color:var(--muted);font-weight:400;white-space:nowrap;text-align:right}
+.control-slides .summary .reading-time{display:block;margin:0 0 15px auto}
+.control-slides .explanation-grid{display:flow-root!important}
+.control-slides .explanation-heading{margin-bottom:12px}
+.control-slides .explanation-heading h2{border:0!important;padding:0!important;margin:0!important;font-size:19px!important}
+.control-slides .slide{display:block;float:right;width:min(49%,520px);height:auto;aspect-ratio:auto;overflow:hidden;background:#fff;line-height:0;margin:0 0 18px 26px;padding:0}
+.control-slides .slide a,.control-slides .slide img{display:block;width:100%}
+.control-slides .slide img{height:auto}
+.control-slides .claim{font-weight:600;margin-top:0;color:var(--white)}
+.control-slides .equation{overflow-x:auto;max-width:100%}
+.control-slides .source-note{font-size:13px;color:var(--muted)}
+.control-slides .source-note a{color:var(--gold)}
+.control-slides .point-list{padding-left:1.5em}
+.control-slides .point-list li{margin:7px 0}
+@media(max-width:650px){.control-slides .slide{float:none;width:100%;max-width:none;margin:0 0 18px}.control-slides .chapter-title,.control-slides .explanation-heading{align-items:flex-start}.control-slides .reading-time{font-size:10px}}
+.control-slides details{clear:both;margin:18px 0;padding:12px 16px;border:1px solid var(--line)}
+.control-slides details summary{cursor:pointer;color:var(--gold)}
+.control-slides .slide-label{font-size:12px;color:var(--muted);margin-top:0}
+.control-slides :is(.explanation,.chapter-heading,.summary){scroll-margin-top:110px}
+@media(max-width:650px){.control-slides .explanation-heading,.control-slides .chapter-title{flex-wrap:wrap;gap:6px}.control-slides .reading-time{width:100%}}
+</style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水３]線形制御理論">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+  <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+  <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96">線形制御理論</a><span>/</span><span>第3回 解説</span></div>
+  <header class="document-header">
+    <p class="eyebrow">2026年度 後期 · 水曜3限 / 第3回</p>
+    <h1 id="document-title">第3回　デルタ関数の定義・ラプラス変換と畳み込み</h1>
+    <p class="subtitle">PDF p.19〜23</p>
+  </header>
+  <div class="section-rule"></div>
+  <div class="reader">
+    <article class="lesson-document control-slides" aria-labelledby="document-title">
+
+      <section class="summary" id="summary">
+        <h2>講義を通して言いたいこと</h2>
+        <span class="reading-time">想定読了時間 約11分</span>
+        <p>デルタ関数は、「一瞬だけ作用し、積分した総量は1である刺激」を表します。普通の関数のように各点の値を考える代わりに、別の関数と掛けて積分すると時刻0の値を取り出す、という性質で理解します。この性質から、ラプラス変換が1になることと、畳み込んでも相手の関数を変えないことがつながります。</p>
+        <p class="source-note">原典：<a href="授業資料/線形制御理論【第3回】講義資料.pdf#page=19" target="_blank" rel="noopener noreferrer">線形制御理論【第3回】講義資料.pdf</a>。以下のページ番号はPDFの通し番号です。</p>
+      </section>
+      <div class="chapter-heading" id="chapter-01"><div class="chapter-title"><h2>デルタ関数の定義</h2><span class="reading-time">想定読了時間 約5〜6分</span></div><p class="source-note">PDF p.19〜21</p></div>
+      <section class="explanation" id="slide-019">
+        <div class="explanation-grid">
+          <div class="explanation-heading"><h2>解説 19　デルタ関数を学ぶ位置づけ</h2><span class="reading-time">想定読了時間 約30秒</span></div>
+          <div class="slide"><a href="授業資料/線形制御理論【第3回】講義資料.pdf#page=19" target="_blank" rel="noopener noreferrer" aria-label="原PDFの19ページを開く"><img src="assets/第3回-page-19-300dpi.png" alt="線形制御理論 第3回 PDF 19ページ、デルタ関数を学ぶ位置づけ" loading="lazy"></a></div>
+          <p class="slide-label">PDF p.19 ／ 印字番号 16/29</p>
+          <p class="claim">瞬間的な入力を表す道具を用意し、入力と応答の関係を理解します。</p>
+
+          <p>ここで目次の強調が「デルタ関数」に移ります。これまでは微分方程式をラプラス変換し、入力から出力を求めていました。次は、その入力の基本形として「時間幅が限りなく短い刺激」を考えます。</p>
+          <p>この範囲は、長方形による直観、積分による定義の意味、ラプラス変換、畳み込みの順に読むとつながります。</p>
+          <p class="source-note">このページは概要で十分です。新しい定義や計算はなく、続く説明への区切りです。</p>
+
+        </div>
+      </section>
+      <section class="explanation" id="slide-020">
+        <div class="explanation-grid">
+          <div class="explanation-heading"><h2>解説 20　幅を縮めても面積を1に保つ</h2><span class="reading-time">想定読了時間 約2分</span></div>
+          <div class="slide"><a href="授業資料/線形制御理論【第3回】講義資料.pdf#page=20" target="_blank" rel="noopener noreferrer" aria-label="原PDFの20ページを開く"><img src="assets/第3回-page-20-300dpi.png" alt="線形制御理論 第3回 PDF 20ページ、幅を縮めても面積を1に保つ" loading="lazy"></a></div>
+          <p class="slide-label">PDF p.20 ／ 印字番号 17/29</p>
+          <p class="claim">デルタ関数が保存するのは、刺激を積分した総量です。</p>
+
+          <p>図の横軸は時間 \(t\)、縦方向は刺激の大きさです。\(c&gt;0\) として、幅 \(c\)、高さ \(1/c\) の長方形を考えます。</p>
+          <div class="equation">\[f_c(t)=\begin{cases}\dfrac1c,&amp;0\le t&lt;c,\\0,&amp;\text{それ以外}.\end{cases}\]</div>
+          <div class="equation">\[\int_0^\infty f_c(t)\,dt=\frac1c\times c=1\]</div>
+          <p>\(c\to0^+\) とすると、長方形は細く高くなりますが、面積は1のままです。例えば力のグラフなら、その面積は力積、すなわち運動量の変化を表します。短時間に同じ運動量を与えるには、それだけ大きな力が必要です。これがスライドの「持続時間が無限小で、一定の効果をもつ」の意味です。総量が \(J\) の刺激なら \(Jf_c\) の極限を \(J\delta\) と表します。</p>
+          <p>スライドの \(\delta(t)=\lim_{c\to0}f_c(t)\) は直観的な表現です。\(t&gt;0\) を固定すれば、十分小さな \(c\) で \(f_c(t)=0\) になり、\(t=0\) では高さが発散します。しかし「0以外で0、0で無限大」と書くだけでは、面積1を持つ通常の関数を定義できません。そこで次のページでは、<strong>積分した結果がどうなるか</strong>によって極限を捉えます。</p>
+          <details><summary>補足：なぜ「一点だけ大きい普通の関数」では足りないか</summary><p>一点の値だけを有限の数に変更しても、積分値は変わりません。また「無限大」は通常の実数値ではありません。デルタは、なめらかな関数と掛けて積分した結果を指定する<strong>一般化関数（分布）</strong>として扱います。\(\delta(0)\) の数値を求めるものではありません。</p></details>
+
+        </div>
+      </section>
+      <section class="explanation" id="slide-021">
+        <div class="explanation-grid">
+          <div class="explanation-heading"><h2>解説 21　積分すると時刻0の値を取り出す</h2><span class="reading-time">想定読了時間 約3分</span></div>
+          <div class="slide"><a href="授業資料/線形制御理論【第3回】講義資料.pdf#page=21" target="_blank" rel="noopener noreferrer" aria-label="原PDFの21ページを開く"><img src="assets/第3回-page-21-300dpi.png" alt="線形制御理論 第3回 PDF 21ページ、積分すると時刻0の値を取り出す" loading="lazy"></a></div>
+          <p class="slide-label">PDF p.21 ／ 印字番号 18/29</p>
+          <p class="claim">短い区間での平均値が、その区間の端の値に近づくことを使っています。</p>
+
+          <p>\(g(t)\) はデルタの働きを調べるために掛ける関数、\(I\) は長方形のある区間 \([0,c]\) を含む積分区間です。\(f_c\) はその外で0なので、</p>
+          <div class="equation">\[\int_I g(t)f_c(t)\,dt=\frac1c\int_0^c g(t)\,dt\]</div>
+          <p>となります。右辺は \(g\) の区間 \([0,c]\) における平均値です。\(g\) が原点で連続なら、区間を原点へ縮めた平均値は \(g(0)\) に近づきます。</p>
+          <p>原典は、\(G'(t)=g(t)\) を満たす不定積分 \(G\) を使って同じことを示しています。積分の基本定理により、</p>
+          <div class="equation">\[\frac1c\int_0^c g(t)\,dt=\frac{G(c)-G(0)}c\]</div>
+          <p>です。この最後の式は、\(G\) の原点での右側の微分係数の形です。したがって \(c\to0^+\) とすれば \(G'(0)=g(0)\) が得られます。これがスライドの最後の矢印で省略されている理由です。</p>
+          <div class="equation">\[\boxed{\int_I g(t)\delta(t)\,dt=g(0)}\]</div>
+          <p>この式を、<strong>デルタが \(g\) の時刻0の値を取り出す</strong>と読みます。例えば \(g(t)=2+t\) なら、長方形で計算した値は \(2+c/2\) で、極限は \(g(0)=2\) です。\(g(t)\delta(t)\) を各点で計算する必要はありません。</p>
+          <details><summary>補足：成立条件と、積分の端点の扱い</summary><p>この平均値の極限には、少なくとも \(g\) の原点での右連続性があれば十分です。分布として厳密に定義するときは、なめらかな試験関数に対する作用を考えます。この講義は右側の長方形で近似し、\(\int_0^\infty\delta(t)\,dt=1\) とする約束を使っています。原点を端点として含む積分でも面積をすべて数えます。これは次の2ページにも共通する約束です。</p></details>
+
+        </div>
+      </section>
+      <div class="chapter-heading" id="chapter-02"><div class="chapter-title"><h2>デルタ関数の性質</h2><span class="reading-time">想定読了時間 約5分</span></div><p class="source-note">PDF p.22〜23</p></div>
+      <section class="explanation" id="slide-022">
+        <div class="explanation-grid">
+          <div class="explanation-heading"><h2>解説 22　デルタ関数のラプラス変換は1</h2><span class="reading-time">想定読了時間 約2分</span></div>
+          <div class="slide"><a href="授業資料/線形制御理論【第3回】講義資料.pdf#page=22" target="_blank" rel="noopener noreferrer" aria-label="原PDFの22ページを開く"><img src="assets/第3回-page-22-300dpi.png" alt="線形制御理論 第3回 PDF 22ページ、デルタ関数のラプラス変換は1" loading="lazy"></a></div>
+          <p class="slide-label">PDF p.22 ／ 印字番号 19/29</p>
+          <p class="claim">積分の中で \(e^{-st}\) の時刻0の値を取り出すと、1になります。</p>
+
+          <p>ラプラス変換は、時間の関数に \(e^{-st}\) を掛け、\(t=0\) から無限大まで積分する操作です。\(s\) は変換後の関数の変数です。デルタについては、前ページの値を取り出す性質を使い、\(g(t)=e^{-st}\) と置くだけです。</p>
+          <div class="equation">\[\begin{aligned}\mathcal L[\delta](s)&amp;=\int_0^\infty\delta(t)e^{-st}\,dt\\&amp;=e^{-s\cdot0}=1.\end{aligned}\]</div>
+          <p>\(e^{-s\cdot0}=1\) は \(s\) に依存しないので、変換後は定数1になります。<strong>時間領域でのデルタが、変換後には掛け算の1に対応する</strong>ことが次の畳み込みにつながります。</p>
+          <details><summary>補足：長方形を実際にラプラス変換すると</summary><div class="equation">\[\mathcal L[f_c](s)=\frac{1-e^{-sc}}{sc}\ \longrightarrow\ 1\qquad(c\to0^+)\]</div><p>\(s\ne0\) を固定した計算です。\(1-e^{-sc}=sc+O(c^2)\) を使えば極限が分かります。\(s=0\) では積分が最初から1です。有限の幅の刺激から考えても、同じ結果になります。</p></details>
+          <p>混同しやすいのは、時間の関数としての定数1との違いです。定数入力はずっと続き、その変換は \(\mathcal L[1](s)=1/s\)（\(\operatorname{Re}s&gt;0\)）です。一方、デルタは一瞬の刺激であり、その変換が1です。</p>
+
+        </div>
+      </section>
+      <section class="explanation" id="slide-023">
+        <div class="explanation-grid">
+          <div class="explanation-heading"><h2>解説 23　デルタは畳み込みの単位元</h2><span class="reading-time">想定読了時間 約3分</span></div>
+          <div class="slide"><a href="授業資料/線形制御理論【第3回】講義資料.pdf#page=23" target="_blank" rel="noopener noreferrer" aria-label="原PDFの23ページを開く"><img src="assets/第3回-page-23-300dpi.png" alt="線形制御理論 第3回 PDF 23ページ、デルタは畳み込みの単位元" loading="lazy"></a></div>
+          <p class="slide-label">PDF p.23 ／ 印字番号 20/29</p>
+          <p class="claim">デルタとの畳み込みは、元の関数をそのまま返します。</p>
+
+          <p>畳み込みは、二つの関数をずらして掛け、積分する操作です。この講義の、時刻0からの因果的な畳み込みでは、</p>
+          <div class="equation">\[(f*\delta)(t)=\int_0^t f(t-\tau)\delta(\tau)\,d\tau\]</div>
+          <p>と書きます。ここで \(t&gt;0\) を固定し、積分変数を \(\tau\) と見ます。デルタが取り出すのは \(\tau=0\) の値です。したがって、\(g(\tau)=f(t-\tau)\) と置けば、</p>
+          <div class="equation">\[(f*\delta)(t)=f(t-0)=f(t)\]</div>
+          <p>です。\(f(t-\tau)\) を \(\tau\) の関数として読むのがポイントで、\(f(0)\) を取り出すわけではありません。通常の連続な \(f\) なら、この計算を長方形でも確かめられます。\(0&lt;c&lt;t\) に対し、</p>
+          <div class="equation">\[(f*f_c)(t)=\frac1c\int_0^c f(t-\tau)\,d\tau\]</div>
+          <p>は時刻 \(t\) の直前の値の平均であり、\(c\to0^+\) で \(f(t)\) に近づきます。畳み込みの交換則から \(\delta*f=f\) も成り立ちます。掛け算で \(a\times1=a\) となるのと同じ意味で、デルタを<strong>畳み込み積の単位元</strong>と呼びます。</p>
+          <p>ラプラス変換を使うと、この関係はもっと短く書けます。\(F=\mathcal L[f]\) として、畳み込みの変換則と前ページの結果より、</p>
+          <div class="equation">\[\mathcal L[f*\delta](s)=F(s)\mathcal L[\delta](s)=F(s)\cdot1=F(s)\]</div>
+          <p>となります。逆変換すれば \(f*\delta=f\) です。畳み込みの変換則そのものは<a href="第2回_畳み込みのラプラス変換.html#definitions">第2回の解説</a>で確認できます。</p>
+          <details><summary>補足：時刻0と、システムの応答へのつながり</summary><p>上の長方形の計算は \(t&gt;0\) で行っています。時刻0を含む式は、デルタを一般化関数として扱い、原点の刺激をすべて数える講義の約束で理解します。幅0の普通の積分に置き換えて「0だから応答も0」とはしません。</p><p>初期状態が0の線形時不変システムで、入力 \(u\) への出力を \(y=h*u\) と書けるなら、\(u=\delta\) に対して \(y=h*\delta=h\) となります。これが \(h\) を「インパルス応答」、すなわち面積1の瞬間的入力への応答と呼ぶ理由です。ここで \(h\) は入力の影響を経過時間に応じて重み付けする関数です。</p></details>
+
+        </div>
+      </section>
+    </article>
+    <nav class="toc" aria-label="ページ内目次">
+      <button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+      <div class="toc-panel" id="toc-panel" hidden><ul>
+        <li><a href="#summary">講義の要点</a></li>
+        <li><a href="#chapter-01">デルタ関数の定義｜p.19〜21</a><ul>
+          <li><a href="#slide-019">p.19｜学ぶ位置づけ</a></li>
+          <li><a href="#slide-020">p.20｜幅・高さ・面積</a></li>
+          <li><a href="#slide-021">p.21｜値を取り出す性質</a></li>
+        </ul></li>
+        <li><a href="#chapter-02">デルタ関数の性質｜p.22〜23</a><ul>
+          <li><a href="#slide-022">p.22｜ラプラス変換</a></li>
+          <li><a href="#slide-023">p.23｜畳み込みの単位元</a></li>
+        </ul></li>
+      </ul></div>
+    </nav>
+  </div>
+</main>
+</div>
+</body>
+</html>

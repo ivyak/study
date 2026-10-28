@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="study-ui" content="life">
+<meta name="study-lesson" content="4">
+<meta name="study-kind" content="解説">
+<meta name="study-created" content="2026-10-28">
+<title>解析力学 第4回｜拘束力・理想拘束と式変形</title>
+<link rel="stylesheet" href="../ui/life.css">
+<script defer src="../ui/life.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+<style>
+.talk-question { margin: 24px 0; padding: 18px; border-left: 2px solid var(--gold); background: rgba(215,182,108,.05); }
+.talk-question h3, .talk-answer h3 { font-size: 14px; color: var(--gold); }
+.talk-question figure { width: 100%; margin: 20px 0; }
+.talk-question img { display: block; width: 100%; max-width: 100%; height: auto; margin: auto; }
+.talk-question-layout { display: grid; gap: 24px; align-items: start; }
+.talk-question-text, .talk-question-images { min-width: 0; }
+.talk-question-images { display: grid; gap: 18px; }
+.talk-question .talk-question-images figure { width: 100%; margin: 0; }
+.talk-question-text > p:first-child { margin-top: 0; }
+@media (min-width: 901px) {
+  .talk-question-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+.talk-question figcaption { color: var(--gold); font-size: 12px; margin-top: 8px; }
+.talk-answer { margin: 24px 0 40px; }
+</style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水２]解析力学（数理）">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+  <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%92%5D%E8%A7%A3%E6%9E%90%E5%8A%9B%E5%AD%A6%EF%BC%88%E6%95%B0%E7%90%86%EF%BC%89">解析力学（数理）</a><span>/</span><span>第4回 解説</span></div>
+  <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%92%5D%E8%A7%A3%E6%9E%90%E5%8A%9B%E5%AD%A6%EF%BC%88%E6%95%B0%E7%90%86%EF%BC%89" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+  <div class="section-rule"></div>
+  <div class="reader">
+    <article class="lesson-document" aria-labelledby="document-title">
+<header class="document-header"><p class="eyebrow">2026年度 後期 · 水曜2限 / 第4回</p><h1 id="document-title">解析力学 第4回</h1><p class="subtitle">摩擦力・理想拘束と式変形のやり取り</p></header>
+<section class="summary" id="summary"><h2>概要</h2><p>摩擦力と拘束力、滑らずに転がる円板の理想拘束についてのやり取り。積の微分と、速度の2乗の偏微分を使う式変形を確認する。</p></section>
+<p class="muted">原典：<a href="https://chatgpt.com/share/6ae171fa-968c-83ee-ab2f-af2e55d86052">共有会話1</a>、<a href="https://chatgpt.com/share/6ae17217-fd54-83ec-856d-ee9a2c099811">共有会話2</a>、<a href="https://chatgpt.com/share/6ae17230-1004-83ee-ac52-c0d87a47b2ca">共有会話3</a>、<a href="https://chatgpt.com/share/6ae17223-3614-83ec-92dc-edc2ba12b2de">共有会話4</a>。想定読了時間：約10分。</p>
+<section class="explanation" id="talk-1"><h2>摩擦力と拘束力</h2>
+<div class="talk-question"><h3>質問</h3>
+  <div class="talk-question-layout">
+    <div class="talk-question-text"><p>これ、摩擦力も拘束力じゃないの？釣り合って静止する条件をみたすためにはたらいているから</p></div>
+    <div class="talk-question-images"><figure><a href="assets/第4回/IMG_3715.jpeg"><img src="assets/第4回/IMG_3715.jpeg" alt="IMG_3715.jpeg"></a><figcaption>IMG_3715.jpeg</figcaption></figure></div>
+  </div>
+</div>
+<div class="talk-answer"><h3>AIの回答</h3>
+<p><strong>うん、静止摩擦力も「滑らない」という拘束を保つ力として、拘束力とみなせます。</strong> ただし、この板書では <strong>「拘束力かどうか」と「仮想仕事がゼロになるか」を分ける</strong>必要があります。</p><p>まず、「釣り合って静止する条件を満たすために働く」という説明だけでは、拘束力とは決まりません。拘束力とは、たとえば「床を突き抜けない」「接点が滑らない」といった、<strong>運動の制限を保つ力</strong>です。</p><p>この図では、棒の下端が床に沿って右へ動く仮想変位 \(\delta x\) を考えています。そのため、</p><ul><li>垂直抗力 \(R_1,R_2\)：それぞれの接点の仮想変位と垂直なので、仮想仕事はゼロ。</li><li>静止摩擦力 \(F\)：下端の仮想変位と逆向きなので、仮想仕事は \(\delta W_F=-F\delta x\)。</li></ul><p>つまり、<strong>この仮想変位の取り方では、摩擦力は「仮想仕事をしない理想的な拘束力」には入りません。</strong></p><p>「でも静止摩擦なら下端は動かないのでは？」という点は、<strong>仮想変位は実際に起きる変位ではない</strong>のがポイントです。ここでは「棒の長さが変わらず、両端が壁・床に接する」という幾何学的条件を満たす、仮のずらし方を考えています。実際には静止していても、その仮想変位に対する摩擦力の仕事はゼロとは限りません。</p><p>逆に、<strong>「下端が滑らない」まで仮想変位の条件に含めれば \(\delta x=0\)</strong> になり、静止摩擦力の仮想仕事もゼロになります。ただ、この図の棒は動かせなくなるので、その仮想変位から釣り合いの情報を得られなくなります。</p>
+</div></section>
+<section class="explanation" id="talk-2"><h2>式変形の理由</h2>
+<div class="talk-question"><h3>質問</h3>
+  <div class="talk-question-layout">
+    <div class="talk-question-text"><p>これ、なんで黄色の式に変形できる？</p></div>
+    <div class="talk-question-images"><figure><a href="assets/第4回/IMG_3719.jpeg"><img src="assets/第4回/IMG_3719.jpeg" alt="IMG_3719.jpeg"></a><figcaption>IMG_3719.jpeg</figcaption></figure></div>
+  </div>
+</div>
+<div class="talk-answer"><h3>AIの回答</h3><p><strong>積の微分公式を逆に使っている</strong>んだよ。質量 \(m_\alpha\) は時間によらない定数として、</p>
+<div class="equation">\[\frac{d}{dt}\left(m_\alpha\dot{\boldsymbol r}_\alpha\cdot\frac{\partial\boldsymbol r_\alpha}{\partial q_j}\right)=m_\alpha\ddot{\boldsymbol r}_\alpha\cdot\frac{\partial\boldsymbol r_\alpha}{\partial q_j}+m_\alpha\dot{\boldsymbol r}_\alpha\cdot\frac{d}{dt}\left(\frac{\partial\boldsymbol r_\alpha}{\partial q_j}\right).\]</div>
+<p>右辺の第2項を移項すれば、</p><div class="equation">\[\boxed{m_\alpha\ddot{\boldsymbol r}_\alpha\cdot\frac{\partial\boldsymbol r_\alpha}{\partial q_j}=\frac{d}{dt}\left(m_\alpha\dot{\boldsymbol r}_\alpha\cdot\frac{\partial\boldsymbol r_\alpha}{\partial q_j}\right)-m_\alpha\dot{\boldsymbol r}_\alpha\cdot\frac{d}{dt}\left(\frac{\partial\boldsymbol r_\alpha}{\partial q_j}\right)}\]</div>
+<p>となって、黄色の式になる！</p><p>つまり、\((fg)'=f'g+fg'\) を <strong>\(f'g=(fg)'-fg'\)</strong> と書き換えた形。ここでは \(f=m_\alpha\dot{\boldsymbol r}_\alpha\)、\(g=\partial\boldsymbol r_\alpha/\partial q_j\) に対応するよ。</p></div></section>
+<section class="explanation" id="talk-3"><h2>式変形の途中式を書く</h2>
+<div class="talk-question"><h3>質問</h3>
+  <div class="talk-question-layout">
+    <div class="talk-question-text"><p>1枚目から2枚目への式変形の途中式を書いて</p></div>
+    <div class="talk-question-images"><p class="muted">入力画像：IMG_3721(1).jpeg（元ファイル未保存）。<a href="https://chatgpt.com/share/6ae17230-1004-83ee-ac52-c0d87a47b2ca">共有会話で画像を開く</a></p>
+<p class="muted">入力画像：IMG_3722(1).jpeg（元ファイル未保存）。<a href="https://chatgpt.com/share/6ae17230-1004-83ee-ac52-c0d87a47b2ca">共有会話で画像を開く</a></p></div>
+  </div>
+</div>
+<div class="talk-answer"><h3>AIの回答</h3>
+<p>ポイントは、<strong>位置 \(\mathbf r_\alpha\) と速度 \(\dot{\mathbf r}_\alpha\) の偏微分の関係</strong>です。\(\mathbf r_\alpha=\mathbf r_\alpha(q_1,\ldots,q_n,t)\) とすると、</p>
+<div class="equation">\[\dot{\mathbf r}_\alpha=\sum_{k=1}^{n}\frac{\partial\mathbf r_\alpha}{\partial q_k}\dot q_k+\frac{\partial\mathbf r_\alpha}{\partial t}\]</div><p>なので、</p><div class="equation">\[\boxed{\frac{\partial\dot{\mathbf r}_\alpha}{\partial\dot q_j}=\frac{\partial\mathbf r_\alpha}{\partial q_j}}\]</div><p>が成り立ちます。また、</p>
+<div class="equation">\[\begin{aligned}
+\frac{d}{dt}\left(\frac{\partial\mathbf r_\alpha}{\partial q_j}\right)
+&amp;=\sum_{k=1}^{n}\frac{\partial^2\mathbf r_\alpha}{\partial q_k\partial q_j}\dot q_k+\frac{\partial^2\mathbf r_\alpha}{\partial t\partial q_j}\\
+&amp;=\frac{\partial\dot{\mathbf r}_\alpha}{\partial q_j}.
+\end{aligned}\]</div>
+<p>したがって、</p><div class="equation">\[\boxed{\frac{d}{dt}\left(\frac{\partial\mathbf r_\alpha}{\partial\dot q_j}\right)=\frac{\partial\mathbf r_\alpha}{\partial q_j}}\]</div><p>ではなく、今回使うのは</p><div class="equation">\[\boxed{\frac{d}{dt}\left(\frac{\partial\mathbf r_\alpha}{\partial q_j}\right)=\frac{\partial\dot{\mathbf r}_\alpha}{\partial q_j}}\]</div><p>です。</p><p>これらを使うと、1枚目の角括弧の中は、次のように変形できます（積は内積です）。</p>
+<div class="equation">\[\begin{aligned}
+&amp;\frac{d}{dt}\left(m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\mathbf r_\alpha}{\partial q_j}\right)-m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{d}{dt}\left(\frac{\partial\mathbf r_\alpha}{\partial q_j}\right)\\[4pt]
+&amp;=\frac{d}{dt}\left(m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\dot{\mathbf r}_\alpha}{\partial\dot q_j}\right)-m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\dot{\mathbf r}_\alpha}{\partial q_j}\\[4pt]
+&amp;=\frac{d}{dt}\left[\frac{\partial}{\partial\dot q_j}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha\cdot\dot{\mathbf r}_\alpha\right)\right]-\frac{\partial}{\partial q_j}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha\cdot\dot{\mathbf r}_\alpha\right)\\[4pt]
+&amp;=\boxed{\frac{d}{dt}\left[\frac{\partial}{\partial\dot q_j}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha^{\,2}\right)\right]-\frac{\partial}{\partial q_j}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha^{\,2}\right)}.
+\end{aligned}\]</div>
+<p>最後の変形では、合成関数の微分</p><div class="equation">\[\frac{\partial}{\partial x}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha^{\,2}\right)=m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\dot{\mathbf r}_\alpha}{\partial x}\]</div><p>を使っています。これを \(\sum_{j=1}^{n}\sum_{\alpha=1}^{N}\) の中に戻せば2枚目の形です。1枚目の \(\delta q_j\) も、そのまま外側に掛かります。</p></div>
+<div class="talk-question"><h3>追質問</h3><p>2行目から3行目の変更が気になってる</p></div>
+<div class="talk-answer"><h3>AIの回答</h3><p>そこは、<strong>速度の2乗を偏微分すると、合成関数の微分で \(2\dot{\mathbf r}_\alpha\) が出る</strong>ことを使ってる。</p><p>まず、\(\dot{\mathbf r}_\alpha^{\,2}=\dot x_\alpha^2+\dot y_\alpha^2+\dot z_\alpha^2\) なので、変数 \(s\) による偏微分は</p>
+<div class="equation">\[\begin{aligned}
+\frac{\partial}{\partial s}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha^{\,2}\right)
+&amp;=\frac{m_\alpha}{2}\left(2\dot x_\alpha\frac{\partial\dot x_\alpha}{\partial s}+2\dot y_\alpha\frac{\partial\dot y_\alpha}{\partial s}+2\dot z_\alpha\frac{\partial\dot z_\alpha}{\partial s}\right)\\
+&amp;=m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\dot{\mathbf r}_\alpha}{\partial s}.
+\end{aligned}\]</div>
+<p><strong>この等式を右辺から左辺へ使う</strong>と、\(s=\dot q_j\) の場合は</p><div class="equation">\[m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\dot{\mathbf r}_\alpha}{\partial\dot q_j}=\frac{\partial}{\partial\dot q_j}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha^{\,2}\right),\]</div><p>\(s=q_j\) の場合は</p><div class="equation">\[m_\alpha\dot{\mathbf r}_\alpha\cdot\frac{\partial\dot{\mathbf r}_\alpha}{\partial q_j}=\frac{\partial}{\partial q_j}\left(\frac{m_\alpha}{2}\dot{\mathbf r}_\alpha^{\,2}\right).\]</div><p>この2つをそれぞれ代入したのが3行目。外側の \(\dfrac{d}{dt}\) はそのままで、中身だけを書き換えているよ。</p></div></section>
+<section class="explanation" id="talk-4"><h2>理想拘束の確認</h2><div class="talk-question"><h3>質問</h3><p>粗い直線上を滑ることなくころがる円板の運動は理想拘束を満たす例である。　あってるよね？</p></div><div class="talk-answer"><h3>AIの回答</h3><p>うん、<strong>合ってるよ。</strong> すべることなく転がる円板では、接触点の許される仮想変位がゼロになるので、拘束力（垂直抗力と静止摩擦力）のする仮想仕事もゼロ。したがって、理想拘束の例になる。</p><p>「粗い」は滑りを防ぐ静止摩擦が働くという意味で、摩擦があるから非理想拘束になるわけではないよ。なお、転がり抵抗や変形によるエネルギー損失は無視している。</p></div></section>
+
+    </article>
+    <nav class="toc" aria-label="ページ内目次">
+      <button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+      <div class="toc-panel" id="toc-panel" hidden><ul>
+        <li><a href="#summary">概要</a></li>
+        <li><a href="#talk-1">摩擦力と拘束力</a></li>
+        <li><a href="#talk-2">式変形の理由</a></li>
+        <li><a href="#talk-3">式変形の途中式を書く</a></li>
+        <li><a href="#talk-4">理想拘束の確認</a></li>
+      </ul></div>
+    </nav>
+  </div>
+</main>
+</div>
+</body>
+</html>

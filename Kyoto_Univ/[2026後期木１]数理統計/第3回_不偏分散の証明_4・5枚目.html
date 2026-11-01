@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="study-ui" content="life">
+  <meta name="study-lesson" content="3">
+  <meta name="study-kind" content="解説">
+  <meta name="study-created" content="2026-10-29">
+  <title>数理統計｜第3回：不偏分散の証明をどう考えるか（4・5枚目）</title>
+  <link rel="stylesheet" href="../ui/life.css">
+  <script defer src="../ui/life.js"></script>
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']],
+      processEscapes: true
+    },
+    chtml: {displayAlign: 'center'}
+  };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+  <style>
+  .reading-time {color: #aaa79f; font-size: 12px; text-align: right; margin: 8px 0 18px;}
+  .lesson-document .summary {padding-right: 108px; min-height: 0; margin-bottom: 36px;}
+  .lesson-document .summary h2 {border: 0; padding: 0; margin: 0 0 18px; font-size: 18px;}
+  .lesson-document .chapter-heading {margin: 38px 0 12px;}
+  .explanation {scroll-margin-top: 30px;}
+  .explanation-grid {display: flow-root;}
+  .lesson-document .explanation h3 {margin-top: 22px;}
+  .lesson-document .explanation .explanation-title {margin-top: 0;}
+  .lesson-document .slide {float: right; width: 46%; margin: 0 0 22px 28px; padding: 0; display: block; aspect-ratio: auto; letter-spacing: normal; border-color: var(--gold);}
+  .slide a {display: block;}
+  .slide img {display: block; width: 100%; height: auto;}
+  .lesson-document .equation {display: flow-root;}
+  .lesson-document .wide-step {clear: both;}
+  .lesson-document details {border: 1px solid var(--line); padding: 12px 16px; margin-top: 22px;}
+  .lesson-document details summary {cursor: pointer; color: var(--gold);}
+  @media (max-width: 760px) {
+    .lesson-document .slide {float: none; width: 100%; margin: 0 0 24px;}
+    .lesson-document .summary {padding-right: 0; padding-top: 58px;}
+  }
+  </style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期木１]数理統計">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+  <main>
+    <div class="document-back">
+      <a class="back-step" href="../index.html#course=[2026後期木１]数理統計" aria-label="授業一覧に戻る" title="授業一覧に戻る">
+        <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+      </a>
+    </div>
+    <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=[2026後期木１]数理統計">数理統計</a><span>/</span><span>第3回 解説</span></div>
+    <header class="page-head">
+      <h1>第3回：不偏分散の証明をどう考えるか</h1>
+      <p class="subtitle">母集団・標本の定義と、不偏分散の証明の途中式 · 4・5枚目</p>
+      <p class="reading-time">想定読了時間 約10〜12分</p>
+    </header>
+    <div class="section-rule"></div>
+    <div class="reader">
+      <article class="lesson-document">
+        <section class="summary" id="summary">
+          <h2>講義を通して言いたいこと</h2>
+          <p>母分散 \(\sigma^2\) は、調べたい母集団の分布で決まる値です。一方、標本分散 \(S_n^2\) は、取り出した \(n\) 個のデータから計算する値で、標本を取り直すたびに変わります。この2枚では、<strong>標本分散の期待値が母分散よりどれだけ小さくなるかを求め、その分を補正すると不偏分散になる</strong>ことを証明します。</p>
+          <p>以下では、記号を定義してから、板書の順に「補助量を作る → 二乗を展開する → 期待値を取る」と進めます。各等号で何を使ったかを、途中式とともに確認します。</p>
+        </section>
+        <h2 class="chapter-heading" id="chapter-01">母集団と標本を区別して、不偏分散の証明を追う</h2>
+        <p class="reading-time">4・5枚目 · 想定読了時間 約10〜11分</p>
+        <section class="explanation" id="slide-004">
+          <p class="reading-time">想定読了時間 約2〜3分</p>
+          <div class="explanation-grid">
+            <figure class="slide">
+              <a href="数理統計 第3回.pdf#page=4" target="_blank" rel="noopener noreferrer"><img src="assets/lecture-03/page-004.png" alt="数理統計 第3回、PDF 4ページ。不偏分散の定理と、母平均を中心にした補助量の導入。" width="1896" loading="lazy"></a>
+            </figure>
+            <h3 class="explanation-title">解説 4｜記号の定義から、期待値の計算へ</h3>
+            <p>母集団は調べたい対象全体、標本はそこから取り出したデータです。母集団分布に従う確率変数を \(X\) とし、期待値 \(E[\cdot]\) は、その分布の確率を重みとする平均を表します。</p>
+            <h3 class="wide-step">母集団と標本の記号</h3>
+            <p>母平均、母分散、母標準偏差を、それぞれ次の式で定義します。</p>
+            <div class="equation key-equation">\[
+              \mu:=E[X],\qquad
+              \sigma^2:=E[(X-\mu)^2],\qquad
+              \sigma:=\sqrt{\sigma^2}.
+            \]</div>
+            <p>\(X\) は母集団分布に従う1個の確率変数なので、添え字は不要です。標本の各値を区別するときは \(X_1,\ldots,X_n\) と書きます。各 \(X_i\) は \(X\) と同じ分布に従うため、</p>
+            <div class="equation">\[
+              \begin{aligned}
+              E[X_i]&amp;=\mu,\\
+              E[(X_i-\mu)^2]&amp;=\sigma^2
+              \quad(i=1,\ldots,n).
+              \end{aligned}
+            \]</div>
+            <p>以下、標本は独立、\(n\ge2\)、\(\sigma^2&lt;\infty\) とします。標本平均と標本分散は、</p>
+            <div class="equation">\[
+              \bar X_n:=\frac1n\sum_{i=1}^nX_i,\qquad
+              S_n^2:=\frac1n\sum_{i=1}^n(X_i-\bar X_n)^2.
+            \]</div>
+            <p>\(\mu,\sigma^2\) は母集団分布で決まる定数、\(\bar X_n,S_n^2\) は標本を取り直すと変わる量です。</p>
+            <h3>母平均を中心にした補助量の期待値を計算する</h3>
+            <p><strong>方針：</strong>求めたい \(E[S_n^2]\) を直接計算する代わりに、母分散の定義を使える補助量</p>
+            <div class="equation">\[
+              V_n^2:=\frac1n\sum_{i=1}^n(X_i-\mu)^2
+            \]</div>
+            <p>を作り、その期待値を求めます。</p>
+            <div class="equation">\[
+              \begin{aligned}
+              E[V_n^2]
+              &amp;=E\!\left[\frac1n\sum_{i=1}^n(X_i-\mu)^2\right]\\
+              &amp;=\frac1n\sum_{i=1}^n E[(X_i-\mu)^2]\\
+              &amp;=\frac1n\sum_{i=1}^n\sigma^2\\
+              &amp;=\frac1n\,n\sigma^2=\sigma^2.
+              \end{aligned}
+            \]</div>
+            <p>2行目は期待値の線形性、3行目は母分散の定義です。次に、\(V_n^2\) を \(S_n^2\) を含む式に書き換えます。</p>
+          </div>
+        </section>
+        <section class="explanation" id="slide-005">
+          <p class="reading-time">想定読了時間 約7〜9分</p>
+          <div class="explanation-grid">
+            <figure class="slide">
+              <a href="数理統計 第3回.pdf#page=5" target="_blank" rel="noopener noreferrer"><img src="assets/lecture-03/page-005.png" alt="数理統計 第3回、PDF 5ページ。母平均まわりの平方和を分解し、標本分散の期待値と不偏分散を導く証明。" width="1896" loading="lazy"></a>
+            </figure>
+            <h3 class="explanation-title">解説 5｜板書の等号を、途中式でつなぐ</h3>
+            <p><strong>この1枚の主張：</strong>\(V_n^2\) と \(S_n^2\) の差は \((\bar X_n-\mu)^2\) であり、その期待値を引くと \(E[S_n^2]\) が求まる。</p>
+            <p>4枚目で \(E[V_n^2]=\sigma^2\) が分かりました。ここからは、まず期待値を取らずに、標本ごとに成り立つ式を作ります。</p>
+            <h3 class="wide-step">1．標本平均を足して引き、欲しい差を作る</h3>
+            <p>\(S_n^2\) の定義にある \(X_i-\bar X_n\) を出すため、\(X_i-\mu\) に \(-\bar X_n+\bar X_n=0\) を挿入します。</p>
+            <div class="equation">\[
+              \begin{aligned}
+              X_i-\mu
+              &amp;=X_i-\bar X_n+\bar X_n-\mu\\
+              &amp;=(X_i-\bar X_n)+(\bar X_n-\mu).
+              \end{aligned}
+            \]</div>
+            <p>前半は「各データの、標本平均からのずれ」、後半は「標本平均の、母平均からのずれ」です。<strong>\(\mu\) と \(\bar X_n\) を同じだと置くのではなく、両者の差を残している</strong>ことが大切です。</p>
+            <h3>2．二乗を展開し、3つの和に分ける</h3>
+            <p>各 \(i\) について、\((a+b)^2=a^2+2ab+b^2\) を使います。</p>
+            <div class="equation">\[
+              \begin{aligned}
+              (X_i-\mu)^2
+              &amp;=(X_i-\bar X_n)^2\\
+              &amp;\quad+2(X_i-\bar X_n)(\bar X_n-\mu)\\
+              &amp;\quad+(\bar X_n-\mu)^2.
+              \end{aligned}
+            \]</div>
+            <p>これを \(V_n^2\) の定義に代入し、和を3つに分けます。</p>
+            <div class="equation">\[
+              \begin{aligned}
+              V_n^2
+              &amp;=\frac1n\sum_{i=1}^n(X_i-\mu)^2\\
+              &amp;=\frac1n\sum_{i=1}^n(X_i-\bar X_n)^2\\
+              &amp;\quad+\frac2n\sum_{i=1}^n
+              (X_i-\bar X_n)(\bar X_n-\mu)\\
+              &amp;\quad+\frac1n\sum_{i=1}^n(\bar X_n-\mu)^2.
+              \end{aligned}
+            \]</div>
+            <p>最初の和は定義どおり \(S_n^2\) です。残り2つを、それぞれ整理します。</p>
+            <h3>3．真ん中の和：偏差の和がゼロなので消える</h3>
+            <p>\(\bar X_n-\mu\) は和を取る添字 \(i\) によらないため、和の外へ出せます。</p>
+            <div class="equation">\[
+              \frac2n\sum_{i=1}^n(X_i-\bar X_n)(\bar X_n-\mu)
+              =\frac{2(\bar X_n-\mu)}n
+              \sum_{i=1}^n(X_i-\bar X_n).
+            \]</div>
+            <p>ここで、標本平均の定義を使うと、</p>
+            <div class="equation">\[
+              \begin{aligned}
+              \sum_{i=1}^n(X_i-\bar X_n)
+              &amp;=\sum_{i=1}^nX_i-\sum_{i=1}^n\bar X_n\\
+              &amp;=\sum_{i=1}^nX_i-n\bar X_n\\
+              &amp;=\sum_{i=1}^nX_i
+              -n\left(\frac1n\sum_{i=1}^nX_i\right)\\
+              &amp;=0.
+              \end{aligned}
+            \]</div>
+            <p>したがって、真ん中の和は \(\frac{2(\bar X_n-\mu)}n\times0=0\) です。<strong>期待値を取ってゼロになるのではなく、どの標本でもこの段階でゼロになります。</strong>また、\(\bar X_n\) を和の外へ出せるのは \(i\) によらないからであり、\(\bar X_n\) が確率変数でなくなったわけではありません。</p>
+            <h3>4．最後の和：同じ値が \(n\) 個ある</h3>
+            <p>\((\bar X_n-\mu)^2\) も \(i\) によらないので、</p>
+            <div class="equation">\[
+              \begin{aligned}
+              \frac1n\sum_{i=1}^n(\bar X_n-\mu)^2
+              &amp;=\frac1n\,n(\bar X_n-\mu)^2\\
+              &amp;=(\bar X_n-\mu)^2.
+              \end{aligned}
+            \]</div>
+            <p>以上を合わせると、板書左側の展開式が次の形になります。</p>
+            <div class="equation key-equation">\[
+              V_n^2=S_n^2+0+(\bar X_n-\mu)^2
+              =S_n^2+(\bar X_n-\mu)^2.
+            \]</div>
+            <p>これは、母平均を中心にした標本の散らばりが、標本平均を中心にした散らばりと、中心同士のずれの二乗に分かれる、という式です。したがって \(S_n^2=V_n^2-(\bar X_n-\mu)^2\) となり、中心を標本平均に合わせた分だけ小さくなります。</p>
+            <h3>5．期待値を取る前に、標本平均についての式を確認する</h3>
+            <p>板書右側では、PDFの2・3枚目で得た \(E[\bar X_n]=\mu\)、\(V(\bar X_n)=\sigma^2/n\) を使っています。この2枚だけで計算を追えるよう、必要な途中式を補います。まず、</p>
+            <div class="equation">\[
+              \begin{aligned}
+              E[\bar X_n]
+              &amp;=E\!\left[\frac1n\sum_{i=1}^nX_i\right]\\
+              &amp;=\frac1n\sum_{i=1}^n E[X_i]\\
+              &amp;=\frac1n\sum_{i=1}^n\mu
+              =\frac{n\mu}{n}=\mu.
+              \end{aligned}
+            \]</div>
+            <p>分散は一般に \(V(Y):=E[(Y-E[Y])^2]\) と定義されるので、 \(V(\bar X_n)=E[(\bar X_n-\mu)^2]\) です。<strong>標本平均の期待値が母平均と等しいのであって、標本平均そのものが毎回母平均と等しいわけではありません。</strong></p>
+            <p>次に、\(\bar X_n-\mu=\frac1n\sum_i(X_i-\mu)\) を使い、二乗を対角項と交差項に分けます。</p>
+            <div class="equation">\[
+              \begin{aligned}
+              E[(\bar X_n-\mu)^2]
+              &amp;=\frac1{n^2}
+              E\!\left[\left(\sum_{i=1}^n(X_i-\mu)\right)^2\right]\\
+              &amp;=\frac1{n^2}\left\{
+              \sum_{i=1}^nE[(X_i-\mu)^2]\right.\\
+              &amp;\qquad\left.+2\sum_{1\le i&lt;j\le n}
+              E[(X_i-\mu)(X_j-\mu)]\right\}.
+              \end{aligned}
+            \]</div>
+            <p>\(i\ne j\) のとき、独立性によって積の期待値を分けられます。さらに \(E[X_i]=E[X_j]=\mu\) なので、</p>
+            <div class="equation">\[
+              \begin{aligned}
+              E[(X_i-\mu)(X_j-\mu)]
+              &amp;=E[X_i-\mu]E[X_j-\mu]\\
+              &amp;=(E[X_i]-\mu)(E[X_j]-\mu)\\
+              &amp;=(\mu-\mu)(\mu-\mu)=0.
+              \end{aligned}
+            \]</div>
+            <p>対角項は母分散の定義により1個ずつ \(\sigma^2\) です。したがって、</p>
+            <div class="equation">\[
+              E[(\bar X_n-\mu)^2]
+              =\frac1{n^2}(n\sigma^2+0)
+              =\frac{\sigma^2}{n}.
+            \]</div>
+            <aside class="note">
+              <p><strong>2種類の「ゼロ」を区別する。</strong>　手順3では \(\sum_i(X_i-\bar X_n)=0\) という恒等式を使いました。ここでは独立性を使って \(E[(X_i-\mu)(X_j-\mu)]=0\) を示しています。こちらの積自体が毎回ゼロになるわけではありません。</p>
+            </aside>
+            <h3>6．板書の「期待値をとると」を、省略せずにつなぐ</h3>
+            <p>手順4の恒等式の両辺に期待値を取り、和の期待値を分けます。</p>
+            <div class="equation">\[
+              \begin{aligned}
+              E[V_n^2]
+              &amp;=E[S_n^2+(\bar X_n-\mu)^2]\\
+              &amp;=E[S_n^2]+E[(\bar X_n-\mu)^2].
+              \end{aligned}
+            \]</div>
+            <p>左辺には4枚目で求めた \(E[V_n^2]=\sigma^2\)、右辺の最後には手順5で求めた \(\sigma^2/n\) を代入します。</p>
+            <div class="equation">\[
+              \sigma^2=E[S_n^2]+\frac{\sigma^2}{n}.
+            \]</div>
+            <p>\(\sigma^2/n\) を左辺へ移し、分母をそろえると、</p>
+            <div class="equation key-equation">\[
+              \begin{aligned}
+              E[S_n^2]
+              &amp;=\sigma^2-\frac{\sigma^2}{n}\\
+              &amp;=\frac{n\sigma^2-\sigma^2}{n}\\
+              &amp;=\frac{n-1}{n}\sigma^2.
+              \end{aligned}
+            \]</div>
+            <p>この結果は、標本を取り直したときの平均について述べています。各標本で \(S_n^2\le V_n^2\) は成立しますが、\(V_n^2\) もランダムなので、各標本で必ず \(S_n^2\le\sigma^2\) になるという意味ではありません。</p>
+            <h3>7．分母を \(n-1\) にすると、なぜ不偏になるのか</h3>
+            <p>期待値に掛かっている \((n-1)/n\) を消したいので、標本分散を \(n/(n-1)\) 倍します。定義を代入すると、</p>
+            <div class="equation">\[
+              \begin{aligned}
+              U_n^2
+              &amp;:=\frac{n}{n-1}S_n^2\\
+              &amp;=\frac{n}{n-1}\cdot\frac1n
+              \sum_{i=1}^n(X_i-\bar X_n)^2\\
+              &amp;=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X_n)^2.
+              \end{aligned}
+            \]</div>
+            <p>\(n\) は固定した標本数なので、係数 \(n/(n-1)\) を期待値の外へ出せます。</p>
+            <div class="equation key-equation">\[
+              \begin{aligned}
+              E[U_n^2]
+              &amp;=E\!\left[\frac{n}{n-1}S_n^2\right]\\
+              &amp;=\frac{n}{n-1}E[S_n^2]\\
+              &amp;=\frac{n}{n-1}\cdot\frac{n-1}{n}\sigma^2\\
+              &amp;=\sigma^2.
+              \end{aligned}
+            \]</div>
+            <p>これで、\(U_n^2\) が母分散 \(\sigma^2\) の不偏推定量であることが示せました。この証明に必要なのは独立同分布、有限な母分散、\(n\ge2\) という条件で、正規分布の仮定は使っていません。</p>
+            <details>
+              <summary>板書の「自由度が1減る」と、今の計算のつながり</summary>
+              <p>偏差を \(r_i:=X_i-\bar X_n\) と置くと、手順3より \(r_1+\cdots+r_n=0\) です。したがって、</p>
+              <div class="equation">\[r_n=-\sum_{i=1}^{n-1}r_i.\]</div>
+              <p>最初の \(n-1\) 個が決まれば最後の1個も決まります。この制約の下で、自由に動かせる成分の数が \(n-1\) になる、というのがここでの自由度の意味です。観測数そのものは \(n\) 個のままです。</p>
+              <p>標本平均を同じ標本から求めたことで、偏差に1本の制約が加わりました。その影響を期待値で正確に計算した結果が \(E[S_n^2]=\frac{n-1}{n}\sigma^2\) であり、それを補正した分母が \(n-1\) です。</p>
+            </details>
+          </div>
+        </section>
+      </article>
+      <nav class="toc" aria-label="ページ内目次">
+        <button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
+        <div class="toc-panel" id="toc-panel" hidden>
+          <a href="#summary">講義の要点</a>
+          <ul><li><a href="#chapter-01">母集団と標本を区別して、不偏分散の証明を追う（4・5枚目）</a>
+            <ul><li><a href="#slide-004">解説 4：記号の定義と期待値の計算</a></li><li><a href="#slide-005">解説 5：証明の等号を途中式でつなぐ</a></li></ul>
+          </li></ul>
+        </div>
+      </nav>
+    </div>
+  </main>
+</div>
+</body>
+</html>

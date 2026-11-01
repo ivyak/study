@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="study-ui" content="life">
+  <meta name="study-kind" content="解説">
+  <meta name="study-lesson" content="7">
+  <meta name="study-created" content="2026-10-28">
+  <title>第7回｜Chebyshevの不等式と大数の弱法則</title>
+  <link rel="stylesheet" href="../ui/life.css">
+  <script defer src="../ui/life.js"></script>
+  <style>
+    .brief { max-width: 760px; }
+    .theorem-image { display: block; width: 100%; height: auto; margin: 24px 0; background: white; }
+  </style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026前期木１]確率論基礎">
+  <div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+    <main class="lesson-document">
+      <div class="document-back">
+        <a class="back-step" href="../index.html#course=[2026前期木１]確率論基礎" aria-label="授業一覧に戻る" title="授業一覧に戻る">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+        </a>
+      </div>
+      <article class="brief">
+        <header class="document-header">
+          <p class="eyebrow">確率論基礎 · 第7回 · 本文約6分</p>
+          <h1>Chebyshevの不等式と大数の弱法則</h1>
+          <nav aria-label="目次"><a href="#chebyshev">Chebyshevの不等式</a> · <a href="#random-sequence">確率変数列と標本平均</a> · <a href="#weak-law">大数の弱法則</a></nav>
+        </header>
+        <h2 id="chebyshev">Chebyshevの不等式は何を言っている？</h2>
+        <p class="note"><strong>分散がわかれば、「平均から大きく離れる確率」の上限がわかる。</strong></p>
+        <img class="theorem-image" src="assets/chebyshev-theorem.png" width="776" height="124" alt="定理2、Chebyshevの不等式。平均μ、有限な分散σ²をもつ確率変数Xについて、任意のε &gt; 0に対し、P(|X − μ| ≥ ε) ≤ σ²/ε²。">
+        <p>μは平均、σ²は分散、ε &gt; 0は「どれだけ離れるか」の基準です。左辺は、<strong>Xが平均よりε以上大きい、またはε以上小さい確率</strong>。それが右辺以下だと言っています。</p>
+        <p><strong>例えば、平均50、分散4なら、平均から6以上離れる確率は、最大でも4 ÷ 6² = 1/9（約11.1％）。</strong>つまり、X ≤ 44 または X ≥ 56となる確率は、約11.1％以下です。</p>
+        <p>値の分布の形を知らなくても、平均と有限な分散だけで使えます。「確率がちょうど1/9」という意味ではなく、<strong>それ以下だと保証する式</strong>です。</p>
+        <details class="source">
+          <summary>原資料</summary>
+          <p><a href="授業資料/講義資料/確率論基礎 演習問題_第7回_ 資料.pdf">確率論基礎 演習問題・第7回資料</a>の「定理2」。提示画像の範囲のみを解説しています。</p>
+        </details>
+        <h2 id="random-sequence">確率変数列と標本平均を、サイコロで理解する</h2>
+        <p class="note"><strong>X₁は「1回目の出目を表す確率変数」、X₂は「2回目の出目を表す確率変数」です。それらの平均も確率変数で、実際に振ると具体的な数値が決まります。</strong></p>
+        <img class="theorem-image" src="assets/sample-mean-definition.png" width="775" height="175" alt="独立同分布な確率変数列の標本平均は、X₁からXₙまでの和をnで割ったもの。大数の法則は、標本平均が適当な意味で共通の期待値E(X₁)に収束するという主張。">
+        <h3 id="variable-and-value">1．確率変数は「取り得る値の集合」とは違う</h3>
+        <div class="note"><p><strong>質問</strong>　確率変数は、特定の結果を表すわけではないですよね。サイコロならX₁は「1〜6の集合」なのでしょうか。「X₁ = 5」とはどう違いますか。</p></div>
+        <p>「確率変数だから、特定の結果を指しているわけではない」という理解は合っています。ただし、<strong>X₁ = {1, 2, 3, 4, 5, 6}とは書きません。</strong>この集合は、X₁が<strong>取り得る値の集合</strong>です。X₁そのものは、試行の結果に応じて数値を返すものです。</p>
+        <p>例えば、サイコロを何度も振る実験全体の結果がω = (5, 2, 6, …)だったとします。「その結果から1回目の出目を取り出す」のがX₁なので、X₁(ω) = 5です。同じ結果から2回目を取り出せばX₂(ω) = 2になります。数学的には、このような<strong>結果ωに数値を対応させる関数</strong>が確率変数です。</p>
+        <p>したがって、「X₁ = 5」という書き方も使います。P(X₁ = 5)なら「1回目に5が出るという出来事の確率」という意味です。観測後に「X₁ = 5だった」と言うこともありますが、確率変数そのものと得られた値を区別するときは、観測値を小文字でx₁ = 5と書きます。</p>
+        <h3 id="sequence-and-iid">2．X₂は「2回目の出目」。添字は回数を表す</h3>
+        <div class="note"><p><strong>質問</strong>　確率変数列とは何ですか。X₁がサイコロの出目を表すなら、X₂は何を表すのでしょうか。</p></div>
+        <p>X₁、X₂、X₃、…と、順番に番号を付けて並べたものが<strong>確率変数列</strong>です。サイコロなら、Xᵢは「i回目に出る目」を表します。どのXᵢも1〜6の値を取りますが、取り出す回が違います。</p>
+        <p>公平なサイコロを毎回独立に振る場合、どの回でも各目の確率は1/6です。これが<strong>同分布</strong>です。また、1回目の結果を知っても2回目の各目の確率は変わりません。各回がこのように互いに影響しないことが<strong>独立</strong>です。同分布は「毎回同じ値が出る」という意味ではありません。</p>
+        <h3 id="sample-versus-realization">3．標本平均にも「確率変数」と「観測した値」がある</h3>
+        <div class="note"><p><strong>質問</strong>　標本平均は、実際に得られたn個の結果を平均したものではないのですか。なぜ確率変数X₁、…、Xₙを使って書けるのでしょうか。</p></div>
+        <p>「特定の結果をn個並べて平均する」という理解も合っています。それは<strong>観測後の標本平均の値</strong>です。観測前から、その計算を確率変数で表したものも標本平均と呼びます。</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th scope="col">何を表すか</th><th scope="col">3回振る例</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">各回の確率変数</th><td>X₁、X₂、X₃</td></tr>
+              <tr><th scope="row">標本平均という確率変数</th><td>X̄₃ = (X₁ + X₂ + X₃)/3</td></tr>
+              <tr><th scope="row">実際に得た値</th><td>x₁ = 5、x₂ = 2、x₃ = 6</td></tr>
+              <tr><th scope="row">標本平均の実現値</th><td>x̄₃ = (5 + 2 + 6)/3 = 13/3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>同じ3回の実験でも、(1, 1, 1)なら平均は1、(6, 6, 6)なら6です。<strong>結果によって平均も変わるので、標本平均自体が確率変数</strong>になります。大数の弱法則は、この平均について「期待値からずれる確率」を論じています。</p>
+        <h3 id="common-expectation">4．なぜE(X₁)？ E(X₂)も同じだから</h3>
+        <div class="note"><p><strong>質問</strong>　なぜ収束先がE(X₁)なのですか。E(X₂)や、それ以降の確率変数の期待値は関係ないのでしょうか。</p></div>
+        <p><strong>同分布なので、期待値もすべて同じです。</strong>この共通の期待値をμと置き、代表としてE(X₁)と書いているだけです。E(X₂)と書いても同じ値です。</p>
+        <p class="equation">E(X₁) = E(X₂) = ⋯ = μ</p>
+        <p>公平なサイコロなら、μ = (1 + 2 + 3 + 4 + 5 + 6)/6 = 3.5です。1回目だけを特別扱いしているわけではなく、すべての回に共通する分布の平均が3.5なのです。</p>
+        <h3 id="why-many-observations">5．nを増やすと何が変わるのか</h3>
+        <div class="note"><p><strong>質問</strong>　標本平均は、なぜnを増やすと共通の期待値に近づくのでしょうか。nを増やすことで何が変わるのですか。</p></div>
+        <p>標本平均の期待値は、実は<strong>nが1でも、10でも、最初からμ</strong>です。期待値の線形性から、E(X̄ₙ) = {E(X₁) + ⋯ + E(Xₙ)}/n = μとなります。けれども、実際に得られる平均が毎回μになるわけではありません。</p>
+        <p>nを増やすと小さくなるのは、<strong>標本平均のばらつき</strong>です。各回の分散をσ²とすると、独立性によってV(X̄ₙ) = σ²/nになります。Chebyshevの不等式をこの標本平均に使うと、次が得られます。</p>
+        <p class="equation">P(|X̄ₙ − μ| ≥ ε) ≤ σ²/(nε²) → 0</p>
+        <p>どんな小さなε &gt; 0でも、まずその値を固定してnを増やせば、ε以上ずれる確率が0に近づきます。これが次の定理3です。<strong>各回の出目が3.5に近づくのではなく、たくさんの出目を平均した値が3.5の近くに集まりやすくなる</strong>、と捉えてください。</p>
+        <details class="source">
+          <summary>原資料と補足の範囲</summary>
+          <p><a href="授業資料/講義資料/確率論基礎 演習問題_第7回_ 資料.pdf">第7回資料</a>の標本平均・大数の法則の説明。提示画像をそのまま掲載しました。サイコロの例、確率変数と実現値の区別、期待値と分散の計算は理解のための補足です。</p>
+        </details>
+        <h2 id="weak-law">大数の弱法則は何を言っている？</h2>
+        <p class="note"><strong>同じ条件の独立な試行をたくさん集めると、その平均が期待値から一定以上ずれる確率は、0に近づく。</strong></p>
+        <img class="theorem-image" src="assets/weak-law-theorem.png" width="784" height="217" alt="定理3、大数の弱法則。独立同分布な確率変数列でμ = E(X₁)、E(X₁²)が有限とする。SₙはX₁からXₙまでの和。このとき、任意のε &gt; 0について、P(|Sₙ/n − μ| ≥ ε)はnを無限大にすると0に収束する。">
+        <h3 id="weak-law-meaning">式の読み方</h3>
+        <p>X₁、X₂、…は、互いに独立で、同じ分布に従う確率変数です。S<sub>n</sub>はn個の合計なので、<strong>S<sub>n</sub>/nは「n個の確率変数の平均」</strong>。μは、共通の分布から決まる期待値です。この定理では、二乗の期待値が有限であることも仮定します。</p>
+        <p>εは、先に決めておく「ずれの基準」です。式全体は、<strong>「観測した平均とμの差がε以上になる確率は、nを増やすと0に近づく」</strong>と読めます。εは0.1でも0.001でも、どんな正の値でも構いません。</p>
+        <h3 id="weak-law-example">具体例と注意点</h3>
+        <p>例えば、公平なコインを独立に投げ、表を1、裏を0とします。すると、S<sub>n</sub>/nは<strong>表の出た割合</strong>で、μ = 0.5です。ε = 0.1なら、「表の割合が0.4以下、または0.6以上になる確率」が、投げる回数を増やすと0に近づきます。</p>
+        <p class="note">0に近づくのは<strong>「平均が一定以上ずれる確率」</strong>です。有限回で必ず平均がμになる、あるいは1回増やすたびに平均がμに近づく、という保証ではありません。こうした収束を「確率収束」と呼びます。</p>
+        <p class="muted">前の<a href="#chebyshev">Chebyshevの不等式</a>とのつながり：平均の分散はσ²/nなので、ずれる確率の上限はσ²/(nε²)。nを増やすと、この上限が0に近づきます。</p>
+        <details class="source">
+          <summary>原資料</summary>
+          <p>提示画像「定理3（大数の弱法則）」。<a href="授業資料/講義資料/確率論基礎 演習問題_第7回_ 資料.pdf">第7回資料PDF</a>。画像は受け取ったものをそのまま掲載しています。コインの例と末尾のつながりは理解のための補足です。</p>
+        </details>
+      </article>
+    </main>
+  </div>
+</body>
+</html>

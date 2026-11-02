@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="ui/life.css">
   <script defer src="ui/resources.js"></script>
   <script defer src="ui/articles.js"></script>
+  <link rel="stylesheet" href="ui/accounting.css">
+  <script defer src="ui/accounting-data.js"></script>
+  <script defer src="ui/accounting.js"></script>
   <script defer src="ui/life.js"></script>
 </head>
 <body data-life-page="portal">
@@ -58,6 +61,7 @@ __SHELL__
         <header class="page-head skill-head"><h1>スキル</h1></header>
         <div class="skill-grid">__SKILL_CARDS__</div>
       </section>
+      <section id="accounting-view" hidden><header class="page-head"><h1>家計</h1></header></section>
       <section id="empty-view" hidden><header class="page-head"><h1 id="empty-title"></h1></header><div class="empty-state"><span>コンテンツはまだありません</span></div></section>
     </main>
   </div>

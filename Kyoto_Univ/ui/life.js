@@ -165,7 +165,7 @@
     closeMenu(); closeToc();
     window.LifeResources.stop();
     window.LifeArticles.stop();
-    for (const id of ['timetable', 'lessons', 'resource', 'skills', 'goals', 'goal-detail', 'articles', 'article-detail', 'empty']) document.getElementById(`${id}-view`).hidden = id !== name;
+    for (const id of ['timetable', 'lessons', 'resource', 'skills', 'goals', 'goal-detail', 'articles', 'article-detail', 'accounting', 'empty']) document.getElementById(`${id}-view`).hidden = id !== name;
     const target = document.getElementById(`${name}-view`);
     if (view !== name && !reducedMotion()) {
       target.getAnimations().forEach(animation => animation.cancel());
@@ -360,6 +360,7 @@
       show(params.has('article') ? 'article-detail' : 'articles');
       window.LifeArticles.render(params.get('article'), navigate); return;
     }
+    if (section === '家計') { window.LifeAccounting.render(); show('accounting'); return; }
     if (section === 'スキル') { show('skills'); return; }
     if (section !== '授業資料') { document.getElementById('empty-title').textContent = section; show('empty'); return; }
     const course = courses.find(course => course.id === params.get('course'));

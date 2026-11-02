@@ -1,0 +1,20 @@
+# CSV取得のためのURL集
+
+- Zaim
+  - https://content.zaim.net/home/money
+- 三井住友銀行
+  - https://qa.smbc.co.jp/faq/show/720?site_domain=default
+- 楽天銀行
+  - https://www.rakuten-bank.co.jp/guide/withdrawal-details.html
+- ゆうちょ銀行
+  - https://www.jp-bank.japanpost.jp/direct/pc/guide/dr_pc_gd_meisai.html
+- PayPay
+  - https://paypay.ne.jp/notice/20250206/f-transactionhistory/
+- 京都信用金庫
+  - https://www.kyoto-shinkin.co.jp/b-bank/manual2/bsl0801.html
+- モバイルSuica
+  - https://takapon.net/mobilesuica-csv/#index_id3
+- Vpass
+  - https://www.smbc-card.com/mem/index.jsp
+- 楽天カード
+  - https://www.rakuten-card.co.jp/service/e-navi/?utm_source=chatgpt.com

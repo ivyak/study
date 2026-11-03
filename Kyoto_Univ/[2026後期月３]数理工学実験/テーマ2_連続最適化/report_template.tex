@@ -1,6 +1,6 @@
 \documentclass[a4j]{jarticle}
 \usepackage[dvipdfmx]{graphicx}
-\usepackage{amsmath,ascmac}
+\usepackage{amsmath,amssymb,ascmac}
 \usepackage{bm}
 \usepackage{algorithm,algorithmic}
 \usepackage{listings}
@@ -30,31 +30,218 @@
 % 以後をレポート課題ごとに書き換える。
 %
 
+\usepackage{url}
+
+\newcommand{\toprule}{\hline}
+\newcommand{\midrule}{\hline}
+\newcommand{\bottomrule}{\hline}
+
 \begin{document}
-\title{2 連続最適化}
-\author{井上慧人（学籍番号 1029374191）}
-\date{提出期限：2026年 11月 9日}
-\maketitle
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}  % 上からの余白調整
+    
+    {\Huge \textbf{月3, 4 火3, 4 数理工学実験}}\\[1.5cm]
+    
+    {\huge 実験テーマ: 2 連続最適化}\\[2cm]
+    
+    
+    {\Large 
+    実験の実施年月日: 2026年10月27日 \\[1cm]
+    実験の実施場所: 京都大学 工学部総合校舎 \\[1cm]
+    レポートの提出年月日: \today \\[1cm]
+    氏名: 井上 慧人 \\[1cm]
+    所属: 工学部 情報学科 2年\\[1cm]
+    学生番号: 1029374191 \\[0.5cm]
+    }
+    
+    \vfill % 下部に余白を押しやる
+    
+\end{titlepage}
+
+% 2ページ目以降の本文
+\newpage
 
 
 \begin{abstract}
 関数の零点探索と無制約最適化をPythonで実装し、二分法、最急降下法、ニュートン法の数値的な挙動を比較した。三次関数の零点$-3,-1,2$を両手法で求めた。2変数の凸最適化では、同じ初期点と勾配ノルムの終了条件の下で、最急降下法は31回、ニュートン法は6回で終了した。非線形最小二乗問題では、それぞれ791回と5回で最適解$[3,0.5]^\top$の近傍へ到達した。ヘッセ行列を用いる方法は、今回の条件では更新回数を減らした。ただし、計算時間は測定していないため、実行速度の優劣までは結論しない。
 \end{abstract}
 
-% 以下は課題本文で使う記入欄。上の sample.tex 由来の冒頭は変更しない。
-\newcommand{\todo}[1]{\par\noindent\textbf{TODO：}#1\par\smallskip}
-\newcommand{\methodtodo}{\paragraph{手法・実験条件・コード}\todo{本人が用いた更新式・実装方針、実行ファイル名・実行方法、初期値、終了条件、最大反復回数を記す。}}
-\newcommand{\resulttodo}[1]{\paragraph{結果}\todo{#1}\paragraph{考察}\todo{得られた事実に基づき、手法・条件と結果の関係を説明する。}}
-\newcommand{\mathbb}[1]{\mathbf{#1}}
-\newcommand{\toprule}{\hline}
-\newcommand{\midrule}{\hline}
-\newcommand{\bottomrule}{\hline}
 
-\section{目的・共通の実験条件}
+\section{はじめに}
 零点探索と無制約最適化の反復法を実装し、初期値、ステップサイズ、曲率情報が収束に与える影響を調べる。問題設定と手法は教材\cite{textbook}に従う。課題1〜5の実装と保存結果には\texttt{section3}内のファイルを使用した。
 
-\paragraph{実装と再現方法}
-零点探索および降下法の共通処理は\texttt{utils\_math.py}に、課題3の関数は\texttt{kadai3.py}に実装されている。各実験は\texttt{section3}を作業ディレクトリとして、例えば\verb|python kadai4_a.py|で実行する。出力は各\texttt{kadai*.txt}に保存される。
+\section{原理・方法の詳細}
+\subsection{零点探索}
+関数 $f\colon\mathbb{R}\to\mathbb{R}$ について、$f(x)=0$ を満たす点 $x$ のことを関数 $f$ の零点と呼ぶ。その零点を求めることを零点探索と呼ぶ。零点探索のための手法としては、二分法とニュートン法の2つがある。
+
+二分法は、「符号が異なる二つの端点の中点を定め、そこでの $f(x)$ の符号によって端点を更新し、零点を含む区間を狭めていく方法」である。二分法の特徴としては、
+\begin{itemize}
+  \item アルゴリズムが簡易的である
+  \item 関数 $f$ が $\mathbb{R}$ 上で連続かつ2つの異なる初期点 $a, b$ の間に零点が存在すれば、必ず収束する
+  \item 一般的には収束が遅い
+\end{itemize}
+などがある。
+
+ニュートン法は、「ある点の周りで関数 $f$ を一次近似し、接線の方程式と $x$ 軸の交点を求め、更新点として、点列を生成する方法」である。ニュートン法の特徴としては、
+\begin{itemize}
+  \item 導関数を利用する
+  \item 解の近くに初期点を選ばなければ収束しない
+  \item 一般的には収束が早い
+\end{itemize}
+などがある。
+
+具体的な更新式と初期区間は第\ref{sec:experiment}節に示す。
+
+\subsection{停留点を求める反復法}
+関数 $f\colon\mathbb{R}^n\to\mathbb{R}$ が微分可能であるとき、$[x]_k$（$k=0,1,\ldots,n-1$）をベクトル $x$ の第 $k$ 成分として、
+\begin{equation}
+  \nabla f(x)
+  := \begin{pmatrix}
+    \dfrac{\partial f(x)}{\partial [x]_0},
+    \ldots,
+    \dfrac{\partial f(x)}{\partial [x]_{n-1}}
+  \end{pmatrix}^{\!\top}
+  = \mathbf{0}
+\end{equation}
+を満たす点 $x$ を $f$ の停留点と呼ぶ。停留点を求める反復法の一つに、関数値を減少させながら点を更新する降下法がある。降下法では、各反復で進む方向を表すベクトル $d^k$ を定める。この探索方向 $d^k$ の選び方には、勾配を用いる最急降下法や、勾配とヘッセ行列を用いるニュートン法という2種類の方法がある。
+
+降下法とは、関数値が
+\[
+  f(x^0)>f(x^1)>f(x^2)>\cdots
+\]
+となる点列 $\{x^0,x^1,x^2,\ldots\}$ を生成する反復法である。各反復では、探索方向と呼ばれるベクトル $d^k\in\mathbb{R}^n$ を、降下条件
+\[
+  \left\langle d^k,\nabla f(x^k)\right\rangle<0
+\]
+を満たすように選ぶ。さらに、関数値が減少するように正の実数 $t_k>0$ を選び、これをステップサイズと呼ぶ。点列は、漸化式
+\begin{align}
+  x^{k+1}:=x^k+t_kd^k
+  \label{eq:update}
+\end{align}
+により生成する。
+
+\begin{itembox}[l]{定理~3.3.1}
+  点列 $\{x^k\}$ および $\{d^k\}$ は、それぞれ降下法により生成される有界列とし、$\{d^k\}$ は降下方向の列であると仮定する。すなわち、各 $k$ で $d^k$ は
+  \[
+    \left\langle d^k,\nabla f(x^k)\right\rangle<0
+  \]
+  を満たす。
+  \[
+    \exists\gamma>0,\quad\forall k\in\mathbb{N}\cup\{0\},\qquad
+    \left\langle d^k,\nabla f(x^k)\right\rangle
+    \le -\gamma\left\|\nabla f(x^k)\right\|^2
+  \]
+  $\Longrightarrow$ 点列 $\{x^k\}$ の任意の集積点 $x^*$ は関数 $f$ の停留点となる。
+\end{itembox}
+
+最急降下法では$d^k=-\nabla f(x^k)$とする。このとき、定理~3.3.1をみたしているため、関数$f$ の停留点を求めることができる。
+
+ニュートン法では $\nabla^2 f(x^k)d^k=-\nabla f(x^k)$ の解を用いる。（つまり、
+\[
+  d^k:=-\left[\nabla^2 f(x^k)\right]^{-1}\nabla f(x^k)
+\]
+）ただし、$\nabla^2 f(x)$ は $x$ における $f$ のヘッセ行列を表しており、
+\[
+  \nabla^2 f(x)=
+  \begin{bmatrix}
+    \dfrac{\partial^2 f(x)}{\partial [x]_0^2}
+    & \dfrac{\partial^2 f(x)}{\partial [x]_0\partial [x]_1}
+    & \cdots
+    & \dfrac{\partial^2 f(x)}{\partial [x]_0\partial [x]_{n-1}} \\[1.2em]
+    \dfrac{\partial^2 f(x)}{\partial [x]_1\partial [x]_0}
+    & \dfrac{\partial^2 f(x)}{\partial [x]_1^2}
+    & \cdots
+    & \dfrac{\partial^2 f(x)}{\partial [x]_1\partial [x]_{n-1}} \\[1.2em]
+    \vdots & \vdots & \ddots & \vdots \\[0.6em]
+    \dfrac{\partial^2 f(x)}{\partial [x]_{n-1}\partial [x]_0}
+    & \dfrac{\partial^2 f(x)}{\partial [x]_{n-1}\partial [x]_1}
+    & \cdots
+    & \dfrac{\partial^2 f(x)}{\partial [x]_{n-1}^2}
+  \end{bmatrix}
+\]
+で与えられる。またここで、$\{\nabla^2 f(x^k)\}$ は有界かつ一様正定値であると仮定する。
+
+正定値行列とは、実対称行列またはエルミート行列 $A$ に対して、ベクトル $x$（ゼロではない）を使って、$x^\top Ax$ という掛け算（二次形式）をしたとき、どんなベクトル $x$ を選んでも結果が必ずプラス（$>0$）になるような行列 $A$ のことです。二次形式について説明すると、二次形式とは、複数の変数を用いた「すべて2次の項からなる多項式」のことで、例えば $x_1,x_2$ の2つの変数があるとき、2次の項だけを集めた式は以下のようになります。
+\[
+  q(x_1,x_2)=a_{11}x_1^2+2a_{12}x_1x_2+a_{22}x_2^2
+\]
+これを、列ベクトル
+\[
+  \mathbf{x}=\begin{pmatrix}x_1\\x_2\end{pmatrix}
+\]
+と、実対称行列
+\[
+  A=\begin{pmatrix}a_{11}&a_{12}\\a_{12}&a_{22}\end{pmatrix}
+\]
+を用いて表現すると、以下のようになります。
+\[
+  q(\mathbf{x})=\mathbf{x}^\top A\mathbf{x}
+  =\begin{pmatrix}x_1&x_2\end{pmatrix}
+  \begin{pmatrix}a_{11}&a_{12}\\a_{12}&a_{22}\end{pmatrix}
+  \begin{pmatrix}x_1\\x_2\end{pmatrix}
+\]
+
+\begin{itembox}[l]{定理~3.5.1}
+  以下の二つの命題は同値である。
+  \begin{itemize}
+    \item 対称行列 $M\in\mathbb{R}^{n\times n}$ が正定値である。
+    \item 対称行列 $M\in\mathbb{R}^{n\times n}$ の全ての固有値 $\lambda_j(M)$（$j=1,\ldots,n$）は正である。
+  \end{itemize}
+\end{itembox}
+
+課題4・5では、毎回$t=1$から始め、
+\begin{align}
+  f(x^k+td^k)\le f(x^k)+\xi t\nabla f(x^k)^\top d^k
+  \label{eq:armijo}
+\end{align}
+を満たすまで$t\leftarrow\rho t$とする。パラメータは$\xi=10^{-4}$、$\rho=0.5$である。式\eqref{eq:armijo}を満たした$t$を式\eqref{eq:update}に用いる。各更新の前に勾配の終了条件を判定する。
+
+\subsection{課題3の勾配とヘッセ行列}
+課題3の問題設定は第\ref{sec:task3}節に示す。
+
+目的関数を各成分で偏微分すると、
+\begin{align}
+  \nabla f(x)=\begin{bmatrix}2x_0+e^{x_0}-2x_1\\4x_1^3+2x_1-2x_0\end{bmatrix}
+  \label{eq:gradient3}
+\end{align}
+を得る。
+
+
+式\eqref{eq:gradient3}をさらに微分すると、
+\begin{align}
+  H(x):=\nabla^2 f(x)=\begin{bmatrix}2+e^{x_0}&-2\\-2&12x_1^2+2\end{bmatrix}
+  \label{eq:hessian3}
+\end{align}
+となる。
+
+\subsection{課題5の勾配とヘッセ行列}
+課題5の問題設定は第\ref{sec:task5}節に示す。
+
+\paragraph{教材に記載されたヒント}
+教材p.40には次の式が示されている。実験結果とは区別して用いる。
+\[
+\begin{aligned}
+\nabla f(x)&=2\sum_{i=0}^{2}f_i(x)\nabla f_i(x),\\
+\nabla^2 f(x)&=2\sum_{i=0}^{2}\left(f_i(x)\nabla^2 f_i(x)+\nabla f_i(x)\nabla f_i(x)^\top\right).
+\end{aligned}
+\]
+\paragraph{導出}
+実装では$x=(a,b)^\top$と書き、$r_i:=f_i(x)=y_i-a(1-b^{i+1})$とおく。$q_i:=i+1$とすると、$b^{q_i}$を微分することで
+\begin{align}
+  g_i:=\nabla f_i(x)&=\begin{bmatrix}b^{q_i}-1\\a q_i b^{q_i-1}\end{bmatrix},\\
+  H_i:=\nabla^2 f_i(x)&=\begin{bmatrix}0&q_i b^{q_i-1}\\q_i b^{q_i-1}&a q_i(q_i-1)b^{q_i-2}\end{bmatrix}
+  \label{eq:residual-hessian}
+\end{align}
+を得る。ただし式\eqref{eq:residual-hessian}の右下成分は$q_i=1$のとき0とする。これらを用いれば、$\nabla f=2\sum_i r_i g_i$、$\nabla^2f=2\sum_i(g_ig_i^\top+r_iH_i)$となる。\texttt{utils\_math.py}の\texttt{f\_5}、\texttt{grad\_f\_5}、\texttt{hess\_f\_5}は、この式を3項について展開した実装である。
+
+\clearpage
+\section{実験方法}
+\label{sec:experiment}
+\subsection{共通の実験条件}
+\paragraph{実装・再現方法}
+零点探索および降下法の共通処理は\texttt{utils\_math.py}に、課題3の関数は\texttt{kadai3.py}に実装されている。各実験は\texttt{section3}を作業ディレクトリとして、例えば\verb|python kadai4_a.py|で実行する。出力は各\texttt{kadai*.txt}に保存される。コードは各課題の説明箇所に元ファイルの行範囲を指定して抜粋し、左端の行番号も元ファイルに合わせた。共通処理は初出箇所に掲載し、再利用箇所から参照する。
 本稿作成時の再検証には、macOS 26.3、arm64、Python 3.9.6、NumPy 2.0.2を使用した。元の保存結果を得た実行環境の記録はないため、これは再検証時の環境である。計算にはPythonの浮動小数点数とNumPyの倍精度浮動小数点数を用いた。乱数は使用していない。CPUの型番とメモリ容量は記録しておらず、処理時間の比較は行わない。
 
 補足数値は、\texttt{section3}の関数を再実行して取得した。課題1・2では更新回数と残差を、課題4・5では終了時の勾配ノルムを追加で確認した。本文の反復回数は初期点を0回とした更新回数とし、二分法では中点を計算した回数とする。ベクトルのノルムはユークリッドノルム$\|v\|_2=(\sum_i v_i^2)^{1/2}$である。変数と関数値は無次元量として扱う。
@@ -62,21 +249,7 @@
 \paragraph{終了条件と反復上限}
 課題1は関数の残差$|f(x)|\le10^{-12}$、課題2は$|f'(x)|\le10^{-6}$、課題4・5は$\|\nabla f(x)\|_2\le10^{-6}$を終了条件とする。課題2・4・5の最大更新回数は10000回であり、上限到達時は例外を送出する。課題1とバックトラックには反復上限を設定していない。今回の再実行ではいずれも正常に終了した。
 
-\paragraph{降下法とバックトラック}
-反復点を$x^k$、探索方向を$d^k$、ステップサイズを$t_k>0$として、
-\begin{align}
-  x^{k+1}=x^k+t_kd^k
-  \label{eq:update}
-\end{align}
-と更新する。最急降下法では$d^k=-\nabla f(x^k)$、ニュートン法では$\nabla^2f(x^k)d^k=-\nabla f(x^k)$の解を用いる。課題4・5では、毎回$t=1$から始め、
-\begin{align}
-  f(x^k+td^k)\le f(x^k)+\xi t\nabla f(x^k)^\top d^k
-  \label{eq:armijo}
-\end{align}
-を満たすまで$t\leftarrow\rho t$とする。パラメータは$\xi=10^{-4}$、$\rho=0.5$である。式\eqref{eq:armijo}を満たした$t$を式\eqref{eq:update}に用いる。各更新の前に勾配の終了条件を判定する。
-
-\clearpage
-\section{課題1：関数の零点探索}
+\subsection{課題1：関数の零点探索}
 \begin{itembox}[l]{課題1（共通）}
 次の関数 $f:\mathbb{R}\to\mathbb{R}$ を考える。
 \[
@@ -84,6 +257,21 @@ f(x):=x^3+2x^2-5x-6
 \]
 Pythonを用いて、以下の課題に取り組め。
 \end{itembox}
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:root-functions}に、\texttt{utils\_math.py}の7〜11行を示す。
+\par
+% source: ../section3/utils_math.py:7-11
+\begin{lstlisting}[language=Python,firstnumber=7,caption={課題1の関数と導関数},label={lst:root-functions}]
+def f(x):
+  return x**3 + 2*x**2 - 5*x - 6
+
+def df(x):
+  return 3*x**2 + 4*x - 5
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題1-(a)}
 関数 $f$ を
 \[
@@ -91,62 +279,136 @@ Pythonを用いて、以下の課題に取り組め。
 \]
 の範囲で描写せよ。
 \end{itembox}
-\paragraph{実装・結果}
-\texttt{kadai1\_a.py}では、$[-10,10]$の両端を含む1000点を\texttt{np.linspace}で生成し、刻み幅$20/999\simeq0.02002$で関数値を評価した。横軸と縦軸の表示範囲をともに$[-10,10]$としたグラフを図\ref{fig:root}に示す。図には作成済みの\texttt{section3/kadai1\_a.png}を用いた。
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=.82\linewidth]{../section3/kadai1_a.png}
-  \caption{課題1の関数$f(x)=x^3+2x^2-5x-6$。横軸は$x$、縦軸は$y=f(x)$であり、ともに無次元である。1000点を直線で結び、両軸を$[-10,10]$に制限して表示した。}
-  \label{fig:root}
-\end{figure}
-図\ref{fig:root}から、$x=-3,-1,2$の付近に零点があることが読み取れる。
+\paragraph{描画方法}
+
+\texttt{kadai1\_a.py}では、$[-10,10]$の両端を含む1000点を\texttt{np.linspace}で生成し、刻み幅$20/999\simeq0.02002$で関数値を評価した。横軸と縦軸の表示範囲をともに$[-10,10]$とした。図には作成済みの\texttt{section3/kadai1\_a.png}を用いた。
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:plot-call}に、\texttt{kadai1\_a.py}の7〜15行を示す。
+\par
+% source: ../section3/kadai1_a.py:7-15
+\begin{lstlisting}[language=Python,firstnumber=7,caption={課題1-(a)の描画条件と呼出し},label={lst:plot-call}]
+# np.linspace(開始値, 終了値, 点数): 両端を含めて等間隔に並ぶ数値の配列
+x = np.linspace(-10, 10, 1000)
+
+plot_f(
+  x, 
+  f(x),
+  title="Graph of $f(x) = x^3 + 2x^2 - 5x - 6$",
+  save_path="kadai1_a.png"
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題1-(b)}
 二分法により関数 $f$ の全ての零点を求めよ。ただし、二つの異なる初期点は、(a)で描写した関数 $f$ の概形を参考にして適切に設定せよ。
 \end{itembox}
-\paragraph{手法}
+\paragraph{二分法の実装と条件}
+
 \texttt{kadai1\_b.py}から\texttt{bisection}を呼び出した。図\ref{fig:root}の三つの交点をそれぞれ含む区間$[-5,-2.5]$、$[-2.5,0]$、$[0,2.5]$を選んだ。端点の関数値は順に$(-56,3.375)$、$(3.375,-6)$、$(-6,9.625)$であり、各区間で符号が異なる。実装では負の関数値を持つ端点を$a$、非負の関数値を持つ端点を$b$として保持するため、数値として$a<b$とは限らない。中点$c=(a+b)/2$を計算し、$f(c)$の符号に応じて同符号の端点を$c$へ置き換える。
-\paragraph{結果・考察}
-表\ref{tab:bisect}に結果を示す。再実行値は保存結果と一致した。
-\begin{table}[htbp]
-  \centering
-  \caption{二分法の結果。残差は丸める前の計算値から評価した。}
-  \label{tab:bisect}
-  \small
-  \begin{tabular}{lrrr}\hline
-    初期区間 & 零点の近似値 & $|f(x)|$ & 中点計算回数\\\hline
-    $[-5,-2.5]$ & $-2.999999999999972$ & $2.8422\times10^{-13}$ & 44\\
-    $[-2.5,0]$ & $-0.999999999999943$ & $3.4106\times10^{-13}$ & 43\\
-    $[0,2.5]$ & $2.000000000000028$ & $4.2633\times10^{-13}$ & 44\\\hline
-  \end{tabular}
-\end{table}
-解析的には$f(x)=(x+3)(x+1)(x-2)$と因数分解できるため、得られた三つの点は全ての実零点に対応する。関数は連続であり、符号を分ける端点を維持することで零点を区間内に保てる。終了条件は区間幅ではなく残差に基づく。
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:bisection}に、\texttt{utils\_math.py}の14〜34行を示す。
+\par
+% source: ../section3/utils_math.py:14-34
+\begin{lstlisting}[language=Python,firstnumber=14,caption={課題1-(b)の二分法},label={lst:bisection}]
+def bisection(f, a, b, epsilon=1e-12):
+
+  # 負の値を取る端点をaにする
+  if f(a) > 0:
+    a, b = b, a
+
+  # 2分法の前提条件チェック・step0
+  if not (f(a) < 0 and f(b) >= 0 and epsilon > 0):
+    raise ValueError("f(a) >= 0 or f(b) <= 0 or ε <= 0")
+
+  while True:
+    # step1
+    c = (a + b) / 2
+    fc = f(c)
+    if abs(fc) <= epsilon:
+      return c
+    # step2
+    if fc < 0:
+      a = c
+    else:
+      b = c
+\end{lstlisting}
+\end{minipage}\par
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:bisect-call}に、\texttt{kadai1\_b.py}の4〜8行を示す。
+\par
+% source: ../section3/kadai1_b.py:4-8
+\begin{lstlisting}[language=Python,firstnumber=4,caption={課題1-(b)の初期区間},label={lst:bisect-call}]
+solution = [
+  bisection(f, -5.0, -2.5),
+  bisection(f, -2.5, 0.0),
+  bisection(f, 0.0, 2.5)
+]
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題1-(c)}
 ニュートン法により関数 $f$ の全ての零点を求めよ。ただし、(a)で描写した関数 $f$ の概形を参考にして、零点の近くに初期点を設定せよ。
 \end{itembox}
-\paragraph{手法}
+\paragraph{ニュートン法}
+
 \texttt{kadai1\_c.py}で、図\ref{fig:root}の交点を参考に初期点$-2.5,0,2.5$を選んだ。\texttt{newton}は$f'(x)=3x^2+4x-5$を用い、
 \begin{align}
   x^{k+1}=x^k-\frac{f(x^k)}{f'(x^k)}
   \label{eq:root-newton}
 \end{align}
 と更新する。更新後に残差を判定し、導関数が0の場合には例外を送出する。
-\paragraph{結果・考察}
-表\ref{tab:root-newton}に結果を示す。保存結果と再実行値は一致した。
-\begin{table}[htbp]
-  \centering
-  \caption{零点探索のニュートン法の結果。}
-  \label{tab:root-newton}
-  \begin{tabular}{rrrr}\hline
-    初期点 & 得られた点 & $|f(x)|$ & 更新回数\\\hline
-    $-2.5$ & $-3.0$ & $0$ & 6\\
-    $0$ & $-1.0$ & $0$ & 5\\
-    $2.5$ & $2.0$ & $0$ & 5\\\hline
-  \end{tabular}
-\end{table}
-二分法と同じ残差の閾値$10^{-12}$で終了させた場合、今回のニュートン法の更新回数は5〜6回であり、二分法の中点計算回数43〜44回より少なかった。三つの零点では$f'(-3)=10$、$f'(-1)=-6$、$f'(2)=15$と導関数が0ではない。零点の近くでは接線による補正が有効に働いたと考えられる。ただし、ニュートン法は導関数の評価も必要であり、初期点によらず収束することを今回の結果が保証するわけではない。残差0は浮動小数点計算上の値である。
 
-\clearpage
-\section{課題2：1変数の最適化}
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:root-newton}に、\texttt{utils\_math.py}の38〜54行を示す。
+\par
+% source: ../section3/utils_math.py:38-54
+\begin{lstlisting}[language=Python,firstnumber=38,caption={課題1-(c)のニュートン法},label={lst:root-newton}]
+def newton(f, df, x0, epsilon=1e-12):
+  # step0
+  if not epsilon > 0:
+    raise ValueError("ε <= 0")
+  x = x0
+
+  while True:
+    # step1
+    derivative = df(x)
+    if derivative == 0:
+      raise ZeroDivisionError("df=0")
+    delta_x = -f(x) / derivative
+
+    # step2
+    x = x + delta_x
+    if abs(f(x)) <= epsilon:
+      return x
+\end{lstlisting}
+\end{minipage}\par
+
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:root-newton-call}に、\texttt{kadai1\_c.py}の4〜8行を示す。
+\par
+% source: ../section3/kadai1_c.py:4-8
+\begin{lstlisting}[language=Python,firstnumber=4,caption={課題1-(c)の初期点},label={lst:root-newton-call}]
+solution = [
+  newton(f, df, -2.5),
+  newton(f, df, 0.0),
+  newton(f, df, 2.5)
+]
+\end{lstlisting}
+\end{minipage}\par
+
+
+\subsection{課題2：1変数の最適化}
 \begin{itembox}[l]{課題2（共通）}
 関数 $f:\mathbb{R}\to\mathbb{R}$ を以下で定義する。
 \[
@@ -154,6 +416,79 @@ f(x):=\frac{1}{3}x^3-x^2-3x+\frac{5}{3}
 \]
 Pythonを用いて、
 \end{itembox}
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:descent-directions}に、\texttt{utils\_math.py}の61〜79行を示す。
+\par
+% source: ../section3/utils_math.py:61-79
+\begin{lstlisting}[language=Python,firstnumber=61,caption={課題2の関数・導関数と探索方向},label={lst:descent-directions}]
+def f_2(x):
+  return (x**3)/3 - x**2 - 3*x + 5/3
+
+def grad_f_2(x):
+  return x**2 - 2*x - 3
+
+def hess_f_2(x):
+  return 2*x - 2
+
+# step2で使う最急降下方向
+def steepest_direction(x, grad):
+  # xは共通の呼び出し形式に合わせて受け取る
+  return -grad
+
+
+# step2で使うニュートン方向
+def newton_direction(x, grad, hess_f):
+  hess = hess_f(x)
+  return -grad / hess
+\end{lstlisting}
+\end{minipage}\par
+
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:descent}に、\texttt{utils\_math.py}の83〜117行を示す。
+\par
+% source: ../section3/utils_math.py:83-117
+\begin{lstlisting}[language=Python,firstnumber=83,caption={課題2の降下法の共通処理},label={lst:descent}]
+def descent(
+    grad_f,
+    x0,
+    t_k,
+    direction=steepest_direction,
+    epsilon=1e-6,
+    max_iter=10000
+  ):
+  # step0:
+  if epsilon <= 0:
+    raise ValueError("ε <= 0")
+  if max_iter <= 0:
+    raise ValueError("最大反復回数が0以下です")
+
+  x = float(x0)
+
+  for k in range(max_iter + 1):
+
+    # step1
+    grad: float = grad_f(x)
+    if abs(grad) <= epsilon:
+      return x
+    if k == max_iter:
+      break
+
+    # step2
+    d = direction(x, grad)
+
+    # step3
+    t = t_k(k)
+
+    # step4
+    x = x + t * d
+
+  raise RuntimeError("最大反復回数の更新で収束しませんでした")
+\end{lstlisting}
+\end{minipage}\par
+
 \begin{itembox}[l]{課題2-(a)}
 最急降下法を実装し、関数 $f$ の停留点を求めよ。ただし、初期点は
 \[
@@ -165,15 +500,29 @@ t_k:=1/(k+1)
 \]
 を採用せよ。
 \end{itembox}
-\paragraph{手法・結果}
+\paragraph{最急降下法の実装と条件}
+
 \texttt{kadai2\_a.py}から\texttt{descent}を呼び出した。$f'(x)=x^2-2x-3$より、更新式は
 \begin{align}
   x^{k+1}=x^k-\frac{(x^k)^2-2x^k-3}{k+1}
 \end{align}
-である。初期点$x^0=0.5$、終了条件$|f'(x^k)|\le10^{-6}$で、62回の更新後に$x=2.999999750304564$を得た。導関数の残差は$9.9878\times10^{-7}$、目的関数値は$-7.333333333333209$であった。
-\paragraph{考察}
-$f'(x)=(x-3)(x+1)$より停留点は$x=-1,3$である。$f''(x)=2x-2$なので、$f''(-1)=-4<0$、$f''(3)=4>0$となり、前者は局所最大点、後者は局所最小点である。得られた点は局所最小点$3$に対応し、その関数値は$f(3)=-22/3$と一致する。一方、$x\to-\infty$で$f(x)\to-\infty$となるため、大域的最小解は存在しない。
-初回は$x^1=4.25$、次回は$x^2=0.96875$となり、局所最小点を挟んで移動した。その後のステップサイズの減少によって更新幅が小さくなるが、極限点付近で急速に誤差を減らすニュートン法とは更新の仕方が異なる。
+である。初期点$x^0=0.5$、終了条件$|f'(x^k)|\le10^{-6}$とした。
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:descent-call}に、\texttt{kadai2\_a.py}の4〜8行を示す。
+\par
+% source: ../section3/kadai2_a.py:4-8
+\begin{lstlisting}[language=Python,firstnumber=4,caption={課題2-(a)の初期点とステップサイズ},label={lst:descent-call}]
+solution = descent(
+  grad_f=grad_f_2,
+  x0=0.5,
+  t_k=lambda k: 1.0 / (k + 1)
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題2-(b)}
 ニュートン法を実装し、関数 $f$ の停留点を求めよ。ただし、初期点は
 \[
@@ -185,17 +534,32 @@ t_k:=1
 \]
 を採用せよ。
 \end{itembox}
-\paragraph{手法・結果}
+\paragraph{ニュートン法}
+
 \texttt{kadai2\_b.py}では$f''(x)=2x-2$を用い、
 \begin{align}
   x^{k+1}=x^k-\frac{(x^k)^2-2x^k-3}{2x^k-2}
 \end{align}
-と更新した。初期点$x^0=5$、$t_k=1$である。4回の更新後に$x=3.000000092922295$を得た。導関数の残差は$3.7169\times10^{-7}$、目的関数値は$-7.333333333333315$であり、(a)と同じ局所最小点に到達した。
-\paragraph{考察}
-$|f'(x)|\le10^{-6}$という終了条件は(a)と共通であり、今回はニュートン法の方が少ない更新回数で終了した。ただし、初期点は(a)が$0.5$、(b)が$5$であり、ステップサイズの規則も異なる。この比較から初期条件を揃えた場合の定量的な優劣や処理時間の優劣は結論できない。
+と更新した。初期点$x^0=5$、$t_k=1$である。
 
-\clearpage
-\section{課題3：2変数の目的関数・勾配・ヘッセ行列}
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:newton2-call}に、\texttt{kadai2\_b.py}の4〜9行を示す。
+\par
+% source: ../section3/kadai2_b.py:4-9
+\begin{lstlisting}[language=Python,firstnumber=4,caption={課題2-(b)の初期点・ステップサイズ・方向},label={lst:newton2-call}]
+solution = descent(
+  grad_f=grad_f_2,
+  x0=5.0,
+  t_k=lambda k: 1.0,
+  direction=lambda x, grad: newton_direction(x, grad, hess_f_2)
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
+\subsection{課題3：2変数の目的関数・勾配・ヘッセ行列}
+\label{sec:task3}
 \begin{itembox}[l]{課題3（共通）}
 次の2次元の最適化問題を考える。
 \[
@@ -209,40 +573,126 @@ Pythonを用いて、
 \begin{itembox}[l]{課題3-(a)}
 点 $x$ が与えられたとき、目的関数の値 $f(x)$ を出力する関数を作成せよ。
 \end{itembox}
-\paragraph{実装・確認}
-\texttt{kadai3.py}の\texttt{f\_3(x)}に、長さ2のリストまたはNumPy配列$x=(x_0,x_1)^\top$を渡すと、問題文の式を評価したスカラー値を返す。例えば$x=(0,0)^\top$に対して$f(x)=4$であり、再実行でも同じ値を得た。コード\ref{lst:k3}に実装を示す。
+\paragraph{関数値の実装}
+
+\texttt{kadai3.py}の\texttt{f\_3(x)}に、長さ2のリストまたはNumPy配列$x=(x_0,x_1)^\top$を渡すと、問題文の式を評価したスカラー値を返す。
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:k3f}に、\texttt{kadai3.py}の3〜5行を示す。
+\par
+% source: ../section3/kadai3.py:3-5
+\begin{lstlisting}[language=Python,firstnumber=3,caption={課題3-(a)の目的関数},label={lst:k3f}]
+def f_3(x):
+  x0, x1 = x
+  return x0**2 + np.exp(x0) + x1**4 + x1**2 - 2*x0*x1 + 3
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題3-(b)}
 点 $x$ が与えられたとき、勾配ベクトル $\nabla f(x)$ を出力する関数を作成せよ。
 \end{itembox}
-\paragraph{導出・実装・確認}
-目的関数を各成分で偏微分すると、
-\begin{align}
-  \nabla f(x)=\begin{bmatrix}2x_0+e^{x_0}-2x_1\\4x_1^3+2x_1-2x_0\end{bmatrix}
-  \label{eq:gradient3}
-\end{align}
-を得る。\texttt{grad\_f\_3(x)}はこの式を長さ2のNumPy配列で返す。$x=(0,0)^\top$を入力すると$(1,0)^\top$を得た。さらに、$(0,0)^\top$、$(1,1)^\top$、$(2,0.3)^\top$で刻み幅$h=10^{-5}$の中心差分$[f(x+he_j)-f(x-he_j)]/(2h)$と比較した。ここで$e_j$は第$j$成分だけが1の単位ベクトルである。3点を通じた成分ごとの絶対差の最大値は$4.3\times10^{-10}$以下であった。
+\paragraph{勾配の実装}
+\texttt{grad\_f\_3(x)}はこの式を長さ2のNumPy配列で返す。
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:k3g}に、\texttt{kadai3.py}の7〜9行を示す。
+\par
+% source: ../section3/kadai3.py:7-9
+\begin{lstlisting}[language=Python,firstnumber=7,caption={課題3-(b)の勾配},label={lst:k3g}]
+def grad_f_3(x):
+  x0, x1 = x
+  return np.array([2*x0 + np.exp(x0) - 2*x1, 4*x1**3 + 2*x1 - 2*x0])
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題3-(c)}
 点 $x$ が与えられたとき、ヘッセ行列 $\nabla^2f(x)$ を出力する関数を作成せよ。
 \end{itembox}
-\paragraph{導出・実装・確認}
-式\eqref{eq:gradient3}をさらに微分すると、
-\begin{align}
-  H(x):=\nabla^2 f(x)=\begin{bmatrix}2+e^{x_0}&-2\\-2&12x_1^2+2\end{bmatrix}
-  \label{eq:hessian3}
-\end{align}
-となる。\texttt{hess\_f\_3(x)}は形状$(2,2)$のNumPy配列を返す。$x=(0,0)^\top$で$H(x)=\left[\begin{smallmatrix}3&-2\\-2&2\end{smallmatrix}\right]$を得た。(b)と同じ3点で、勾配の中心差分と比較したときの成分ごとの絶対差の最大値は$4.1\times10^{-10}$以下であった。
-また、$H_{00}=2+e^{x_0}>0$であり、
-\begin{align}
-  \det H(x)=(2+e^{x_0})(12x_1^2+2)-4
-  =24x_1^2+12e^{x_0}x_1^2+2e^{x_0}>0
-\end{align}
-となる。したがってヘッセ行列は全ての$x$で正定値であり、目的関数は狭義凸である。
+\paragraph{ヘッセ行列の実装}
+\texttt{hess\_f\_3(x)}は形状$(2,2)$のNumPy配列を返す。
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:k3h}に、\texttt{kadai3.py}の11〜17行を示す。
+\par
+% source: ../section3/kadai3.py:11-17
+\begin{lstlisting}[language=Python,firstnumber=11,caption={課題3-(c)のヘッセ行列},label={lst:k3h}]
+def hess_f_3(x):
+  x0, x1 = x
+  f00 = 2 + np.exp(x0)
+  f01 = -2
+  f10 = -2
+  f11 = 12*x1**2 + 2
+  return np.array([[f00, f01], [f10, f11]])
+\end{lstlisting}
+\end{minipage}\par
 
-\clearpage
-\section{課題4：バックトラック法を用いた最適化}
+
+\paragraph{検証条件}
+実装した勾配とヘッセ行列は、$(0,0)^\top$、$(1,1)^\top$、$(2,0.3)^\top$で刻み幅$h=10^{-5}$の中心差分と比較した。
+
+\subsection{課題4：バックトラック法を用いた最適化}
 \begin{itembox}[l]{課題4（共通）}
 Pythonを用いて、
 \end{itembox}
+課題3のコード\ref{lst:k3f}〜\ref{lst:k3h}と、課題2の最急降下方向を再利用する。
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:backtracking}に、\texttt{utils\_math.py}の123〜169行を示す。
+\par
+% source: ../section3/utils_math.py:123-169
+\begin{lstlisting}[language=Python,firstnumber=123,caption={課題4・5のバックトラックと降下法},label={lst:backtracking}]
+def backtracking_line_search(f, grad_f, d, x: list[float], t0: float, xi: float, rho: float):
+  # Step 0: ξ ∈ (0, 1)，ρ ∈ (0, 1)，初期ステップサイズ t0 > 0 を選ぶ．t = t0とする．
+  t = t0
+  # Step 1: 次式を満たすまで t ← ρ t とする．
+  while f(x + t * d) > f(x) + xi * t * np.dot(grad_f(x), d):
+    t *= rho
+  # Step 2: tk = t として終了
+  return t
+
+def norm_2(x):
+  return np.sqrt(np.sum(np.array(x)**2))
+
+# 降下法
+def descent_kadai4(
+    f,
+    grad_f,
+    x0,
+    direction=steepest_direction,
+    epsilon=1e-6,
+    max_iter=10000
+  ):
+  # step0:
+  if epsilon <= 0:
+    raise ValueError("ε <= 0")
+  if max_iter <= 0:
+    raise ValueError("最大反復回数が0以下です")
+
+  x = x0
+  for k in range(max_iter + 1):
+
+    # step1
+    grad: list[float] = grad_f(x)
+    if norm_2(grad) <= epsilon:
+      return x, f(x), k
+    if k == max_iter:
+      break
+
+    # step2
+    d = direction(x, grad)
+
+    # step3
+    t = backtracking_line_search(f, grad_f, d, x, t0=1.0, xi=1e-4, rho=0.5)
+
+    # step4
+    x = x + t * d
+
+  raise RuntimeError("最大反復回数の更新で収束しませんでした")
+\end{lstlisting}
+\end{minipage}\par
+
 \begin{itembox}[l]{課題4-(a)}
 バックトラック法を用いた最急降下法を実装することで課題3の最適化問題を解き、最適解、最適値、および反復回数を与えよ。ただし、初期点は
 \[
@@ -254,10 +704,24 @@ x^0=(1,1)^\top
 \]
 と設定せよ。
 \end{itembox}
-\paragraph{手法・結果}
-\texttt{kadai4\_a.py}では、式\eqref{eq:gradient3}による最急降下方向と式\eqref{eq:armijo}のバックトラックを用いた。終了時の結果を表\ref{tab:problem4}に示す。31回の更新で勾配ノルムの終了条件を満たした。表中の座標と勾配ノルムは再実行で取得したものであり、\texttt{kadai4\_a.txt}の表示桁と関数値、反復回数に一致した。
-\paragraph{考察}
-目的関数は$f(x)=(x_0-x_1)^2+e^{x_0}+x_1^4+3$と書ける。この形から$\|x\|_2\to\infty$で$f(x)\to\infty$となり、最小点が存在する。課題3で示した狭義凸性により停留点は一意な大域的最小点である。したがって、勾配ノルムが十分小さい今回の計算点は、この最適解の近似と解釈できる。ただし有限の終了許容誤差を用いており、厳密な停留点そのものではない。
+\paragraph{最急降下法の実装と条件}
+
+\texttt{kadai4\_a.py}では、式\eqref{eq:gradient3}による最急降下方向と式\eqref{eq:armijo}のバックトラックを用いた。
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task4a}に、\texttt{kadai4\_a.py}の5〜9行を示す。
+\par
+% source: ../section3/kadai4_a.py:5-9
+\begin{lstlisting}[language=Python,firstnumber=5,caption={課題4-(a)の実行条件},label={lst:task4a}]
+x, fx, k = descent_kadai4(
+  f=f_3,
+  grad_f=grad_f_3,
+  x0=[1, 1],
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
 \begin{itembox}[l]{課題4-(b)}
 バックトラック法を用いたニュートン法を実装することで課題3の最適化問題を解き、最適解、最適値、および反復回数を与えよ。ただし、初期点は
 \[
@@ -269,27 +733,28 @@ x^0=(1,1)^\top
 \]
 と設定せよ。
 \end{itembox}
-\paragraph{手法・結果}
-\texttt{kadai4\_b.py}では、式\eqref{eq:hessian3}を用いて$H(x^k)d^k=-\nabla f(x^k)$を\texttt{np.linalg.solve}で解き、バックトラックでステップサイズを決めた。行列の逆行列を明示的には計算していない。初期点、終了条件、バックトラックのパラメータは(a)と共通である。6回で終了し、保存結果と一致した。
-\begin{table}[htbp]
-  \centering
-  \caption{課題4の結果。初期点は$(1,1)^\top$、終了条件は$\|\nabla f(x)\|_2\le10^{-6}$。}
-  \label{tab:problem4}
-  \small
-  \begin{tabular}{lrr}\hline
-    項目 & 最急降下法 & ニュートン法\\\hline
-    $x_0$ & $-0.733451520772$ & $-0.733451720350$\\
-    $x_1$ & $-0.493327506484$ & $-0.493327499078$\\
-    $f(x)$ & $3.597138024959682$ & $3.597138024959629$\\
-    $\|\nabla f(x)\|_2$ & $6.7057\times10^{-7}$ & $3.6188\times10^{-12}$\\
-    更新回数 & 31 & 6\\\hline
-  \end{tabular}
-\end{table}
-\paragraph{考察}
-表\ref{tab:problem4}の二つの方法はほぼ同じ点と関数値を与えた。ニュートン法は31回に対して6回の更新で終了しており、曲率を考慮する方向が今回の条件で有効であった。また、ヘッセ行列は全域で正定値なので、勾配が0でなければニュートン方向は降下方向となる。1反復ごとにヘッセ行列の評価と連立一次方程式の求解が必要であり、反復回数の減少がそのまま計算時間の同じ割合の短縮を意味するわけではない。
+\paragraph{ニュートン法}
 
-\clearpage
-\section{課題5：総合演習}
+\texttt{kadai4\_b.py}では、式\eqref{eq:hessian3}を用いて$H(x^k)d^k=-\nabla f(x^k)$を\texttt{np.linalg.solve}で解き、バックトラックでステップサイズを決めた。行列の逆行列を明示的には計算していない。初期点、終了条件、バックトラックのパラメータは(a)と共通である。
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task4b}に、\texttt{kadai4\_b.py}の8〜13行を示す。
+\par
+% source: ../section3/kadai4_b.py:8-13
+\begin{lstlisting}[language=Python,firstnumber=8,caption={課題4-(b)のニュートン方向と実行条件},label={lst:task4b}]
+x, fx, k = descent_kadai4(
+  f=f_3,
+  grad_f=grad_f_3,
+  x0=[1, 1],
+  direction=lambda x, grad: np.linalg.solve(hess_f_3(x), -grad)
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
+\subsection{課題5：総合演習}
+\label{sec:task5}
 \begin{itembox}[l]{課題5}
 Pythonを用いて、最急降下法およびニュートン法を実装することで次の最適化問題を解き、最適解および各手法の反復回数を与えよ。ただし、初期点は
 \[
@@ -316,57 +781,105 @@ y_0=1.5,\qquad y_1=2.25,\qquad y_2=2.625
 \]
 である。（参考：最適値は0、最適解は $[3,0.5]^\top$ である。）
 \end{itembox}
-\paragraph{教材に記載されたヒント}
-教材p.40には次の式が示されている。実験結果とは区別して用いる。
-\[
-\begin{aligned}
-\nabla f(x)&=2\sum_{i=0}^{2}f_i(x)\nabla f_i(x),\\
-\nabla^2 f(x)&=2\sum_{i=0}^{2}\left(f_i(x)\nabla^2 f_i(x)+\nabla f_i(x)\nabla f_i(x)^\top\right).
-\end{aligned}
-\]
-\paragraph{導出・手法・コード}
-実装では$x=(a,b)^\top$と書き、$r_i:=f_i(x)=y_i-a(1-b^{i+1})$とおく。$q_i:=i+1$とすると、$b^{q_i}$を微分することで
-\begin{align}
-  g_i:=\nabla f_i(x)&=\begin{bmatrix}b^{q_i}-1\\a q_i b^{q_i-1}\end{bmatrix},\\
-  H_i:=\nabla^2 f_i(x)&=\begin{bmatrix}0&q_i b^{q_i-1}\\q_i b^{q_i-1}&a q_i(q_i-1)b^{q_i-2}\end{bmatrix}
-  \label{eq:residual-hessian}
-\end{align}
-を得る。ただし式\eqref{eq:residual-hessian}の右下成分は$q_i=1$のとき0とする。これらを用いれば、$\nabla f=2\sum_i r_i g_i$、$\nabla^2f=2\sum_i(g_ig_i^\top+r_iH_i)$となる。\texttt{utils\_math.py}の\texttt{f\_5}、\texttt{grad\_f\_5}、\texttt{hess\_f\_5}は、この式を3項について展開した実装である。課題3と同じ3点・刻み幅で中心差分と比較した結果、勾配とヘッセ行列の成分ごとの絶対差は、いずれも$6.5\times10^{-9}$以下であった。
-
+\paragraph{実装と条件}
 最急降下法は\texttt{kadai5\_a.py}、ニュートン法は\texttt{kadai5\_b.py}から実行する。後者は教材3.5.1節の方向修正に対応し、$H=\nabla^2f(x^k)$の最小固有値$\lambda_{\min}$に対して、
 \begin{align}
   \tau_k=\begin{cases}0&\lambda_{\min}>0,\\-\lambda_{\min}+10^{-2}&\lambda_{\min}\le0\end{cases},\qquad
   (H+\tau_k I)d^k=-\nabla f(x^k)
   \label{eq:modified-newton}
 \end{align}
-とする。これにより非正定値の場合も正定値行列を使って方向を計算する。両手法とも初期点は$(2,0)^\top$、終了条件は$\|\nabla f(x)\|_2\le10^{-6}$、最大更新回数は10000回である。バックトラックの設定は共通であり、その内側の反復には打切り上限を設けていない。
+とする。定理~3.5.1より、この補正で $H+\tau_k I$ は正定値となり、これを使って方向を計算する。両手法とも初期点は$(2,0)^\top$、終了条件は$\|\nabla f(x)\|_2\le10^{-6}$、最大更新回数は10000回である。バックトラックの設定は共通であり、その内側の反復には打切り上限を設けていない。
 
-\paragraph{結果}
-表\ref{tab:problem5}に結果を示す。両手法とも上限に達せず終了し、保存結果と再実行値が一致した。
-\begin{table}[htbp]
-  \centering
-  \caption{課題5の結果。初期点と終了条件は両手法で共通。}
-  \label{tab:problem5}
-  \small
-  \begin{tabular}{lrr}\hline
-    項目 & 最急降下法 & ニュートン法\\\hline
-    $a$ & $2.999997811911$ & $3.000000131862$\\
-    $b$ & $0.499999464937$ & $0.500000049726$\\
-    $f(x)$ & $7.6763\times10^{-13}$ & $9.4704\times10^{-15}$\\
-    $\|\nabla f(x)\|_2$ & $8.5933\times10^{-7}$ & $8.0011\times10^{-7}$\\
-    更新回数 & 791 & 5\\\hline
-  \end{tabular}
-\end{table}
-\paragraph{考察}
-目的関数は平方和なので常に非負である。$(a,b)=(3,0.5)$を代入すると各$r_i=0$となり、$f=0$を実現するため、この点は大域的最小点である。表\ref{tab:problem5}では両手法ともこの点に近い座標とほぼ0の目的関数値が得られた。最急降下法の座標の絶対誤差はそれぞれ約$2.19\times10^{-6}$、$5.35\times10^{-7}$、ニュートン法では約$1.32\times10^{-7}$、$4.97\times10^{-8}$であった。
+バックトラックと更新処理にはコード\ref{lst:backtracking}を再利用した。課題5固有の関数・微分と方向の修正を以下に示す。
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task5func}に、\texttt{utils\_math.py}の176〜209行を示す。
+\par
+% source: ../section3/utils_math.py:176-209
+\begin{lstlisting}[language=Python,firstnumber=176,caption={課題5の目的関数・勾配・ヘッセ行列},label={lst:task5func}]
+def f_5(x):
+  a, b = x
+  f0 = 1.5 - a * (1 - b)
+  f1 = 2.25 - a * (1 - b**2)
+  f2 = 2.625 - a * (1 - b**3)
+  return f0**2 + f1**2 + f2**2
 
-反復回数は791回と5回で大きく異なった。最適点では残差$r_i$が0となるため、ヘッセ行列は$2\sum_i g_ig_i^\top$となる。二つの成分の曲率とその結合を使うニュートン方向は、今回の実験で勾配方向だけより少ない更新で最適点の近傍へ進んだ。ただし、反復履歴全体の図や計算時間を測定していないため、具体的な軌道や実行速度の比較は行わない。
 
-初期点でのヘッセ行列は$\left[\begin{smallmatrix}6&-5\\-5&10\end{smallmatrix}\right]$で、その固有値は約$2.6148,13.3852$である。さらに再実行時にニュートン方向を計算した5点での最小固有値は、順に約$2.6148,1.6068,0.4604,0.3706,0.3015$と全て正であった。したがって、今回の実行では式\eqref{eq:modified-newton}の補正量は全て$\tau_k=0$である。実装は補正を備えるが、本実験から補正を加えた場合の効果までは検証できない。
+def grad_f_5(x):
+  a, b = x
+  f0 = 1.5 - a * (1 - b)
+  f1 = 2.25 - a * (1 - b**2)
+  f2 = 2.625 - a * (1 - b**3)
+  return np.array([
+    2 * (f0 * (b - 1) + f1 * (b**2 - 1) + f2 * (b**3 - 1)),
+    2 * (f0 * a + f1 * 2 * a * b + f2 * 3 * a * b**2),
+  ])
 
-\clearpage
-\section{課題6：制約付き凸二次計画問題（追加）}
-\noindent 本節は教材3.6節「（追加）」に対応する。\texttt{section3}には本節に対応する実装・調査記録・数値結果がないため、以下の解答欄は未実施として残す。提出範囲は担当教員の指示に従う。
+
+def hess_f_5(x):
+  a, b = x
+  f0 = 1.5 - a * (1 - b)
+  f1 = 2.25 - a * (1 - b**2)
+  f2 = 2.625 - a * (1 - b**3)
+
+  h00 = 2 * ((b - 1)**2 + (b**2 - 1)**2 + (b**3 - 1)**2)
+  h01 = 2 * (
+    f0 + a * (b - 1)
+    + 2 * b * f1 + 2 * a * b * (b**2 - 1)
+    + 3 * b**2 * f2 + 3 * a * b**2 * (b**3 - 1)
+  )
+  h11 = 2 * (a**2 + 2 * a * f1 + (2 * a * b)**2
+             + 6 * a * b * f2 + (3 * a * b**2)**2)
+  return np.array([[h00, h01], [h01, h11]])
+\end{lstlisting}
+\end{minipage}\par
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task5a}に、\texttt{kadai5\_a.py}の5〜9行を示す。
+\par
+% source: ../section3/kadai5_a.py:5-9
+\begin{lstlisting}[language=Python,firstnumber=5,caption={課題5の最急降下法の実行条件},label={lst:task5a}]
+x, fx, k = descent_kadai4(
+  f=f_5,
+  grad_f=grad_f_5,
+  x0=[2, 0],
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:k5b}に、\texttt{kadai5\_b.py}の6〜24行を示す。
+\par
+% source: ../section3/kadai5_b.py:6-24
+\begin{lstlisting}[language=Python,firstnumber=6,caption={課題5のニュートン方向と実行条件},label={lst:k5b}]
+def modified_newton_direction(x, grad):
+  H = hess_f_5(x)
+  # np.linalg.eigvalsh: 固有値を昇順で返す。Hは対称行列なのでeigvalshを使用
+  lambda_min = np.linalg.eigvalsh(H)[0]
+
+  # 定理3.5.1に基づき、最小固有値で正定値性を判定する
+  tau = 0.0 if lambda_min > 0 else -lambda_min + 1e-2
+
+  # np.eye(H.shape[0]): 単位行列を作る。H.shape[0]はHの行数
+  # (∇^2 f(x_k) + τ I)d_k = −∇f(x_k) をd_kについて解く
+  return np.linalg.solve(H + tau * np.eye(H.shape[0]), -grad)
+
+
+x, fx, k = descent_kadai4(
+  f=f_5,
+  grad_f=grad_f_5,
+  x0=[2, 0],
+  direction=lambda x, grad: modified_newton_direction(x, grad)
+)
+\end{lstlisting}
+\end{minipage}\par
+
+
+\subsection{課題6：制約付き凸二次計画問題（追加）}
+課題6は教材3.6節「（追加）」に対応する。課題6-1〜6-3では二次計画問題の応用と解法を調べ、課題6-4・6-5では定式化した問題を直接法で解く。
 \paragraph{共通の問題設定（教材式(3.3)）}
 \[
 \begin{aligned}
@@ -379,18 +892,44 @@ y_0=1.5,\qquad y_1=2.25,\qquad y_2=2.625
 二次計画問題として定式化することが自然な問題を1つ挙げよ。
 \end{itembox}
 \paragraph{解答}
-\todo{本人が選んだ問題を説明し、決定変数、目的関数、制約と各パラメータの意味を記す。参照した出典を付す。}
+例として、複数の資産への配分を決める平均・分散型ポートフォリオ最適化を挙げる\cite{boyd}。$w_i$を資産$i$への配分比率、$p$を収益率の期待値ベクトル、$\Sigma$を収益率の共分散行列、$r_{\min}$を必要な期待収益率とすると、
+\begin{align}
+  \min_w\quad &w^\top\Sigma w, &
+  \text{subject to}\quad &p^\top w\ge r_{\min},\quad
+  \mathbf{1}^\top w=1,\quad w\ge0
+  \label{eq:portfolio}
+\end{align}
+と定式化できる。ここで$\mathbf{1}$は全成分が1のベクトルであり、目的関数は収益率の分散を表す。$\Sigma$は半正定値なので、目的関数は凸二次関数である。式\eqref{eq:qp}には$Q=2\Sigma$、$c=0$を対応させ、等式を二つの不等式として表せばよい。配分比率と収益率は無次元であり、この例では具体的な市場データを用いた数値実験は行わない。
 \begin{itembox}[l]{課題6-2}
 二次計画問題(3.3)は、$Q$ が非負の固有値のみを持つ場合（$Q$ が半正定値行列の場合）、凸二次計画問題と呼ばれる。$Q$ が正負両方の固有値を持つ場合に、二次計画問題がどのように難しくなるか調べよ。また文献も載せること（生成AIの回答を参照する場合は、その根拠となる文献まで調べて載せること）。
 \end{itembox}
 \paragraph{調査・解答}
-\todo{本人が確認した文献を示し、該当箇所に基づいて難しさを説明する。引用・文献の主張と本人の考察を分ける。}
+$Q$が正負両方の固有値を持つと、目的関数は空間全体では非凸になる。したがって、停留条件や局所的な探索だけでは大域的最小性を保証できない。例えば$Q=\operatorname{diag}(2,-2)$、$c=(0,1/2)^\top$、$-1\le x_0,x_1\le1$では、目的関数は$x_0^2-x_1^2+x_1/2$である。$(0,1)^\top$は制約付きの局所最小点で値は$-1/2$だが、$(0,-1)^\top$では$-3/2$となる。この例は、局所最小点でも大域的最小点とは限らないことを示す。
+
+PardalosとVavasis\cite{pardalos}は、負の固有値が一つだけの場合でも、線形制約付き二次計画問題の大域的求解が一般にはNP困難であることを示した。ここでは出版社が公開している原論文の要旨でその主張を確認した。これは最悪の場合についての計算量の主張であり、個々の不定値二次計画問題が必ず解きにくいことを意味しない。また、制約により負の曲率方向への移動が禁止される場合もある。したがって、難しさは$Q$の符号だけでなく、実行可能集合の形にも依存する。
 \begin{itembox}[l]{課題6-3}
 凸二次計画法の解法を調べ、そのアルゴリズムを述べよ。またその文献も載せること（生成AIの回答を参照する場合は、その根拠となる文献まで調べて載せること）。
 \end{itembox}
 \paragraph{調査・アルゴリズム}
-\todo{本人が選んだ解法の入力、仮定、初期化、反復手順、終了条件を述べ、確認した文献を付す。}
-\clearpage
+凸二次計画問題の解法として、対数バリア法を説明する\cite{boyd}。$f_0(x)=\frac12x^\top Qx+c^\top x$とし、$A$の第$i$行を$a_i^\top$と書く。$Q\succeq0$、厳密な実行可能点の存在、最適値の有限性と各バリア部分問題の最小点の存在を仮定する。ここではニュートン方程式が解けるよう、そのヘッセ行列が正定値となる場合を扱う。
+
+入力は$Q,c,A,b$と精度$\varepsilon>0$である。$Ax<b$を満たす初期点、$t=1$、増加率$\mu=10$から始め、次を繰り返す。
+\begin{enumerate}
+  \item $t$を固定し、$s_i=b_i-a_i^\top x>0$として、
+  \begin{align}
+    F_t(x)=t f_0(x)-\sum_{i=1}^{m}\log s_i
+    \label{eq:barrier}
+  \end{align}
+  をニュートン法で最小化する。方向$d$は
+  \begin{align}
+    \nabla F_t&=t(Qx+c)+\sum_i\frac{a_i}{s_i}, &
+    \nabla^2 F_t&=tQ+\sum_i\frac{a_i a_i^\top}{s_i^2},\\
+    \nabla^2F_t\,d&=-\nabla F_t
+  \end{align}
+  から求める。$A(x+\alpha d)<b$と$F_t$のArmijo条件を満たすまで$\alpha$を縮小して更新する。
+  \item 中心点を十分な精度で求めた後、$m/t<\varepsilon$なら終了し、そうでなければ$t\leftarrow\mu t$として前の点から再開する。
+\end{enumerate}
+厳密な中心点では双対ギャップは$m/t$となる。中心化を近似的に終了する実装では、この値だけで精度を保証せず、主・双対残差と実際の双対ギャップも確認する。等式制約を二つの不等式にすると厳密な内点がなくなるため、その場合は等式制約を分離し、等式を保つニュートン方程式を解く。以下の課題6-4・6-5は小規模なので、この反復法の実装ではなく、KKT条件に基づく直接法で数値解を求める。
 \begin{itembox}[l]{課題6-4}
 二次計画問題(3.3)として、次のパラメータを持つ問題を考える。
 \[
@@ -400,9 +939,65 @@ A=\begin{bmatrix}1&1\end{bmatrix},\qquad b=0.
 \]
 このとき、最適解 $x^*$ を数値的に求めよ。ソルバを使っても構わない。またこの問題は解析的に解けるので、解析解とも比較せよ。
 \end{itembox}
-\methodtodo
-\todo{ソルバを用いた場合は名称、バージョン、設定、終了状態を記す。解析解は本人が導出し、根拠を示す。}
-\resulttodo{数値解と解析解、両者の差、制約充足を示す。数値精度と許容誤差を記す。}
+\paragraph{数値計算の方法}
+\texttt{kadai6.py}の\texttt{solve\_qp}で、唯一の不等式が非活性の場合と活性の場合を全列挙する。非活性なら$Qx=-c$、活性なら
+\begin{align}
+  \begin{bmatrix}Q&A^\top\\A&0\end{bmatrix}
+  \begin{bmatrix}x\\\lambda\end{bmatrix}
+  =\begin{bmatrix}-c\\b\end{bmatrix}
+  \label{eq:qp-kkt}
+\end{align}
+を\texttt{np.linalg.solve}で解く。候補ごとに$Ax\le b$、$\lambda\ge0$、$Qx+c+A^\top\lambda=0$、$\lambda^\top(Ax-b)=0$を許容誤差$10^{-10}$で検査する。二通りの判定で終了する直接法なので、初期点や反復上限は用いない。
+
+\paragraph{実行条件}
+追加計算にはPython 3.9.6、NumPy 2.0.2、\texttt{float64}を使用した。\texttt{section3}を作業ディレクトリとして\verb|python kadai6.py|を実行し、JSON出力を\texttt{kadai6\_results.json}に保存した。専用の最適化ソルバは使用していない。課題6-5も同じ環境と検証許容誤差で計算する。
+
+\paragraph{解析解の導出}
+無制約解は$(1/2,1)^\top$で、$x_0+x_1\le0$を満たさない。目的関数は正定値二次関数であり、実行可能集合内で最小点は存在するため、最適点では制約が活性である。$x_1=-x_0$を代入すると目的関数は$\frac32x_0^2$となる。よって解析解は$x^*=(0,0)^\top$、最適値は0である。式\eqref{eq:qp-kkt}にも$x^*=0$、$\lambda^*=1$を代入すると全てのKKT条件が成立する。
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task6qp}に、\texttt{kadai6.py}の13〜46行を示す。
+\par
+% source: ../section3/kadai6.py:13-46
+\begin{lstlisting}[language=Python,firstnumber=13,caption={課題6-4の候補列挙とKKT条件の検査},label={lst:task6qp}]
+def solve_qp():
+  Q = np.diag([2.0, 1.0])
+  c = -np.ones(2)
+  A = np.array([[1.0, 1.0]])
+  b = np.zeros(1)
+  candidates = []
+  # 制約が非活性の場合と活性の場合を全て調べる。
+  for active in (False, True):
+    if active:
+      K = np.block([[Q, A.T], [A, np.zeros((1, 1))]])
+      z = np.linalg.solve(K, np.concatenate([-c, b]))
+      x, lam = z[:2], z[2:]
+    else:
+      x = np.linalg.solve(Q, -c)
+      lam = np.zeros(1)
+    primal = float(np.maximum(A @ x - b, 0).max())
+    dual = float(np.maximum(-lam, 0).max())
+    stationarity = float(np.linalg.norm(Q @ x + c + A.T @ lam, np.inf))
+    complementarity = float(np.max(np.abs(lam * (A @ x - b))))
+    if max(primal, dual, stationarity, complementarity) <= TOL:
+      candidates.append((float(0.5 * x @ Q @ x + c @ x), x, lam))
+  if not candidates:
+    raise RuntimeError("KKT条件を満たす候補がない。")
+  value, x, lam = min(candidates, key=lambda item: item[0])
+  exact = np.zeros(2)
+  error = float(np.linalg.norm(x - exact, np.inf))
+  assert error <= TOL
+  return {
+    "x": x.tolist(), "lambda": lam.tolist(), "objective": value,
+    "analytic_error_inf": error,
+    "primal_violation": float(np.maximum(A @ x - b, 0).max()),
+    "stationarity_inf": float(np.linalg.norm(Q @ x + c + A.T @ lam, np.inf)),
+    "status": "KKT conditions satisfied",
+  }
+\end{lstlisting}
+\end{minipage}\par
+
 \begin{itembox}[l]{課題6-5}
 （最適制御問題）$T=3$ とし、次の問題を考える。
 \[
@@ -422,8 +1017,264 @@ B=\begin{bmatrix}0\\1\end{bmatrix}.
 この問題を凸二次計画問題に帰着させ、最適解 $u^*\in\mathbb{R}^T$ を求めよ。
 \end{itembox}
 \paragraph{定式化・手法・コード}
-\todo{本人が導出した凸二次計画問題を示す。状態と入力の次元、各行列の役割、制約の作り方、計算方法と実行ファイル名を記す。}
-\resulttodo{最適入力 $u^*$、目的関数値、状態列を記す。初期条件、状態更新、終端条件の充足を確認する。}
+状態は$x_k\in\mathbb{R}^2$、各時刻の入力は$u_k\in\mathbb{R}$であり、$A$は状態の遷移、$B$は入力が状態に及ぼす効果を表す。状態方程式を3段展開すると、
+\begin{align}
+  x_3&=A^3x_0+A^2Bu_0+ABu_1+Bu_2=A^3x_0+Mu,\\
+  M&=[A^2B\;AB\;B]=\begin{bmatrix}2.1&1&0\\0.81&0.9&1\end{bmatrix}, &
+  d&=-A^3x_0=\begin{bmatrix}-20.61\\-0.729\end{bmatrix}
+  \label{eq:control-matrix}
+\end{align}
+となる。よって、$x_3=0$は$Mu=d$と同値であり、問題は
+\begin{align}
+  \min_u\quad &\frac12u^\top(2I_3)u, &
+  \text{subject to}\quad &Mu=d
+  \label{eq:control-qp}
+\end{align}
+という凸二次計画問題になる。$I_3$は3次単位行列であり、教材の不等式形式には$[M^\top,-M^\top]^\top u\le[d^\top,-d^\top]^\top$と書けばよい。計算では重複する不等式へ変換せず、独立な二つの等式を用いる。
+
+$M$は行ランク2であり、$2I_3$は正定値なので、次のKKT系は一意に解ける。
+\begin{align}
+  \begin{bmatrix}2I_3&M^\top\\M&0_{2\times2}\end{bmatrix}
+  \begin{bmatrix}u^*\\\nu^*\end{bmatrix}
+  =\begin{bmatrix}0_3\\d\end{bmatrix}.
+  \label{eq:control-kkt}
+\end{align}
+ここで$\nu\in\mathbb{R}^2$は等式制約の乗数、$0_3$は3次零ベクトルである。\texttt{kadai6.py}の\texttt{solve\_control}で式\eqref{eq:control-kkt}を直接解き、得られた入力を元の状態方程式に代入して終端条件を検査する。さらに$u^*=M^\top(MM^\top)^{-1}d$を\texttt{Fraction}による有理数演算で独立に計算し、数値解と比較する。
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task6control}に、\texttt{kadai6.py}の65〜91行を示す。
+\par
+% source: ../section3/kadai6.py:65-91
+\begin{lstlisting}[language=Python,firstnumber=65,caption={課題6-5のKKT系と状態列の計算},label={lst:task6control}]
+def solve_control():
+  A = np.array([[1.2, 1.0], [0.0, 0.9]])
+  B = np.array([0.0, 1.0])
+  x0 = np.array([10.0, 1.0])
+  M = np.column_stack([A @ A @ B, A @ B, B])
+  d = -np.linalg.matrix_power(A, 3) @ x0
+  # 等式制約付き凸二次計画のKKT系を直接解く。
+  K = np.block([[2 * np.eye(3), M.T], [M, np.zeros((2, 2))]])
+  z = np.linalg.solve(K, np.concatenate([np.zeros(3), d]))
+  u, nu = z[:3], z[3:]
+  states = [x0]
+  for value in u:
+    states.append(A @ states[-1] + B * value)
+  u_exact, value_exact = exact_control()
+  error = float(np.linalg.norm(u - np.array(list(map(float, u_exact))), np.inf))
+  terminal = float(np.linalg.norm(states[-1], np.inf))
+  stationarity = float(np.linalg.norm(2 * u + M.T @ nu, np.inf))
+  assert max(error, terminal, stationarity) <= TOL
+  return {
+    "M": M.tolist(), "d": d.tolist(), "u": u.tolist(),
+    "u_exact": list(map(str, u_exact)), "objective": float(u @ u),
+    "objective_exact": str(value_exact),
+    "states": [x.tolist() for x in states], "nu": nu.tolist(),
+    "analytic_error_inf": error, "terminal_error_inf": terminal,
+    "equality_residual_inf": float(np.linalg.norm(M @ u - d, np.inf)),
+    "stationarity_inf": stationarity, "status": "KKT conditions satisfied",
+  }
+\end{lstlisting}
+\end{minipage}\par
+
+\par\noindent
+\begin{minipage}{\linewidth}
+コード\ref{lst:task6exact}に、\texttt{kadai6.py}の49〜62行を示す。
+\par
+% source: ../section3/kadai6.py:49-62
+\begin{lstlisting}[language=Python,firstnumber=49,caption={課題6-5の有理数による独立な検算},label={lst:task6exact}]
+def exact_control():
+  # u = M^T (M M^T)^(-1) dを有理数で独立に計算する。
+  rows = [[F(21, 10), F(1), F(0)], [F(81, 100), F(9, 10), F(1)]]
+  d = [F(-2061, 100), F(-729, 1000)]
+  gram = [[sum(a * b for a, b in zip(r, s)) for s in rows] for r in rows]
+  det = gram[0][0] * gram[1][1] - gram[0][1] * gram[1][0]
+  w = [
+    (gram[1][1] * d[0] - gram[0][1] * d[1]) / det,
+    (-gram[1][0] * d[0] + gram[0][0] * d[1]) / det,
+  ]
+  u = [sum(rows[i][j] * w[i] for i in range(2)) for j in range(3)]
+  assert [sum(a * b for a, b in zip(row, u)) for row in rows] == d
+  assert sum(a * b for a, b in zip([F(1), F(-21, 10), F(27, 25)], u)) == 0
+  return u, sum(v * v for v in u)
+\end{lstlisting}
+\end{minipage}\par
+
+
+\clearpage
+\section{結果}
+\subsection{課題1：関数の零点探索}
+\paragraph{関数のグラフ}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=.82\linewidth]{../section3/kadai1_a.png}
+  \caption{課題1の関数$f(x)=x^3+2x^2-5x-6$。横軸は$x$、縦軸は$y=f(x)$であり、ともに無次元である。1000点を直線で結び、両軸を$[-10,10]$に制限して表示した。}
+  \label{fig:root}
+\end{figure}
+図\ref{fig:root}から、$x=-3,-1,2$の付近に零点があることが読み取れる。
+
+\paragraph{二分法}
+表\ref{tab:bisect}に結果を示す。再実行値は保存結果と一致した。
+\begin{table}[htbp]
+  \centering
+  \caption{二分法の結果。残差は丸める前の計算値から評価した。}
+  \label{tab:bisect}
+  \small
+  \begin{tabular}{lrrr}\hline
+    初期区間 & 零点の近似値 & $|f(x)|$ & 中点計算回数\\\hline
+    $[-5,-2.5]$ & $-2.999999999999972$ & $2.8422\times10^{-13}$ & 44\\
+    $[-2.5,0]$ & $-0.999999999999943$ & $3.4106\times10^{-13}$ & 43\\
+    $[0,2.5]$ & $2.000000000000028$ & $4.2633\times10^{-13}$ & 44\\\hline
+  \end{tabular}
+\end{table}
+
+\paragraph{ニュートン法}
+表\ref{tab:root-newton}に結果を示す。保存結果と再実行値は一致した。
+\begin{table}[htbp]
+  \centering
+  \caption{零点探索のニュートン法の結果。}
+  \label{tab:root-newton}
+  \begin{tabular}{rrrr}\hline
+    初期点 & 得られた点 & $|f(x)|$ & 更新回数\\\hline
+    $-2.5$ & $-3.0$ & $0$ & 6\\
+    $0$ & $-1.0$ & $0$ & 5\\
+    $2.5$ & $2.0$ & $0$ & 5\\\hline
+  \end{tabular}
+\end{table}
+
+\subsection{課題2：1変数の最適化}
+\paragraph{最急降下法}
+62回の更新後に$x=2.999999750304564$を得た。導関数の残差は$9.9878\times10^{-7}$、目的関数値は$-7.333333333333209$であった。
+
+\paragraph{ニュートン法}
+4回の更新後に$x=3.000000092922295$を得た。導関数の残差は$3.7169\times10^{-7}$、目的関数値は$-7.333333333333315$であり、(a)と同じ局所最小点に到達した。
+
+\subsection{課題3：関数・勾配・ヘッセ行列の確認}
+\paragraph{関数値}
+例えば$x=(0,0)^\top$に対して$f(x)=4$であり、再実行でも同じ値を得た。実装はコード\ref{lst:k3f}に示した。
+
+\paragraph{勾配}
+$x=(0,0)^\top$を入力すると$(1,0)^\top$を得た。さらに、$(0,0)^\top$、$(1,1)^\top$、$(2,0.3)^\top$で刻み幅$h=10^{-5}$の中心差分$[f(x+he_j)-f(x-he_j)]/(2h)$と比較した。ここで$e_j$は第$j$成分だけが1の単位ベクトルである。3点を通じた成分ごとの絶対差の最大値は$4.3\times10^{-10}$以下であった。
+
+\paragraph{ヘッセ行列}
+$x=(0,0)^\top$で$H(x)=\left[\begin{smallmatrix}3&-2\\-2&2\end{smallmatrix}\right]$を得た。(b)と同じ3点で、勾配の中心差分と比較したときの成分ごとの絶対差の最大値は$4.1\times10^{-10}$以下であった。
+
+\subsection{課題4：バックトラック法を用いた最適化}
+\paragraph{最急降下法}
+終了時の結果を表\ref{tab:problem4}に示す。31回の更新で勾配ノルムの終了条件を満たした。表中の座標と勾配ノルムは再実行で取得したものであり、\texttt{kadai4\_a.txt}の表示桁と関数値、反復回数に一致した。
+
+\paragraph{ニュートン法}
+6回で終了し、保存結果と一致した。
+\begin{table}[htbp]
+  \centering
+  \caption{課題4の結果。初期点は$(1,1)^\top$、終了条件は$\|\nabla f(x)\|_2\le10^{-6}$。}
+  \label{tab:problem4}
+  \small
+  \begin{tabular}{lrr}\hline
+    項目 & 最急降下法 & ニュートン法\\\hline
+    $x_0$ & $-0.733451520772$ & $-0.733451720350$\\
+    $x_1$ & $-0.493327506484$ & $-0.493327499078$\\
+    $f(x)$ & $3.597138024959682$ & $3.597138024959629$\\
+    $\|\nabla f(x)\|_2$ & $6.7057\times10^{-7}$ & $3.6188\times10^{-12}$\\
+    更新回数 & 31 & 6\\\hline
+  \end{tabular}
+\end{table}
+
+\subsection{課題5：総合演習}
+\paragraph{微分の実装の検証}
+課題3と同じ3点・刻み幅で中心差分と比較した結果、勾配とヘッセ行列の成分ごとの絶対差は、いずれも$6.5\times10^{-9}$以下であった。
+
+
+\paragraph{最適化の結果}
+表\ref{tab:problem5}に結果を示す。両手法とも上限に達せず終了し、保存結果と再実行値が一致した。
+\begin{table}[htbp]
+  \centering
+  \caption{課題5の結果。初期点と終了条件は両手法で共通。}
+  \label{tab:problem5}
+  \small
+  \begin{tabular}{lrr}\hline
+    項目 & 最急降下法 & ニュートン法\\\hline
+    $a$ & $2.999997811911$ & $3.000000131862$\\
+    $b$ & $0.499999464937$ & $0.500000049726$\\
+    $f(x)$ & $7.6763\times10^{-13}$ & $9.4704\times10^{-15}$\\
+    $\|\nabla f(x)\|_2$ & $8.5933\times10^{-7}$ & $8.0011\times10^{-7}$\\
+    更新回数 & 791 & 5\\\hline
+  \end{tabular}
+\end{table}
+
+\subsection{課題6：制約付き凸二次計画問題}
+\paragraph{課題6-4}
+数値解は$x=(0,0)^\top$、目的関数値は0、乗数は$\lambda=1$となった。解析解との差の最大絶対値、制約違反、停留条件の最大絶対残差は、今回の浮動小数点計算で全て0だった。検証コードはKKT条件を満たした状態で正常に終了した。
+
+\paragraph{課題6-5}
+有理数による解と対応する数値解は、
+\begin{align}
+  u^*&=\begin{bmatrix}-312633/32882\\-264609/411025\\620784/82205\end{bmatrix}
+  \simeq\begin{bmatrix}-9.507724590962\\-0.643778358981\\7.551657441761\end{bmatrix},\\
+  (u^*)^\top u^*&=\frac{6076544589}{41102500}
+  \simeq147.838807590779
+\end{align}
+となった。状態列を表\ref{tab:control-states}に示す。表の値は表示のために丸めており、残差は丸める前の値から計算した。
+\begin{table}[htbp]
+  \centering
+  \caption{課題6-5の状態列。入力は式\eqref{eq:control-kkt}の数値解を用いた。成分は無次元。}
+  \label{tab:control-states}
+  \begin{tabular}{crr}\hline
+    時刻$k$ & $[x_k]_0$ & $[x_k]_1$\\\hline
+    0 & 10.000000000000 & 1.000000000000\\
+    1 & 13.000000000000 & $-8.607724590962$\\
+    2 & 6.992275409038 & $-8.390730490846$\\
+    3 & $3.55\times10^{-15}$ & $8.88\times10^{-16}$\\\hline
+  \end{tabular}
+\end{table}
+
+数値解と有理数解との差の最大絶対値は$1.78\times10^{-15}$、$Mu-d$の最大絶対残差は$8.88\times10^{-16}$、終端状態の最大絶対値は$3.55\times10^{-15}$だった。停留条件$2u+M^\top\nu=0$の最大絶対残差も$3.55\times10^{-15}$であり、いずれも検証許容誤差$10^{-10}$以下となった。
+
+\clearpage
+\section{考察・議論}
+\subsection{課題1：零点探索法の比較}
+\paragraph{二分法の結果の妥当性}
+解析的には$f(x)=(x+3)(x+1)(x-2)$と因数分解できるため、得られた三つの点は全ての実零点に対応する。関数は連続であり、符号を分ける端点を維持することで零点を区間内に保てる。終了条件は区間幅ではなく残差に基づく。
+
+\paragraph{ニュートン法との比較}
+二分法と同じ残差の閾値$10^{-12}$で終了させた場合、今回のニュートン法の更新回数は5〜6回であり、二分法の中点計算回数43〜44回より少なかった。三つの零点では$f'(-3)=10$、$f'(-1)=-6$、$f'(2)=15$と導関数が0ではない。零点の近くでは接線による補正が有効に働いたと考えられる。ただし、ニュートン法は導関数の評価も必要であり、初期点によらず収束することを今回の結果が保証するわけではない。残差0は浮動小数点計算上の値である。
+
+\subsection{課題2：停留点と大域的最小化の違い}
+$f'(x)=(x-3)(x+1)$より停留点は$x=-1,3$である。$f''(x)=2x-2$なので、$f''(-1)=-4<0$、$f''(3)=4>0$となり、前者は局所最大点、後者は局所最小点である。得られた点は局所最小点$3$に対応し、その関数値は$f(3)=-22/3$と一致する。一方、$x\to-\infty$で$f(x)\to-\infty$となるため、大域的最小解は存在しない。
+初回は$x^1=4.25$、次回は$x^2=0.96875$となり、局所最小点を挟んで移動した。その後のステップサイズの減少によって更新幅が小さくなるが、極限点付近で急速に誤差を減らすニュートン法とは更新の仕方が異なる。
+
+$|f'(x)|\le10^{-6}$という終了条件は(a)と共通であり、今回はニュートン法の方が少ない更新回数で終了した。ただし、初期点は(a)が$0.5$、(b)が$5$であり、ステップサイズの規則も異なる。この比較から初期条件を揃えた場合の定量的な優劣や処理時間の優劣は結論できない。
+
+\subsection{課題3：目的関数の凸性}
+また、$H_{00}=2+e^{x_0}>0$であり、
+\begin{align}
+  \det H(x)=(2+e^{x_0})(12x_1^2+2)-4
+  =24x_1^2+12e^{x_0}x_1^2+2e^{x_0}>0
+\end{align}
+となる。したがってヘッセ行列は全ての$x$で正定値であり、目的関数は狭義凸である。
+
+\subsection{課題4：解の妥当性と更新回数の比較}
+目的関数は$f(x)=(x_0-x_1)^2+e^{x_0}+x_1^4+3$と書ける。この形から$\|x\|_2\to\infty$で$f(x)\to\infty$となり、最小点が存在する。課題3で示した狭義凸性により停留点は一意な大域的最小点である。したがって、勾配ノルムが十分小さい今回の計算点は、この最適解の近似と解釈できる。ただし有限の終了許容誤差を用いており、厳密な停留点そのものではない。
+
+表\ref{tab:problem4}の二つの方法はほぼ同じ点と関数値を与えた。ニュートン法は31回に対して6回の更新で終了しており、曲率を考慮する方向が今回の条件で有効であった。また、ヘッセ行列は全域で正定値なので、勾配が0でなければニュートン方向は降下方向となる。1反復ごとにヘッセ行列の評価と連立一次方程式の求解が必要であり、反復回数の減少がそのまま計算時間の同じ割合の短縮を意味するわけではない。
+
+\subsection{課題5：理論解との比較と適用範囲}
+目的関数は平方和なので常に非負である。$(a,b)=(3,0.5)$を代入すると各$r_i=0$となり、$f=0$を実現するため、この点は大域的最小点である。表\ref{tab:problem5}では両手法ともこの点に近い座標とほぼ0の目的関数値が得られた。最急降下法の座標の絶対誤差はそれぞれ約$2.19\times10^{-6}$、$5.35\times10^{-7}$、ニュートン法では約$1.32\times10^{-7}$、$4.97\times10^{-8}$であった。
+
+反復回数は791回と5回で大きく異なった。最適点では残差$r_i$が0となるため、ヘッセ行列は$2\sum_i g_ig_i^\top$となる。二つの成分の曲率とその結合を使うニュートン方向は、今回の実験で勾配方向だけより少ない更新で最適点の近傍へ進んだ。ただし、反復履歴全体の図や計算時間を測定していないため、具体的な軌道や実行速度の比較は行わない。
+
+初期点でのヘッセ行列は$\left[\begin{smallmatrix}6&-5\\-5&10\end{smallmatrix}\right]$で、その固有値は約$2.6148,13.3852$である。さらに再実行時にニュートン方向を計算した5点での最小固有値は、順に約$2.6148,1.6068,0.4604,0.3706,0.3015$と全て正であった。したがって、今回の実行では式\eqref{eq:modified-newton}の補正量は全て$\tau_k=0$である。実装は補正を備えるが、本実験から補正を加えた場合の効果までは検証できない。
+
+\subsection{課題6：制約と最適性の検証}
+\paragraph{課題6-4}
+無制約の最小点は実行不可能であり、制約を課すと最適点は境界上の原点に変わる。任意の実行可能点について、目的関数$x_0^2+\frac12x_1^2-(x_0+x_1)$は各項の符号から非負であり、値0を取るのは原点だけである。このことと$Q$の正定値性から、数値計算で得た解は一意な大域的最適解である。
+
+\paragraph{課題6-5}
+制約$Mu=d$だけでは自由度が一つ残るが、入力の二乗和を最小化すると解は一意になる。実行可能な入力を$u^*+z$、$Mz=0$と書くと、KKT条件から$(u^*)^\top z=0$である。したがって、
+\begin{align}
+  \|u^*+z\|_2^2=\|u^*\|_2^2+\|z\|_2^2\ge\|u^*\|_2^2
+\end{align}
+となり、$z=0$のときだけ等号が成立する。これは最小エネルギー入力の大域的最適性と一意性を示す。実際、$M$の零空間を張る$z_0=(1,-2.1,1.08)^\top$と有理数解の内積は厳密に0となることも検算した。数値計算で残った$10^{-15}$程度の終端誤差は、有理数演算では0になる条件に対する丸め誤差であり、指定した許容誤差内で終端条件を満たしている。
 
 \clearpage
 \section{結論}
@@ -431,15 +1282,17 @@ B=\begin{bmatrix}0\\1\end{bmatrix}.
 
 1変数の最適化では、両手法とも局所最小点$x=3$に到達した。目的関数は下に非有界であり、停留点の計算と大域的最小化を区別する必要がある。2変数の問題では、課題4の最急降下法とニュートン法の更新回数は31回と6回、課題5では791回と5回であった。同じ初期点と勾配ノルムの終了条件の下で、曲率情報を使う方法が今回の条件では更新回数を減らした。ただし、処理時間は未測定であり、課題5の正定値化補正も実際には発動していない。以上の結果の適用範囲は、使用した問題、初期点、許容誤差に限られる。
 
-\clearpage
-\appendix
-\section{実装コード}
-共通の実装をコード\ref{lst:utils}、課題3の関数をコード\ref{lst:k3}、課題5のニュートン方向をコード\ref{lst:k5b}に示す。各実験の呼出し条件は本文に記載した。課題1・2の更新回数は、各関数の更新処理を数えることで確認できる。
-\lstinputlisting[language=Python,caption={零点探索・最適化の共通実装},label={lst:utils}]{../section3/utils_math.py}
-\lstinputlisting[language=Python,caption={課題3の目的関数・勾配・ヘッセ行列},label={lst:k3}]{../section3/kadai3.py}
-\lstinputlisting[language=Python,caption={課題5のニュートン法と正定値化の実装},label={lst:k5b}]{../section3/kadai5_b.py}
+制約付き問題では、課題6-4の解は原点であり、課題6-5では終端状態を原点へ移す入力のうち二乗和が最小となる解を求めた。解析解、有理数解、KKT条件および状態方程式による検算が数値結果と整合した。
+
+\paragraph{生成AIの利用}
+本レポートの構成整理、コードの抜粋配置、および課題6の文献調査・解答・検証コードの作成にOpenAI Codexを利用した。課題6の数値結果は掲載したコードの実行結果であり、参照した原典は参考文献に示す。
 
 \begin{thebibliography}{9}
-\bibitem{textbook} 実験演習ワーキンググループ編、『数理工学実験（2026年度版）』、第3章「連続最適化」、pp.31--41。
+\bibitem{textbook} 実験演習ワーキンググループ編、『数理工学実験（2026年度版）』、第1章「レポートの書法」、pp.8--15、第3章「連続最適化」、pp.31--41。
+\bibitem{boyd} S. Boyd and L. Vandenberghe, \textit{Convex Optimization}, Cambridge University Press (2004), \S4.4.1, p.155, \S11.2--11.3, pp.562--570.
+\url{https://www.seas.ucla.edu/~vandenbe/cvxbook/bv_cvxbook.pdf}（閲覧日：2026年11月2日）。
+\bibitem{pardalos} P. M. Pardalos and S. A. Vavasis, Quadratic programming with one negative eigenvalue is NP-hard, \textit{Journal of Global Optimization}, \textbf{1}, 15--22 (1991).
+\url{https://doi.org/10.1007/BF00120662}（出版社公開要旨を確認、閲覧日：2026年11月2日）。
 \end{thebibliography}
+
 \end{document}

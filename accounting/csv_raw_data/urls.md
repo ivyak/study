@@ -18,3 +18,5 @@
   - https://www.smbc-card.com/mem/index.jsp
 - 楽天カード
   - https://www.rakuten-card.co.jp/service/e-navi/?utm_source=chatgpt.com
+- 大学生協
+  - https://www.univcoop.jp/mailnews/news_4/news_detail_231629.html

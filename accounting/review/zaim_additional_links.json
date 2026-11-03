@@ -1,0 +1,548 @@
+[
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1482,
+        "recordId": "raw-9ab1e06ad900e0f9f5ff1801c2a1c01e612d17faed10a55dca57c63b883f9fce-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 114,
+      "recordId": "raw-07afefe2e62b23abab740a45f666074c4be28f7835298636cb4d863808b9e5e7-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-01",
+    "amount": 1080,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1490,
+        "recordId": "raw-7985324953cb0d631a4c5e502437b5a1da2071f1f34c9f7fce6f60178f5dba91-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 112,
+      "recordId": "raw-18a8c0cf37c0cc1eca74763106dab752e20babec888375a11d277913a59a967f-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-03",
+    "amount": 1030,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1491,
+        "recordId": "raw-903d8d9ab9bc7cd1cb1571230b7bb174f19ac68cbf7c31f942344dd375a1b689-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 105,
+      "recordId": "raw-566a59b0834564e49145a4387bfc664d9afab6f080691d0b9bdfe6d27cd075e3-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-03",
+    "amount": 1500,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1492,
+        "recordId": "raw-f46530ee87fe3e73b08c9d13d5dbcc797934f417a37bcfd069f864567883762f-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 103,
+      "recordId": "raw-34a7ca4024af3f10155f370bb1509037a7cf379b30836e264fd667e31377583a-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-04",
+    "amount": 3357,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1500,
+        "recordId": "raw-1a0c5ad089c4fa3750f1110345b1ed80381a552814a874910ed67cf094283b75-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 97,
+      "recordId": "raw-3e0d6d5e2d6c2602687a8038b9b5ebdbf4ec7da16b28c0bbb86627aa9a11a5fb-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-06",
+    "amount": 1880,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1501,
+        "recordId": "raw-32136bbbc2a53ed93abbc8ec2e8963e3055a2209d41540f232488efca877b84e-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 96,
+      "recordId": "raw-4991c99a5008298ac63f1f0311e7795cabdd052451b9f330ba10846f7549ca28-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-06",
+    "amount": 250,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1506,
+        "recordId": "raw-fce745464fc6645b25d159d274022cd00cf3bfbf4a7a736cc5164f93f71dbc4b-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 90,
+      "recordId": "raw-c9e850c85fc0b6d36067876b06dc492a3e844f04d465e00cfebb4fe6fcead1c2-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-10",
+    "amount": 1000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1531,
+        "recordId": "raw-f7a8c7524daa863dc1ed6a5dda507ac25cd675f8a31c53104895b0dda04aa828-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
+      "line": 10,
+      "recordId": "raw-5b70ffdb410861cafdbf7d63744ef752770d442ac94a18f1a913e92f0127b281-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-14",
+    "amount": 5823,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1532,
+        "recordId": "raw-5cc9c2a4959a08495dfe726ba19dfebe89ca18b0d25d785947e207bc3a6df8ec-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
+      "line": 11,
+      "recordId": "raw-65244a75b6920bbb517a1799a7aaaf2d78e4c241da42172cc91d27793c11da0f-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-14",
+    "amount": 13188,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1540,
+        "recordId": "raw-dc60e2f5ebbdca43def4a8f39ced394a3dd919d4015e6e93d822b4462c22bb43-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 16,
+      "recordId": "raw-de688b6575bd4f06d26ec715f2bf7cfd6a2399385df2ec3fa8898b1929e05742-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-17",
+    "amount": 29740,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1541,
+        "recordId": "raw-df82d4675398eaa3d787acf96c5cbf6c47c75ed7f0b8e98fcd1e991e9632e856-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 15,
+      "recordId": "raw-d6bb4a8f864ddf1be68f555e8f6fda6b6ad21cf7bbdab66443f49e077fec127c-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-17",
+    "amount": 1090,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1542,
+        "recordId": "raw-8fa5de59f540ac9b7d5c257323df35e492116c2bb20e602ee72bd7ece20150e6-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 73,
+      "recordId": "raw-13fee8f897a43c67fe274ede8b8e263688c0b9c204130a9a48c5c545ef6f3787-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-17",
+    "amount": 2000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1548,
+        "recordId": "raw-10fcb2d5065955ffc40acbeaadaf7c8c6e341901f7a2e8ecd4605cb96ab84176-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1549,
+        "recordId": "raw-997566aa4e1d2026f8bd6924daa0d51b40884763faea0c51ea87f0fe2e61ec85-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1550,
+        "recordId": "raw-ddf5c1360e9e1d984eac18ecb6f4fa1805ec42de839c0655d49da68a737bf37e-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202610(2033).csv",
+      "line": 11,
+      "recordId": "raw-8768f6bedd7edde36a42a7d3a9968aee754f08aba378752382c44848247918a6-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-20",
+    "amount": 13000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1551,
+        "recordId": "raw-aa31f0709a4ebbead4aec8ab4699e90bbbe649b99a7892d87333441d51133c2c-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 21,
+      "recordId": "raw-936168e67f95b5034654be6de7ad2f64aed9df4dcdccf7b9c13a659297ca215d-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-20",
+    "amount": 2000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1568,
+        "recordId": "raw-2bb4166cb0c4472a85f295b164ca6f79422fe22b18a7795bc9aae8ca9b488651-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 55,
+      "recordId": "raw-797a22a3b0f067a6e000e9e9f9567cb7ba5a98e44107a7fff548d35ca964e6f1-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-09-30",
+    "amount": 4029,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1573,
+        "recordId": "raw-33a4e730f1bf2b34f9b5741fb96760a8dfe7b2e65ba275b0298ff609a5f688a3-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202611(2033).csv",
+      "line": 11,
+      "recordId": "raw-eb68b8babc5f2053243bc00ab99f03e4b6281431b8e4613d057529239cb7f214-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-02",
+    "amount": 2970,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1614,
+        "recordId": "raw-375d8c1c778c6ca112641fee53ef379630f981b1ea7dee4c117e9750549df841-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 44,
+      "recordId": "raw-29e5657593df971bd2bd007521d8acb1eab20101b2ab4c2990bcca6cd97e2038-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-16",
+    "amount": 600,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1615,
+        "recordId": "raw-c1593b72879d7436314703a4253b31d2b4ea9062ab84c435d6805a92ca49ec89-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 5,
+      "recordId": "raw-c1b9baec1d9a25b8be995d3aa6007024765dceeab4a1d47291606dd08d73b960-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-16",
+    "amount": 7808,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1616,
+        "recordId": "raw-82a9a0fb06ae0b4061e88b5bcb37070522d9da8165d5a24ec95940122faed853-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 42,
+      "recordId": "raw-47f406987295a3f5e4251dd0e2f597c8daf2e380841d268b3ddf562e3e0d6899-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-17",
+    "amount": 500,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1633,
+        "recordId": "raw-3060bcec97063157c215881a3b6634f2cf68addfe10c3fdbaa3d823993b93cb1-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 31,
+      "recordId": "raw-411bfe90dd2b7c25cae2cd6f006783f1c4565f461ec3d82108bbc48767b4f9f4-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-21",
+    "amount": 1100,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1634,
+        "recordId": "raw-62a6fdd61c6af27d40a4103962958d3cff4e3b79bb68b0c32d47c1f828594c78-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 34,
+      "recordId": "raw-e72e4253ec6a241cbac9ec90e44bfb2ed4edec508d7605078c670ef4ead7041b-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-21",
+    "amount": 1000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1636,
+        "recordId": "raw-04ff42144ac57ab7b7c1ac4dcf879f928e3c94189212a3b623374da59501c24a-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 26,
+      "recordId": "raw-d19bb911849027f6f0d498412935b6ea7c2902070f734cb8727801bffa3d9904-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-22",
+    "amount": 640,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1638,
+        "recordId": "raw-f3425cd9f224d8821640502e83e32fdd3d4f000a373780116d631d5497a01673-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 25,
+      "recordId": "raw-1ad206996442c20e2ec4fdbd4320b8507aa7462201aecfddc6f694dc10629495-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-23",
+    "amount": 600,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1639,
+        "recordId": "raw-9392b9f803580cdce68087d229fccdf26cb45af99f4de1cb3733353820cd95dd-1"
+      }
+    ],
+    "paymentSource": null,
+    "generatedMemo": "ラーメン＋セカンドインパクト／ラーメン荘 歴史を刻め 大阪日本橋店",
+    "date": "2026-10-23",
+    "amount": 1250,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1640,
+        "recordId": "raw-413a01c05ba37c5ac04c0d050aee4e1203419041e6b64d6fe499ff548925c652-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 21,
+      "recordId": "raw-845703b87e49d5dfd0aa100321808c316bd6a02a79a5d06890c059f1981c05e8-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-24",
+    "amount": 2000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1644,
+        "recordId": "raw-ad8ac0f52be142a9850ba2e9ee7633c6df47510bc6022b12db9114f7ef0af3bc-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 19,
+      "recordId": "raw-b659ce83b1f066f5a0a3183cdb6cbc1273a4a68b2c979ec3ea0f0166f1e9b941-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-25",
+    "amount": 3000,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1650,
+        "recordId": "raw-a9d9f3482416a7549f3c35e3369f40f21f379fe0a1b15e8ae0b6e38425fbfcf0-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 11,
+      "recordId": "raw-d42f216ee8cd83b9af47f9a17ce6790e9e83f16b36ac52b173685fccce5bff39-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-29",
+    "amount": 1250,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1654,
+        "recordId": "raw-752125692622d783474e387b38cbb9559fbc70622b187fd2ca5a2c6c48a54665-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 9,
+      "recordId": "raw-f2bb4006150ad79ee9385c508966568bd69812c96c433891bbbc9f021fec95ff-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-30",
+    "amount": 600,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1657,
+        "recordId": "raw-efc310eaae79273604eeb0df433771330a4b0b908b3422b371ea7a2bb11650c1-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 3,
+      "recordId": "raw-35ebeabaaca519584fc3218d8449c9a16fcc27278f3dc8373bdc256a723251c6-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-31",
+    "amount": 1270,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  },
+  {
+    "sources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1658,
+        "recordId": "raw-6a20d9b1b5434dbb9577e2a60394268e2ac7458df5df1e27378d6a3dd8e47f59-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 5,
+      "recordId": "raw-9272e1af2e2ea74051db250fdf6dbbe579882ac1aa413a6c37b312a346dd21be-1"
+    },
+    "generatedMemo": null,
+    "date": "2026-10-31",
+    "amount": 1010,
+    "reason": "ユーザーが追加入力したZaimの用途と、同日の一意な支出・送金額を対応付け。"
+  }
+]

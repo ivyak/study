@@ -1,0 +1,162 @@
+[
+  {
+    "id": "tx-bee290453f82a1580b849d8f",
+    "date": "2026-09-06",
+    "kind": "pending",
+    "amount": 120,
+    "account": "PayPay残高",
+    "to": "",
+    "category": "未分類",
+    "memo": "受取（用途未確認）",
+    "sources": [
+      {
+        "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+        "line": 94,
+        "recordId": "raw-e43f9b1567860eee73281783d6ffa0af2f6c3f63c31e05e3c05f087d970d3b34-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "in"
+  },
+  {
+    "id": "tx-eddee4dc1ec791f9b87469fb",
+    "date": "2026-09-17",
+    "kind": "pending",
+    "amount": 30000,
+    "account": "三井住友銀行",
+    "to": "",
+    "category": "未分類",
+    "memo": "用途未確認の入金",
+    "sources": [
+      {
+        "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+        "line": 31,
+        "recordId": "raw-e68bb268ffe2aa27d7d972ce2ffac9d62eb81432b82d9709a028df66f2475a11-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "in"
+  },
+  {
+    "id": "tx-7afe092f9320f1f8be7f3db9",
+    "date": "2026-09-24",
+    "kind": "pending",
+    "amount": 200,
+    "account": "PayPay残高",
+    "to": "",
+    "category": "未分類",
+    "memo": "個人宛送金（用途未確認）",
+    "sources": [
+      {
+        "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+        "line": 67,
+        "recordId": "raw-33bf2d508f97dbc4e5715c8668cb0dfd7e28178d32853e93686815da0e845485-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "out"
+  },
+  {
+    "id": "tx-e87117648644cf048d00a750",
+    "date": "2026-09-25",
+    "kind": "pending",
+    "amount": 100000,
+    "account": "三井住友銀行",
+    "to": "",
+    "category": "未分類",
+    "memo": "用途未確認の入金",
+    "sources": [
+      {
+        "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+        "line": 28,
+        "recordId": "raw-1b6453c0563616c84bdff447f915db3e1adec09f71f1e36875371cef105d3a9c-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "in"
+  },
+  {
+    "id": "tx-134cc8daa779f7b0bbf73f24",
+    "date": "2026-09-28",
+    "kind": "pending",
+    "amount": 66784,
+    "account": "三井住友銀行",
+    "to": "",
+    "category": "未分類",
+    "memo": "用途未確認の出金",
+    "sources": [
+      {
+        "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+        "line": 25,
+        "recordId": "raw-84a56475bc67229d4b5215f78829e989607889ba852859dd5968d141229c3fc1-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "out"
+  },
+  {
+    "id": "tx-8ec3a710b11413c678f33d5c",
+    "date": "2026-10-24",
+    "kind": "pending",
+    "amount": 3000,
+    "account": "三井住友銀行",
+    "to": "",
+    "category": "未分類",
+    "memo": "用途未確認の入金",
+    "sources": [
+      {
+        "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+        "line": 12,
+        "recordId": "raw-6c84c236843b2c126ac63c4155d0c7b93a78467a2d11568057736ebcd0db070a-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "in"
+  },
+  {
+    "id": "tx-0fb0a86532b6e3d4a6c3b689",
+    "date": "2026-10-26",
+    "kind": "pending",
+    "amount": 100000,
+    "account": "三井住友銀行",
+    "to": "",
+    "category": "未分類",
+    "memo": "用途未確認の入金",
+    "sources": [
+      {
+        "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+        "line": 7,
+        "recordId": "raw-de3eff8a434d8afc43bda70b23568aa36adfbe579a0c4713dea9bdf7011776bd-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "in"
+  },
+  {
+    "id": "tx-8afca9b79e7f30ac9d95fe2b",
+    "date": "2026-10-27",
+    "kind": "pending",
+    "amount": 63330,
+    "account": "三井住友銀行",
+    "to": "",
+    "category": "未分類",
+    "memo": "用途未確認の出金",
+    "sources": [
+      {
+        "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+        "line": 5,
+        "recordId": "raw-7208b18891c7eb559797d7b9f0b067029b289d23141b31841892fc0d7617685a-1"
+      }
+    ],
+    "status": "未確認",
+    "splits": [],
+    "direction": "out"
+  }
+]

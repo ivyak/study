@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import threading
+from accounting_api import proxy_accounting
 from article_reports import article_records, update_read_status, update_bookmark
 from lesson_progress import records as lesson_progress_records, update as update_lesson_progress
 from urllib.parse import unquote, urlsplit
@@ -203,7 +204,9 @@ class Handler(SimpleHTTPRequestHandler):
             self.respond({'error': 'この接続元は利用できません'}, 403)
             return
         path = unquote(urlsplit(self.path).path)
-        if path == '/api/runtime':
+        if path.startswith('/api/accounting/'):
+          proxy_accounting(self)
+        elif path == '/api/runtime':
             self.respond({'token': TOKEN, 'skillAvailable': (SKILL / 'scripts/search.py').is_file(),
                           'reviewAvailable': bool(shutil.which('codex'))})
         elif path == '/api/articles':
@@ -307,6 +310,7 @@ class Handler(SimpleHTTPRequestHandler):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--skip-build', action='store_true', help='生成済みHTMLをそのまま配信する')
     args = parser.parse_args()
     # A killed server cannot leave a search marked as running forever.
     for course in course_records():
@@ -314,7 +318,8 @@ def main():
         report = load_report(folder)
         if report.get('execution', {}).get('status') == 'running':
             save_stage(folder, report, 'partial', '前回の検索が中断されました')
-    build()
+    if not args.skip_build:
+      build()
     server = ThreadingHTTPServer(('127.0.0.1', args.port), Handler)
     print(f'LIFE: http://127.0.0.1:{args.port}/index.html', flush=True)
     try:

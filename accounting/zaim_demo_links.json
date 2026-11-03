@@ -1,0 +1,1226 @@
+[
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1483,
+        "recordId": "raw-f0fa30b2465a1005d015c6b4236ac72748b00e4426614fa706e2a7db7aaf07ec-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 107,
+      "recordId": "raw-1c7361ff6e52d3b41fb81c20cd83d4e422e998cace1a0b2db5d0103d646507f4-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1485,
+        "recordId": "raw-833f780eb22e62ef2ea918cc762808a96233bcd37797687d69a91186da5a56a2-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 5,
+      "recordId": "raw-9e40ba5735c1bcb32586c145ce4007c8cd1f6201dd07371bd8e7ef55f38ec92b-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1486,
+        "recordId": "raw-0cfd1d5de3e860212d723366dc8c0cb3bb8bc9a80f10e2834fa6e4319c4a7bf5-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 111,
+      "recordId": "raw-b416562f9907520ea69f33463f1140e04f5259e492b76850a1a41386cb2da9e3-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1487,
+        "recordId": "raw-9443b1836449a94032015fd4f4463fc25cd0dd87a4ea88028eda93d07ed740ed-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 109,
+      "recordId": "raw-a98bca34aa52015e6e5f76bd17bc7ab989619e98a8fcc14d9553f7a813deeb3a-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1488,
+        "recordId": "raw-89ff92483cb42e5fc4a9636266f8f11a8ffb06fec71af944433593990a4ae234-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 6,
+      "recordId": "raw-497db7dca3cce54878eabca109f0f20df4aaf7aa8e15711d3a19c432021e8219-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1489,
+        "recordId": "raw-8b7cc69542cf78b5f8eddb46689222eba10ad529eb65698c96881377e2f1ab82-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 3,
+      "recordId": "raw-fa3f21104a8bbda5d7b1a07534885322d8745739ae389f8d81202ac4164522c6-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1493,
+        "recordId": "raw-8c49bf348321ab6c316445aadc65ca1601a985f5d28a0901b47380e4cca7424c-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1494,
+        "recordId": "raw-9d4ae024ba4e91f612868b1ef0a990dabc835d9c66b03ca650d7d3c35bb38ad5-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1495,
+        "recordId": "raw-7aafe6d2fffc7594c0dad872195e1d0b81ba76778ecd6fcd12d5c7fad8a79287-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1496,
+        "recordId": "raw-5e069978efcf8fe9e6b13a7ba239321290620ceab1971049aeb68ab1378a9328-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1497,
+        "recordId": "raw-5b41d88ccf6f0a022c1e10ad69089181d94a28f5704f164a84bc1f670d6c78f7-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1498,
+        "recordId": "raw-f0140ec405dea6def4ea7152f14229068517abd8ff176f1874f725603450eb23-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1499,
+        "recordId": "raw-924a30d3cab3f894438f6eb687a90eab681911a71c574c6b7750a094672cba76-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 101,
+      "recordId": "raw-4a0932ccac4c0c8f810181cefd066b10eeddd59d956e5612e31c9f4b38067d2c-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1502,
+        "recordId": "raw-10edd9a1151e1f19a0374690369663a6430f1bac9c4f543ef81604b61e4c394e-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1503,
+        "recordId": "raw-09961fb22e4f3239a99cb8f518f8174731ba7b69f00c57a93420b3d8111ca0f3-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1504,
+        "recordId": "raw-07099f8b951c4596e70112a1967acc9f19375ee06b3963f2b9b5a16f7e0e11d8-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1505,
+        "recordId": "raw-c079157c393c95263ef223ec95d38765386f46c9c5fb59b50da1f446e53121b8-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 9,
+      "recordId": "raw-4b8b6eb8a5ae2384d199fd9265f44bb8b9d8131b0e0f0f617dc06c9ae5edf873-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "同日・合計一致。ユーザーが対応を確認。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1507,
+        "recordId": "raw-8bc6768bbac3fca2e119d139655e3e9c2020b7172f189369dec54e41dc2fa1c9-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1508,
+        "recordId": "raw-d9d091077205926a928705ac1186742f91cfcc186260a16baa32f71146421606-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1509,
+        "recordId": "raw-9a41fff036f8ef049bfc69b76432e3f9dc5a9f921e250524fc65b2f017d036c9-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 88,
+      "recordId": "raw-810b0ab2b2da43fc0cdc319489b25a1acd9aa0cb3757aaecab00cc6a997fe5c4-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1510,
+        "recordId": "raw-220f50b3014b091b9d53e565aaef4d9580a2dba284149df570de7ec405c1394b-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1511,
+        "recordId": "raw-1a72ffaab56016baea4b582b9e18b34fe88b9ecbd62ae49be6bf74fbd57be9fc-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 85,
+      "recordId": "raw-adfd6dbf22864c3d0c731cfdd55a7903a76ae29d3ebe943891702f31bae4e8aa-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1512,
+        "recordId": "raw-711fcf6b3b02c4908cb1afc4d06b978df40caa10e795017dcce43e70ef84c355-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1513,
+        "recordId": "raw-cb8c0d16b15ff44774585846716f8518f0ffc5a74c8fadff54fb75527a660a66-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1514,
+        "recordId": "raw-68e0266622779dd9c76189161fd1a6c07d6d15af1cc612a5de76e85b54490366-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 82,
+      "recordId": "raw-8abb149968d8237662f721df0138167d1917b0b2484ebdb545be765995b97c5b-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1515,
+        "recordId": "raw-d4ee741f56fd427e1a4c57527c5ff72bddea824719eaeb3e12c191eccfc30c2c-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1516,
+        "recordId": "raw-f227da99badf1a9e1dc62c8911abc07ab1d64c79d67660b81445379d828fedf1-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1517,
+        "recordId": "raw-3059ddf8d644c370bac1e34483bbb3f000314e7edaff3b20c828fe245d7c3a42-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1518,
+        "recordId": "raw-6ed4249ad4f082cd5e9adecde302b5db764927222309726ac4d4993c29dc54ab-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 81,
+      "recordId": "raw-11f8ccc9366fdc81b8123889e828846acdb3b172f745e4e2046ce8e2e1b68655-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1522,
+        "recordId": "raw-d4cfda633838136400f8b0745304b2ffeccb61129efc00f1c431f1a6f2d89639-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1523,
+        "recordId": "raw-de6238f94879865f7563d6998e514a1caa25b870d458a882a8782a5408c35671-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1524,
+        "recordId": "raw-617a9608708ee8f016df7bcda9bae986dcb875080250886edc6ab69e6cd79715-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1525,
+        "recordId": "raw-fd98f2568224f13f7445df8bd1cd32900385b17c3c4989097b437f55d49043d9-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1526,
+        "recordId": "raw-adeaa125fb262af0a6a0a2106d8b12747a508e05b85bbd609a8adcd829882775-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1527,
+        "recordId": "raw-8705246dec3e16133551341821f8fd439fa99fc60180fffb205c3faeee4c80d3-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202610(2033).csv",
+      "line": 13,
+      "recordId": "raw-bde0da9ee9558e5fb0804275188026107dd2b3b56a0ad057037364bf42365598-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1529,
+        "recordId": "raw-bea993d8e643cf7d5b8543492d95bfd9f52d4f8e396d095952144a987b0fae9b-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1530,
+        "recordId": "raw-1bc7c0c6ff3806be57225dde39415dad5d97608d9068dc30631c9b0bb2a976a1-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 11,
+      "recordId": "raw-86816d1d2ee56901129c97de89a1ce1bfa47b37b6699c86f6e9ff662b2bd4d04-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1533,
+        "recordId": "raw-fee04b64f0e3130899db9391bcd262cb024669bb6efa2e409a5d075e6826f69a-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1534,
+        "recordId": "raw-20e349a1d28874df4c1b2b01dc5755af8b82aa20de333a4192d9f50f1fd9f483-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 13,
+      "recordId": "raw-310f797eb0f8a865cf18ead2311e8325c3ccf6e89163d7566a5ea003098d0678-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1535,
+        "recordId": "raw-bcddc1dfe5b29ec39068ab0a26873f21a18282b6df0cd0cda4934497550d96f3-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1536,
+        "recordId": "raw-a62bd5997da5ad2e094f1837136da83e53c24f0c99525e6e2e7a56cb081bec37-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 77,
+      "recordId": "raw-3c18f434942522c2bc7874ba3ca4145ca95ba9555ff2c3e7cfc9384814838959-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1537,
+        "recordId": "raw-7e98fb6355df41dd08195daeb6ace32acbeae61f3ea2c799ffc3ca816196cb4e-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 75,
+      "recordId": "raw-b44cd1537865fa74c893ffd397faf08b1b95bb1a0db478075edf39f2f10ad82d-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1539,
+        "recordId": "raw-d9a8515fdfbbf72bb88e4a27f5bc1a6231594e3f0f4ee730d567033532514f29-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 71,
+      "recordId": "raw-0597383e0f2ccb775229c091c7a492f15a22d1f2f6cc59153d86669cbbac1b6d-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1543,
+        "recordId": "raw-5becbedfd9de38d66138d25ae137516765a057160509ec06c187ceff3ceaf17c-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 70,
+      "recordId": "raw-35c588784eaf667b6155d6f5bce63c417ba636096245818c2424dfc111a81634-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1544,
+        "recordId": "raw-59763ffe885de4ee371c22cadbbbde1c0d6958293267a204f6b1b153ca46453b-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1545,
+        "recordId": "raw-cbc860b435673aaecd14d30191d6175f097a865957f3709a19874667b8c87134-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1546,
+        "recordId": "raw-4b42005ac11d4bbeed5191886c4d8bbea9f338aa64f762ce533780f65998617a-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 18,
+      "recordId": "raw-c987cefa0cd5e6d18531bc0f6c743db3422bdd7fe8a3c8d31b8c2c6775b40ca9-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1547,
+        "recordId": "raw-5ea4c9a90a710481d9a939424e224df004c4a41ff984b6837010862572df1aec-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 19,
+      "recordId": "raw-051398a1a2ab6e41c2573722e7f6460005af5a9065f1930154481a25efa436fa-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1552,
+        "recordId": "raw-9deed9b70c707b1c19e687da869fbe89e6918416e87a7c9c122c607452e048bb-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1553,
+        "recordId": "raw-52a613c9b204e6e14b1e60a2fde628c85cc690ffe607c2a4556913a78429c206-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 68,
+      "recordId": "raw-3b3e0971a29191cd23b573204c1323f5b5b46fce776b9e57e545064e1ae6fd82-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1558,
+        "recordId": "raw-cfc38202b9bc406a839a4aebbdfd52f8bfb96cc20324ed4414bc626c7c4a5170-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1559,
+        "recordId": "raw-f2f5abc5b2354b836e180bb949cbe2685f018aa5a71fa9245347abeeb1928b59-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 65,
+      "recordId": "raw-80c2c940ddcd1c3c19440fc6e0fbbed9698986603661bbd341da9cd5b4eedf24-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1566,
+        "recordId": "raw-b799c20d0d06fb9b1811861ea334466ff0cbfd44a7718a10c73da942159f287d-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1567,
+        "recordId": "raw-63d83c17bd39bd34e14bf5768fe287f5d59bfcd853d630129b8c3b44c9b08f0f-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 54,
+      "recordId": "raw-0ea8f49115cc7ed2e2efa82d914f2c4dbdfafde73552948a830e60cf15458932-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1569,
+        "recordId": "raw-10be9ef72c6af8d55059b73076d861424d05cf5c545e3ef61f879ca8cedd2a1d-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1570,
+        "recordId": "raw-910a1d8d4b3ba079faa170f767d3db7fd38832ba47086c8eacf270e98a70289b-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1571,
+        "recordId": "raw-44454963dc9eff416f90f13c7ca6f1ad4f283ede9f5c26b726def456b1f2ddf9-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202611(2033).csv",
+      "line": 12,
+      "recordId": "raw-9efedbbcdfb55510324bb744135b4c7fbe7b556c41c037fdac16df34dcdae7da-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1577,
+        "recordId": "raw-2cf713c276382af9f8b9bab3492fd05ec3785b771ea7c4eab3a8845905bc03d8-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1578,
+        "recordId": "raw-2ecfed007087bb5966438b173ff161cc8023d7358547fc804c350f200f9130d0-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1579,
+        "recordId": "raw-26b8403de37a621c67b01be662a6f793222e4b0b0161eaaaf6cbed3e20e9e878-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1580,
+        "recordId": "raw-09f084ac810466742cc6a22f7d73aa727770dab24f4fd4161baa65bf97c1aa4a-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1581,
+        "recordId": "raw-7c4aa3cea67b96225d0f4e38fc81142305d6713b6dfc87f84165f16d7c8e3d89-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1582,
+        "recordId": "raw-e7cc26b34fe5742953fc5408dfa007199d72a69f8284333e808fa3e4dce7381c-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1583,
+        "recordId": "raw-d91d30ceafd58e8c809fe6fbc3834e227f67ee91244db82b48c8cf9e7ba69822-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1584,
+        "recordId": "raw-62d9d9f80d628ffb2c1e9d5f298795ffb9e85310db3280f7c752ed689b2e750b-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202611(2033).csv",
+      "line": 9,
+      "recordId": "raw-b32267d748b80af44ef671be201e3dab7ba992f10d88daa23935a947fa18eb35-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1585,
+        "recordId": "raw-ae64394f004402c726f3cbca1fcdb80c7971a1df7e47ddd80a8ee1d4cabff157-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1586,
+        "recordId": "raw-fefc776dd887fb6b14c5e2207c78879d291368784b5068e4287486464e366b6c-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1587,
+        "recordId": "raw-8a943565f29eabe52d52c6a1aa5574f10f0f5d1c7aa6af6e05a103be2fa2965a-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1588,
+        "recordId": "raw-96aca429d007c0862aa188569fd535d069abb3a33b41c50ce54cb30605cf7b66-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1589,
+        "recordId": "raw-69b828722a1db4168742acd7860defb8a90cb4f9f88c9396604ef504293a9931-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1590,
+        "recordId": "raw-a7bdbf4ee5bfedb12798fa514424bd1080b81ab367fdc0965303b15df636392c-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 13,
+      "recordId": "raw-e3919d9a6e7d60b50da766edc93cf5d39e8e5abe49af9d73bb546cd00435cab1-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1591,
+        "recordId": "raw-ecef45f42ea03977ebfdc421dd492646f6d24ea159b598a6f3c76ea89013e320-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1592,
+        "recordId": "raw-28e45f71b32c67b1b6b9b1250e1bdd601e02db80532d109f93b314a5206b4778-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1593,
+        "recordId": "raw-c4b04411ed93a7115a712dd030fbc88ab11bae372d1cd39752b452f215b14ee9-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 52,
+      "recordId": "raw-f34354b96faa33d6b5e33397432c82de8479814f7cbc948ce3951332002b1a7a-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1594,
+        "recordId": "raw-623cd9785bd4c38ab93267c7afbc8ab03d9ad0297ce6fe0a065ab57b5b0df525-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1595,
+        "recordId": "raw-a99187f342872513a06c82f4464130940a50a935d18410e5ac1092956c65e8ed-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 10,
+      "recordId": "raw-9f4d932e031dc1cc3c518152fcec1d9ead0bcaf0ef4a8d020cfff84da514e9a8-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1599,
+        "recordId": "raw-17e234a7179ec47fec9c9d99d51065d273dd9d03b3501e8555b9815b1755c48c-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1600,
+        "recordId": "raw-3ad1c8e25d1cc9cbdf6d6a32eccf7d516a465a77538ac3fa41e2a10d97c5fe75-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1601,
+        "recordId": "raw-bfb9cb52338ea8e0556695d8c56ee05de1f924b2adb357f8105d7cb6eb21fcff-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1602,
+        "recordId": "raw-074c8b29c5d1039a32357a6c33b4c5591df973f4d2461fe285c322529c570d85-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1603,
+        "recordId": "raw-6c096dbaccf8113c2599d2c4ddeaed9741d4ecd603cc86636828e1f9f06fb32d-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1604,
+        "recordId": "raw-246fe03907cc86eb3935dcc59e8f6b1fd1d8dfbf7a8cee82779af2b1199b212b-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1605,
+        "recordId": "raw-9b263258d59512ebdc2bb05a12eaaafbeacd3550ab8f6f83a943392ceeac7321-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 9,
+      "recordId": "raw-92d80a6a5218ae6a8ba09612a45d16e5655b9125cb5d367145447b581869e61b-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1606,
+        "recordId": "raw-b344583c6233554a6a4234aa9a7d488570393059e587c9b6fb69a0b57c57b125-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1607,
+        "recordId": "raw-7e26931a9c65ba6a3111eebfc5e4966f5e7e3b3b48d59c8da38de63491384651-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1608,
+        "recordId": "raw-b9dd748438518f8dbf10663a0d2681ad301d3e1995a42474f33812b750eb74c9-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 8,
+      "recordId": "raw-4d949959c82eb9ac42663b4311df26d4e12efd49cba95bf95847694a7d6b8c4e-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1610,
+        "recordId": "raw-310f676b495fe46e26d364525802018349215e9c3f5a40cac78f2d2aff71ee6c-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1611,
+        "recordId": "raw-15aacb7a6eeffa80c7436f343e7dae09a8972983f709ecbcd3e31bc0c7d9fc24-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1612,
+        "recordId": "raw-2dc399b1d64ed249327b1fc7c16487784977ea55e6a4b02dc7893ae7a99075f6-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1613,
+        "recordId": "raw-5e25f44088cad1be4261a801031148f6b0728fb61d4941e483bdcaa6676b4668-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 45,
+      "recordId": "raw-057dbe73a2871b88fbe010aba9aa5c272db6103fbe6e00bce5fb4017f296eb91-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1620,
+        "recordId": "raw-03979ce4b45446132ed3c161fbaa75c5c1676a2168d1ac695d985cf8c76cb0cc-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1621,
+        "recordId": "raw-eeb406bde850646ddb22286a47ce1ab1c9f7707fd84b4f95a0db9f43870aae10-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202611(2033).csv",
+      "line": 5,
+      "recordId": "raw-36408ca39363e7257d31a31dc4fc28ed1a26039bfe0ae434442424e7d2f6faf4-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1622,
+        "recordId": "raw-42460cfb00f2246eaaf83cbe3c2c7f2ea29e9a16d0efd372edb92809e2283a07-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1623,
+        "recordId": "raw-bd1149561f0107120548b1351ed2e93599cf0219897288549c18d9e49f749af5-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1624,
+        "recordId": "raw-93f16bb70f73316e7515381d93fca55bc0ef0132658d5af2ca5ad17228535152-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1625,
+        "recordId": "raw-3eb28739b8e4687de19834419d0f84a1275a4b4efeffd3166a413496a9b9b41d-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1626,
+        "recordId": "raw-509de142d12a8b3f5ded35aa027284b412aba64b479af20ee2f23433bc67a9db-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 3,
+      "recordId": "raw-448d922b55ef1d7f2696f64209f491d5f755dd3c9720706ce511936edc3db585-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1627,
+        "recordId": "raw-33067b2f9c58451e761721b579d1670564af80339ae793ffd3ba65341048818e-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1628,
+        "recordId": "raw-a271c571754f88d2a0f2738d2ffb6739848cebbac7918c4364e3cd2fb4c8b194-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 39,
+      "recordId": "raw-5d0272572ea3880b144df0f8dd0edd63c65df60650887dc6b1c9c8d91e4a65c3-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1629,
+        "recordId": "raw-e974d0e8a5088366074b6406f13c0664f7441190dbb9ccf23b175b8049b899ac-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 38,
+      "recordId": "raw-c67e218a95797b7c7b7a426c26b3e6c86957b684a2b7154d49150a328f3b2fcb-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1630,
+        "recordId": "raw-48f5277770040e024a93d2b6e63216d70d219e97f85598145a401f3256b7c64a-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 36,
+      "recordId": "raw-faafc5fce0b2bba5c59ae49aab094420fa8b530307b3dc902fe3c2512b2635af-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1631,
+        "recordId": "raw-af8db31d7bb1a6930007ef8b6856857fa9f14c981cf274b384b86bd99b9a9695-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1632,
+        "recordId": "raw-8bec11e0fa64ec2edb16ed424299929546b777dba88125c699da81c50490671b-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 33,
+      "recordId": "raw-d1d336a2b95738f446ea17e229147662880c598bb18cc9e18aeb5b179f9abfc9-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1635,
+        "recordId": "raw-32e39d607ce0e8ab61a195482e60cbebedbc0d464b63a1544334a5363bf24a0e-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 28,
+      "recordId": "raw-6653786f0c37f2d8909dd40151baf7486fd21bb80ba2ed28e44d5671e3635623-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1641,
+        "recordId": "raw-af5fc7ed383ecb307f7981face269a84d573856da474b57646e17e86024992b7-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1642,
+        "recordId": "raw-6f58c2579250be453014d5e9fb954801101aeb16905cacc4b36558d82115040d-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1643,
+        "recordId": "raw-0aff5895603152c0726697d9dd60a7aa6d2f33a71c115dabee50afe70e680450-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 1,
+      "recordId": "raw-40ad2f2707969b6dd8182601cc54732627700527be732a6e72ffe4447b0adc0a-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1645,
+        "recordId": "raw-c5ba09a28c420851c58e4ffe85af50124a84bcfce227ca38140c2035c66829e0-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 18,
+      "recordId": "raw-50a6208b1f901d8ae57c590c5b5017539f3b6a0c920ac5ce09e1ec319f7f5414-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1646,
+        "recordId": "raw-70e68d75bda6d1d59deaf1f234c79b8b96bb8484a885f8407c30846b301662fb-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 15,
+      "recordId": "raw-0ce6acc76730fa4f2c8dca0d812a71f14c0e11a7e82c1c3f33f5b75843466758-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1647,
+        "recordId": "raw-4e393ade71f60b7678228e535c4d6993f650081cbff3423dc078c70b6437cc63-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 14,
+      "recordId": "raw-797815960f6e3e2c247465f967bfa91dbcede1c89ec870658f1b310ac348c9f7-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1648,
+        "recordId": "raw-07f04785cb33e64ad47cb9da0fa834aa612fea04959ddcaad41a93aac8f7e4f3-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1649,
+        "recordId": "raw-ea5d5458022c94dae72e5b0b50ac0beb30dd54406c8e0c0bcab5268eac85bb9b-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 12,
+      "recordId": "raw-d83e8239e97b0cb940b7e55db0e649010a01c4915a39b582fa55dbb76b9f20bc-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1651,
+        "recordId": "raw-0b05fa1c97bf0ad0cc94cba4aad797787548638b33a67b06e8ef9999161580da-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 8,
+      "recordId": "raw-05bd62e06b888b5fe6fcf1867f1ef909bbe29c8ba1a658f1984334c2e9eaf980-1"
+    },
+    "status": "デモ照合案",
+    "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1484,
+        "recordId": "raw-f5f3a176dec1910a65a0c94e0c2fcfc749169c513c95ad24989e550af7831343-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 4,
+      "recordId": "raw-c1365324e7508e09a1852fd9c1adb9c45382f31a1617723271b6ad0eeb11b7e6-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1519,
+        "recordId": "raw-e8b804eba2a08b3075e3e821e7d3fabdefe7c6a36068aa18b43159afef4f0d3e-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1520,
+        "recordId": "raw-4d2ec9b822c428b680ffb01cab51822526956bd615ee23739a7805338fb79c52-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1521,
+        "recordId": "raw-857426eb3c170223a9ced0eb9b012ebc380888fe463fa8e3c73b350ee13334a7-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 10,
+      "recordId": "raw-222817eaba49e114d96b91ac14802dc7014de84a43b685d1e565f2d1bb77c16e-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1528,
+        "recordId": "raw-9d0b9ec37e87618daca1cfc694fbdbdfac9ecbc81a26dfb7b53c2cc98f137eee-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 12,
+      "recordId": "raw-c57ca21d3fb2fd31e5c98a234d35803894e0a2b1c66dcd0ef2216aa5d65831af-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1538,
+        "recordId": "raw-16d397e7630bdbad00edd46ad84eb483152e81d9ecaf04b28c3b2b6cbf639cc0-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 14,
+      "recordId": "raw-9da589247480522ce5860e4b8c84f446503ff0c9c29bc8d355c888ef4320e33c-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1557,
+        "recordId": "raw-153bff70604dc4221b2de4e3db45ccbb9c830d563f69b342daec231bb52664cf-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202610.csv",
+      "line": 22,
+      "recordId": "raw-6ab3630c49d320e8370e91d70b618ff15dfcb5543dff4d858d7eaef0d58cd7bb-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1574,
+        "recordId": "raw-ab7a3f8b0d5cf54f95b36e39289d57b6ca7145973fe7671ed41b2d4c8f279c25-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 14,
+      "recordId": "raw-4802457dac496992f805daeb4c2cdfbc7e2477e13799f398ef3f640dcea71441-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1619,
+        "recordId": "raw-3f98a9663544978ce148e2904161c822575fde7a0512b4342b62fbbbb7920d92-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Vpass/202611.csv",
+      "line": 4,
+      "recordId": "raw-c93be20409685766d5ff394c90b83f46cf413b166eac6464a16955781fc50b80-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1560,
+        "recordId": "raw-86830bbabb9d45517cc23d5d1efa6cf5beaddc37fbf4e502895fc0ea1b036b91-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1561,
+        "recordId": "raw-5b0e45e8c9c9fd35d93f54ec5a02f709edba24f75f884d1108f290acd5e3c1bc-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "Rakuten_Card/enavi202610(2033).csv",
+      "line": 5,
+      "recordId": "raw-8d40d30abcd91507fae956ae11667f1919eddb3fe6d1adfd3ed71fc41a7bf7a7-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  },
+  {
+    "zaimSources": [
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1562,
+        "recordId": "raw-acf6660f3cea2e3a9d037faa7fd6d2789b92c7a55d91fd8b64fc8bdeec0a2500-1"
+      },
+      {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1563,
+        "recordId": "raw-bc7f86ddddbd976f97a209f4ebef3999a6ada81fbae2e3657cd087dcf217a3e2-1"
+      }
+    ],
+    "paymentSource": {
+      "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+      "line": 59,
+      "recordId": "raw-7331c943410097b9cf8fd8c318778d7071bece2bba0748a2744071fe9cf613fb-1"
+    },
+    "status": "ユーザー確認済み",
+    "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。"
+  }
+]

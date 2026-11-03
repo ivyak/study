@@ -28,3 +28,9 @@ target/
 __pycache__/
 *.py[cod]
 article_management/execution.json
+
+**/out/**
+# 家計のローカルDB・バックアップ・確認用出力
+/accounting/data/
+/accounting/backups/
+/accounting/review/generated/

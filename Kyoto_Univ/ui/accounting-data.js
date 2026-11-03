@@ -4,7 +4,175 @@ window.LifeAccountingData = {
   "end": "2026-10-31",
   "transactions": [
     {
-      "id": "tx-0025",
+      "id": "tx-02d7313ce94cde2699e4bd8e",
+      "date": "2026-09-01",
+      "kind": "expense",
+      "amount": 1080,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "紅蘭亭 下通本店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 114,
+          "recordId": "raw-07afefe2e62b23abab740a45f666074c4be28f7835298636cb4d863808b9e5e7-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1482,
+          "recordId": "raw-9ab1e06ad900e0f9f5ff1801c2a1c01e612d17faed10a55dca57c63b883f9fce-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-01",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "太平燕",
+          "store": "紅蘭亭 下通本店",
+          "amount": 1080,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1482,
+            "recordId": "raw-9ab1e06ad900e0f9f5ff1801c2a1c01e612d17faed10a55dca57c63b883f9fce-1"
+          },
+          "matchedTransactionId": "tx-02d7313ce94cde2699e4bd8e"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "紅蘭亭 下通本店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1080
+        }
+      ]
+    },
+    {
+      "id": "tx-24d0c48b357fe4b76670a9cd",
+      "date": "2026-09-01",
+      "kind": "expense",
+      "amount": 800,
+      "account": "現金",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "熊本城",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1481,
+          "recordId": "raw-947108f52cf24f68fa4749fc728f608146c2ee841ba57fd8aa2fc665e5c03e5e-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-09-01",
+          "category": "エンタメ",
+          "detail": "その他",
+          "item": "熊本城入園券大人",
+          "store": "熊本城",
+          "amount": 800,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1481,
+            "recordId": "raw-947108f52cf24f68fa4749fc728f608146c2ee841ba57fd8aa2fc665e5c03e5e-1"
+          },
+          "matchedTransactionId": "tx-24d0c48b357fe4b76670a9cd"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "熊本城"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 800
+        }
+      ]
+    },
+    {
+      "id": "tx-2fa6b78bc2c495d274d0ce68",
+      "date": "2026-09-01",
+      "kind": "transfer",
+      "amount": 3000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 115,
+          "recordId": "raw-5af32d0f5369bc65cf6aa24c2164f5369c1bcc632edb7bc91144f03bc3564208-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 40,
+          "recordId": "raw-78fb2927b52b18119eab1d0af28cc1d62bc5eb2bbf5d21f4805f3d34ce62bd5b-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-43342465a7d173dfbd7e41a4",
+      "date": "2026-09-01",
+      "kind": "expense",
+      "amount": 200,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "路線バス",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 55,
+          "recordId": "raw-56962f4774dacadabf2a36d6b5044f433ffe2751acea16bdb9b83eb997e89346-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-9e6bf54d9ef6399de927a50e",
+      "date": "2026-09-01",
+      "kind": "expense",
+      "amount": 200,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "路線バス",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 54,
+          "recordId": "raw-5ffcb5015fce05277fe5645116bc1baba92b3005ae7ba6e23f4d64d3cfbef2e7-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-e59f0e30a03ecae17996e5f3",
       "date": "2026-09-01",
       "kind": "transfer",
       "amount": 500,
@@ -15,11 +183,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-2bb76d0fad81bff48421c8d3e71a4d60bbc6e0251384f0fc3f864713e30ef0ae-1"
         },
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 56
+          "line": 56,
+          "recordId": "raw-ae45d0235acb30801fec4645e037b80ee04145b258c43cfb21818c5834b55530-1"
         }
       ],
       "status": "確認済み",
@@ -27,27 +197,63 @@ window.LifeAccountingData = {
       "billId": "Vpass-202610"
     },
     {
-      "id": "tx-0200",
-      "date": "2026-09-01",
-      "kind": "pending",
-      "amount": 1080,
+      "id": "tx-328627dfd0155650da48d568",
+      "date": "2026-09-03",
+      "kind": "expense",
+      "amount": 1030,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "category": "食費",
+      "memo": "博多らーめんShinShin アミュプラザ小倉店",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 114
+          "line": 112,
+          "recordId": "raw-18a8c0cf37c0cc1eca74763106dab752e20babec888375a11d277913a59a967f-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1490,
+          "recordId": "raw-7985324953cb0d631a4c5e502437b5a1da2071f1f34c9f7fce6f60178f5dba91-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "out"
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "煮玉子入りらーめん",
+          "store": "博多らーめんShinShin アミュプラザ小倉店",
+          "amount": 1030,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1490,
+            "recordId": "raw-7985324953cb0d631a4c5e502437b5a1da2071f1f34c9f7fce6f60178f5dba91-1"
+          },
+          "matchedTransactionId": "tx-328627dfd0155650da48d568"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "博多らーめんShinShin アミュプラザ小倉店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1030
+        }
+      ]
     },
     {
-      "id": "tx-0201",
-      "date": "2026-09-01",
+      "id": "tx-5a1c22bb55966a5406290fa9",
+      "date": "2026-09-03",
       "kind": "transfer",
       "amount": 3000,
       "account": "三井住友銀行",
@@ -57,323 +263,301 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 115
+          "line": 106,
+          "recordId": "raw-d7fa4b54d944288e7be80e2db1ae1a5c0bb12679ed6b5a6a295e68cb8edc0023-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 39,
+          "recordId": "raw-1741bbe64725a621680a3c37405b926feafb572769dc33f65cd8661257595bce-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0253",
-      "date": "2026-09-01",
-      "kind": "expense",
-      "amount": 200,
-      "account": "Suica",
+      "id": "tx-69aaa42c4f2e97fe64d0ccb3",
+      "date": "2026-09-03",
+      "kind": "income",
+      "amount": 1,
+      "account": "PayPayポイント",
       "to": "",
-      "category": "交通費",
-      "memo": "路線バス",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 54
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 108,
+          "recordId": "raw-b02849f25b2415dc5dbc4f31cf7545a7069f47415f9d8dc530f2ab083f21cfa1-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
+      "direction": "in"
     },
     {
-      "id": "tx-0254",
-      "date": "2026-09-01",
-      "kind": "expense",
-      "amount": 200,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "路線バス",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 55
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0026",
+      "id": "tx-6c580eb0aa595a20c9c3f479",
       "date": "2026-09-03",
       "kind": "expense",
       "amount": 600,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "娯楽費",
+      "category": "エンタメ",
       "memo": "門司港レトロ展望室／ＮＦＣ",
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-fa3f21104a8bbda5d7b1a07534885322d8745739ae389f8d81202ac4164522c6-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1489,
+          "recordId": "raw-8b7cc69542cf78b5f8eddb46689222eba10ad529eb65698c96881377e2f1ab82-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202610",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-03",
+          "category": "エンタメ",
+          "detail": "その他",
+          "item": "大人",
+          "store": "門司港レトロ展望室",
+          "amount": 600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1489,
+            "recordId": "raw-8b7cc69542cf78b5f8eddb46689222eba10ad529eb65698c96881377e2f1ab82-1"
+          },
+          "matchedTransactionId": "tx-6c580eb0aa595a20c9c3f479"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "門司港レトロ展望室"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 600
+        }
+      ]
     },
     {
-      "id": "tx-0027",
+      "id": "tx-724f2ff040c2ddfcc097a97f",
       "date": "2026-09-03",
-      "kind": "expense",
-      "amount": 1307,
-      "account": "三井住友カード未払金",
+      "kind": "income",
+      "amount": 1,
+      "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "海峡プラザ",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
-          "file": "Vpass/202610.csv",
-          "line": 4
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 110,
+          "recordId": "raw-25fca8a4a4a7417c962dcf5a9cb4b8b6a42905c7c8d500461e153c1afb2f4fad-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
+      "direction": "in"
     },
     {
-      "id": "tx-0028",
+      "id": "tx-82cc09f54862e58fdda270c2",
       "date": "2026-09-03",
       "kind": "expense",
       "amount": 756,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "北九州おみやげ館",
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-9e40ba5735c1bcb32586c145ce4007c8cd1f6201dd07371bd8e7ef55f38ec92b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1485,
+          "recordId": "raw-833f780eb22e62ef2ea918cc762808a96233bcd37797687d69a91186da5a56a2-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0029",
-      "date": "2026-09-03",
-      "kind": "expense",
-      "amount": 648,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "ｏｍｉｙａｇｅ　かんもん　港ハウス店",
-      "sources": [
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "Vpass/202610.csv",
-          "line": 6
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "河豚のアヒージョ",
+          "store": "北九州観光コンベンション協会直営売店「北九州おみやげ館」",
+          "amount": 756,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1485,
+            "recordId": "raw-833f780eb22e62ef2ea918cc762808a96233bcd37797687d69a91186da5a56a2-1"
+          },
+          "matchedTransactionId": "tx-82cc09f54862e58fdda270c2"
         }
       ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0061",
-      "date": "2026-09-03",
-      "kind": "pending",
-      "amount": 386,
-      "account": "楽天銀行",
-      "to": "",
-      "category": "未分類",
-      "memo": "用途未確認の入金",
-      "sources": [
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "北九州観光コンベンション協会直営売店「北九州おみやげ館」"
+      },
+      "categoryAmounts": [
         {
-          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 9
+          "category": "食費",
+          "amount": 756
         }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
+      ]
     },
     {
-      "id": "tx-0191",
-      "date": "2026-09-03",
-      "kind": "pending",
-      "amount": 1500,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 105
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0192",
-      "date": "2026-09-03",
-      "kind": "transfer",
-      "amount": 3000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 106
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0193",
+      "id": "tx-859ea9ad82a795bd6de577ac",
       "date": "2026-09-03",
       "kind": "expense",
       "amount": 398,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 銘品蔵門司港駅",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 107
+          "line": 107,
+          "recordId": "raw-1c7361ff6e52d3b41fb81c20cd83d4e422e998cace1a0b2db5d0103d646507f4-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1483,
+          "recordId": "raw-f0fa30b2465a1005d015c6b4236ac72748b00e4426614fa706e2a7db7aaf07ec-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0194",
-      "date": "2026-09-03",
-      "kind": "pending",
-      "amount": 1,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 108
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "海老マヨパスタサラダ",
+          "store": "ファミリーマート銘品蔵門司港駅店",
+          "amount": 398,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1483,
+            "recordId": "raw-f0fa30b2465a1005d015c6b4236ac72748b00e4426614fa706e2a7db7aaf07ec-1"
+          },
+          "matchedTransactionId": "tx-859ea9ad82a795bd6de577ac"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0195",
-      "date": "2026-09-03",
-      "kind": "expense",
-      "amount": 194,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "ローソン - 小倉魚町二丁目",
-      "sources": [
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート銘品蔵門司港駅店"
+      },
+      "categoryAmounts": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 109
+          "category": "食費",
+          "amount": 398
         }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      ]
     },
     {
-      "id": "tx-0196",
-      "date": "2026-09-03",
-      "kind": "pending",
-      "amount": 1,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 110
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0197",
+      "id": "tx-929c045a3135869869d2030b",
       "date": "2026-09-03",
       "kind": "expense",
       "amount": 380,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 北九州市役所／Ｓ",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 111
+          "line": 111,
+          "recordId": "raw-b416562f9907520ea69f33463f1140e04f5259e492b76850a1a41386cb2da9e3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1486,
+          "recordId": "raw-0cfd1d5de3e860212d723366dc8c0cb3bb8bc9a80f10e2834fa6e4319c4a7bf5-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0198",
-      "date": "2026-09-03",
-      "kind": "pending",
-      "amount": 1030,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 112
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ストロベリーF",
+          "store": "ファミリーマート　北九州市役所／Ｓ店",
+          "amount": 380,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1486,
+            "recordId": "raw-0cfd1d5de3e860212d723366dc8c0cb3bb8bc9a80f10e2834fa6e4319c4a7bf5-1"
+          },
+          "matchedTransactionId": "tx-929c045a3135869869d2030b"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　北九州市役所／Ｓ店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 380
+        }
+      ]
     },
     {
-      "id": "tx-0199",
+      "id": "tx-9373d35efa0fbc3671e4b49b",
       "date": "2026-09-03",
       "kind": "expense",
       "amount": 150,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "自動販売機 QRde決済 - コカ・コーラボトラーズジャパン自販機",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 113
+          "line": 113,
+          "recordId": "raw-38be72d72eff6ef430503c7f48267161aa1c7b96ca4ab0343551f5274755a65d-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [
         {
           "account": "PayPayポイント",
@@ -388,7 +572,252 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0252",
+      "id": "tx-a504c92740e3d5707a9ee3af",
+      "date": "2026-09-03",
+      "kind": "transfer",
+      "amount": 386,
+      "account": "立替金",
+      "to": "楽天銀行",
+      "category": "振替",
+      "memo": "立替金の回収",
+      "sources": [
+        {
+          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
+          "line": 9,
+          "recordId": "raw-8c89f37e747c18ddbebd6ac52041a4ab9146fb1019f8c9452d0ca8d0d4009852-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-a953c73bce3692b934959cee",
+      "date": "2026-09-03",
+      "kind": "expense",
+      "amount": 1307,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "交際費",
+      "memo": "海峡プラザ",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 4,
+          "recordId": "raw-c1365324e7508e09a1852fd9c1adb9c45382f31a1617723271b6ad0eeb11b7e6-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1484,
+          "recordId": "raw-f5f3a176dec1910a65a0c94e0c2fcfc749169c513c95ad24989e550af7831343-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-03",
+          "category": "交際費",
+          "detail": "その他",
+          "item": "バナナカステラ",
+          "store": "菓舗にたはら 門司港お土産屋",
+          "amount": 1307,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1484,
+            "recordId": "raw-f5f3a176dec1910a65a0c94e0c2fcfc749169c513c95ad24989e550af7831343-1"
+          },
+          "matchedTransactionId": "tx-a953c73bce3692b934959cee"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "菓舗にたはら 門司港お土産屋"
+      },
+      "categoryAmounts": [
+        {
+          "category": "交際費",
+          "amount": 1307
+        }
+      ]
+    },
+    {
+      "id": "tx-b04404b6913cfaa146ca4f13",
+      "date": "2026-09-03",
+      "kind": "expense",
+      "amount": 194,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ローソン - 小倉魚町二丁目",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 109,
+          "recordId": "raw-a98bca34aa52015e6e5f76bd17bc7ab989619e98a8fcc14d9553f7a813deeb3a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1487,
+          "recordId": "raw-9443b1836449a94032015fd4f4463fc25cd0dd87a4ea88028eda93d07ed740ed-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "メイジブルガリアフローズンYG",
+          "store": "ローソン 小倉魚町二丁目店",
+          "amount": 194,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1487,
+            "recordId": "raw-9443b1836449a94032015fd4f4463fc25cd0dd87a4ea88028eda93d07ed740ed-1"
+          },
+          "matchedTransactionId": "tx-b04404b6913cfaa146ca4f13"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ローソン 小倉魚町二丁目店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 194
+        }
+      ]
+    },
+    {
+      "id": "tx-babd5470c457c62ee3fc1dad",
+      "date": "2026-09-03",
+      "kind": "expense",
+      "amount": 1500,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "飲み代割り勘",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 105,
+          "recordId": "raw-566a59b0834564e49145a4387bfc664d9afab6f080691d0b9bdfe6d27cd075e3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1491,
+          "recordId": "raw-903d8d9ab9bc7cd1cb1571230b7bb174f19ac68cbf7c31f942344dd375a1b689-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "飲み代割り勘",
+          "store": "-",
+          "amount": 1500,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1491,
+            "recordId": "raw-903d8d9ab9bc7cd1cb1571230b7bb174f19ac68cbf7c31f942344dd375a1b689-1"
+          },
+          "matchedTransactionId": "tx-babd5470c457c62ee3fc1dad"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "-"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1500
+        }
+      ]
+    },
+    {
+      "id": "tx-c8bdc7bbceafb56d64d51d72",
+      "date": "2026-09-03",
+      "kind": "expense",
+      "amount": 648,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "ｏｍｉｙａｇｅ　かんもん　港ハウス店",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 6,
+          "recordId": "raw-497db7dca3cce54878eabca109f0f20df4aaf7aa8e15711d3a19c432021e8219-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1488,
+          "recordId": "raw-89ff92483cb42e5fc4a9636266f8f11a8ffb06fec71af944433593990a4ae234-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-03",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "おつまみふぐ爛製",
+          "store": "omiyageかんもん",
+          "amount": 648,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1488,
+            "recordId": "raw-89ff92483cb42e5fc4a9636266f8f11a8ffb06fec71af944433593990a4ae234-1"
+          },
+          "matchedTransactionId": "tx-c8bdc7bbceafb56d64d51d72"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "omiyageかんもん"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 648
+        }
+      ]
+    },
+    {
+      "id": "tx-d15a2635587b35468048cf4d",
       "date": "2026-09-03",
       "kind": "expense",
       "amount": 340,
@@ -399,7 +828,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 53
+          "line": 53,
+          "recordId": "raw-f79abfbb3bf594c72e08b87428599463fd164bb17698d85d200b85b08a8cf7bc-1"
         }
       ],
       "status": "確認済み",
@@ -407,7 +837,62 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0030",
+      "id": "tx-2ecbed603d7fe58714000cad",
+      "date": "2026-09-04",
+      "kind": "expense",
+      "amount": 3357,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "すしざんまい 戎橋店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 103,
+          "recordId": "raw-34a7ca4024af3f10155f370bb1509037a7cf379b30836e264fd667e31377583a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1492,
+          "recordId": "raw-f46530ee87fe3e73b08c9d13d5dbcc797934f417a37bcfd069f864567883762f-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-04",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "",
+          "store": "すしざんまい 戎橋店",
+          "amount": 3357,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1492,
+            "recordId": "raw-f46530ee87fe3e73b08c9d13d5dbcc797934f417a37bcfd069f864567883762f-1"
+          },
+          "matchedTransactionId": "tx-2ecbed603d7fe58714000cad"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "すしざんまい 戎橋店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 3357
+        }
+      ]
+    },
+    {
+      "id": "tx-42e287e84686104d4a24947b",
       "date": "2026-09-04",
       "kind": "transfer",
       "amount": 1000,
@@ -418,11 +903,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-8f45e2560f68b8055a888a38a08ebb0d78c23c0e142883ae6bf912dfe8d44b5c-1"
         },
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 52
+          "line": 52,
+          "recordId": "raw-47b725266a1ac403cc471d36dc87e6e879718aedc48dadcf9f6d20c06c97eb11-1"
         }
       ],
       "status": "確認済み",
@@ -430,122 +917,7 @@ window.LifeAccountingData = {
       "billId": "Vpass-202610"
     },
     {
-      "id": "tx-0046",
-      "date": "2026-09-04",
-      "kind": "expense",
-      "amount": 3000,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "通信・サブスク",
-      "memo": "OPENAI *CHATGPT SUBSCR (OPENAI.COM )",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 23
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0189",
-      "date": "2026-09-04",
-      "kind": "pending",
-      "amount": 3357,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 103
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0190",
-      "date": "2026-09-04",
-      "kind": "transfer",
-      "amount": 3000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 104
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0247",
-      "date": "2026-09-04",
-      "kind": "expense",
-      "amount": 230,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "路線バス",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 48
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0248",
-      "date": "2026-09-04",
-      "kind": "expense",
-      "amount": 410,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "SU梅田 → SU烏丸",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 49
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0249",
-      "date": "2026-09-04",
-      "kind": "expense",
-      "amount": 240,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "SU難波 → SU梅田",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 50
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0250",
+      "id": "tx-5e828927bd0f1c866be57e9d",
       "date": "2026-09-04",
       "kind": "expense",
       "amount": 290,
@@ -556,7 +928,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 51
+          "line": 51,
+          "recordId": "raw-2900dc845a454e25c46b35cb88fff644effca40beced34348609449a1c9120ea-1"
         }
       ],
       "status": "確認済み",
@@ -564,18 +937,59 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0031",
-      "date": "2026-09-05",
+      "id": "tx-aa649033989f9cd25627b9ed",
+      "date": "2026-09-04",
       "kind": "expense",
-      "amount": 550,
+      "amount": 240,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "SU難波 → SU梅田",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 50,
+          "recordId": "raw-f33fc6b66f0fb3b2f75147a6be9c90faf855352eeca63dab4538415ae90b101f-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-b318878b8cc860f6f0d00a84",
+      "date": "2026-09-04",
+      "kind": "expense",
+      "amount": 410,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "SU梅田 → SU烏丸",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 49,
+          "recordId": "raw-3acc69beaa38ee3b9dbb2b28e8053cdaa69d8021cf7f28985605361dc6a2b11a-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-e41b2aef8956dede6c1e66b2",
+      "date": "2026-09-04",
+      "kind": "expense",
+      "amount": 3000,
       "account": "三井住友カード未払金",
       "to": "",
       "category": "通信・サブスク",
-      "memo": "アーティスト・サイト",
+      "memo": "OPENAI *CHATGPT SUBSCR (OPENAI.COM )",
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 8
+          "line": 23,
+          "recordId": "raw-95a9f4452d40271647c81a876ff9217354290ef7f19b57c7458f62dfe159c636-1"
         }
       ],
       "status": "確認済み",
@@ -585,26 +999,239 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0184",
-      "date": "2026-09-05",
-      "kind": "pending",
-      "amount": 2,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "id": "tx-e474c4aeccbd80c1b026b4e3",
+      "date": "2026-09-04",
+      "kind": "transfer",
+      "amount": 3000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 98
+          "line": 104,
+          "recordId": "raw-0e5bd613e30ee125214d97d3a6da196a5c2b90dc9fcf92ff0b5f66d41b774d3b-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 38,
+          "recordId": "raw-a44cf4ecbbe16a5f0c75051b33b51bc0d95910ae4b2f48d6d21ba4036420bfa4-1"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
+      "status": "確認済み",
+      "splits": []
     },
     {
-      "id": "tx-0185",
+      "id": "tx-ec1ab552d687ff8b441eb8b7",
+      "date": "2026-09-04",
+      "kind": "expense",
+      "amount": 230,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "路線バス",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 48,
+          "recordId": "raw-ac8990789592603000ac90d7467cb4f7900922ff4338f5a1a4d1694ce90cfdea-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-317b31b796444f9edeb50bb9",
+      "date": "2026-09-05",
+      "kind": "expense",
+      "amount": 1004,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "フレスコ - フレスコミニ田中里ノ前店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 101,
+          "recordId": "raw-4a0932ccac4c0c8f810181cefd066b10eeddd59d956e5612e31c9f4b38067d2c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1493,
+          "recordId": "raw-8c49bf348321ab6c316445aadc65ca1601a985f5d28a0901b47380e4cca7424c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1494,
+          "recordId": "raw-9d4ae024ba4e91f612868b1ef0a990dabc835d9c66b03ca650d7d3c35bb38ad5-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1495,
+          "recordId": "raw-7aafe6d2fffc7594c0dad872195e1d0b81ba76778ecd6fcd12d5c7fad8a79287-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1496,
+          "recordId": "raw-5e069978efcf8fe9e6b13a7ba239321290620ceab1971049aeb68ab1378a9328-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1497,
+          "recordId": "raw-5b41d88ccf6f0a022c1e10ad69089181d94a28f5704f164a84bc1f670d6c78f7-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1498,
+          "recordId": "raw-f0140ec405dea6def4ea7152f14229068517abd8ff176f1874f725603450eb23-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1499,
+          "recordId": "raw-924a30d3cab3f894438f6eb687a90eab681911a71c574c6b7750a094672cba76-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "三元豚ロースとんかつ弁",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": 550,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1493,
+            "recordId": "raw-8c49bf348321ab6c316445aadc65ca1601a985f5d28a0901b47380e4cca7424c-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        },
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "割引",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": -165,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1494,
+            "recordId": "raw-9d4ae024ba4e91f612868b1ef0a990dabc835d9c66b03ca650d7d3c35bb38ad5-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        },
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ユーフーズグリーンサ",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": 128,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1495,
+            "recordId": "raw-7aafe6d2fffc7594c0dad872195e1d0b81ba76778ecd6fcd12d5c7fad8a79287-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        },
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "M8サンプライドバナナ",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": 179,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1496,
+            "recordId": "raw-5e069978efcf8fe9e6b13a7ba239321290620ceab1971049aeb68ab1378a9328-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        },
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "三ツ矢特濃グレープ",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": 99,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1497,
+            "recordId": "raw-5b41d88ccf6f0a022c1e10ad69089181d94a28f5704f164a84bc1f670d6c78f7-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        },
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "高橋 鶴の子納豆",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": 139,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1498,
+            "recordId": "raw-f0140ec405dea6def4ea7152f14229068517abd8ff176f1874f725603450eb23-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        },
+        {
+          "date": "2026-09-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "フレスコミニ 田中里ノ前店",
+          "amount": 74,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1499,
+            "recordId": "raw-924a30d3cab3f894438f6eb687a90eab681911a71c574c6b7750a094672cba76-1"
+          },
+          "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "フレスコミニ 田中里ノ前店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1004
+        }
+      ]
+    },
+    {
+      "id": "tx-c8a511ab01449324746aa7e1",
       "date": "2026-09-05",
       "kind": "expense",
       "amount": 580,
@@ -615,7 +1242,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 99
+          "line": 99,
+          "recordId": "raw-a552b0304d57256d259857582994d70a9ba701b8fa70c7af3566f532ecb4b1d9-1"
         }
       ],
       "status": "確認済み",
@@ -624,7 +1252,7 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0186",
+      "id": "tx-cb826b92c3178b8d20043169",
       "date": "2026-09-05",
       "kind": "transfer",
       "amount": 3000,
@@ -635,53 +1263,102 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 100
+          "line": 100,
+          "recordId": "raw-53b1061f532818595faa2c9c3ec53f21147ed6b9249bdf45f5b3805a59253197-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 37,
+          "recordId": "raw-3e3c6dbcbb7f5540a8fc19f7a9c8305e9460a27c04ad25c6e32456171ccce578-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0187",
+      "id": "tx-d12f3638fcd5e3cd35f44db9",
       "date": "2026-09-05",
-      "kind": "expense",
-      "amount": 1004,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "フレスコ - フレスコミニ田中里ノ前店",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 101
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0188",
-      "date": "2026-09-05",
-      "kind": "pending",
-      "amount": 5,
+      "kind": "income",
+      "amount": 2,
       "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 102
+          "line": 98,
+          "recordId": "raw-5eb7bfe94f2bd5c6b1d18d1393808d0813872d23fd2817de82380015cafb976a-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0180",
+      "id": "tx-dd1c63843d3f5cd40f68589c",
+      "date": "2026-09-05",
+      "kind": "income",
+      "amount": 5,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 102,
+          "recordId": "raw-88a5a6f23de135486d3c632f73f43fc9ce00d149ea03fd8f3c99dd81c76112e4-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-e8b7dbf661cd9d42267b623b",
+      "date": "2026-09-05",
+      "kind": "expense",
+      "amount": 550,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "通信・サブスク",
+      "memo": "アーティスト・サイト",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 8,
+          "recordId": "raw-3f9d0e14f404b64cb6c2cf441e43772a3752a58145bf1aa3b14149cf9c2ee680-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null
+    },
+    {
+      "id": "tx-1635cf38768da74c53654d0f",
+      "date": "2026-09-06",
+      "kind": "income",
+      "amount": 1,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 95,
+          "recordId": "raw-8181a30174d6aba1a69eee5b843a080c05651ffd28e0b29e38489ad6ec4c2507-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-bee290453f82a1580b849d8f",
       "date": "2026-09-06",
       "kind": "pending",
       "amount": 120,
@@ -692,7 +1369,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 94
+          "line": 94,
+          "recordId": "raw-e43f9b1567860eee73281783d6ffa0af2f6c3f63c31e05e3c05f087d970d3b34-1"
         }
       ],
       "status": "未確認",
@@ -700,79 +1378,153 @@ window.LifeAccountingData = {
       "direction": "in"
     },
     {
-      "id": "tx-0181",
+      "id": "tx-c5afb3d3eb419bb5f21a37f5",
       "date": "2026-09-06",
-      "kind": "pending",
-      "amount": 1,
-      "account": "PayPayポイント",
+      "kind": "expense",
+      "amount": 1880,
+      "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "category": "食費",
+      "memo": "官兵衛｜加西SA上り",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 95
+          "line": 97,
+          "recordId": "raw-3e0d6d5e2d6c2602687a8038b9b5ebdbf4ec7da16b28c0bbb86627aa9a11a5fb-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1500,
+          "recordId": "raw-1a0c5ad089c4fa3750f1110345b1ed80381a552814a874910ed67cf094283b75-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "in"
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-06",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "",
+          "store": "官兵衛｜加西SA上り",
+          "amount": 1880,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1500,
+            "recordId": "raw-1a0c5ad089c4fa3750f1110345b1ed80381a552814a874910ed67cf094283b75-1"
+          },
+          "matchedTransactionId": "tx-c5afb3d3eb419bb5f21a37f5"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "官兵衛｜加西SA上り"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1880
+        }
+      ]
     },
     {
-      "id": "tx-0182",
+      "id": "tx-d7fc0461b26f2010a7fd1fcb",
       "date": "2026-09-06",
       "kind": "expense",
       "amount": 250,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "ゲストハウス繁盛校 - 里山食堂繁盛小",
+      "category": "食費",
+      "memo": "ゲストハウス繁盛校",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 96
+          "line": 96,
+          "recordId": "raw-4991c99a5008298ac63f1f0311e7795cabdd052451b9f330ba10846f7549ca28-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1501,
+          "recordId": "raw-32136bbbc2a53ed93abbc8ec2e8963e3055a2209d41540f232488efca877b84e-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
       "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-06",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "アイス",
+          "store": "ゲストハウス繁盛校",
+          "amount": 250,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1501,
+            "recordId": "raw-32136bbbc2a53ed93abbc8ec2e8963e3055a2209d41540f232488efca877b84e-1"
+          },
+          "matchedTransactionId": "tx-d7fc0461b26f2010a7fd1fcb"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ゲストハウス繁盛校"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 250
+        }
+      ]
     },
     {
-      "id": "tx-0183",
-      "date": "2026-09-06",
-      "kind": "pending",
-      "amount": 1880,
-      "account": "PayPay残高",
+      "id": "tx-b2d42368d233a04399bcb940",
+      "date": "2026-09-07",
+      "kind": "income",
+      "amount": 2,
+      "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 97
+          "line": 93,
+          "recordId": "raw-09c1c8eb01bd6c917854e5deedd38aa78fe4a654dc887a10fc9d3a85fb17c559-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "out"
+      "direction": "in"
     },
     {
-      "id": "tx-0178",
+      "id": "tx-c6c7c3a50dc265743b10f51c",
       "date": "2026-09-07",
       "kind": "expense",
       "amount": 446,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 河原町三条",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 92
+          "line": 92,
+          "recordId": "raw-e2d3880b630932cd7be759ef33f80157844238bcae271b688397ddd96cb1c2e8-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [
         {
           "account": "PayPayポイント",
@@ -787,66 +1539,7 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0179",
-      "date": "2026-09-07",
-      "kind": "pending",
-      "amount": 2,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 93
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0032",
-      "date": "2026-09-10",
-      "kind": "expense",
-      "amount": 476,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "食費",
-      "memo": "コレモ出町柳店",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 9
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0176",
-      "date": "2026-09-10",
-      "kind": "pending",
-      "amount": 1000,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 90
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0177",
+      "id": "tx-4d37ffe88f57f6ebbff5924e",
       "date": "2026-09-10",
       "kind": "transfer",
       "amount": 3000,
@@ -857,14 +1550,337 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 91
+          "line": 91,
+          "recordId": "raw-d1260ebb7e55e18d03cf98bdf43cda5e21f854f02bce635238ada401cff6b89d-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 36,
+          "recordId": "raw-2a40c6f89d3628a699e95e56842b4418c54577f42ff93e564a70885996a3fd42-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0013",
+      "id": "tx-4e6d58a2794ca1592aa3c2d8",
+      "date": "2026-09-10",
+      "kind": "expense",
+      "amount": 476,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "コレモ出町柳店",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 9,
+          "recordId": "raw-4b8b6eb8a5ae2384d199fd9265f44bb8b9d8131b0e0f0f617dc06c9ae5edf873-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1502,
+          "recordId": "raw-10edd9a1151e1f19a0374690369663a6430f1bac9c4f543ef81604b61e4c394e-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1503,
+          "recordId": "raw-09961fb22e4f3239a99cb8f518f8174731ba7b69f00c57a93420b3d8111ca0f3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1504,
+          "recordId": "raw-07099f8b951c4596e70112a1967acc9f19375ee06b3963f2b9b5a16f7e0e11d8-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1505,
+          "recordId": "raw-c079157c393c95263ef223ec95d38765386f46c9c5fb59b50da1f446e53121b8-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計一致。ユーザーが対応を確認。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "国産若鶏肩小肉",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 390,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1502,
+            "recordId": "raw-10edd9a1151e1f19a0374690369663a6430f1bac9c4f543ef81604b61e4c394e-1"
+          },
+          "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
+        },
+        {
+          "date": "2026-09-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "割引",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": -78,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1503,
+            "recordId": "raw-09961fb22e4f3239a99cb8f518f8174731ba7b69f00c57a93420b3d8111ca0f3-1"
+          },
+          "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
+        },
+        {
+          "date": "2026-09-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "山都産業焼きそば用野菜",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 129,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1504,
+            "recordId": "raw-07099f8b951c4596e70112a1967acc9f19375ee06b3963f2b9b5a16f7e0e11d8-1"
+          },
+          "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
+        },
+        {
+          "date": "2026-09-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 35,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1505,
+            "recordId": "raw-c079157c393c95263ef223ec95d38765386f46c9c5fb59b50da1f446e53121b8-1"
+          },
+          "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "同日・合計一致。ユーザーが対応を確認。",
+        "store": "スーパーフレスコ 出町柳店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 476
+        }
+      ]
+    },
+    {
+      "id": "tx-9a4c263e09f8b89538e5bc7b",
+      "date": "2026-09-10",
+      "kind": "expense",
+      "amount": 1000,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "深夜ラーメンB",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 90,
+          "recordId": "raw-c9e850c85fc0b6d36067876b06dc492a3e844f04d465e00cfebb4fe6fcead1c2-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1506,
+          "recordId": "raw-fce745464fc6645b25d159d274022cd00cf3bfbf4a7a736cc5164f93f71dbc4b-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-10",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "冷やし坦々麺",
+          "store": "深夜ラーメンB",
+          "amount": 1000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1506,
+            "recordId": "raw-fce745464fc6645b25d159d274022cd00cf3bfbf4a7a736cc5164f93f71dbc4b-1"
+          },
+          "matchedTransactionId": "tx-9a4c263e09f8b89538e5bc7b"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "深夜ラーメンB"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1000
+        }
+      ]
+    },
+    {
+      "id": "tx-18ece3e4cdf06a2b0ce605c6",
+      "date": "2026-09-12",
+      "kind": "expense",
+      "amount": 183,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "セブン-イレブン - 岡山下伊福西町",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 85,
+          "recordId": "raw-adfd6dbf22864c3d0c731cfdd55a7903a76ae29d3ebe943891702f31bae4e8aa-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1510,
+          "recordId": "raw-220f50b3014b091b9d53e565aaef4d9580a2dba284149df570de7ec405c1394b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1511,
+          "recordId": "raw-1a72ffaab56016baea4b582b9e18b34fe88b9ecbd62ae49be6bf74fbd57be9fc-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-12",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "アサヒカルピスコイメ600ml",
+          "store": "セブン-イレブン岡山下伊福西町店",
+          "amount": 170,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1510,
+            "recordId": "raw-220f50b3014b091b9d53e565aaef4d9580a2dba284149df570de7ec405c1394b-1"
+          },
+          "matchedTransactionId": "tx-18ece3e4cdf06a2b0ce605c6"
+        },
+        {
+          "date": "2026-09-12",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "セブン-イレブン岡山下伊福西町店",
+          "amount": 13,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1511,
+            "recordId": "raw-1a72ffaab56016baea4b582b9e18b34fe88b9ecbd62ae49be6bf74fbd57be9fc-1"
+          },
+          "matchedTransactionId": "tx-18ece3e4cdf06a2b0ce605c6"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "セブン-イレブン岡山下伊福西町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 183
+        }
+      ]
+    },
+    {
+      "id": "tx-1f72ee7e3a527b9564d8b314",
+      "date": "2026-09-12",
+      "kind": "income",
+      "amount": 2,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 89,
+          "recordId": "raw-b66886c661219bae292bb9e5340fe57735aa2740d96e5ac0eddf9e20dcdff70e-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-226aceec5692dec3d53f1617",
+      "date": "2026-09-12",
+      "kind": "expense",
+      "amount": 1600,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "麺や虎鉄 - 麺や虎鉄　京都拉麺小路店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 87,
+          "recordId": "raw-ecf5df92a96bfda6d55e6157e18cdcece2a580e9f75730049a4fb5fcdca42a48-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "refundOriginalStatus": null
+    },
+    {
+      "id": "tx-3b91d490428d8cc5381fd9a5",
+      "date": "2026-09-12",
+      "kind": "income",
+      "amount": 8,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 86,
+          "recordId": "raw-e25883433ba01b135f8e57599e93b72239a8dcd1c7454fcacf0f5e69fdfc0329-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-cf2d1d459d738678036c1320",
       "date": "2026-09-12",
       "kind": "transfer",
       "amount": 1000,
@@ -875,11 +1891,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-e6519a7d2e75670fdb71a3d6ac020b531a3e5904299d7a1a5d601c6f7aa7543a-1"
         },
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 47
+          "line": 47,
+          "recordId": "raw-d6d875a7b656782c551c10dbed736e280696369a8fc531f2d550501d189a644a-1"
         }
       ],
       "status": "確認済み",
@@ -887,77 +1905,34 @@ window.LifeAccountingData = {
       "billId": "Rakuten_Card-202610"
     },
     {
-      "id": "tx-0171",
-      "date": "2026-09-12",
-      "kind": "expense",
-      "amount": 183,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "セブン-イレブン - 岡山下伊福西町",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 85
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0172",
-      "date": "2026-09-12",
-      "kind": "pending",
-      "amount": 8,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 86
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0173",
-      "date": "2026-09-12",
-      "kind": "expense",
-      "amount": 1600,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "麺や虎鉄 - 麺や虎鉄　京都拉麺小路店",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 87
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0174",
+      "id": "tx-e7bbfdda34c8fa5d0a4c9a86",
       "date": "2026-09-12",
       "kind": "expense",
       "amount": 417,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 中西高野",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 88
+          "line": 88,
+          "recordId": "raw-810b0ab2b2da43fc0cdc319489b25a1acd9aa0cb3757aaecab00cc6a997fe5c4-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1507,
+          "recordId": "raw-8bc6768bbac3fca2e119d139655e3e9c2020b7172f189369dec54e41dc2fa1c9-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1508,
+          "recordId": "raw-d9d091077205926a928705ac1186742f91cfcc186260a16baa32f71146421606-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1509,
+          "recordId": "raw-9a41fff036f8ef049bfc69b76432e3f9dc5a9f921e250524fc65b2f017d036c9-1"
         }
       ],
       "status": "確認済み",
@@ -971,30 +1946,75 @@ window.LifeAccountingData = {
           "amount": 413
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0175",
-      "date": "2026-09-12",
-      "kind": "pending",
-      "amount": 2,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 89
+          "date": "2026-09-12",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "3種のミックスサンド",
+          "store": "ファミリーマート中西高野店",
+          "amount": 322,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1507,
+            "recordId": "raw-8bc6768bbac3fca2e119d139655e3e9c2020b7172f189369dec54e41dc2fa1c9-1"
+          },
+          "matchedTransactionId": "tx-e7bbfdda34c8fa5d0a4c9a86"
+        },
+        {
+          "date": "2026-09-12",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "野菜生活長野マスカット",
+          "store": "ファミリーマート中西高野店",
+          "amount": 145,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1508,
+            "recordId": "raw-d9d091077205926a928705ac1186742f91cfcc186260a16baa32f71146421606-1"
+          },
+          "matchedTransactionId": "tx-e7bbfdda34c8fa5d0a4c9a86"
+        },
+        {
+          "date": "2026-09-12",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "割引",
+          "store": "ファミリーマート中西高野店",
+          "amount": -50,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1509,
+            "recordId": "raw-9a41fff036f8ef049bfc69b76432e3f9dc5a9f921e250524fc65b2f017d036c9-1"
+          },
+          "matchedTransactionId": "tx-e7bbfdda34c8fa5d0a4c9a86"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート中西高野店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 417
+        }
+      ]
     },
     {
-      "id": "tx-0245",
+      "id": "tx-f2faf4eab1fc8b0e7c713a5f",
       "date": "2026-09-12",
       "kind": "expense",
       "amount": 230,
@@ -1005,7 +2025,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 46
+          "line": 46,
+          "recordId": "raw-5effa83689ab5b4ffd0ac9b935f82c01856a470d705f8ad411496590cd6d96bd-1"
         }
       ],
       "status": "確認済み",
@@ -1013,99 +2034,98 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0012",
+      "id": "tx-442a8114f53322ed5eeaf0d3",
       "date": "2026-09-13",
       "kind": "expense",
-      "amount": 693,
-      "account": "楽天カード未払金",
+      "amount": 230,
+      "account": "Suica",
       "to": "",
-      "category": "食費",
-      "memo": "ｲｽﾞﾐﾔ(ｼﾖｸﾋﾝ)",
+      "category": "交通費",
+      "memo": "路線バス",
       "sources": [
         {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 13
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 44,
+          "recordId": "raw-55c2c248e37b87ab2e450153d5e57407f58592fa19c52c8b49823b2892b0dc13-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Rakuten_Card-202610",
-      "refundOriginalStatus": null
+      "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0033",
+      "id": "tx-508b517e419dc1f1aaf02be0",
       "date": "2026-09-13",
-      "kind": "expense",
-      "amount": 1863,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "セブン－イレブン",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 10
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0166",
-      "date": "2026-09-13",
-      "kind": "pending",
-      "amount": 2,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "kind": "transfer",
+      "amount": 1000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 80
+          "line": 84,
+          "recordId": "raw-a4adb203a3f4527e77a8f97560b08e6e631ee9b1afc7881ac5d1057d3c7a92b3-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 35,
+          "recordId": "raw-f527b6ad22a47c90bf7cc372349e83e6d84e512dd7a2a8dcf8e2dd210c067887-1"
         }
       ],
-      "status": "未確認",
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-5454e293b1f9dba6b4a5e2df",
+      "date": "2026-09-13",
+      "kind": "income",
+      "amount": 2,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 83,
+          "recordId": "raw-05a672fe93ded4c7924eafe30b7643fd642198f79a69e45fce7429d47862d0c8-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0167",
-      "date": "2026-09-13",
-      "kind": "expense",
-      "amount": 573,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "セブン-イレブン - ハートインＪＲ岡山駅中央改札口",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 81
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0168",
+      "id": "tx-5e6dfec000de113a77a493c2",
       "date": "2026-09-13",
       "kind": "expense",
       "amount": 423,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "セブン-イレブン - ハートインＪＲ倉敷駅北口",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 82
+          "line": 82,
+          "recordId": "raw-8abb149968d8237662f721df0138167d1917b0b2484ebdb545be765995b97c5b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1512,
+          "recordId": "raw-711fcf6b3b02c4908cb1afc4d06b978df40caa10e795017dcce43e70ef84c355-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1513,
+          "recordId": "raw-cb8c0d16b15ff44774585846716f8518f0ffc5a74c8fadff54fb75527a660a66-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1514,
+          "recordId": "raw-68e0266622779dd9c76189161fd1a6c07d6d15af1cc612a5de76e85b54490366-1"
         }
       ],
       "status": "確認済み",
@@ -1119,67 +2139,343 @@ window.LifeAccountingData = {
           "amount": 417
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0169",
-      "date": "2026-09-13",
-      "kind": "pending",
-      "amount": 2,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 83
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "味付海苔ツナマヨネーズ",
+          "store": "セブンイレブンハートインJR倉敷駅北口店",
+          "amount": 182,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1512,
+            "recordId": "raw-711fcf6b3b02c4908cb1afc4d06b978df40caa10e795017dcce43e70ef84c355-1"
+          },
+          "matchedTransactionId": "tx-5e6dfec000de113a77a493c2"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "1日分のビタミンゼリーマスカット",
+          "store": "セブンイレブンハートインJR倉敷駅北口店",
+          "amount": 210,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1513,
+            "recordId": "raw-cb8c0d16b15ff44774585846716f8518f0ffc5a74c8fadff54fb75527a660a66-1"
+          },
+          "matchedTransactionId": "tx-5e6dfec000de113a77a493c2"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "セブンイレブンハートインJR倉敷駅北口店",
+          "amount": 31,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1514,
+            "recordId": "raw-68e0266622779dd9c76189161fd1a6c07d6d15af1cc612a5de76e85b54490366-1"
+          },
+          "matchedTransactionId": "tx-5e6dfec000de113a77a493c2"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0170",
-      "date": "2026-09-13",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "セブンイレブンハートインJR倉敷駅北口店"
+      },
+      "categoryAmounts": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 84
+          "category": "食費",
+          "amount": 423
         }
-      ],
-      "status": "確認済み",
-      "splits": []
+      ]
     },
     {
-      "id": "tx-0243",
+      "id": "tx-616e15e899068c334d236358",
       "date": "2026-09-13",
       "kind": "expense",
-      "amount": 230,
-      "account": "Suica",
+      "amount": 693,
+      "account": "楽天カード未払金",
       "to": "",
-      "category": "交通費",
-      "memo": "路線バス",
+      "category": "食費",
+      "memo": "ｲｽﾞﾐﾔ(ｼﾖｸﾋﾝ)",
       "sources": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 44
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 13,
+          "recordId": "raw-bde0da9ee9558e5fb0804275188026107dd2b3b56a0ad057037364bf42365598-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1522,
+          "recordId": "raw-d4cfda633838136400f8b0745304b2ffeccb61129efc00f1c431f1a6f2d89639-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1523,
+          "recordId": "raw-de6238f94879865f7563d6998e514a1caa25b870d458a882a8782a5408c35671-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1524,
+          "recordId": "raw-617a9608708ee8f016df7bcda9bae986dcb875080250886edc6ab69e6cd79715-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1525,
+          "recordId": "raw-fd98f2568224f13f7445df8bd1cd32900385b17c3c4989097b437f55d49043d9-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1526,
+          "recordId": "raw-adeaa125fb262af0a6a0a2106d8b12747a508e05b85bbd609a8adcd829882775-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1527,
+          "recordId": "raw-8705246dec3e16133551341821f8fd439fa99fc60180fffb205c3faeee4c80d3-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Rakuten_Card-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "パスタソースバジルソー",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 159,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1522,
+            "recordId": "raw-d4cfda633838136400f8b0745304b2ffeccb61129efc00f1c431f1a6f2d89639-1"
+          },
+          "matchedTransactionId": "tx-616e15e899068c334d236358"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "国産若どりもも肉",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 325,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1523,
+            "recordId": "raw-de6238f94879865f7563d6998e514a1caa25b870d458a882a8782a5408c35671-1"
+          },
+          "matchedTransactionId": "tx-616e15e899068c334d236358"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "おてつだいMIXキャベ",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 99,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1524,
+            "recordId": "raw-617a9608708ee8f016df7bcda9bae986dcb875080250886edc6ab69e6cd79715-1"
+          },
+          "matchedTransactionId": "tx-616e15e899068c334d236358"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "おてつだいMixピーマ",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 99,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1525,
+            "recordId": "raw-fd98f2568224f13f7445df8bd1cd32900385b17c3c4989097b437f55d49043d9-1"
+          },
+          "matchedTransactionId": "tx-616e15e899068c334d236358"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "割引",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": -40,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1526,
+            "recordId": "raw-adeaa125fb262af0a6a0a2106d8b12747a508e05b85bbd609a8adcd829882775-1"
+          },
+          "matchedTransactionId": "tx-616e15e899068c334d236358"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 51,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1527,
+            "recordId": "raw-8705246dec3e16133551341821f8fd439fa99fc60180fffb205c3faeee4c80d3-1"
+          },
+          "matchedTransactionId": "tx-616e15e899068c334d236358"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "デイリーカナートイズミヤ洛北阪急スクエア店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 693
+        }
+      ]
     },
     {
-      "id": "tx-0244",
+      "id": "tx-bdc88d754297fda941e33802",
+      "date": "2026-09-13",
+      "kind": "expense",
+      "amount": 1863,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "セブン－イレブン",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 10,
+          "recordId": "raw-222817eaba49e114d96b91ac14802dc7014de84a43b685d1e565f2d1bb77c16e-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1519,
+          "recordId": "raw-e8b804eba2a08b3075e3e821e7d3fabdefe7c6a36068aa18b43159afef4f0d3e-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1520,
+          "recordId": "raw-4d2ec9b822c428b680ffb01cab51822526956bd615ee23739a7805338fb79c52-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1521,
+          "recordId": "raw-857426eb3c170223a9ced0eb9b012ebc380888fe463fa8e3c73b350ee13334a7-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "瀬戸内れもんサブレ5入",
+          "store": "セブンイレブンおみやげ街道さんすて岡山店",
+          "amount": 675,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1519,
+            "recordId": "raw-e8b804eba2a08b3075e3e821e7d3fabdefe7c6a36068aa18b43159afef4f0d3e-1"
+          },
+          "matchedTransactionId": "tx-bdc88d754297fda941e33802"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "岡山マスカットぷちけーき",
+          "store": "セブンイレブンおみやげ街道さんすて岡山店",
+          "amount": 1050,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1520,
+            "recordId": "raw-4d2ec9b822c428b680ffb01cab51822526956bd615ee23739a7805338fb79c52-1"
+          },
+          "matchedTransactionId": "tx-bdc88d754297fda941e33802"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "セブンイレブンおみやげ街道さんすて岡山店",
+          "amount": 138,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1521,
+            "recordId": "raw-857426eb3c170223a9ced0eb9b012ebc380888fe463fa8e3c73b350ee13334a7-1"
+          },
+          "matchedTransactionId": "tx-bdc88d754297fda941e33802"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "セブンイレブンおみやげ街道さんすて岡山店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1863
+        }
+      ]
+    },
+    {
+      "id": "tx-ce443482c180cc913580f442",
       "date": "2026-09-13",
       "kind": "expense",
       "amount": 330,
@@ -1190,7 +2486,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 45
+          "line": 45,
+          "recordId": "raw-3a450bf3c40470ca83654cf46516b3b70b549f9f0729aaea5f1061089daee0b6-1"
         }
       ],
       "status": "確認済み",
@@ -1198,7 +2495,281 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0034",
+      "id": "tx-d85cdaf5d3a8d941b2b3176c",
+      "date": "2026-09-13",
+      "kind": "income",
+      "amount": 2,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 80,
+          "recordId": "raw-3edde5b4ac885b3659cf498cffd1cc9b71e6496eb9f91065fdaf55662bfa827d-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-e822381f3634848470439a71",
+      "date": "2026-09-13",
+      "kind": "expense",
+      "amount": 573,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "セブン-イレブン - ハートインＪＲ岡山駅中央改札口",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 81,
+          "recordId": "raw-11f8ccc9366fdc81b8123889e828846acdb3b172f745e4e2046ce8e2e1b68655-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1515,
+          "recordId": "raw-d4ee741f56fd427e1a4c57527c5ff72bddea824719eaeb3e12c191eccfc30c2c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1516,
+          "recordId": "raw-f227da99badf1a9e1dc62c8911abc07ab1d64c79d67660b81445379d828fedf1-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1517,
+          "recordId": "raw-3059ddf8d644c370bac1e34483bbb3f000314e7edaff3b20c828fe245d7c3a42-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1518,
+          "recordId": "raw-6ed4249ad4f082cd5e9adecde302b5db764927222309726ac4d4993c29dc54ab-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ハムとたまごのサンド",
+          "store": "セブン-イレブン ハートインJR岡山駅中央改札口店",
+          "amount": 330,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1515,
+            "recordId": "raw-d4ee741f56fd427e1a4c57527c5ff72bddea824719eaeb3e12c191eccfc30c2c-1"
+          },
+          "matchedTransactionId": "tx-e822381f3634848470439a71"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "手巻辛子明太子",
+          "store": "セブン-イレブン ハートインJR岡山駅中央改札口店",
+          "amount": 198,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1516,
+            "recordId": "raw-f227da99badf1a9e1dc62c8911abc07ab1d64c79d67660b81445379d828fedf1-1"
+          },
+          "matchedTransactionId": "tx-e822381f3634848470439a71"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "バイオ50レジ袋中1枚",
+          "store": "セブン-イレブン ハートインJR岡山駅中央改札口店",
+          "amount": 3,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1517,
+            "recordId": "raw-3059ddf8d644c370bac1e34483bbb3f000314e7edaff3b20c828fe245d7c3a42-1"
+          },
+          "matchedTransactionId": "tx-e822381f3634848470439a71"
+        },
+        {
+          "date": "2026-09-13",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "消費税等",
+          "store": "セブン-イレブン ハートインJR岡山駅中央改札口店",
+          "amount": 42,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1518,
+            "recordId": "raw-6ed4249ad4f082cd5e9adecde302b5db764927222309726ac4d4993c29dc54ab-1"
+          },
+          "matchedTransactionId": "tx-e822381f3634848470439a71"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "セブン-イレブン ハートインJR岡山駅中央改札口店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 573
+        }
+      ]
+    },
+    {
+      "id": "tx-0bb4b4b00d12cb6539d7037d",
+      "date": "2026-09-14",
+      "kind": "expense",
+      "amount": 1090,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "洛北阪急スクエア",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 12,
+          "recordId": "raw-c57ca21d3fb2fd31e5c98a234d35803894e0a2b1c66dcd0ef2216aa5d65831af-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1528,
+          "recordId": "raw-9d0b9ec37e87618daca1cfc694fbdbdfac9ecbc81a26dfb7b53c2cc98f137eee-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-14",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "濃厚魚介つけ汁",
+          "store": "丸亀製麺 洛北阪急スクエア",
+          "amount": 1090,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1528,
+            "recordId": "raw-9d0b9ec37e87618daca1cfc694fbdbdfac9ecbc81a26dfb7b53c2cc98f137eee-1"
+          },
+          "matchedTransactionId": "tx-0bb4b4b00d12cb6539d7037d"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "丸亀製麺 洛北阪急スクエア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1090
+        }
+      ]
+    },
+    {
+      "id": "tx-2b4c472af8c89456a168f77a",
+      "date": "2026-09-14",
+      "kind": "expense",
+      "amount": 5823,
+      "account": "楽天銀行",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "社員旅行 個別精算",
+      "sources": [
+        {
+          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
+          "line": 10,
+          "recordId": "raw-5b70ffdb410861cafdbf7d63744ef752770d442ac94a18f1a913e92f0127b281-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1531,
+          "recordId": "raw-f7a8c7524daa863dc1ed6a5dda507ac25cd675f8a31c53104895b0dda04aa828-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-14",
+          "category": "エンタメ",
+          "detail": "その他",
+          "item": "社員旅行 個別精算",
+          "store": "-",
+          "amount": 5823,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1531,
+            "recordId": "raw-f7a8c7524daa863dc1ed6a5dda507ac25cd675f8a31c53104895b0dda04aa828-1"
+          },
+          "matchedTransactionId": "tx-2b4c472af8c89456a168f77a"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "-"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 5823
+        }
+      ]
+    },
+    {
+      "id": "tx-3c9f8ab79114105f7f2ade47",
+      "date": "2026-09-14",
+      "kind": "expense",
+      "amount": 900,
+      "account": "三井住友銀行",
+      "to": "",
+      "category": "水道光熱費",
+      "memo": "電力料金",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 34,
+          "recordId": "raw-cdf81820e71ebdfc83ede7acd20e202cce6224cc72f2f7a7f38d44c75275007a-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "銀行摘要の電力会社名。"
+    },
+    {
+      "id": "tx-8d444cdda99b7ab93cd2703e",
       "date": "2026-09-14",
       "kind": "expense",
       "amount": 965,
@@ -1209,154 +2780,307 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-86816d1d2ee56901129c97de89a1ce1bfa47b37b6699c86f6e9ff662b2bd4d04-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1529,
+          "recordId": "raw-bea993d8e643cf7d5b8543492d95bfd9f52d4f8e396d095952144a987b0fae9b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1530,
+          "recordId": "raw-1bc7c0c6ff3806be57225dde39415dad5d97608d9068dc30631c9b0bb2a976a1-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202610",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-14",
+          "category": "日用雑貨",
+          "detail": "消耗品",
+          "item": "レノア超消臭スポーツ",
+          "store": "ココカラファインプラスイズミヤ洛北阪急スクエア店",
+          "amount": 1065,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1529,
+            "recordId": "raw-bea993d8e643cf7d5b8543492d95bfd9f52d4f8e396d095952144a987b0fae9b-1"
+          },
+          "matchedTransactionId": "tx-8d444cdda99b7ab93cd2703e"
+        },
+        {
+          "date": "2026-09-14",
+          "category": "日用雑貨",
+          "detail": "消耗品",
+          "item": "割引",
+          "store": "ココカラファインプラスイズミヤ洛北阪急スクエア店",
+          "amount": -100,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1530,
+            "recordId": "raw-1bc7c0c6ff3806be57225dde39415dad5d97608d9068dc30631c9b0bb2a976a1-1"
+          },
+          "matchedTransactionId": "tx-8d444cdda99b7ab93cd2703e"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ココカラファインプラスイズミヤ洛北阪急スクエア店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "日用雑貨",
+          "amount": 965
+        }
+      ]
     },
     {
-      "id": "tx-0035",
+      "id": "tx-ad61aeed7aa540f9f4e7da89",
       "date": "2026-09-14",
       "kind": "expense",
-      "amount": 1090,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "洛北阪急スクエア",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 12
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0062",
-      "date": "2026-09-14",
-      "kind": "pending",
-      "amount": 5823,
-      "account": "楽天銀行",
-      "to": "",
-      "category": "未分類",
-      "memo": "用途未確認の出金",
-      "sources": [
-        {
-          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 10
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0063",
-      "date": "2026-09-14",
-      "kind": "pending",
       "amount": 13188,
       "account": "楽天銀行",
       "to": "",
-      "category": "未分類",
-      "memo": "用途未確認の出金",
+      "category": "食費",
+      "memo": "AkaDeMiA打ち上げ 割り勘",
       "sources": [
         {
           "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 11
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0036",
-      "date": "2026-09-15",
-      "kind": "expense",
-      "amount": 4070,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "ラクテンペイ　モカキヨウトカワラマチテ",
-      "sources": [
+          "line": 11,
+          "recordId": "raw-65244a75b6920bbb517a1799a7aaaf2d78e4c241da42172cc91d27793c11da0f-1"
+        },
         {
-          "file": "Vpass/202610.csv",
-          "line": 13
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1532,
+          "recordId": "raw-5cc9c2a4959a08495dfe726ba19dfebe89ca18b0d25d785947e207bc3a6df8ec-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-14",
+          "category": "食費",
+          "detail": "その他",
+          "item": "AkaDeMiA打ち上げ 割り勘",
+          "store": "-",
+          "amount": 13188,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1532,
+            "recordId": "raw-5cc9c2a4959a08495dfe726ba19dfebe89ca18b0d25d785947e207bc3a6df8ec-1"
+          },
+          "matchedTransactionId": "tx-ad61aeed7aa540f9f4e7da89"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "-"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 13188
+        }
+      ]
     },
     {
-      "id": "tx-0163",
+      "id": "tx-5ba291ea84e49bc36431ffeb",
       "date": "2026-09-15",
       "kind": "expense",
       "amount": 524,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ローソン - 百万遍",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 77
+          "line": 77,
+          "recordId": "raw-3c18f434942522c2bc7874ba3ca4145ca95ba9555ff2c3e7cfc9384814838959-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1535,
+          "recordId": "raw-bcddc1dfe5b29ec39068ab0a26873f21a18282b6df0cd0cda4934497550d96f3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1536,
+          "recordId": "raw-a62bd5997da5ad2e094f1837136da83e53c24f0c99525e6e2e7a56cb081bec37-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-15",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "手巻シーチキンマヨネーズ",
+          "store": "ローソン百万遍店",
+          "amount": 181,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1535,
+            "recordId": "raw-bcddc1dfe5b29ec39068ab0a26873f21a18282b6df0cd0cda4934497550d96f3-1"
+          },
+          "matchedTransactionId": "tx-5ba291ea84e49bc36431ffeb"
+        },
+        {
+          "date": "2026-09-15",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ミックスサンド",
+          "store": "ローソン百万遍店",
+          "amount": 343,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1536,
+            "recordId": "raw-a62bd5997da5ad2e094f1837136da83e53c24f0c99525e6e2e7a56cb081bec37-1"
+          },
+          "matchedTransactionId": "tx-5ba291ea84e49bc36431ffeb"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ローソン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 524
+        }
+      ]
     },
     {
-      "id": "tx-0164",
+      "id": "tx-66a4ac77a8097158afd0b052",
       "date": "2026-09-15",
-      "kind": "pending",
+      "kind": "expense",
+      "amount": 4070,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "ラクテンペイ　モカキヨウトカワラマチテ",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 13,
+          "recordId": "raw-310f797eb0f8a865cf18ead2311e8325c3ccf6e89163d7566a5ea003098d0678-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1533,
+          "recordId": "raw-fee04b64f0e3130899db9391bcd262cb024669bb6efa2e409a5d075e6826f69a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1534,
+          "recordId": "raw-20e349a1d28874df4c1b2b01dc5755af8b82aa20de333a4192d9f50f1fd9f483-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-15",
+          "category": "エンタメ",
+          "detail": "イベント",
+          "item": "利用料金(最大料金)1名",
+          "store": "猫カフェMOCHA（モカ）京都河原町店",
+          "amount": 3520,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1533,
+            "recordId": "raw-fee04b64f0e3130899db9391bcd262cb024669bb6efa2e409a5d075e6826f69a-1"
+          },
+          "matchedTransactionId": "tx-66a4ac77a8097158afd0b052"
+        },
+        {
+          "date": "2026-09-15",
+          "category": "エンタメ",
+          "detail": "イベント",
+          "item": "おやつ",
+          "store": "猫カフェMOCHA（モカ）京都河原町店",
+          "amount": 550,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1534,
+            "recordId": "raw-20e349a1d28874df4c1b2b01dc5755af8b82aa20de333a4192d9f50f1fd9f483-1"
+          },
+          "matchedTransactionId": "tx-66a4ac77a8097158afd0b052"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "猫カフェMOCHA（モカ）京都河原町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 4070
+        }
+      ]
+    },
+    {
+      "id": "tx-bdb78a4202c8b8eb3b24b4f3",
+      "date": "2026-09-15",
+      "kind": "income",
       "amount": 2,
       "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 78
+          "line": 78,
+          "recordId": "raw-d277a3dcab5f194d5ba28fded1372e38bdeb3efe4f7985915d1cc3fbc08e8a2f-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0165",
-      "date": "2026-09-15",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 79
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0242",
+      "id": "tx-e6ece4cc92a8d669b554d342",
       "date": "2026-09-15",
       "kind": "expense",
       "amount": 230,
@@ -1367,7 +3091,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 43
+          "line": 43,
+          "recordId": "raw-c63f8712d319fb31982f323cd1c5acc02b7bca9aeef930e3be90c9d8b977a940-1"
         }
       ],
       "status": "確認済み",
@@ -1375,167 +3100,164 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0037",
+      "id": "tx-e91b3a918940acd7c8269997",
+      "date": "2026-09-15",
+      "kind": "transfer",
+      "amount": 1000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 79,
+          "recordId": "raw-df3bd8210f5098ff8ed69aba1a7da37b0d207af11f581587a32d78b93ae3b9ed-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 33,
+          "recordId": "raw-a6e4e11f7f1cf30ba6be3ee0e55b59b96a5106f04c4279271431d9b2546a5f61-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-43f8c546223ad66e3904fa71",
       "date": "2026-09-16",
       "kind": "expense",
       "amount": 990,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "洛北阪急スクエア",
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-9da589247480522ce5860e4b8c84f446503ff0c9c29bc8d355c888ef4320e33c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1538,
+          "recordId": "raw-16d397e7630bdbad00edd46ad84eb483152e81d9ecaf04b28c3b2b6cbf639cc0-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
       "billId": "Vpass-202610",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-16",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "豚つけ汁うどん",
+          "store": "丸亀製麺 洛北阪急スクエア",
+          "amount": 990,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1538,
+            "recordId": "raw-16d397e7630bdbad00edd46ad84eb483152e81d9ecaf04b28c3b2b6cbf639cc0-1"
+          },
+          "matchedTransactionId": "tx-43f8c546223ad66e3904fa71"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "丸亀製麺 洛北阪急スクエア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 990
+        }
+      ]
     },
     {
-      "id": "tx-0161",
+      "id": "tx-c148cc9253533f9b1c4680e0",
       "date": "2026-09-16",
       "kind": "expense",
       "amount": 291,
       "account": "PayPay残高",
       "to": "",
-      "category": "日用雑貨",
+      "category": "食費",
       "memo": "富士薬品グループ - ドラッグユタカ百万遍店",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 75
+          "line": 75,
+          "recordId": "raw-b44cd1537865fa74c893ffd397faf08b1b95bb1a0db478075edf39f2f10ad82d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1537,
+          "recordId": "raw-7e98fb6355df41dd08195daeb6ace32acbeae61f3ea2c799ffc3ca816196cb4e-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-16",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "マ・マー特盛リスパゲテイナポリタン",
+          "store": "ドラッグユタカ 百万遍店",
+          "amount": 291,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1537,
+            "recordId": "raw-7e98fb6355df41dd08195daeb6ace32acbeae61f3ea2c799ffc3ca816196cb4e-1"
+          },
+          "matchedTransactionId": "tx-c148cc9253533f9b1c4680e0"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ドラッグユタカ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 291
+        }
+      ]
     },
     {
-      "id": "tx-0162",
+      "id": "tx-f8d06ace9c1b9e5d95c23207",
       "date": "2026-09-16",
-      "kind": "pending",
+      "kind": "income",
       "amount": 1,
       "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 76
+          "line": 76,
+          "recordId": "raw-1abb74694b7bea831f3cbc7f0e01be74c261e7dd9f3d2d7eef08f12f60fe1048-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0038",
-      "date": "2026-09-17",
-      "kind": "expense",
-      "amount": 1090,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "洛北阪急スクエア",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 15
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0039",
-      "date": "2026-09-17",
-      "kind": "expense",
-      "amount": 29740,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "京都大学生協　時計台旅行センタ－",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 16
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0157",
-      "date": "2026-09-17",
-      "kind": "expense",
-      "amount": 268,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "ファミリーマート - 中西高野",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 71
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0158",
-      "date": "2026-09-17",
-      "kind": "pending",
-      "amount": 1,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 72
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0159",
-      "date": "2026-09-17",
-      "kind": "pending",
-      "amount": 2000,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 73
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0160",
+      "id": "tx-00f035f9433617d4a871651c",
       "date": "2026-09-17",
       "kind": "transfer",
       "amount": 2000,
@@ -1546,14 +3268,361 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 74
+          "line": 74,
+          "recordId": "raw-3a56156580dce65b9e346b1648ae48112f5b3147f9d0a9f5a0a3054abcb6db9a-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 32,
+          "recordId": "raw-31cf4336f0e699c32e510da5b90995e59fa7fc2cdd2a2bc1698ac96b21836d7b-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0040",
+      "id": "tx-1fc5426d9309c770df1c13e1",
+      "date": "2026-09-17",
+      "kind": "expense",
+      "amount": 1090,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "丸亀製麺 洛北阪急スクエア",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 15,
+          "recordId": "raw-d6bb4a8f864ddf1be68f555e8f6fda6b6ad21cf7bbdab66443f49e077fec127c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1541,
+          "recordId": "raw-df82d4675398eaa3d787acf96c5cbf6c47c75ed7f0b8e98fcd1e991e9632e856-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-17",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "濃厚魚介つけ汁",
+          "store": "丸亀製麺 洛北阪急スクエア",
+          "amount": 1090,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1541,
+            "recordId": "raw-df82d4675398eaa3d787acf96c5cbf6c47c75ed7f0b8e98fcd1e991e9632e856-1"
+          },
+          "matchedTransactionId": "tx-1fc5426d9309c770df1c13e1"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "丸亀製麺 洛北阪急スクエア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1090
+        }
+      ]
+    },
+    {
+      "id": "tx-3c2203b562ae80804a86a653",
+      "date": "2026-09-17",
+      "kind": "expense",
+      "amount": 2000,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "砂浜ダッシュ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 73,
+          "recordId": "raw-13fee8f897a43c67fe274ede8b8e263688c0b9c204130a9a48c5c545ef6f3787-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1542,
+          "recordId": "raw-8fa5de59f540ac9b7d5c257323df35e492116c2bb20e602ee72bd7ece20150e6-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-17",
+          "category": "エンタメ",
+          "detail": "その他",
+          "item": "砂浜ダッシュ",
+          "store": "-",
+          "amount": 2000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1542,
+            "recordId": "raw-8fa5de59f540ac9b7d5c257323df35e492116c2bb20e602ee72bd7ece20150e6-1"
+          },
+          "matchedTransactionId": "tx-3c2203b562ae80804a86a653"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "-"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 2000
+        }
+      ]
+    },
+    {
+      "id": "tx-4637236dc439488443890daf",
+      "date": "2026-09-17",
+      "kind": "expense",
+      "amount": 29740,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "交通",
+      "memo": "京大生協 キャリア・トラベル",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 16,
+          "recordId": "raw-de688b6575bd4f06d26ec715f2bf7cfd6a2399385df2ec3fa8898b1929e05742-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1540,
+          "recordId": "raw-dc60e2f5ebbdca43def4a8f39ced394a3dd919d4015e6e93d822b4462c22bb43-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-17",
+          "category": "交通",
+          "detail": "電車",
+          "item": "3701 JR",
+          "store": "京大生協 キャリア・トラベル",
+          "amount": 29740,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1540,
+            "recordId": "raw-dc60e2f5ebbdca43def4a8f39ced394a3dd919d4015e6e93d822b4462c22bb43-1"
+          },
+          "matchedTransactionId": "tx-4637236dc439488443890daf"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "京大生協 キャリア・トラベル"
+      },
+      "categoryAmounts": [
+        {
+          "category": "交通",
+          "amount": 29740
+        }
+      ]
+    },
+    {
+      "id": "tx-479ada85f637dac67fbb5c67",
+      "date": "2026-09-17",
+      "kind": "income",
+      "amount": 1,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 72,
+          "recordId": "raw-81ec70b631cf09736569b6200c71567eaf5d29aa8bffe3bf76f2b23b16abb05a-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-cf09c4173b75193aed526e93",
+      "date": "2026-09-17",
+      "kind": "expense",
+      "amount": 268,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ファミリーマート - 中西高野",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 71,
+          "recordId": "raw-0597383e0f2ccb775229c091c7a492f15a22d1f2f6cc59153d86669cbbac1b6d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1539,
+          "recordId": "raw-d9a8515fdfbbf72bb88e4a27f5bc1a6231594e3f0f4ee730d567033532514f29-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-17",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "グリルチキンBP",
+          "store": "ファミリーマート中西高野店",
+          "amount": 268,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1539,
+            "recordId": "raw-d9a8515fdfbbf72bb88e4a27f5bc1a6231594e3f0f4ee730d567033532514f29-1"
+          },
+          "matchedTransactionId": "tx-cf09c4173b75193aed526e93"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート中西高野店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 268
+        }
+      ]
+    },
+    {
+      "id": "tx-eddee4dc1ec791f9b87469fb",
+      "date": "2026-09-17",
+      "kind": "pending",
+      "amount": 30000,
+      "account": "三井住友銀行",
+      "to": "",
+      "category": "未分類",
+      "memo": "用途未確認の入金",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 31,
+          "recordId": "raw-e68bb268ffe2aa27d7d972ce2ffac9d62eb81432b82d9709a028df66f2475a11-1"
+        }
+      ],
+      "status": "未確認",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-2994a6435af92dd92e987fbb",
+      "date": "2026-09-18",
+      "kind": "expense",
+      "amount": 181,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ローソン - 百万遍",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 70,
+          "recordId": "raw-35c588784eaf667b6155d6f5bce63c417ba636096245818c2424dfc111a81634-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1543,
+          "recordId": "raw-5becbedfd9de38d66138d25ae137516765a057160509ec06c187ceff3ceaf17c-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-18",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "手巻シーチキンマヨネーズ",
+          "store": "ローソン百万遍店",
+          "amount": 181,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1543,
+            "recordId": "raw-5becbedfd9de38d66138d25ae137516765a057160509ec06c187ceff3ceaf17c-1"
+          },
+          "matchedTransactionId": "tx-2994a6435af92dd92e987fbb"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ローソン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 181
+        }
+      ]
+    },
+    {
+      "id": "tx-5d05868e96bb8938002f0abf",
+      "date": "2026-09-18",
+      "kind": "expense",
+      "amount": 2094,
+      "account": "三井住友銀行",
+      "to": "",
+      "category": "水道光熱費",
+      "memo": "電力料金",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 30,
+          "recordId": "raw-204b32d838c4484a5a2b603ce2025f7df12dfd789245ae6691dc1f738885e5e8-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "銀行摘要の電力会社名。"
+    },
+    {
+      "id": "tx-7fa8bcd322206865c10cf20d",
       "date": "2026-09-18",
       "kind": "expense",
       "amount": 10565,
@@ -1564,7 +3633,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 17
+          "line": 17,
+          "recordId": "raw-7de917b30b10f3ca355741766afa8b0d764a0c52cc56af79ab67392638fa89dc-1"
         }
       ],
       "status": "確認済み",
@@ -1574,7 +3644,7 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0041",
+      "id": "tx-b9519f0ffd57c5b161b83816",
       "date": "2026-09-18",
       "kind": "expense",
       "amount": 110,
@@ -1585,102 +3655,97 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 18
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0156",
-      "date": "2026-09-18",
-      "kind": "expense",
-      "amount": 181,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "ローソン - 百万遍",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 70
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0011",
-      "date": "2026-09-19",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 12
+          "line": 18,
+          "recordId": "raw-c987cefa0cd5e6d18531bc0f6c743db3422bdd7fe8a3c8d31b8c2c6775b40ca9-1"
         },
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 42
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
-    },
-    {
-      "id": "tx-0042",
-      "date": "2026-09-19",
-      "kind": "expense",
-      "amount": 470,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "食費",
-      "memo": "マクドナルド",
-      "sources": [
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1544,
+          "recordId": "raw-59763ffe885de4ee371c22cadbbbde1c0d6958293267a204f6b1b153ca46453b-1"
+        },
         {
-          "file": "Vpass/202610.csv",
-          "line": 19
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0043",
-      "date": "2026-09-19",
-      "kind": "expense",
-      "amount": 2900,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "通信・サブスク",
-      "memo": "ＧＯＯＧＬＥ　Ｇ１ＡＩ１０１Ｍ",
-      "sources": [
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1545,
+          "recordId": "raw-cbc860b435673aaecd14d30191d6175f097a865957f3709a19874667b8c87134-1"
+        },
         {
-          "file": "Vpass/202610.csv",
-          "line": 20
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1546,
+          "recordId": "raw-4b42005ac11d4bbeed5191886c4d8bbea9f338aa64f762ce533780f65998617a-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202610",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-18",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "親子丼",
+          "store": "なか卯 一乗寺店",
+          "amount": 450,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1544,
+            "recordId": "raw-59763ffe885de4ee371c22cadbbbde1c0d6958293267a204f6b1b153ca46453b-1"
+          },
+          "matchedTransactionId": "tx-b9519f0ffd57c5b161b83816"
+        },
+        {
+          "date": "2026-09-18",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "深夜料金",
+          "store": "なか卯 一乗寺店",
+          "amount": 30,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1545,
+            "recordId": "raw-cbc860b435673aaecd14d30191d6175f097a865957f3709a19874667b8c87134-1"
+          },
+          "matchedTransactionId": "tx-b9519f0ffd57c5b161b83816"
+        },
+        {
+          "date": "2026-09-18",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "楽天ポイント",
+          "store": "なか卯 一乗寺店",
+          "amount": -370,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1546,
+            "recordId": "raw-4b42005ac11d4bbeed5191886c4d8bbea9f338aa64f762ce533780f65998617a-1"
+          },
+          "matchedTransactionId": "tx-b9519f0ffd57c5b161b83816"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "なか卯 一乗寺店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 110
+        }
+      ]
     },
     {
-      "id": "tx-0239",
+      "id": "tx-730b20b2e5b601cdfd233b44",
       "date": "2026-09-19",
       "kind": "expense",
       "amount": 300,
@@ -1691,7 +3756,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 40
+          "line": 40,
+          "recordId": "raw-48bc50642209b505ef0a2a470b6cf9d24735aa9e3a2f8e5e8aa732dab009ae31-1"
         }
       ],
       "status": "確認済み",
@@ -1699,7 +3765,7 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0240",
+      "id": "tx-b5df610b2c6eda6f73c346dc",
       "date": "2026-09-19",
       "kind": "expense",
       "amount": 230,
@@ -1710,7 +3776,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 41
+          "line": 41,
+          "recordId": "raw-d2af1ef9f39e42190a99b984171c194931b7a8b91f3af480cf1c32f9d6cad4b2-1"
         }
       ],
       "status": "確認済み",
@@ -1718,8 +3785,65 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0007",
-      "date": "2026-09-20",
+      "id": "tx-b7d2bce9fbaa5a186afb9b1e",
+      "date": "2026-09-19",
+      "kind": "expense",
+      "amount": 470,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "マクドナルド",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 19,
+          "recordId": "raw-051398a1a2ab6e41c2573722e7f6460005af5a9065f1930154481a25efa436fa-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1547,
+          "recordId": "raw-5ea4c9a90a710481d9a939424e224df004c4a41ff984b6837010862572df1aec-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-19",
+          "category": "食費",
+          "detail": "朝ご飯",
+          "item": "ツキミマフィン",
+          "store": "マクドナルド JR京都駅八条口店",
+          "amount": 470,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1547,
+            "recordId": "raw-5ea4c9a90a710481d9a939424e224df004c4a41ff984b6837010862572df1aec-1"
+          },
+          "matchedTransactionId": "tx-b7d2bce9fbaa5a186afb9b1e"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "マクドナルド JR京都駅八条口店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 470
+        }
+      ]
+    },
+    {
+      "id": "tx-de2da62b61dc8a49cba61f97",
+      "date": "2026-09-19",
       "kind": "transfer",
       "amount": 1000,
       "account": "楽天カード未払金",
@@ -1729,49 +3853,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 8
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
-    },
-    {
-      "id": "tx-0008",
-      "date": "2026-09-20",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 9
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
-    },
-    {
-      "id": "tx-0009",
-      "date": "2026-09-20",
-      "kind": "transfer",
-      "amount": 2000,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 10
+          "line": 12,
+          "recordId": "raw-9b5d9c5f901aceb0b8c6654367eb786b111f9ceefccf6f2e9cb7f1230d55a875-1"
         },
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 34
+          "line": 42,
+          "recordId": "raw-d15c0674697f413cb815efdc3eab86cc08078e636591d08c12ecafc2b003dffe-1"
         }
       ],
       "status": "確認済み",
@@ -1779,106 +3867,29 @@ window.LifeAccountingData = {
       "billId": "Rakuten_Card-202610"
     },
     {
-      "id": "tx-0010",
-      "date": "2026-09-20",
+      "id": "tx-e68ed970874f02cdab79a65f",
+      "date": "2026-09-19",
       "kind": "expense",
-      "amount": 13000,
-      "account": "楽天カード未払金",
+      "amount": 2900,
+      "account": "三井住友カード未払金",
       "to": "",
-      "category": "食費",
-      "memo": "ﾀｲｼｭｳﾋﾞｽﾄﾛﾊﾞﾝｹｯﾄ*",
+      "category": "通信・サブスク",
+      "memo": "ＧＯＯＧＬＥ　Ｇ１ＡＩ１０１Ｍ",
       "sources": [
         {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 11
+          "file": "Vpass/202610.csv",
+          "line": 20,
+          "recordId": "raw-f8f635bad5fc5a095ba98ef27c3ec27438699dc43a9ee3468693109059978e4e-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
       "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Rakuten_Card-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0044",
-      "date": "2026-09-20",
-      "kind": "expense",
-      "amount": 2000,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "Ａｎｃｈｏｒ１８８９",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 21
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
       "billId": "Vpass-202610",
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0231",
-      "date": "2026-09-20",
-      "kind": "expense",
-      "amount": 300,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "FC天神 → FC姪浜",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 32
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0232",
-      "date": "2026-09-20",
-      "kind": "expense",
-      "amount": 1510,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "JK小倉 → JK博多",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 33
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0234",
-      "date": "2026-09-20",
-      "kind": "expense",
-      "amount": 340,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "JK門司港 → JK小倉",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 35
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0235",
+      "id": "tx-15a355da987f502a072b68b8",
       "date": "2026-09-20",
       "kind": "expense",
       "amount": 1730,
@@ -1889,7 +3900,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 36
+          "line": 36,
+          "recordId": "raw-1aec1437da48261fe82c43a69eab629b40dbc25eec456e119829849c2afa0d2d-1"
         }
       ],
       "status": "確認済み",
@@ -1897,55 +3909,153 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0236",
+      "id": "tx-2420cfda5f912dfa3c5217ec",
       "date": "2026-09-20",
-      "kind": "pending",
-      "amount": 1000,
+      "kind": "transfer",
+      "amount": 2000,
+      "account": "楽天カード未払金",
+      "to": "Suica",
+      "category": "振替",
+      "memo": "Suicaチャージ",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 10,
+          "recordId": "raw-85c0aa8ce8c37bf41b0c6e6bb207d81da3b10813013cb95bd22f04d5a2f979ff-1"
+        },
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 34,
+          "recordId": "raw-66aa76ffafcdefd9d47b80516c922fea0c25deb52a635d14c0b462e81726cd1c-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "billId": "Rakuten_Card-202610"
+    },
+    {
+      "id": "tx-574dee2313ce5b641d2b5cfa",
+      "date": "2026-09-20",
+      "kind": "expense",
+      "amount": 300,
       "account": "Suica",
       "to": "",
-      "category": "未分類",
-      "memo": "Suica入金の重複候補（カード明細との対応保留・集計除外）",
+      "category": "交通費",
+      "memo": "FC天神 → FC姪浜",
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 37
+          "line": 32,
+          "recordId": "raw-00018da40dd2659c9a6ea4d7f2100babae529824fd4cf1dc741dcb22021ddf83-1"
         }
       ],
-      "status": "重複候補・集計除外",
+      "status": "確認済み",
       "splits": [],
-      "direction": "in",
-      "duplicateCandidateIds": [
-        "tx-0007",
-        "tx-0008"
-      ],
-      "excludeFromBalances": true
+      "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0237",
+      "id": "tx-63f2a212ec9e972331e0b8b0",
       "date": "2026-09-20",
-      "kind": "pending",
-      "amount": 1000,
-      "account": "Suica",
+      "kind": "expense",
+      "amount": 13000,
+      "account": "楽天カード未払金",
       "to": "",
-      "category": "未分類",
-      "memo": "Suica入金の重複候補（カード明細との対応保留・集計除外）",
+      "category": "食費",
+      "memo": "ビストロ バンケット",
       "sources": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 38
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 11,
+          "recordId": "raw-8768f6bedd7edde36a42a7d3a9968aee754f08aba378752382c44848247918a6-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1548,
+          "recordId": "raw-10fcb2d5065955ffc40acbeaadaf7c8c6e341901f7a2e8ecd4605cb96ab84176-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1549,
+          "recordId": "raw-997566aa4e1d2026f8bd6924daa0d51b40884763faea0c51ea87f0fe2e61ec85-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1550,
+          "recordId": "raw-ddf5c1360e9e1d984eac18ecb6f4fa1805ec42de839c0655d49da68a737bf37e-1"
         }
       ],
-      "status": "重複候補・集計除外",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "in",
-      "duplicateCandidateIds": [
-        "tx-0007",
-        "tx-0008"
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Rakuten_Card-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-20",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "黒毛和牛がメインのコース",
+          "store": "ビストロ バンケット",
+          "amount": 11600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1548,
+            "recordId": "raw-10fcb2d5065955ffc40acbeaadaf7c8c6e341901f7a2e8ecd4605cb96ab84176-1"
+          },
+          "matchedTransactionId": "tx-63f2a212ec9e972331e0b8b0"
+        },
+        {
+          "date": "2026-09-20",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "アルコール)柚子ジンジヤーサワー",
+          "store": "ビストロ バンケット",
+          "amount": 880,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1549,
+            "recordId": "raw-997566aa4e1d2026f8bd6924daa0d51b40884763faea0c51ea87f0fe2e61ec85-1"
+          },
+          "matchedTransactionId": "tx-63f2a212ec9e972331e0b8b0"
+        },
+        {
+          "date": "2026-09-20",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ジンジャーエール",
+          "store": "ビストロ バンケット",
+          "amount": 520,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1550,
+            "recordId": "raw-ddf5c1360e9e1d984eac18ecb6f4fa1805ec42de839c0655d49da68a737bf37e-1"
+          },
+          "matchedTransactionId": "tx-63f2a212ec9e972331e0b8b0"
+        }
       ],
-      "excludeFromBalances": true
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ビストロ バンケット"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 13000
+        }
+      ]
     },
     {
-      "id": "tx-0238",
+      "id": "tx-b04d04b8816d02cb295d34b1",
       "date": "2026-09-20",
       "kind": "expense",
       "amount": 300,
@@ -1956,7 +4066,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 39
+          "line": 39,
+          "recordId": "raw-aebaee3a082f8ac38359dd343b4adea4b3a9f6117e80103991e43f1efbee1ba5-1"
         }
       ],
       "status": "確認済み",
@@ -1964,7 +4075,139 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0064",
+      "id": "tx-b9e6f3786d3490ad0b5df3a3",
+      "date": "2026-09-20",
+      "kind": "transfer",
+      "amount": 2000,
+      "account": "楽天カード未払金",
+      "to": "Suica",
+      "category": "振替",
+      "memo": "チャージ2回分（双方の明細を対応付け）",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 8,
+          "recordId": "raw-7ef2dceb1a05330a192535f7b8783ad60a2453beba4d993ed1bed197e68844c7-1"
+        },
+        {
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 9,
+          "recordId": "raw-7ef2dceb1a05330a192535f7b8783ad60a2453beba4d993ed1bed197e68844c7-2"
+        },
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 37,
+          "recordId": "raw-84af206c4b805394957638d4e50cd7ae83c331cf10dd0f42cc5f7cae2025efa9-1"
+        },
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 38,
+          "recordId": "raw-9e8296cd17aa6cbf9f9b477d051b7cec7b5d96a4f2976b4f7730d03b75250755-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "billId": "Rakuten_Card-202610"
+    },
+    {
+      "id": "tx-ba97d0259016d3018289ce39",
+      "date": "2026-09-20",
+      "kind": "expense",
+      "amount": 1510,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "JK小倉 → JK博多",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 33,
+          "recordId": "raw-8b0c48b1f36c99c074142ce096edeb6f9074a58d00a81ed799178da8298dd52d-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-e261f09bc74b5d312e1289b5",
+      "date": "2026-09-20",
+      "kind": "expense",
+      "amount": 340,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "JK門司港 → JK小倉",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 35,
+          "recordId": "raw-ad035eb78daa67b1b369ce8bebfcf2a2c5fac69821b4a876358397a813d2cf35-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-e803eed9c275274a4b22c95d",
+      "date": "2026-09-20",
+      "kind": "expense",
+      "amount": 2000,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "Anchor1889～ペットと一緒に過ごせるカフェ～",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 21,
+          "recordId": "raw-936168e67f95b5034654be6de7ad2f64aed9df4dcdccf7b9c13a659297ca215d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1551,
+          "recordId": "raw-aa31f0709a4ebbead4aec8ab4699e90bbbe649b99a7892d87333441d51133c2c-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-20",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "",
+          "store": "Anchor1889～ペットと一緒に過ごせるカフェ～",
+          "amount": 2000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1551,
+            "recordId": "raw-aa31f0709a4ebbead4aec8ab4699e90bbbe649b99a7892d87333441d51133c2c-1"
+          },
+          "matchedTransactionId": "tx-e803eed9c275274a4b22c95d"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "Anchor1889～ペットと一緒に過ごせるカフェ～"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 2000
+        }
+      ]
+    },
+    {
+      "id": "tx-96fe58c426b8cf8bdd431c32",
       "date": "2026-09-21",
       "kind": "income",
       "amount": 9,
@@ -1975,14 +4218,35 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-d33ceb00eba23c29661ec8373f7f9d3aaab3a4c0d391242a4e0e14615627dda7-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0006",
+      "id": "tx-3e2d14f7f4517fbe353e14a5",
+      "date": "2026-09-24",
+      "kind": "expense",
+      "amount": 300,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "FC姪浜 → FC博多",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 29,
+          "recordId": "raw-ed475e85e9a918d37be33b46295db1d82b1c7ffbd56deb8f6e765a56e3f04b2a-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-6048c797428c2bbb809e3d83",
       "date": "2026-09-24",
       "kind": "transfer",
       "amount": 1000,
@@ -1993,11 +4257,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-969b1cbeea30221acf8f45d9b53b32ad42b50fed481bf684224267dc3cb49bf8-1"
         },
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 30
+          "line": 30,
+          "recordId": "raw-2009362deb36b3d3345e390109bf02249335bfdf193bb43a8f39743f78cfe1fd-1"
         }
       ],
       "status": "確認済み",
@@ -2005,37 +4271,29 @@ window.LifeAccountingData = {
       "billId": "Rakuten_Card-202610"
     },
     {
-      "id": "tx-0153",
-      "date": "2026-09-24",
-      "kind": "pending",
-      "amount": 200,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 67
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0154",
+      "id": "tx-62e2788c0dafe331324cc653",
       "date": "2026-09-24",
       "kind": "expense",
       "amount": 149,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - ＪＲ博多駅",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 68
+          "line": 68,
+          "recordId": "raw-3b3e0971a29191cd23b573204c1323f5b5b46fce776b9e57e545064e1ae6fd82-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1552,
+          "recordId": "raw-9deed9b70c707b1c19e687da869fbe89e6918416e87a7c9c122c607452e048bb-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1553,
+          "recordId": "raw-52a613c9b204e6e14b1e60a2fde628c85cc690ffe607c2a4556913a78429c206-1"
         }
       ],
       "status": "確認済み",
@@ -2049,11 +4307,78 @@ window.LifeAccountingData = {
           "amount": 138
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-24",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "健康ミネラルむぎ茶",
+          "store": "ファミリーマート　ＪＲ博多駅店",
+          "amount": 170,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1552,
+            "recordId": "raw-9deed9b70c707b1c19e687da869fbe89e6918416e87a7c9c122c607452e048bb-1"
+          },
+          "matchedTransactionId": "tx-62e2788c0dafe331324cc653"
+        },
+        {
+          "date": "2026-09-24",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "割引",
+          "store": "ファミリーマート　ＪＲ博多駅店",
+          "amount": -21,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1553,
+            "recordId": "raw-52a613c9b204e6e14b1e60a2fde628c85cc690ffe607c2a4556913a78429c206-1"
+          },
+          "matchedTransactionId": "tx-62e2788c0dafe331324cc653"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　ＪＲ博多駅店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 149
+        }
+      ]
     },
     {
-      "id": "tx-0155",
+      "id": "tx-7afe092f9320f1f8be7f3db9",
+      "date": "2026-09-24",
+      "kind": "pending",
+      "amount": 200,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "未分類",
+      "memo": "個人宛送金（用途未確認）",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 67,
+          "recordId": "raw-33bf2d508f97dbc4e5715c8668cb0dfd7e28178d32853e93686815da0e845485-1"
+        }
+      ],
+      "status": "未確認",
+      "splits": [],
+      "direction": "out"
+    },
+    {
+      "id": "tx-8d0ee2d9b92e3b04133026fd",
       "date": "2026-09-24",
       "kind": "transfer",
       "amount": 1000,
@@ -2064,14 +4389,20 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 69
+          "line": 69,
+          "recordId": "raw-6a5af16376a16a9126e140bb9476768adc8de631b58b20cc4938eeb5afd5f055-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 29,
+          "recordId": "raw-c72635ce1fcca7780c429c5f26cf7fa05ea61aca4bd25ce8c9f05d671d3242c8-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0227",
+      "id": "tx-ad4d63f6ba82aca12e52ddc5",
       "date": "2026-09-24",
       "kind": "expense",
       "amount": 230,
@@ -2082,7 +4413,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 28
+          "line": 31,
+          "recordId": "raw-7e3697d30f09c0bc526b67a128873f39a50477f33429498766e8b195ab52f198-1"
         }
       ],
       "status": "確認済み",
@@ -2090,26 +4422,7 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0228",
-      "date": "2026-09-24",
-      "kind": "expense",
-      "amount": 300,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "FC姪浜 → FC博多",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 29
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0230",
+      "id": "tx-b8f5dcc26c3374de9c814fbb",
       "date": "2026-09-24",
       "kind": "expense",
       "amount": 230,
@@ -2120,7 +4433,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 31
+          "line": 28,
+          "recordId": "raw-021c81277dd10e47fe2d7147914cd21c699e8d172e98847886010350af85583e-1"
         }
       ],
       "status": "確認済み",
@@ -2128,7 +4442,7 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0005",
+      "id": "tx-45bbe5895caa5a7291aed7bd",
       "date": "2026-09-25",
       "kind": "expense",
       "amount": 5400,
@@ -2139,7 +4453,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-b410c14f164d2893a1995bdedf4d3bf4a5fd6683ba86974961a356f4bd0c98c3-1"
         }
       ],
       "status": "確認済み",
@@ -2149,7 +4464,127 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0226",
+      "id": "tx-8e711fe49b0ebe9f178d1602",
+      "date": "2026-09-25",
+      "kind": "expense",
+      "amount": 248,
+      "account": "現金",
+      "to": "",
+      "category": "食費",
+      "memo": "ファミリーマート　河原町蛸薬師店",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1556,
+          "recordId": "raw-c063339a5ca9feb383fa7fcde3566aba2d1a8a803914a92e670944ee131fa67f-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-09-25",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ミンティアBシャインマスカット",
+          "store": "ファミリーマート　河原町蛸薬師店",
+          "amount": 248,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1556,
+            "recordId": "raw-c063339a5ca9feb383fa7fcde3566aba2d1a8a803914a92e670944ee131fa67f-1"
+          },
+          "matchedTransactionId": "tx-8e711fe49b0ebe9f178d1602"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ファミリーマート　河原町蛸薬師店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 248
+        }
+      ]
+    },
+    {
+      "id": "tx-a62cef2c6efb93b7aae91126",
+      "date": "2026-09-25",
+      "kind": "expense",
+      "amount": 950,
+      "account": "現金",
+      "to": "",
+      "category": "食費",
+      "memo": "油そば きりん寺 四条河原町店",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1554,
+          "recordId": "raw-ba97354e7bc233871c01561cfb034f42f95dd26cfd0c957249973e1bfe296bc0-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1555,
+          "recordId": "raw-e9c5081ac435a680095c1e3d2c127c01fb039b6a154fc187ec42b3e86c8bd5dd-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-09-25",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "学割油そば",
+          "store": "油そば きりん寺 四条河原町店",
+          "amount": 750,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1554,
+            "recordId": "raw-ba97354e7bc233871c01561cfb034f42f95dd26cfd0c957249973e1bfe296bc0-1"
+          },
+          "matchedTransactionId": "tx-a62cef2c6efb93b7aae91126"
+        },
+        {
+          "date": "2026-09-25",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "W盛り",
+          "store": "油そば きりん寺 四条河原町店",
+          "amount": 200,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1555,
+            "recordId": "raw-e9c5081ac435a680095c1e3d2c127c01fb039b6a154fc187ec42b3e86c8bd5dd-1"
+          },
+          "matchedTransactionId": "tx-a62cef2c6efb93b7aae91126"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "油そば きりん寺 四条河原町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 950
+        }
+      ]
+    },
+    {
+      "id": "tx-accf8f97e1b27b87f5ae14bc",
       "date": "2026-09-25",
       "kind": "expense",
       "amount": 100,
@@ -2160,7 +4595,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 27
+          "line": 27,
+          "recordId": "raw-351ab8b8ba4d5215c80c45891789be0044776537042b25763347a3dba83ce68f-1"
         }
       ],
       "status": "確認済み",
@@ -2168,39 +4604,19 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0045",
-      "date": "2026-09-26",
-      "kind": "expense",
-      "amount": 1090,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "洛北阪急スクエア",
-      "sources": [
-        {
-          "file": "Vpass/202610.csv",
-          "line": 22
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202610",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0148",
-      "date": "2026-09-27",
+      "id": "tx-e87117648644cf048d00a750",
+      "date": "2026-09-25",
       "kind": "pending",
-      "amount": 3,
-      "account": "PayPayポイント",
+      "amount": 100000,
+      "account": "三井住友銀行",
       "to": "",
       "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "memo": "用途未確認の入金",
       "sources": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 62
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 28,
+          "recordId": "raw-1b6453c0563616c84bdff447f915db3e1adec09f71f1e36875371cef105d3a9c-1"
         }
       ],
       "status": "未確認",
@@ -2208,7 +4624,104 @@ window.LifeAccountingData = {
       "direction": "in"
     },
     {
-      "id": "tx-0149",
+      "id": "tx-d8f3e0c99ea17d7d92dfd9d0",
+      "date": "2026-09-26",
+      "kind": "expense",
+      "amount": 1090,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "洛北阪急スクエア",
+      "sources": [
+        {
+          "file": "Vpass/202610.csv",
+          "line": 22,
+          "recordId": "raw-6ab3630c49d320e8370e91d70b618ff15dfcb5543dff4d858d7eaef0d58cd7bb-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1557,
+          "recordId": "raw-153bff70604dc4221b2de4e3db45ccbb9c830d563f69b342daec231bb52664cf-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+      "billId": "Vpass-202610",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-26",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "濃厚魚介つけ汁",
+          "store": "丸亀製麺 洛北阪急スクエア",
+          "amount": 1090,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1557,
+            "recordId": "raw-153bff70604dc4221b2de4e3db45ccbb9c830d563f69b342daec231bb52664cf-1"
+          },
+          "matchedTransactionId": "tx-d8f3e0c99ea17d7d92dfd9d0"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "丸亀製麺 洛北阪急スクエア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1090
+        }
+      ]
+    },
+    {
+      "id": "tx-10da08f739526021487810b1",
+      "date": "2026-09-27",
+      "kind": "income",
+      "amount": 2,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 66,
+          "recordId": "raw-61509bc05a5ef841384c7f29731f74acfcea0761aef1b01e48b0661dafca4896-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-3358bfe35c6d87d4efda2eec",
+      "date": "2026-09-27",
+      "kind": "income",
+      "amount": 3,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 62,
+          "recordId": "raw-9d4e78f628d4570171425fa862f187f2e021a3ed7411261d1a117c76cf1d2662-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-9e6e767ec57acfb39b923479",
       "date": "2026-09-27",
       "kind": "expense",
       "amount": 790,
@@ -2219,7 +4732,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 63
+          "line": 63,
+          "recordId": "raw-3a361ebfa962a854fcccd089e67ffd40059e8041eabf73be6a3abf303d47720a-1"
         }
       ],
       "status": "確認済み",
@@ -2228,36 +4742,29 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0150",
-      "date": "2026-09-27",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 64
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0151",
+      "id": "tx-d571c968911b339b6e863fc6",
       "date": "2026-09-27",
       "kind": "expense",
       "amount": 505,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 中西高野",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 65
+          "line": 65,
+          "recordId": "raw-80c2c940ddcd1c3c19440fc6e0fbbed9698986603661bbd341da9cd5b4eedf24-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1558,
+          "recordId": "raw-cfc38202b9bc406a839a4aebbdfd52f8bfb96cc20324ed4414bc626c7c4a5170-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1559,
+          "recordId": "raw-f2f5abc5b2354b836e180bb949cbe2685f018aa5a71fa9245347abeeb1928b59-1"
         }
       ],
       "status": "確認済み",
@@ -2271,62 +4778,267 @@ window.LifeAccountingData = {
           "amount": 502
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-27",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "3種のミックスサンド",
+          "store": "ファミリーマート中西高野店",
+          "amount": 322,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1558,
+            "recordId": "raw-cfc38202b9bc406a839a4aebbdfd52f8bfb96cc20324ed4414bc626c7c4a5170-1"
+          },
+          "matchedTransactionId": "tx-d571c968911b339b6e863fc6"
+        },
+        {
+          "date": "2026-09-27",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "三ツ矢サイダーシルバー",
+          "store": "ファミリーマート中西高野店",
+          "amount": 183,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1559,
+            "recordId": "raw-f2f5abc5b2354b836e180bb949cbe2685f018aa5a71fa9245347abeeb1928b59-1"
+          },
+          "matchedTransactionId": "tx-d571c968911b339b6e863fc6"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート中西高野店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 505
+        }
+      ]
     },
     {
-      "id": "tx-0152",
+      "id": "tx-d841e9e43fff906ba90d37fe",
       "date": "2026-09-27",
-      "kind": "pending",
-      "amount": 2,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "kind": "transfer",
+      "amount": 1000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 66
+          "line": 64,
+          "recordId": "raw-04085c71e966bfca67ab12dcff635b4f4a907fed2a0900b04ac7f50f61549067-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 27,
+          "recordId": "raw-9e0e69951d609bf93b8b879a9782cd93ad5a4cb77d5fa07a15936d84be1247a1-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-134cc8daa779f7b0bbf73f24",
+      "date": "2026-09-28",
+      "kind": "pending",
+      "amount": 66784,
+      "account": "三井住友銀行",
+      "to": "",
+      "category": "未分類",
+      "memo": "用途未確認の出金",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 25,
+          "recordId": "raw-84a56475bc67229d4b5215f78829e989607889ba852859dd5968d141229c3fc1-1"
         }
       ],
       "status": "未確認",
       "splits": [],
-      "direction": "in"
+      "direction": "out"
     },
     {
-      "id": "tx-0004",
+      "id": "tx-752b19dc380711691501735e",
+      "date": "2026-09-28",
+      "kind": "transfer",
+      "amount": 1000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 61,
+          "recordId": "raw-47f495428b903ead3d64e01df08f880c8327fc49f23187ac376a9a628b37a050-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 23,
+          "recordId": "raw-4ded112712965b55b3e92e84e02dc69e6dc73b5ff9fa1352aa5a961d95653a03-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-aad7dbeae51984a8c0185543",
+      "date": "2026-09-28",
+      "kind": "transfer",
+      "amount": 52776,
+      "account": "三井住友銀行",
+      "to": "三井住友カード未払金",
+      "category": "振替",
+      "memo": "2026-09請求分の引き落とし",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 26,
+          "recordId": "raw-5495022d4164c791488bfda0f2a642a94c1dac8ce0b7c5cb5f55475665045523-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "billId": "Vpass-202609"
+    },
+    {
+      "id": "tx-ad793d5ef23a1d82c3c370c1",
+      "date": "2026-09-28",
+      "kind": "transfer",
+      "amount": 59730,
+      "account": "三井住友銀行",
+      "to": "楽天カード未払金",
+      "category": "振替",
+      "memo": "2026-09請求分の引き落とし",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 24,
+          "recordId": "raw-900ceb8b51cfbb4472fc806a274a4e914c42d3c05b6dca42a43f531b408f52ea-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "billId": "Rakuten_Card-202609"
+    },
+    {
+      "id": "tx-d403eba8784a91d88885ec32",
       "date": "2026-09-28",
       "kind": "expense",
       "amount": 473,
       "account": "楽天カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ﾛ-ｿﾝ",
       "sources": [
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-8d40d30abcd91507fae956ae11667f1919eddb3fe6d1adfd3ed71fc41a7bf7a7-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1560,
+          "recordId": "raw-86830bbabb9d45517cc23d5d1efa6cf5beaddc37fbf4e502895fc0ea1b036b91-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1561,
+          "recordId": "raw-5b0e45e8c9c9fd35d93f54ec5a02f709edba24f75f884d1108f290acd5e3c1bc-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
       "billId": "Rakuten_Card-202610",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-28",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "手巻北海道産日高昆布",
+          "store": "ローソン百万遍店",
+          "amount": 194,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1560,
+            "recordId": "raw-86830bbabb9d45517cc23d5d1efa6cf5beaddc37fbf4e502895fc0ea1b036b91-1"
+          },
+          "matchedTransactionId": "tx-d403eba8784a91d88885ec32"
+        },
+        {
+          "date": "2026-09-28",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "LWサラダチキンスモーク",
+          "store": "ローソン百万遍店",
+          "amount": 279,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1561,
+            "recordId": "raw-5b0e45e8c9c9fd35d93f54ec5a02f709edba24f75f884d1108f290acd5e3c1bc-1"
+          },
+          "matchedTransactionId": "tx-d403eba8784a91d88885ec32"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "ローソン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 473
+        }
+      ]
     },
     {
-      "id": "tx-0145",
+      "id": "tx-f87d412acfe94d7790fde06b",
       "date": "2026-09-28",
       "kind": "expense",
       "amount": 641,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ローソン - 百万遍",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 59
+          "line": 59,
+          "recordId": "raw-7331c943410097b9cf8fd8c318778d7071bece2bba0748a2744071fe9cf613fb-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1562,
+          "recordId": "raw-acf6660f3cea2e3a9d037faa7fd6d2789b92c7a55d91fd8b64fc8bdeec0a2500-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1563,
+          "recordId": "raw-bc7f86ddddbd976f97a209f4ebef3999a6ada81fbae2e3657cd087dcf217a3e2-1"
         }
       ],
       "status": "確認済み",
@@ -2340,105 +5052,193 @@ window.LifeAccountingData = {
           "amount": 638
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-09-28",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ミックスサンド",
+          "store": "ローソン百万遍店",
+          "amount": 343,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1562,
+            "recordId": "raw-acf6660f3cea2e3a9d037faa7fd6d2789b92c7a55d91fd8b64fc8bdeec0a2500-1"
+          },
+          "matchedTransactionId": "tx-f87d412acfe94d7790fde06b"
+        },
+        {
+          "date": "2026-09-28",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "からあげクンすだちぽん酢",
+          "store": "ローソン百万遍店",
+          "amount": 298,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1563,
+            "recordId": "raw-bc7f86ddddbd976f97a209f4ebef3999a6ada81fbae2e3657cd087dcf217a3e2-1"
+          },
+          "matchedTransactionId": "tx-f87d412acfe94d7790fde06b"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "ローソン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 641
+        }
+      ]
     },
     {
-      "id": "tx-0146",
+      "id": "tx-fc9fc0c1512f5c35ab84806a",
       "date": "2026-09-28",
-      "kind": "pending",
+      "kind": "income",
       "amount": 3,
       "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 60
+          "line": 60,
+          "recordId": "raw-54ec92d43412fcdea749b9328c4c6a566e90d8aec2f54c6128501e4f7a9ae22b-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0147",
-      "date": "2026-09-28",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 61
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0002",
+      "id": "tx-12cf6c62b65624d862d1b30d",
       "date": "2026-09-29",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 3
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
-    },
-    {
-      "id": "tx-0003",
-      "date": "2026-09-29",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 4
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
-    },
-    {
-      "id": "tx-0143",
-      "date": "2026-09-29",
-      "kind": "pending",
+      "kind": "income",
       "amount": 3,
       "account": "PayPayポイント",
       "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 57
+          "line": 57,
+          "recordId": "raw-b18b4d50d408bb53e990e0af51cbc5452fc885ee8da8069726faab2da6e5e87f-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0144",
+      "id": "tx-4c8f426875b634709338a1e4",
+      "date": "2026-09-29",
+      "kind": "expense",
+      "amount": 180,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "JW京橋 → JW鶴橋",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 24,
+          "recordId": "raw-e17800bca6c55054d46049b1e720336f7fb8bc41f637be82af78afced638e9cb-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-4de076917e913bcfe086143e",
+      "date": "2026-09-29",
+      "kind": "expense",
+      "amount": 550,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "SU出町柳 → SU京橋",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 25,
+          "recordId": "raw-29dc7c8bdd5ceb169110e2c7a2f6583515e30f5beffecd11c0327ea429cd499c-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-7e56e70a9347aae03828e16f",
+      "date": "2026-09-29",
+      "kind": "transfer",
+      "amount": 2000,
+      "account": "楽天カード未払金",
+      "to": "Suica",
+      "category": "振替",
+      "memo": "チャージ2回分（双方の明細を対応付け）",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 3,
+          "recordId": "raw-c2833bde5d617ffddaea1efbfba9dbacb433a83f65aaf78c631108371d32fc57-1"
+        },
+        {
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 4,
+          "recordId": "raw-c2833bde5d617ffddaea1efbfba9dbacb433a83f65aaf78c631108371d32fc57-2"
+        },
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 23,
+          "recordId": "raw-d959499f3d63c3332819c449cbb4d0a4c8f0dbb0dbd1e218969b830a9d1e1f97-1"
+        },
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 26,
+          "recordId": "raw-b6988a39d1b9904c46cfedd9249d1c9723c0aa738953591df29880c5e9d3b3f3-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "billId": "Rakuten_Card-202610"
+    },
+    {
+      "id": "tx-8c10f1cfb799c70839080e45",
+      "date": "2026-09-29",
+      "kind": "expense",
+      "amount": 910,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "SU鶴橋 → SU榛原",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 22,
+          "recordId": "raw-be83062628633cdfb137bb457b136507ef449f0302d787736cc1a6a319c598cd-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-9de80aac7ccdb4b7c3551fa7",
       "date": "2026-09-29",
       "kind": "expense",
       "amount": 780,
@@ -2449,7 +5249,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 58
+          "line": 58,
+          "recordId": "raw-98eb345956899a657044d38219735767a0138b0cd4dceaeede80f2801ee6cbe6-1"
         }
       ],
       "status": "確認済み",
@@ -2467,18 +5268,68 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0221",
+      "id": "tx-e5a5478d1cce303da20977f0",
       "date": "2026-09-29",
       "kind": "expense",
-      "amount": 910,
+      "amount": 5000,
+      "account": "現金",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "ARUYOゲストハウス",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1564,
+          "recordId": "raw-0d8885150377536fc45ae437c33b972682abebc80b8b06dc5bfa4c6823b9f1a4-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-09-29",
+          "category": "エンタメ",
+          "detail": "イベント",
+          "item": "",
+          "store": "ARUYOゲストハウス",
+          "amount": 5000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1564,
+            "recordId": "raw-0d8885150377536fc45ae437c33b972682abebc80b8b06dc5bfa4c6823b9f1a4-1"
+          },
+          "matchedTransactionId": "tx-e5a5478d1cce303da20977f0"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ARUYOゲストハウス"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 5000
+        }
+      ]
+    },
+    {
+      "id": "tx-238d22d543ce10f5b314e942",
+      "date": "2026-09-30",
+      "kind": "expense",
+      "amount": 1140,
       "account": "Suica",
       "to": "",
       "category": "交通費",
-      "memo": "SU鶴橋 → SU榛原",
+      "memo": "SU榛原 → SU丹波橋",
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 22
+          "line": 20,
+          "recordId": "raw-87320107636e7aa794cfce3cf95dd89a88392469b98cb896bc42830f1e763d97-1"
         }
       ],
       "status": "確認済み",
@@ -2486,42 +5337,19 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0222",
-      "date": "2026-09-29",
-      "kind": "pending",
-      "amount": 1000,
-      "account": "Suica",
-      "to": "",
-      "category": "未分類",
-      "memo": "Suica入金の重複候補（カード明細との対応保留・集計除外）",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 23
-        }
-      ],
-      "status": "重複候補・集計除外",
-      "splits": [],
-      "direction": "in",
-      "duplicateCandidateIds": [
-        "tx-0002",
-        "tx-0003"
-      ],
-      "excludeFromBalances": true
-    },
-    {
-      "id": "tx-0223",
-      "date": "2026-09-29",
+      "id": "tx-3f5faa04dcca13c3060c37f8",
+      "date": "2026-09-30",
       "kind": "expense",
-      "amount": 180,
+      "amount": 380,
       "account": "Suica",
       "to": "",
       "category": "交通費",
-      "memo": "JW京橋 → JW鶴橋",
+      "memo": "SU丹波橋 → SU出町柳",
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 24
+          "line": 19,
+          "recordId": "raw-8b1d5dfdc48e5c37120cb0716ca346576aa6343b766223b6c39976d62a4f446f-1"
         }
       ],
       "status": "確認済み",
@@ -2529,139 +5357,29 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0224",
-      "date": "2026-09-29",
-      "kind": "expense",
-      "amount": 550,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "SU出町柳 → SU京橋",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 25
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0225",
-      "date": "2026-09-29",
-      "kind": "pending",
-      "amount": 1000,
-      "account": "Suica",
-      "to": "",
-      "category": "未分類",
-      "memo": "Suica入金の重複候補（カード明細との対応保留・集計除外）",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 26
-        }
-      ],
-      "status": "重複候補・集計除外",
-      "splits": [],
-      "direction": "in",
-      "duplicateCandidateIds": [
-        "tx-0002",
-        "tx-0003"
-      ],
-      "excludeFromBalances": true
-    },
-    {
-      "id": "tx-0001",
-      "date": "2026-09-30",
-      "kind": "transfer",
-      "amount": 2000,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 2
-        },
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 21
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
-    },
-    {
-      "id": "tx-0065",
-      "date": "2026-09-30",
-      "kind": "income",
-      "amount": 101833,
-      "account": "楽天銀行",
-      "to": "",
-      "category": "給与",
-      "memo": "給与入金",
-      "sources": [
-        {
-          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 13
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0066",
-      "date": "2026-09-30",
-      "kind": "income",
-      "amount": 376,
-      "account": "楽天銀行",
-      "to": "",
-      "category": "利息",
-      "memo": "預金利息",
-      "sources": [
-        {
-          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 14
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0139",
-      "date": "2026-09-30",
-      "kind": "pending",
-      "amount": 1,
-      "account": "PayPayポイント",
-      "to": "",
-      "category": "未分類",
-      "memo": "ポイント獲得（収益区分未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 53
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "in"
-    },
-    {
-      "id": "tx-0140",
+      "id": "tx-641bea159d1ce5bf85e687c0",
       "date": "2026-09-30",
       "kind": "expense",
       "amount": 259,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "セブン-イレブン - 百万遍",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 54
+          "line": 54,
+          "recordId": "raw-0ea8f49115cc7ed2e2efa82d914f2c4dbdfafde73552948a830e60cf15458932-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1566,
+          "recordId": "raw-b799c20d0d06fb9b1811861ea334466ff0cbfd44a7718a10c73da942159f287d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1567,
+          "recordId": "raw-63d83c17bd39bd34e14bf5768fe287f5d59bfcd853d630129b8c3b44c9b08f0f-1"
         }
       ],
       "status": "確認済み",
@@ -2675,30 +5393,58 @@ window.LifeAccountingData = {
           "amount": 244
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0141",
-      "date": "2026-09-30",
-      "kind": "pending",
-      "amount": 4029,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 55
+          "date": "2026-09-30",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "7P蒙古タンメン中本辛旨味噌",
+          "store": "セブンイレブン百万遍店",
+          "amount": 240,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1566,
+            "recordId": "raw-b799c20d0d06fb9b1811861ea334466ff0cbfd44a7718a10c73da942159f287d-1"
+          },
+          "matchedTransactionId": "tx-641bea159d1ce5bf85e687c0"
+        },
+        {
+          "date": "2026-09-30",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "セブンイレブン百万遍店",
+          "amount": 19,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1567,
+            "recordId": "raw-63d83c17bd39bd34e14bf5768fe287f5d59bfcd853d630129b8c3b44c9b08f0f-1"
+          },
+          "matchedTransactionId": "tx-641bea159d1ce5bf85e687c0"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "セブンイレブン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 259
+        }
+      ]
     },
     {
-      "id": "tx-0142",
+      "id": "tx-64e56a7f3c62c168da58411b",
       "date": "2026-09-30",
       "kind": "transfer",
       "amount": 5000,
@@ -2709,52 +5455,207 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 56
+          "line": 56,
+          "recordId": "raw-1620a7a6dabfdc7fe2ee853f83fbdd46e25a0c39167246112d74b6891d3ca7d0-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 22,
+          "recordId": "raw-870261c4de6a5ea0173e7612b3cd7383ef1a44381990f9d1c4febb0aa80b91ad-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0218",
+      "id": "tx-9e3ad188161fb140fe74a4e7",
       "date": "2026-09-30",
-      "kind": "expense",
-      "amount": 380,
-      "account": "Suica",
+      "kind": "income",
+      "amount": 376,
+      "account": "楽天銀行",
       "to": "",
-      "category": "交通費",
-      "memo": "SU丹波橋 → SU出町柳",
+      "category": "利息",
+      "memo": "預金利息",
       "sources": [
         {
+          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
+          "line": 14,
+          "recordId": "raw-a64cb9a247fc92d41cbde1ac210f9e04ddde556e2d46a6da1a8fa9975d605efd-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-bd95361d00c88558f77fae01",
+      "date": "2026-09-30",
+      "kind": "transfer",
+      "amount": 2000,
+      "account": "楽天カード未払金",
+      "to": "Suica",
+      "category": "振替",
+      "memo": "Suicaチャージ",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202610(2033).csv",
+          "line": 2,
+          "recordId": "raw-0ac62b9bde0fef9cc4f22e9b6cc08a6dc6ec94adfeab0323cf165834e7129b29-1"
+        },
+        {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 19
+          "line": 21,
+          "recordId": "raw-8448128ece01342192e42190323908ab6b45f2d0f63cace01a65e0c61eec78bd-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
+      "billId": "Rakuten_Card-202610"
     },
     {
-      "id": "tx-0219",
+      "id": "tx-d97f175cdf770c9546a50cb3",
       "date": "2026-09-30",
       "kind": "expense",
-      "amount": 1140,
-      "account": "Suica",
+      "amount": 600,
+      "account": "現金",
       "to": "",
-      "category": "交通費",
-      "memo": "SU榛原 → SU丹波橋",
+      "category": "食費",
+      "memo": "サイゼリヤ 百万遍店",
       "sources": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 20
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1565,
+          "recordId": "raw-7328e11b87eb6e38cbd40c54e2feffe45be048f1d306e6947420af343dfc21d1-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-09-30",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "ほうれん草のソテー ミートソースボロニア風",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1565,
+            "recordId": "raw-7328e11b87eb6e38cbd40c54e2feffe45be048f1d306e6947420af343dfc21d1-1"
+          },
+          "matchedTransactionId": "tx-d97f175cdf770c9546a50cb3"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "サイゼリヤ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 600
+        }
+      ]
+    },
+    {
+      "id": "tx-e1692245f12b9b2be35d590f",
+      "date": "2026-09-30",
+      "kind": "income",
+      "amount": 1,
+      "account": "PayPayポイント",
+      "to": "",
+      "category": "ポイント還元",
+      "memo": "PayPayポイント還元",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 53,
+          "recordId": "raw-8ee8abff921aef30efc9f11bfe1432f8a79f61b4b0de53f265902abf6f6d617a-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-e95a5fa770969d3bf0bc0074",
+      "date": "2026-09-30",
+      "kind": "income",
+      "amount": 101833,
+      "account": "楽天銀行",
+      "to": "",
+      "category": "給与",
+      "memo": "給与入金",
+      "sources": [
+        {
+          "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
+          "line": 13,
+          "recordId": "raw-258c83b0960dc2bed1c721810c9f0db92e3cf5009b4abdc2f130f2eb36bec2f4-1"
         }
       ],
       "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
+      "splits": []
     },
     {
-      "id": "tx-0024",
+      "id": "tx-f0dd78bb92af7e435e126a91",
+      "date": "2026-09-30",
+      "kind": "expense",
+      "amount": 4029,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ARUYOゲストハウス",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 55,
+          "recordId": "raw-797a22a3b0f067a6e000e9e9f9567cb7ba5a98e44107a7fff548d35ca964e6f1-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1568,
+          "recordId": "raw-2bb4166cb0c4472a85f295b164ca6f79422fe22b18a7795bc9aae8ca9b488651-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-09-30",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ご飯代",
+          "store": "ARUYOゲストハウス",
+          "amount": 4029,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1568,
+            "recordId": "raw-2bb4166cb0c4472a85f295b164ca6f79422fe22b18a7795bc9aae8ca9b488651-1"
+          },
+          "matchedTransactionId": "tx-f0dd78bb92af7e435e126a91"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ARUYOゲストハウス"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 4029
+        }
+      ]
+    },
+    {
+      "id": "tx-7832128e00d972766c694a81",
       "date": "2026-10-01",
       "kind": "expense",
       "amount": 464,
@@ -2765,17 +5666,203 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-9efedbbcdfb55510324bb744135b4c7fbe7b556c41c037fdac16df34dcdae7da-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1569,
+          "recordId": "raw-10be9ef72c6af8d55059b73076d861424d05cf5c545e3ef61f879ca8cedd2a1d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1570,
+          "recordId": "raw-910a1d8d4b3ba079faa170f767d3db7fd38832ba47086c8eacf270e98a70289b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1571,
+          "recordId": "raw-44454963dc9eff416f90f13c7ca6f1ad4f283ede9f5c26b726def456b1f2ddf9-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Rakuten_Card-202611",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-01",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "カナダ産ハーブ三元豚ハ",
+          "store": "コレモ出町柳店",
+          "amount": 301,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1569,
+            "recordId": "raw-10be9ef72c6af8d55059b73076d861424d05cf5c545e3ef61f879ca8cedd2a1d-1"
+          },
+          "matchedTransactionId": "tx-7832128e00d972766c694a81"
+        },
+        {
+          "date": "2026-10-01",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "山都産業焼きそば用野",
+          "store": "コレモ出町柳店",
+          "amount": 129,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1570,
+            "recordId": "raw-910a1d8d4b3ba079faa170f767d3db7fd38832ba47086c8eacf270e98a70289b-1"
+          },
+          "matchedTransactionId": "tx-7832128e00d972766c694a81"
+        },
+        {
+          "date": "2026-10-01",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "消費税",
+          "store": "コレモ出町柳店",
+          "amount": 34,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1571,
+            "recordId": "raw-44454963dc9eff416f90f13c7ca6f1ad4f283ede9f5c26b726def456b1f2ddf9-1"
+          },
+          "matchedTransactionId": "tx-7832128e00d972766c694a81"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "コレモ出町柳店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 464
+        }
+      ]
     },
     {
-      "id": "tx-0022",
+      "id": "tx-cfff8b344c3228f146a86932",
+      "date": "2026-10-01",
+      "kind": "expense",
+      "amount": 900,
+      "account": "現金",
+      "to": "",
+      "category": "食費",
+      "memo": "サイゼリヤ 百万遍店",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1572,
+          "recordId": "raw-5565922264683fa5655e8f16f63b3f43646a040af25954057049de41108d7cca-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-01",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ミラノ風ドリア ハンバーグランチ",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 900,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1572,
+            "recordId": "raw-5565922264683fa5655e8f16f63b3f43646a040af25954057049de41108d7cca-1"
+          },
+          "matchedTransactionId": "tx-cfff8b344c3228f146a86932"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "サイゼリヤ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 900
+        }
+      ]
+    },
+    {
+      "id": "tx-012a0e7cae07f2b9b1f1e851",
+      "date": "2026-10-02",
+      "kind": "expense",
+      "amount": 2970,
+      "account": "楽天カード未払金",
+      "to": "",
+      "category": "教育・教養",
+      "memo": "京都大学生活協同組合 ショップルネ 書籍コーナー",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202611(2033).csv",
+          "line": 11,
+          "recordId": "raw-eb68b8babc5f2053243bc00ab99f03e4b6281431b8e4613d057529239cb7f214-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1573,
+          "recordId": "raw-33a4e730f1bf2b34f9b5741fb96760a8dfe7b2e65ba275b0298ff609a5f688a3-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "billId": "Rakuten_Card-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-02",
+          "category": "教育・教養",
+          "detail": "参考書",
+          "item": "ゼミナール コーポレートファイナンス",
+          "store": "京都大学生活協同組合 ショップルネ 書籍コーナー",
+          "amount": 2970,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1573,
+            "recordId": "raw-33a4e730f1bf2b34f9b5741fb96760a8dfe7b2e65ba275b0298ff609a5f688a3-1"
+          },
+          "matchedTransactionId": "tx-012a0e7cae07f2b9b1f1e851"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "京都大学生活協同組合 ショップルネ 書籍コーナー"
+      },
+      "categoryAmounts": [
+        {
+          "category": "教育・教養",
+          "amount": 2970
+        }
+      ]
+    },
+    {
+      "id": "tx-6c4316d6de7cc44f72512dc9",
       "date": "2026-10-02",
       "kind": "expense",
       "amount": 680,
@@ -2786,7 +5873,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-35e9185d20fb51baffdd1e5432a91a38ef9330f6e47e5800f7cef1ff6eb76ffb-1"
         }
       ],
       "status": "確認済み",
@@ -2796,112 +5884,540 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0023",
-      "date": "2026-10-02",
+      "id": "tx-4e0f054e331f0c74a6217f6b",
+      "date": "2026-10-03",
       "kind": "expense",
-      "amount": 2970,
-      "account": "楽天カード未払金",
+      "amount": 3000,
+      "account": "現金",
       "to": "",
-      "category": "未分類",
-      "memo": "ＶＩＳＡ国内利用　VS ｷｮｳﾄﾀﾞｲｶﾞｸｾｲｷｮｳ ﾌ",
+      "category": "食費",
+      "memo": "ネオ大衆酒場 食べ放題個室居酒屋 餃子のかっちゃん 京都河原町店",
       "sources": [
         {
-          "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 11
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1576,
+          "recordId": "raw-1ed1edf5b4420dead6c0fbfb30250057651d47328193b5d888e07146f3e44f2d-1"
         }
       ],
-      "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Rakuten_Card-202611",
-      "refundOriginalStatus": null
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-03",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "",
+          "store": "ネオ大衆酒場 食べ放題個室居酒屋 餃子のかっちゃん 京都河原町店",
+          "amount": 3000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1576,
+            "recordId": "raw-1ed1edf5b4420dead6c0fbfb30250057651d47328193b5d888e07146f3e44f2d-1"
+          },
+          "matchedTransactionId": "tx-4e0f054e331f0c74a6217f6b"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ネオ大衆酒場 食べ放題個室居酒屋 餃子のかっちゃん 京都河原町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 3000
+        }
+      ]
     },
     {
-      "id": "tx-0060",
+      "id": "tx-d607d6f3685336d1da2290d6",
       "date": "2026-10-03",
       "kind": "expense",
       "amount": 990,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "洛北阪急スクエア",
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-4802457dac496992f805daeb4c2cdfbc7e2477e13799f398ef3f640dcea71441-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1574,
+          "recordId": "raw-ab7a3f8b0d5cf54f95b36e39289d57b6ca7145973fe7671ed41b2d4c8f279c25-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
       "billId": "Vpass-202611",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-03",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "豚つけ汁うどん",
+          "store": "丸亀製麺 洛北阪急スクエア",
+          "amount": 990,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1574,
+            "recordId": "raw-ab7a3f8b0d5cf54f95b36e39289d57b6ca7145973fe7671ed41b2d4c8f279c25-1"
+          },
+          "matchedTransactionId": "tx-d607d6f3685336d1da2290d6"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "丸亀製麺 洛北阪急スクエア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 990
+        }
+      ]
     },
     {
-      "id": "tx-0021",
-      "date": "2026-10-04",
+      "id": "tx-ea2d2664fa7b9236bb8d39a9",
+      "date": "2026-10-03",
       "kind": "expense",
-      "amount": 1020,
-      "account": "楽天カード未払金",
+      "amount": 1520,
+      "account": "現金",
       "to": "",
-      "category": "未分類",
-      "memo": "ＶＩＳＡ国内利用　VS ｻﾌﾞｳｴｲ ﾗｸﾎｸﾊﾝｷﾕｳｽ",
+      "category": "エンタメ",
+      "memo": "ジャンカラ Night Out 木屋町店",
       "sources": [
         {
-          "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 9
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1575,
+          "recordId": "raw-a440b5c3e357de7d45ec4f47a9de86aeffd75f00a556278408ff90c0cf61e58a-1"
         }
       ],
-      "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Rakuten_Card-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0058",
-      "date": "2026-10-04",
-      "kind": "expense",
-      "amount": 3000,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "通信・サブスク",
-      "memo": "ＯＰＥＮＡＩ  ＊ＣＨＡＴＧＰＴ  ＳＵＢＳ",
-      "sources": [
+      "status": "ユーザー確認済み",
+      "zaimItems": [
         {
-          "file": "Vpass/202611.csv",
-          "line": 12
+          "date": "2026-10-03",
+          "category": "エンタメ",
+          "detail": "イベント",
+          "item": "",
+          "store": "ジャンカラ Night Out 木屋町店",
+          "amount": 1520,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1575,
+            "recordId": "raw-a440b5c3e357de7d45ec4f47a9de86aeffd75f00a556278408ff90c0cf61e58a-1"
+          },
+          "matchedTransactionId": "tx-ea2d2664fa7b9236bb8d39a9"
         }
       ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ジャンカラ Night Out 木屋町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 1520
+        }
+      ]
     },
     {
-      "id": "tx-0059",
+      "id": "tx-09db9485e5e854518f016f92",
       "date": "2026-10-04",
       "kind": "expense",
       "amount": 1068,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "イズミヤ",
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-e3919d9a6e7d60b50da766edc93cf5d39e8e5abe49af9d73bb546cd00435cab1-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1585,
+          "recordId": "raw-ae64394f004402c726f3cbca1fcdb80c7971a1df7e47ddd80a8ee1d4cabff157-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1586,
+          "recordId": "raw-fefc776dd887fb6b14c5e2207c78879d291368784b5068e4287486464e366b6c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1587,
+          "recordId": "raw-8a943565f29eabe52d52c6a1aa5574f10f0f5d1c7aa6af6e05a103be2fa2965a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1588,
+          "recordId": "raw-96aca429d007c0862aa188569fd535d069abb3a33b41c50ce54cb30605cf7b66-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1589,
+          "recordId": "raw-69b828722a1db4168742acd7860defb8a90cb4f9f88c9396604ef504293a9931-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1590,
+          "recordId": "raw-a7bdbf4ee5bfedb12798fa514424bd1080b81ab367fdc0965303b15df636392c-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202611",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "マ・マースパゲティー",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 259,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1585,
+            "recordId": "raw-ae64394f004402c726f3cbca1fcdb80c7971a1df7e47ddd80a8ee1d4cabff157-1"
+          },
+          "matchedTransactionId": "tx-09db9485e5e854518f016f92"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "国産豚肉こまぎれ",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 403,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1586,
+            "recordId": "raw-fefc776dd887fb6b14c5e2207c78879d291368784b5068e4287486464e366b6c-1"
+          },
+          "matchedTransactionId": "tx-09db9485e5e854518f016f92"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "たっぷり野菜(焼きそば用",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 129,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1587,
+            "recordId": "raw-8a943565f29eabe52d52c6a1aa5574f10f0f5d1c7aa6af6e05a103be2fa2965a-1"
+          },
+          "matchedTransactionId": "tx-09db9485e5e854518f016f92"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "緑豆もやし",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 39,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1588,
+            "recordId": "raw-96aca429d007c0862aa188569fd535d069abb3a33b41c50ce54cb30605cf7b66-1"
+          },
+          "matchedTransactionId": "tx-09db9485e5e854518f016f92"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "パスタソースペペロンチ",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 159,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1589,
+            "recordId": "raw-69b828722a1db4168742acd7860defb8a90cb4f9f88c9396604ef504293a9931-1"
+          },
+          "matchedTransactionId": "tx-09db9485e5e854518f016f92"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "デイリーカナートイズミヤ洛北阪急スクエア店",
+          "amount": 79,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1590,
+            "recordId": "raw-a7bdbf4ee5bfedb12798fa514424bd1080b81ab367fdc0965303b15df636392c-1"
+          },
+          "matchedTransactionId": "tx-09db9485e5e854518f016f92"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "デイリーカナートイズミヤ洛北阪急スクエア店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1068
+        }
+      ]
     },
     {
-      "id": "tx-0217",
+      "id": "tx-31074abb7cf2cee916b74f54",
+      "date": "2026-10-04",
+      "kind": "expense",
+      "amount": 1020,
+      "account": "楽天カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "ＶＩＳＡ国内利用　VS ｻﾌﾞｳｴｲ ﾗｸﾎｸﾊﾝｷﾕｳｽ",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202611(2033).csv",
+          "line": 9,
+          "recordId": "raw-b32267d748b80af44ef671be201e3dab7ba992f10d88daa23935a947fa18eb35-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1577,
+          "recordId": "raw-2cf713c276382af9f8b9bab3492fd05ec3785b771ea7c4eab3a8845905bc03d8-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1578,
+          "recordId": "raw-2ecfed007087bb5966438b173ff161cc8023d7358547fc804c350f200f9130d0-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1579,
+          "recordId": "raw-26b8403de37a621c67b01be662a6f793222e4b0b0161eaaaf6cbed3e20e9e878-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1580,
+          "recordId": "raw-09f084ac810466742cc6a22f7d73aa727770dab24f4fd4161baa65bf97c1aa4a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1581,
+          "recordId": "raw-7c4aa3cea67b96225d0f4e38fc81142305d6713b6dfc87f84165f16d7c8e3d89-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1582,
+          "recordId": "raw-e7cc26b34fe5742953fc5408dfa007199d72a69f8284333e808fa3e4dce7381c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1583,
+          "recordId": "raw-d91d30ceafd58e8c809fe6fbc3834e227f67ee91244db82b48c8cf9e7ba69822-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1584,
+          "recordId": "raw-62d9d9f80d628ffb2c1e9d5f298795ffb9e85310db3280f7c752ed689b2e750b-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Rakuten_Card-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "エビアボカドR",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 630,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1577,
+            "recordId": "raw-2cf713c276382af9f8b9bab3492fd05ec3785b771ea7c4eab3a8845905bc03d8-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "セサミ",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 0,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1578,
+            "recordId": "raw-2ecfed007087bb5966438b173ff161cc8023d7358547fc804c350f200f9130d0-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ピーマン増量",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 0,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1579,
+            "recordId": "raw-26b8403de37a621c67b01be662a6f793222e4b0b0161eaaaf6cbed3e20e9e878-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "オニオン増量",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 0,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1580,
+            "recordId": "raw-09f084ac810466742cc6a22f7d73aa727770dab24f4fd4161baa65bf97c1aa4a-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "野菜クリーミードレッシング多め",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 0,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1581,
+            "recordId": "raw-7c4aa3cea67b96225d0f4e38fc81142305d6713b6dfc87f84165f16d7c8e3d89-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "PDセット(K)",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 390,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1582,
+            "recordId": "raw-e7cc26b34fe5742953fc5408dfa007199d72a69f8284333e808fa3e4dce7381c-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ハーブソルトS",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 0,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1583,
+            "recordId": "raw-d91d30ceafd58e8c809fe6fbc3834e227f67ee91244db82b48c8cf9e7ba69822-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        },
+        {
+          "date": "2026-10-04",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ジンジャーエールS",
+          "store": "サブウェイ 洛北阪急スクエア店",
+          "amount": 0,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1584,
+            "recordId": "raw-62d9d9f80d628ffb2c1e9d5f298795ffb9e85310db3280f7c752ed689b2e750b-1"
+          },
+          "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "サブウェイ 洛北阪急スクエア店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1020
+        }
+      ]
+    },
+    {
+      "id": "tx-369223927be420a45ac4a0d6",
       "date": "2026-10-04",
       "kind": "expense",
       "amount": 150,
@@ -2912,7 +6428,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 18
+          "line": 18,
+          "recordId": "raw-4c74bc54adbd57ab99eaaab3633545acf8bcb54a837d9c906ad8001ff75c8797-1"
         }
       ],
       "status": "確認済み",
@@ -2920,39 +6437,19 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0056",
-      "date": "2026-10-05",
+      "id": "tx-8556ade32dedd10414814493",
+      "date": "2026-10-04",
       "kind": "expense",
-      "amount": 839,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "日用雑貨",
-      "memo": "ドラッグユタカ  百万遍店",
-      "sources": [
-        {
-          "file": "Vpass/202611.csv",
-          "line": 10
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0057",
-      "date": "2026-10-05",
-      "kind": "expense",
-      "amount": 550,
+      "amount": 3000,
       "account": "三井住友カード未払金",
       "to": "",
       "category": "通信・サブスク",
-      "memo": "アーティスト・サイト",
+      "memo": "ＯＰＥＮＡＩ  ＊ＣＨＡＴＧＰＴ  ＳＵＢＳ",
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 11
+          "line": 12,
+          "recordId": "raw-3d5c5ee7ca1d5efd985b4d2ba355113b67b536b8be0dc65b1fe679bb3ce288b8-1"
         }
       ],
       "status": "確認済み",
@@ -2962,18 +6459,34 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0138",
+      "id": "tx-27cf4ecb654734f984a58787",
       "date": "2026-10-05",
       "kind": "expense",
       "amount": 635,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ローソン - 百万遍",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 52
+          "line": 52,
+          "recordId": "raw-f34354b96faa33d6b5e33397432c82de8479814f7cbc948ce3951332002b1a7a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1591,
+          "recordId": "raw-ecef45f42ea03977ebfdc421dd492646f6d24ea159b598a6f3c76ea89013e320-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1592,
+          "recordId": "raw-28e45f71b32c67b1b6b9b1250e1bdd601e02db80532d109f93b314a5206b4778-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1593,
+          "recordId": "raw-c4b04411ed93a7115a712dd030fbc88ab11bae372d1cd39752b452f215b14ee9-1"
         }
       ],
       "status": "確認済み",
@@ -2987,11 +6500,180 @@ window.LifeAccountingData = {
           "amount": 626
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "LWトリカラアゲ(カラクチ)",
+          "store": "ローソン百万遍店",
+          "amount": 343,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1591,
+            "recordId": "raw-ecef45f42ea03977ebfdc421dd492646f6d24ea159b598a6f3c76ea89013e320-1"
+          },
+          "matchedTransactionId": "tx-27cf4ecb654734f984a58787"
+        },
+        {
+          "date": "2026-10-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "手巻シーチキンマヨネーズ",
+          "store": "ローソン百万遍店",
+          "amount": 171,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1592,
+            "recordId": "raw-28e45f71b32c67b1b6b9b1250e1bdd601e02db80532d109f93b314a5206b4778-1"
+          },
+          "matchedTransactionId": "tx-27cf4ecb654734f984a58787"
+        },
+        {
+          "date": "2026-10-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "LWコーンミックスサラダ",
+          "store": "ローソン百万遍店",
+          "amount": 121,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1593,
+            "recordId": "raw-c4b04411ed93a7115a712dd030fbc88ab11bae372d1cd39752b452f215b14ee9-1"
+          },
+          "matchedTransactionId": "tx-27cf4ecb654734f984a58787"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ローソン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 635
+        }
+      ]
+    },
+    {
+      "id": "tx-2aa84506efb7c9d6c626e270",
+      "date": "2026-10-05",
+      "kind": "expense",
+      "amount": 550,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "通信・サブスク",
+      "memo": "アーティスト・サイト",
+      "sources": [
+        {
+          "file": "Vpass/202611.csv",
+          "line": 11,
+          "recordId": "raw-e14c19650f32b0a8f5fd9632f15d92c6e0bf313ceedb793ee15e4dfcc3e3412e-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Vpass-202611",
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0020",
+      "id": "tx-7b2089f8430f891048794f4c",
+      "date": "2026-10-05",
+      "kind": "expense",
+      "amount": 839,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費 / 日用雑貨",
+      "memo": "ドラッグユタカ  百万遍店",
+      "sources": [
+        {
+          "file": "Vpass/202611.csv",
+          "line": 10,
+          "recordId": "raw-9f4d932e031dc1cc3c518152fcec1d9ead0bcaf0ef4a8d020cfff84da514e9a8-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1594,
+          "recordId": "raw-623cd9785bd4c38ab93267c7afbc8ab03d9ad0297ce6fe0a065ab57b5b0df525-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1595,
+          "recordId": "raw-a99187f342872513a06c82f4464130940a50a935d18410e5ac1092956c65e8ed-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Vpass-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-05",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "マ・マー特盛リスパゲテイペペロンチー",
+          "store": "ドラッグユタカ 百万遍店",
+          "amount": 268,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1594,
+            "recordId": "raw-623cd9785bd4c38ab93267c7afbc8ab03d9ad0297ce6fe0a065ab57b5b0df525-1"
+          },
+          "matchedTransactionId": "tx-7b2089f8430f891048794f4c"
+        },
+        {
+          "date": "2026-10-05",
+          "category": "日用雑貨",
+          "detail": "消耗品",
+          "item": "ブレスケア50粒ストロングM",
+          "store": "ドラッグユタカ 百万遍店",
+          "amount": 571,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1595,
+            "recordId": "raw-a99187f342872513a06c82f4464130940a50a935d18410e5ac1092956c65e8ed-1"
+          },
+          "matchedTransactionId": "tx-7b2089f8430f891048794f4c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ドラッグユタカ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 268
+        },
+        {
+          "category": "日用雑貨",
+          "amount": 571
+        }
+      ]
+    },
+    {
+      "id": "tx-a41c710506e701fca1aaac5b",
       "date": "2026-10-06",
       "kind": "expense",
       "amount": 580,
@@ -3002,7 +6684,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-1cb2ba975e376db0d90c1528534870e387cb751fd8ff3dbe23e3c096f733ec3f-1"
         }
       ],
       "status": "確認済み",
@@ -3012,28 +6695,7 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0019",
-      "date": "2026-10-07",
-      "kind": "expense",
-      "amount": 510,
-      "account": "楽天カード未払金",
-      "to": "",
-      "category": "食費",
-      "memo": "ＶＩＳＡ国内利用　VS ﾏﾂﾔ ｼﾞｾﾞﾝｹﾂｻｲ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 7
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Rakuten_Card-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0067",
+      "id": "tx-316c2c9f8548cc3abee2eedf",
       "date": "2026-10-07",
       "kind": "transfer",
       "amount": 100000,
@@ -3044,11 +6706,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 15
+          "line": 15,
+          "recordId": "raw-4cb2cd8ea43499de3877ae9b6270886808048fe7187fa7fed0cb9e8012138cfd-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 21
+          "line": 21,
+          "recordId": "raw-d1ac63f99e1caca6ee76a082a920386bd6176567b978dc10240638174f392ff0-1"
         }
       ],
       "status": "確認済み",
@@ -3056,7 +6720,29 @@ window.LifeAccountingData = {
       "direction": "out"
     },
     {
-      "id": "tx-0018",
+      "id": "tx-44e278283b14e415ddda4bcd",
+      "date": "2026-10-07",
+      "kind": "expense",
+      "amount": 510,
+      "account": "楽天カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "ＶＩＳＡ国内利用　VS ﾏﾂﾔ ｼﾞｾﾞﾝｹﾂｻｲ",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202611(2033).csv",
+          "line": 7,
+          "recordId": "raw-9dee8a5d34746cd7b189892c63d1b70799134652205ee30281e1888b7721df73-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Rakuten_Card-202611",
+      "refundOriginalStatus": null
+    },
+    {
+      "id": "tx-8b28d5a0b3fd75f687fb05b4",
       "date": "2026-10-08",
       "kind": "expense",
       "amount": 1020,
@@ -3067,7 +6753,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-5e6d48c72dc0d79c38d849a8fa1c2411d38a52e613c831c15fa8d8fbeef8341f-1"
         }
       ],
       "status": "確認済み",
@@ -3077,47 +6764,351 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0137",
-      "date": "2026-10-09",
-      "kind": "pending",
-      "amount": 600,
-      "account": "PayPay残高",
+      "id": "tx-fe63b9c4bb11bf6319addbda",
+      "date": "2026-10-08",
+      "kind": "expense",
+      "amount": 120,
+      "account": "現金",
       "to": "",
-      "category": "未分類",
-      "memo": "受取（用途未確認）",
+      "category": "食費",
+      "memo": "キリン さわやか香ばし麦茶",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1596,
+          "recordId": "raw-ebe25982a0fbf1a7e8a865ddb70c481050c87a1c46e3fe7edd7a31160261d78d-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-08",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "キリン さわやか香ばし麦茶",
+          "store": "-",
+          "amount": 120,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1596,
+            "recordId": "raw-ebe25982a0fbf1a7e8a865ddb70c481050c87a1c46e3fe7edd7a31160261d78d-1"
+          },
+          "matchedTransactionId": "tx-fe63b9c4bb11bf6319addbda"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "-"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 120
+        }
+      ]
+    },
+    {
+      "id": "tx-6776b3c9958b22b407fc44ca",
+      "date": "2026-10-09",
+      "kind": "transfer",
+      "amount": 600,
+      "account": "現金",
+      "to": "立替金",
+      "category": "振替",
+      "memo": "サイゼリヤ・友人分の立替",
+      "sources": [],
+      "splits": [],
+      "status": "ユーザー確認済み"
+    },
+    {
+      "id": "tx-8129721c58f90aff876e207a",
+      "date": "2026-10-09",
+      "kind": "expense",
+      "amount": 900,
+      "account": "現金",
+      "to": "",
+      "category": "食費",
+      "memo": "サイゼリヤ 百万遍店（自己負担分）",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1597,
+          "recordId": "raw-4168e283de3d2251c5ca0b396404990ba69de2b5e39c1241c240e2acd7887d43-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1598,
+          "recordId": "raw-6de4d782317222ec09b9f15761e4ef0538fb6b7eb5e01c20374e026fe101fec0-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-09",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "ランチ)ディアボラハンバーグ",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 1200,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1597,
+            "recordId": "raw-4168e283de3d2251c5ca0b396404990ba69de2b5e39c1241c240e2acd7887d43-1"
+          },
+          "matchedTransactionId": "tx-8129721c58f90aff876e207a"
+        },
+        {
+          "date": "2026-10-09",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "ミラノ風ドリア",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 300,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1598,
+            "recordId": "raw-6de4d782317222ec09b9f15761e4ef0538fb6b7eb5e01c20374e026fe101fec0-1"
+          },
+          "matchedTransactionId": "tx-8129721c58f90aff876e207a"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "サイゼリヤ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 900
+        }
+      ],
+      "receiptTotal": 1500,
+      "advanceAmount": 600
+    },
+    {
+      "id": "tx-fbf735153b5f7120ead9de9c",
+      "date": "2026-10-09",
+      "kind": "transfer",
+      "amount": 600,
+      "account": "立替金",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "サイゼリヤ・立替金600円を回収",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 51
+          "line": 51,
+          "recordId": "raw-ce6858e334b3d3ff32963f035426ba37bdefa29edc8a7316185bf4998caa9d4c-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0055",
+      "id": "tx-7138acfd3a7fcce267cf40c6",
       "date": "2026-10-10",
       "kind": "expense",
       "amount": 1899,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "イズミヤ",
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-92d80a6a5218ae6a8ba09612a45d16e5655b9125cb5d367145447b581869e61b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1599,
+          "recordId": "raw-17e234a7179ec47fec9c9d99d51065d273dd9d03b3501e8555b9815b1755c48c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1600,
+          "recordId": "raw-3ad1c8e25d1cc9cbdf6d6a32eccf7d516a465a77538ac3fa41e2a10d97c5fe75-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1601,
+          "recordId": "raw-bfb9cb52338ea8e0556695d8c56ee05de1f924b2adb357f8105d7cb6eb21fcff-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1602,
+          "recordId": "raw-074c8b29c5d1039a32357a6c33b4c5591df973f4d2461fe285c322529c570d85-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1603,
+          "recordId": "raw-6c096dbaccf8113c2599d2c4ddeaed9741d4ecd603cc86636828e1f9f06fb32d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1604,
+          "recordId": "raw-246fe03907cc86eb3935dcc59e8f6b1fd1d8dfbf7a8cee82779af2b1199b212b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1605,
+          "recordId": "raw-9b263258d59512ebdc2bb05a12eaaafbeacd3550ab8f6f83a943392ceeac7321-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202611",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "国産若どりもも肉",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 506,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1599,
+            "recordId": "raw-17e234a7179ec47fec9c9d99d51065d273dd9d03b3501e8555b9815b1755c48c-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "国産若どりもも肉",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 498,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1600,
+            "recordId": "raw-3ad1c8e25d1cc9cbdf6d6a32eccf7d516a465a77538ac3fa41e2a10d97c5fe75-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "オイルソースしょうゆ",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 349,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1601,
+            "recordId": "raw-bfb9cb52338ea8e0556695d8c56ee05de1f924b2adb357f8105d7cb6eb21fcff-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "緑豆もやし",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 78,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1602,
+            "recordId": "raw-074c8b29c5d1039a32357a6c33b4c5591df973f4d2461fe285c322529c570d85-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "キャベツ1/2",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 199,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1603,
+            "recordId": "raw-6c096dbaccf8113c2599d2c4ddeaed9741d4ecd603cc86636828e1f9f06fb32d-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "北海道産玉ねぎ3コ袋",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 129,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1604,
+            "recordId": "raw-246fe03907cc86eb3935dcc59e8f6b1fd1d8dfbf7a8cee82779af2b1199b212b-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "イズミヤ高野ショッピングセンター",
+          "amount": 140,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1605,
+            "recordId": "raw-9b263258d59512ebdc2bb05a12eaaafbeacd3550ab8f6f83a943392ceeac7321-1"
+          },
+          "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "イズミヤ高野ショッピングセンター"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1899
+        }
+      ]
     },
     {
-      "id": "tx-0054",
+      "id": "tx-9506544af8976d4412722855",
       "date": "2026-10-11",
       "kind": "expense",
       "amount": 890,
@@ -3128,17 +7119,97 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-4d949959c82eb9ac42663b4311df26d4e12efd49cba95bf95847694a7d6b8c4e-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1606,
+          "recordId": "raw-b344583c6233554a6a4234aa9a7d488570393059e587c9b6fb69a0b57c57b125-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1607,
+          "recordId": "raw-7e26931a9c65ba6a3111eebfc5e4966f5e7e3b3b48d59c8da38de63491384651-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1608,
+          "recordId": "raw-b9dd748438518f8dbf10663a0d2681ad301d3e1995a42474f33812b750eb74c9-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Vpass-202611",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-11",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "絶品ビーフバーガー",
+          "store": "ゼッテリア 京阪出町柳駅店",
+          "amount": 540,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1606,
+            "recordId": "raw-b344583c6233554a6a4234aa9a7d488570393059e587c9b6fb69a0b57c57b125-1"
+          },
+          "matchedTransactionId": "tx-9506544af8976d4412722855"
+        },
+        {
+          "date": "2026-10-11",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "シエーキバニラS",
+          "store": "ゼッテリア 京阪出町柳駅店",
+          "amount": 180,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1607,
+            "recordId": "raw-7e26931a9c65ba6a3111eebfc5e4966f5e7e3b3b48d59c8da38de63491384651-1"
+          },
+          "matchedTransactionId": "tx-9506544af8976d4412722855"
+        },
+        {
+          "date": "2026-10-11",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ポテトMセット",
+          "store": "ゼッテリア 京阪出町柳駅店",
+          "amount": 170,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1608,
+            "recordId": "raw-b9dd748438518f8dbf10663a0d2681ad301d3e1995a42474f33812b750eb74c9-1"
+          },
+          "matchedTransactionId": "tx-9506544af8976d4412722855"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ゼッテリア 京阪出町柳駅店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 890
+        }
+      ]
     },
     {
-      "id": "tx-0136",
+      "id": "tx-255b89e44aa1ec25e4c50209",
       "date": "2026-10-12",
       "kind": "expense",
       "amount": 500,
@@ -3149,7 +7220,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 50
+          "line": 50,
+          "recordId": "raw-dcbe24f86c82d492eca169fe4e19b06249fdb9b079e16ffd24527ca7d2a80dc7-1"
         }
       ],
       "status": "確認済み",
@@ -3167,28 +7239,7 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0052",
-      "date": "2026-10-13",
-      "kind": "expense",
-      "amount": 2320,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "通信・サブスク",
-      "memo": "ＧＯＯＧＬＥ  Ｇ１ＡＩ１０１Ｍ",
-      "sources": [
-        {
-          "file": "Vpass/202611.csv",
-          "line": 6
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0053",
+      "id": "tx-711d16959c0c1347693bc4bb",
       "date": "2026-10-13",
       "kind": "expense",
       "amount": -2900,
@@ -3199,7 +7250,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-57553421e27d6b60233b105ec380314ea5a52fd0fe84d8befbef649e4e17a105-1"
         }
       ],
       "status": "確認済み",
@@ -3209,21 +7261,46 @@ window.LifeAccountingData = {
       "refundOriginalStatus": "未確認"
     },
     {
-      "id": "tx-0134",
+      "id": "tx-db9cc3b200707298bbea7fcf",
+      "date": "2026-10-13",
+      "kind": "transfer",
+      "amount": 3000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 49,
+          "recordId": "raw-0e3dadc5c62fc2d32725845319ef9b8069797112367853087afcb4c0fc2b3622-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 20,
+          "recordId": "raw-8beb678f180cd4bf11e1a921b283e87bdf03c18e5d76e7c8643e35cb363c389f-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-f192b09f139b4745e0ccf4ad",
       "date": "2026-10-13",
       "kind": "expense",
       "amount": 610,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "松弁ネット",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 48
+          "line": 48,
+          "recordId": "raw-ac80fc986608fecdc2f192064e87bbe7c5b2fa6a70d9f5e1a6da141de66cc460-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [
         {
           "account": "PayPayポイント",
@@ -3238,98 +7315,150 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0135",
+      "id": "tx-fb99cf6c0fcc29055309570f",
       "date": "2026-10-13",
-      "kind": "transfer",
-      "amount": 3000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
+      "kind": "expense",
+      "amount": 2320,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "通信・サブスク",
+      "memo": "ＧＯＯＧＬＥ  Ｇ１ＡＩ１０１Ｍ",
       "sources": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 49
-        },
-        {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 20
+          "file": "Vpass/202611.csv",
+          "line": 6,
+          "recordId": "raw-e9101d877ab5574cea625344b79051880f665dc067882ba6db223e307925f7b7-1"
         }
       ],
       "status": "確認済み",
-      "splits": []
+      "splits": [],
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Vpass-202611",
+      "refundOriginalStatus": null
     },
     {
-      "id": "tx-0132",
+      "id": "tx-12007e85075e4cb6af74be2f",
       "date": "2026-10-14",
-      "kind": "pending",
+      "kind": "transfer",
       "amount": 980,
       "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "受取（用途未確認）",
+      "to": "立替金",
+      "category": "振替",
+      "memo": "状元楼・友人分の立替",
+      "sources": [],
+      "splits": [],
+      "status": "ユーザー確認済み"
+    },
+    {
+      "id": "tx-df90dfe124660b43a79ac0af",
+      "date": "2026-10-14",
+      "kind": "transfer",
+      "amount": 980,
+      "account": "立替金",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "状元楼・立替金の回収",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 46
+          "line": 46,
+          "recordId": "raw-2766561aaf03abbc47ef811f02f8023ad47b5ca4df02163234cbd3b6cbf5186b-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
       "direction": "in"
     },
     {
-      "id": "tx-0133",
+      "id": "tx-e53c26cec3638bd16b3b310c",
       "date": "2026-10-14",
       "kind": "expense",
-      "amount": 1960,
+      "amount": 980,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "状元楼 - 状元楼",
+      "category": "食費",
+      "memo": "エビチリセット／状元楼（自分の負担分）",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 47
+          "line": 47,
+          "recordId": "raw-7db2b45ac21c9d3f5de557d4db825c6d7a2eef02725b0a8e6497227c04503c2a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1609,
+          "recordId": "raw-6f18be110c8772508d7651ce88ccd239802f74067bd199697bbca560e6d68ea7-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
       "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0086",
-      "date": "2026-10-15",
-      "kind": "expense",
-      "amount": 898,
-      "account": "三井住友銀行",
-      "to": "",
-      "category": "水道光熱費",
-      "memo": "電力料金",
-      "sources": [
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 19
+          "date": "2026-10-14",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "エビチリセット",
+          "store": "中華料理 状元楼",
+          "amount": 980,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1609,
+            "recordId": "raw-6f18be110c8772508d7651ce88ccd239802f74067bd199697bbca560e6d68ea7-1"
+          },
+          "matchedTransactionId": "tx-e53c26cec3638bd16b3b310c"
         }
       ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "銀行摘要の電力会社名。"
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "中華料理 状元楼"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 980
+        }
+      ]
     },
     {
-      "id": "tx-0131",
+      "id": "tx-19f1badb0706a03b7cec77f7",
       "date": "2026-10-15",
       "kind": "expense",
       "amount": 641,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 京都大学",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 45
+          "line": 45,
+          "recordId": "raw-057dbe73a2871b88fbe010aba9aa5c272db6103fbe6e00bce5fb4017f296eb91-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1610,
+          "recordId": "raw-310f676b495fe46e26d364525802018349215e9c3f5a40cac78f2d2aff71ee6c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1611,
+          "recordId": "raw-15aacb7a6eeffa80c7436f343e7dae09a8972983f709ecbcd3e31bc0c7d9fc24-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1612,
+          "recordId": "raw-2dc399b1d64ed249327b1fc7c16487784977ea55e6a4b02dc7893ae7a99075f6-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1613,
+          "recordId": "raw-5e25f44088cad1be4261a801031148f6b0728fb61d4941e483bdcaa6676b4668-1"
         }
       ],
       "status": "確認済み",
@@ -3343,130 +7472,224 @@ window.LifeAccountingData = {
           "amount": 639
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-15",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "エッセル超バニラ",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 194,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1610,
+            "recordId": "raw-310f676b495fe46e26d364525802018349215e9c3f5a40cac78f2d2aff71ee6c-1"
+          },
+          "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
+        },
+        {
+          "date": "2026-10-15",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "割引",
+          "store": "ファミリーマート　京都大学店",
+          "amount": -100,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1611,
+            "recordId": "raw-15aacb7a6eeffa80c7436f343e7dae09a8972983f709ecbcd3e31bc0c7d9fc24-1"
+          },
+          "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
+        },
+        {
+          "date": "2026-10-15",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "3種のミックスサンド",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 322,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1612,
+            "recordId": "raw-2dc399b1d64ed249327b1fc7c16487784977ea55e6a4b02dc7893ae7a99075f6-1"
+          },
+          "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
+        },
+        {
+          "date": "2026-10-15",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "青磯海苔チャーシューマ",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 225,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1613,
+            "recordId": "raw-5e25f44088cad1be4261a801031148f6b0728fb61d4941e483bdcaa6676b4668-1"
+          },
+          "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　京都大学店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 641
+        }
+      ]
     },
     {
-      "id": "tx-0051",
+      "id": "tx-bb9333633eb593f7de86b8ef",
+      "date": "2026-10-15",
+      "kind": "expense",
+      "amount": 898,
+      "account": "三井住友銀行",
+      "to": "",
+      "category": "水道光熱費",
+      "memo": "電力料金",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 19,
+          "recordId": "raw-b25bc74ded7737e400afe14384a9bd87e821bcfbdd06f99ae1dff513a57e3560-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "銀行摘要の電力会社名。"
+    },
+    {
+      "id": "tx-3648ecc65346d70fa0c1efdf",
+      "date": "2026-10-16",
+      "kind": "expense",
+      "amount": 600,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "サイゼリヤ 百万遍店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 44,
+          "recordId": "raw-29e5657593df971bd2bd007521d8acb1eab20101b2ab4c2990bcca6cd97e2038-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1614,
+          "recordId": "raw-375d8c1c778c6ca112641fee53ef379630f981b1ea7dee4c117e9750549df841-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-16",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1614,
+            "recordId": "raw-375d8c1c778c6ca112641fee53ef379630f981b1ea7dee4c117e9750549df841-1"
+          },
+          "matchedTransactionId": "tx-3648ecc65346d70fa0c1efdf"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "サイゼリヤ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 600
+        }
+      ]
+    },
+    {
+      "id": "tx-5dbc75a943ab66717a203bbe",
       "date": "2026-10-16",
       "kind": "expense",
       "amount": 7808,
       "account": "三井住友カード未払金",
       "to": "",
-      "category": "未分類",
+      "category": "エンタメ",
       "memo": "ミスターマックスオンラインストア",
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-c1b9baec1d9a25b8be995d3aa6007024765dceeab4a1d47291606dd08d73b960-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1615,
+          "recordId": "raw-c1593b72879d7436314703a4253b31d2b4ea9062ab84c435d6805a92ca49ec89-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
       "categoryBasis": "店名のみでは用途を確定できないため未分類。",
       "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0130",
-      "date": "2026-10-16",
-      "kind": "pending",
-      "amount": 600,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 44
+          "date": "2026-10-16",
+          "category": "エンタメ",
+          "detail": "ゲーム",
+          "item": "【SW2】ゼルダの伝説 時のオカリナ\u003cMrMax早期購入オリジナル特典付>",
+          "store": "ミスターマックスオンラインストア",
+          "amount": 7808,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1615,
+            "recordId": "raw-c1593b72879d7436314703a4253b31d2b4ea9062ab84c435d6805a92ca49ec89-1"
+          },
+          "matchedTransactionId": "tx-5dbc75a943ab66717a203bbe"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0126",
-      "date": "2026-10-17",
-      "kind": "pending",
-      "amount": 1690,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ミスターマックスオンラインストア"
+      },
+      "categoryAmounts": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 40
+          "category": "エンタメ",
+          "amount": 7808
         }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
+      ]
     },
     {
-      "id": "tx-0127",
-      "date": "2026-10-17",
-      "kind": "pending",
-      "amount": 650,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 41
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0128",
-      "date": "2026-10-17",
-      "kind": "pending",
-      "amount": 500,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 42
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0129",
-      "date": "2026-10-17",
-      "kind": "transfer",
-      "amount": 4000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 43
-        },
-        {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 18
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0216",
+      "id": "tx-40d13152d1cdb2d9f63fdab5",
       "date": "2026-10-17",
       "kind": "expense",
       "amount": 150,
@@ -3477,7 +7700,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 17
+          "line": 17,
+          "recordId": "raw-2f67051067a6e39295b0912d02086aa2f9e17df6e8d581aba65a8412b2960584-1"
         }
       ],
       "status": "確認済み",
@@ -3485,7 +7709,168 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0017",
+      "id": "tx-991bf5be4173eef4347588ca",
+      "date": "2026-10-17",
+      "kind": "expense",
+      "amount": 500,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "知恩院",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 42,
+          "recordId": "raw-47f406987295a3f5e4251dd0e2f597c8daf2e380841d268b3ddf562e3e0d6899-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1616,
+          "recordId": "raw-82a9a0fb06ae0b4061e88b5bcb37070522d9da8165d5a24ec95940122faed853-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-17",
+          "category": "エンタメ",
+          "detail": "イベント",
+          "item": "",
+          "store": "知恩院",
+          "amount": 500,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1616,
+            "recordId": "raw-82a9a0fb06ae0b4061e88b5bcb37070522d9da8165d5a24ec95940122faed853-1"
+          },
+          "matchedTransactionId": "tx-991bf5be4173eef4347588ca"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "知恩院"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 500
+        }
+      ]
+    },
+    {
+      "id": "tx-a7fcc9784085bf72bb92dee7",
+      "date": "2026-10-17",
+      "kind": "transfer",
+      "amount": 4000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 43,
+          "recordId": "raw-1f28f18dfb447f41c0c97fb7e59009a4238f4340ef774246c0b5b19e879ff661-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 18,
+          "recordId": "raw-7566bfe0717eccaeff665bb7e8ac943e630ecf1e35bf84efc30403f84703659f-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-dc7c2ba154d782c1c767a1a7",
+      "date": "2026-10-17",
+      "kind": "expense",
+      "amount": 2340,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "びっくりドンキー＋地球規模で考えろ（2食分の精算）",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 40,
+          "recordId": "raw-ccba1cad29332a6f40395b89700bade13cdb03180814f60311c5c150641f6e23-1"
+        },
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 41,
+          "recordId": "raw-8920699700daab0d424b6c1bf8f40dc23ef54139ea6ac4af781e8fc9785f9e4c-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1617,
+          "recordId": "raw-7bfd0a61831414d3bbf1eaa724d87b87b5f3314930911b9dafef1ac62bf7e3a3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1618,
+          "recordId": "raw-bbaff33292b572690cb9e31bf178d308d39ddb223a541d9f89000ae1bb839b91-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-17",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "チーズバーグディッシュ",
+          "store": "びっくりドンキー 河原町三条店",
+          "amount": 1190,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1617,
+            "recordId": "raw-7bfd0a61831414d3bbf1eaa724d87b87b5f3314930911b9dafef1ac62bf7e3a3-1"
+          },
+          "matchedTransactionId": "tx-dc7c2ba154d782c1c767a1a7"
+        },
+        {
+          "date": "2026-10-17",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ラーメン 300g",
+          "store": "ラーメン荘 地球規模で考えろ サン",
+          "amount": 1150,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1618,
+            "recordId": "raw-bbaff33292b572690cb9e31bf178d308d39ddb223a541d9f89000ae1bb839b91-1"
+          },
+          "matchedTransactionId": "tx-dc7c2ba154d782c1c767a1a7"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "びっくりドンキー 河原町三条店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 2340
+        }
+      ]
+    },
+    {
+      "id": "tx-47eda19a122042463658016c",
       "date": "2026-10-18",
       "kind": "expense",
       "amount": 110,
@@ -3496,17 +7881,132 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-36408ca39363e7257d31a31dc4fc28ed1a26039bfe0ae434442424e7d2f6faf4-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1620,
+          "recordId": "raw-03979ce4b45446132ed3c161fbaa75c5c1676a2168d1ac695d985cf8c76cb0cc-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1621,
+          "recordId": "raw-eeb406bde850646ddb22286a47ce1ab1c9f7707fd84b4f95a0db9f43870aae10-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
       "billId": "Rakuten_Card-202611",
-      "refundOriginalStatus": null
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-18",
+          "category": "日用雑貨",
+          "detail": "消耗品",
+          "item": "鍛造先曲ラジオペンチ",
+          "store": "Seria洛北阪急スクエア店",
+          "amount": 100,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1620,
+            "recordId": "raw-03979ce4b45446132ed3c161fbaa75c5c1676a2168d1ac695d985cf8c76cb0cc-1"
+          },
+          "matchedTransactionId": "tx-47eda19a122042463658016c"
+        },
+        {
+          "date": "2026-10-18",
+          "category": "日用雑貨",
+          "detail": "消耗品",
+          "item": "消費税",
+          "store": "Seria洛北阪急スクエア店",
+          "amount": 10,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1621,
+            "recordId": "raw-eeb406bde850646ddb22286a47ce1ab1c9f7707fd84b4f95a0db9f43870aae10-1"
+          },
+          "matchedTransactionId": "tx-47eda19a122042463658016c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "Seria洛北阪急スクエア店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "日用雑貨",
+          "amount": 110
+        }
+      ]
     },
     {
-      "id": "tx-0049",
+      "id": "tx-ca7ecb553398c2fbf5214024",
+      "date": "2026-10-18",
+      "kind": "expense",
+      "amount": 1080,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "洛北阪急スクエア",
+      "sources": [
+        {
+          "file": "Vpass/202611.csv",
+          "line": 4,
+          "recordId": "raw-c93be20409685766d5ff394c90b83f46cf413b166eac6464a16955781fc50b80-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1619,
+          "recordId": "raw-3f98a9663544978ce148e2904161c822575fde7a0512b4342b62fbbbb7920d92-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+      "billId": "Vpass-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-18",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "肉辛まぜうどん(大)",
+          "store": "丸亀製麺 洛北阪急スクエア",
+          "amount": 1080,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1619,
+            "recordId": "raw-3f98a9663544978ce148e2904161c822575fde7a0512b4342b62fbbbb7920d92-1"
+          },
+          "matchedTransactionId": "tx-ca7ecb553398c2fbf5214024"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "ユーザー回答に基づく対応付け。ローソンは2塊を個別決済へ対応。",
+        "store": "丸亀製麺 洛北阪急スクエア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1080
+        }
+      ]
+    },
+    {
+      "id": "tx-d994a3f4a7777e9f91e4fe1c",
       "date": "2026-10-18",
       "kind": "expense",
       "amount": 454,
@@ -3517,69 +8017,163 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 3
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0050",
-      "date": "2026-10-18",
-      "kind": "expense",
-      "amount": 1080,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "未分類",
-      "memo": "洛北阪急スクエア",
-      "sources": [
+          "line": 3,
+          "recordId": "raw-448d922b55ef1d7f2696f64209f491d5f755dd3c9720706ce511936edc3db585-1"
+        },
         {
-          "file": "Vpass/202611.csv",
-          "line": 4
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0124",
-      "date": "2026-10-19",
-      "kind": "expense",
-      "amount": 75,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "日用雑貨",
-      "memo": "富士薬品グループ - ドラッグユタカ百万遍店",
-      "sources": [
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1622,
+          "recordId": "raw-42460cfb00f2246eaaf83cbe3c2c7f2ea29e9a16d0efd372edb92809e2283a07-1"
+        },
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 38
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1623,
+          "recordId": "raw-bd1149561f0107120548b1351ed2e93599cf0219897288549c18d9e49f749af5-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1624,
+          "recordId": "raw-93f16bb70f73316e7515381d93fca55bc0ef0132658d5af2ca5ad17228535152-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1625,
+          "recordId": "raw-3eb28739b8e4687de19834419d0f84a1275a4b4efeffd3166a413496a9b9b41d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1626,
+          "recordId": "raw-509de142d12a8b3f5ded35aa027284b412aba64b479af20ee2f23433bc67a9db-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Vpass-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-18",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "カナダ産ハーブ三元豚小",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 316,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1622,
+            "recordId": "raw-42460cfb00f2246eaaf83cbe3c2c7f2ea29e9a16d0efd372edb92809e2283a07-1"
+          },
+          "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
+        },
+        {
+          "date": "2026-10-18",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "割引",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": -63,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1623,
+            "recordId": "raw-bd1149561f0107120548b1351ed2e93599cf0219897288549c18d9e49f749af5-1"
+          },
+          "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
+        },
+        {
+          "date": "2026-10-18",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "山都産業焼きそば用野菜",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 129,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1624,
+            "recordId": "raw-93f16bb70f73316e7515381d93fca55bc0ef0132658d5af2ca5ad17228535152-1"
+          },
+          "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
+        },
+        {
+          "date": "2026-10-18",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "豊国ヌードル豊国",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 39,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1625,
+            "recordId": "raw-3eb28739b8e4687de19834419d0f84a1275a4b4efeffd3166a413496a9b9b41d-1"
+          },
+          "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
+        },
+        {
+          "date": "2026-10-18",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "スーパーフレスコ 出町柳店",
+          "amount": 33,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1626,
+            "recordId": "raw-509de142d12a8b3f5ded35aa027284b412aba64b479af20ee2f23433bc67a9db-1"
+          },
+          "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "スーパーフレスコ 出町柳店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 454
+        }
+      ]
     },
     {
-      "id": "tx-0125",
+      "id": "tx-b3be41eb33bcde781a6792e7",
       "date": "2026-10-19",
       "kind": "expense",
       "amount": 433,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 京都大学",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 39
+          "line": 39,
+          "recordId": "raw-5d0272572ea3880b144df0f8dd0edd63c65df60650887dc6b1c9c8d91e4a65c3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1627,
+          "recordId": "raw-33067b2f9c58451e761721b579d1670564af80339ae793ffd3ba65341048818e-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1628,
+          "recordId": "raw-a271c571754f88d2a0f2738d2ffb6739848cebbac7918c4364e3cd2fb4c8b194-1"
         }
       ],
       "status": "確認済み",
@@ -3593,99 +8187,348 @@ window.LifeAccountingData = {
           "amount": 431
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-19",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ハムレタスたまごサンド",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 298,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1627,
+            "recordId": "raw-33067b2f9c58451e761721b579d1670564af80339ae793ffd3ba65341048818e-1"
+          },
+          "matchedTransactionId": "tx-b3be41eb33bcde781a6792e7"
+        },
+        {
+          "date": "2026-10-19",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "野菜生活マンゴーサラダ",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 135,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1628,
+            "recordId": "raw-a271c571754f88d2a0f2738d2ffb6739848cebbac7918c4364e3cd2fb4c8b194-1"
+          },
+          "matchedTransactionId": "tx-b3be41eb33bcde781a6792e7"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　京都大学店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 433
+        }
+      ]
     },
     {
-      "id": "tx-0122",
-      "date": "2026-10-20",
+      "id": "tx-e5bf13418668683bd1ccc14f",
+      "date": "2026-10-19",
       "kind": "expense",
-      "amount": 117,
+      "amount": 75,
       "account": "PayPay残高",
       "to": "",
-      "category": "日用雑貨",
+      "category": "食費",
       "memo": "富士薬品グループ - ドラッグユタカ百万遍店",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 36
+          "line": 38,
+          "recordId": "raw-c67e218a95797b7c7b7a426c26b3e6c86957b684a2b7154d49150a328f3b2fcb-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1629,
+          "recordId": "raw-e974d0e8a5088366074b6406f13c0664f7441190dbb9ccf23b175b8049b899ac-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-19",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ピユアノ森2L",
+          "store": "ドラッグユタカ 百万遍店",
+          "amount": 75,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1629,
+            "recordId": "raw-e974d0e8a5088366074b6406f13c0664f7441190dbb9ccf23b175b8049b899ac-1"
+          },
+          "matchedTransactionId": "tx-e5bf13418668683bd1ccc14f"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ドラッグユタカ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 75
+        }
+      ]
     },
     {
-      "id": "tx-0123",
+      "id": "tx-a5b76bd534742d948715a753",
       "date": "2026-10-20",
       "kind": "expense",
       "amount": 530,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "松弁ネット",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 37
+          "line": 37,
+          "recordId": "raw-e0a4d837e1f3cad97f8eb403f0c29975e6c41ed0f2efe7255f9ad53ecd3d178d-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
       "categoryBasis": "店名のみでは用途を確定できないため未分類。",
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0081",
-      "date": "2026-10-21",
-      "kind": "pending",
-      "amount": 1000,
-      "account": "三井住友銀行",
+      "id": "tx-bf75c092e6aa181d711e6d03",
+      "date": "2026-10-20",
+      "kind": "expense",
+      "amount": 117,
+      "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "PayPayチャージの重複候補（集計除外）",
+      "category": "食費",
+      "memo": "富士薬品グループ - ドラッグユタカ百万遍店",
       "sources": [
         {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 14
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 36,
+          "recordId": "raw-faafc5fce0b2bba5c59ae49aab094420fa8b530307b3dc902fe3c2512b2635af-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1630,
+          "recordId": "raw-48f5277770040e024a93d2b6e63216d70d219e97f85598145a401f3256b7c64a-1"
         }
       ],
-      "status": "重複候補・集計除外",
+      "status": "確認済み",
       "splits": [],
-      "direction": "out",
-      "duplicateCandidateIds": [
-        "tx-0116",
-        "tx-0121"
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-20",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "アヅマ国産中粒納豆",
+          "store": "ドラッグユタカ 百万遍店",
+          "amount": 117,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1630,
+            "recordId": "raw-48f5277770040e024a93d2b6e63216d70d219e97f85598145a401f3256b7c64a-1"
+          },
+          "matchedTransactionId": "tx-bf75c092e6aa181d711e6d03"
+        }
       ],
-      "excludeFromBalances": true
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ドラッグユタカ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 117
+        }
+      ]
     },
     {
-      "id": "tx-0083",
+      "id": "tx-18441a80f61031d016365dc0",
       "date": "2026-10-21",
-      "kind": "pending",
-      "amount": 1000,
+      "kind": "transfer",
+      "amount": 1100,
       "account": "三井住友銀行",
-      "to": "",
-      "category": "未分類",
-      "memo": "PayPayチャージの重複候補（集計除外）",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
       "sources": [
         {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 32,
+          "recordId": "raw-aff84ffa4e81ddfd0c6f940a198b530e5b23367335993ee0933d89328695fd3f-1"
+        },
+        {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 16
+          "line": 15,
+          "recordId": "raw-81278e0f903098f970e9df7ae2d1ed172b21e8c73815c2b3c1ad7f581bd7fa7a-1"
         }
       ],
-      "status": "重複候補・集計除外",
-      "splits": [],
-      "direction": "out",
-      "duplicateCandidateIds": [
-        "tx-0116",
-        "tx-0121"
-      ],
-      "excludeFromBalances": true
+      "status": "確認済み",
+      "splits": []
     },
     {
-      "id": "tx-0084",
+      "id": "tx-1a8d3ba6d53df617979b8eec",
+      "date": "2026-10-21",
+      "kind": "expense",
+      "amount": 1100,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "油珉",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 31,
+          "recordId": "raw-411bfe90dd2b7c25cae2cd6f006783f1c4565f461ec3d82108bbc48767b4f9f4-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1633,
+          "recordId": "raw-3060bcec97063157c215881a3b6634f2cf68addfe10c3fdbaa3d823993b93cb1-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-21",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "限定2 具材爆盛りスタミナジャンク",
+          "store": "油珉",
+          "amount": 1100,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1633,
+            "recordId": "raw-3060bcec97063157c215881a3b6634f2cf68addfe10c3fdbaa3d823993b93cb1-1"
+          },
+          "matchedTransactionId": "tx-1a8d3ba6d53df617979b8eec"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "油珉"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1100
+        }
+      ]
+    },
+    {
+      "id": "tx-96852b8df4874f3a95aff6ec",
+      "date": "2026-10-21",
+      "kind": "expense",
+      "amount": 311,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ローソン - 百万遍",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 33,
+          "recordId": "raw-d1d336a2b95738f446ea17e229147662880c598bb18cc9e18aeb5b179f9abfc9-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1631,
+          "recordId": "raw-af8db31d7bb1a6930007ef8b6856857fa9f14c981cf274b384b86bd99b9a9695-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1632,
+          "recordId": "raw-8bec11e0fa64ec2edb16ed424299929546b777dba88125c699da81c50490671b-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-21",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "和風シーチキンマヨおにぎり",
+          "store": "ローソン百万遍店",
+          "amount": 184,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1631,
+            "recordId": "raw-af8db31d7bb1a6930007ef8b6856857fa9f14c981cf274b384b86bd99b9a9695-1"
+          },
+          "matchedTransactionId": "tx-96852b8df4874f3a95aff6ec"
+        },
+        {
+          "date": "2026-10-21",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "キッコーマントウニュウバナナ",
+          "store": "ローソン百万遍店",
+          "amount": 127,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1632,
+            "recordId": "raw-8bec11e0fa64ec2edb16ed424299929546b777dba88125c699da81c50490671b-1"
+          },
+          "matchedTransactionId": "tx-96852b8df4874f3a95aff6ec"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ローソン百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 311
+        }
+      ]
+    },
+    {
+      "id": "tx-9c9c332414e7069d22ff90fc",
       "date": "2026-10-21",
       "kind": "expense",
       "amount": 1923,
@@ -3696,7 +8539,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 17
+          "line": 17,
+          "recordId": "raw-194e1d54a8f401894c7355b8ad288149ff518c76ac7006587b22dac2b4b6c627-1"
         }
       ],
       "status": "確認済み",
@@ -3704,7 +8548,96 @@ window.LifeAccountingData = {
       "categoryBasis": "銀行摘要の電力会社名。"
     },
     {
-      "id": "tx-0115",
+      "id": "tx-acd585cb76612ee02168519f",
+      "date": "2026-10-21",
+      "kind": "transfer",
+      "amount": 2000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "チャージ2回分（双方の明細を対応付け）",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 30,
+          "recordId": "raw-d6411e42d9bf23c0e68db6399d7ef4faa0244bc0120c9cde6031498d22b469f2-1"
+        },
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 35,
+          "recordId": "raw-4c3ea3cabc3e054512b34cfa7ab774158b4c94420cfb332a0caf36a067666ca2-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 14,
+          "recordId": "raw-c9e5c0c9f27f0bb4ca615fcb697e62f7b98a6a33c632248c5eef9c1c3b807479-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 16,
+          "recordId": "raw-b71943d41ba25e032fc16cc5b3e35526252436ca3fdbf9b3f4673223b84de238-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-f9528940b83665846df1681c",
+      "date": "2026-10-21",
+      "kind": "expense",
+      "amount": 1000,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "深夜ラーメンB",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 34,
+          "recordId": "raw-e72e4253ec6a241cbac9ec90e44bfb2ed4edec508d7605078c670ef4ead7041b-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1634,
+          "recordId": "raw-62a6fdd61c6af27d40a4103962958d3cff4e3b79bb68b0c32d47c1f828594c78-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-21",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "地鶏油SP",
+          "store": "深夜ラーメンB",
+          "amount": 1000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1634,
+            "recordId": "raw-62a6fdd61c6af27d40a4103962958d3cff4e3b79bb68b0c32d47c1f828594c78-1"
+          },
+          "matchedTransactionId": "tx-f9528940b83665846df1681c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "深夜ラーメンB"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1000
+        }
+      ]
+    },
+    {
+      "id": "tx-fea5a18e3bb15ff0a555132a",
       "date": "2026-10-21",
       "kind": "expense",
       "amount": 600,
@@ -3715,7 +8648,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 29
+          "line": 29,
+          "recordId": "raw-a1c6200eaa24a06cfded77e13ec7cda78c993e40a8388fbbc4ac3471c289cee0-1"
         }
       ],
       "status": "確認済み",
@@ -3724,142 +8658,62 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0116",
-      "date": "2026-10-21",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 30
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0117",
-      "date": "2026-10-21",
-      "kind": "pending",
-      "amount": 1100,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 31
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0118",
-      "date": "2026-10-21",
-      "kind": "transfer",
-      "amount": 1100,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 32
-        },
-        {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 15
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0119",
-      "date": "2026-10-21",
-      "kind": "expense",
-      "amount": 311,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "ローソン - 百万遍",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 33
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0120",
-      "date": "2026-10-21",
-      "kind": "pending",
-      "amount": 1000,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 34
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0121",
-      "date": "2026-10-21",
-      "kind": "transfer",
-      "amount": 1000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
-      "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 35
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0112",
+      "id": "tx-7994a2578d5285a2b55b9c51",
       "date": "2026-10-22",
-      "kind": "pending",
+      "kind": "expense",
       "amount": 640,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "category": "食費",
+      "memo": "ケニア",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 26
+          "line": 26,
+          "recordId": "raw-d19bb911849027f6f0d498412935b6ea7c2902070f734cb8727801bffa3d9904-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1636,
+          "recordId": "raw-04ff42144ac57ab7b7c1ac4dcf879f928e3c94189212a3b623374da59501c24a-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "out"
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-22",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "旧ワンコイン定食",
+          "store": "ケニア",
+          "amount": 640,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1636,
+            "recordId": "raw-04ff42144ac57ab7b7c1ac4dcf879f928e3c94189212a3b623374da59501c24a-1"
+          },
+          "matchedTransactionId": "tx-7994a2578d5285a2b55b9c51"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ケニア"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 640
+        }
+      ]
     },
     {
-      "id": "tx-0113",
+      "id": "tx-90d980e8e06f497897859e58",
       "date": "2026-10-22",
       "kind": "transfer",
       "amount": 1000,
@@ -3870,61 +8724,76 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 27
+          "line": 27,
+          "recordId": "raw-cda0a13fadd5d100804c35e019bba59cc9148fdce0a01b841e7ca19c615d1af0-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-cf268499a7b3ae654e219a95f6dfa8a567e2d724442350795dbcca4c6e7f9f93-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0114",
+      "id": "tx-e5475dee75fc91f9fcf529f9",
       "date": "2026-10-22",
       "kind": "expense",
       "amount": 149,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 京都大学",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 28
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0015",
-      "date": "2026-10-23",
-      "kind": "transfer",
-      "amount": 500,
-      "account": "楽天カード未払金",
-      "to": "Suica",
-      "category": "振替",
-      "memo": "Suicaチャージ",
-      "sources": [
-        {
-          "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 3
+          "line": 28,
+          "recordId": "raw-6653786f0c37f2d8909dd40151baf7486fd21bb80ba2ed28e44d5671e3635623-1"
         },
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 11
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1635,
+          "recordId": "raw-32e39d607ce0e8ab61a195482e60cbebedbc0d464b63a1544334a5363bf24a0e-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "billId": "Rakuten_Card-202611"
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-22",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "おーいお茶ゆずグリーン",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 149,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1635,
+            "recordId": "raw-32e39d607ce0e8ab61a195482e60cbebedbc0d464b63a1544334a5363bf24a0e-1"
+          },
+          "matchedTransactionId": "tx-e5475dee75fc91f9fcf529f9"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　京都大学店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 149
+        }
+      ]
     },
     {
-      "id": "tx-0016",
+      "id": "tx-027b552d02707a6c7b98e8b0",
       "date": "2026-10-23",
       "kind": "transfer",
       "amount": 1000,
@@ -3935,11 +8804,13 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-a2559edbfd1df6ae0763eca07b8d489cfb30754518c4c33136e48b31760a624b-1"
         },
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-fe7146d83e42c7584bca5b42832b182572261a8912210231d946659faed53d61-1"
         }
       ],
       "status": "確認済み",
@@ -3947,104 +8818,75 @@ window.LifeAccountingData = {
       "billId": "Rakuten_Card-202611"
     },
     {
-      "id": "tx-0048",
+      "id": "tx-0c76b9c2faca256a317d29c7",
       "date": "2026-10-23",
       "kind": "expense",
-      "amount": 3000,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "娯楽費",
-      "memo": "塚口サンサン劇場",
-      "sources": [
-        {
-          "file": "Vpass/202611.csv",
-          "line": 2
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0111",
-      "date": "2026-10-23",
-      "kind": "pending",
       "amount": 600,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "category": "食費",
+      "memo": "サイゼリヤ 百万遍店",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 25
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0209",
-      "date": "2026-10-23",
-      "kind": "expense",
-      "amount": 240,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "SU四条 → SU出町柳",
-      "sources": [
+          "line": 25,
+          "recordId": "raw-1ad206996442c20e2ec4fdbd4320b8507aa7462201aecfddc6f694dc10629495-1"
+        },
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 10
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1638,
+          "recordId": "raw-f3425cd9f224d8821640502e83e32fdd3d4f000a373780116d631d5497a01673-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0211",
-      "date": "2026-10-23",
-      "kind": "expense",
-      "amount": 480,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "SU塚口 → SU河原町",
-      "sources": [
+      "direction": "out",
+      "zaimItems": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 12
+          "date": "2026-10-23",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1638,
+            "recordId": "raw-f3425cd9f224d8821640502e83e32fdd3d4f000a373780116d631d5497a01673-1"
+          },
+          "matchedTransactionId": "tx-0c76b9c2faca256a317d29c7"
         }
       ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0212",
-      "date": "2026-10-23",
-      "kind": "expense",
-      "amount": 520,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "SU恵美須 → SU塚口",
-      "sources": [
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "サイゼリヤ 百万遍店"
+      },
+      "categoryAmounts": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 13
+          "category": "食費",
+          "amount": 600
         }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
+      ]
     },
     {
-      "id": "tx-0214",
+      "id": "tx-0d99218ba2e8fd105a3cefd7",
+      "date": "2026-10-23",
+      "kind": "transfer",
+      "amount": 1500,
+      "account": "三井住友カード未払金",
+      "to": "立替金",
+      "category": "振替",
+      "memo": "映画代・友人分の立替",
+      "sources": [],
+      "splits": [],
+      "status": "ユーザー確認済み"
+    },
+    {
+      "id": "tx-2890d4c7c1cd17d783851cc1",
       "date": "2026-10-23",
       "kind": "expense",
       "amount": 190,
@@ -4055,7 +8897,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 15
+          "line": 15,
+          "recordId": "raw-3b02779d849f28b5638caeb636157877ab15920ec3e2381159d1d122ae5dac35-1"
         }
       ],
       "status": "確認済み",
@@ -4063,7 +8906,89 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0215",
+      "id": "tx-2c2353234d335c4aef3af57a",
+      "date": "2026-10-23",
+      "kind": "transfer",
+      "amount": 500,
+      "account": "楽天カード未払金",
+      "to": "Suica",
+      "category": "振替",
+      "memo": "Suicaチャージ",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202611(2033).csv",
+          "line": 3,
+          "recordId": "raw-b41e8740de0ee15e7b1ad0b4b3fd6cdeae62a9bd3db2c2871480f3562e484fe5-1"
+        },
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 11,
+          "recordId": "raw-d4a3bdf680754faf3374c4d9305260df47a4f3fa0afefa60bcbec48bf0297ad7-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "billId": "Rakuten_Card-202611"
+    },
+    {
+      "id": "tx-3694b226c5ce6349dec7143e",
+      "date": "2026-10-23",
+      "kind": "expense",
+      "amount": 1500,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "バックルームズ（字幕版）／塚口サンサン劇場（自分の負担分）",
+      "sources": [
+        {
+          "file": "Vpass/202611.csv",
+          "line": 2,
+          "recordId": "raw-bd29ee0563410383b4b16ef6d849359c5e4f072072a1f66f33dd39fe7d74580d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1637,
+          "recordId": "raw-d57a09d136d69b8ccdc4d39aa1641dc7c11c8193bb61880cd32d481f822c6b8f-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Vpass-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-23",
+          "category": "エンタメ",
+          "detail": "映画・動画",
+          "item": "バックルームズ(字幕版)",
+          "store": "塚口サンサン劇場",
+          "amount": 1500,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1637,
+            "recordId": "raw-d57a09d136d69b8ccdc4d39aa1641dc7c11c8193bb61880cd32d481f822c6b8f-1"
+          },
+          "matchedTransactionId": "tx-3694b226c5ce6349dec7143e"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "塚口サンサン劇場"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 1500
+        }
+      ]
+    },
+    {
+      "id": "tx-574abc8d39e755a618af0d22",
       "date": "2026-10-23",
       "kind": "expense",
       "amount": 550,
@@ -4074,7 +8999,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 16
+          "line": 16,
+          "recordId": "raw-0685c07d3f9ed96b6fe038b05d7c85bf61384811c11232224ec455d409c47e66-1"
         }
       ],
       "status": "確認済み",
@@ -4082,45 +9008,129 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0079",
-      "date": "2026-10-24",
-      "kind": "pending",
-      "amount": 3000,
-      "account": "三井住友銀行",
+      "id": "tx-5f099b538678a59d8f041a73",
+      "date": "2026-10-23",
+      "kind": "expense",
+      "amount": 480,
+      "account": "Suica",
       "to": "",
-      "category": "未分類",
-      "memo": "用途未確認の入金",
+      "category": "交通費",
+      "memo": "SU塚口 → SU河原町",
       "sources": [
         {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 12
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 12,
+          "recordId": "raw-dba93842954ad048626041897b030df0e58905f7ab03da19ce6c173a9b9f9aa9-1"
         }
       ],
-      "status": "未確認",
+      "status": "確認済み",
       "splits": [],
-      "direction": "in"
+      "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0107",
-      "date": "2026-10-24",
-      "kind": "pending",
-      "amount": 2000,
-      "account": "PayPay残高",
+      "id": "tx-77b644bcd36a2972dbac2dc6",
+      "date": "2026-10-23",
+      "kind": "expense",
+      "amount": 520,
+      "account": "Suica",
       "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "category": "交通費",
+      "memo": "SU恵美須 → SU塚口",
       "sources": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 21
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 13,
+          "recordId": "raw-2b1749ec0eaf52061c1134b58ff57c579a926fd3d65af6a770636b5b1da12ff2-1"
         }
       ],
-      "status": "未確認",
+      "status": "確認済み",
       "splits": [],
-      "direction": "out"
+      "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0108",
+      "id": "tx-a40d606a5647b20696db23d0",
+      "date": "2026-10-23",
+      "kind": "transfer",
+      "amount": 250,
+      "account": "立替金",
+      "to": "現金",
+      "category": "振替",
+      "memo": "映画代と夕食代の差額を現金で回収",
+      "sources": [],
+      "splits": [],
+      "status": "ユーザー確認済み"
+    },
+    {
+      "id": "tx-bb2d3e3e4637a1b712683691",
+      "date": "2026-10-23",
+      "kind": "expense",
+      "amount": 1250,
+      "account": "立替金",
+      "to": "",
+      "category": "食費",
+      "memo": "ラーメン荘 歴史を刻め 大阪日本橋店",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1639,
+          "recordId": "raw-9392b9f803580cdce68087d229fccdf26cb45af99f4de1cb3733353820cd95dd-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-23",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "ラーメン + セカンドインパクト",
+          "store": "ラーメン荘 歴史を刻め 大阪日本橋店",
+          "amount": 1250,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1639,
+            "recordId": "raw-9392b9f803580cdce68087d229fccdf26cb45af99f4de1cb3733353820cd95dd-1"
+          },
+          "matchedTransactionId": "tx-bb2d3e3e4637a1b712683691"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ラーメン荘 歴史を刻め 大阪日本橋店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1250
+        }
+      ]
+    },
+    {
+      "id": "tx-d9c78a03995f6efd130a6fdc",
+      "date": "2026-10-23",
+      "kind": "expense",
+      "amount": 240,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "SU四条 → SU出町柳",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 10,
+          "recordId": "raw-1e73721bae88e72812d1234fde6c99036591f21e8b4257d8dec9a22809ff29aa-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-027cf07a95a06f6b98d59ef2",
       "date": "2026-10-24",
       "kind": "transfer",
       "amount": 2000,
@@ -4131,38 +9141,75 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 22
+          "line": 22,
+          "recordId": "raw-da8d7ad0b31a5934ab060327c9af2312823eb18f137803e605b6c24372ae393e-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-23f99de59a2d961b4d6acf6a7901437c5bc5638f5896ecfc72db4b4dba09c8d3-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0109",
+      "id": "tx-1c72674c35dbcb0a28da5577",
       "date": "2026-10-24",
       "kind": "expense",
-      "amount": 289,
+      "amount": 2000,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "ローソン - 百万遍",
+      "category": "エンタメ",
+      "memo": "完全個室 居酒屋＆カラオケ へそ 京都駅前店",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 23
+          "line": 21,
+          "recordId": "raw-845703b87e49d5dfd0aa100321808c316bd6a02a79a5d06890c059f1981c05e8-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1640,
+          "recordId": "raw-413a01c05ba37c5ac04c0d050aee4e1203419041e6b64d6fe499ff548925c652-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-24",
+          "category": "エンタメ",
+          "detail": "イベント",
+          "item": "ハロウィンパーティー",
+          "store": "完全個室 居酒屋＆カラオケ へそ 京都駅前店",
+          "amount": 2000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1640,
+            "recordId": "raw-413a01c05ba37c5ac04c0d050aee4e1203419041e6b64d6fe499ff548925c652-1"
+          },
+          "matchedTransactionId": "tx-1c72674c35dbcb0a28da5577"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "完全個室 居酒屋＆カラオケ へそ 京都駅前店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 2000
+        }
+      ]
     },
     {
-      "id": "tx-0110",
+      "id": "tx-465ddbe6610ad7d8cfe62d5d",
       "date": "2026-10-24",
       "kind": "transfer",
       "amount": 1000,
@@ -4173,18 +9220,41 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 24
+          "line": 24,
+          "recordId": "raw-2e78a05ad2d16aadc877fc2558ae8e5ee7c8be7ddeb76a9b7f51661166e17efa-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-d63a3e663eca38ac43ec9e88d45bb8173ff2dd9abb3f08e5bcf86fa9e77f7c2a-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0208",
+      "id": "tx-46db1f72eef33d2fac8f2f09",
+      "date": "2026-10-24",
+      "kind": "expense",
+      "amount": 289,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ローソン - 百万遍",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 23,
+          "recordId": "raw-d28d9ba90e2d9882c582d5248bd61ee33cc8fed7af0ad4b6327110f40d6ea9b1-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "refundOriginalStatus": null
+    },
+    {
+      "id": "tx-6bdfae9cd21929f18b1c96bc",
       "date": "2026-10-24",
       "kind": "expense",
       "amount": 230,
@@ -4195,7 +9265,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-b797bb8bf0158db208a5d8e7e3f12a56a98339ee65327d6195d8179defd8b06e-1"
         }
       ],
       "status": "確認済み",
@@ -4203,47 +9274,27 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0047",
-      "date": "2026-10-25",
-      "kind": "expense",
-      "amount": 467,
-      "account": "三井住友カード未払金",
-      "to": "",
-      "category": "食費",
-      "memo": "コレモ出町柳店",
-      "sources": [
-        {
-          "file": "Vpass/202611.csv",
-          "line": 1
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Vpass-202611",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0105",
-      "date": "2026-10-25",
+      "id": "tx-8ec3a710b11413c678f33d5c",
+      "date": "2026-10-24",
       "kind": "pending",
       "amount": 3000,
-      "account": "PayPay残高",
+      "account": "三井住友銀行",
       "to": "",
       "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "memo": "用途未確認の入金",
       "sources": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 19
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 12,
+          "recordId": "raw-6c84c236843b2c126ac63c4155d0c7b93a78467a2d11568057736ebcd0db070a-1"
         }
       ],
       "status": "未確認",
       "splits": [],
-      "direction": "out"
+      "direction": "in"
     },
     {
-      "id": "tx-0106",
+      "id": "tx-1eac2eb390879bab310d97e9",
       "date": "2026-10-25",
       "kind": "transfer",
       "amount": 3000,
@@ -4254,18 +9305,176 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 20
+          "line": 20,
+          "recordId": "raw-9b628a95388e3aa0bdbc6484c7776d029ce5efd1949d534ba2a06d608302520b-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-0a7d7fbf999ea2ff700c396610dade5db83156fbd1dd8cc0eb53c2cb796fe297-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0074",
+      "id": "tx-58ba9278a4eda4a4be83b3ff",
+      "date": "2026-10-25",
+      "kind": "expense",
+      "amount": 467,
+      "account": "三井住友カード未払金",
+      "to": "",
+      "category": "食費",
+      "memo": "コレモ出町柳店",
+      "sources": [
+        {
+          "file": "Vpass/202611.csv",
+          "line": 1,
+          "recordId": "raw-40ad2f2707969b6dd8182601cc54732627700527be732a6e72ffe4447b0adc0a-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1641,
+          "recordId": "raw-af5fc7ed383ecb307f7981face269a84d573856da474b57646e17e86024992b7-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1642,
+          "recordId": "raw-6f58c2579250be453014d5e9fb954801101aeb16905cacc4b36558d82115040d-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1643,
+          "recordId": "raw-0aff5895603152c0726697d9dd60a7aa6d2f33a71c115dabee50afe70e680450-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "billId": "Vpass-202611",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-25",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "カナダ産ハーブ三元豚小",
+          "store": "コレモ出町柳店",
+          "amount": 304,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1641,
+            "recordId": "raw-af5fc7ed383ecb307f7981face269a84d573856da474b57646e17e86024992b7-1"
+          },
+          "matchedTransactionId": "tx-58ba9278a4eda4a4be83b3ff"
+        },
+        {
+          "date": "2026-10-25",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "山都産業焼きそば用野菜",
+          "store": "コレモ出町柳店",
+          "amount": 129,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1642,
+            "recordId": "raw-6f58c2579250be453014d5e9fb954801101aeb16905cacc4b36558d82115040d-1"
+          },
+          "matchedTransactionId": "tx-58ba9278a4eda4a4be83b3ff"
+        },
+        {
+          "date": "2026-10-25",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "外税",
+          "store": "コレモ出町柳店",
+          "amount": 34,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1643,
+            "recordId": "raw-0aff5895603152c0726697d9dd60a7aa6d2f33a71c115dabee50afe70e680450-1"
+          },
+          "matchedTransactionId": "tx-58ba9278a4eda4a4be83b3ff"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "コレモ出町柳店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 467
+        }
+      ]
+    },
+    {
+      "id": "tx-f5f65de99af4cd8f07dc7e0c",
+      "date": "2026-10-25",
+      "kind": "expense",
+      "amount": 3000,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ワイワイ酒場 へそ 京都店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 19,
+          "recordId": "raw-b659ce83b1f066f5a0a3183cdb6cbc1273a4a68b2c979ec3ea0f0166f1e9b941-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1644,
+          "recordId": "raw-ad8ac0f52be142a9850ba2e9ee7633c6df47510bc6022b12db9114f7ef0af3bc-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-25",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "飲み代",
+          "store": "ワイワイ酒場 へそ 京都店",
+          "amount": 3000,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1644,
+            "recordId": "raw-ad8ac0f52be142a9850ba2e9ee7633c6df47510bc6022b12db9114f7ef0af3bc-1"
+          },
+          "matchedTransactionId": "tx-f5f65de99af4cd8f07dc7e0c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ワイワイ酒場 へそ 京都店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "id": "tx-0fb0a86532b6e3d4a6c3b689",
       "date": "2026-10-26",
       "kind": "pending",
       "amount": 100000,
@@ -4276,7 +9485,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-de3eff8a434d8afc43bda70b23568aa36adfbe579a0c4713dea9bdf7011776bd-1"
         }
       ],
       "status": "未確認",
@@ -4284,7 +9494,7 @@ window.LifeAccountingData = {
       "direction": "in"
     },
     {
-      "id": "tx-0075",
+      "id": "tx-41da05c05e220ba829926120",
       "date": "2026-10-26",
       "kind": "transfer",
       "amount": 65780,
@@ -4295,7 +9505,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-a1db3a785c31640d33b3cb2381b31a57b30294babac095e2b6262b13576a6c9a-1"
         }
       ],
       "status": "確認済み",
@@ -4303,99 +9514,134 @@ window.LifeAccountingData = {
       "billId": "Vpass-202610"
     },
     {
-      "id": "tx-0104",
+      "id": "tx-f2df0be402c89cd0d415f42a",
       "date": "2026-10-26",
       "kind": "expense",
       "amount": 429,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 京都大学",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 18
+          "line": 18,
+          "recordId": "raw-50a6208b1f901d8ae57c590c5b5017539f3b6a0c920ac5ce09e1ec319f7f5414-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1645,
+          "recordId": "raw-c5ba09a28c420851c58e4ffe85af50124a84bcfce227ca38140c2035c66829e0-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0072",
-      "date": "2026-10-27",
-      "kind": "pending",
-      "amount": 63330,
-      "account": "三井住友銀行",
-      "to": "",
-      "category": "未分類",
-      "memo": "用途未確認の出金",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 5
+          "date": "2026-10-26",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "たらこのパスタサラダ",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 429,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1645,
+            "recordId": "raw-c5ba09a28c420851c58e4ffe85af50124a84bcfce227ca38140c2035c66829e0-1"
+          },
+          "matchedTransactionId": "tx-f2df0be402c89cd0d415f42a"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0073",
-      "date": "2026-10-27",
-      "kind": "transfer",
-      "amount": 30566,
-      "account": "三井住友銀行",
-      "to": "楽天カード未払金",
-      "category": "振替",
-      "memo": "2026-10請求分の引き落とし",
-      "sources": [
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　京都大学店"
+      },
+      "categoryAmounts": [
         {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 6
+          "category": "食費",
+          "amount": 429
         }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "billId": "Rakuten_Card-202610"
+      ]
     },
     {
-      "id": "tx-0101",
+      "id": "tx-0320fff3e1bc408d348aa996",
       "date": "2026-10-27",
       "kind": "expense",
       "amount": 117,
       "account": "PayPay残高",
       "to": "",
-      "category": "日用雑貨",
+      "category": "食費",
       "memo": "富士薬品グループ - ドラッグユタカ百万遍店",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 15
+          "line": 15,
+          "recordId": "raw-0ce6acc76730fa4f2c8dca0d812a71f14c0e11a7e82c1c3f33f5b75843466758-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1646,
+          "recordId": "raw-70e68d75bda6d1d59deaf1f234c79b8b96bb8484a885f8407c30846b301662fb-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-27",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "アヅマ国産中粒納豆",
+          "store": "ドラッグユタカ 百万遍店",
+          "amount": 117,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1646,
+            "recordId": "raw-70e68d75bda6d1d59deaf1f234c79b8b96bb8484a885f8407c30846b301662fb-1"
+          },
+          "matchedTransactionId": "tx-0320fff3e1bc408d348aa996"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ドラッグユタカ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 117
+        }
+      ]
     },
     {
-      "id": "tx-0102",
+      "id": "tx-3def7a88ef6d9d07e6dcb1fc",
       "date": "2026-10-27",
       "kind": "expense",
       "amount": 530,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "松弁ネット",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 16
+          "line": 16,
+          "recordId": "raw-17003ca1f0f9b72cf4f212fc7e7607efab7007a212cdef8d498887466738b981-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [
         {
           "account": "PayPayポイント",
@@ -4410,7 +9656,27 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0103",
+      "id": "tx-5d2123fd9cfdd9dac8f18fd8",
+      "date": "2026-10-27",
+      "kind": "transfer",
+      "amount": 30566,
+      "account": "三井住友銀行",
+      "to": "楽天カード未払金",
+      "category": "振替",
+      "memo": "2026-10請求分の引き落とし",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 6,
+          "recordId": "raw-bdc86ac7e505ed44aefef97d8640c25ad9ce0dcaa59d11dbe89cb75c3155ff33-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "billId": "Rakuten_Card-202610"
+    },
+    {
+      "id": "tx-761ccf0a677c261c49a21bf9",
       "date": "2026-10-27",
       "kind": "transfer",
       "amount": 3000,
@@ -4421,32 +9687,55 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 17
+          "line": 17,
+          "recordId": "raw-f521f8e552aa1912c74833867fdbf7898e6c7d4f756f9aae5ba49565ea57e088-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-dd7b3da5b2356d3795f13c41d4bc15d5317d0eefa83dc4164727909c0fdc74e6-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0099",
+      "id": "tx-8afca9b79e7f30ac9d95fe2b",
+      "date": "2026-10-27",
+      "kind": "pending",
+      "amount": 63330,
+      "account": "三井住友銀行",
+      "to": "",
+      "category": "未分類",
+      "memo": "用途未確認の出金",
+      "sources": [
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 5,
+          "recordId": "raw-7208b18891c7eb559797d7b9f0b067029b289d23141b31841892fc0d7617685a-1"
+        }
+      ],
+      "status": "未確認",
+      "splits": [],
+      "direction": "out"
+    },
+    {
+      "id": "tx-a2d096060d139696d622de08",
       "date": "2026-10-28",
       "kind": "expense",
       "amount": 530,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "松弁ネット",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-bcfa5bb3e3f10d0d48a37066923c86b0679ef2bec02e421ddb70ebe986b53fd6-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [
         {
           "account": "PayPayポイント",
@@ -4461,57 +9750,140 @@ window.LifeAccountingData = {
       "refundOriginalStatus": null
     },
     {
-      "id": "tx-0100",
+      "id": "tx-f57174d3a2caa538c33eb8e1",
       "date": "2026-10-28",
       "kind": "expense",
       "amount": 300,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 中西高野",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-797815960f6e3e2c247465f967bfa91dbcede1c89ec870658f1b310ac348c9f7-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1647,
+          "recordId": "raw-4e393ade71f60b7678228e535c4d6993f650081cbff3423dc078c70b6437cc63-1"
         }
       ],
       "status": "確認済み",
       "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
+        {
+          "date": "2026-10-28",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "ノグリ旨辛焼きちゃんぽ",
+          "store": "ファミリーマート中西高野店",
+          "amount": 300,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1647,
+            "recordId": "raw-4e393ade71f60b7678228e535c4d6993f650081cbff3423dc078c70b6437cc63-1"
+          },
+          "matchedTransactionId": "tx-f57174d3a2caa538c33eb8e1"
+        }
+      ],
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート中西高野店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 300
+        }
+      ]
     },
     {
-      "id": "tx-0097",
+      "id": "tx-171222f3212198f25ca165b9",
       "date": "2026-10-29",
-      "kind": "pending",
+      "kind": "expense",
       "amount": 1250,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
+      "category": "食費",
+      "memo": "麺と酒の寅",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-d42f216ee8cd83b9af47f9a17ce6790e9e83f16b36ac52b173685fccce5bff39-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1650,
+          "recordId": "raw-a9d9f3482416a7549f3c35e3369f40f21f379fe0a1b15e8ae0b6e38425fbfcf0-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "out"
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-29",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "汁あり坦々麺 白ご飯",
+          "store": "麺と酒の寅",
+          "amount": 1250,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1650,
+            "recordId": "raw-a9d9f3482416a7549f3c35e3369f40f21f379fe0a1b15e8ae0b6e38425fbfcf0-1"
+          },
+          "matchedTransactionId": "tx-171222f3212198f25ca165b9"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "麺と酒の寅"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1250
+        }
+      ]
     },
     {
-      "id": "tx-0098",
+      "id": "tx-ba5965176e1720d2f166b42e",
       "date": "2026-10-29",
       "kind": "expense",
       "amount": 333,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ファミリーマート - 京都大学",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-d83e8239e97b0cb940b7e55db0e649010a01c4915a39b582fa55dbb76b9f20bc-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1648,
+          "recordId": "raw-07f04785cb33e64ad47cb9da0fa834aa612fea04959ddcaad41a93aac8f7e4f3-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1649,
+          "recordId": "raw-ea5d5458022c94dae72e5b0b50ac0beb30dd54406c8e0c0bcab5268eac85bb9b-1"
         }
       ],
       "status": "確認済み",
@@ -4525,32 +9897,58 @@ window.LifeAccountingData = {
           "amount": 330
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0014",
-      "date": "2026-10-30",
-      "kind": "expense",
-      "amount": 5400,
-      "account": "楽天カード未払金",
-      "to": "",
-      "category": "美容",
-      "memo": "ＶＩＳＡ国内利用　VS ﾒﾝｽﾞｻﾛﾝ ﾚｲ",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 2
+          "date": "2026-10-29",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "手巻真昆布",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 198,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1648,
+            "recordId": "raw-07f04785cb33e64ad47cb9da0fa834aa612fea04959ddcaad41a93aac8f7e4f3-1"
+          },
+          "matchedTransactionId": "tx-ba5965176e1720d2f166b42e"
+        },
+        {
+          "date": "2026-10-29",
+          "category": "食費",
+          "detail": "食料品",
+          "item": "野菜生活ベリーサラダ",
+          "store": "ファミリーマート　京都大学店",
+          "amount": 135,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1649,
+            "recordId": "raw-ea5d5458022c94dae72e5b0b50ac0beb30dd54406c8e0c0bcab5268eac85bb9b-1"
+          },
+          "matchedTransactionId": "tx-ba5965176e1720d2f166b42e"
         }
       ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
-      "billId": "Rakuten_Card-202611",
-      "refundOriginalStatus": null
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ファミリーマート　京都大学店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 333
+        }
+      ]
     },
     {
-      "id": "tx-0068",
+      "id": "tx-170e95b794c78c3427e85f2b",
       "date": "2026-10-30",
       "kind": "income",
       "amount": 114556,
@@ -4561,25 +9959,227 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "RAKUTEN_BANK_LTD/RB-torihikimeisai.csv",
-          "line": 16
+          "line": 16,
+          "recordId": "raw-addc706394f16998e7500831b77d89653c4fd5fc25e7ff06a7ecd7cd4603527c-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0094",
+      "id": "tx-2611f5fe11c083f956f08c9c",
+      "date": "2026-10-30",
+      "kind": "expense",
+      "amount": 1600,
+      "account": "現金",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "MOVIX京都",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1652,
+          "recordId": "raw-2870d0fec27c232f7594b9bd853098ec01fcdd8aab3261dea1cc273ca3f743b8-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-30",
+          "category": "エンタメ",
+          "detail": "映画・動画",
+          "item": "メイドインアビス 目覚める神秘 レイトショー(大学生)",
+          "store": "MOVIX京都",
+          "amount": 1600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1652,
+            "recordId": "raw-2870d0fec27c232f7594b9bd853098ec01fcdd8aab3261dea1cc273ca3f743b8-1"
+          },
+          "matchedTransactionId": "tx-2611f5fe11c083f956f08c9c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "MOVIX京都"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 1600
+        }
+      ]
+    },
+    {
+      "id": "tx-33882d7743f0bd54c0d804b4",
+      "date": "2026-10-30",
+      "kind": "expense",
+      "amount": 600,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "サイゼリヤ 百万遍店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 9,
+          "recordId": "raw-f2bb4006150ad79ee9385c508966568bd69812c96c433891bbbc9f021fec95ff-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1654,
+          "recordId": "raw-752125692622d783474e387b38cbb9559fbc70622b187fd2ca5a2c6c48a54665-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-30",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "ディアボラハンバーグ",
+          "store": "サイゼリヤ 百万遍店",
+          "amount": 600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1654,
+            "recordId": "raw-752125692622d783474e387b38cbb9559fbc70622b187fd2ca5a2c6c48a54665-1"
+          },
+          "matchedTransactionId": "tx-33882d7743f0bd54c0d804b4"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "サイゼリヤ 百万遍店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 600
+        }
+      ]
+    },
+    {
+      "id": "tx-361b7309c6c7f3be56e23f8c",
+      "date": "2026-10-30",
+      "kind": "expense",
+      "amount": 1600,
+      "account": "現金",
+      "to": "",
+      "category": "食費",
+      "memo": "京つけめん つるかめ 六角",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1653,
+          "recordId": "raw-0f3d07c978c5c9e4f46600ac753797513bf360b06961684795a63077ef230100-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-30",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "西京味噌担々つけ麺 + 白ご飯",
+          "store": "京つけめん つるかめ 六角",
+          "amount": 1600,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1653,
+            "recordId": "raw-0f3d07c978c5c9e4f46600ac753797513bf360b06961684795a63077ef230100-1"
+          },
+          "matchedTransactionId": "tx-361b7309c6c7f3be56e23f8c"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "京つけめん つるかめ 六角"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1600
+        }
+      ]
+    },
+    {
+      "id": "tx-4d681b33f0c38cfb5b32c34b",
+      "date": "2026-10-30",
+      "kind": "expense",
+      "amount": 230,
+      "account": "Suica",
+      "to": "",
+      "category": "交通費",
+      "memo": "路線バス",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 8,
+          "recordId": "raw-5ae1d15d1657c40d010eb9a7e7a2e28e8ee8a6372c5b44a121c0aba81675f0c5-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-7a26e60b60fab75e20f8fbaa",
+      "date": "2026-10-30",
+      "kind": "expense",
+      "amount": 5400,
+      "account": "楽天カード未払金",
+      "to": "",
+      "category": "美容",
+      "memo": "ＶＩＳＡ国内利用　VS ﾒﾝｽﾞｻﾛﾝ ﾚｲ",
+      "sources": [
+        {
+          "file": "Rakuten_Card/enavi202611(2033).csv",
+          "line": 2,
+          "recordId": "raw-a0b319f0d9d84e753c497ed4862de6c542a0d2930ba7a1ee3b24a497bc528744-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": [],
+      "categoryBasis": "店名による試作分類。品目との対応は未確認。",
+      "billId": "Rakuten_Card-202611",
+      "refundOriginalStatus": null
+    },
+    {
+      "id": "tx-b2eef4848b86e5705d659fc3",
       "date": "2026-10-30",
       "kind": "expense",
       "amount": 160,
       "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
+      "category": "食費",
       "memo": "ローソン - 聖護院山王町",
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-05bd62e06b888b5fe6fcf1867f1ef909bbe29c8ba1a658f1984334c2e9eaf980-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1651,
+          "recordId": "raw-0b05fa1c97bf0ad0cc94cba4aad797787548638b33a67b06e8ef9999161580da-1"
         }
       ],
       "status": "確認済み",
@@ -4593,30 +10193,41 @@ window.LifeAccountingData = {
           "amount": 159
         }
       ],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0095",
-      "date": "2026-10-30",
-      "kind": "pending",
-      "amount": 600,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
+      "categoryBasis": "Zaim品目内訳。同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+      "refundOriginalStatus": null,
+      "zaimItems": [
         {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 9
+          "date": "2026-10-30",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "たまごのチュロッキー",
+          "store": "ローソン 聖護院山王町店",
+          "amount": 160,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1651,
+            "recordId": "raw-0b05fa1c97bf0ad0cc94cba4aad797787548638b33a67b06e8ef9999161580da-1"
+          },
+          "matchedTransactionId": "tx-b2eef4848b86e5705d659fc3"
         }
       ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
+      "zaimMatch": {
+        "status": "デモ照合案",
+        "reason": "同日・合計の一意一致と店名の表記・支店情報から対応を推定。確定前のデモ照合案。",
+        "store": "ローソン 聖護院山王町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 160
+        }
+      ]
     },
     {
-      "id": "tx-0096",
+      "id": "tx-cccc3a885b0f0a712c636d4f",
       "date": "2026-10-30",
       "kind": "transfer",
       "amount": 2000,
@@ -4627,156 +10238,60 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-a7ba6b1e0e01ccd4bd82a7349e831141f933e61ac940e2e0831780bc04905361-1"
         },
         {
           "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-de771c14a8aeb10debdec2fa4adbe48a348b3af1cfdbfa8656b6357fb810c072-1"
         }
       ],
       "status": "確認済み",
       "splits": []
     },
     {
-      "id": "tx-0207",
-      "date": "2026-10-30",
-      "kind": "expense",
-      "amount": 230,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "路線バス",
-      "sources": [
-        {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 8
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
-    },
-    {
-      "id": "tx-0089",
-      "date": "2026-10-31",
-      "kind": "pending",
-      "amount": 1270,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 3
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0090",
+      "id": "tx-0b2e3be31ba912ce775c397a",
       "date": "2026-10-31",
       "kind": "transfer",
-      "amount": 2000,
-      "account": "三井住友銀行",
-      "to": "PayPay残高",
+      "amount": 200,
+      "account": "クレジットカード未払金",
+      "to": "Suica",
       "category": "振替",
-      "memo": "銀行からPayPayへチャージ",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 4
-        },
-        {
-          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
-          "line": 2
-        }
-      ],
-      "status": "確認済み",
-      "splits": []
-    },
-    {
-      "id": "tx-0091",
-      "date": "2026-10-31",
-      "kind": "pending",
-      "amount": 1010,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "個人宛送金（用途未確認）",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 5
-        }
-      ],
-      "status": "未確認",
-      "splits": [],
-      "direction": "out"
-    },
-    {
-      "id": "tx-0092",
-      "date": "2026-10-31",
-      "kind": "expense",
-      "amount": -160,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "自動販売機 QRde決済 - コカ・コーラボトラーズジャパン自販機",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 6
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": "未確認"
-    },
-    {
-      "id": "tx-0093",
-      "date": "2026-10-31",
-      "kind": "expense",
-      "amount": 160,
-      "account": "PayPay残高",
-      "to": "",
-      "category": "未分類",
-      "memo": "自動販売機 QRde決済 - コカ・コーラボトラーズジャパン自販機",
-      "sources": [
-        {
-          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
-          "line": 7
-        }
-      ],
-      "status": "確認済み",
-      "splits": [],
-      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
-      "refundOriginalStatus": null
-    },
-    {
-      "id": "tx-0202",
-      "date": "2026-10-31",
-      "kind": "expense",
-      "amount": 230,
-      "account": "Suica",
-      "to": "",
-      "category": "交通費",
-      "memo": "路線バス",
+      "memo": "クレジットカードからSuicaへチャージ（カード名は確認待ち）",
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 3
+          "line": 7,
+          "recordId": "raw-074b53d0613aab0f73b261e21f6ca5b032ef6b001560bbb0c8721567e459a4db-1"
         }
       ],
-      "status": "確認済み",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "categoryBasis": "Suica原本の入出場・バス種別。"
+      "direction": "in"
     },
     {
-      "id": "tx-0203",
+      "id": "tx-0d74112cd7c44d5cbb09fc70",
+      "date": "2026-10-31",
+      "kind": "transfer",
+      "amount": 500,
+      "account": "クレジットカード未払金",
+      "to": "Suica",
+      "category": "振替",
+      "memo": "クレジットカードからSuicaへチャージ（カード名は確認待ち）",
+      "sources": [
+        {
+          "file": "Super_Urban_Intelligent_Card/Book1.csv",
+          "line": 5,
+          "recordId": "raw-9151a8cb3b3ec20b3fea608879df71f9a14f69421b13f93bbc6b7cc481125e8e-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "in"
+    },
+    {
+      "id": "tx-188e74d7b0d5680cf0d57fbe",
       "date": "2026-10-31",
       "kind": "expense",
       "amount": 180,
@@ -4787,7 +10302,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-7e9269379555a7b9b40faa08170758b7fd77573ff3eb43e1fef48cfb18a715e9-1"
         }
       ],
       "status": "確認済み",
@@ -4795,26 +10311,28 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0204",
+      "id": "tx-30df81d1691c22768e4f2ea5",
       "date": "2026-10-31",
-      "kind": "pending",
-      "amount": 500,
-      "account": "Suica",
+      "kind": "expense",
+      "amount": -160,
+      "account": "PayPay残高",
       "to": "",
-      "category": "未分類",
-      "memo": "Suica入金（決済元未確認）",
+      "category": "食費",
+      "memo": "自動販売機 QRde決済 - コカ・コーラボトラーズジャパン自販機",
       "sources": [
         {
-          "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 5
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 6,
+          "recordId": "raw-7816ebb5670cceaeeb593b0ccf9a601d3078da03625e56d52022017b8bd9f99a-1"
         }
       ],
-      "status": "未確認",
+      "status": "ユーザー確認済み",
       "splits": [],
-      "direction": "in"
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "refundOriginalStatus": "未確認"
     },
     {
-      "id": "tx-0205",
+      "id": "tx-403d1d96221b95b6be94fa47",
       "date": "2026-10-31",
       "kind": "expense",
       "amount": 230,
@@ -4825,7 +10343,8 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 6
+          "line": 3,
+          "recordId": "raw-d9b1060e06c2556ab5cb9714f24e61e87d5f4fd5cdfaf58078c5aed3714f37d9-1"
         }
       ],
       "status": "確認済み",
@@ -4833,23 +10352,250 @@ window.LifeAccountingData = {
       "categoryBasis": "Suica原本の入出場・バス種別。"
     },
     {
-      "id": "tx-0206",
+      "id": "tx-40bebfd6188ab3cbd2534ced",
       "date": "2026-10-31",
-      "kind": "pending",
-      "amount": 200,
+      "kind": "expense",
+      "amount": 2200,
+      "account": "現金",
+      "to": "",
+      "category": "エンタメ",
+      "memo": "丸善 京都本店",
+      "sources": [
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1655,
+          "recordId": "raw-3dbf5564a869b95df72ba2ef72fe8d22a081230363db9b24d7d447181de9a6f6-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1656,
+          "recordId": "raw-748211c1809632f0fe9192fe3fdc97e0acbd5ab665ad55f96b5fe36a8b5ec3b6-1"
+        }
+      ],
+      "splits": [],
+      "status": "ユーザー確認済み",
+      "zaimItems": [
+        {
+          "date": "2026-10-31",
+          "category": "エンタメ",
+          "detail": "書籍",
+          "item": "メイドインアビス2",
+          "store": "丸善 京都本店",
+          "amount": 1100,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1655,
+            "recordId": "raw-3dbf5564a869b95df72ba2ef72fe8d22a081230363db9b24d7d447181de9a6f6-1"
+          },
+          "matchedTransactionId": "tx-40bebfd6188ab3cbd2534ced"
+        },
+        {
+          "date": "2026-10-31",
+          "category": "エンタメ",
+          "detail": "書籍",
+          "item": "メイドインアビス1",
+          "store": "丸善 京都本店",
+          "amount": 1100,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1656,
+            "recordId": "raw-748211c1809632f0fe9192fe3fdc97e0acbd5ab665ad55f96b5fe36a8b5ec3b6-1"
+          },
+          "matchedTransactionId": "tx-40bebfd6188ab3cbd2534ced"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "丸善 京都本店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "エンタメ",
+          "amount": 2200
+        }
+      ]
+    },
+    {
+      "id": "tx-d156bea06ff5617bc6867852",
+      "date": "2026-10-31",
+      "kind": "expense",
+      "amount": 1270,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "スシロー 河原町蛸薬師通り店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 3,
+          "recordId": "raw-35ebeabaaca519584fc3218d8449c9a16fcc27278f3dc8373bdc256a723251c6-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1657,
+          "recordId": "raw-efc310eaae79273604eeb0df433771330a4b0b908b3422b371ea7a2bb11650c1-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-31",
+          "category": "食費",
+          "detail": "晩ご飯",
+          "item": "",
+          "store": "スシロー 河原町蛸薬師通り店",
+          "amount": 1270,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1657,
+            "recordId": "raw-efc310eaae79273604eeb0df433771330a4b0b908b3422b371ea7a2bb11650c1-1"
+          },
+          "matchedTransactionId": "tx-d156bea06ff5617bc6867852"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "スシロー 河原町蛸薬師通り店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1270
+        }
+      ]
+    },
+    {
+      "id": "tx-d8f6905f032070a7f87197d8",
+      "date": "2026-10-31",
+      "kind": "transfer",
+      "amount": 2000,
+      "account": "三井住友銀行",
+      "to": "PayPay残高",
+      "category": "振替",
+      "memo": "銀行からPayPayへチャージ",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 4,
+          "recordId": "raw-79703d817f584320d7248c8316286f8b969a258b6482de172158b682709ec565-1"
+        },
+        {
+          "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
+          "line": 2,
+          "recordId": "raw-b69f9760b929edab97ba68ba975cd123fd5257b7d8831c83133ebf2a8599e3dc-1"
+        }
+      ],
+      "status": "確認済み",
+      "splits": []
+    },
+    {
+      "id": "tx-da86d6104fbc1903029e116e",
+      "date": "2026-10-31",
+      "kind": "expense",
+      "amount": 160,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "自動販売機 QRde決済 - コカ・コーラボトラーズジャパン自販機",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 7,
+          "recordId": "raw-7acc532e7efc955a1e038a49d5fdfa7212a691a848e858db65d10a6454b9cfeb-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "categoryBasis": "店名のみでは用途を確定できないため未分類。",
+      "refundOriginalStatus": null
+    },
+    {
+      "id": "tx-edbb1a68032420aa95571bdd",
+      "date": "2026-10-31",
+      "kind": "expense",
+      "amount": 230,
       "account": "Suica",
       "to": "",
-      "category": "未分類",
-      "memo": "Suica入金（決済元未確認）",
+      "category": "交通費",
+      "memo": "路線バス",
       "sources": [
         {
           "file": "Super_Urban_Intelligent_Card/Book1.csv",
-          "line": 7
+          "line": 6,
+          "recordId": "raw-416ccc8aa8c5d43dea12ed94892c25b6d927d8b32fe9c63b3884ad63f56f6344-1"
         }
       ],
-      "status": "未確認",
+      "status": "確認済み",
       "splits": [],
-      "direction": "in"
+      "categoryBasis": "Suica原本の入出場・バス種別。"
+    },
+    {
+      "id": "tx-f3172c0fc04d363cc1a4bcb4",
+      "date": "2026-10-31",
+      "kind": "expense",
+      "amount": 1010,
+      "account": "PayPay残高",
+      "to": "",
+      "category": "食費",
+      "memo": "ラーメン大戦争 京都河原町店",
+      "sources": [
+        {
+          "file": "PayPay_Corporation/Transactions_20251101-20261101.csv",
+          "line": 5,
+          "recordId": "raw-9272e1af2e2ea74051db250fdf6dbbe579882ac1aa413a6c37b312a346dd21be-1"
+        },
+        {
+          "file": "zaim/Zaim.20261103143539.csv",
+          "line": 1658,
+          "recordId": "raw-6a20d9b1b5434dbb9577e2a60394268e2ac7458df5df1e27378d6a3dd8e47f59-1"
+        }
+      ],
+      "status": "ユーザー確認済み",
+      "splits": [],
+      "direction": "out",
+      "zaimItems": [
+        {
+          "date": "2026-10-31",
+          "category": "食費",
+          "detail": "昼ご飯",
+          "item": "ピストル 豚5枚 替玉半玉",
+          "store": "ラーメン大戦争 京都河原町店",
+          "amount": 1010,
+          "income": 0,
+          "method": "payment",
+          "status": "支払元・決済対応未確認",
+          "source": {
+            "file": "zaim/Zaim.20261103143539.csv",
+            "line": 1658,
+            "recordId": "raw-6a20d9b1b5434dbb9577e2a60394268e2ac7458df5df1e27378d6a3dd8e47f59-1"
+          },
+          "matchedTransactionId": "tx-f3172c0fc04d363cc1a4bcb4"
+        }
+      ],
+      "zaimMatch": {
+        "status": "ユーザー確認済み",
+        "reason": "セッションで精算方法を確認。",
+        "store": "ラーメン大戦争 京都河原町店"
+      },
+      "categoryAmounts": [
+        {
+          "category": "食費",
+          "amount": 1010
+        }
+      ]
     }
   ],
   "evidence": [
@@ -4864,9 +10610,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1480
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1481,
+        "recordId": "raw-947108f52cf24f68fa4749fc728f608146c2ee841ba57fd8aa2fc665e5c03e5e-1"
+      },
+      "matchedTransactionId": "tx-24d0c48b357fe4b76670a9cd"
+    },
+    {
+      "date": "2026-09-01",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "太平燕",
+      "store": "紅蘭亭 下通本店",
+      "amount": 1080,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1482,
+        "recordId": "raw-9ab1e06ad900e0f9f5ff1801c2a1c01e612d17faed10a55dca57c63b883f9fce-1"
+      },
+      "matchedTransactionId": "tx-02d7313ce94cde2699e4bd8e"
     },
     {
       "date": "2026-09-03",
@@ -4879,9 +10644,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1481
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1483,
+        "recordId": "raw-f0fa30b2465a1005d015c6b4236ac72748b00e4426614fa706e2a7db7aaf07ec-1"
+      },
+      "matchedTransactionId": "tx-859ea9ad82a795bd6de577ac"
     },
     {
       "date": "2026-09-03",
@@ -4894,9 +10661,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1482
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1484,
+        "recordId": "raw-f5f3a176dec1910a65a0c94e0c2fcfc749169c513c95ad24989e550af7831343-1"
+      },
+      "matchedTransactionId": "tx-a953c73bce3692b934959cee"
     },
     {
       "date": "2026-09-03",
@@ -4909,9 +10678,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1483
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1485,
+        "recordId": "raw-833f780eb22e62ef2ea918cc762808a96233bcd37797687d69a91186da5a56a2-1"
+      },
+      "matchedTransactionId": "tx-82cc09f54862e58fdda270c2"
     },
     {
       "date": "2026-09-03",
@@ -4924,9 +10695,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1484
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1486,
+        "recordId": "raw-0cfd1d5de3e860212d723366dc8c0cb3bb8bc9a80f10e2834fa6e4319c4a7bf5-1"
+      },
+      "matchedTransactionId": "tx-929c045a3135869869d2030b"
     },
     {
       "date": "2026-09-03",
@@ -4939,9 +10712,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1485
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1487,
+        "recordId": "raw-9443b1836449a94032015fd4f4463fc25cd0dd87a4ea88028eda93d07ed740ed-1"
+      },
+      "matchedTransactionId": "tx-b04404b6913cfaa146ca4f13"
     },
     {
       "date": "2026-09-03",
@@ -4954,9 +10729,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1486
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1488,
+        "recordId": "raw-89ff92483cb42e5fc4a9636266f8f11a8ffb06fec71af944433593990a4ae234-1"
+      },
+      "matchedTransactionId": "tx-c8bdc7bbceafb56d64d51d72"
     },
     {
       "date": "2026-09-03",
@@ -4969,9 +10746,62 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1487
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1489,
+        "recordId": "raw-8b7cc69542cf78b5f8eddb46689222eba10ad529eb65698c96881377e2f1ab82-1"
+      },
+      "matchedTransactionId": "tx-6c580eb0aa595a20c9c3f479"
+    },
+    {
+      "date": "2026-09-03",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "煮玉子入りらーめん",
+      "store": "博多らーめんShinShin アミュプラザ小倉店",
+      "amount": 1030,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1490,
+        "recordId": "raw-7985324953cb0d631a4c5e502437b5a1da2071f1f34c9f7fce6f60178f5dba91-1"
+      },
+      "matchedTransactionId": "tx-328627dfd0155650da48d568"
+    },
+    {
+      "date": "2026-09-03",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "飲み代割り勘",
+      "store": "-",
+      "amount": 1500,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1491,
+        "recordId": "raw-903d8d9ab9bc7cd1cb1571230b7bb174f19ac68cbf7c31f942344dd375a1b689-1"
+      },
+      "matchedTransactionId": "tx-babd5470c457c62ee3fc1dad"
+    },
+    {
+      "date": "2026-09-04",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "",
+      "store": "すしざんまい 戎橋店",
+      "amount": 3357,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1492,
+        "recordId": "raw-f46530ee87fe3e73b08c9d13d5dbcc797934f417a37bcfd069f864567883762f-1"
+      },
+      "matchedTransactionId": "tx-2ecbed603d7fe58714000cad"
     },
     {
       "date": "2026-09-05",
@@ -4984,9 +10814,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1488
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1493,
+        "recordId": "raw-8c49bf348321ab6c316445aadc65ca1601a985f5d28a0901b47380e4cca7424c-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
     },
     {
       "date": "2026-09-05",
@@ -4999,9 +10831,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1489
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1494,
+        "recordId": "raw-9d4ae024ba4e91f612868b1ef0a990dabc835d9c66b03ca650d7d3c35bb38ad5-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
     },
     {
       "date": "2026-09-05",
@@ -5014,9 +10848,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1490
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1495,
+        "recordId": "raw-7aafe6d2fffc7594c0dad872195e1d0b81ba76778ecd6fcd12d5c7fad8a79287-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
     },
     {
       "date": "2026-09-05",
@@ -5029,9 +10865,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1491
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1496,
+        "recordId": "raw-5e069978efcf8fe9e6b13a7ba239321290620ceab1971049aeb68ab1378a9328-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
     },
     {
       "date": "2026-09-05",
@@ -5044,9 +10882,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1492
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1497,
+        "recordId": "raw-5b41d88ccf6f0a022c1e10ad69089181d94a28f5704f164a84bc1f670d6c78f7-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
     },
     {
       "date": "2026-09-05",
@@ -5059,9 +10899,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1493
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1498,
+        "recordId": "raw-f0140ec405dea6def4ea7152f14229068517abd8ff176f1874f725603450eb23-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
     },
     {
       "date": "2026-09-05",
@@ -5074,9 +10916,45 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1494
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1499,
+        "recordId": "raw-924a30d3cab3f894438f6eb687a90eab681911a71c574c6b7750a094672cba76-1"
+      },
+      "matchedTransactionId": "tx-317b31b796444f9edeb50bb9"
+    },
+    {
+      "date": "2026-09-06",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "",
+      "store": "官兵衛｜加西SA上り",
+      "amount": 1880,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1500,
+        "recordId": "raw-1a0c5ad089c4fa3750f1110345b1ed80381a552814a874910ed67cf094283b75-1"
+      },
+      "matchedTransactionId": "tx-c5afb3d3eb419bb5f21a37f5"
+    },
+    {
+      "date": "2026-09-06",
+      "category": "食費",
+      "detail": "食料品",
+      "item": "アイス",
+      "store": "ゲストハウス繁盛校",
+      "amount": 250,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1501,
+        "recordId": "raw-32136bbbc2a53ed93abbc8ec2e8963e3055a2209d41540f232488efca877b84e-1"
+      },
+      "matchedTransactionId": "tx-d7fc0461b26f2010a7fd1fcb"
     },
     {
       "date": "2026-09-10",
@@ -5089,9 +10967,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1495
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1502,
+        "recordId": "raw-10edd9a1151e1f19a0374690369663a6430f1bac9c4f543ef81604b61e4c394e-1"
+      },
+      "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
     },
     {
       "date": "2026-09-10",
@@ -5104,9 +10984,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1496
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1503,
+        "recordId": "raw-09961fb22e4f3239a99cb8f518f8174731ba7b69f00c57a93420b3d8111ca0f3-1"
+      },
+      "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
     },
     {
       "date": "2026-09-10",
@@ -5119,9 +11001,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1497
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1504,
+        "recordId": "raw-07099f8b951c4596e70112a1967acc9f19375ee06b3963f2b9b5a16f7e0e11d8-1"
+      },
+      "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
     },
     {
       "date": "2026-09-10",
@@ -5134,9 +11018,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1498
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1505,
+        "recordId": "raw-c079157c393c95263ef223ec95d38765386f46c9c5fb59b50da1f446e53121b8-1"
+      },
+      "matchedTransactionId": "tx-4e6d58a2794ca1592aa3c2d8"
+    },
+    {
+      "date": "2026-09-10",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "冷やし坦々麺",
+      "store": "深夜ラーメンB",
+      "amount": 1000,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1506,
+        "recordId": "raw-fce745464fc6645b25d159d274022cd00cf3bfbf4a7a736cc5164f93f71dbc4b-1"
+      },
+      "matchedTransactionId": "tx-9a4c263e09f8b89538e5bc7b"
     },
     {
       "date": "2026-09-12",
@@ -5149,9 +11052,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1499
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1507,
+        "recordId": "raw-8bc6768bbac3fca2e119d139655e3e9c2020b7172f189369dec54e41dc2fa1c9-1"
+      },
+      "matchedTransactionId": "tx-e7bbfdda34c8fa5d0a4c9a86"
     },
     {
       "date": "2026-09-12",
@@ -5164,9 +11069,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1500
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1508,
+        "recordId": "raw-d9d091077205926a928705ac1186742f91cfcc186260a16baa32f71146421606-1"
+      },
+      "matchedTransactionId": "tx-e7bbfdda34c8fa5d0a4c9a86"
     },
     {
       "date": "2026-09-12",
@@ -5179,9 +11086,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1501
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1509,
+        "recordId": "raw-9a41fff036f8ef049bfc69b76432e3f9dc5a9f921e250524fc65b2f017d036c9-1"
+      },
+      "matchedTransactionId": "tx-e7bbfdda34c8fa5d0a4c9a86"
     },
     {
       "date": "2026-09-12",
@@ -5194,9 +11103,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1502
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1510,
+        "recordId": "raw-220f50b3014b091b9d53e565aaef4d9580a2dba284149df570de7ec405c1394b-1"
+      },
+      "matchedTransactionId": "tx-18ece3e4cdf06a2b0ce605c6"
     },
     {
       "date": "2026-09-12",
@@ -5209,9 +11120,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1503
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1511,
+        "recordId": "raw-1a72ffaab56016baea4b582b9e18b34fe88b9ecbd62ae49be6bf74fbd57be9fc-1"
+      },
+      "matchedTransactionId": "tx-18ece3e4cdf06a2b0ce605c6"
     },
     {
       "date": "2026-09-13",
@@ -5224,9 +11137,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1504
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1512,
+        "recordId": "raw-711fcf6b3b02c4908cb1afc4d06b978df40caa10e795017dcce43e70ef84c355-1"
+      },
+      "matchedTransactionId": "tx-5e6dfec000de113a77a493c2"
     },
     {
       "date": "2026-09-13",
@@ -5239,9 +11154,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1505
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1513,
+        "recordId": "raw-cb8c0d16b15ff44774585846716f8518f0ffc5a74c8fadff54fb75527a660a66-1"
+      },
+      "matchedTransactionId": "tx-5e6dfec000de113a77a493c2"
     },
     {
       "date": "2026-09-13",
@@ -5254,9 +11171,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1506
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1514,
+        "recordId": "raw-68e0266622779dd9c76189161fd1a6c07d6d15af1cc612a5de76e85b54490366-1"
+      },
+      "matchedTransactionId": "tx-5e6dfec000de113a77a493c2"
     },
     {
       "date": "2026-09-13",
@@ -5269,9 +11188,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1507
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1515,
+        "recordId": "raw-d4ee741f56fd427e1a4c57527c5ff72bddea824719eaeb3e12c191eccfc30c2c-1"
+      },
+      "matchedTransactionId": "tx-e822381f3634848470439a71"
     },
     {
       "date": "2026-09-13",
@@ -5284,9 +11205,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1508
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1516,
+        "recordId": "raw-f227da99badf1a9e1dc62c8911abc07ab1d64c79d67660b81445379d828fedf1-1"
+      },
+      "matchedTransactionId": "tx-e822381f3634848470439a71"
     },
     {
       "date": "2026-09-13",
@@ -5299,9 +11222,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1509
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1517,
+        "recordId": "raw-3059ddf8d644c370bac1e34483bbb3f000314e7edaff3b20c828fe245d7c3a42-1"
+      },
+      "matchedTransactionId": "tx-e822381f3634848470439a71"
     },
     {
       "date": "2026-09-13",
@@ -5314,9 +11239,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1510
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1518,
+        "recordId": "raw-6ed4249ad4f082cd5e9adecde302b5db764927222309726ac4d4993c29dc54ab-1"
+      },
+      "matchedTransactionId": "tx-e822381f3634848470439a71"
     },
     {
       "date": "2026-09-13",
@@ -5329,9 +11256,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1511
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1519,
+        "recordId": "raw-e8b804eba2a08b3075e3e821e7d3fabdefe7c6a36068aa18b43159afef4f0d3e-1"
+      },
+      "matchedTransactionId": "tx-bdc88d754297fda941e33802"
     },
     {
       "date": "2026-09-13",
@@ -5344,9 +11273,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1512
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1520,
+        "recordId": "raw-4d2ec9b822c428b680ffb01cab51822526956bd615ee23739a7805338fb79c52-1"
+      },
+      "matchedTransactionId": "tx-bdc88d754297fda941e33802"
     },
     {
       "date": "2026-09-13",
@@ -5359,9 +11290,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1513
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1521,
+        "recordId": "raw-857426eb3c170223a9ced0eb9b012ebc380888fe463fa8e3c73b350ee13334a7-1"
+      },
+      "matchedTransactionId": "tx-bdc88d754297fda941e33802"
     },
     {
       "date": "2026-09-13",
@@ -5374,9 +11307,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1514
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1522,
+        "recordId": "raw-d4cfda633838136400f8b0745304b2ffeccb61129efc00f1c431f1a6f2d89639-1"
+      },
+      "matchedTransactionId": "tx-616e15e899068c334d236358"
     },
     {
       "date": "2026-09-13",
@@ -5389,9 +11324,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1515
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1523,
+        "recordId": "raw-de6238f94879865f7563d6998e514a1caa25b870d458a882a8782a5408c35671-1"
+      },
+      "matchedTransactionId": "tx-616e15e899068c334d236358"
     },
     {
       "date": "2026-09-13",
@@ -5404,9 +11341,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1516
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1524,
+        "recordId": "raw-617a9608708ee8f016df7bcda9bae986dcb875080250886edc6ab69e6cd79715-1"
+      },
+      "matchedTransactionId": "tx-616e15e899068c334d236358"
     },
     {
       "date": "2026-09-13",
@@ -5419,9 +11358,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1517
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1525,
+        "recordId": "raw-fd98f2568224f13f7445df8bd1cd32900385b17c3c4989097b437f55d49043d9-1"
+      },
+      "matchedTransactionId": "tx-616e15e899068c334d236358"
     },
     {
       "date": "2026-09-13",
@@ -5434,9 +11375,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1518
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1526,
+        "recordId": "raw-adeaa125fb262af0a6a0a2106d8b12747a508e05b85bbd609a8adcd829882775-1"
+      },
+      "matchedTransactionId": "tx-616e15e899068c334d236358"
     },
     {
       "date": "2026-09-13",
@@ -5449,9 +11392,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1519
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1527,
+        "recordId": "raw-8705246dec3e16133551341821f8fd439fa99fc60180fffb205c3faeee4c80d3-1"
+      },
+      "matchedTransactionId": "tx-616e15e899068c334d236358"
     },
     {
       "date": "2026-09-14",
@@ -5464,9 +11409,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1520
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1528,
+        "recordId": "raw-9d0b9ec37e87618daca1cfc694fbdbdfac9ecbc81a26dfb7b53c2cc98f137eee-1"
+      },
+      "matchedTransactionId": "tx-0bb4b4b00d12cb6539d7037d"
     },
     {
       "date": "2026-09-14",
@@ -5479,9 +11426,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1521
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1529,
+        "recordId": "raw-bea993d8e643cf7d5b8543492d95bfd9f52d4f8e396d095952144a987b0fae9b-1"
+      },
+      "matchedTransactionId": "tx-8d444cdda99b7ab93cd2703e"
     },
     {
       "date": "2026-09-14",
@@ -5494,9 +11443,45 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1522
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1530,
+        "recordId": "raw-1bc7c0c6ff3806be57225dde39415dad5d97608d9068dc30631c9b0bb2a976a1-1"
+      },
+      "matchedTransactionId": "tx-8d444cdda99b7ab93cd2703e"
+    },
+    {
+      "date": "2026-09-14",
+      "category": "エンタメ",
+      "detail": "その他",
+      "item": "社員旅行 個別精算",
+      "store": "-",
+      "amount": 5823,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1531,
+        "recordId": "raw-f7a8c7524daa863dc1ed6a5dda507ac25cd675f8a31c53104895b0dda04aa828-1"
+      },
+      "matchedTransactionId": "tx-2b4c472af8c89456a168f77a"
+    },
+    {
+      "date": "2026-09-14",
+      "category": "食費",
+      "detail": "その他",
+      "item": "AkaDeMiA打ち上げ 割り勘",
+      "store": "-",
+      "amount": 13188,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1532,
+        "recordId": "raw-5cc9c2a4959a08495dfe726ba19dfebe89ca18b0d25d785947e207bc3a6df8ec-1"
+      },
+      "matchedTransactionId": "tx-ad61aeed7aa540f9f4e7da89"
     },
     {
       "date": "2026-09-15",
@@ -5509,9 +11494,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1523
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1533,
+        "recordId": "raw-fee04b64f0e3130899db9391bcd262cb024669bb6efa2e409a5d075e6826f69a-1"
+      },
+      "matchedTransactionId": "tx-66a4ac77a8097158afd0b052"
     },
     {
       "date": "2026-09-15",
@@ -5524,9 +11511,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1524
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1534,
+        "recordId": "raw-20e349a1d28874df4c1b2b01dc5755af8b82aa20de333a4192d9f50f1fd9f483-1"
+      },
+      "matchedTransactionId": "tx-66a4ac77a8097158afd0b052"
     },
     {
       "date": "2026-09-15",
@@ -5539,9 +11528,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1525
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1535,
+        "recordId": "raw-bcddc1dfe5b29ec39068ab0a26873f21a18282b6df0cd0cda4934497550d96f3-1"
+      },
+      "matchedTransactionId": "tx-5ba291ea84e49bc36431ffeb"
     },
     {
       "date": "2026-09-15",
@@ -5554,9 +11545,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1526
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1536,
+        "recordId": "raw-a62bd5997da5ad2e094f1837136da83e53c24f0c99525e6e2e7a56cb081bec37-1"
+      },
+      "matchedTransactionId": "tx-5ba291ea84e49bc36431ffeb"
     },
     {
       "date": "2026-09-16",
@@ -5569,9 +11562,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1527
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1537,
+        "recordId": "raw-7e98fb6355df41dd08195daeb6ace32acbeae61f3ea2c799ffc3ca816196cb4e-1"
+      },
+      "matchedTransactionId": "tx-c148cc9253533f9b1c4680e0"
     },
     {
       "date": "2026-09-16",
@@ -5584,9 +11579,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1528
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1538,
+        "recordId": "raw-16d397e7630bdbad00edd46ad84eb483152e81d9ecaf04b28c3b2b6cbf639cc0-1"
+      },
+      "matchedTransactionId": "tx-43f8c546223ad66e3904fa71"
     },
     {
       "date": "2026-09-17",
@@ -5599,9 +11596,62 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1529
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1539,
+        "recordId": "raw-d9a8515fdfbbf72bb88e4a27f5bc1a6231594e3f0f4ee730d567033532514f29-1"
+      },
+      "matchedTransactionId": "tx-cf09c4173b75193aed526e93"
+    },
+    {
+      "date": "2026-09-17",
+      "category": "交通",
+      "detail": "電車",
+      "item": "3701 JR",
+      "store": "京大生協 キャリア・トラベル",
+      "amount": 29740,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1540,
+        "recordId": "raw-dc60e2f5ebbdca43def4a8f39ced394a3dd919d4015e6e93d822b4462c22bb43-1"
+      },
+      "matchedTransactionId": "tx-4637236dc439488443890daf"
+    },
+    {
+      "date": "2026-09-17",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "濃厚魚介つけ汁",
+      "store": "丸亀製麺 洛北阪急スクエア",
+      "amount": 1090,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1541,
+        "recordId": "raw-df82d4675398eaa3d787acf96c5cbf6c47c75ed7f0b8e98fcd1e991e9632e856-1"
+      },
+      "matchedTransactionId": "tx-1fc5426d9309c770df1c13e1"
+    },
+    {
+      "date": "2026-09-17",
+      "category": "エンタメ",
+      "detail": "その他",
+      "item": "砂浜ダッシュ",
+      "store": "-",
+      "amount": 2000,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1542,
+        "recordId": "raw-8fa5de59f540ac9b7d5c257323df35e492116c2bb20e602ee72bd7ece20150e6-1"
+      },
+      "matchedTransactionId": "tx-3c2203b562ae80804a86a653"
     },
     {
       "date": "2026-09-18",
@@ -5614,9 +11664,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1530
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1543,
+        "recordId": "raw-5becbedfd9de38d66138d25ae137516765a057160509ec06c187ceff3ceaf17c-1"
+      },
+      "matchedTransactionId": "tx-2994a6435af92dd92e987fbb"
     },
     {
       "date": "2026-09-18",
@@ -5629,9 +11681,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1531
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1544,
+        "recordId": "raw-59763ffe885de4ee371c22cadbbbde1c0d6958293267a204f6b1b153ca46453b-1"
+      },
+      "matchedTransactionId": "tx-b9519f0ffd57c5b161b83816"
     },
     {
       "date": "2026-09-18",
@@ -5644,9 +11698,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1532
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1545,
+        "recordId": "raw-cbc860b435673aaecd14d30191d6175f097a865957f3709a19874667b8c87134-1"
+      },
+      "matchedTransactionId": "tx-b9519f0ffd57c5b161b83816"
     },
     {
       "date": "2026-09-18",
@@ -5659,9 +11715,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1533
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1546,
+        "recordId": "raw-4b42005ac11d4bbeed5191886c4d8bbea9f338aa64f762ce533780f65998617a-1"
+      },
+      "matchedTransactionId": "tx-b9519f0ffd57c5b161b83816"
     },
     {
       "date": "2026-09-19",
@@ -5674,9 +11732,79 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1534
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1547,
+        "recordId": "raw-5ea4c9a90a710481d9a939424e224df004c4a41ff984b6837010862572df1aec-1"
+      },
+      "matchedTransactionId": "tx-b7d2bce9fbaa5a186afb9b1e"
+    },
+    {
+      "date": "2026-09-20",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "黒毛和牛がメインのコース",
+      "store": "ビストロ バンケット",
+      "amount": 11600,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1548,
+        "recordId": "raw-10fcb2d5065955ffc40acbeaadaf7c8c6e341901f7a2e8ecd4605cb96ab84176-1"
+      },
+      "matchedTransactionId": "tx-63f2a212ec9e972331e0b8b0"
+    },
+    {
+      "date": "2026-09-20",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "アルコール)柚子ジンジヤーサワー",
+      "store": "ビストロ バンケット",
+      "amount": 880,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1549,
+        "recordId": "raw-997566aa4e1d2026f8bd6924daa0d51b40884763faea0c51ea87f0fe2e61ec85-1"
+      },
+      "matchedTransactionId": "tx-63f2a212ec9e972331e0b8b0"
+    },
+    {
+      "date": "2026-09-20",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "ジンジャーエール",
+      "store": "ビストロ バンケット",
+      "amount": 520,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1550,
+        "recordId": "raw-ddf5c1360e9e1d984eac18ecb6f4fa1805ec42de839c0655d49da68a737bf37e-1"
+      },
+      "matchedTransactionId": "tx-63f2a212ec9e972331e0b8b0"
+    },
+    {
+      "date": "2026-09-20",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "",
+      "store": "Anchor1889～ペットと一緒に過ごせるカフェ～",
+      "amount": 2000,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1551,
+        "recordId": "raw-aa31f0709a4ebbead4aec8ab4699e90bbbe649b99a7892d87333441d51133c2c-1"
+      },
+      "matchedTransactionId": "tx-e803eed9c275274a4b22c95d"
     },
     {
       "date": "2026-09-24",
@@ -5689,9 +11817,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1535
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1552,
+        "recordId": "raw-9deed9b70c707b1c19e687da869fbe89e6918416e87a7c9c122c607452e048bb-1"
+      },
+      "matchedTransactionId": "tx-62e2788c0dafe331324cc653"
     },
     {
       "date": "2026-09-24",
@@ -5704,9 +11834,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1536
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1553,
+        "recordId": "raw-52a613c9b204e6e14b1e60a2fde628c85cc690ffe607c2a4556913a78429c206-1"
+      },
+      "matchedTransactionId": "tx-62e2788c0dafe331324cc653"
     },
     {
       "date": "2026-09-25",
@@ -5719,9 +11851,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1537
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1554,
+        "recordId": "raw-ba97354e7bc233871c01561cfb034f42f95dd26cfd0c957249973e1bfe296bc0-1"
+      },
+      "matchedTransactionId": "tx-a62cef2c6efb93b7aae91126"
     },
     {
       "date": "2026-09-25",
@@ -5734,9 +11868,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1538
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1555,
+        "recordId": "raw-e9c5081ac435a680095c1e3d2c127c01fb039b6a154fc187ec42b3e86c8bd5dd-1"
+      },
+      "matchedTransactionId": "tx-a62cef2c6efb93b7aae91126"
+    },
+    {
+      "date": "2026-09-25",
+      "category": "食費",
+      "detail": "食料品",
+      "item": "ミンティアBシャインマスカット",
+      "store": "ファミリーマート　河原町蛸薬師店",
+      "amount": 248,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1556,
+        "recordId": "raw-c063339a5ca9feb383fa7fcde3566aba2d1a8a803914a92e670944ee131fa67f-1"
+      },
+      "matchedTransactionId": "tx-8e711fe49b0ebe9f178d1602"
     },
     {
       "date": "2026-09-26",
@@ -5749,9 +11902,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1539
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1557,
+        "recordId": "raw-153bff70604dc4221b2de4e3db45ccbb9c830d563f69b342daec231bb52664cf-1"
+      },
+      "matchedTransactionId": "tx-d8f3e0c99ea17d7d92dfd9d0"
     },
     {
       "date": "2026-09-27",
@@ -5764,9 +11919,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1540
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1558,
+        "recordId": "raw-cfc38202b9bc406a839a4aebbdfd52f8bfb96cc20324ed4414bc626c7c4a5170-1"
+      },
+      "matchedTransactionId": "tx-d571c968911b339b6e863fc6"
     },
     {
       "date": "2026-09-27",
@@ -5779,9 +11936,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1541
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1559,
+        "recordId": "raw-f2f5abc5b2354b836e180bb949cbe2685f018aa5a71fa9245347abeeb1928b59-1"
+      },
+      "matchedTransactionId": "tx-d571c968911b339b6e863fc6"
     },
     {
       "date": "2026-09-28",
@@ -5794,9 +11953,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1542
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1560,
+        "recordId": "raw-86830bbabb9d45517cc23d5d1efa6cf5beaddc37fbf4e502895fc0ea1b036b91-1"
+      },
+      "matchedTransactionId": "tx-d403eba8784a91d88885ec32"
     },
     {
       "date": "2026-09-28",
@@ -5809,9 +11970,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1543
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1561,
+        "recordId": "raw-5b0e45e8c9c9fd35d93f54ec5a02f709edba24f75f884d1108f290acd5e3c1bc-1"
+      },
+      "matchedTransactionId": "tx-d403eba8784a91d88885ec32"
     },
     {
       "date": "2026-09-28",
@@ -5824,9 +11987,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1544
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1562,
+        "recordId": "raw-acf6660f3cea2e3a9d037faa7fd6d2789b92c7a55d91fd8b64fc8bdeec0a2500-1"
+      },
+      "matchedTransactionId": "tx-f87d412acfe94d7790fde06b"
     },
     {
       "date": "2026-09-28",
@@ -5839,9 +12004,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1545
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1563,
+        "recordId": "raw-bc7f86ddddbd976f97a209f4ebef3999a6ada81fbae2e3657cd087dcf217a3e2-1"
+      },
+      "matchedTransactionId": "tx-f87d412acfe94d7790fde06b"
     },
     {
       "date": "2026-09-29",
@@ -5854,9 +12021,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1546
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1564,
+        "recordId": "raw-0d8885150377536fc45ae437c33b972682abebc80b8b06dc5bfa4c6823b9f1a4-1"
+      },
+      "matchedTransactionId": "tx-e5a5478d1cce303da20977f0"
     },
     {
       "date": "2026-09-30",
@@ -5869,9 +12038,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1547
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1565,
+        "recordId": "raw-7328e11b87eb6e38cbd40c54e2feffe45be048f1d306e6947420af343dfc21d1-1"
+      },
+      "matchedTransactionId": "tx-d97f175cdf770c9546a50cb3"
     },
     {
       "date": "2026-09-30",
@@ -5884,9 +12055,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1548
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1566,
+        "recordId": "raw-b799c20d0d06fb9b1811861ea334466ff0cbfd44a7718a10c73da942159f287d-1"
+      },
+      "matchedTransactionId": "tx-641bea159d1ce5bf85e687c0"
     },
     {
       "date": "2026-09-30",
@@ -5899,9 +12072,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1549
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1567,
+        "recordId": "raw-63d83c17bd39bd34e14bf5768fe287f5d59bfcd853d630129b8c3b44c9b08f0f-1"
+      },
+      "matchedTransactionId": "tx-641bea159d1ce5bf85e687c0"
+    },
+    {
+      "date": "2026-09-30",
+      "category": "食費",
+      "detail": "食料品",
+      "item": "ご飯代",
+      "store": "ARUYOゲストハウス",
+      "amount": 4029,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1568,
+        "recordId": "raw-2bb4166cb0c4472a85f295b164ca6f79422fe22b18a7795bc9aae8ca9b488651-1"
+      },
+      "matchedTransactionId": "tx-f0dd78bb92af7e435e126a91"
     },
     {
       "date": "2026-10-01",
@@ -5914,9 +12106,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1550
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1569,
+        "recordId": "raw-10be9ef72c6af8d55059b73076d861424d05cf5c545e3ef61f879ca8cedd2a1d-1"
+      },
+      "matchedTransactionId": "tx-7832128e00d972766c694a81"
     },
     {
       "date": "2026-10-01",
@@ -5929,9 +12123,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1551
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1570,
+        "recordId": "raw-910a1d8d4b3ba079faa170f767d3db7fd38832ba47086c8eacf270e98a70289b-1"
+      },
+      "matchedTransactionId": "tx-7832128e00d972766c694a81"
     },
     {
       "date": "2026-10-01",
@@ -5944,9 +12140,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1552
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1571,
+        "recordId": "raw-44454963dc9eff416f90f13c7ca6f1ad4f283ede9f5c26b726def456b1f2ddf9-1"
+      },
+      "matchedTransactionId": "tx-7832128e00d972766c694a81"
     },
     {
       "date": "2026-10-01",
@@ -5959,9 +12157,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1553
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1572,
+        "recordId": "raw-5565922264683fa5655e8f16f63b3f43646a040af25954057049de41108d7cca-1"
+      },
+      "matchedTransactionId": "tx-cfff8b344c3228f146a86932"
+    },
+    {
+      "date": "2026-10-02",
+      "category": "教育・教養",
+      "detail": "参考書",
+      "item": "ゼミナール コーポレートファイナンス",
+      "store": "京都大学生活協同組合 ショップルネ 書籍コーナー",
+      "amount": 2970,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1573,
+        "recordId": "raw-33a4e730f1bf2b34f9b5741fb96760a8dfe7b2e65ba275b0298ff609a5f688a3-1"
+      },
+      "matchedTransactionId": "tx-012a0e7cae07f2b9b1f1e851"
     },
     {
       "date": "2026-10-03",
@@ -5974,9 +12191,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1554
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1574,
+        "recordId": "raw-ab7a3f8b0d5cf54f95b36e39289d57b6ca7145973fe7671ed41b2d4c8f279c25-1"
+      },
+      "matchedTransactionId": "tx-d607d6f3685336d1da2290d6"
     },
     {
       "date": "2026-10-03",
@@ -5989,9 +12208,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1555
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1575,
+        "recordId": "raw-a440b5c3e357de7d45ec4f47a9de86aeffd75f00a556278408ff90c0cf61e58a-1"
+      },
+      "matchedTransactionId": "tx-ea2d2664fa7b9236bb8d39a9"
     },
     {
       "date": "2026-10-03",
@@ -6004,9 +12225,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1556
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1576,
+        "recordId": "raw-1ed1edf5b4420dead6c0fbfb30250057651d47328193b5d888e07146f3e44f2d-1"
+      },
+      "matchedTransactionId": "tx-4e0f054e331f0c74a6217f6b"
     },
     {
       "date": "2026-10-04",
@@ -6019,9 +12242,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1557
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1577,
+        "recordId": "raw-2cf713c276382af9f8b9bab3492fd05ec3785b771ea7c4eab3a8845905bc03d8-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6034,9 +12259,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1558
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1578,
+        "recordId": "raw-2ecfed007087bb5966438b173ff161cc8023d7358547fc804c350f200f9130d0-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6049,9 +12276,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1559
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1579,
+        "recordId": "raw-26b8403de37a621c67b01be662a6f793222e4b0b0161eaaaf6cbed3e20e9e878-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6064,9 +12293,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1560
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1580,
+        "recordId": "raw-09f084ac810466742cc6a22f7d73aa727770dab24f4fd4161baa65bf97c1aa4a-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6079,9 +12310,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1561
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1581,
+        "recordId": "raw-7c4aa3cea67b96225d0f4e38fc81142305d6713b6dfc87f84165f16d7c8e3d89-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6094,9 +12327,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1562
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1582,
+        "recordId": "raw-e7cc26b34fe5742953fc5408dfa007199d72a69f8284333e808fa3e4dce7381c-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6109,9 +12344,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1563
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1583,
+        "recordId": "raw-d91d30ceafd58e8c809fe6fbc3834e227f67ee91244db82b48c8cf9e7ba69822-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6124,9 +12361,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1564
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1584,
+        "recordId": "raw-62d9d9f80d628ffb2c1e9d5f298795ffb9e85310db3280f7c752ed689b2e750b-1"
+      },
+      "matchedTransactionId": "tx-31074abb7cf2cee916b74f54"
     },
     {
       "date": "2026-10-04",
@@ -6139,9 +12378,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1565
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1585,
+        "recordId": "raw-ae64394f004402c726f3cbca1fcdb80c7971a1df7e47ddd80a8ee1d4cabff157-1"
+      },
+      "matchedTransactionId": "tx-09db9485e5e854518f016f92"
     },
     {
       "date": "2026-10-04",
@@ -6154,9 +12395,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1566
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1586,
+        "recordId": "raw-fefc776dd887fb6b14c5e2207c78879d291368784b5068e4287486464e366b6c-1"
+      },
+      "matchedTransactionId": "tx-09db9485e5e854518f016f92"
     },
     {
       "date": "2026-10-04",
@@ -6169,9 +12412,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1567
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1587,
+        "recordId": "raw-8a943565f29eabe52d52c6a1aa5574f10f0f5d1c7aa6af6e05a103be2fa2965a-1"
+      },
+      "matchedTransactionId": "tx-09db9485e5e854518f016f92"
     },
     {
       "date": "2026-10-04",
@@ -6184,9 +12429,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1568
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1588,
+        "recordId": "raw-96aca429d007c0862aa188569fd535d069abb3a33b41c50ce54cb30605cf7b66-1"
+      },
+      "matchedTransactionId": "tx-09db9485e5e854518f016f92"
     },
     {
       "date": "2026-10-04",
@@ -6199,9 +12446,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1569
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1589,
+        "recordId": "raw-69b828722a1db4168742acd7860defb8a90cb4f9f88c9396604ef504293a9931-1"
+      },
+      "matchedTransactionId": "tx-09db9485e5e854518f016f92"
     },
     {
       "date": "2026-10-04",
@@ -6214,9 +12463,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1570
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1590,
+        "recordId": "raw-a7bdbf4ee5bfedb12798fa514424bd1080b81ab367fdc0965303b15df636392c-1"
+      },
+      "matchedTransactionId": "tx-09db9485e5e854518f016f92"
     },
     {
       "date": "2026-10-05",
@@ -6229,9 +12480,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1571
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1591,
+        "recordId": "raw-ecef45f42ea03977ebfdc421dd492646f6d24ea159b598a6f3c76ea89013e320-1"
+      },
+      "matchedTransactionId": "tx-27cf4ecb654734f984a58787"
     },
     {
       "date": "2026-10-05",
@@ -6244,9 +12497,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1572
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1592,
+        "recordId": "raw-28e45f71b32c67b1b6b9b1250e1bdd601e02db80532d109f93b314a5206b4778-1"
+      },
+      "matchedTransactionId": "tx-27cf4ecb654734f984a58787"
     },
     {
       "date": "2026-10-05",
@@ -6259,9 +12514,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1573
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1593,
+        "recordId": "raw-c4b04411ed93a7115a712dd030fbc88ab11bae372d1cd39752b452f215b14ee9-1"
+      },
+      "matchedTransactionId": "tx-27cf4ecb654734f984a58787"
     },
     {
       "date": "2026-10-05",
@@ -6274,9 +12531,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1574
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1594,
+        "recordId": "raw-623cd9785bd4c38ab93267c7afbc8ab03d9ad0297ce6fe0a065ab57b5b0df525-1"
+      },
+      "matchedTransactionId": "tx-7b2089f8430f891048794f4c"
     },
     {
       "date": "2026-10-05",
@@ -6289,9 +12548,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1575
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1595,
+        "recordId": "raw-a99187f342872513a06c82f4464130940a50a935d18410e5ac1092956c65e8ed-1"
+      },
+      "matchedTransactionId": "tx-7b2089f8430f891048794f4c"
     },
     {
       "date": "2026-10-08",
@@ -6304,24 +12565,45 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1576
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1596,
+        "recordId": "raw-ebe25982a0fbf1a7e8a865ddb70c481050c87a1c46e3fe7edd7a31160261d78d-1"
+      },
+      "matchedTransactionId": "tx-fe63b9c4bb11bf6319addbda"
     },
     {
       "date": "2026-10-09",
       "category": "食費",
-      "detail": "食料品",
-      "item": "ディアボラハンバーグランチ ミラノ風ドリア",
+      "detail": "昼ご飯",
+      "item": "ランチ)ディアボラハンバーグ",
       "store": "サイゼリヤ 百万遍店",
-      "amount": 900,
+      "amount": 1200,
       "income": 0,
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1577
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1597,
+        "recordId": "raw-4168e283de3d2251c5ca0b396404990ba69de2b5e39c1241c240e2acd7887d43-1"
+      },
+      "matchedTransactionId": "tx-8129721c58f90aff876e207a"
+    },
+    {
+      "date": "2026-10-09",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "ミラノ風ドリア",
+      "store": "サイゼリヤ 百万遍店",
+      "amount": 300,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1598,
+        "recordId": "raw-6de4d782317222ec09b9f15761e4ef0538fb6b7eb5e01c20374e026fe101fec0-1"
+      },
+      "matchedTransactionId": "tx-8129721c58f90aff876e207a"
     },
     {
       "date": "2026-10-10",
@@ -6334,9 +12616,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1578
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1599,
+        "recordId": "raw-17e234a7179ec47fec9c9d99d51065d273dd9d03b3501e8555b9815b1755c48c-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-10",
@@ -6349,9 +12633,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1579
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1600,
+        "recordId": "raw-3ad1c8e25d1cc9cbdf6d6a32eccf7d516a465a77538ac3fa41e2a10d97c5fe75-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-10",
@@ -6364,9 +12650,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1580
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1601,
+        "recordId": "raw-bfb9cb52338ea8e0556695d8c56ee05de1f924b2adb357f8105d7cb6eb21fcff-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-10",
@@ -6379,9 +12667,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1581
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1602,
+        "recordId": "raw-074c8b29c5d1039a32357a6c33b4c5591df973f4d2461fe285c322529c570d85-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-10",
@@ -6394,9 +12684,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1582
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1603,
+        "recordId": "raw-6c096dbaccf8113c2599d2c4ddeaed9741d4ecd603cc86636828e1f9f06fb32d-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-10",
@@ -6409,9 +12701,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1583
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1604,
+        "recordId": "raw-246fe03907cc86eb3935dcc59e8f6b1fd1d8dfbf7a8cee82779af2b1199b212b-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-10",
@@ -6424,9 +12718,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1584
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1605,
+        "recordId": "raw-9b263258d59512ebdc2bb05a12eaaafbeacd3550ab8f6f83a943392ceeac7321-1"
+      },
+      "matchedTransactionId": "tx-7138acfd3a7fcce267cf40c6"
     },
     {
       "date": "2026-10-11",
@@ -6439,9 +12735,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1585
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1606,
+        "recordId": "raw-b344583c6233554a6a4234aa9a7d488570393059e587c9b6fb69a0b57c57b125-1"
+      },
+      "matchedTransactionId": "tx-9506544af8976d4412722855"
     },
     {
       "date": "2026-10-11",
@@ -6454,9 +12752,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1586
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1607,
+        "recordId": "raw-7e26931a9c65ba6a3111eebfc5e4966f5e7e3b3b48d59c8da38de63491384651-1"
+      },
+      "matchedTransactionId": "tx-9506544af8976d4412722855"
     },
     {
       "date": "2026-10-11",
@@ -6469,9 +12769,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1587
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1608,
+        "recordId": "raw-b9dd748438518f8dbf10663a0d2681ad301d3e1995a42474f33812b750eb74c9-1"
+      },
+      "matchedTransactionId": "tx-9506544af8976d4412722855"
     },
     {
       "date": "2026-10-14",
@@ -6484,9 +12786,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1588
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1609,
+        "recordId": "raw-6f18be110c8772508d7651ce88ccd239802f74067bd199697bbca560e6d68ea7-1"
+      },
+      "matchedTransactionId": "tx-e53c26cec3638bd16b3b310c"
     },
     {
       "date": "2026-10-15",
@@ -6499,9 +12803,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1589
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1610,
+        "recordId": "raw-310f676b495fe46e26d364525802018349215e9c3f5a40cac78f2d2aff71ee6c-1"
+      },
+      "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
     },
     {
       "date": "2026-10-15",
@@ -6514,9 +12820,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1590
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1611,
+        "recordId": "raw-15aacb7a6eeffa80c7436f343e7dae09a8972983f709ecbcd3e31bc0c7d9fc24-1"
+      },
+      "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
     },
     {
       "date": "2026-10-15",
@@ -6529,9 +12837,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1591
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1612,
+        "recordId": "raw-2dc399b1d64ed249327b1fc7c16487784977ea55e6a4b02dc7893ae7a99075f6-1"
+      },
+      "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
     },
     {
       "date": "2026-10-15",
@@ -6544,9 +12854,96 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1592
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1613,
+        "recordId": "raw-5e25f44088cad1be4261a801031148f6b0728fb61d4941e483bdcaa6676b4668-1"
+      },
+      "matchedTransactionId": "tx-19f1badb0706a03b7cec77f7"
+    },
+    {
+      "date": "2026-10-16",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "",
+      "store": "サイゼリヤ 百万遍店",
+      "amount": 600,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1614,
+        "recordId": "raw-375d8c1c778c6ca112641fee53ef379630f981b1ea7dee4c117e9750549df841-1"
+      },
+      "matchedTransactionId": "tx-3648ecc65346d70fa0c1efdf"
+    },
+    {
+      "date": "2026-10-16",
+      "category": "エンタメ",
+      "detail": "ゲーム",
+      "item": "【SW2】ゼルダの伝説 時のオカリナ\u003cMrMax早期購入オリジナル特典付>",
+      "store": "ミスターマックスオンラインストア",
+      "amount": 7808,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1615,
+        "recordId": "raw-c1593b72879d7436314703a4253b31d2b4ea9062ab84c435d6805a92ca49ec89-1"
+      },
+      "matchedTransactionId": "tx-5dbc75a943ab66717a203bbe"
+    },
+    {
+      "date": "2026-10-17",
+      "category": "エンタメ",
+      "detail": "イベント",
+      "item": "",
+      "store": "知恩院",
+      "amount": 500,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1616,
+        "recordId": "raw-82a9a0fb06ae0b4061e88b5bcb37070522d9da8165d5a24ec95940122faed853-1"
+      },
+      "matchedTransactionId": "tx-991bf5be4173eef4347588ca"
+    },
+    {
+      "date": "2026-10-17",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "チーズバーグディッシュ",
+      "store": "びっくりドンキー 河原町三条店",
+      "amount": 1190,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1617,
+        "recordId": "raw-7bfd0a61831414d3bbf1eaa724d87b87b5f3314930911b9dafef1ac62bf7e3a3-1"
+      },
+      "matchedTransactionId": "tx-dc7c2ba154d782c1c767a1a7"
+    },
+    {
+      "date": "2026-10-17",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "ラーメン 300g",
+      "store": "ラーメン荘 地球規模で考えろ サン",
+      "amount": 1150,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1618,
+        "recordId": "raw-bbaff33292b572690cb9e31bf178d308d39ddb223a541d9f89000ae1bb839b91-1"
+      },
+      "matchedTransactionId": "tx-dc7c2ba154d782c1c767a1a7"
     },
     {
       "date": "2026-10-18",
@@ -6559,9 +12956,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1593
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1619,
+        "recordId": "raw-3f98a9663544978ce148e2904161c822575fde7a0512b4342b62fbbbb7920d92-1"
+      },
+      "matchedTransactionId": "tx-ca7ecb553398c2fbf5214024"
     },
     {
       "date": "2026-10-18",
@@ -6574,9 +12973,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1594
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1620,
+        "recordId": "raw-03979ce4b45446132ed3c161fbaa75c5c1676a2168d1ac695d985cf8c76cb0cc-1"
+      },
+      "matchedTransactionId": "tx-47eda19a122042463658016c"
     },
     {
       "date": "2026-10-18",
@@ -6589,9 +12990,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1595
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1621,
+        "recordId": "raw-eeb406bde850646ddb22286a47ce1ab1c9f7707fd84b4f95a0db9f43870aae10-1"
+      },
+      "matchedTransactionId": "tx-47eda19a122042463658016c"
     },
     {
       "date": "2026-10-18",
@@ -6604,9 +13007,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1596
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1622,
+        "recordId": "raw-42460cfb00f2246eaaf83cbe3c2c7f2ea29e9a16d0efd372edb92809e2283a07-1"
+      },
+      "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
     },
     {
       "date": "2026-10-18",
@@ -6619,9 +13024,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1597
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1623,
+        "recordId": "raw-bd1149561f0107120548b1351ed2e93599cf0219897288549c18d9e49f749af5-1"
+      },
+      "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
     },
     {
       "date": "2026-10-18",
@@ -6634,9 +13041,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1598
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1624,
+        "recordId": "raw-93f16bb70f73316e7515381d93fca55bc0ef0132658d5af2ca5ad17228535152-1"
+      },
+      "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
     },
     {
       "date": "2026-10-18",
@@ -6649,9 +13058,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1599
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1625,
+        "recordId": "raw-3eb28739b8e4687de19834419d0f84a1275a4b4efeffd3166a413496a9b9b41d-1"
+      },
+      "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
     },
     {
       "date": "2026-10-18",
@@ -6664,9 +13075,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1600
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1626,
+        "recordId": "raw-509de142d12a8b3f5ded35aa027284b412aba64b479af20ee2f23433bc67a9db-1"
+      },
+      "matchedTransactionId": "tx-d994a3f4a7777e9f91e4fe1c"
     },
     {
       "date": "2026-10-19",
@@ -6679,9 +13092,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1601
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1627,
+        "recordId": "raw-33067b2f9c58451e761721b579d1670564af80339ae793ffd3ba65341048818e-1"
+      },
+      "matchedTransactionId": "tx-b3be41eb33bcde781a6792e7"
     },
     {
       "date": "2026-10-19",
@@ -6694,9 +13109,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1602
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1628,
+        "recordId": "raw-a271c571754f88d2a0f2738d2ffb6739848cebbac7918c4364e3cd2fb4c8b194-1"
+      },
+      "matchedTransactionId": "tx-b3be41eb33bcde781a6792e7"
     },
     {
       "date": "2026-10-19",
@@ -6709,9 +13126,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1603
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1629,
+        "recordId": "raw-e974d0e8a5088366074b6406f13c0664f7441190dbb9ccf23b175b8049b899ac-1"
+      },
+      "matchedTransactionId": "tx-e5bf13418668683bd1ccc14f"
     },
     {
       "date": "2026-10-20",
@@ -6724,9 +13143,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1604
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1630,
+        "recordId": "raw-48f5277770040e024a93d2b6e63216d70d219e97f85598145a401f3256b7c64a-1"
+      },
+      "matchedTransactionId": "tx-bf75c092e6aa181d711e6d03"
     },
     {
       "date": "2026-10-21",
@@ -6739,9 +13160,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1605
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1631,
+        "recordId": "raw-af8db31d7bb1a6930007ef8b6856857fa9f14c981cf274b384b86bd99b9a9695-1"
+      },
+      "matchedTransactionId": "tx-96852b8df4874f3a95aff6ec"
     },
     {
       "date": "2026-10-21",
@@ -6754,9 +13177,45 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1606
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1632,
+        "recordId": "raw-8bec11e0fa64ec2edb16ed424299929546b777dba88125c699da81c50490671b-1"
+      },
+      "matchedTransactionId": "tx-96852b8df4874f3a95aff6ec"
+    },
+    {
+      "date": "2026-10-21",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "限定2 具材爆盛りスタミナジャンク",
+      "store": "油珉",
+      "amount": 1100,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1633,
+        "recordId": "raw-3060bcec97063157c215881a3b6634f2cf68addfe10c3fdbaa3d823993b93cb1-1"
+      },
+      "matchedTransactionId": "tx-1a8d3ba6d53df617979b8eec"
+    },
+    {
+      "date": "2026-10-21",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "地鶏油SP",
+      "store": "深夜ラーメンB",
+      "amount": 1000,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1634,
+        "recordId": "raw-62a6fdd61c6af27d40a4103962958d3cff4e3b79bb68b0c32d47c1f828594c78-1"
+      },
+      "matchedTransactionId": "tx-f9528940b83665846df1681c"
     },
     {
       "date": "2026-10-22",
@@ -6769,9 +13228,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1607
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1635,
+        "recordId": "raw-32e39d607ce0e8ab61a195482e60cbebedbc0d464b63a1544334a5363bf24a0e-1"
+      },
+      "matchedTransactionId": "tx-e5475dee75fc91f9fcf529f9"
+    },
+    {
+      "date": "2026-10-22",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "旧ワンコイン定食",
+      "store": "ケニア",
+      "amount": 640,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1636,
+        "recordId": "raw-04ff42144ac57ab7b7c1ac4dcf879f928e3c94189212a3b623374da59501c24a-1"
+      },
+      "matchedTransactionId": "tx-7994a2578d5285a2b55b9c51"
     },
     {
       "date": "2026-10-23",
@@ -6784,9 +13262,62 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1608
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1637,
+        "recordId": "raw-d57a09d136d69b8ccdc4d39aa1641dc7c11c8193bb61880cd32d481f822c6b8f-1"
+      },
+      "matchedTransactionId": "tx-3694b226c5ce6349dec7143e"
+    },
+    {
+      "date": "2026-10-23",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "",
+      "store": "サイゼリヤ 百万遍店",
+      "amount": 600,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1638,
+        "recordId": "raw-f3425cd9f224d8821640502e83e32fdd3d4f000a373780116d631d5497a01673-1"
+      },
+      "matchedTransactionId": "tx-0c76b9c2faca256a317d29c7"
+    },
+    {
+      "date": "2026-10-23",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "ラーメン + セカンドインパクト",
+      "store": "ラーメン荘 歴史を刻め 大阪日本橋店",
+      "amount": 1250,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1639,
+        "recordId": "raw-9392b9f803580cdce68087d229fccdf26cb45af99f4de1cb3733353820cd95dd-1"
+      },
+      "matchedTransactionId": "tx-bb2d3e3e4637a1b712683691"
+    },
+    {
+      "date": "2026-10-24",
+      "category": "エンタメ",
+      "detail": "イベント",
+      "item": "ハロウィンパーティー",
+      "store": "完全個室 居酒屋＆カラオケ へそ 京都駅前店",
+      "amount": 2000,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1640,
+        "recordId": "raw-413a01c05ba37c5ac04c0d050aee4e1203419041e6b64d6fe499ff548925c652-1"
+      },
+      "matchedTransactionId": "tx-1c72674c35dbcb0a28da5577"
     },
     {
       "date": "2026-10-25",
@@ -6799,9 +13330,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1609
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1641,
+        "recordId": "raw-af5fc7ed383ecb307f7981face269a84d573856da474b57646e17e86024992b7-1"
+      },
+      "matchedTransactionId": "tx-58ba9278a4eda4a4be83b3ff"
     },
     {
       "date": "2026-10-25",
@@ -6814,9 +13347,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1610
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1642,
+        "recordId": "raw-6f58c2579250be453014d5e9fb954801101aeb16905cacc4b36558d82115040d-1"
+      },
+      "matchedTransactionId": "tx-58ba9278a4eda4a4be83b3ff"
     },
     {
       "date": "2026-10-25",
@@ -6829,9 +13364,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1611
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1643,
+        "recordId": "raw-0aff5895603152c0726697d9dd60a7aa6d2f33a71c115dabee50afe70e680450-1"
+      },
+      "matchedTransactionId": "tx-58ba9278a4eda4a4be83b3ff"
+    },
+    {
+      "date": "2026-10-25",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "飲み代",
+      "store": "ワイワイ酒場 へそ 京都店",
+      "amount": 3000,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1644,
+        "recordId": "raw-ad8ac0f52be142a9850ba2e9ee7633c6df47510bc6022b12db9114f7ef0af3bc-1"
+      },
+      "matchedTransactionId": "tx-f5f65de99af4cd8f07dc7e0c"
     },
     {
       "date": "2026-10-26",
@@ -6844,9 +13398,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1612
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1645,
+        "recordId": "raw-c5ba09a28c420851c58e4ffe85af50124a84bcfce227ca38140c2035c66829e0-1"
+      },
+      "matchedTransactionId": "tx-f2df0be402c89cd0d415f42a"
     },
     {
       "date": "2026-10-27",
@@ -6859,9 +13415,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1613
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1646,
+        "recordId": "raw-70e68d75bda6d1d59deaf1f234c79b8b96bb8484a885f8407c30846b301662fb-1"
+      },
+      "matchedTransactionId": "tx-0320fff3e1bc408d348aa996"
     },
     {
       "date": "2026-10-28",
@@ -6874,9 +13432,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1614
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1647,
+        "recordId": "raw-4e393ade71f60b7678228e535c4d6993f650081cbff3423dc078c70b6437cc63-1"
+      },
+      "matchedTransactionId": "tx-f57174d3a2caa538c33eb8e1"
     },
     {
       "date": "2026-10-29",
@@ -6889,9 +13449,11 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1615
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1648,
+        "recordId": "raw-07f04785cb33e64ad47cb9da0fa834aa612fea04959ddcaad41a93aac8f7e4f3-1"
+      },
+      "matchedTransactionId": "tx-ba5965176e1720d2f166b42e"
     },
     {
       "date": "2026-10-29",
@@ -6904,9 +13466,28 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1616
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1649,
+        "recordId": "raw-ea5d5458022c94dae72e5b0b50ac0beb30dd54406c8e0c0bcab5268eac85bb9b-1"
+      },
+      "matchedTransactionId": "tx-ba5965176e1720d2f166b42e"
+    },
+    {
+      "date": "2026-10-29",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "汁あり坦々麺 白ご飯",
+      "store": "麺と酒の寅",
+      "amount": 1250,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1650,
+        "recordId": "raw-a9d9f3482416a7549f3c35e3369f40f21f379fe0a1b15e8ae0b6e38425fbfcf0-1"
+      },
+      "matchedTransactionId": "tx-171222f3212198f25ca165b9"
     },
     {
       "date": "2026-10-30",
@@ -6919,9 +13500,130 @@ window.LifeAccountingData = {
       "method": "payment",
       "status": "支払元・決済対応未確認",
       "source": {
-        "file": "zaim/Zaim.20261101224847.csv",
-        "line": 1617
-      }
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1651,
+        "recordId": "raw-0b05fa1c97bf0ad0cc94cba4aad797787548638b33a67b06e8ef9999161580da-1"
+      },
+      "matchedTransactionId": "tx-b2eef4848b86e5705d659fc3"
+    },
+    {
+      "date": "2026-10-30",
+      "category": "エンタメ",
+      "detail": "映画・動画",
+      "item": "メイドインアビス 目覚める神秘 レイトショー(大学生)",
+      "store": "MOVIX京都",
+      "amount": 1600,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1652,
+        "recordId": "raw-2870d0fec27c232f7594b9bd853098ec01fcdd8aab3261dea1cc273ca3f743b8-1"
+      },
+      "matchedTransactionId": "tx-2611f5fe11c083f956f08c9c"
+    },
+    {
+      "date": "2026-10-30",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "西京味噌担々つけ麺 + 白ご飯",
+      "store": "京つけめん つるかめ 六角",
+      "amount": 1600,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1653,
+        "recordId": "raw-0f3d07c978c5c9e4f46600ac753797513bf360b06961684795a63077ef230100-1"
+      },
+      "matchedTransactionId": "tx-361b7309c6c7f3be56e23f8c"
+    },
+    {
+      "date": "2026-10-30",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "ディアボラハンバーグ",
+      "store": "サイゼリヤ 百万遍店",
+      "amount": 600,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1654,
+        "recordId": "raw-752125692622d783474e387b38cbb9559fbc70622b187fd2ca5a2c6c48a54665-1"
+      },
+      "matchedTransactionId": "tx-33882d7743f0bd54c0d804b4"
+    },
+    {
+      "date": "2026-10-31",
+      "category": "エンタメ",
+      "detail": "書籍",
+      "item": "メイドインアビス2",
+      "store": "丸善 京都本店",
+      "amount": 1100,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1655,
+        "recordId": "raw-3dbf5564a869b95df72ba2ef72fe8d22a081230363db9b24d7d447181de9a6f6-1"
+      },
+      "matchedTransactionId": "tx-40bebfd6188ab3cbd2534ced"
+    },
+    {
+      "date": "2026-10-31",
+      "category": "エンタメ",
+      "detail": "書籍",
+      "item": "メイドインアビス1",
+      "store": "丸善 京都本店",
+      "amount": 1100,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1656,
+        "recordId": "raw-748211c1809632f0fe9192fe3fdc97e0acbd5ab665ad55f96b5fe36a8b5ec3b6-1"
+      },
+      "matchedTransactionId": "tx-40bebfd6188ab3cbd2534ced"
+    },
+    {
+      "date": "2026-10-31",
+      "category": "食費",
+      "detail": "晩ご飯",
+      "item": "",
+      "store": "スシロー 河原町蛸薬師通り店",
+      "amount": 1270,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1657,
+        "recordId": "raw-efc310eaae79273604eeb0df433771330a4b0b908b3422b371ea7a2bb11650c1-1"
+      },
+      "matchedTransactionId": "tx-d156bea06ff5617bc6867852"
+    },
+    {
+      "date": "2026-10-31",
+      "category": "食費",
+      "detail": "昼ご飯",
+      "item": "ピストル 豚5枚 替玉半玉",
+      "store": "ラーメン大戦争 京都河原町店",
+      "amount": 1010,
+      "income": 0,
+      "method": "payment",
+      "status": "支払元・決済対応未確認",
+      "source": {
+        "file": "zaim/Zaim.20261103143539.csv",
+        "line": 1658,
+        "recordId": "raw-6a20d9b1b5434dbb9577e2a60394268e2ac7458df5df1e27378d6a3dd8e47f59-1"
+      },
+      "matchedTransactionId": "tx-f3172c0fc04d363cc1a4bcb4"
     }
   ],
   "bills": [
@@ -6933,195 +13635,243 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-3559bb0634d8401c2f5abddc63bec2afc34cf87b57502d16ebdd6cc31d502b4b-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-43f60f6d3d10242bf95f799ed6e9ba6f9b42bbf1f59ee4f1ead83cc090614511-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-c6914e4c12940d52c6d408e65c2101ddbbaf2f05e799b4582792a09942fb793a-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-ad8e1f285adfa3847bfc4448fc900f8af06e864dc0da50bb17906b2283f87595-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-972f2852337f7711c391230910c6d3ad437e5432c8b9aca6909d8337501d6952-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-6791ec6d6bc66c085f5fe57baa616f816e2e7ef6aa76c2f32940dcbcc9468e44-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-a4ae0ff9a23b6fcb0efe81c1ed435269d4aa649f038ee1bdc8209e9211c37b87-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-cf3f4552a01ac069af01655841ed4b6ab6e4ad0d6de220a267ac1385df087d2e-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-677b2a5de06f2fa3a956cab6741496a5138828b1efe0773090cd1ea10d89273a-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 16
+          "line": 16,
+          "recordId": "raw-b45fb75f533c7a9fca7afda052fb1cd2c05cfaec8b365987da7d3f5d65d1c604-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 18
+          "line": 18,
+          "recordId": "raw-4e240ac74162d05177292ca62eb72b29ff514b0cb2ca227caa25dc1806175e67-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 20
+          "line": 20,
+          "recordId": "raw-af53ed136f06875ca34cf28f9d0aba9d40fad5b5cc94fb4ab1cfc8e972c8906a-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 22
+          "line": 22,
+          "recordId": "raw-ff56ec51e781c26c0febf927da9fdf46b6d2a6c63277f7705cc75b0f468a1b93-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 24
+          "line": 24,
+          "recordId": "raw-e5e8ddf289a1b55e617a5bd0691b00920e406ee6cfeeeefa739ee52b494a0593-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 26
+          "line": 26,
+          "recordId": "raw-3df3e62c8a6d2742825b684bf8aa4014fcb7d34b4c3f2bf41654d93003d63753-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 28
+          "line": 28,
+          "recordId": "raw-dd505f4c2d47bafb8374543731f95d5ba67c980513ff66e6cf346acc19216e44-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 30
+          "line": 30,
+          "recordId": "raw-b1d61eed383a1554d3f28ecb5662fbe4384ef167834e36d47ba5beb4b1c90533-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 32
+          "line": 32,
+          "recordId": "raw-75f166c722592305968c6725044ab7f0616d89403c1c23a702ccb49c5397f955-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 34
+          "line": 34,
+          "recordId": "raw-2e34edf814216fd59fbbb2e66ef6a667188b6bbd871cd36db520db77f011d87a-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 36
+          "line": 36,
+          "recordId": "raw-24af7ca73575a70fd3d297ae40950d150c9648d939471ba06897ea52ba59f364-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 38
+          "line": 38,
+          "recordId": "raw-605d72757b88ae278c5a7a991d9c3ab29e5a61b57d5e0caacd23d56785fb564e-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 40
+          "line": 40,
+          "recordId": "raw-b9478f81d6ffa9f2e3761aabb120dd4314633aa5d460d0bfd8081957cc44fe04-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 42
+          "line": 42,
+          "recordId": "raw-9f225f6fc880e6838afc01805dccc081b6c7b05ac5d27836a8d45c82549655f0-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 44
+          "line": 44,
+          "recordId": "raw-f813ae350b31bd03091437ffdf24920a84beafac23abab117c8410f475ac8017-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 46
+          "line": 46,
+          "recordId": "raw-8f184587e5e67490759a4a2076c440afce218ea36c8098f21063624b69c0b770-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 48
+          "line": 48,
+          "recordId": "raw-f61752e4935ddd43d8726c18595ec2e5f8cdfd4c4dc27a567762cc64c8eb7510-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 50
+          "line": 50,
+          "recordId": "raw-7681d809d77bf05f2425682a075a8cbdbcccf8c4c27bdaa0c9f11c3ece335ab5-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 52
+          "line": 52,
+          "recordId": "raw-e0883c2052c5e40500603a76c9d3a7ac5666cf55e363efc07c802933247533b3-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 54
+          "line": 54,
+          "recordId": "raw-25a7443d37440ae1cfae182e5d6cfaca92e94421cb1a0c07d5fd5c58e7dc0917-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 56
+          "line": 56,
+          "recordId": "raw-7a4b94d30244fd0cd32fbedc0b516817f188388a285dfa6f7c7b6c7d8dd10abc-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 58
+          "line": 58,
+          "recordId": "raw-8460dc617aefe5fc36ec4f66ba30b03b0900ff02bd6d6c657e4bf253c3c0ff5e-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 60
+          "line": 60,
+          "recordId": "raw-2f0df23449cc98bd5fef385059668a2595c4ddca7ed927872dacd4bec5248014-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 62
+          "line": 62,
+          "recordId": "raw-c42a47f70183a8d187f765e53b54ef080ee8d45cf8fecbd068e83a206e883a6d-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 64
+          "line": 64,
+          "recordId": "raw-aa3ef2d4fc8f842b192146c60082eca2766150389bf915990fe40401cd705214-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 66
+          "line": 66,
+          "recordId": "raw-0d56dcab66a0461d4f8378dd239a020a1dbabb839494707a69c3c8c340ac01a2-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 68
+          "line": 68,
+          "recordId": "raw-729a79ae1f43ec654ed09cabdc120519081f066540843029c809d457a67aaa0d-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 70
+          "line": 70,
+          "recordId": "raw-8ffb00c7552fde61619e9fcedfd6408a78fb1b3a4619c793c5f37cecba84df2b-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 72
+          "line": 72,
+          "recordId": "raw-1e278f6f4b9b1ffa56ab0ebaa2723eeab578326375b852291815f24bcef83fe9-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 74
+          "line": 74,
+          "recordId": "raw-8c43021f59988a0338562114beac4b85408c7f3c12b9b9c73321044fe379ff85-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 76
+          "line": 76,
+          "recordId": "raw-faf183fd5cc0e4df7d2267dd5e4a1382b54fd3a07fda5be761d8f02eda504537-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 78
+          "line": 78,
+          "recordId": "raw-96e8dcb63d9094d56c9fb7f827ee5e23584bab68512fd08ab80549004008bd05-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 80
+          "line": 80,
+          "recordId": "raw-a6308ec5c7b32cb21488b34763c00e0a55a6b52751697a0d457a5646baf1e731-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 82
+          "line": 82,
+          "recordId": "raw-312e18734d379c6764b8d66350079491f986f05eaff693bcc03b51c43be1acbf-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 84
+          "line": 84,
+          "recordId": "raw-a47cbe0e94916a5498dfb2f2526673f30da77722b0ca2e535849c788f89d513f-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 86
+          "line": 86,
+          "recordId": "raw-e847161b28ded770c31b683f07caaac55e8e7dc9f495fa9d256720c9f150dab3-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 87
+          "line": 87,
+          "recordId": "raw-3a3df132fea924e03dc42024de50c31396c0f6ab7cfb9a04b7e30f0f8d68dad7-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 88
+          "line": 88,
+          "recordId": "raw-4dd736f5bd8da58917e4a8ed16dfba6b81bf89e4ef6de46748e21d666a598b9a-1"
         },
         {
           "file": "Rakuten_Card/enavi202609(2033).csv",
-          "line": 89
+          "line": 89,
+          "recordId": "raw-4f4316c95a41df4e43eaeff9b85c0c45c8f550a7e5c34f834d42d653d1f8432a-1"
         }
       ],
       "items": [
@@ -7132,7 +13882,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 2
+              "line": 2,
+              "recordId": "raw-3559bb0634d8401c2f5abddc63bec2afc34cf87b57502d16ebdd6cc31d502b4b-1"
             }
           ]
         },
@@ -7143,7 +13894,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 3
+              "line": 3,
+              "recordId": "raw-43f60f6d3d10242bf95f799ed6e9ba6f9b42bbf1f59ee4f1ead83cc090614511-1"
             }
           ]
         },
@@ -7154,7 +13906,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 4
+              "line": 4,
+              "recordId": "raw-c6914e4c12940d52c6d408e65c2101ddbbaf2f05e799b4582792a09942fb793a-1"
             }
           ]
         },
@@ -7165,7 +13918,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 5
+              "line": 5,
+              "recordId": "raw-ad8e1f285adfa3847bfc4448fc900f8af06e864dc0da50bb17906b2283f87595-1"
             }
           ]
         },
@@ -7176,7 +13930,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 6
+              "line": 6,
+              "recordId": "raw-972f2852337f7711c391230910c6d3ad437e5432c8b9aca6909d8337501d6952-1"
             }
           ]
         },
@@ -7187,7 +13942,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 8
+              "line": 8,
+              "recordId": "raw-6791ec6d6bc66c085f5fe57baa616f816e2e7ef6aa76c2f32940dcbcc9468e44-1"
             }
           ]
         },
@@ -7198,7 +13954,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 10
+              "line": 10,
+              "recordId": "raw-a4ae0ff9a23b6fcb0efe81c1ed435269d4aa649f038ee1bdc8209e9211c37b87-1"
             }
           ]
         },
@@ -7209,7 +13966,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 12
+              "line": 12,
+              "recordId": "raw-cf3f4552a01ac069af01655841ed4b6ab6e4ad0d6de220a267ac1385df087d2e-1"
             }
           ]
         },
@@ -7220,7 +13978,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 14
+              "line": 14,
+              "recordId": "raw-677b2a5de06f2fa3a956cab6741496a5138828b1efe0773090cd1ea10d89273a-1"
             }
           ]
         },
@@ -7231,7 +13990,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 16
+              "line": 16,
+              "recordId": "raw-b45fb75f533c7a9fca7afda052fb1cd2c05cfaec8b365987da7d3f5d65d1c604-1"
             }
           ]
         },
@@ -7242,7 +14002,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 18
+              "line": 18,
+              "recordId": "raw-4e240ac74162d05177292ca62eb72b29ff514b0cb2ca227caa25dc1806175e67-1"
             }
           ]
         },
@@ -7253,7 +14014,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 20
+              "line": 20,
+              "recordId": "raw-af53ed136f06875ca34cf28f9d0aba9d40fad5b5cc94fb4ab1cfc8e972c8906a-1"
             }
           ]
         },
@@ -7264,7 +14026,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 22
+              "line": 22,
+              "recordId": "raw-ff56ec51e781c26c0febf927da9fdf46b6d2a6c63277f7705cc75b0f468a1b93-1"
             }
           ]
         },
@@ -7275,7 +14038,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 24
+              "line": 24,
+              "recordId": "raw-e5e8ddf289a1b55e617a5bd0691b00920e406ee6cfeeeefa739ee52b494a0593-1"
             }
           ]
         },
@@ -7286,7 +14050,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 26
+              "line": 26,
+              "recordId": "raw-3df3e62c8a6d2742825b684bf8aa4014fcb7d34b4c3f2bf41654d93003d63753-1"
             }
           ]
         },
@@ -7297,7 +14062,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 28
+              "line": 28,
+              "recordId": "raw-dd505f4c2d47bafb8374543731f95d5ba67c980513ff66e6cf346acc19216e44-1"
             }
           ]
         },
@@ -7308,7 +14074,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 30
+              "line": 30,
+              "recordId": "raw-b1d61eed383a1554d3f28ecb5662fbe4384ef167834e36d47ba5beb4b1c90533-1"
             }
           ]
         },
@@ -7319,7 +14086,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 32
+              "line": 32,
+              "recordId": "raw-75f166c722592305968c6725044ab7f0616d89403c1c23a702ccb49c5397f955-1"
             }
           ]
         },
@@ -7330,7 +14098,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 34
+              "line": 34,
+              "recordId": "raw-2e34edf814216fd59fbbb2e66ef6a667188b6bbd871cd36db520db77f011d87a-1"
             }
           ]
         },
@@ -7341,7 +14110,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 36
+              "line": 36,
+              "recordId": "raw-24af7ca73575a70fd3d297ae40950d150c9648d939471ba06897ea52ba59f364-1"
             }
           ]
         },
@@ -7352,7 +14122,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 38
+              "line": 38,
+              "recordId": "raw-605d72757b88ae278c5a7a991d9c3ab29e5a61b57d5e0caacd23d56785fb564e-1"
             }
           ]
         },
@@ -7363,7 +14134,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 40
+              "line": 40,
+              "recordId": "raw-b9478f81d6ffa9f2e3761aabb120dd4314633aa5d460d0bfd8081957cc44fe04-1"
             }
           ]
         },
@@ -7374,7 +14146,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 42
+              "line": 42,
+              "recordId": "raw-9f225f6fc880e6838afc01805dccc081b6c7b05ac5d27836a8d45c82549655f0-1"
             }
           ]
         },
@@ -7385,7 +14158,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 44
+              "line": 44,
+              "recordId": "raw-f813ae350b31bd03091437ffdf24920a84beafac23abab117c8410f475ac8017-1"
             }
           ]
         },
@@ -7396,7 +14170,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 46
+              "line": 46,
+              "recordId": "raw-8f184587e5e67490759a4a2076c440afce218ea36c8098f21063624b69c0b770-1"
             }
           ]
         },
@@ -7407,7 +14182,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 48
+              "line": 48,
+              "recordId": "raw-f61752e4935ddd43d8726c18595ec2e5f8cdfd4c4dc27a567762cc64c8eb7510-1"
             }
           ]
         },
@@ -7418,7 +14194,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 50
+              "line": 50,
+              "recordId": "raw-7681d809d77bf05f2425682a075a8cbdbcccf8c4c27bdaa0c9f11c3ece335ab5-1"
             }
           ]
         },
@@ -7429,7 +14206,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 52
+              "line": 52,
+              "recordId": "raw-e0883c2052c5e40500603a76c9d3a7ac5666cf55e363efc07c802933247533b3-1"
             }
           ]
         },
@@ -7440,7 +14218,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 54
+              "line": 54,
+              "recordId": "raw-25a7443d37440ae1cfae182e5d6cfaca92e94421cb1a0c07d5fd5c58e7dc0917-1"
             }
           ]
         },
@@ -7451,7 +14230,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 56
+              "line": 56,
+              "recordId": "raw-7a4b94d30244fd0cd32fbedc0b516817f188388a285dfa6f7c7b6c7d8dd10abc-1"
             }
           ]
         },
@@ -7462,7 +14242,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 58
+              "line": 58,
+              "recordId": "raw-8460dc617aefe5fc36ec4f66ba30b03b0900ff02bd6d6c657e4bf253c3c0ff5e-1"
             }
           ]
         },
@@ -7473,7 +14254,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 60
+              "line": 60,
+              "recordId": "raw-2f0df23449cc98bd5fef385059668a2595c4ddca7ed927872dacd4bec5248014-1"
             }
           ]
         },
@@ -7484,7 +14266,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 62
+              "line": 62,
+              "recordId": "raw-c42a47f70183a8d187f765e53b54ef080ee8d45cf8fecbd068e83a206e883a6d-1"
             }
           ]
         },
@@ -7495,7 +14278,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 64
+              "line": 64,
+              "recordId": "raw-aa3ef2d4fc8f842b192146c60082eca2766150389bf915990fe40401cd705214-1"
             }
           ]
         },
@@ -7506,7 +14290,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 66
+              "line": 66,
+              "recordId": "raw-0d56dcab66a0461d4f8378dd239a020a1dbabb839494707a69c3c8c340ac01a2-1"
             }
           ]
         },
@@ -7517,7 +14302,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 68
+              "line": 68,
+              "recordId": "raw-729a79ae1f43ec654ed09cabdc120519081f066540843029c809d457a67aaa0d-1"
             }
           ]
         },
@@ -7528,7 +14314,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 70
+              "line": 70,
+              "recordId": "raw-8ffb00c7552fde61619e9fcedfd6408a78fb1b3a4619c793c5f37cecba84df2b-1"
             }
           ]
         },
@@ -7539,7 +14326,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 72
+              "line": 72,
+              "recordId": "raw-1e278f6f4b9b1ffa56ab0ebaa2723eeab578326375b852291815f24bcef83fe9-1"
             }
           ]
         },
@@ -7550,7 +14338,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 74
+              "line": 74,
+              "recordId": "raw-8c43021f59988a0338562114beac4b85408c7f3c12b9b9c73321044fe379ff85-1"
             }
           ]
         },
@@ -7561,7 +14350,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 76
+              "line": 76,
+              "recordId": "raw-faf183fd5cc0e4df7d2267dd5e4a1382b54fd3a07fda5be761d8f02eda504537-1"
             }
           ]
         },
@@ -7572,7 +14362,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 78
+              "line": 78,
+              "recordId": "raw-96e8dcb63d9094d56c9fb7f827ee5e23584bab68512fd08ab80549004008bd05-1"
             }
           ]
         },
@@ -7583,7 +14374,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 80
+              "line": 80,
+              "recordId": "raw-a6308ec5c7b32cb21488b34763c00e0a55a6b52751697a0d457a5646baf1e731-1"
             }
           ]
         },
@@ -7594,7 +14386,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 82
+              "line": 82,
+              "recordId": "raw-312e18734d379c6764b8d66350079491f986f05eaff693bcc03b51c43be1acbf-1"
             }
           ]
         },
@@ -7605,7 +14398,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 84
+              "line": 84,
+              "recordId": "raw-a47cbe0e94916a5498dfb2f2526673f30da77722b0ca2e535849c788f89d513f-1"
             }
           ]
         },
@@ -7616,7 +14410,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 86
+              "line": 86,
+              "recordId": "raw-e847161b28ded770c31b683f07caaac55e8e7dc9f495fa9d256720c9f150dab3-1"
             }
           ]
         },
@@ -7627,7 +14422,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 87
+              "line": 87,
+              "recordId": "raw-3a3df132fea924e03dc42024de50c31396c0f6ab7cfb9a04b7e30f0f8d68dad7-1"
             }
           ]
         },
@@ -7638,7 +14434,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 88
+              "line": 88,
+              "recordId": "raw-4dd736f5bd8da58917e4a8ed16dfba6b81bf89e4ef6de46748e21d666a598b9a-1"
             }
           ]
         },
@@ -7649,12 +14446,15 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202609(2033).csv",
-              "line": 89
+              "line": 89,
+              "recordId": "raw-4f4316c95a41df4e43eaeff9b85c0c45c8f550a7e5c34f834d42d653d1f8432a-1"
             }
           ]
         }
       ],
-      "paymentTransactionIds": [],
+      "paymentTransactionIds": [
+        "tx-ad793d5ef23a1d82c3c370c1"
+      ],
       "totalBasis": "明細金額の合計"
     },
     {
@@ -7665,55 +14465,68 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-0ac62b9bde0fef9cc4f22e9b6cc08a6dc6ec94adfeab0323cf165834e7129b29-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-c2833bde5d617ffddaea1efbfba9dbacb433a83f65aaf78c631108371d32fc57-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-c2833bde5d617ffddaea1efbfba9dbacb433a83f65aaf78c631108371d32fc57-2"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-8d40d30abcd91507fae956ae11667f1919eddb3fe6d1adfd3ed71fc41a7bf7a7-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-b410c14f164d2893a1995bdedf4d3bf4a5fd6683ba86974961a356f4bd0c98c3-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-969b1cbeea30221acf8f45d9b53b32ad42b50fed481bf684224267dc3cb49bf8-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-7ef2dceb1a05330a192535f7b8783ad60a2453beba4d993ed1bed197e68844c7-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-7ef2dceb1a05330a192535f7b8783ad60a2453beba4d993ed1bed197e68844c7-2"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-85c0aa8ce8c37bf41b0c6e6bb207d81da3b10813013cb95bd22f04d5a2f979ff-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-8768f6bedd7edde36a42a7d3a9968aee754f08aba378752382c44848247918a6-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-9b5d9c5f901aceb0b8c6654367eb786b111f9ceefccf6f2e9cb7f1230d55a875-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-bde0da9ee9558e5fb0804275188026107dd2b3b56a0ad057037364bf42365598-1"
         },
         {
           "file": "Rakuten_Card/enavi202610(2033).csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-e6519a7d2e75670fdb71a3d6ac020b531a3e5904299d7a1a5d601c6f7aa7543a-1"
         }
       ],
       "items": [
@@ -7724,7 +14537,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 2
+              "line": 2,
+              "recordId": "raw-0ac62b9bde0fef9cc4f22e9b6cc08a6dc6ec94adfeab0323cf165834e7129b29-1"
             }
           ]
         },
@@ -7735,7 +14549,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 3
+              "line": 3,
+              "recordId": "raw-c2833bde5d617ffddaea1efbfba9dbacb433a83f65aaf78c631108371d32fc57-1"
             }
           ]
         },
@@ -7746,7 +14561,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 4
+              "line": 4,
+              "recordId": "raw-c2833bde5d617ffddaea1efbfba9dbacb433a83f65aaf78c631108371d32fc57-2"
             }
           ]
         },
@@ -7757,7 +14573,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 5
+              "line": 5,
+              "recordId": "raw-8d40d30abcd91507fae956ae11667f1919eddb3fe6d1adfd3ed71fc41a7bf7a7-1"
             }
           ]
         },
@@ -7768,7 +14585,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 6
+              "line": 6,
+              "recordId": "raw-b410c14f164d2893a1995bdedf4d3bf4a5fd6683ba86974961a356f4bd0c98c3-1"
             }
           ]
         },
@@ -7779,7 +14597,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 7
+              "line": 7,
+              "recordId": "raw-969b1cbeea30221acf8f45d9b53b32ad42b50fed481bf684224267dc3cb49bf8-1"
             }
           ]
         },
@@ -7790,7 +14609,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 8
+              "line": 8,
+              "recordId": "raw-7ef2dceb1a05330a192535f7b8783ad60a2453beba4d993ed1bed197e68844c7-1"
             }
           ]
         },
@@ -7801,7 +14621,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 9
+              "line": 9,
+              "recordId": "raw-7ef2dceb1a05330a192535f7b8783ad60a2453beba4d993ed1bed197e68844c7-2"
             }
           ]
         },
@@ -7812,7 +14633,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 10
+              "line": 10,
+              "recordId": "raw-85c0aa8ce8c37bf41b0c6e6bb207d81da3b10813013cb95bd22f04d5a2f979ff-1"
             }
           ]
         },
@@ -7823,7 +14645,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 11
+              "line": 11,
+              "recordId": "raw-8768f6bedd7edde36a42a7d3a9968aee754f08aba378752382c44848247918a6-1"
             }
           ]
         },
@@ -7834,7 +14657,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 12
+              "line": 12,
+              "recordId": "raw-9b5d9c5f901aceb0b8c6654367eb786b111f9ceefccf6f2e9cb7f1230d55a875-1"
             }
           ]
         },
@@ -7845,7 +14669,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 13
+              "line": 13,
+              "recordId": "raw-bde0da9ee9558e5fb0804275188026107dd2b3b56a0ad057037364bf42365598-1"
             }
           ]
         },
@@ -7856,13 +14681,14 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202610(2033).csv",
-              "line": 14
+              "line": 14,
+              "recordId": "raw-e6519a7d2e75670fdb71a3d6ac020b531a3e5904299d7a1a5d601c6f7aa7543a-1"
             }
           ]
         }
       ],
       "paymentTransactionIds": [
-        "tx-0073"
+        "tx-5d2123fd9cfdd9dac8f18fd8"
       ],
       "totalBasis": "明細金額の合計"
     },
@@ -7874,47 +14700,58 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-a0b319f0d9d84e753c497ed4862de6c542a0d2930ba7a1ee3b24a497bc528744-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-b41e8740de0ee15e7b1ad0b4b3fd6cdeae62a9bd3db2c2871480f3562e484fe5-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-a2559edbfd1df6ae0763eca07b8d489cfb30754518c4c33136e48b31760a624b-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-36408ca39363e7257d31a31dc4fc28ed1a26039bfe0ae434442424e7d2f6faf4-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-5e6d48c72dc0d79c38d849a8fa1c2411d38a52e613c831c15fa8d8fbeef8341f-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-9dee8a5d34746cd7b189892c63d1b70799134652205ee30281e1888b7721df73-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-1cb2ba975e376db0d90c1528534870e387cb751fd8ff3dbe23e3c096f733ec3f-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-b32267d748b80af44ef671be201e3dab7ba992f10d88daa23935a947fa18eb35-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-35e9185d20fb51baffdd1e5432a91a38ef9330f6e47e5800f7cef1ff6eb76ffb-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-eb68b8babc5f2053243bc00ab99f03e4b6281431b8e4613d057529239cb7f214-1"
         },
         {
           "file": "Rakuten_Card/enavi202611(2033).csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-9efedbbcdfb55510324bb744135b4c7fbe7b556c41c037fdac16df34dcdae7da-1"
         }
       ],
       "items": [
@@ -7925,7 +14762,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 2
+              "line": 2,
+              "recordId": "raw-a0b319f0d9d84e753c497ed4862de6c542a0d2930ba7a1ee3b24a497bc528744-1"
             }
           ]
         },
@@ -7936,7 +14774,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 3
+              "line": 3,
+              "recordId": "raw-b41e8740de0ee15e7b1ad0b4b3fd6cdeae62a9bd3db2c2871480f3562e484fe5-1"
             }
           ]
         },
@@ -7947,7 +14786,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 4
+              "line": 4,
+              "recordId": "raw-a2559edbfd1df6ae0763eca07b8d489cfb30754518c4c33136e48b31760a624b-1"
             }
           ]
         },
@@ -7958,7 +14798,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 5
+              "line": 5,
+              "recordId": "raw-36408ca39363e7257d31a31dc4fc28ed1a26039bfe0ae434442424e7d2f6faf4-1"
             }
           ]
         },
@@ -7969,7 +14810,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 6
+              "line": 6,
+              "recordId": "raw-5e6d48c72dc0d79c38d849a8fa1c2411d38a52e613c831c15fa8d8fbeef8341f-1"
             }
           ]
         },
@@ -7980,7 +14822,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 7
+              "line": 7,
+              "recordId": "raw-9dee8a5d34746cd7b189892c63d1b70799134652205ee30281e1888b7721df73-1"
             }
           ]
         },
@@ -7991,7 +14834,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 8
+              "line": 8,
+              "recordId": "raw-1cb2ba975e376db0d90c1528534870e387cb751fd8ff3dbe23e3c096f733ec3f-1"
             }
           ]
         },
@@ -8002,7 +14846,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 9
+              "line": 9,
+              "recordId": "raw-b32267d748b80af44ef671be201e3dab7ba992f10d88daa23935a947fa18eb35-1"
             }
           ]
         },
@@ -8013,7 +14858,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 10
+              "line": 10,
+              "recordId": "raw-35e9185d20fb51baffdd1e5432a91a38ef9330f6e47e5800f7cef1ff6eb76ffb-1"
             }
           ]
         },
@@ -8024,7 +14870,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 11
+              "line": 11,
+              "recordId": "raw-eb68b8babc5f2053243bc00ab99f03e4b6281431b8e4613d057529239cb7f214-1"
             }
           ]
         },
@@ -8035,7 +14882,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Rakuten_Card/enavi202611(2033).csv",
-              "line": 12
+              "line": 12,
+              "recordId": "raw-9efedbbcdfb55510324bb744135b4c7fbe7b556c41c037fdac16df34dcdae7da-1"
             }
           ]
         }
@@ -8051,87 +14899,108 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202609.csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-7f1ccef054126553b47d2dcbcb5e5a54c53f575ba09ab6e919fd0e95fca2065b-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-1ef921b4dd7dcd1429ff6623d8fc43d7d75d4a02feaa6648287fc4a013f9ff8d-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-79859d351eb71f1c2af9dc01922d2aca2a1bf23272cc87f92de90643d8472aa5-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-cdd87cc1e738efd758924673948eef46cec63f78d110086a383df1289524bcd3-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-a73c0f3c69cfc85dbefa26f76ebb3262acb4ec5c368cb0fa2388ea02ee5fe533-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-aac9b7f807497c3106074c08d59c9b1687b263fe8312cc8986b8a4fe1ef0affb-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-e3da107d6919d00e932934dc632811e2c7b675173bca9b4c01d481688870dc0b-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-1672edde6556cdf67f06ba2650f2fa63298fe262ecb62781f35df4f35f17663f-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-bc8d342c3d4c2d2a603d03f929f1714b3a256eba6176164ee313d11f78d565d4-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-6f8e3fb3c619d541bfa6774a5c13eb5fc5bb6745011832be295394a2253f8445-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-2ba212bb5f9c6d206d03e3e66dded2ff6dc83788d7a7f6723f5972fe37407c02-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-1c869cdbb6a473e091683ec4083e887a1bfaf1125b2f3b9c619bb37e456cdf9a-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-07953acda0ba7180a23a58c7e0a47967ebbcc93c1c88def23ddc1e21c2dbad9a-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 15
+          "line": 15,
+          "recordId": "raw-6a8fcc286f0781377183d68c7df45d5d16acba4dc178b352f18218bd21849995-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 16
+          "line": 16,
+          "recordId": "raw-d9129595a7b95990c20ff87ee05273e09f47c83eca73bfc92623df8842bcdbc5-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 17
+          "line": 17,
+          "recordId": "raw-389fd5f97c87103865476bd6c7c49ec6dd6b7ad6f6eb767ecf6b99d18084760f-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 18
+          "line": 18,
+          "recordId": "raw-43b1d4bbd3c0d7ff096d4da2840abcf0ad9057cc3747bc62e26bbee1c9b9ddc6-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 19
+          "line": 19,
+          "recordId": "raw-f35b6e22aad8f6fcac49d6ea0bbeb61298c806645d00c0efd4adc6046159a02a-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 20
+          "line": 20,
+          "recordId": "raw-973950535d84e39aca7dcfe53ae5d7cc6c3539e2bdb4eb2bbae0d554aa60cc95-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 21
+          "line": 21,
+          "recordId": "raw-4493147fd9cd69d2d541b279def39fbd8a5cda904912032edd1a9107a812c48a-1"
         },
         {
           "file": "Vpass/202609.csv",
-          "line": 22
+          "line": 22,
+          "recordId": "raw-61c7a0c355d768d31adb2717f5f4ab5c6ce13b6b6c202e3b0d4cd324f4d8dcdd-1"
         }
       ],
       "items": [
@@ -8142,7 +15011,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 2
+              "line": 2,
+              "recordId": "raw-7f1ccef054126553b47d2dcbcb5e5a54c53f575ba09ab6e919fd0e95fca2065b-1"
             }
           ]
         },
@@ -8153,7 +15023,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 3
+              "line": 3,
+              "recordId": "raw-1ef921b4dd7dcd1429ff6623d8fc43d7d75d4a02feaa6648287fc4a013f9ff8d-1"
             }
           ]
         },
@@ -8164,7 +15035,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 4
+              "line": 4,
+              "recordId": "raw-79859d351eb71f1c2af9dc01922d2aca2a1bf23272cc87f92de90643d8472aa5-1"
             }
           ]
         },
@@ -8175,7 +15047,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 5
+              "line": 5,
+              "recordId": "raw-cdd87cc1e738efd758924673948eef46cec63f78d110086a383df1289524bcd3-1"
             }
           ]
         },
@@ -8186,7 +15059,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 6
+              "line": 6,
+              "recordId": "raw-a73c0f3c69cfc85dbefa26f76ebb3262acb4ec5c368cb0fa2388ea02ee5fe533-1"
             }
           ]
         },
@@ -8197,7 +15071,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 7
+              "line": 7,
+              "recordId": "raw-aac9b7f807497c3106074c08d59c9b1687b263fe8312cc8986b8a4fe1ef0affb-1"
             }
           ]
         },
@@ -8208,7 +15083,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 8
+              "line": 8,
+              "recordId": "raw-e3da107d6919d00e932934dc632811e2c7b675173bca9b4c01d481688870dc0b-1"
             }
           ]
         },
@@ -8219,7 +15095,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 9
+              "line": 9,
+              "recordId": "raw-1672edde6556cdf67f06ba2650f2fa63298fe262ecb62781f35df4f35f17663f-1"
             }
           ]
         },
@@ -8230,7 +15107,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 10
+              "line": 10,
+              "recordId": "raw-bc8d342c3d4c2d2a603d03f929f1714b3a256eba6176164ee313d11f78d565d4-1"
             }
           ]
         },
@@ -8241,7 +15119,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 11
+              "line": 11,
+              "recordId": "raw-6f8e3fb3c619d541bfa6774a5c13eb5fc5bb6745011832be295394a2253f8445-1"
             }
           ]
         },
@@ -8252,7 +15131,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 12
+              "line": 12,
+              "recordId": "raw-2ba212bb5f9c6d206d03e3e66dded2ff6dc83788d7a7f6723f5972fe37407c02-1"
             }
           ]
         },
@@ -8263,7 +15143,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 13
+              "line": 13,
+              "recordId": "raw-1c869cdbb6a473e091683ec4083e887a1bfaf1125b2f3b9c619bb37e456cdf9a-1"
             }
           ]
         },
@@ -8274,7 +15155,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 14
+              "line": 14,
+              "recordId": "raw-07953acda0ba7180a23a58c7e0a47967ebbcc93c1c88def23ddc1e21c2dbad9a-1"
             }
           ]
         },
@@ -8285,7 +15167,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 15
+              "line": 15,
+              "recordId": "raw-6a8fcc286f0781377183d68c7df45d5d16acba4dc178b352f18218bd21849995-1"
             }
           ]
         },
@@ -8296,7 +15179,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 16
+              "line": 16,
+              "recordId": "raw-d9129595a7b95990c20ff87ee05273e09f47c83eca73bfc92623df8842bcdbc5-1"
             }
           ]
         },
@@ -8307,7 +15191,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 17
+              "line": 17,
+              "recordId": "raw-389fd5f97c87103865476bd6c7c49ec6dd6b7ad6f6eb767ecf6b99d18084760f-1"
             }
           ]
         },
@@ -8318,7 +15203,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 18
+              "line": 18,
+              "recordId": "raw-43b1d4bbd3c0d7ff096d4da2840abcf0ad9057cc3747bc62e26bbee1c9b9ddc6-1"
             }
           ]
         },
@@ -8329,7 +15215,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 19
+              "line": 19,
+              "recordId": "raw-f35b6e22aad8f6fcac49d6ea0bbeb61298c806645d00c0efd4adc6046159a02a-1"
             }
           ]
         },
@@ -8340,7 +15227,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 20
+              "line": 20,
+              "recordId": "raw-973950535d84e39aca7dcfe53ae5d7cc6c3539e2bdb4eb2bbae0d554aa60cc95-1"
             }
           ]
         },
@@ -8351,12 +15239,15 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202609.csv",
-              "line": 21
+              "line": 21,
+              "recordId": "raw-4493147fd9cd69d2d541b279def39fbd8a5cda904912032edd1a9107a812c48a-1"
             }
           ]
         }
       ],
-      "paymentTransactionIds": [],
+      "paymentTransactionIds": [
+        "tx-aad7dbeae51984a8c0185543"
+      ],
       "totalBasis": "CSV末尾の請求合計と明細合計の一致"
     },
     {
@@ -8367,95 +15258,118 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202610.csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-2bb76d0fad81bff48421c8d3e71a4d60bbc6e0251384f0fc3f864713e30ef0ae-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-fa3f21104a8bbda5d7b1a07534885322d8745739ae389f8d81202ac4164522c6-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-c1365324e7508e09a1852fd9c1adb9c45382f31a1617723271b6ad0eeb11b7e6-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-9e40ba5735c1bcb32586c145ce4007c8cd1f6201dd07371bd8e7ef55f38ec92b-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-497db7dca3cce54878eabca109f0f20df4aaf7aa8e15711d3a19c432021e8219-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-8f45e2560f68b8055a888a38a08ebb0d78c23c0e142883ae6bf912dfe8d44b5c-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-3f9d0e14f404b64cb6c2cf441e43772a3752a58145bf1aa3b14149cf9c2ee680-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-4b8b6eb8a5ae2384d199fd9265f44bb8b9d8131b0e0f0f617dc06c9ae5edf873-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-222817eaba49e114d96b91ac14802dc7014de84a43b685d1e565f2d1bb77c16e-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-86816d1d2ee56901129c97de89a1ce1bfa47b37b6699c86f6e9ff662b2bd4d04-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-c57ca21d3fb2fd31e5c98a234d35803894e0a2b1c66dcd0ef2216aa5d65831af-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-310f797eb0f8a865cf18ead2311e8325c3ccf6e89163d7566a5ea003098d0678-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-9da589247480522ce5860e4b8c84f446503ff0c9c29bc8d355c888ef4320e33c-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 15
+          "line": 15,
+          "recordId": "raw-d6bb4a8f864ddf1be68f555e8f6fda6b6ad21cf7bbdab66443f49e077fec127c-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 16
+          "line": 16,
+          "recordId": "raw-de688b6575bd4f06d26ec715f2bf7cfd6a2399385df2ec3fa8898b1929e05742-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 17
+          "line": 17,
+          "recordId": "raw-7de917b30b10f3ca355741766afa8b0d764a0c52cc56af79ab67392638fa89dc-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 18
+          "line": 18,
+          "recordId": "raw-c987cefa0cd5e6d18531bc0f6c743db3422bdd7fe8a3c8d31b8c2c6775b40ca9-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 19
+          "line": 19,
+          "recordId": "raw-051398a1a2ab6e41c2573722e7f6460005af5a9065f1930154481a25efa436fa-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 20
+          "line": 20,
+          "recordId": "raw-f8f635bad5fc5a095ba98ef27c3ec27438699dc43a9ee3468693109059978e4e-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 21
+          "line": 21,
+          "recordId": "raw-936168e67f95b5034654be6de7ad2f64aed9df4dcdccf7b9c13a659297ca215d-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 22
+          "line": 22,
+          "recordId": "raw-6ab3630c49d320e8370e91d70b618ff15dfcb5543dff4d858d7eaef0d58cd7bb-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 23
+          "line": 23,
+          "recordId": "raw-95a9f4452d40271647c81a876ff9217354290ef7f19b57c7458f62dfe159c636-1"
         },
         {
           "file": "Vpass/202610.csv",
-          "line": 24
+          "line": 24,
+          "recordId": "raw-bf42deb6adf9aaf6422b9d8c077c496d67361e7598e1449162a721523331c51e-1"
         }
       ],
       "items": [
@@ -8466,7 +15380,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 2
+              "line": 2,
+              "recordId": "raw-2bb76d0fad81bff48421c8d3e71a4d60bbc6e0251384f0fc3f864713e30ef0ae-1"
             }
           ]
         },
@@ -8477,7 +15392,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 3
+              "line": 3,
+              "recordId": "raw-fa3f21104a8bbda5d7b1a07534885322d8745739ae389f8d81202ac4164522c6-1"
             }
           ]
         },
@@ -8488,7 +15404,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 4
+              "line": 4,
+              "recordId": "raw-c1365324e7508e09a1852fd9c1adb9c45382f31a1617723271b6ad0eeb11b7e6-1"
             }
           ]
         },
@@ -8499,7 +15416,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 5
+              "line": 5,
+              "recordId": "raw-9e40ba5735c1bcb32586c145ce4007c8cd1f6201dd07371bd8e7ef55f38ec92b-1"
             }
           ]
         },
@@ -8510,7 +15428,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 6
+              "line": 6,
+              "recordId": "raw-497db7dca3cce54878eabca109f0f20df4aaf7aa8e15711d3a19c432021e8219-1"
             }
           ]
         },
@@ -8521,7 +15440,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 7
+              "line": 7,
+              "recordId": "raw-8f45e2560f68b8055a888a38a08ebb0d78c23c0e142883ae6bf912dfe8d44b5c-1"
             }
           ]
         },
@@ -8532,7 +15452,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 8
+              "line": 8,
+              "recordId": "raw-3f9d0e14f404b64cb6c2cf441e43772a3752a58145bf1aa3b14149cf9c2ee680-1"
             }
           ]
         },
@@ -8543,7 +15464,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 9
+              "line": 9,
+              "recordId": "raw-4b8b6eb8a5ae2384d199fd9265f44bb8b9d8131b0e0f0f617dc06c9ae5edf873-1"
             }
           ]
         },
@@ -8554,7 +15476,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 10
+              "line": 10,
+              "recordId": "raw-222817eaba49e114d96b91ac14802dc7014de84a43b685d1e565f2d1bb77c16e-1"
             }
           ]
         },
@@ -8565,7 +15488,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 11
+              "line": 11,
+              "recordId": "raw-86816d1d2ee56901129c97de89a1ce1bfa47b37b6699c86f6e9ff662b2bd4d04-1"
             }
           ]
         },
@@ -8576,7 +15500,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 12
+              "line": 12,
+              "recordId": "raw-c57ca21d3fb2fd31e5c98a234d35803894e0a2b1c66dcd0ef2216aa5d65831af-1"
             }
           ]
         },
@@ -8587,7 +15512,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 13
+              "line": 13,
+              "recordId": "raw-310f797eb0f8a865cf18ead2311e8325c3ccf6e89163d7566a5ea003098d0678-1"
             }
           ]
         },
@@ -8598,7 +15524,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 14
+              "line": 14,
+              "recordId": "raw-9da589247480522ce5860e4b8c84f446503ff0c9c29bc8d355c888ef4320e33c-1"
             }
           ]
         },
@@ -8609,7 +15536,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 15
+              "line": 15,
+              "recordId": "raw-d6bb4a8f864ddf1be68f555e8f6fda6b6ad21cf7bbdab66443f49e077fec127c-1"
             }
           ]
         },
@@ -8620,7 +15548,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 16
+              "line": 16,
+              "recordId": "raw-de688b6575bd4f06d26ec715f2bf7cfd6a2399385df2ec3fa8898b1929e05742-1"
             }
           ]
         },
@@ -8631,7 +15560,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 17
+              "line": 17,
+              "recordId": "raw-7de917b30b10f3ca355741766afa8b0d764a0c52cc56af79ab67392638fa89dc-1"
             }
           ]
         },
@@ -8642,7 +15572,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 18
+              "line": 18,
+              "recordId": "raw-c987cefa0cd5e6d18531bc0f6c743db3422bdd7fe8a3c8d31b8c2c6775b40ca9-1"
             }
           ]
         },
@@ -8653,7 +15584,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 19
+              "line": 19,
+              "recordId": "raw-051398a1a2ab6e41c2573722e7f6460005af5a9065f1930154481a25efa436fa-1"
             }
           ]
         },
@@ -8664,7 +15596,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 20
+              "line": 20,
+              "recordId": "raw-f8f635bad5fc5a095ba98ef27c3ec27438699dc43a9ee3468693109059978e4e-1"
             }
           ]
         },
@@ -8675,7 +15608,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 21
+              "line": 21,
+              "recordId": "raw-936168e67f95b5034654be6de7ad2f64aed9df4dcdccf7b9c13a659297ca215d-1"
             }
           ]
         },
@@ -8686,7 +15620,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 22
+              "line": 22,
+              "recordId": "raw-6ab3630c49d320e8370e91d70b618ff15dfcb5543dff4d858d7eaef0d58cd7bb-1"
             }
           ]
         },
@@ -8697,13 +15632,14 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202610.csv",
-              "line": 23
+              "line": 23,
+              "recordId": "raw-95a9f4452d40271647c81a876ff9217354290ef7f19b57c7458f62dfe159c636-1"
             }
           ]
         }
       ],
       "paymentTransactionIds": [
-        "tx-0075"
+        "tx-41da05c05e220ba829926120"
       ],
       "totalBasis": "CSV末尾の請求合計と明細合計の一致"
     },
@@ -8715,59 +15651,73 @@ window.LifeAccountingData = {
       "sources": [
         {
           "file": "Vpass/202611.csv",
-          "line": 1
+          "line": 1,
+          "recordId": "raw-40ad2f2707969b6dd8182601cc54732627700527be732a6e72ffe4447b0adc0a-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 2
+          "line": 2,
+          "recordId": "raw-bd29ee0563410383b4b16ef6d849359c5e4f072072a1f66f33dd39fe7d74580d-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 3
+          "line": 3,
+          "recordId": "raw-448d922b55ef1d7f2696f64209f491d5f755dd3c9720706ce511936edc3db585-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 4
+          "line": 4,
+          "recordId": "raw-c93be20409685766d5ff394c90b83f46cf413b166eac6464a16955781fc50b80-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 5
+          "line": 5,
+          "recordId": "raw-c1b9baec1d9a25b8be995d3aa6007024765dceeab4a1d47291606dd08d73b960-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 6
+          "line": 6,
+          "recordId": "raw-e9101d877ab5574cea625344b79051880f665dc067882ba6db223e307925f7b7-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 7
+          "line": 7,
+          "recordId": "raw-57553421e27d6b60233b105ec380314ea5a52fd0fe84d8befbef649e4e17a105-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 8
+          "line": 8,
+          "recordId": "raw-4d949959c82eb9ac42663b4311df26d4e12efd49cba95bf95847694a7d6b8c4e-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 9
+          "line": 9,
+          "recordId": "raw-92d80a6a5218ae6a8ba09612a45d16e5655b9125cb5d367145447b581869e61b-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 10
+          "line": 10,
+          "recordId": "raw-9f4d932e031dc1cc3c518152fcec1d9ead0bcaf0ef4a8d020cfff84da514e9a8-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 11
+          "line": 11,
+          "recordId": "raw-e14c19650f32b0a8f5fd9632f15d92c6e0bf313ceedb793ee15e4dfcc3e3412e-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 12
+          "line": 12,
+          "recordId": "raw-3d5c5ee7ca1d5efd985b4d2ba355113b67b536b8be0dc65b1fe679bb3ce288b8-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 13
+          "line": 13,
+          "recordId": "raw-e3919d9a6e7d60b50da766edc93cf5d39e8e5abe49af9d73bb546cd00435cab1-1"
         },
         {
           "file": "Vpass/202611.csv",
-          "line": 14
+          "line": 14,
+          "recordId": "raw-4802457dac496992f805daeb4c2cdfbc7e2477e13799f398ef3f640dcea71441-1"
         }
       ],
       "items": [
@@ -8778,7 +15728,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 1
+              "line": 1,
+              "recordId": "raw-40ad2f2707969b6dd8182601cc54732627700527be732a6e72ffe4447b0adc0a-1"
             }
           ]
         },
@@ -8789,7 +15740,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 2
+              "line": 2,
+              "recordId": "raw-bd29ee0563410383b4b16ef6d849359c5e4f072072a1f66f33dd39fe7d74580d-1"
             }
           ]
         },
@@ -8800,7 +15752,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 3
+              "line": 3,
+              "recordId": "raw-448d922b55ef1d7f2696f64209f491d5f755dd3c9720706ce511936edc3db585-1"
             }
           ]
         },
@@ -8811,7 +15764,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 4
+              "line": 4,
+              "recordId": "raw-c93be20409685766d5ff394c90b83f46cf413b166eac6464a16955781fc50b80-1"
             }
           ]
         },
@@ -8822,7 +15776,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 5
+              "line": 5,
+              "recordId": "raw-c1b9baec1d9a25b8be995d3aa6007024765dceeab4a1d47291606dd08d73b960-1"
             }
           ]
         },
@@ -8833,7 +15788,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 6
+              "line": 6,
+              "recordId": "raw-e9101d877ab5574cea625344b79051880f665dc067882ba6db223e307925f7b7-1"
             }
           ]
         },
@@ -8844,7 +15800,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 7
+              "line": 7,
+              "recordId": "raw-57553421e27d6b60233b105ec380314ea5a52fd0fe84d8befbef649e4e17a105-1"
             }
           ]
         },
@@ -8855,7 +15812,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 8
+              "line": 8,
+              "recordId": "raw-4d949959c82eb9ac42663b4311df26d4e12efd49cba95bf95847694a7d6b8c4e-1"
             }
           ]
         },
@@ -8866,7 +15824,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 9
+              "line": 9,
+              "recordId": "raw-92d80a6a5218ae6a8ba09612a45d16e5655b9125cb5d367145447b581869e61b-1"
             }
           ]
         },
@@ -8877,7 +15836,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 10
+              "line": 10,
+              "recordId": "raw-9f4d932e031dc1cc3c518152fcec1d9ead0bcaf0ef4a8d020cfff84da514e9a8-1"
             }
           ]
         },
@@ -8888,7 +15848,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 11
+              "line": 11,
+              "recordId": "raw-e14c19650f32b0a8f5fd9632f15d92c6e0bf313ceedb793ee15e4dfcc3e3412e-1"
             }
           ]
         },
@@ -8899,7 +15860,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 12
+              "line": 12,
+              "recordId": "raw-3d5c5ee7ca1d5efd985b4d2ba355113b67b536b8be0dc65b1fe679bb3ce288b8-1"
             }
           ]
         },
@@ -8910,7 +15872,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 13
+              "line": 13,
+              "recordId": "raw-e3919d9a6e7d60b50da766edc93cf5d39e8e5abe49af9d73bb546cd00435cab1-1"
             }
           ]
         },
@@ -8921,7 +15884,8 @@ window.LifeAccountingData = {
           "sources": [
             {
               "file": "Vpass/202611.csv",
-              "line": 14
+              "line": 14,
+              "recordId": "raw-4802457dac496992f805daeb4c2cdfbc7e2477e13799f398ef3f640dcea71441-1"
             }
           ]
         }
@@ -8939,7 +15903,7 @@ window.LifeAccountingData = {
         "source": "PayPay_Corporation",
         "observedStart": "2024-11-02",
         "observedEnd": "2026-11-01",
-        "selectedTransactions": 113
+        "selectedTransactions": 111
       },
       {
         "source": "RAKUTEN_BANK_LTD",
@@ -8951,19 +15915,19 @@ window.LifeAccountingData = {
         "source": "Rakuten_Card",
         "observedStart": "2025-11-19",
         "observedEnd": "2026-10-30",
-        "selectedTransactions": 24
+        "selectedTransactions": 22
       },
       {
         "source": "Sumitomo_Mitsui_Banking_Corporation",
-        "observedStart": "2026-10-07",
+        "observedStart": "2025-03-08",
         "observedEnd": "2026-10-31",
-        "selectedTransactions": 20
+        "selectedTransactions": 38
       },
       {
         "source": "Super_Urban_Intelligent_Card",
         "observedStart": "2026-08-21",
         "observedEnd": "2026-10-31",
-        "selectedTransactions": 54
+        "selectedTransactions": 52
       },
       {
         "source": "Vpass",
@@ -8974,23 +15938,29 @@ window.LifeAccountingData = {
       {
         "source": "zaim",
         "observedStart": "2025-04-28",
-        "observedEnd": "2026-11-01",
-        "selectedTransactions": 0
+        "observedEnd": "2026-11-02",
+        "selectedTransactions": 100
       }
     ],
     "evidenceByMonth": {
-      "2026-09": 70,
-      "2026-10": 68
+      "2026-09": 88,
+      "2026-10": 90
     },
     "limitations": [
-      "三井住友銀行は2026/10/7〜10/31の20取引のみ。9月の引落・振込は補完しない。",
-      "京都信用金庫・ゆうちょ・現金・生協電子マネーの原本は未取得。",
+      "各銀行を含め、提供CSVに存在する原本行のみ収録。取得範囲外の取引は補完しない。",
+      "京都信用金庫・ゆうちょのCSVはデモの帳簿変換へ未統合。現金の開始残高と生協電子マネー利用明細は未設定。",
       "Vpass202611は請求合計の印字がないため、金額列の合計を利用する。",
       "同日同額の複数候補は統合せず、候補元を保持し重複側の残高変動を除外する。",
-      "Zaimは全対象行を別資料として保持し、支払元不明のため決済への統合と収支計上を行わない。"
+      "Zaimの照合判断はzaim_demo_links.jsonに保存。確認済み以外はデモ照合案であり、未対応行を別支出として計上しない。"
     ]
   },
   "inputFiles": [
+    {
+      "file": "JAPAN_POST_BANK/yucho_transactions.csv",
+      "encoding": "utf-8-sig",
+      "rows": 20,
+      "physicalLines": 20
+    },
     {
       "file": "PayPay_Corporation/Transactions_20241101-20251101.csv",
       "encoding": "utf-8-sig",
@@ -9036,14 +16006,20 @@ window.LifeAccountingData = {
     {
       "file": "Sumitomo_Mitsui_Banking_Corporation/meisai.csv",
       "encoding": "cp932",
-      "rows": 21,
-      "physicalLines": 21
+      "rows": 326,
+      "physicalLines": 326
     },
     {
       "file": "Super_Urban_Intelligent_Card/Book1.csv",
       "encoding": "cp932",
       "rows": 70,
       "physicalLines": 70
+    },
+    {
+      "file": "THE_KYOTO_SHINKIN_BANK/kyoshin_transactions.csv",
+      "encoding": "utf-8-sig",
+      "rows": 12,
+      "physicalLines": 12
     },
     {
       "file": "Vpass/202509.csv",
@@ -9136,10 +16112,15 @@ window.LifeAccountingData = {
       "physicalLines": 14
     },
     {
-      "file": "zaim/Zaim.20261101224847.csv",
+      "file": "zaim/Zaim.20261103143539.csv",
       "encoding": "cp932",
-      "rows": 1623,
-      "physicalLines": 1623
+      "rows": 1674,
+      "physicalLines": 1674
     }
-  ]
+  ],
+  "importSummary": {
+    "addedRawRows": 0,
+    "existingRawRows": 3457,
+    "editCandidates": []
+  }
 };

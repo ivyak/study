@@ -9,6 +9,8 @@ from pathlib import Path
 import re
 import unicodedata
 from collections import Counter, defaultdict
+from demo_user_answers import apply_answers
+from demo_import_store import ImportStore
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / 'accounting' / 'csv_raw_data'
@@ -31,7 +33,7 @@ def date(value):
 
 
 def reference(path, line):
-  return {'file': path.relative_to(RAW).as_posix(), 'line': line}
+  return IMPORT_STORE.resolve({'file': path.relative_to(RAW).as_posix(), 'line': line})
 
 
 def classification(memo):
@@ -52,6 +54,8 @@ def classification(memo):
 
 
 def build():
+  global IMPORT_STORE
+  IMPORT_STORE = ImportStore(ROOT / 'accounting' / 'demo_store' / 'raw_records.json')
   inputs, inventory, hashes = {}, [], {}
   for path in sorted(RAW.rglob('*.csv')):
     raw = path.read_bytes()
@@ -69,9 +73,11 @@ def build():
       except StopIteration:
         break
       rows.append((line, row))
+    IMPORT_STORE.ingest(path.relative_to(RAW).as_posix(), rows)
     inputs[path] = rows
     inventory.append({'file': path.relative_to(RAW).as_posix(), 'encoding': encoding,
       'rows': len(rows), 'physicalLines': len(text.splitlines())})
+  inputs = IMPORT_STORE.all_inputs(RAW)
   transactions, bills, evidence = [], [], []
   source_dates = defaultdict(list)
 
@@ -277,19 +283,82 @@ def build():
           'store':row[8],'amount':amount(row[11]),'income':amount(row[10]),'method':row[1],
           'status':'支払元・決済対応未確認','source':reference(path,line)})
 
+  # 候補の計算と照合判断を分離し、セッションで検討した対応を再利用する。
+  links = IMPORT_STORE.decision_file(ROOT / 'accounting' / 'zaim_demo_links.json')
+  used_evidence = set()
+  ref_key = lambda ref: (ref['file'], ref['line'])
+  for link in links:
+    matches = [r for r in transactions if link['paymentSource'] in r['sources']]
+    assert len(matches) == 1, '決済元の対応が一意ではない'
+    record = matches[0]
+    items = [z for z in evidence if z['source'] in link['zaimSources']]
+    assert len(items) == len(link['zaimSources']) and items
+    assert all(z['date'] == record['date'] and z['method'] == 'payment' for z in items)
+    assert sum(z['amount'] for z in items) == record['amount']
+    assert not record.get('zaimItems'), '同じ決済への複数レシート対応は要確認'
+    for item in items:
+      key = ref_key(item['source'])
+      assert key not in used_evidence, 'Zaimの同じ行を二重使用している'
+      used_evidence.add(key)
+      item['matchedTransactionId'] = record['id']
+    record['zaimItems'] = [dict(z) for z in items]
+    record['zaimMatch'] = {'status':link['status'], 'reason':link['reason'], 'store':items[0]['store']}
+    record['sources'] += [z['source'] for z in items]
+    category_amounts = defaultdict(int)
+    for item in items:
+      category_amounts[item['category']] += item['amount']
+    record['categoryAmounts'] = [{'category':name,'amount':value} for name,value in category_amounts.items() if value]
+    record['category'] = ' / '.join(category_amounts)
+    record['categoryBasis'] = 'Zaim品目内訳。' + link['reason']
+
+  apply_answers(transactions, evidence, IMPORT_STORE)
+  id_map = {}
+  for row in transactions:
+    identifiers = [row['sources'][0]['recordId']] if row['sources'] else []
+    identity = identifiers or ['manual', row['date'], row['kind'], row['account'], row['to'], row['memo']]
+    identifier = 'tx-' + hashlib.sha256(json.dumps(identity, ensure_ascii=False).encode()).hexdigest()[:24]
+    id_map[row['id']] = identifier
+    row['id'] = identifier
+  history_path = ROOT / 'accounting' / 'review' / 'applied_answers.json'
+  def stable_history(value):
+    if isinstance(value, str):
+      return id_map.get(value, value)
+    if isinstance(value, dict):
+      return {key: stable_history(item) for key,item in value.items()}
+    if isinstance(value, list):
+      return [stable_history(item) for item in value]
+    return value
+  history = stable_history(json.loads(history_path.read_text()))
+  history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2)+'\n')
+  audit_path = ROOT / 'accounting' / 'demo_store' / 'decision_history.json'
+  audit_path.parent.mkdir(exist_ok=True)
+  audit = json.loads(audit_path.read_text()) if audit_path.exists() else []
+  digest = hashlib.sha256(json.dumps(history, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
+  if not any(entry['digest'] == digest for entry in audit):
+    audit.append({'digest': digest, 'snapshot': history})
+    audit_path.write_text(json.dumps(audit, ensure_ascii=False, indent=2)+'\n')
+  for item in evidence:
+    if item.get('matchedTransactionId'):
+      item['matchedTransactionId'] = id_map[item['matchedTransactionId']]
+  for row in transactions:
+    for item in row.get('zaimItems', []):
+      item['matchedTransactionId'] = row['id']
+  for bill in bills:
+    bill['paymentTransactionIds'] = [id_map[key] for key in bill['paymentTransactionIds']]
   transactions.sort(key=lambda r:(r['date'],r['id']))
   evidence.sort(key=lambda r:(r['date'],r['source']['line']))
   coverage = {'complete':False,'openingBalancesKnown':False,'scope':'原本に存在する2026年9〜10月の行のみ。完全な2か月分の家計ではない。',
     'sources':[{'source':name,'observedStart':min(days),'observedEnd':max(days),
       'selectedTransactions':sum(any(ref['file'].startswith(name+'/') for ref in r['sources']) for r in transactions)} for name,days in sorted(source_dates.items())],
     'evidenceByMonth':dict(Counter(r['date'][:7] for r in evidence)),
-    'limitations':['三井住友銀行は2026/10/7〜10/31の20取引のみ。9月の引落・振込は補完しない。',
-      '京都信用金庫・ゆうちょ・現金・生協電子マネーの原本は未取得。',
+    'limitations':['各銀行を含め、提供CSVに存在する原本行のみ収録。取得範囲外の取引は補完しない。',
+      '京都信用金庫・ゆうちょのCSVはデモの帳簿変換へ未統合。現金の開始残高と生協電子マネー利用明細は未設定。',
       'Vpass202611は請求合計の印字がないため、金額列の合計を利用する。',
       '同日同額の複数候補は統合せず、候補元を保持し重複側の残高変動を除外する。',
-      'Zaimは全対象行を別資料として保持し、支払元不明のため決済への統合と収支計上を行わない。']}
+      'Zaimの照合判断はzaim_demo_links.jsonに保存。確認済み以外はデモ照合案であり、未対応行を別支出として計上しない。']}
   result = {'start':START,'end':END,'transactions':transactions,'evidence':evidence,
-    'bills':bills,'coverage':coverage,'inputFiles':inventory}
+    'bills':bills,'coverage':coverage,'inputFiles':inventory,
+    'importSummary':{'addedRawRows':IMPORT_STORE.added,'existingRawRows':IMPORT_STORE.existing,'editCandidates':IMPORT_STORE.edit_candidates}}
   ids = {r['id'] for r in transactions}
   assert len(ids) == len(transactions)
   for row in transactions:
@@ -300,11 +369,16 @@ def build():
     assert bill['total'] == sum(item['amount'] for item in bill['items'])
     assert all(identifier in ids for identifier in bill['paymentTransactionIds'])
   assert all(hashlib.sha256(path.read_bytes()).hexdigest() == original for path,original in hashes.items())
+  IMPORT_STORE.save()
+  (ROOT / 'accounting' / 'demo_store' / 'last_import.json').write_text(json.dumps({
+    'addedRecordIds': IMPORT_STORE.added_ids, 'existingRows': IMPORT_STORE.existing,
+    'editCandidates': IMPORT_STORE.edit_candidates}, ensure_ascii=False, indent=2)+'\n')
   OUTPUT.write_text('/* Generated by accounting/build_demo_data.py. Memory-only UI snapshot. */\nwindow.LifeAccountingData = '+json.dumps(result,ensure_ascii=False,indent=2).replace('<','\\u003c')+';\n',encoding='utf-8')
   for month in ['2026-09','2026-10']:
     selected = [r for r in transactions if r['date'].startswith(month)]
     print(month, 'transactions',len(selected),'income',sum(r['amount'] for r in selected if r['kind'] == 'income'),
       'expense',sum(r['amount'] for r in selected if r['kind'] == 'expense'),'Zaim',sum(r['date'].startswith(month) for r in evidence))
+  print('Raw import: added', IMPORT_STORE.added, 'existing', IMPORT_STORE.existing)
   print('Bills:',[(b['id'],b['total'],len(b['items']),len(b['paymentTransactionIds'])) for b in bills])
   print('Input CSV files:',len(inventory),'All raw CSV hashes unchanged.')
 

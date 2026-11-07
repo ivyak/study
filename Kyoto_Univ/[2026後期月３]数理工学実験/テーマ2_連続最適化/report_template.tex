@@ -721,22 +721,37 @@ y_0=1.5,\qquad y_1=2.25,\qquad y_2=2.625
 \]
 である。（参考：最適値は0、最適解は $[3,0.5]^\top$ である。）
 \end{itembox}
-\paragraph{平方和の微分公式}
-平方和の目的関数には、次の微分公式を用いる\cite{textbook}。
+\paragraph{勾配とヘッセ行列}
+$x=(a,b)^\top$とおくと、
+\[
+  f_0(x)=1.5-a(1-b),\qquad
+  f_1(x)=2.25-a(1-b^2),\qquad
+  f_2(x)=2.625-a(1-b^3)
+\]
+であり、目的関数は$f(x)=f_0(x)^2+f_1(x)^2+f_2(x)^2$である。これを$a$と$b$でそれぞれ偏微分すると、勾配は
+\[
+  \nabla f(x)=2\begin{pmatrix}
+    f_0(x)(b-1)+f_1(x)(b^2-1)+f_2(x)(b^3-1)\\
+    af_0(x)+2abf_1(x)+3ab^2f_2(x)
+  \end{pmatrix}
+\]
+となる。さらに各成分を$a$と$b$で偏微分すると、ヘッセ行列は
+\[
+  \nabla^2 f(x)=\begin{pmatrix}
+    h_{00}&h_{01}\\
+    h_{01}&h_{11}
+  \end{pmatrix}
+\]
+となる。ただし、各成分は次の通りである。
 \[
 \begin{aligned}
-\nabla f(x)&=2\sum_{i=0}^{2}f_i(x)\nabla f_i(x),\\
-\nabla^2 f(x)&=2\sum_{i=0}^{2}\left(f_i(x)\nabla^2 f_i(x)+\nabla f_i(x)\nabla f_i(x)^\top\right).
+  h_{00}&=2\bigl\{(b-1)^2+(b^2-1)^2+(b^3-1)^2\bigr\},\\
+  h_{01}&=2\bigl\{f_0(x)+a(b-1)+2bf_1(x)+2ab(b^2-1)\\
+    &\hspace{3em}+3b^2f_2(x)+3ab^2(b^3-1)\bigr\},\\
+  h_{11}&=2\bigl\{a^2+2af_1(x)+(2ab)^2+6abf_2(x)+(3ab^2)^2\bigr\}.
 \end{aligned}
 \]
-\paragraph{導出}
-実装では$x=(a,b)^\top$と書き、$r_i:=f_i(x)=y_i-a(1-b^{i+1})$とおく。$q_i:=i+1$とすると、$b^{q_i}$を微分することで
-\begin{align}
-  g_i:=\nabla f_i(x)&=\begin{bmatrix}b^{q_i}-1\\a q_i b^{q_i-1}\end{bmatrix},\\
-  H_i:=\nabla^2 f_i(x)&=\begin{bmatrix}0&q_i b^{q_i-1}\\q_i b^{q_i-1}&a q_i(q_i-1)b^{q_i-2}\end{bmatrix}
-  \label{eq:residual-hessian}
-\end{align}
-を得る。ただし $H_i$ の右下成分 $aq_i(q_i-1)b^{q_i-2}$ は $q_i=1$ のとき0とする。これらを用いれば、$\nabla f=2\sum_i r_i g_i$、$\nabla^2f=2\sum_i(g_ig_i^\top+r_iH_i)$となる。\texttt{utils\_math.py}の\texttt{f\_5}、\texttt{grad\_f\_5}、\texttt{hess\_f\_5}は、この式を3項について展開した実装である。
+\texttt{utils\_math.py}の\texttt{grad\_f\_5}と\texttt{hess\_f\_5}には、これらの式を実装した。
 
 \paragraph{実装と条件}
 最急降下法は\texttt{kadai5\_a.py}、ニュートン法は\texttt{kadai5\_b.py}から実行する。後者ではヘッセ行列を補正して探索方向を求め、$H=\nabla^2f(x^k)$の最小固有値$\lambda_{\min}$に対して、

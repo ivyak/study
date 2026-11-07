@@ -783,137 +783,6 @@ $x=(a,b)^\top$とおくと、
 
 
 
-\subsection{課題6：制約付き凸二次計画問題（追加）}
-課題6-1〜6-3では二次計画問題の応用と解法を調べ、課題6-4・6-5では定式化した問題を直接法で解く。
-\paragraph{共通の問題設定}
-\[
-\begin{aligned}
-\min_{x\in\mathbb{R}^n}\quad &\frac12 x^\top Qx+c^\top x\\
-\operatorname{subject\ to}\quad &Ax\le b.
-\end{aligned}\tag{3.3}\label{eq:qp}
-\]
-ここで $Q\in\mathbb{R}^{n\times n}$ は対称行列、$c\in\mathbb{R}^n$、$A\in\mathbb{R}^{m\times n}$、$b\in\mathbb{R}^m$ であり、不等号は要素ごとに成り立つ。
-\begin{itembox}[l]{課題6-1}
-二次計画問題として定式化することが自然な問題を1つ挙げよ。
-\end{itembox}
-\paragraph{解答}
-例として、複数の資産への配分を決める平均・分散型ポートフォリオ最適化を挙げる\cite{boyd}。$w_i$を資産$i$への配分比率、$p$を収益率の期待値ベクトル、$\Sigma$を収益率の共分散行列、$r_{\min}$を必要な期待収益率とすると、
-\begin{align}
-  \min_w\quad &w^\top\Sigma w, &
-  \text{subject to}\quad &p^\top w\ge r_{\min},\quad
-  \mathbf{1}^\top w=1,\quad w\ge0
-  \label{eq:portfolio}
-\end{align}
-と定式化できる。ここで$\mathbf{1}$は全成分が1のベクトルであり、目的関数は収益率の分散を表す。$\Sigma$は半正定値なので、目的関数は凸二次関数である。目的関数 $\frac12 w^\top Qw+c^\top w$ には $Q=2\Sigma$、$c=0$ を対応させ、等式を二つの不等式として表せばよい。配分比率と収益率は無次元であり、この例では具体的な市場データを用いた数値実験は行わない。
-\begin{itembox}[l]{課題6-2}
-二次計画問題は、$Q$ が非負の固有値のみを持つ場合（$Q$ が半正定値行列の場合）、凸二次計画問題と呼ばれる。$Q$ が正負両方の固有値を持つ場合に、二次計画問題がどのように難しくなるか調べよ。また文献も載せること（生成AIの回答を参照する場合は、その根拠となる文献まで調べて載せること）。
-\end{itembox}
-\paragraph{調査・解答}
-$Q$が正負両方の固有値を持つと、目的関数は空間全体では非凸になる。したがって、停留条件や局所的な探索だけでは大域的最小性を保証できない。例えば$Q=\operatorname{diag}(2,-2)$、$c=(0,1/2)^\top$、$-1\le x_0,x_1\le1$では、目的関数は$x_0^2-x_1^2+x_1/2$である。$(0,1)^\top$は制約付きの局所最小点で値は$-1/2$だが、$(0,-1)^\top$では$-3/2$となる。この例は、局所最小点でも大域的最小点とは限らないことを示す。
-
-PardalosとVavasis\cite{pardalos}は、負の固有値が一つだけの場合でも、線形制約付き二次計画問題の大域的求解が一般にはNP困難であることを示した。ここでは出版社が公開している原論文の要旨でその主張を確認した。これは最悪の場合についての計算量の主張であり、個々の不定値二次計画問題が必ず解きにくいことを意味しない。また、制約により負の曲率方向への移動が禁止される場合もある。したがって、難しさは$Q$の符号だけでなく、実行可能集合の形にも依存する。
-\begin{itembox}[l]{課題6-3}
-凸二次計画法の解法を調べ、そのアルゴリズムを述べよ。またその文献も載せること（生成AIの回答を参照する場合は、その根拠となる文献まで調べて載せること）。
-\end{itembox}
-\paragraph{調査・アルゴリズム}
-凸二次計画問題の解法として、対数バリア法を説明する\cite{boyd}。$f_0(x)=\frac12x^\top Qx+c^\top x$とし、$A$の第$i$行を$a_i^\top$と書く。$Q\succeq0$、厳密な実行可能点の存在、最適値の有限性と各バリア部分問題の最小点の存在を仮定する。ここではニュートン方程式が解けるよう、そのヘッセ行列が正定値となる場合を扱う。
-
-入力は$Q,c,A,b$と精度$\varepsilon>0$である。$Ax<b$を満たす初期点、$t=1$、増加率$\mu=10$から始め、次を繰り返す。
-\begin{enumerate}
-  \item $t$を固定し、$s_i=b_i-a_i^\top x>0$として、
-  \begin{align}
-    F_t(x)=t f_0(x)-\sum_{i=1}^{m}\log s_i
-    \label{eq:barrier}
-  \end{align}
-  をニュートン法で最小化する。方向$d$は
-  \begin{align}
-    \nabla F_t&=t(Qx+c)+\sum_i\frac{a_i}{s_i}, &
-    \nabla^2 F_t&=tQ+\sum_i\frac{a_i a_i^\top}{s_i^2},\\
-    \nabla^2F_t\,d&=-\nabla F_t
-  \end{align}
-  から求める。$A(x+\alpha d)<b$と$F_t$のArmijo条件を満たすまで$\alpha$を縮小して更新する。
-  \item 中心点を十分な精度で求めた後、$m/t<\varepsilon$なら終了し、そうでなければ$t\leftarrow\mu t$として前の点から再開する。
-\end{enumerate}
-厳密な中心点では双対ギャップは$m/t$となる。中心化を近似的に終了する実装では、この値だけで精度を保証せず、主・双対残差と実際の双対ギャップも確認する。等式制約を二つの不等式にすると厳密な内点がなくなるため、その場合は等式制約を分離し、等式を保つニュートン方程式を解く。以下の課題6-4・6-5は小規模なので、この反復法の実装ではなく、KKT条件に基づく直接法で数値解を求める。
-\begin{itembox}[l]{課題6-4}
-二次計画問題(3.3)として、次のパラメータを持つ問題を考える。
-\[
-Q=\begin{bmatrix}2&0\\0&1\end{bmatrix},\qquad
-c=-\begin{bmatrix}1\\1\end{bmatrix},\qquad
-A=\begin{bmatrix}1&1\end{bmatrix},\qquad b=0.
-\]
-このとき、最適解 $x^*$ を数値的に求めよ。ソルバを使っても構わない。またこの問題は解析的に解けるので、解析解とも比較せよ。
-\end{itembox}
-\paragraph{数値計算の方法}
-\texttt{kadai6.py}の\texttt{solve\_qp}で、唯一の不等式が非活性の場合と活性の場合を全列挙する。非活性なら$Qx=-c$、活性なら
-\begin{align}
-  \begin{bmatrix}Q&A^\top\\A&0\end{bmatrix}
-  \begin{bmatrix}x\\\lambda\end{bmatrix}
-  =\begin{bmatrix}-c\\b\end{bmatrix}
-  \label{eq:qp-kkt}
-\end{align}
-を\texttt{np.linalg.solve}で解く。候補ごとに$Ax\le b$、$\lambda\ge0$、$Qx+c+A^\top\lambda=0$、$\lambda^\top(Ax-b)=0$を許容誤差$10^{-10}$で検査する。二通りの判定で終了する直接法なので、初期点や反復上限は用いない。
-
-\paragraph{実行条件}
-追加計算にはPython 3.9.6、NumPy 2.0.2、\texttt{float64}を使用した。提出ファイルを配置したディレクトリで\verb|python kadai6.py|を実行し、JSON出力を\texttt{kadai6\_results.json}に保存した。専用の最適化ソルバは使用していない。課題6-5もPython 3.9.6、NumPy 2.0.2、\texttt{float64}を用い、検証許容誤差 $10^{-10}$ で計算する。
-
-\paragraph{解析解の導出}
-無制約解は$(1/2,1)^\top$で、$x_0+x_1\le0$を満たさない。目的関数は正定値二次関数であり、実行可能集合内で最小点は存在するため、最適点では制約が活性である。$x_1=-x_0$を代入すると目的関数は$\frac32x_0^2$となる。よって解析解は$x^*=(0,0)^\top$、最適値は0である。$x^*=0$、$\lambda^*=1$ を代入すると、$Ax^*\le b$、$\lambda^*\ge0$、$Qx^*+c+A^\top\lambda^*=0$、$(\lambda^*)^\top(Ax^*-b)=0$ が全て成立する。
-
-\par\noindent
-コード\ref{lst:k6all}に、\texttt{kadai6.py}の全体を示す。
-\par
-\lstinputlisting[language=Python,firstnumber=1,caption={課題6の求解と検算の実装},label={lst:k6all}]{../section3/kadai6.py}
-
-
-\begin{itembox}[l]{課題6-5}
-（最適制御問題）$T=3$ とし、次の問題を考える。
-\[
-\begin{aligned}
-\min_u\quad &u^\top u,\\
-\operatorname{subject\ to}\quad &x_{k+1}=Ax_k+Bu_k,\\
-&x_0=\begin{bmatrix}10\\1\end{bmatrix},\quad
-x_T=\begin{bmatrix}0\\0\end{bmatrix},\\
-&u=\begin{bmatrix}u_0\\\vdots\\u_{T-1}\end{bmatrix}\in\mathbb{R}^T.
-\end{aligned}
-\]
-ただし
-\[
-A=\begin{bmatrix}1.2&1\\0&0.9\end{bmatrix},\qquad
-B=\begin{bmatrix}0\\1\end{bmatrix}.
-\]
-この問題を凸二次計画問題に帰着させ、最適解 $u^*\in\mathbb{R}^T$ を求めよ。
-\end{itembox}
-\paragraph{定式化・手法・コード}
-状態は$x_k\in\mathbb{R}^2$、各時刻の入力は$u_k\in\mathbb{R}$であり、$A$は状態の遷移、$B$は入力が状態に及ぼす効果を表す。状態方程式を3段展開すると、
-\begin{align}
-  x_3&=A^3x_0+A^2Bu_0+ABu_1+Bu_2=A^3x_0+Mu,\\
-  M&=[A^2B\;AB\;B]=\begin{bmatrix}2.1&1&0\\0.81&0.9&1\end{bmatrix}, &
-  d&=-A^3x_0=\begin{bmatrix}-20.61\\-0.729\end{bmatrix}
-  \label{eq:control-matrix}
-\end{align}
-となる。よって、$x_3=0$は$Mu=d$と同値であり、問題は
-\begin{align}
-  \min_u\quad &\frac12u^\top(2I_3)u, &
-  \text{subject to}\quad &Mu=d
-  \label{eq:control-qp}
-\end{align}
-という凸二次計画問題になる。$I_3$は3次単位行列であり、教材の不等式形式には$[M^\top,-M^\top]^\top u\le[d^\top,-d^\top]^\top$と書けばよい。計算では重複する不等式へ変換せず、独立な二つの等式を用いる。
-
-$M$は行ランク2であり、$2I_3$は正定値なので、次のKKT系は一意に解ける。
-\begin{align}
-  \begin{bmatrix}2I_3&M^\top\\M&0_{2\times2}\end{bmatrix}
-  \begin{bmatrix}u^*\\\nu^*\end{bmatrix}
-  =\begin{bmatrix}0_3\\d\end{bmatrix}.
-  \label{eq:control-kkt}
-\end{align}
-ここで$\nu\in\mathbb{R}^2$は等式制約の乗数、$0_3$は3次零ベクトルである。\texttt{kadai6.py}の\texttt{solve\_control}で連立方程式 $2u^*+M^\top\nu^*=0$、$Mu^*=d$ を直接解き、得られた入力を元の状態方程式に代入して終端条件を検査する。さらに$u^*=M^\top(MM^\top)^{-1}d$を\texttt{Fraction}による有理数演算で独立に計算し、数値解と比較する。
-
-コード\ref{lst:k6all}の\texttt{solve\_control}に実装を示す。
-
-コード\ref{lst:k6all}の\texttt{exact\_control}に実装を示す。
-
-
 \clearpage
 \section{結果}
 課題1〜5の数値結果は、提出ファイルのうち、テキストファイルに保存された値を記載する。
@@ -990,32 +859,92 @@ $M$は行ランク2であり、$2I_3$は正定値なので、次のKKT系は一�
 \end{table}
 
 \subsection{課題6：制約付き凸二次計画問題}
-\paragraph{課題6-4}
+課題6-1〜6-3では二次計画問題の応用と解法を調べ、課題6-4では定式化した問題を直接法で解く。
+\paragraph{共通の問題設定}
+\[
+\begin{aligned}
+\min_{x\in\mathbb{R}^n}\quad &\frac12 x^\top Qx+c^\top x\\
+\operatorname{subject\ to}\quad &Ax\le b.
+\end{aligned}\tag{3.3}\label{eq:qp}
+\]
+ここで $Q\in\mathbb{R}^{n\times n}$ は対称行列、$c\in\mathbb{R}^n$、$A\in\mathbb{R}^{m\times n}$、$b\in\mathbb{R}^m$ であり、不等号は要素ごとに成り立つ。
+\begin{itembox}[l]{課題6-1}
+二次計画問題として定式化することが自然な問題を1つ挙げよ。
+\end{itembox}
+\paragraph{解答}
+例として、複数の資産への配分を決める平均・分散型ポートフォリオ最適化を挙げる\cite{boyd}。$w_i$を資産$i$への配分比率、$p$を収益率の期待値ベクトル、$\Sigma$を収益率の共分散行列、$r_{\min}$を必要な期待収益率とすると、
+\begin{align}
+  \min_w\quad &w^\top\Sigma w, &
+  \text{subject to}\quad &p^\top w\ge r_{\min},\quad
+  \mathbf{1}^\top w=1,\quad w\ge0
+  \label{eq:portfolio}
+\end{align}
+と定式化できる。ここで$\mathbf{1}$は全成分が1のベクトルであり、目的関数は収益率の分散を表す。$\Sigma$は半正定値なので、目的関数は凸二次関数である。目的関数 $\frac12 w^\top Qw+c^\top w$ には $Q=2\Sigma$、$c=0$ を対応させ、等式を二つの不等式として表せばよい。配分比率と収益率は無次元であり、この例では具体的な市場データを用いた数値実験は行わない。
+\begin{itembox}[l]{課題6-2}
+二次計画問題は、$Q$ が非負の固有値のみを持つ場合（$Q$ が半正定値行列の場合）、凸二次計画問題と呼ばれる。$Q$ が正負両方の固有値を持つ場合に、二次計画問題がどのように難しくなるか調べよ。また文献も載せること（生成AIの回答を参照する場合は、その根拠となる文献まで調べて載せること）。
+\end{itembox}
+\paragraph{調査・解答}
+$Q$が正負両方の固有値を持つと、目的関数は空間全体では非凸になる。したがって、停留条件や局所的な探索だけでは大域的最小性を保証できない。例えば$Q=\operatorname{diag}(2,-2)$、$c=(0,1/2)^\top$、$-1\le x_0,x_1\le1$では、目的関数は$x_0^2-x_1^2+x_1/2$である。$(0,1)^\top$は制約付きの局所最小点で値は$-1/2$だが、$(0,-1)^\top$では$-3/2$となる。この例は、局所最小点でも大域的最小点とは限らないことを示す。
+
+PardalosとVavasis\cite{pardalos}は、負の固有値が一つだけの場合でも、線形制約付き二次計画問題の大域的求解が一般にはNP困難であることを示した。ここでは出版社が公開している原論文の要旨でその主張を確認した。これは最悪の場合についての計算量の主張であり、個々の不定値二次計画問題が必ず解きにくいことを意味しない。また、制約により負の曲率方向への移動が禁止される場合もある。したがって、難しさは$Q$の符号だけでなく、実行可能集合の形にも依存する。
+\begin{itembox}[l]{課題6-3}
+凸二次計画法の解法を調べ、そのアルゴリズムを述べよ。またその文献も載せること（生成AIの回答を参照する場合は、その根拠となる文献まで調べて載せること）。
+\end{itembox}
+\paragraph{調査・アルゴリズム}
+凸二次計画問題の解法として、対数バリア法を説明する\cite{boyd}。$f_0(x)=\frac12x^\top Qx+c^\top x$とし、$A$の第$i$行を$a_i^\top$と書く。$Q\succeq0$、厳密な実行可能点の存在、最適値の有限性と各バリア部分問題の最小点の存在を仮定する。ここではニュートン方程式が解けるよう、そのヘッセ行列が正定値となる場合を扱う。
+
+入力は$Q,c,A,b$と精度$\varepsilon>0$である。$Ax<b$を満たす初期点、$t=1$、増加率$\mu=10$から始め、次を繰り返す。
+\begin{enumerate}
+  \item $t$を固定し、$s_i=b_i-a_i^\top x>0$として、
+  \begin{align}
+    F_t(x)=t f_0(x)-\sum_{i=1}^{m}\log s_i
+    \label{eq:barrier}
+  \end{align}
+  をニュートン法で最小化する。方向$d$は
+  \begin{align}
+    \nabla F_t&=t(Qx+c)+\sum_i\frac{a_i}{s_i}, &
+    \nabla^2 F_t&=tQ+\sum_i\frac{a_i a_i^\top}{s_i^2},\\
+    \nabla^2F_t\,d&=-\nabla F_t
+  \end{align}
+  から求める。$A(x+\alpha d)<b$と$F_t$のArmijo条件を満たすまで$\alpha$を縮小して更新する。
+  \item 中心点を十分な精度で求めた後、$m/t<\varepsilon$なら終了し、そうでなければ$t\leftarrow\mu t$として前の点から再開する。
+\end{enumerate}
+厳密な中心点では双対ギャップは$m/t$となる。中心化を近似的に終了する実装では、この値だけで精度を保証せず、主・双対残差と実際の双対ギャップも確認する。等式制約を二つの不等式にすると厳密な内点がなくなるため、その場合は等式制約を分離し、等式を保つニュートン方程式を解く。以下の課題6-4は小規模なので、この反復法の実装ではなく、KKT条件に基づく直接法で数値解を求める。
+\begin{itembox}[l]{課題6-4}
+二次計画問題(3.3)として、次のパラメータを持つ問題を考える。
+\[
+Q=\begin{bmatrix}2&0\\0&1\end{bmatrix},\qquad
+c=-\begin{bmatrix}1\\1\end{bmatrix},\qquad
+A=\begin{bmatrix}1&1\end{bmatrix},\qquad b=0.
+\]
+このとき、最適解 $x^*$ を数値的に求めよ。ソルバを使っても構わない。またこの問題は解析的に解けるので、解析解とも比較せよ。
+\end{itembox}
+\paragraph{数値計算の方法}
+\texttt{kadai6.py}の\texttt{solve\_qp}で、唯一の不等式が非活性の場合と活性の場合を全列挙する。非活性なら$Qx=-c$、活性なら
+\begin{align}
+  \begin{bmatrix}Q&A^\top\\A&0\end{bmatrix}
+  \begin{bmatrix}x\\\lambda\end{bmatrix}
+  =\begin{bmatrix}-c\\b\end{bmatrix}
+  \label{eq:qp-kkt}
+\end{align}
+を\texttt{np.linalg.solve}で解く。候補ごとに$Ax\le b$、$\lambda\ge0$、$Qx+c+A^\top\lambda=0$、$\lambda^\top(Ax-b)=0$を許容誤差$10^{-10}$で検査する。二通りの判定で終了する直接法なので、初期点や反復上限は用いない。
+
+\paragraph{実行条件}
+追加計算にはPython 3.9.6、NumPy 2.0.2、\texttt{float64}を使用した。提出ファイルを配置したディレクトリで\verb|python kadai6.py|を実行し、JSON出力を\texttt{kadai6\_results.json}に保存した。専用の最適化ソルバは使用していない。
+
+\paragraph{解析解の導出}
+無制約解は$(1/2,1)^\top$で、$x_0+x_1\le0$を満たさない。目的関数は正定値二次関数であり、実行可能集合内で最小点は存在するため、最適点では制約が活性である。$x_1=-x_0$を代入すると目的関数は$\frac32x_0^2$となる。よって解析解は$x^*=(0,0)^\top$、最適値は0である。$x^*=0$、$\lambda^*=1$ を代入すると、$Ax^*\le b$、$\lambda^*\ge0$、$Qx^*+c+A^\top\lambda^*=0$、$(\lambda^*)^\top(Ax^*-b)=0$ が全て成立する。
+
+\par\noindent
+コード\ref{lst:k6all}に、\texttt{kadai6.py}の全体を示す。
+\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題6の求解と検算の実装},label={lst:k6all}]{../section3/kadai6.py}
+
+\paragraph{数値結果と解析解との比較}
 数値解は$x=(0,0)^\top$、目的関数値は0、乗数は$\lambda=1$となった。解析解との差の最大絶対値、制約違反、停留条件の最大絶対残差は、今回の浮動小数点計算で全て0だった。検証コードはKKT条件を満たした状態で正常に終了した。
 
-\paragraph{課題6-5}
-有理数による解と対応する数値解は、
-\begin{align}
-  u^*&=\begin{bmatrix}-312633/32882\\-264609/411025\\620784/82205\end{bmatrix}
-  \simeq\begin{bmatrix}-9.507724590962\\-0.643778358981\\7.551657441761\end{bmatrix},\\
-  (u^*)^\top u^*&=\frac{6076544589}{41102500}
-  \simeq147.838807590779
-\end{align}
-となった。状態列を表\ref{tab:control-states}に示す。表の値は表示のために丸めており、残差は丸める前の値から計算した。
-\begin{table}[htbp]
-  \centering
-  \caption{課題6-5の状態列。入力は $2u^*+M^\top\nu^*=0$、$Mu^*=d$ を連立して求めた数値解を用いた。成分は無次元。}
-  \label{tab:control-states}
-  \begin{tabular}{crr}\hline
-    時刻$k$ & $[x_k]_0$ & $[x_k]_1$\\\hline
-    0 & 10.000000000000 & 1.000000000000\\
-    1 & 13.000000000000 & $-8.607724590962$\\
-    2 & 6.992275409038 & $-8.390730490846$\\
-    3 & $3.55\times10^{-15}$ & $8.88\times10^{-16}$\\\hline
-  \end{tabular}
-\end{table}
-
-数値解と有理数解との差の最大絶対値は$1.78\times10^{-15}$、$Mu-d$の最大絶対残差は$8.88\times10^{-16}$、終端状態の最大絶対値は$3.55\times10^{-15}$だった。停留条件$2u+M^\top\nu=0$の最大絶対残差も$3.55\times10^{-15}$であり、いずれも検証許容誤差$10^{-10}$以下となった。
+\paragraph{解の妥当性}
+無制約の最小点は実行不可能であり、制約を課すと最適点は境界上の原点に変わる。任意の実行可能点について、目的関数$x_0^2+\frac12x_1^2-(x_0+x_1)$は各項の符号から非負であり、値0を取るのは原点だけである。このことと$Q$の正定値性から、数値計算で得た解は一意な大域的最適解である。
 
 \clearpage
 \section{考察・議論}
@@ -1050,24 +979,13 @@ $f'(x)=(x-3)(x+1)$より停留点は$x=-1,3$である。$f''(x)=2x-2$なので�
 
 実装はヘッセ行列の正定値化補正を備える。ただし、保存されたテキストファイルには固有値や補正量の履歴が含まれていないため、補正の発動の有無や効果は判断しない。
 
-\subsection{課題6：制約と最適性の検証}
-\paragraph{課題6-4}
-無制約の最小点は実行不可能であり、制約を課すと最適点は境界上の原点に変わる。任意の実行可能点について、目的関数$x_0^2+\frac12x_1^2-(x_0+x_1)$は各項の符号から非負であり、値0を取るのは原点だけである。このことと$Q$の正定値性から、数値計算で得た解は一意な大域的最適解である。
-
-\paragraph{課題6-5}
-制約$Mu=d$だけでは自由度が一つ残るが、入力の二乗和を最小化すると解は一意になる。実行可能な入力を$u^*+z$、$Mz=0$と書くと、KKT条件から$(u^*)^\top z=0$である。したがって、
-\begin{align}
-  \|u^*+z\|_2^2=\|u^*\|_2^2+\|z\|_2^2\ge\|u^*\|_2^2
-\end{align}
-となり、$z=0$のときだけ等号が成立する。これは最小エネルギー入力の大域的最適性と一意性を示す。実際、$M$の零空間を張る$z_0=(1,-2.1,1.08)^\top$と有理数解の内積は厳密に0となることも検算した。数値計算で残った$10^{-15}$程度の終端誤差は、有理数演算では0になる条件に対する丸め誤差であり、指定した許容誤差内で終端条件を満たしている。
-
 \clearpage
 \section{結論}
 零点探索では、二分法とニュートン法の双方で三つの零点$-3,-1,2$を求めた。二分法は符号が異なる端点を保持し、ニュートン法は導関数を使って零点を近似するという違いを確認した。
 
 1変数の最適化では、両手法とも局所最小点$x=3$に到達した。目的関数は下に非有界であり、停留点の計算と大域的最小化を区別する必要がある。2変数の問題では、課題4の最急降下法とニュートン法の更新回数は31回と6回、課題5では791回と5回であった。同じ初期点と勾配ノルムの終了条件の下で、曲率情報を使う方法が今回の条件では更新回数を減らした。ただし、保存結果には処理時間や課題5の正定値化補正の履歴は含まれていない。以上の結果の適用範囲は、使用した問題、初期点、許容誤差に限られる。
 
-制約付き問題では、課題6-4の解は原点であり、課題6-5では終端状態を原点へ移す入力のうち二乗和が最小となる解を求めた。解析解、有理数解、KKT条件および状態方程式による検算が数値結果と整合した。
+制約付き問題では、課題6-4の解は原点であり、解析解およびKKT条件による検算が数値結果と整合した。
 
 \paragraph{生成AIの利用}
 本レポートの構成整理、コードの抜粋配置、および課題6の文献調査・解答・検証コードの作成にOpenAI Codexを利用した。課題6の数値結果は掲載したコードの実行結果であり、参照した原典は参考文献に示す。

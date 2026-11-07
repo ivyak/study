@@ -22,6 +22,9 @@ dist/
 build/
 target/
 
+# リポジトリ直下の一時作業ファイル
+/tmp/
+
 .venv/
 
 # Python の生成物と一時実行状態

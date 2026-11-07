@@ -1000,45 +1000,45 @@ BoydとVandenbergheの『Convex Optimization』第11.2〜11.3節\cite{boyd}を�
 
 ただし、$(1.2,1.2)$は1回更新した点であり、この段階の計算が終わったわけではない。$t=1$のまま勾配とヘッセ行列を計算し直して更新を続け、バリア項を含む関数の最小点を求める。その後に$t$を大きくしてバリアの影響を弱め、同じ手順を繰り返す。
 
-これを一般の式で表すため、複数の変数を一つにまとめたベクトルを$x=(x_1,\ldots,x_n)^\top$と書く。目的関数を$f_0(x)=\frac12x^\top Qx+c^\top x$、各制約を$a_i^\top x\le b_i$とする。上の例の$x_1^2+x_2^2$に当たるのが$f_0(x)$であり、三つの不等式に当たるのが各制約である。例えば$x_1\ge1$は$-x_1\le-1$と書けばこの形になり、$x_1+x_2\le5$もそのままこの形に含まれる。
+これを一般の式で表すため、複数の変数を一つにまとめたベクトルを$\bm{x}=(x_1,\ldots,x_n)^\top$と書く。目的関数を$f_0(\bm{x})=\frac12\bm{x}^\top Q\bm{x}+\bm{c}^\top \bm{x}$、各制約を$\bm{a}_i^\top \bm{x}\le b_i$とする。上の例の$x_1^2+x_2^2$に当たるのが$f_0(\bm{x})$であり、三つの不等式に当たるのが各制約である。例えば$x_1\ge1$は$-x_1\le-1$と書けばこの形になり、$x_1+x_2\le5$もそのままこの形に含まれる。
 
-ここで$Q$は対称な半正定値行列、$a_i^\top$は行列$A$の第$i$行、$m$は制約の数である。$A$と$b$を使えば、全ての制約をまとめて$Ax\le b$と書ける。上の例では$n=2$、$m=3$となる。以下では、$Ax<b$を満たす出発点があり、各段階の最小点が存在して、ニュートン法の計算に使うヘッセ行列が正定値になる場合を考える。
+ここで$Q$は対称な半正定値行列、$\bm{a}_i^\top$は行列$A$の第$i$行、$m$は制約の数である。$A$と$\bm{b}$を使えば、全ての制約をまとめて$A\bm{x}\le \bm{b}$と書ける。上の例では$n=2$、$m=3$となる。以下では、$A\bm{x}<\bm{b}$を満たす出発点があり、各段階の最小点が存在して、ニュートン法の計算に使うヘッセ行列が正定値になる場合を考える。
 
 \subparagraph{制約の余裕を式にする}
 まず、各制約について、
 \begin{align}
-  s_i(x)=b_i-a_i^\top x
+  s_i(\bm{x})=b_i-\bm{a}_i^\top \bm{x}
   \label{eq:barrier-slack}
 \end{align}
-とおく。$s_i(x)$は制約の上限までどれだけ余裕があるかを表す。$s_i(x)>0$なら制約の内側、$s_i(x)=0$なら境界上であり、$s_i(x)<0$なら制約に違反している。
+とおく。$s_i(\bm{x})$は制約の上限までどれだけ余裕があるかを表す。$s_i(\bm{x})>0$なら制約の内側、$s_i(\bm{x})=0$なら境界上であり、$s_i(\bm{x})<0$なら制約に違反している。
 
-この余裕を使って、目的関数に$-\log s_i(x)$を加える。余裕が正である範囲でしか対数は計算できず、境界に近づくと
+この余裕を使って、目的関数に$-\log s_i(\bm{x})$を加える。余裕が正である範囲でしか対数は計算できず、境界に近づくと
 \begin{align}
-  s_i(x)\to0^+\quad\Longrightarrow\quad-\log s_i(x)\to+\infty
+  s_i(\bm{x})\to0^+\quad\Longrightarrow\quad-\log s_i(\bm{x})\to+\infty
 \end{align}
 となる。この項は、境界に近づきすぎると関数値を大きくする壁のように働く。全ての制約について足し合わせた
 \begin{align}
-  \phi(x)=-\sum_{i=1}^{m}\log s_i(x)
+  \phi(\bm{x})=-\sum_{i=1}^{m}\log s_i(\bm{x})
 \end{align}
 を、対数バリア関数と呼ぶ。
 
 \subparagraph{元の問題を解きやすい形に置き換える}
 $t>0$を用いて、元の目的関数にバリア関数を加えた
 \begin{align}
-  f_0(x)+\frac1t\phi(x)
-  &=\frac12x^\top Qx+c^\top x
-    -\frac1t\sum_{i=1}^{m}\log(b_i-a_i^\top x)
+  f_0(\bm{x})+\frac1t\phi(\bm{x})
+  &=\frac12\bm{x}^\top Q\bm{x}+\bm{c}^\top \bm{x}
+    -\frac1t\sum_{i=1}^{m}\log(b_i-\bm{a}_i^\top \bm{x})
   \label{eq:barrier-approx}
 \end{align}
 を最小化する。$t$を大きくすると$1/t$は小さくなり、バリアの影響が相対的に弱まる。そのため、制約の内側にとどまりながら、元の目的関数の小さい点をより重視できる。
 
 式\eqref{eq:barrier-approx}全体を正の数$t$で掛けても、値が最小になる点は変わらない。そこで、計算に使う関数を
 \begin{align}
-  F_t(x)
-  &=t\left(f_0(x)+\frac1t\phi(x)\right)\notag\\
-  &=t f_0(x)+\phi(x)\notag\\
-  &=t\left(\frac12x^\top Qx+c^\top x\right)
-    -\sum_{i=1}^{m}\log(b_i-a_i^\top x)
+  F_t(\bm{x})
+  &=t\left(f_0(\bm{x})+\frac1t\phi(\bm{x})\right)\notag\\
+  &=t f_0(\bm{x})+\phi(\bm{x})\notag\\
+  &=t\left(\frac12\bm{x}^\top Q\bm{x}+\bm{c}^\top \bm{x}\right)
+    -\sum_{i=1}^{m}\log(b_i-\bm{a}_i^\top \bm{x})
   \label{eq:barrier}
 \end{align}
 とする。まず$t$を固定してこの関数を最小化し、その後$t$を大きくして同じ計算を繰り返す。
@@ -1046,74 +1046,74 @@ $t>0$を用いて、元の目的関数にバリア関数を加えた
 \subparagraph{ニュートン法で点を更新する}
 ここからは、$t$を固定した一つの段階の計算を説明する。バリア項を含む$F_t$の最小点をニュートン法で探すため、まずその勾配とヘッセ行列を求める。$Q$が対称なので、元の目的関数の微分は
 \begin{align}
-  \nabla f_0(x)=Qx+c,\qquad \nabla^2f_0(x)=Q
+  \bm{\nabla} f_0(\bm{x})=Q\bm{x}+\bm{c},\qquad \nabla^2f_0(\bm{x})=Q
 \end{align}
-である。また、$\nabla s_i(x)=-a_i$を使うと、合成関数の微分から
+である。また、$\bm{\nabla} s_i(\bm{x})=-\bm{a}_i$を使うと、合成関数の微分から
 \begin{align}
-  \nabla\bigl(-\log s_i(x)\bigr)
-  &=-\frac1{s_i(x)}\nabla s_i(x)
-    =\frac{a_i}{s_i(x)},\\
-  \nabla\left(\frac1{s_i(x)}\right)
-  &=-\frac1{s_i(x)^2}\nabla s_i(x)
-    =\frac{a_i}{s_i(x)^2}
+  \bm{\nabla}\bigl(-\log s_i(\bm{x})\bigr)
+  &=-\frac1{s_i(\bm{x})}\bm{\nabla} s_i(\bm{x})
+    =\frac{\bm{a}_i}{s_i(\bm{x})},\\
+  \bm{\nabla}\left(\frac1{s_i(\bm{x})}\right)
+  &=-\frac1{s_i(\bm{x})^2}\bm{\nabla} s_i(\bm{x})
+    =\frac{\bm{a}_i}{s_i(\bm{x})^2}
 \end{align}
-となる。したがって、バリア項のヘッセ行列は$a_i a_i^\top/s_i(x)^2$となり、全体では
+となる。したがって、バリア項のヘッセ行列は$\bm{a}_i \bm{a}_i^\top/s_i(\bm{x})^2$となり、全体では
 \begin{align}
-  \nabla F_t(x)&=t(Qx+c)+\sum_{i=1}^{m}\frac{a_i}{s_i(x)},\\
-  \nabla^2 F_t(x)&=tQ+\sum_{i=1}^{m}\frac{a_i a_i^\top}{s_i(x)^2}
+  \bm{\nabla} F_t(\bm{x})&=t(Q\bm{x}+\bm{c})+\sum_{i=1}^{m}\frac{\bm{a}_i}{s_i(\bm{x})},\\
+  \nabla^2 F_t(\bm{x})&=tQ+\sum_{i=1}^{m}\frac{\bm{a}_i \bm{a}_i^\top}{s_i(\bm{x})^2}
   \label{eq:barrier-derivatives}
 \end{align}
 を得る。
 
-現在の点$x$からの移動量を$d$とすると、近くでの勾配は
+現在の点$\bm{x}$からの移動量を$\bm{d}$とすると、近くでの勾配は
 \begin{align}
-  \nabla F_t(x+d)\simeq\nabla F_t(x)+\nabla^2F_t(x)d
+  \bm{\nabla} F_t(\bm{x}+\bm{d})\simeq\bm{\nabla} F_t(\bm{x})+\nabla^2F_t(\bm{x})\bm{d}
 \end{align}
-と近似できる。最小点では勾配が0になることを利用し、右辺を0とおいた連立方程式
+と近似できる。最小点では勾配が零ベクトルになることを利用し、右辺を零ベクトルとおいた連立方程式
 \begin{align}
-  \nabla^2F_t(x)d=-\nabla F_t(x)
+  \nabla^2F_t(\bm{x})\bm{d}=-\bm{\nabla} F_t(\bm{x})
   \label{eq:barrier-newton}
 \end{align}
 を解く。これがニュートン法の方向である。
 
-ただし、いきなり$x+d$へ移動すると制約の外へ出ることがある。そこでステップサイズ$\alpha$を使い、$x\leftarrow x+\alpha d$と更新する。更新後の余裕は
+ただし、いきなり$\bm{x}+\bm{d}$へ移動すると制約の外へ出ることがある。そこでステップサイズ$\alpha$を使い、$\bm{x}\leftarrow \bm{x}+\alpha \bm{d}$と更新する。更新後の余裕は
 \begin{align}
-  s_i(x+\alpha d)=s_i(x)-\alpha a_i^\top d
+  s_i(\bm{x}+\alpha \bm{d})=s_i(\bm{x})-\alpha \bm{a}_i^\top \bm{d}
 \end{align}
-なので、$a_i^\top d>0$の制約では$\alpha<s_i(x)/(a_i^\top d)$が必要になる。$a_i^\top d\le0$なら、その制約の余裕は減らない。実際には$\alpha=1$から始め、全ての余裕が正で、かつ
+なので、$\bm{a}_i^\top \bm{d}>0$の制約では$\alpha<s_i(\bm{x})/(\bm{a}_i^\top \bm{d})$が必要になる。$\bm{a}_i^\top \bm{d}\le0$なら、その制約の余裕は減らない。実際には$\alpha=1$から始め、全ての余裕が正で、かつ
 \begin{align}
-  F_t(x+\alpha d)
-  \le F_t(x)+\eta\alpha\nabla F_t(x)^\top d,
+  F_t(\bm{x}+\alpha \bm{d})
+  \le F_t(\bm{x})+\eta\alpha\bm{\nabla} F_t(\bm{x})^\top \bm{d},
   \qquad 0<\eta<\frac12
 \end{align}
 を満たすまで$\alpha$を一定の割合で小さくする。これは、これまでの課題で用いたバックトラックと同じ考え方である。勾配が十分小さくなるまで、方向の計算と点の更新を繰り返す。
 
 \subparagraph{$t$を増やす理由と終了条件}
-$t$を固定した問題の正確な最小点を$x(t)$とすると、$\nabla F_t(x(t))=0$である。これを$t$で割り、
+$t$を固定した問題の正確な最小点を$\bm{x}(t)$とすると、$\bm{\nabla} F_t(\bm{x}(t))=\bm{0}$である。これを$t$で割り、
 \begin{align}
-  \lambda_i(t)=\frac1{t s_i(x(t))}>0
+  \lambda_i(t)=\frac1{t s_i(\bm{x}(t))}>0
 \end{align}
 とおけば、
 \begin{align}
-  Qx(t)+c+\sum_{i=1}^{m}\lambda_i(t)a_i=0,\qquad
-  \lambda_i(t)s_i(x(t))=\frac1t
+  Q\bm{x}(t)+\bm{c}+\sum_{i=1}^{m}\lambda_i(t)\bm{a}_i=\bm{0},\qquad
+  \lambda_i(t)s_i(\bm{x}(t))=\frac1t
 \end{align}
 となる。元の問題のKKT条件では最後の積は0になるため、$t$を大きくすると、その条件に近づくことが分かる。
 
 さらに、文献では、この点と乗数から得られる目的関数値の差、すなわち双対ギャップが
 \begin{align}
-  \sum_{i=1}^{m}\lambda_i(t)s_i(x(t))
+  \sum_{i=1}^{m}\lambda_i(t)s_i(\bm{x}(t))
   =\sum_{i=1}^{m}\frac1t=\frac mt
 \end{align}
 になることが示されている。双対ギャップは、現在の値と、最小値を下から押さえる値との差である。元の問題の最小値を$p^*$とすると、
 \begin{align}
-  0\le f_0(x(t))-p^*\le\frac mt
+  0\le f_0(\bm{x}(t))-p^*\le\frac mt
 \end{align}
 となるので、$m/t$が小さければ、目的関数値も最小値に近い。このため、目標精度を$\varepsilon>0$とし、$m/t<\varepsilon$を終了条件にする。実際の計算では各段階の最小点を近似的に求めるため、この評価には内側のニュートン法も十分な精度で終える必要がある。
 
 以上をまとめると、アルゴリズムは次のようになる。
 \begin{enumerate}
-  \item $Ax<b$を満たす点$x$、$t>0$、増加率$\mu>1$、目標精度$\varepsilon>0$を決める。
+  \item $A\bm{x}<\bm{b}$を満たす点$\bm{x}$、$t>0$、増加率$\mu>1$、目標精度$\varepsilon>0$を決める。
   \item $t$を固定し、式\eqref{eq:barrier-newton}とバックトラックを用いて$F_t$を最小化する。
   \item $m/t<\varepsilon$なら終了する。
   \item そうでなければ$t\leftarrow\mu t$とし、今求めた点を次の出発点として手順2に戻る。

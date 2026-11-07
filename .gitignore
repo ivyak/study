@@ -34,3 +34,6 @@ article_management/execution.json
 /accounting/data/
 /accounting/backups/
 /accounting/review/generated/
+
+# PDFはローカルで保持し、Gitでは管理しない
+*.[pP][dD][fF]

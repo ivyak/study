@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+"""PDFがコミットに含まれる場合は中止する。"""
+
+import os
+import subprocess
+import sys
+
+result = subprocess.run(
+  ['git', 'diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'],
+  stdout=subprocess.PIPE,
+  check=True,
+)
+pdf_paths = [path for path in result.stdout.split(b'\0') if path.lower().endswith(b'.pdf')]
+if pdf_paths:
+  print('PDFはコミットできません。手元のファイルを残してステージから外してください。', file=sys.stderr)
+  for path in pdf_paths:
+    print('  ' + repr(os.fsdecode(path)), file=sys.stderr)
+  sys.exit(1)

@@ -81,7 +81,7 @@
 
 
 \section{はじめに}
-零点探索と無制約最適化の反復法を実装し、初期値、ステップサイズ、曲率情報が収束に与える影響を調べる。問題設定と手法は教材\cite{textbook}に従う。課題1〜5の実装と保存結果には\texttt{section3}内のファイルを使用した。
+零点探索と無制約最適化の反復法を実装し、初期値、ステップサイズ、曲率情報が収束に与える影響を調べる。問題設定と手法は教材\cite{textbook}に従う。課題1〜5の実装と保存結果には提出ファイルを使用した。
 
 \section{原理・方法の詳細}
 \subsection{零点探索}
@@ -855,7 +855,7 @@ A=\begin{bmatrix}1&1\end{bmatrix},\qquad b=0.
 を\texttt{np.linalg.solve}で解く。候補ごとに$Ax\le b$、$\lambda\ge0$、$Qx+c+A^\top\lambda=0$、$\lambda^\top(Ax-b)=0$を許容誤差$10^{-10}$で検査する。二通りの判定で終了する直接法なので、初期点や反復上限は用いない。
 
 \paragraph{実行条件}
-追加計算にはPython 3.9.6、NumPy 2.0.2、\texttt{float64}を使用した。\texttt{section3}を作業ディレクトリとして\verb|python kadai6.py|を実行し、JSON出力を\texttt{kadai6\_results.json}に保存した。専用の最適化ソルバは使用していない。課題6-5もPython 3.9.6、NumPy 2.0.2、\texttt{float64}を用い、検証許容誤差 $10^{-10}$ で計算する。
+追加計算にはPython 3.9.6、NumPy 2.0.2、\texttt{float64}を使用した。提出ファイルを配置したディレクトリで\verb|python kadai6.py|を実行し、JSON出力を\texttt{kadai6\_results.json}に保存した。専用の最適化ソルバは使用していない。課題6-5もPython 3.9.6、NumPy 2.0.2、\texttt{float64}を用い、検証許容誤差 $10^{-10}$ で計算する。
 
 \paragraph{解析解の導出}
 無制約解は$(1/2,1)^\top$で、$x_0+x_1\le0$を満たさない。目的関数は正定値二次関数であり、実行可能集合内で最小点は存在するため、最適点では制約が活性である。$x_1=-x_0$を代入すると目的関数は$\frac32x_0^2$となる。よって解析解は$x^*=(0,0)^\top$、最適値は0である。$x^*=0$、$\lambda^*=1$ を代入すると、$Ax^*\le b$、$\lambda^*\ge0$、$Qx^*+c+A^\top\lambda^*=0$、$(\lambda^*)^\top(Ax^*-b)=0$ が全て成立する。
@@ -916,7 +916,7 @@ $M$は行ランク2であり、$2I_3$は正定値なので、次のKKT系は一�
 
 \clearpage
 \section{結果}
-課題1〜5の数値結果は、\texttt{section3}内のテキストファイルに保存された値を記載する。
+課題1〜5の数値結果は、提出ファイルのうち、テキストファイルに保存された値を記載する。
 
 \subsection{課題1：関数の零点探索}
 \paragraph{二分法}

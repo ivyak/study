@@ -909,20 +909,123 @@ $Q$が半正定値のとき、目的関数は谷のような形をしており�
 \paragraph{調査・アルゴリズム}
 BoydとVandenbergheの『Convex Optimization』第11.2〜11.3節\cite{boyd}をもとに、対数バリア法を説明する。この方法は、制約の境界に近づくと値が大きくなる項を目的関数に加え、制約を守りながら解を探す方法である。
 
-目的関数を$f_0(x)=\frac12x^\top Qx+c^\top x$、各制約を$a_i^\top x\le b_i$とすると、代わりに小さくする関数は
+目的関数を$f_0(x)=\frac12x^\top Qx+c^\top x$、各制約を$a_i^\top x\le b_i$とする。ここで$Q$は対称な半正定値行列、$a_i^\top$は行列$A$の第$i$行、$m$は制約の数である。以下では、$Ax<b$を満たす出発点があり、各段階の最小点が存在して、ニュートン法の計算に使うヘッセ行列が正定値になる場合を考える。
+
+\subparagraph{制約の余裕を式にする}
+まず、各制約について、
 \begin{align}
-  F_t(x)=t f_0(x)-\sum_{i=1}^{m}\log(b_i-a_i^\top x)
+  s_i(x)=b_i-a_i^\top x
+  \label{eq:barrier-slack}
+\end{align}
+とおく。$s_i(x)$は制約の上限までどれだけ余裕があるかを表す。$s_i(x)>0$なら制約の内側、$s_i(x)=0$なら境界上であり、$s_i(x)<0$なら制約に違反している。
+
+この余裕を使って、目的関数に$-\log s_i(x)$を加える。余裕が正である範囲でしか対数は計算できず、境界に近づくと
+\begin{align}
+  s_i(x)\to0^+\quad\Longrightarrow\quad-\log s_i(x)\to+\infty
+\end{align}
+となる。この項は、境界に近づきすぎると関数値を大きくする壁のように働く。全ての制約について足し合わせた
+\begin{align}
+  \phi(x)=-\sum_{i=1}^{m}\log s_i(x)
+\end{align}
+を、対数バリア関数と呼ぶ。
+
+\subparagraph{元の問題を解きやすい形に置き換える}
+$t>0$を用いて、元の目的関数にバリア関数を加えた
+\begin{align}
+  f_0(x)+\frac1t\phi(x)
+  &=\frac12x^\top Qx+c^\top x
+    -\frac1t\sum_{i=1}^{m}\log(b_i-a_i^\top x)
+  \label{eq:barrier-approx}
+\end{align}
+を最小化する。$t$を大きくすると$1/t$は小さくなり、バリアの影響が相対的に弱まる。そのため、制約の内側にとどまりながら、元の目的関数の小さい点をより重視できる。
+
+式\eqref{eq:barrier-approx}全体を正の数$t$で掛けても、値が最小になる点は変わらない。そこで、計算に使う関数を
+\begin{align}
+  F_t(x)
+  &=t\left(f_0(x)+\frac1t\phi(x)\right)\notag\\
+  &=t f_0(x)+\phi(x)\notag\\
+  &=t\left(\frac12x^\top Qx+c^\top x\right)
+    -\sum_{i=1}^{m}\log(b_i-a_i^\top x)
   \label{eq:barrier}
 \end{align}
-となる。境界に近づくと$b_i-a_i^\top x$が0に近づき、対数の項が大きくなる。これが壁のように働くため、「バリア」と呼ばれる。$t$を大きくすると元の目的関数の影響が強くなり、元の問題の解に近づけられる。
+とする。まず$t$を固定してこの関数を最小化し、その後$t$を大きくして同じ計算を繰り返す。
 
-手順は次のとおりである。ここでは、$Q$が半正定値で、制約の内側に出発点を取れ、各段階の最小化をニュートン法で行える場合を考える。
+\subparagraph{ニュートン法で点を更新する}
+$F_t$を小さくするため、勾配とヘッセ行列を求める。$Q$が対称なので、元の目的関数の微分は
+\begin{align}
+  \nabla f_0(x)=Qx+c,\qquad \nabla^2f_0(x)=Q
+\end{align}
+である。また、$\nabla s_i(x)=-a_i$を使うと、合成関数の微分から
+\begin{align}
+  \nabla\bigl(-\log s_i(x)\bigr)
+  &=-\frac1{s_i(x)}\nabla s_i(x)
+    =\frac{a_i}{s_i(x)},\\
+  \nabla\left(\frac1{s_i(x)}\right)
+  &=-\frac1{s_i(x)^2}\nabla s_i(x)
+    =\frac{a_i}{s_i(x)^2}
+\end{align}
+となる。したがって、バリア項のヘッセ行列は$a_i a_i^\top/s_i(x)^2$となり、全体では
+\begin{align}
+  \nabla F_t(x)&=t(Qx+c)+\sum_{i=1}^{m}\frac{a_i}{s_i(x)},\\
+  \nabla^2 F_t(x)&=tQ+\sum_{i=1}^{m}\frac{a_i a_i^\top}{s_i(x)^2}
+  \label{eq:barrier-derivatives}
+\end{align}
+を得る。
+
+現在の点$x$からの移動量を$d$とすると、近くでの勾配は
+\begin{align}
+  \nabla F_t(x+d)\simeq\nabla F_t(x)+\nabla^2F_t(x)d
+\end{align}
+と近似できる。最小点では勾配が0になることを利用し、右辺を0とおいた連立方程式
+\begin{align}
+  \nabla^2F_t(x)d=-\nabla F_t(x)
+  \label{eq:barrier-newton}
+\end{align}
+を解く。これがニュートン法の方向である。
+
+ただし、いきなり$x+d$へ移動すると制約の外へ出ることがある。そこでステップサイズ$\alpha$を使い、$x\leftarrow x+\alpha d$と更新する。更新後の余裕は
+\begin{align}
+  s_i(x+\alpha d)=s_i(x)-\alpha a_i^\top d
+\end{align}
+なので、$a_i^\top d>0$の制約では$\alpha<s_i(x)/(a_i^\top d)$が必要になる。$a_i^\top d\le0$なら、その制約の余裕は減らない。実際には$\alpha=1$から始め、全ての余裕が正で、かつ
+\begin{align}
+  F_t(x+\alpha d)
+  \le F_t(x)+\eta\alpha\nabla F_t(x)^\top d,
+  \qquad 0<\eta<\frac12
+\end{align}
+を満たすまで$\alpha$を一定の割合で小さくする。これは、これまでの課題で用いたバックトラックと同じ考え方である。勾配が十分小さくなるまで、方向の計算と点の更新を繰り返す。
+
+\subparagraph{$t$を増やす理由と終了条件}
+$t$を固定した問題の正確な最小点を$x(t)$とすると、$\nabla F_t(x(t))=0$である。これを$t$で割り、
+\begin{align}
+  \lambda_i(t)=\frac1{t s_i(x(t))}>0
+\end{align}
+とおけば、
+\begin{align}
+  Qx(t)+c+\sum_{i=1}^{m}\lambda_i(t)a_i=0,\qquad
+  \lambda_i(t)s_i(x(t))=\frac1t
+\end{align}
+となる。元の問題のKKT条件では最後の積は0になるため、$t$を大きくすると、その条件に近づくことが分かる。
+
+さらに、文献では、この点と乗数から得られる目的関数値の差、すなわち双対ギャップが
+\begin{align}
+  \sum_{i=1}^{m}\lambda_i(t)s_i(x(t))
+  =\sum_{i=1}^{m}\frac1t=\frac mt
+\end{align}
+になることが示されている。双対ギャップは、現在の値と、最小値を下から押さえる値との差である。元の問題の最小値を$p^*$とすると、
+\begin{align}
+  0\le f_0(x(t))-p^*\le\frac mt
+\end{align}
+となるので、$m/t$が小さければ、目的関数値も最小値に近い。このため、目標精度を$\varepsilon>0$とし、$m/t<\varepsilon$を終了条件にする。実際の計算では各段階の最小点を近似的に求めるため、この評価には内側のニュートン法も十分な精度で終える必要がある。
+
+以上をまとめると、アルゴリズムは次のようになる。
 \begin{enumerate}
-  \item 全ての制約を余裕を持って満たす点、つまり$Ax<b$となる点を選ぶ。$t>0$、増加率$\mu>1$、目標精度$\varepsilon>0$を決める。
-  \item $t$を固定し、ニュートン法で$F_t(x)$を十分小さくする。点を更新するときは、制約の内側にとどまり、$F_t$が減るようにステップサイズを調整する。
-  \item $m/t<\varepsilon$なら終了する。そうでなければ$t\leftarrow\mu t$とし、今の点を出発点として手順2に戻る。ここで$m$は不等式制約の数である。
+  \item $Ax<b$を満たす点$x$、$t>0$、増加率$\mu>1$、目標精度$\varepsilon>0$を決める。
+  \item $t$を固定し、式\eqref{eq:barrier-newton}とバックトラックを用いて$F_t$を最小化する。
+  \item $m/t<\varepsilon$なら終了する。
+  \item そうでなければ$t\leftarrow\mu t$とし、今求めた点を次の出発点として手順2に戻る。
 \end{enumerate}
-$m/t$は、各段階の最小化を十分正確に行ったときの、元の問題の最小値との差を判断する目安である。つまり、制約を守って最小化する計算を繰り返しながら、元の目的関数を徐々に重視していく方法といえる。
+最初から$t$を大きくしすぎると、境界近くでの計算が難しくなる。そのため、前の段階で得た点を使いながら$t$を徐々に増やし、元の問題の解へ近づけていく。
 
 \paragraph{数値計算の方法}
 \texttt{kadai6.py}の\texttt{solve\_qp}で、唯一の不等式が非活性の場合と活性の場合を全列挙する。非活性なら$Qx=-c$、活性なら

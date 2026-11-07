@@ -136,7 +136,7 @@
   $\Longrightarrow$ 点列 $\{\bm{x}^k\}$ の任意の集積点 $\bm{x}^*$ は関数 $f$ の停留点となる。
 \end{itembox}
 
-最急降下法では降下方向を$\bm{d}^k=-\nabla f(\bm{x}^k)$とする。この方向は $\langle\bm{d}^k,\nabla f(\bm{x}^k)\rangle=-\|\nabla f(\bm{x}^k)\|^2$ を満たすため、点列と方向列の有界性などの仮定の下で、集積点が停留点となる。
+最急降下法では降下方向を$\bm{d}^k=-\nabla f(\bm{x}^k)$とする。この方向は $\langle\bm{d}^k,\nabla f(\bm{x}^k)\rangle=-\|\nabla f(\bm{x}^k)\|^2$ を満たすため、集積点が停留点となる。
 
 ニュートン法では、探索方向として $\nabla^2 f(\bm{x}^k)\bm{d}^k=-\nabla f(\bm{x}^k)$ の解を用いる。（つまり、
 \[
@@ -163,20 +163,45 @@
 \]
 で与えられる。またニュートン法では、$\{\nabla^2 f(\bm{x}^k)\}$ は有界かつ一様正定値であると仮定する。
 
-正定値とは、ゼロでない任意のベクトル $\bm{v}$ に対して $\bm{v}^\top\nabla^2f(\bm{x}^k)\bm{v}>0$ となることである。有界かつ一様正定値という仮定は、全ての反復に共通する定数 $0<m\le L<\infty$ により
+正定値行列とは、実対称行列またはエルミート行列 $A$ に対して、ベクトル $\bm{x}$（ゼロではない）を使って、$\bm{x}^\top A\bm{x}$ という掛け算（二次形式）をしたとき、どんなベクトル $\bm{x}$ を選んでも結果が必ずプラス（$>0$）になるような行列 $A$ のことである。二次形式について説明すると、二次形式とは、複数の変数を用いた「すべて2次の項からなる多項式」のことで、例えば $x_1,x_2$ の2つの変数があるとき、2次の項だけを集めた式は以下のようになる。
 \[
-  m\|\bm{v}\|^2\le\bm{v}^\top\nabla^2f(\bm{x}^k)\bm{v}\le L\|\bm{v}\|^2
+  q(x_1,x_2)=a_{11}x_1^2+2a_{12}x_1x_2+a_{22}x_2^2
 \]
-と評価できることを意味する。正定値でない場合は、$\nabla^2f(\bm{x}^k)+\tau_k I$ が正定値となるように $\tau_k>0$ を選び、補正した行列でニュートン方程式を解く。
+これを、列ベクトル
+\[
+  \bm{x}=\begin{pmatrix}x_1\\x_2\end{pmatrix}
+\]
+と、実対称行列
+\[
+  A=\begin{pmatrix}a_{11}&a_{12}\\a_{12}&a_{22}\end{pmatrix}
+\]
+を用いて表現すると、以下のようになる。
+\[
+  q(\bm{x})=\bm{x}^\top A\bm{x}
+  =\begin{pmatrix}x_1&x_2\end{pmatrix}
+  \begin{pmatrix}a_{11}&a_{12}\\a_{12}&a_{22}\end{pmatrix}
+  \begin{pmatrix}x_1\\x_2\end{pmatrix}
+\]
+
+また、以下についても考える。
+\begin{itembox}[l]{定理~3.5.1}
+  以下の二つの命題は同値である。
+  \begin{itemize}
+    \item 対称行列 $M\in\mathbb{R}^{n\times n}$ が正定値である。
+    \item 対称行列 $M\in\mathbb{R}^{n\times n}$ の全ての固有値 $\lambda_j(M)$（$j=1,\ldots,n$）は正である。
+  \end{itemize}
+\end{itembox}
+
+つまり、ヘッセ行列が一様正定値であるため、ある $m>0$ があって、どの $k$ でも固有値が全て $m$ 以上ということが成り立つ。有界性などの仮定の下では、ニュートン方向も定理~3.3.1の条件を満たすため、降下法で関数 $f$ の停留点を求めることができる。
 
 \subsection{直線探索とバックトラック法}
 \label{sec:line-search}
-探索方向 $\bm{d}^k$ が決まっても、ステップサイズが大きすぎると関数値が増加することがある。直線探索は、$f(\bm{x}^{k+1})<f(\bm{x}^k)$ となるようにステップサイズ $t_k>0$ を決める手法である。本実験では、候補を一定の割合で縮小するバックトラック法を用いる。
+直線探索は、$f(\bm{x}^{k+1})<f(\bm{x}^k)$ となるようにステップサイズ $t_k>0$ を決める手法である。
 
 \begin{itembox}[l]{バックトラック法}
   \begin{enumerate}
     \item $\xi\in(0,1)$、$\rho\in(0,1)$、初期ステップサイズ $\bar t>0$ を選び、$t=\bar t$ とする。
-    \item 次のアルミホ条件を満たすまで、$t\leftarrow\rho t$ とする。
+    \item 次のアルミホ条件と呼ばれる条件を満たすまで、$t\leftarrow\rho t$ として更新する。
     \begin{align}
       f(\bm{x}^k+t\bm{d}^k)
       \le f(\bm{x}^k)+\xi t\left\langle\bm{d}^k,\nabla f(\bm{x}^k)\right\rangle
@@ -186,12 +211,41 @@
   \end{enumerate}
 \end{itembox}
 
-アルミホ条件の意味は、次のように整理できる。
+バックトラック法は、「進む方向は$\bm{d}^k$で決まったので、関数値がきちんと下がる範囲で、どこまで進むかを決める」方法である。
+
+探索方向 $\bm{d}^k$ に沿って進んだときの関数値を、
+\[
+  \varphi(t)=f(\bm{x}^k+t\bm{d}^k)
+\]
+と書く。$t=0$ は現在地を表し、$t$ が大きいほど遠くまで進むことを表す。
+
+例えば、現在の関数値と傾きが
+\[
+  \varphi(0)=10,\qquad\varphi'(0)=-4
+\]
+なら、現在地での接線は
+\[
+  y=10-4t
+\]
+となる。ただし、これは現在地の近くでの予測なので、実際の関数値がこの直線どおりに下がるとは限らない。
+
+そこで、例えば $\xi=0.1$ として、要求する減少量を緩めた直線
+\[
+  y=10-0.4t
+\]
+を基準にする。アルミホ条件は、
+\[
+  \underbrace{\varphi(t)}_{\text{実際の関数値}}
+  \le\underbrace{10-0.4t}_{\text{採用するための基準}}
+\]
+という条件である。例えば $t=1$ なら、基準は $9.6$ となり、次のように判定する。
 \begin{itemize}
-  \item 探索方向上での関数値を $\varphi(t):=f(\bm{x}^k+t\bm{d}^k)$ とおくと、$\varphi'(0)=\langle\bm{d}^k,\nabla f(\bm{x}^k)\rangle<0$ となる。
-  \item アルミホ条件の右辺 $f(\bm{x}^k)+\xi t\langle\bm{d}^k,\nabla f(\bm{x}^k)\rangle$ は、$t=0$ における接線の傾きを $\xi$ 倍した直線である。関数値がこの直線以下となるステップサイズを採用することで、一定の減少量を確保する。
-  \item 課題4・5では、$\bar t=1$、$\xi=10^{-4}$、$\rho=0.5$ とする。各更新の前に勾配の終了条件を判定する。
+  \item 実際の関数値が $9$ の場合：$9\le9.6$ なので採用する。
+  \item 実際の関数値が $9.8$ の場合：減少しているが、要求する減少量に届かないので、$t$ を小さくする。
+  \item 実際の関数値が $11$ の場合：増加しているので、$t$ を小さくする。
 \end{itemize}
+
+$\xi$ を小さくすると、基準の直線は現在の値 $10$ に近づくため、条件を満たしやすくなる。
 
 \subsection{反復法の収束の速さ}
 \label{sec:convergence-rate}
@@ -201,7 +255,7 @@
   \[
     e_{k+1}\le\kappa e_k\qquad(\forall k\ge k_0)
   \]
-  が成り立つことをいう。十分に反復した後は、誤差が一定の割合以下に縮小する。
+  が成り立つことをいう。
   \item \textbf{2次収束：}ある $\eta>0$ と $k_0\in\mathbb{N}$ が存在し、
   \[
     e_{k+1}\le\eta e_k^2\qquad(\forall k\ge k_0)
@@ -215,34 +269,11 @@
 \begin{itemize}
   \item 最急降下法は勾配を用いる。適切な仮定の下で1次収束し、一反復で必要な計算は比較的少ない。
   \item ニュートン法は勾配とヘッセ行列を用い、さらにニュートン方程式を解く。適切な仮定の下で解の近くでは2次収束するが、一反復の計算負荷は大きい。
-  \item したがって、反復回数が少ないことだけでは計算時間が短いとはいえない。本実験では、同じ終了条件での反復回数を比較し、計算時間とは区別する。
+  \item したがって、反復回数が少ないことだけでは計算時間が短いとはいえない。
 \end{itemize}
 
 \subsection{正定値性とニュートン方向の修正}
 \label{sec:newton-modification}
-\paragraph{正定値行列と二次形式}
-実対称行列 $M\in\mathbb{R}^{n\times n}$ が正定値であるとは、
-\[
-  \bm{v}^\top M\bm{v}>0
-  \qquad(\forall\bm{v}\in\mathbb{R}^n\setminus\{\bm{0}\})
-\]
-が成り立つことをいい、$M\succ O$ と表す。ここで、$\bm{v}^\top M\bm{v}$ は二次形式であり、例えば2変数では、
-\[
-  \begin{pmatrix}v_1&v_2\end{pmatrix}
-  \begin{pmatrix}m_{11}&m_{12}\\m_{12}&m_{22}\end{pmatrix}
-  \begin{pmatrix}v_1\\v_2\end{pmatrix}
-  =m_{11}v_1^2+2m_{12}v_1v_2+m_{22}v_2^2
-\]
-となる。
-
-\begin{itembox}[l]{定理~3.5.1}
-  以下の二つの命題は同値である。
-  \begin{itemize}
-    \item 対称行列 $M\in\mathbb{R}^{n\times n}$ が正定値である。
-    \item $M$ の全ての固有値 $\lambda_j(M)$（$j=1,\ldots,n$）が正である。
-  \end{itemize}
-\end{itembox}
-
 \paragraph{有界かつ一様正定値であることの意味}
 対称行列の列 $\{M_k\}$ が有界かつ一様正定値であるとは、ある共通の定数 $\kappa\ge1$ が存在し、全ての $k\in\mathbb{N}\cup\{0\}$ に対して、
 \[

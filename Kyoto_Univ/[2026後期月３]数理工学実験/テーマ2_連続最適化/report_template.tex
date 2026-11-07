@@ -3,7 +3,18 @@
 \usepackage{amsmath,amssymb,ascmac}
 \usepackage{bm}
 \usepackage{algorithm,algorithmic}
-\usepackage{listings}
+\usepackage{listings,plistings}
+% 行範囲の終端で、読み込んだコードの残りだけを読み飛ばす。
+\makeatletter
+\long\def\study@EndInputListing#1\empty{}
+\let\study@InputListing\lst@InputListing
+\def\lst@InputListing#1{%
+  \begingroup
+  \let\lst@EndProcessListing\study@EndInputListing
+  \study@InputListing{#1}%
+  \endgroup
+}
+\makeatother
 \lstset{%
   language={C},
   basicstyle={\small},%
@@ -382,7 +393,7 @@ $\xi$ を小さくすると、基準の直線は現在の値 $10$ に近づく�
 \label{sec:experiment}
 \subsection{共通の実験条件}
 \paragraph{実装・再現方法}
-零点探索および降下法の共通処理は\texttt{utils\_math.py}に、課題3の関数は\texttt{kadai3.py}に実装した。出力は各\texttt{kadai*.txt}に保存した。コードは各課題の説明箇所に元ファイルの行範囲を指定して抜粋し、左端の行番号も元ファイルに合わせた。
+零点探索および降下法の共通処理は\texttt{utils\_math.py}に、課題の関数は\texttt{kadai*.py}に実装した。出力は各\texttt{kadai*.txt}に保存した。
 本稿作成時の再検証には、以下の環境を使用した。
 \begin{itemize}
   \item OS：macOS 26.3
@@ -408,18 +419,10 @@ f(x):=x^3+2x^2-5x-6
 Pythonを用いて、以下の課題に取り組め。
 \end{itembox}
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:root-functions}に、\texttt{utils\_math.py}の7〜11行を示す。
 \par
-% source: ../section3/utils_math.py:7-11
-\begin{lstlisting}[language=Python,firstnumber=7,caption={課題1の関数と導関数},label={lst:root-functions}]
-def f(x):
-  return x**3 + 2*x**2 - 5*x - 6
+\lstinputlisting[firstline=7,lastline=11,firstnumber=7,language=Python,caption={課題1の関数と導関数},label={lst:root-functions}]{../section3/utils_math.py}
 
-def df(x):
-  return 3*x**2 + 4*x - 5
-\end{lstlisting}
-\end{minipage}\par
 
 
 \begin{itembox}[l]{課題1-(a)}
@@ -431,25 +434,14 @@ def df(x):
 \end{itembox}
 \paragraph{描画方法}
 
-\texttt{kadai1\_a.py}では、$[-10,10]$の両端を含む1000点を\texttt{np.linspace}で生成した。横軸と縦軸の表示範囲をともに$[-10,10]$とした。図には作成済みの\texttt{section3/kadai1\_a.png}を用いた。
+\texttt{kadai1\_a.py}では、$[-10,10]$の両端を含む1000点を\texttt{np.linspace}で生成した。横軸と縦軸の表示範囲をともに$[-10,10]$とした。\texttt{plot\_f}は、\texttt{utils\_plot.py}に定義した描画用の関数である。引数として横軸の値の配列\texttt{x}と、それぞれに対応する関数値の配列\texttt{f(x)}を受け取り、Matplotlibを用いて各点を線で結んだグラフを描く。\texttt{title}は図のタイトル、\texttt{save\_path}は画像の保存先を指定する引数である。横軸と縦軸の表示範囲に既定値の$[-10,10]$を用い、座標軸、格子線、凡例を表示して、\texttt{kadai1\_a.png}として保存した。
+
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:plot-call}に、\texttt{kadai1\_a.py}の7〜15行を示す。
+コード\ref{lst:plot-call}に、\texttt{kadai1\_a.py}の全体を示す。
 \par
-% source: ../section3/kadai1_a.py:7-15
-\begin{lstlisting}[language=Python,firstnumber=7,caption={課題1-(a)の描画条件と呼出し},label={lst:plot-call}]
-# np.linspace(開始値, 終了値, 点数): 両端を含めて等間隔に並ぶ数値の配列
-x = np.linspace(-10, 10, 1000)
+\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(a)の描画条件と呼出し},label={lst:plot-call}]{../section3/kadai1_a.py}
 
-plot_f(
-  x, 
-  f(x),
-  title="Graph of $f(x) = x^3 + 2x^2 - 5x - 6$",
-  save_path="kadai1_a.png"
-)
-\end{lstlisting}
-\end{minipage}\par
 
 
 \begin{itembox}[l]{課題1-(b)}
@@ -460,48 +452,16 @@ plot_f(
 \texttt{kadai1\_b.py}から\texttt{bisection}を呼び出した。図\ref{fig:root}の三つの交点をそれぞれ含む区間$[-5,-2.5]$、$[-2.5,0]$、$[0,2.5]$を選んだ。端点の関数値は順に$(-56,3.375)$、$(3.375,-6)$、$(-6,9.625)$であり、各区間で符号が異なる。実装では負の関数値を持つ端点を$a$、非負の関数値を持つ端点を$b$として保持するため、数値として$a<b$とは限らない。中点$c=(a+b)/2$を計算し、$f(c)$の符号に応じて同符号の端点を$c$へ置き換える。
 
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:bisection}に、\texttt{utils\_math.py}の14〜34行を示す。
 \par
-% source: ../section3/utils_math.py:14-34
-\begin{lstlisting}[language=Python,firstnumber=14,caption={課題1-(b)の二分法},label={lst:bisection}]
-def bisection(f, a, b, epsilon=1e-12):
+\lstinputlisting[firstline=14,lastline=34,firstnumber=14,language=Python,caption={課題1-(b)の二分法},label={lst:bisection}]{../section3/utils_math.py}
 
-  # 負の値を取る端点をaにする
-  if f(a) > 0:
-    a, b = b, a
-
-  # 2分法の前提条件チェック・step0
-  if not (f(a) < 0 and f(b) >= 0 and epsilon > 0):
-    raise ValueError("f(a) >= 0 or f(b) <= 0 or ε <= 0")
-
-  while True:
-    # step1
-    c = (a + b) / 2
-    fc = f(c)
-    if abs(fc) <= epsilon:
-      return c
-    # step2
-    if fc < 0:
-      a = c
-    else:
-      b = c
-\end{lstlisting}
-\end{minipage}\par
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:bisect-call}に、\texttt{kadai1\_b.py}の4〜8行を示す。
+コード\ref{lst:bisect-call}に、\texttt{kadai1\_b.py}の全体を示す。
 \par
-% source: ../section3/kadai1_b.py:4-8
-\begin{lstlisting}[language=Python,firstnumber=4,caption={課題1-(b)の初期区間},label={lst:bisect-call}]
-solution = [
-  bisection(f, -5.0, -2.5),
-  bisection(f, -2.5, 0.0),
-  bisection(f, 0.0, 2.5)
-]
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(b)の初期区間},label={lst:bisect-call}]{../section3/kadai1_b.py}
+
 
 
 \begin{itembox}[l]{課題1-(c)}
@@ -514,48 +474,20 @@ solution = [
   x^{k+1}=x^k-\frac{f(x^k)}{f'(x^k)}
   \label{eq:root-newton}
 \end{align}
-と更新する。更新後に残差を判定し、導関数が0の場合には例外を送出する。
+と更新する。
 
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:root-newton}に、\texttt{utils\_math.py}の38〜54行を示す。
 \par
-% source: ../section3/utils_math.py:38-54
-\begin{lstlisting}[language=Python,firstnumber=38,caption={課題1-(c)のニュートン法},label={lst:root-newton}]
-def newton(f, df, x0, epsilon=1e-12):
-  # step0
-  if not epsilon > 0:
-    raise ValueError("ε <= 0")
-  x = x0
+\lstinputlisting[firstline=38,lastline=54,firstnumber=38,language=Python,caption={課題1-(c)のニュートン法},label={lst:root-newton}]{../section3/utils_math.py}
 
-  while True:
-    # step1
-    derivative = df(x)
-    if derivative == 0:
-      raise ZeroDivisionError("df=0")
-    delta_x = -f(x) / derivative
-
-    # step2
-    x = x + delta_x
-    if abs(f(x)) <= epsilon:
-      return x
-\end{lstlisting}
-\end{minipage}\par
 
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:root-newton-call}に、\texttt{kadai1\_c.py}の4〜8行を示す。
+コード\ref{lst:root-newton-call}に、\texttt{kadai1\_c.py}の全体を示す。
 \par
-% source: ../section3/kadai1_c.py:4-8
-\begin{lstlisting}[language=Python,firstnumber=4,caption={課題1-(c)の初期点},label={lst:root-newton-call}]
-solution = [
-  newton(f, df, -2.5),
-  newton(f, df, 0.0),
-  newton(f, df, 2.5)
-]
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(c)の初期点},label={lst:root-newton-call}]{../section3/kadai1_c.py}
+
 
 
 \subsection{課題2：1変数の最適化}
@@ -567,77 +499,17 @@ f(x):=\frac{1}{3}x^3-x^2-3x+\frac{5}{3}
 Pythonを用いて、
 \end{itembox}
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:descent-directions}に、\texttt{utils\_math.py}の61〜79行を示す。
 \par
-% source: ../section3/utils_math.py:61-79
-\begin{lstlisting}[language=Python,firstnumber=61,caption={課題2の関数・導関数と探索方向},label={lst:descent-directions}]
-def f_2(x):
-  return (x**3)/3 - x**2 - 3*x + 5/3
+\lstinputlisting[firstline=61,lastline=79,firstnumber=61,language=Python,caption={課題2の関数・導関数と探索方向},label={lst:descent-directions}]{../section3/utils_math.py}
 
-def grad_f_2(x):
-  return x**2 - 2*x - 3
-
-def hess_f_2(x):
-  return 2*x - 2
-
-# step2で使う最急降下方向
-def steepest_direction(x, grad):
-  # xは共通の呼び出し形式に合わせて受け取る
-  return -grad
-
-
-# step2で使うニュートン方向
-def newton_direction(x, grad, hess_f):
-  hess = hess_f(x)
-  return -grad / hess
-\end{lstlisting}
-\end{minipage}\par
 
 
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:descent}に、\texttt{utils\_math.py}の83〜117行を示す。
 \par
-% source: ../section3/utils_math.py:83-117
-\begin{lstlisting}[language=Python,firstnumber=83,caption={課題2の降下法の共通処理},label={lst:descent}]
-def descent(
-    grad_f,
-    x0,
-    t_k,
-    direction=steepest_direction,
-    epsilon=1e-6,
-    max_iter=10000
-  ):
-  # step0:
-  if epsilon <= 0:
-    raise ValueError("ε <= 0")
-  if max_iter <= 0:
-    raise ValueError("最大反復回数が0以下です")
+\lstinputlisting[firstline=83,lastline=117,firstnumber=83,language=Python,caption={課題2の降下法の共通処理},label={lst:descent}]{../section3/utils_math.py}
 
-  x = float(x0)
-
-  for k in range(max_iter + 1):
-
-    # step1
-    grad: float = grad_f(x)
-    if abs(grad) <= epsilon:
-      return x
-    if k == max_iter:
-      break
-
-    # step2
-    d = direction(x, grad)
-
-    # step3
-    t = t_k(k)
-
-    # step4
-    x = x + t * d
-
-  raise RuntimeError("最大反復回数の更新で収束しませんでした")
-\end{lstlisting}
-\end{minipage}\par
 
 \begin{itembox}[l]{課題2-(a)}
 最急降下法を実装し、関数 $f$ の停留点を求めよ。ただし、初期点は
@@ -659,18 +531,10 @@ t_k:=1/(k+1)
 である。初期点$x^0=0.5$、終了条件$|f'(x^k)|\le10^{-6}$とした。
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:descent-call}に、\texttt{kadai2\_a.py}の4〜8行を示す。
+コード\ref{lst:descent-call}に、\texttt{kadai2\_a.py}の全体を示す。
 \par
-% source: ../section3/kadai2_a.py:4-8
-\begin{lstlisting}[language=Python,firstnumber=4,caption={課題2-(a)の初期点とステップサイズ},label={lst:descent-call}]
-solution = descent(
-  grad_f=grad_f_2,
-  x0=0.5,
-  t_k=lambda k: 1.0 / (k + 1)
-)
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題2-(a)の初期点とステップサイズ},label={lst:descent-call}]{../section3/kadai2_a.py}
+
 
 
 \begin{itembox}[l]{課題2-(b)}
@@ -693,19 +557,10 @@ t_k:=1
 と更新した。初期点$x^0=5$、$t_k=1$である。
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:newton2-call}に、\texttt{kadai2\_b.py}の4〜9行を示す。
+コード\ref{lst:newton2-call}に、\texttt{kadai2\_b.py}の全体を示す。
 \par
-% source: ../section3/kadai2_b.py:4-9
-\begin{lstlisting}[language=Python,firstnumber=4,caption={課題2-(b)の初期点・ステップサイズ・方向},label={lst:newton2-call}]
-solution = descent(
-  grad_f=grad_f_2,
-  x0=5.0,
-  t_k=lambda k: 1.0,
-  direction=lambda x, grad: newton_direction(x, grad, hess_f_2)
-)
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題2-(b)の初期点・ステップサイズ・方向},label={lst:newton2-call}]{../section3/kadai2_b.py}
+
 
 
 \subsection{課題3：2変数の目的関数・勾配・ヘッセ行列}
@@ -727,16 +582,10 @@ Pythonを用いて、
 
 \texttt{kadai3.py}の\texttt{f\_3(x)}に、長さ2のリストまたはNumPy配列$x=(x_0,x_1)^\top$を渡すと、問題文の式を評価したスカラー値を返す。
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:k3f}に、\texttt{kadai3.py}の3〜5行を示す。
+コード\ref{lst:k3all}に、\texttt{kadai3.py}の全体を示す。
 \par
-% source: ../section3/kadai3.py:3-5
-\begin{lstlisting}[language=Python,firstnumber=3,caption={課題3-(a)の目的関数},label={lst:k3f}]
-def f_3(x):
-  x0, x1 = x
-  return x0**2 + np.exp(x0) + x1**4 + x1**2 - 2*x0*x1 + 3
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題3の目的関数・勾配・ヘッセ行列},label={lst:k3all}]{../section3/kadai3.py}
+
 
 
 \begin{itembox}[l]{課題3-(b)}
@@ -752,17 +601,7 @@ def f_3(x):
 
 \paragraph{勾配の実装}
 \texttt{grad\_f\_3(x)}はこの式を長さ2のNumPy配列で返す。
-\par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:k3g}に、\texttt{kadai3.py}の7〜9行を示す。
-\par
-% source: ../section3/kadai3.py:7-9
-\begin{lstlisting}[language=Python,firstnumber=7,caption={課題3-(b)の勾配},label={lst:k3g}]
-def grad_f_3(x):
-  x0, x1 = x
-  return np.array([2*x0 + np.exp(x0) - 2*x1, 4*x1**3 + 2*x1 - 2*x0])
-\end{lstlisting}
-\end{minipage}\par
+コード\ref{lst:k3all}の\texttt{grad\_f\_3}に実装を示す。
 
 
 \begin{itembox}[l]{課題3-(c)}
@@ -778,86 +617,19 @@ def grad_f_3(x):
 
 \paragraph{ヘッセ行列の実装}
 \texttt{hess\_f\_3(x)}は形状$(2,2)$のNumPy配列を返す。
-\par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:k3h}に、\texttt{kadai3.py}の11〜17行を示す。
-\par
-% source: ../section3/kadai3.py:11-17
-\begin{lstlisting}[language=Python,firstnumber=11,caption={課題3-(c)のヘッセ行列},label={lst:k3h}]
-def hess_f_3(x):
-  x0, x1 = x
-  f00 = 2 + np.exp(x0)
-  f01 = -2
-  f10 = -2
-  f11 = 12*x1**2 + 2
-  return np.array([[f00, f01], [f10, f11]])
-\end{lstlisting}
-\end{minipage}\par
+コード\ref{lst:k3all}の\texttt{hess\_f\_3}に実装を示す。
 
-
-\paragraph{検証条件}
-実装した勾配とヘッセ行列は、$(0,0)^\top$、$(1,1)^\top$、$(2,0.3)^\top$で刻み幅$h=10^{-5}$の中心差分と比較した。
 
 \subsection{課題4：バックトラック法を用いた最適化}
 \begin{itembox}[l]{課題4（共通）}
 Pythonを用いて、
 \end{itembox}
-課題3のコード\ref{lst:k3f}〜\ref{lst:k3h}と、最急降下方向 $d^k=-\nabla f(x^k)$ を再利用する。
+課題3のコード\ref{lst:k3all}と、最急降下方向 $d^k=-\nabla f(x^k)$ を再利用する。
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:backtracking}に、\texttt{utils\_math.py}の123〜169行を示す。
 \par
-% source: ../section3/utils_math.py:123-169
-\begin{lstlisting}[language=Python,firstnumber=123,caption={課題4・5のバックトラックと降下法},label={lst:backtracking}]
-def backtracking_line_search(f, grad_f, d, x: list[float], t0: float, xi: float, rho: float):
-  # Step 0: ξ ∈ (0, 1)，ρ ∈ (0, 1)，初期ステップサイズ t0 > 0 を選ぶ．t = t0とする．
-  t = t0
-  # Step 1: 次式を満たすまで t ← ρ t とする．
-  while f(x + t * d) > f(x) + xi * t * np.dot(grad_f(x), d):
-    t *= rho
-  # Step 2: tk = t として終了
-  return t
+\lstinputlisting[firstline=123,lastline=169,firstnumber=123,language=Python,caption={課題4・5のバックトラックと降下法},label={lst:backtracking}]{../section3/utils_math.py}
 
-def norm_2(x):
-  return np.sqrt(np.sum(np.array(x)**2))
-
-# 降下法
-def descent_kadai4(
-    f,
-    grad_f,
-    x0,
-    direction=steepest_direction,
-    epsilon=1e-6,
-    max_iter=10000
-  ):
-  # step0:
-  if epsilon <= 0:
-    raise ValueError("ε <= 0")
-  if max_iter <= 0:
-    raise ValueError("最大反復回数が0以下です")
-
-  x = x0
-  for k in range(max_iter + 1):
-
-    # step1
-    grad: list[float] = grad_f(x)
-    if norm_2(grad) <= epsilon:
-      return x, f(x), k
-    if k == max_iter:
-      break
-
-    # step2
-    d = direction(x, grad)
-
-    # step3
-    t = backtracking_line_search(f, grad_f, d, x, t0=1.0, xi=1e-4, rho=0.5)
-
-    # step4
-    x = x + t * d
-
-  raise RuntimeError("最大反復回数の更新で収束しませんでした")
-\end{lstlisting}
-\end{minipage}\par
 
 \begin{itembox}[l]{課題4-(a)}
 バックトラック法を用いた最急降下法を実装することで課題3の最適化問題を解き、最適解、最適値、および反復回数を与えよ。ただし、初期点は
@@ -886,18 +658,10 @@ x^0=(1,1)^\top
 \]
 を満たすまで $t\leftarrow0.5t$ として縮小した。
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:task4a}に、\texttt{kadai4\_a.py}の5〜9行を示す。
+コード\ref{lst:task4a}に、\texttt{kadai4\_a.py}の全体を示す。
 \par
-% source: ../section3/kadai4_a.py:5-9
-\begin{lstlisting}[language=Python,firstnumber=5,caption={課題4-(a)の実行条件},label={lst:task4a}]
-x, fx, k = descent_kadai4(
-  f=f_3,
-  grad_f=grad_f_3,
-  x0=[1, 1],
-)
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題4-(a)の実行条件},label={lst:task4a}]{../section3/kadai4_a.py}
+
 
 
 \begin{itembox}[l]{課題4-(b)}
@@ -923,19 +687,10 @@ x^0=(1,1)^\top
 を用いて $H(\bm{x}^k)\bm{d}^k=-\nabla f(\bm{x}^k)$ を\texttt{np.linalg.solve}で解き、バックトラックでステップサイズを決めた。行列の逆行列を明示的には計算していない。初期点は $(1,1)^\top$、終了条件は $\|\nabla f(x)\|_2\le10^{-6}$、バックトラックのパラメータは $\bar t=1$、$\xi=10^{-4}$、$\rho=0.5$ である。
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:task4b}に、\texttt{kadai4\_b.py}の8〜13行を示す。
+コード\ref{lst:task4b}に、\texttt{kadai4\_b.py}の全体を示す。
 \par
-% source: ../section3/kadai4_b.py:8-13
-\begin{lstlisting}[language=Python,firstnumber=8,caption={課題4-(b)のニュートン方向と実行条件},label={lst:task4b}]
-x, fx, k = descent_kadai4(
-  f=f_3,
-  grad_f=grad_f_3,
-  x0=[1, 1],
-  direction=lambda x, grad: np.linalg.solve(hess_f_3(x), -grad)
-)
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題4-(b)のニュートン方向と実行条件},label={lst:task4b}]{../section3/kadai4_b.py}
+
 
 
 \subsection{課題5：総合演習}
@@ -994,90 +749,23 @@ y_0=1.5,\qquad y_1=2.25,\qquad y_2=2.625
 
 バックトラックと更新処理にはコード\ref{lst:backtracking}を再利用した。課題5固有の関数・微分と方向の修正を以下に示す。
 \par\noindent
-\begin{minipage}{\linewidth}
 コード\ref{lst:task5func}に、\texttt{utils\_math.py}の176〜209行を示す。
 \par
-% source: ../section3/utils_math.py:176-209
-\begin{lstlisting}[language=Python,firstnumber=176,caption={課題5の目的関数・勾配・ヘッセ行列},label={lst:task5func}]
-def f_5(x):
-  a, b = x
-  f0 = 1.5 - a * (1 - b)
-  f1 = 2.25 - a * (1 - b**2)
-  f2 = 2.625 - a * (1 - b**3)
-  return f0**2 + f1**2 + f2**2
-
-
-def grad_f_5(x):
-  a, b = x
-  f0 = 1.5 - a * (1 - b)
-  f1 = 2.25 - a * (1 - b**2)
-  f2 = 2.625 - a * (1 - b**3)
-  return np.array([
-    2 * (f0 * (b - 1) + f1 * (b**2 - 1) + f2 * (b**3 - 1)),
-    2 * (f0 * a + f1 * 2 * a * b + f2 * 3 * a * b**2),
-  ])
-
-
-def hess_f_5(x):
-  a, b = x
-  f0 = 1.5 - a * (1 - b)
-  f1 = 2.25 - a * (1 - b**2)
-  f2 = 2.625 - a * (1 - b**3)
-
-  h00 = 2 * ((b - 1)**2 + (b**2 - 1)**2 + (b**3 - 1)**2)
-  h01 = 2 * (
-    f0 + a * (b - 1)
-    + 2 * b * f1 + 2 * a * b * (b**2 - 1)
-    + 3 * b**2 * f2 + 3 * a * b**2 * (b**3 - 1)
-  )
-  h11 = 2 * (a**2 + 2 * a * f1 + (2 * a * b)**2
-             + 6 * a * b * f2 + (3 * a * b**2)**2)
-  return np.array([[h00, h01], [h01, h11]])
-\end{lstlisting}
-\end{minipage}\par
-
-\par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:task5a}に、\texttt{kadai5\_a.py}の5〜9行を示す。
-\par
-% source: ../section3/kadai5_a.py:5-9
-\begin{lstlisting}[language=Python,firstnumber=5,caption={課題5の最急降下法の実行条件},label={lst:task5a}]
-x, fx, k = descent_kadai4(
-  f=f_5,
-  grad_f=grad_f_5,
-  x0=[2, 0],
-)
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[firstline=176,lastline=209,firstnumber=176,language=Python,caption={課題5の目的関数・勾配・ヘッセ行列},label={lst:task5func}]{../section3/utils_math.py}
 
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:k5b}に、\texttt{kadai5\_b.py}の6〜24行を示す。
+コード\ref{lst:task5a}に、\texttt{kadai5\_a.py}の全体を示す。
 \par
-% source: ../section3/kadai5_b.py:6-24
-\begin{lstlisting}[language=Python,firstnumber=6,caption={課題5のニュートン方向と実行条件},label={lst:k5b}]
-def modified_newton_direction(x, grad):
-  H = hess_f_5(x)
-  # np.linalg.eigvalsh: 固有値を昇順で返す。Hは対称行列なのでeigvalshを使用
-  lambda_min = np.linalg.eigvalsh(H)[0]
-
-  # 定理3.5.1に基づき、最小固有値で正定値性を判定する
-  tau = 0.0 if lambda_min > 0 else -lambda_min + 1e-2
-
-  # np.eye(H.shape[0]): 単位行列を作る。H.shape[0]はHの行数
-  # (∇^2 f(x_k) + τ I)d_k = −∇f(x_k) をd_kについて解く
-  return np.linalg.solve(H + tau * np.eye(H.shape[0]), -grad)
+\lstinputlisting[language=Python,firstnumber=1,caption={課題5の最急降下法の実行条件},label={lst:task5a}]{../section3/kadai5_a.py}
 
 
-x, fx, k = descent_kadai4(
-  f=f_5,
-  grad_f=grad_f_5,
-  x0=[2, 0],
-  direction=lambda x, grad: modified_newton_direction(x, grad)
-)
-\end{lstlisting}
-\end{minipage}\par
+
+\par\noindent
+コード\ref{lst:k5b}に、\texttt{kadai5\_b.py}の全体を示す。
+\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題5のニュートン方向と実行条件},label={lst:k5b}]{../section3/kadai5_b.py}
+
 
 
 \subsection{課題6：制約付き凸二次計画問題（追加）}
@@ -1158,47 +846,10 @@ A=\begin{bmatrix}1&1\end{bmatrix},\qquad b=0.
 無制約解は$(1/2,1)^\top$で、$x_0+x_1\le0$を満たさない。目的関数は正定値二次関数であり、実行可能集合内で最小点は存在するため、最適点では制約が活性である。$x_1=-x_0$を代入すると目的関数は$\frac32x_0^2$となる。よって解析解は$x^*=(0,0)^\top$、最適値は0である。$x^*=0$、$\lambda^*=1$ を代入すると、$Ax^*\le b$、$\lambda^*\ge0$、$Qx^*+c+A^\top\lambda^*=0$、$(\lambda^*)^\top(Ax^*-b)=0$ が全て成立する。
 
 \par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:task6qp}に、\texttt{kadai6.py}の13〜46行を示す。
+コード\ref{lst:k6all}に、\texttt{kadai6.py}の全体を示す。
 \par
-% source: ../section3/kadai6.py:13-46
-\begin{lstlisting}[language=Python,firstnumber=13,caption={課題6-4の候補列挙とKKT条件の検査},label={lst:task6qp}]
-def solve_qp():
-  Q = np.diag([2.0, 1.0])
-  c = -np.ones(2)
-  A = np.array([[1.0, 1.0]])
-  b = np.zeros(1)
-  candidates = []
-  # 制約が非活性の場合と活性の場合を全て調べる。
-  for active in (False, True):
-    if active:
-      K = np.block([[Q, A.T], [A, np.zeros((1, 1))]])
-      z = np.linalg.solve(K, np.concatenate([-c, b]))
-      x, lam = z[:2], z[2:]
-    else:
-      x = np.linalg.solve(Q, -c)
-      lam = np.zeros(1)
-    primal = float(np.maximum(A @ x - b, 0).max())
-    dual = float(np.maximum(-lam, 0).max())
-    stationarity = float(np.linalg.norm(Q @ x + c + A.T @ lam, np.inf))
-    complementarity = float(np.max(np.abs(lam * (A @ x - b))))
-    if max(primal, dual, stationarity, complementarity) <= TOL:
-      candidates.append((float(0.5 * x @ Q @ x + c @ x), x, lam))
-  if not candidates:
-    raise RuntimeError("KKT条件を満たす候補がない。")
-  value, x, lam = min(candidates, key=lambda item: item[0])
-  exact = np.zeros(2)
-  error = float(np.linalg.norm(x - exact, np.inf))
-  assert error <= TOL
-  return {
-    "x": x.tolist(), "lambda": lam.tolist(), "objective": value,
-    "analytic_error_inf": error,
-    "primal_violation": float(np.maximum(A @ x - b, 0).max()),
-    "stationarity_inf": float(np.linalg.norm(Q @ x + c + A.T @ lam, np.inf)),
-    "status": "KKT conditions satisfied",
-  }
-\end{lstlisting}
-\end{minipage}\par
+\lstinputlisting[language=Python,firstnumber=1,caption={課題6の求解と検算の実装},label={lst:k6all}]{../section3/kadai6.py}
+
 
 \begin{itembox}[l]{課題6-5}
 （最適制御問題）$T=3$ とし、次の問題を考える。
@@ -1243,64 +894,9 @@ $M$は行ランク2であり、$2I_3$は正定値なので、次のKKT系は一�
 \end{align}
 ここで$\nu\in\mathbb{R}^2$は等式制約の乗数、$0_3$は3次零ベクトルである。\texttt{kadai6.py}の\texttt{solve\_control}で連立方程式 $2u^*+M^\top\nu^*=0$、$Mu^*=d$ を直接解き、得られた入力を元の状態方程式に代入して終端条件を検査する。さらに$u^*=M^\top(MM^\top)^{-1}d$を\texttt{Fraction}による有理数演算で独立に計算し、数値解と比較する。
 
-\par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:task6control}に、\texttt{kadai6.py}の65〜91行を示す。
-\par
-% source: ../section3/kadai6.py:65-91
-\begin{lstlisting}[language=Python,firstnumber=65,caption={課題6-5のKKT系と状態列の計算},label={lst:task6control}]
-def solve_control():
-  A = np.array([[1.2, 1.0], [0.0, 0.9]])
-  B = np.array([0.0, 1.0])
-  x0 = np.array([10.0, 1.0])
-  M = np.column_stack([A @ A @ B, A @ B, B])
-  d = -np.linalg.matrix_power(A, 3) @ x0
-  # 等式制約付き凸二次計画のKKT系を直接解く。
-  K = np.block([[2 * np.eye(3), M.T], [M, np.zeros((2, 2))]])
-  z = np.linalg.solve(K, np.concatenate([np.zeros(3), d]))
-  u, nu = z[:3], z[3:]
-  states = [x0]
-  for value in u:
-    states.append(A @ states[-1] + B * value)
-  u_exact, value_exact = exact_control()
-  error = float(np.linalg.norm(u - np.array(list(map(float, u_exact))), np.inf))
-  terminal = float(np.linalg.norm(states[-1], np.inf))
-  stationarity = float(np.linalg.norm(2 * u + M.T @ nu, np.inf))
-  assert max(error, terminal, stationarity) <= TOL
-  return {
-    "M": M.tolist(), "d": d.tolist(), "u": u.tolist(),
-    "u_exact": list(map(str, u_exact)), "objective": float(u @ u),
-    "objective_exact": str(value_exact),
-    "states": [x.tolist() for x in states], "nu": nu.tolist(),
-    "analytic_error_inf": error, "terminal_error_inf": terminal,
-    "equality_residual_inf": float(np.linalg.norm(M @ u - d, np.inf)),
-    "stationarity_inf": stationarity, "status": "KKT conditions satisfied",
-  }
-\end{lstlisting}
-\end{minipage}\par
+コード\ref{lst:k6all}の\texttt{solve\_control}に実装を示す。
 
-\par\noindent
-\begin{minipage}{\linewidth}
-コード\ref{lst:task6exact}に、\texttt{kadai6.py}の49〜62行を示す。
-\par
-% source: ../section3/kadai6.py:49-62
-\begin{lstlisting}[language=Python,firstnumber=49,caption={課題6-5の有理数による独立な検算},label={lst:task6exact}]
-def exact_control():
-  # u = M^T (M M^T)^(-1) dを有理数で独立に計算する。
-  rows = [[F(21, 10), F(1), F(0)], [F(81, 100), F(9, 10), F(1)]]
-  d = [F(-2061, 100), F(-729, 1000)]
-  gram = [[sum(a * b for a, b in zip(r, s)) for s in rows] for r in rows]
-  det = gram[0][0] * gram[1][1] - gram[0][1] * gram[1][0]
-  w = [
-    (gram[1][1] * d[0] - gram[0][1] * d[1]) / det,
-    (-gram[1][0] * d[0] + gram[0][0] * d[1]) / det,
-  ]
-  u = [sum(rows[i][j] * w[i] for i in range(2)) for j in range(3)]
-  assert [sum(a * b for a, b in zip(row, u)) for row in rows] == d
-  assert sum(a * b for a, b in zip([F(1), F(-21, 10), F(27, 25)], u)) == 0
-  return u, sum(v * v for v in u)
-\end{lstlisting}
-\end{minipage}\par
+コード\ref{lst:k6all}の\texttt{exact\_control}に実装を示す。
 
 
 \clearpage
@@ -1353,7 +949,7 @@ def exact_control():
 
 \subsection{課題3：関数・勾配・ヘッセ行列の確認}
 \paragraph{関数値}
-例えば$x=(0,0)^\top$に対して$f(x)=4$であり、再実行でも同じ値を得た。実装はコード\ref{lst:k3f}に示した。
+例えば$x=(0,0)^\top$に対して$f(x)=4$であり、再実行でも同じ値を得た。実装はコード\ref{lst:k3all}に示した。
 
 \paragraph{勾配}
 $x=(0,0)^\top$を入力すると$(1,0)^\top$を得た。さらに、$(0,0)^\top$、$(1,1)^\top$、$(2,0.3)^\top$で刻み幅$h=10^{-5}$の中心差分$[f(x+he_j)-f(x-he_j)]/(2h)$と比較した。ここで$e_j$は第$j$成分だけが1の単位ベクトルである。3点を通じた成分ごとの絶対差の最大値は$4.3\times10^{-10}$以下であった。

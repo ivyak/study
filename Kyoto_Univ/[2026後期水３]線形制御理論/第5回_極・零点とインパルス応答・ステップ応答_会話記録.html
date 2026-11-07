@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="study-ui" content="life">
+  <meta name="study-lesson" content="5">
+  <meta name="study-kind" content="解説">
+  <meta name="study-created" content="2026-11-04">
+  <title>線形制御理論｜第5回：極・零点とインパルス応答・ステップ応答の会話記録</title>
+  <link rel="stylesheet" href="../ui/life.css">
+  <script defer src="../ui/life.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+  <style>
+    .talk-record .exchange{border-top:1px solid var(--line);padding:28px 0;scroll-margin-top:100px}
+    .talk-record .question:has(.input-images){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
+    .talk-record .question{padding:20px;background:rgba(215,182,108,.06)}
+    .talk-record h3{color:var(--gold);font-size:15px;margin:0 0 14px}
+    .talk-record .answer{margin-top:24px;min-width:0;line-height:1.95}
+    .talk-record .input-images{min-width:0}
+    .talk-record figure{margin:0 0 18px}
+    .talk-record img{display:block;width:100%;height:auto}
+    .talk-record figcaption{font-size:12px;color:var(--muted);margin-top:8px;overflow-wrap:anywhere}
+    .talk-record mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;padding:8px 0;max-width:100%;width:100%;min-width:0!important}
+    @media(max-width:700px){.talk-record .question:has(.input-images){grid-template-columns:1fr}.talk-record .question{padding:16px}}
+  </style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水３]線形制御理論">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+  <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+  <header class="document-header">
+    <p class="eyebrow">線形制御理論 / 第5回</p>
+    <h1 id="document-title">第5回　極・零点とインパルス応答・ステップ応答の会話記録</h1>
+  </header>
+  <div class="section-rule"></div>
+  <div class="reader">
+    <article class="lesson-document talk-record" aria-labelledby="document-title">
+      <section class="summary"><h2>概要</h2><p>伝達関数の極・零点と応答の特徴について確認する会話です。逆ぶれを伴うステップ応答と、重複した極を持つ二次系のインパルス応答・ステップ応答を、部分分数分解と逆ラプラス変換で求めています。</p></section>
+      <p>原典：<a href="https://chatgpt.com/share/6aeac7bf-5e1c-83ec-8684-e7fc8b511cc4" target="_blank" rel="noopener">共有会話1</a></p>
+      <p>想定読了時間：約12分</p>
+      <h2>共有会話1：線形制御理論 第5回</h2>
+<section class="exchange" id="exchange-1"><div class="question"><div><h3>質問 1</h3><p>結局この講義スライドで言いたいことは何？</p><p class="attachment">線形制御理論【第5回】講義資料.pdf（添付PDF：未取得）</p></div></div><div class="answer"><h3>ChatGPTの回答 1</h3><p>一言でいうと、<strong>「機械や回路に入力を与えたとき、どう動くかを、伝達関数から予測できるようになろう」</strong>という講義です。</p><p>伝えたいことは、大きく3つあります。</p><ol><li><p><strong>システムの性質を「伝達関数」にまとめる。</strong><br>微分方程式をラプラス変換すると、初期値が0なら</p>\[\text{出力 }Y(s)=\underbrace{H(s)}_{\text{システムの性質}}\times\text{入力 }U(s)\]<p>と、掛け算で扱える。</p></li><li><p><strong>代表的な入力への反応が分かれば、ほかの入力への反応も分かる。</strong><br>一瞬だけ刺激を与えた反応が「インパルス応答」、入力を0から1に切り替えて保った反応が「ステップ応答」。これらと伝達関数は、同じシステムの性質を別の形で表している。</p></li><li><p><strong>伝達関数の「極」を見れば、振動するか・どれくらい速く落ち着くかが分かる。</strong><br>極とは、伝達関数の分母を0にする値。後半は、これを一次系・二次系で具体的に確認している。</p></li></ol><p>特に後半のポイントは、<strong>「抵抗やダンパーを強くすれば、いつでも速く落ち着くわけではない」</strong>こと。弱すぎると振動し、強すぎるとゆっくりしか動かなくなる。電気回路も、ばねにつながった物体も、同じ数式でこの性質を説明できます。</p></div></section>
+<section class="exchange" id="exchange-2"><div class="question"><div><h3>質問 2</h3><p>12枚目以降、後半のスライドでは、結局何が言いたい？短く簡潔に解説して</p></div></div><div class="answer"><h3>ChatGPTの回答 2</h3><p><strong>「伝達関数の分母の根＝極を見れば、システムがどう動くか分かる」</strong>という話。</p><ul><li><strong>極の実部</strong> → 振動などが減衰する速さ。負なら減衰し、より負なら速い。</li><li><strong>極の虚部</strong> → 振動の速さ。虚部が0なら振動しない。</li></ul><p>これを回路やばねで確認している。特に、<strong>抵抗やダンパーは、弱いと振動するが、強すぎても落ち着くのが遅くなる</strong>、というのが後半のポイント。</p></div></section>
+<section class="exchange" id="exchange-3"><div class="question"><div><h3>質問 3</h3><p>何が言いたい？</p></div><div class="input-images"><figure><a href="assets/talk-lesson-05/input-01.png" target="_blank"><img src="assets/talk-lesson-05/input-01.png" alt="入力画像：image(20261104-052524).png"></a><figcaption>image(20261104-052524).png · <a href="assets/talk-lesson-05/input-01.png" target="_blank">元サイズで開く</a></figcaption></figure></div></div><div class="answer"><h3>ChatGPTの回答 3</h3><p><strong>「係数 \(a\) を見れば、このシステムが落ち着くか、どれくらい速く落ち着くか分かる」</strong>という話。</p><ul><li><strong>\(a&gt;0\)</strong>：一瞬の刺激の影響は \(e^{-at}\) で消える。\(a\) が大きいほど速く消える。</li><li><strong>\(a&lt;0\)</strong>：刺激の影響が時間とともに大きくなり、発散する。</li><li><strong>\(a&gt;0\) で入力をずっと1にする</strong>：出力は最終的に \(1/a\) に落ち着く。</li></ul><p>これを伝達関数の言葉でいうと、<strong>「極 \(s=-a\) が負なら落ち着き、より負なら速く落ち着く」</strong>となる。</p></div></section>
+<section class="exchange" id="exchange-4"><div class="question"><div><h3>質問 4</h3><p>このような問題はどのように取り組めば良い？</p></div><div class="input-images"><figure><a href="assets/talk-lesson-05/input-02.jpeg" target="_blank"><img src="assets/talk-lesson-05/input-02.jpeg" alt="入力画像：IMG_3799(2).jpeg"></a><figcaption>IMG_3799(2).jpeg · <a href="assets/talk-lesson-05/input-02.jpeg" target="_blank">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-05/input-03.jpeg" target="_blank"><img src="assets/talk-lesson-05/input-03.jpeg" alt="入力画像：IMG_3800.jpeg"></a><figcaption>IMG_3800.jpeg · <a href="assets/talk-lesson-05/input-03.jpeg" target="_blank">元サイズで開く</a></figcaption></figure></div></div><div class="answer"><h3>ChatGPTの回答 4</h3><p><strong>「入力をラプラス変換 → 伝達関数を掛ける → 逆ラプラス変換」</strong>の順で取り組めばよい。初期値は0とする。</p><p>① <strong>ステップ入力なので \(U(s)=1/s\) とする。</strong></p>\[Y(s)=G(s)U(s)
+=\frac{1-s}{s(s+1)^2}.\]<p>② <strong>逆変換できるように部分分数分解する。</strong></p><p>分母に \(s\) と重複した因子 \((s+1)^2\) があるので、</p>\[\frac{1-s}{s(s+1)^2}
+=\frac{A}{s}+\frac{B}{s+1}+\frac{C}{(s+1)^2}\]<p>と置く。両辺に分母を掛けて係数を比較すると、</p>\[1-s=A(s+1)^2+Bs(s+1)+Cs\]<p>より \(A=1,\ B=-1,\ C=-2\)。</p><p>③ <strong>各項を逆ラプラス変換する。</strong></p>\[Y(s)=\frac1s-\frac1{s+1}-\frac2{(s+1)^2}\]<p>だから、</p>\[\boxed{y(t)=1-e^{-t}-2te^{-t}
+=1-(1+2t)e^{-t}}.\]<p>④ <strong>結果の意味を確認する。</strong></p>\[y(0)=0,\qquad y'(0)=-1,\qquad
+\lim_{t\to\infty}y(t)=1.\]<p>つまり、<strong>最終的には1になるのに、最初は負の方向へ動く。これが「逆ぶれ」</strong>。</p><p>この問題では、まず上の手順で応答を計算し、その後で「最初の動く方向」と「最終的に落ち着く値」を比べればよい。</p></div></section>
+<section class="exchange" id="exchange-5"><div class="question"><div><h3>質問 5</h3><p>zやpはどういう意味？問題を解くのには必要ないの？</p></div></div><div class="answer"><h3>ChatGPTの回答 5</h3><ul><li><p><strong>\(z\) は零点（zero）</strong>：伝達関数の<strong>分子を0にする値</strong>。</p>\[1-s=0\quad\Rightarrow\quad z=1\]</li><li><p><strong>\(p\) は極（pole）</strong>：伝達関数の<strong>分母を0にする値</strong>。</p>\[(s+1)^2=0\quad\Rightarrow\quad p=-1\]<p>今回は重解なので「2重の極」。</p></li></ul><p><strong>ステップ応答の式を計算するだけなら、\(z,p\) を別に求める必要はない。</strong> 前の回答の手順で解ける。</p><p>ただし、<strong>応答の特徴を読み取るのに役立つ</strong>。</p><ul><li>極 \(p=-1\)：\(e^{-t}\) や \(te^{-t}\) が現れ、時間とともに消える。</li><li>零点 \(z=1\)：この例では、最初に逆方向へ動く「逆ぶれ」に関係する。</li></ul><p>つまり、<strong>計算には伝達関数そのものを使い、動きの性質を理解するために零点と極を見る</strong>。</p></div></section>
+<section class="exchange" id="exchange-6"><div class="question"><div><h3>質問 6</h3><p>部分分数分解までやって欲しい</p></div><div class="input-images"><figure><a href="assets/talk-lesson-05/input-04.jpeg" target="_blank"><img src="assets/talk-lesson-05/input-04.jpeg" alt="入力画像：IMG_3801.jpeg"></a><figcaption>IMG_3801.jpeg · <a href="assets/talk-lesson-05/input-04.jpeg" target="_blank">元サイズで開く</a></figcaption></figure></div></div><div class="answer"><h3>ChatGPTの回答 6</h3><p>初期値を0として、<strong>インパルス入力とステップ入力をそれぞれ代入</strong>する。</p><p><strong>① インパルス応答</strong></p><p>入力は \(U(s)=1\) なので、</p>\[Y(s)=G(s)=\frac{K\omega_n^2}{(s+\omega_n)^2}.\]<p>これは既に逆変換できる形なので、<strong>部分分数分解は不要</strong>。</p><p><strong>② ステップ応答</strong></p><p>入力は \(U(s)=1/s\) なので、</p>\[Y(s)=\frac{K\omega_n^2}{s(s+\omega_n)^2}.\]<p>重複した因子には、1乗と2乗の両方を用意して、</p>\[\frac{K\omega_n^2}{s(s+\omega_n)^2}
+=\frac{A}{s}+\frac{B}{s+\omega_n}
++\frac{C}{(s+\omega_n)^2}\]<p>と置く。</p><p>両辺に \(s(s+\omega_n)^2\) を掛けると、</p>\[K\omega_n^2
+=A(s+\omega_n)^2+Bs(s+\omega_n)+Cs.\]<p>ここで、</p><ul><li>\(s=0\) を代入：\(K\omega_n^2=A\omega_n^2\) より \(A=K\)。</li><li>\(s=-\omega_n\) を代入：\(K\omega_n^2=-C\omega_n\) より \(C=-K\omega_n\)。</li><li>\(s^2\) の係数を比較：\(A+B=0\) より \(B=-K\)。</li></ul><p>したがって、</p>\[\boxed{
+Y(s)=\frac{K}{s}
+-\frac{K}{s+\omega_n}
+-\frac{K\omega_n}{(s+\omega_n)^2}
+}\]</div></section>
+<section class="exchange" id="exchange-7"><div class="question"><div><h3>質問 7</h3><p>とくとどうなる？</p></div></div><div class="answer"><h3>ChatGPTの回答 7</h3><p>逆ラプラス変換の公式</p>\[\frac1s\ \longrightarrow\ 1,\qquad
+\frac1{s+a}\ \longrightarrow\ e^{-at},\qquad
+\frac1{(s+a)^2}\ \longrightarrow\ te^{-at}\]<p>を使うと、次のようになる。</p><p><strong>① インパルス応答</strong></p>\[Y(s)=\frac{K\omega_n^2}{(s+\omega_n)^2}
+\quad\Rightarrow\quad
+\boxed{h(t)=K\omega_n^2t\,e^{-\omega_n t}}\]<p><strong>② ステップ応答</strong></p>\[Y(s)=\frac Ks-\frac K{s+\omega_n}
+-\frac{K\omega_n}{(s+\omega_n)^2}\]<p>より、</p>\[y(t)=K-Ke^{-\omega_n t}-K\omega_n t\,e^{-\omega_n t}.\]<p>したがって、</p>\[\boxed{y(t)=K\left[1-(1+\omega_n t)e^{-\omega_n t}\right]}\]<p>\(\omega_n&gt;0\) なら、ステップ応答は<strong>振動せず、0から最終値 \(K\) に近づく</strong>。</p></div></section>
+    </article>
+  </div>
+</main>
+</div>
+</body>
+</html>

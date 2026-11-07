@@ -2,65 +2,39 @@
 <html lang="ja">
 <head>
 <link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="study-ui" content="life">
-<meta name="study-lesson" content="4">
-<meta name="study-kind" content="解説">
-<meta name="study-created" content="2026-10-28">
-<title>線形制御理論｜第4回：伝達関数・応答とシステムの結合</title>
-<link rel="stylesheet" href="../ui/life.css">
-<script defer src="../ui/life.js"></script>
-<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
-<style>
-.control-slide-page .intro{max-width:900px}
-.control-slide-page .step-label{display:inline-block;color:var(--gold);font-size:13px;letter-spacing:.04em}
-.control-slide-page .definition-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
-.control-slide-page .definition-card{border:1px solid var(--line);padding:16px;min-width:0;background:rgba(215,182,108,.035)}
-.control-slide-page .definition-card h3{margin:0 0 8px;font-size:16px}
-.control-slide-page .definition-card .equation{margin:0}
-.control-slide-page .domain-figure{max-width:640px;margin:25px auto}
-.control-slide-page .domain-figure svg{background:rgba(255,255,255,.025);border-radius:4px}
-.control-slide-page .domain-figure .region{fill:rgba(215,182,108,.21)}
-.control-slide-page .domain-figure .axis{stroke:var(--white);stroke-width:2}
-.control-slide-page .domain-figure .boundary{stroke:var(--gold);stroke-width:2;stroke-dasharray:5 5}
-.control-slide-page .domain-figure .slice{stroke:#8dc3df;stroke-width:4}
-.control-slide-page .domain-figure .slice-label{fill:#8dc3df}
-.control-slide-page .source-link{color:var(--gold)}
-.control-slide-page .line-map{padding-left:1.5em}
-.control-slide-page .line-map li{margin:6px 0}
-.control-slide-page .equation{scrollbar-width:thin}
-@media(max-width:700px){.control-slide-page .definition-grid{grid-template-columns:1fr}}
-.control-slides .summary{padding-bottom:25px}
-.control-slides .summary h2{border:0;padding:0;margin:0 0 18px;font-size:18px;color:var(--gold)}
-.control-slides .chapter-heading{border-top:1px solid var(--gold);padding-top:22px;margin-top:34px}
-.control-slides .chapter-title,.control-slides .explanation-heading{display:flex;justify-content:space-between;align-items:baseline;gap:18px}
-.control-slides .chapter-title h2{border:0;padding:0;margin:0;font-size:22px}
-.control-slides .reading-time{font-size:11px;line-height:1.5;color:var(--muted);font-weight:400;white-space:nowrap;text-align:right}
-.control-slides .summary .reading-time{display:block;margin:0 0 15px auto}
-.control-slides .explanation-grid{display:flow-root!important}
-.control-slides .explanation-heading{margin-bottom:12px}
-.control-slides .explanation-heading h2{border:0!important;padding:0!important;margin:0!important;font-size:19px!important}
-.control-slides .slide{display:block;float:right;width:min(49%,520px);height:auto;aspect-ratio:auto;overflow:hidden;background:#fff;line-height:0;margin:0 0 18px 26px;padding:0}
-.control-slides .slide a,.control-slides .slide img{display:block;width:100%}
-.control-slides .slide img{height:auto}
-.control-slides .claim{font-weight:600;margin-top:0;color:var(--white)}
-.control-slides .equation{overflow-x:auto;max-width:100%}
-.control-slides .source-note{font-size:13px;color:var(--muted)}
-.control-slides .source-note a{color:var(--gold)}
-.control-slides .point-list{padding-left:1.5em}
-.control-slides .point-list li{margin:7px 0}
-@media(max-width:650px){.control-slides .slide{float:none;width:100%;max-width:none;margin:0 0 18px}.control-slides .chapter-title,.control-slides .explanation-heading{align-items:flex-start}.control-slides .reading-time{font-size:10px}}
-.control-slides details{margin:18px 0;padding:12px 16px;border:1px solid var(--line)}
-.control-slides details summary{cursor:pointer;color:var(--gold)}
-.control-slides .slide-label{font-size:12px;color:var(--muted);margin-top:0}
-.control-slides :is(.explanation,.chapter-heading,.summary){scroll-margin-top:110px}
-@media(max-width:650px){.control-slides .explanation-heading,.control-slides .chapter-title{flex-wrap:wrap;gap:6px}.control-slides .reading-time{width:100%}}
-.control-slides .summary{padding-right:100px}
-@media(max-width:650px){.control-slides .summary{padding-right:0}.control-slides .summary h2{padding-right:95px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="study-ui" content="life">
+  <meta name="study-lesson" content="4">
+  <meta name="study-kind" content="解説">
+  <meta name="study-created" content="2026-11-04">
+  <title>線形制御理論｜第4回：伝達関数・応答と水タンクの共有会話</title>
+  <link rel="stylesheet" href="../ui/life.css">
+  <script defer src="../ui/life.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+  <style>
+.talk-record .talk-turn{margin:32px 0;padding-top:18px;border-top:1px solid var(--line);scroll-margin-top:110px}
+.talk-record .talk-turn>h2{font-size:21px}
+.talk-record .talk-question{padding:18px;background:rgba(215,182,108,.04);border:1px solid var(--line)}
+.talk-record .talk-question.has-images{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.talk-record .talk-question h3,.talk-record .talk-answer>h3:first-child{margin-top:0;color:var(--gold);font-size:14px}
+.talk-record .talk-answer{padding:24px 0;min-width:0}
+.talk-record .talk-images figure{margin:0 0 18px}
+.talk-record .talk-images img{display:block;width:100%;height:auto}
+.talk-record .talk-images figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.talk-record .talk-table{max-width:100%;overflow-x:auto}
+.talk-record table{width:100%;border-collapse:collapse}
+.talk-record th,.talk-record td{padding:12px;border:1px solid var(--line);text-align:left}
+.talk-record mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:10px 0}
+@media(max-width:650px){.talk-record .talk-question.has-images{grid-template-columns:minmax(0,1fr)}.talk-record .talk-question{padding:12px}}
+
+  .talk-record .talk-question>*{min-width:0}
+  .talk-record .equation{max-width:100%;overflow-x:auto}
+  .talk-record .talk-answer table{display:block;overflow-x:auto}
+  .talk-record .summary h2{margin-top:0}
+  </style>
 </head>
 <body data-life-page="document" data-portal="../index.html" data-course="[2026後期水３]線形制御理論">
 <div class="shell">
@@ -93,307 +67,309 @@
       <div class="sidebar-foot">LIFE / STUDY SPACE</div>
     </aside>
 <!-- LIFE-SHELL:END -->
-<main>
-  <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
-  <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96">線形制御理論</a><span>/</span><span>第4回 解説</span></div>
-  <header class="document-header">
-    <p class="eyebrow">2026年度 後期 · 水曜3限 / 第4回</p>
-    <h1 id="document-title">第4回　伝達関数・応答とシステムの結合</h1>
-    <p class="subtitle">伝達関数・インパルス応答・ステップ応答とシステムの結合</p>
-  </header>
-  <div class="section-rule"></div>
-  <div class="reader">
-    <article class="lesson-document control-slides" aria-labelledby="document-title">
-      <section class="summary" id="summary">
-        <h2>講義を通して言いたいこと</h2>
-        <span class="reading-time">想定読了時間 約42分</span>
-        <p>初期値を0にした線形・時不変システムでは、伝達関数、インパルス応答、ステップ応答を相互に結び付けると、さまざまな入力への出力を求められます。水タンクを平衡点の近くで線形化することで、この道具を物理モデルへ適用できます。さらに、直列は積、並列は和、負帰還は分母に帰還の効果をまとめることで、複数の部品から全体の入出力関係を計算できます。</p>
-        <p class="source-note">原典：<a href="授業資料/線形制御理論【第4回】講義資料.pdf" target="_blank" rel="noopener noreferrer">線形制御理論【第4回】講義資料.pdf</a>。以下のページ番号はPDFの通し番号です。</p>
-      </section>
-      <div class="chapter-heading" id="chapter-01"><div class="chapter-title"><h2>伝達関数・インパルス応答・ステップ応答</h2><span class="reading-time">想定読了時間 約14〜15分</span></div><p class="source-note">PDF p.1〜10</p></div>
-      <section class="explanation" id="slide-001">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 1　今回の到達点</h2><span class="reading-time">想定読了時間 約30秒</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=1" target="_blank" rel="noopener noreferrer" aria-label="原PDFの1ページを開く"><img src="assets/第4回-page-01-300dpi.png" alt="線形制御理論 第4回 PDF 1ページ：今回の到達点" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.1 ／ 印字番号 1/24</p>
-          <p class="claim">応答を表す道具を揃え、複数のシステムを一つの伝達関数にまとめます。</p>
-          <p>前半では、微分方程式が表す入出力の関係を、伝達関数、インパルス応答、ステップ応答という三つの形で捉えます。後半では、水タンクから線形モデルを作り、そのモデルを直列・並列・フィードバックに結合します。</p><p class="source-note">優先度低・概要でよいページです。表紙なので、学ぶ範囲を確認して先へ進めます。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-002">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 2　前半の見取り図</h2><span class="reading-time">想定読了時間 約30秒</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=2" target="_blank" rel="noopener noreferrer" aria-label="原PDFの2ページを開く"><img src="assets/第4回-page-02-300dpi.png" alt="線形制御理論 第4回 PDF 2ページ：前半の見取り図" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.2 ／ 印字番号 2/24</p>
-          <p class="claim">伝達関数と二種類の応答は、同じシステムの別の表現です。</p>
-          <p>まず初期値の影響と入力の影響を分け、入力の影響を伝達関数で表します。次に、瞬間的な入力への応答から一般の入力への応答を組み立て、最後に一定入力への応答との関係を確認します。</p><p class="source-note">優先度低・概要でよいページです。目次の案内であり、新しい計算はありません。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-003">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 3　初期値応答と入力応答を分ける</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=3" target="_blank" rel="noopener noreferrer" aria-label="原PDFの3ページを開く"><img src="assets/第4回-page-03-300dpi.png" alt="線形制御理論 第4回 PDF 3ページ：初期値応答と入力応答を分ける" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.3 ／ 印字番号 3/24</p>
-          <p class="claim">ラプラス変換すると、微分方程式を入力と出力の代数式にできます。</p>
-          <p>入力を \(u(t)\)、出力を \(y(t)\)、初期値を \(y_0=y(0)\)、一定の係数を \(a\) とします。\(U(s)=\mathcal L[u](s)\)、\(Y(s)=\mathcal L[y](s)\) はラプラス変換後の関数で、\(s\) は変換の複素変数です。微分の変換 \(\mathcal L[\dot y]=sY-y_0\) を使うと、</p><div class="equation">\[\dot y+ay=u\quad\Longrightarrow\quad Y(s)=\frac{y_0}{s+a}+\frac{1}{s+a}U(s).\]</div><p>第1項は入力がなくても初期値から生じる<strong>初期値応答</strong>、第2項は初期値を0にして入力だけを与えた<strong>入力応答</strong>です。逆変換すれば、</p><div class="equation">\[y(t)=y_0e^{-at}+\int_0^t e^{-a(t-\tau)}u(\tau)\,d\tau.\]</div><p>時間領域では過去の入力を積分していた関係が、変換後には単なる掛け算になります。これがラプラス変換を使う利点です。\(a&gt;0\) なら初期値応答は減衰しますが、この式変形自体は \(a&gt;0\) に限りません。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-004">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 4　伝達関数の定義と初期値の条件</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=4" target="_blank" rel="noopener noreferrer" aria-label="原PDFの4ページを開く"><img src="assets/第4回-page-04-300dpi.png" alt="線形制御理論 第4回 PDF 4ページ：伝達関数の定義と初期値の条件" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.4 ／ 印字番号 4/24</p>
-          <p class="claim">伝達関数は、初期値を0にしたときの入出力の比例係数です。</p>
-          <p><strong>伝達関数</strong> \(H(s)\) は、初期値0の入出力関係 \(Y(s)=H(s)U(s)\) を表します。この例では \(H(s)=1/(s+a)\) です。「入力をどのように出力へ変えるか」を、変換後の世界で一つの関数にまとめています。</p><p>前ページの \(y_0\ne0\) の式からそのまま \(Y/U\) を計算すると、初期値に由来する余分な項が入ります。したがって、問題で伝達関数を求めるときは<strong>すべての初期値を0にしてから</strong>変換します。\(U(s)=0\) の点で割る操作よりも、恒等的な関係 \(Y=HU\) を定義の中心に置くと混乱しません。</p><p>ここで扱うのは、入力の和・定数倍に応答も従う「線形」で、入力を遅らせると応答も同じだけ遅れる「時不変」のシステムです。これらの性質が、後の畳み込み表示を支えます。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-005">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 5　インパルス応答の意味</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=5" target="_blank" rel="noopener noreferrer" aria-label="原PDFの5ページを開く"><img src="assets/第4回-page-05-300dpi.png" alt="線形制御理論 第4回 PDF 5ページ：インパルス応答の意味" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.5 ／ 印字番号 5/24</p>
-          <p class="claim">面積1の瞬間的な刺激への応答が、伝達関数の逆変換です。</p>
-          <p><strong>インパルス応答</strong>を \(h(t)=\mathcal L^{-1}[H](t)\) と定義します。デルタ関数 \(\delta(t)\) は面積1の瞬間的な入力を表し、\(\mathcal L[\delta]=1\) でした。初期値0でこの入力を与えると、</p><div class="equation">\[U(s)=1\quad\Longrightarrow\quad Y(s)=H(s)\quad\Longrightarrow\quad y(t)=h(t).\]</div><p>この例では \(h(t)=e^{-at}\)（\(t\ge0\)）です。ここで \(U(s)=1\) は「時間領域の入力が常に1」という意味ではありません。常に1の入力の変換は \(1/s\) です。<a href="第3回_デルタ関数の定義・ラプラス変換と畳み込み_p19-23.html#slide-022">第3回のデルタ関数の変換</a>と対応させてください。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-006">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 6　畳み込みを図から読む</h2><span class="reading-time">想定読了時間 約2〜3分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=6" target="_blank" rel="noopener noreferrer" aria-label="原PDFの6ページを開く"><img src="assets/第4回-page-06-300dpi.png" alt="線形制御理論 第4回 PDF 6ページ：畳み込みを図から読む" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.6 ／ 印字番号 6/24</p>
-          <p class="claim">各時刻に入った刺激の応答を足すと、現在の出力になります。</p>
-          <p>図の最上段は入力、中段は異なる時刻に与えた刺激への応答、下段はそれらの重ね合わせです。時刻 \(\tau\) の幅 \(d\tau\) の入力は、総量 \(u(\tau)d\tau\) の小さな刺激とみなせます。時不変性により、その刺激の時刻 \(t\) での寄与は \(h(t-\tau)u(\tau)d\tau\) です。</p><div class="equation">\[y(t)=y_0e^{-at}+\underbrace{\int_0^t h(t-\tau)u(\tau)\,d\tau}_{(h*u)(t)}.\]</div><p>\(\tau\) は「入力した時刻」、\(t-\tau\) は「入力してから経過した時間」です。線形性により各寄与を加えられ、未来の入力は現在の出力へ影響しないという<strong>因果性</strong>により積分範囲は \(0\le\tau\le t\) です。初期値の効果は積分とは別に加えます。</p><p>デルタによる入力の分解は、<a href="第3回_デルタ関数の定義・ラプラス変換と畳み込み_p19-23.html#slide-023">第3回の \(\delta*u=u\)</a>を利用しています。デルタを含む端点の積分は、原点のインパルスの総量を1として扱う講義の約束に従います。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-007">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 7　一つの応答から任意の入力へ</h2><span class="reading-time">想定読了時間 約1分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=7" target="_blank" rel="noopener noreferrer" aria-label="原PDFの7ページを開く"><img src="assets/第4回-page-07-300dpi.png" alt="線形制御理論 第4回 PDF 7ページ：一つの応答から任意の入力へ" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.7 ／ 印字番号 7/24</p>
-          <p class="claim">インパルス応答が分かれば、初期値0の入力応答を計算できます。</p>
-          <p>前ページの一般的な結論が \(y=h*u\) です。新しい入力ごとに微分方程式を初めから解く代わりに、既知の \(h\) と入力を畳み込めばよくなります。変換表が使いやすければ、同じ操作を \(Y=HU\) の掛け算と逆変換で行ってもかまいません。</p><p>この式は初期値0が条件です。初期値がある問題では、別途求めた初期値応答を加えます。また、非線形なシステムでは刺激への応答を足し合わせる原理が一般には使えません。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-008">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 8　一定の入力に対するステップ応答</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=8" target="_blank" rel="noopener noreferrer" aria-label="原PDFの8ページを開く"><img src="assets/第4回-page-08-300dpi.png" alt="線形制御理論 第4回 PDF 8ページ：一定の入力に対するステップ応答" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.8 ／ 印字番号 8/24</p>
-          <p class="claim">一定入力を入れ続けたときの立ち上がりと到達値を調べます。</p>
-          <p><strong>単位ステップ入力</strong>は、時刻0から大きさ1を保つ入力です。その入力への初期値0の応答を<strong>ステップ応答</strong>といいます。\(\mathcal L[1]=1/s\) より、\(\dot y+ay=1\) は</p><div class="equation">\[Y(s)=\frac{1}{s(s+a)}=\frac1a\left(\frac1s-\frac1{s+a}\right),\qquad y(t)=\frac{1-e^{-at}}a\quad(a\ne0).\]</div><p>図は \(a&gt;0\) の場合で、横軸は時間、縦軸は出力です。出力は0から増加し、\(1/a\) に近づきます。<strong>時定数</strong> \(T=1/a\) は応答の速さを表す時間で、\(t=T\) では最終値の \(1-e^{-1}\approx63\%\) まで到達します。\(a\) が大きいほど速く立ち上がり、このモデルでは到達値も小さくなります。</p><p>補足として、\(a=0\) なら \(\dot y=1\) なので \(y=t\) です。\(a&lt;0\) でも上の式は成立しますが、図のようには収束しません。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-009">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 9　ステップ応答はインパルス応答の積分</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=9" target="_blank" rel="noopener noreferrer" aria-label="原PDFの9ページを開く"><img src="assets/第4回-page-09-300dpi.png" alt="線形制御理論 第4回 PDF 9ページ：ステップ応答はインパルス応答の積分" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.9 ／ 印字番号 9/24</p>
-          <p class="claim">伝達関数に \(1/s\) を掛けることは、時間領域では積分に対応します。</p>
-          <p>ステップ応答をここでは \(w(t)\) と書くと、入力の変換は \(1/s\) なので \(W(s)=H(s)/s\) です。積分のラプラス変換の性質から、</p><div class="equation">\[w(t)=\int_0^t h(\tau)\,d\tau.\]</div><p>畳み込みの入力に1を代入しても \(w(t)=\int_0^t h(t-\tau)d\tau\) となり、積分変数を置き換えると同じ式になります。前ページなら \(h=e^{-at}\) を積分すれば、ステップ応答 \((1-e^{-at})/a\) が得られます。</p><p>新しい公式を別々に暗記するより、入力がデルタなら \(U=1\)、ステップなら \(U=1/s\) と確認すると、どちらの応答かを判別できます。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-010">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 10　ステップ応答を測る理由</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=10" target="_blank" rel="noopener noreferrer" aria-label="原PDFの10ページを開く"><img src="assets/第4回-page-10-300dpi.png" alt="線形制御理論 第4回 PDF 10ページ：ステップ応答を測る理由" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.10 ／ 印字番号 10/24</p>
-          <p class="claim">理論上は、ステップ応答からインパルス応答を取り出せます。</p>
-          <p>通常の関数として扱える \(h\) については、\(w(t)=\int_0^t h(\tau)d\tau\) を微分して \(h(t)=w'(t)\) を得ます。この意味で、どちらの応答も同じシステムの情報を持ちます。</p><p>実験では、極端に短く強い刺激を正確に与えるより、入力を一定量だけ切り替えて、その後の出力を測るほうが容易な場合があります。ただし実測値の微分は測定誤差を大きくしやすいため、理論上の同値性と数値的な求めやすさは区別します。</p><details><summary>補足：入力が瞬時に出力へ伝わる場合</summary><p>伝達関数に定数項 \(D\) があると、インパルス応答には \(D\delta(t)\)、ステップ応答には大きさ \(D\) の跳びが含まれます。この場合、微分の対応はデルタも含む一般化関数の意味で読みます。今回の \(H(s)=1/(s+a)\) にはこの定数項がなく、通常の積分・微分で確認できます。</p></details>
-        </div>
-      </section>
-      <div class="chapter-heading" id="chapter-02"><div class="chapter-title"><h2>システムの結合：水タンクのモデルと線形化</h2><span class="reading-time">想定読了時間 約12分</span></div><p class="source-note">PDF p.11〜17</p></div>
-      <section class="explanation" id="slide-011">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 11　後半の見取り図</h2><span class="reading-time">想定読了時間 約30秒</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=11" target="_blank" rel="noopener noreferrer" aria-label="原PDFの11ページを開く"><img src="assets/第4回-page-11-300dpi.png" alt="線形制御理論 第4回 PDF 11ページ：後半の見取り図" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.11 ／ 印字番号 11/24</p>
-          <p class="claim">物理モデルを線形化してから、結合の規則を使います。</p>
-          <p>後半は「水タンクの保存則から式を作る」「平衡状態の近くで線形化する」「複数のタンクを結合する」の順です。最後にタンク固有の式を離れ、直列・並列・フィードバックの一般的な計算規則へ進みます。</p><p class="source-note">優先度低・概要でよいページです。前半から後半への目次の切り替えを確認します。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-012">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 12　水タンクの保存則</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=12" target="_blank" rel="noopener noreferrer" aria-label="原PDFの12ページを開く"><img src="assets/第4回-page-12-300dpi.png" alt="線形制御理論 第4回 PDF 12ページ：水タンクの保存則" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.12 ／ 印字番号 12/24</p>
-          <p class="claim">水位の変化は、流入量と流出量の差で決まります。</p>
-          <p>ここからの \(h\) は<strong>水位</strong>で、前半のインパルス応答 \(h(t)\) とは別の量です。\(A\) は一定のタンク断面積、\(S\) は流出口断面積、\(q_i,q_o\) は単位時間あたりの流入・流出体積、\(v\) は流出口の流速、\(g\) は重力加速度です。図では上の蛇口から入り、右下の穴から出ます。</p><div class="equation">\[A\dot h=q_i-q_o,\qquad q_o=Sv,\qquad v=\sqrt{2gh}.\]</div><p>水の体積は \(Ah\) なので、その時間変化が「入る量−出る量」です。\(A\dot h\) と \(q_i-q_o\) はともに \(\mathrm{m^3/s}\) になります。流速の式は、液面と出口の高さの差が運動エネルギーに変わる理想化を使っています。流れの損失などはこのモデルでは省略されています。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-013">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 13　水位を変数にした非線形モデル</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=13" target="_blank" rel="noopener noreferrer" aria-label="原PDFの13ページを開く"><img src="assets/第4回-page-13-300dpi.png" alt="線形制御理論 第4回 PDF 13ページ：水位を変数にした非線形モデル" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.13 ／ 印字番号 13/24</p>
-          <p class="claim">流出量が水位の平方根に比例するため、元のモデルは非線形です。</p>
-          <p>前ページの \(q_o=Sv\) と \(v=\sqrt{2gh}\) を保存則へ代入すれば、流速と流出量を消せます。</p><div class="equation">\[\dot h=-\frac SA\sqrt{2gh}+\frac{q_i}{A}.\]</div><p>水位が上がるほど流出は増えますが、その増え方は \(h\) に比例せず \(\sqrt h\) に比例します。このため、入力を2倍にしたときに水位の変化も常に2倍になる、とはいえません。前半の伝達関数の規則をそのままこの式全体へ使う前に、線形の近似式を作る必要があります。</p><p>物理的には \(h\ge0\) を考えます。以後は水位が正の平衡状態の近くを扱います。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-014">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 14　流出量を変数に選び直す</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=14" target="_blank" rel="noopener noreferrer" aria-label="原PDFの14ページを開く"><img src="assets/第4回-page-14-300dpi.png" alt="線形制御理論 第4回 PDF 14ページ：流出量を変数に選び直す" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.14 ／ 印字番号 13/24</p>
-          <p class="claim">出力を流出量にすると、次のタンクへの接続が表しやすくなります。</p>
-          <p>流出量の式を \(h=q_o^2/(2gS^2)\) と解き、時間微分すると \(\dot h=q_o\dot q_o/(gS^2)\) です。これを \(A\dot h=q_i-q_o\) に代入して、</p><div class="equation">\[\frac{Aq_o}{gS^2}\dot q_o=q_i-q_o\quad\Longrightarrow\quad \dot q_o=\frac{S^2g}{A}\left(\frac{q_i}{q_o}-1\right).\]</div><p>最後の式は \(q_o\) で割っているため、\(q_o&gt;0\) の範囲で使います。これは水位の式と同じタンクの別表現です。次のタンクに流れ込む量は、このタンクから出る \(q_o\) なので、接続を考えるにはこちらが便利です。</p><p>ただし、\(q_i/q_o\) を含むため、変数を選び直しただけではまだ線形にはなりません。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-015">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 15　平衡点と微小なずれ</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=15" target="_blank" rel="noopener noreferrer" aria-label="原PDFの15ページを開く"><img src="assets/第4回-page-15-300dpi.png" alt="線形制御理論 第4回 PDF 15ページ：平衡点と微小なずれ" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.15 ／ 印字番号 14/24</p>
-          <p class="claim">一定の流れを保つ状態からの変化だけを変数にします。</p>
-          <p><strong>平衡点</strong>は、一定の入力のもとで時間がたっても状態が変わらない状態です。一定の平衡流入量を \(q_{ie}&gt;0\) とすると、\(\dot q_o=0\) より平衡流出量は \(q_{oe}=q_{ie}\) です。このときの水位は \(h_e=q_{ie}^2/(2gS^2)\) となります。</p><div class="equation">\[q_i=q_{ie}+u,\qquad q_o=q_{ie}+x.\]</div><p>新しい入力 \(u\) は平衡流入量からのずれ、新しい出力 \(x\) は平衡流出量からのずれです。実際の流量が正でも、ずれは負になり得ます。例えば \(u&lt;0\) は流れが逆向きという意味ではなく、流入量を平衡時より減らしたという意味です。</p><p><strong>線形化</strong>は、平衡点の近くでTaylor展開の一次までを残す近似です。ここでは \(|u|/q_{ie}\ll1\)、\(|x|/q_{ie}\ll1\) の範囲を考えます。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-016">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 16　線形化の空欄を埋める考え方</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=16" target="_blank" rel="noopener noreferrer" aria-label="原PDFの16ページを開く"><img src="assets/第4回-page-16-300dpi.png" alt="線形制御理論 第4回 PDF 16ページ：線形化の空欄を埋める考え方" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.16 ／ 印字番号 15/24</p>
-          <p class="claim">小さなずれの積を捨てると、一次の式だけが残ります。</p>
-          <p>このページは係数を埋める導出練習です。まず \(q_{ie}\) が定数なので \(d(q_{ie}+x)/dt=\dot x\) であることを確認し、次に分数の近似を行います。</p><div class="equation">\[\frac{1+u/q_{ie}}{1+x/q_{ie}}\approx\left(1+\frac{u}{q_{ie}}\right)\left(1-\frac{x}{q_{ie}}\right).\]</div><p>使っているのは \(1/(1+\varepsilon)\approx1-\varepsilon\) です。展開した後、\(ux/q_{ie}^2\) のような二次の小さい項を落とし、定数項の1を打ち消してください。最後に外側の \(S^2g/A\) を掛け戻すと、\(x\) と \(u\) の係数を読めます。</p><p>原スライドでは近似の中間式と最終式の係数が空欄です。自分で埋めてから、次ページの完成形と比較すると、符号や係数の落とし忘れを確認できます。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-017">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 17　線形化された一次系を読む</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=17" target="_blank" rel="noopener noreferrer" aria-label="原PDFの17ページを開く"><img src="assets/第4回-page-17-300dpi.png" alt="線形制御理論 第4回 PDF 17ページ：線形化された一次系を読む" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.17 ／ 印字番号 16/24</p>
-          <p class="claim">平衡点付近では、流出量のずれは入力のずれに一次遅れで追従します。</p>
-          <p>近似を整理した結果を、正の定数 \(\alpha=S^2g/(Aq_{ie})\) でまとめると、</p><div class="equation">\[\dot x=-\alpha x+\alpha u,\qquad \alpha=\frac{S^2g}{Aq_{ie}}&gt;0.\]</div><p>\(u=0\) なら \(x(t)=x(0)e^{-\alpha t}\) となり、平衡点からのずれは減ります。\(u\) を小さな定数に保てば、最終的には \(x=u\) へ近づき、流出量の増加分が流入量の増加分に一致します。</p><p>補足として、初期のずれ0で変換すると \(X/U=\alpha/(s+\alpha)\) です。入力変更へ徐々に追従するこの形を<strong>一次遅れ系</strong>と呼び、時定数は \(1/\alpha=Aq_{ie}/(S^2g)\) です。式に等号を使っていても、元の非線形タンクに対しては平衡点近くの近似モデルであることを忘れないでください。</p>
-        </div>
-      </section>
-      <div class="chapter-heading" id="chapter-03"><div class="chapter-title"><h2>システムの結合：直列結合</h2><span class="reading-time">想定読了時間 約8〜9分</span></div><p class="source-note">PDF p.18〜23</p></div>
-      <section class="explanation" id="slide-018">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 18　二つのタンクを直列につなぐ</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=18" target="_blank" rel="noopener noreferrer" aria-label="原PDFの18ページを開く"><img src="assets/第4回-page-18-300dpi.png" alt="線形制御理論 第4回 PDF 18ページ：二つのタンクを直列につなぐ" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.18 ／ 印字番号 17/24</p>
-          <p class="claim">第1タンクの出力が、そのまま第2タンクの入力になります。</p>
-          <p>図では上のタンクからの流出 \(q_1\) が下のタンクへ流入します。両方を同じ平衡流量 \(q_{ie}\) の周りで線形化し、流量のずれを \(u,x_1,x_2\) と置きます。\(A_i,S_i\) はタンク \(i\) の断面積と流出口断面積です。</p><div class="equation">\[\dot x_1=-\alpha_1x_1+\alpha_1u,\qquad \dot x_2=-\alpha_2x_2+\alpha_2x_1,\qquad \alpha_i=\frac{S_i^2g}{A_iq_{ie}}.\]</div><p>第2式の入力項は \(u\) ではなく \(x_1\) です。まず第1タンクが入力の変化に反応し、その変化を受けて第2タンクが反応する、という流れが式にも現れています。ここでは下流側が上流側の流出則を変えない接続をモデルにしています。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-019">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 19　中間変数を消して二階の式にする</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=19" target="_blank" rel="noopener noreferrer" aria-label="原PDFの19ページを開く"><img src="assets/第4回-page-19-300dpi.png" alt="線形制御理論 第4回 PDF 19ページ：中間変数を消して二階の式にする" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.19 ／ 印字番号 18/24</p>
-          <p class="claim">二つの一次系をまとめると、最終出力の二階微分方程式が得られます。</p>
-          <p>第2タンクの式を \(x_1\) について解けば、\(x_1=\dot x_2/\alpha_2+x_2\) です。さらに微分した \(\dot x_1=\ddot x_2/\alpha_2+\dot x_2\) とともに第1タンクの式へ代入します。</p><div class="equation">\[\ddot x_2+(\alpha_1+\alpha_2)\dot x_2+\alpha_1\alpha_2x_2=\alpha_1\alpha_2u.\]</div><p>操作の目的は、中間の流量 \(x_1\) を消して、外から与える \(u\) と最終出力 \(x_2\) の関係だけを残すことです。二つのタンクそれぞれの蓄積の効果が、二階の方程式にまとまります。</p><p>このモデルでは \(x_1(0)=x_2(0)=0\) なら第2式から \(\dot x_2(0)=0\) です。一次式二本の初期条件と、二階式の初期条件はこの関係を通して対応します。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-020">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 20　二階の式から伝達関数へ</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=20" target="_blank" rel="noopener noreferrer" aria-label="原PDFの20ページを開く"><img src="assets/第4回-page-20-300dpi.png" alt="線形制御理論 第4回 PDF 20ページ：二階の式から伝達関数へ" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.20 ／ 印字番号 19/24</p>
-          <p class="claim">分母の因数分解から、各タンクの伝達関数の積が現れます。</p>
-          <p>\(X_2=\mathcal L[x_2]\) とします。\(x_2(0)=\dot x_2(0)=0\) として二階の式を変換すると、微分が \(s\)、\(s^2\) の掛け算に変わります。</p><div class="equation">\[H(s)=\frac{X_2(s)}{U(s)}=\frac{\alpha_1\alpha_2}{s^2+(\alpha_1+\alpha_2)s+\alpha_1\alpha_2}=\frac{\alpha_1}{s+\alpha_1}\frac{\alpha_2}{s+\alpha_2}.\]</div><p>一つのタンクに対応する一次遅れの形が二つ掛かっています。全体の式を作ってから変換する方法でも、個々のタンクの性質が積として現れることが分かります。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-021">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 21　各タンクを先に変換する</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=21" target="_blank" rel="noopener noreferrer" aria-label="原PDFの21ページを開く"><img src="assets/第4回-page-21-300dpi.png" alt="線形制御理論 第4回 PDF 21ページ：各タンクを先に変換する" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.21 ／ 印字番号 20/24</p>
-          <p class="claim">直列系では、中間信号を介して比例係数を掛ければ済みます。</p>
-          <p>各タンクを初期のずれ0で変換すると、\(X_1=H_1U\)、\(X_2=H_2X_1\) となります。したがって、</p><div class="equation">\[H_1(s)=\frac{\alpha_1}{s+\alpha_1},\qquad H_2(s)=\frac{\alpha_2}{s+\alpha_2},\qquad X_2=H_2H_1U.\]</div><p>結果は前ページと同じですが、二階の微分方程式を導かずに計算できます。各部品の伝達関数が既知なら、接続を見て掛け算を行うほうが短い手順です。ここで \(H_2=X_2/X_1\) の分母は、第2タンクへの入力である \(X_1\) です。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-022">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 22　直列結合の一般則</h2><span class="reading-time">想定読了時間 約1分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=22" target="_blank" rel="noopener noreferrer" aria-label="原PDFの22ページを開く"><img src="assets/第4回-page-22-300dpi.png" alt="線形制御理論 第4回 PDF 22ページ：直列結合の一般則" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.22 ／ 印字番号 21/24</p>
-          <p class="claim">信号が一つずつ部品を通過すると、伝達関数は積になります。</p>
-          <p>四角の<strong>ブロック</strong>は入出力関係、矢印は信号が伝わる向きを表します。図では \(U\to H_1\to X_1\to H_2\to X_2\) と進むため、</p><div class="equation">\[H(s)=H_2(s)H_1(s)=H_1(s)H_2(s).\]</div><p>各部品が線形・時不変で初期値0、接続によって個々の入出力関係が変わらないことが前提です。時間領域で対応するインパルス応答は、積ではなく \(h=h_2*h_1\) という畳み込みになります。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-023">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 23　直列の順序を交換できる範囲</h2><span class="reading-time">想定読了時間 約1分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=23" target="_blank" rel="noopener noreferrer" aria-label="原PDFの23ページを開く"><img src="assets/第4回-page-23-300dpi.png" alt="線形制御理論 第4回 PDF 23ページ：直列の順序を交換できる範囲" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.23 ／ 印字番号 22/24</p>
-          <p class="claim">この講義の一入力一出力の伝達関数では、積の順序を交換できます。</p>
-          <p>上の図は \(H_1\) の後に \(H_2\)、下の図は逆の順序です。伝達関数がスカラー値なら掛け算が交換できるため、</p><div class="equation">\[H_{12}(s)=H_2(s)H_1(s)=H_1(s)H_2(s)=H_{21}(s).\]</div><p>一致するのは、同じ外部入力から最終出力までの関係です。途中の信号 \(X_1\) と \(X_2\) まで同じという主張ではありません。また、複数の入力・出力を持って行列で表すシステムでは、行列の積は一般に交換できず、この結論をそのまま使えません。</p>
-        </div>
-      </section>
-      <div class="chapter-heading" id="chapter-04"><div class="chapter-title"><h2>システムの結合：並列結合</h2><span class="reading-time">想定読了時間 約1〜2分</span></div><p class="source-note">PDF p.24</p></div>
-      <section class="explanation" id="slide-024">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 24　並列結合は出力を足す</h2><span class="reading-time">想定読了時間 約1〜2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=24" target="_blank" rel="noopener noreferrer" aria-label="原PDFの24ページを開く"><img src="assets/第4回-page-24-300dpi.png" alt="線形制御理論 第4回 PDF 24ページ：並列結合は出力を足す" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.24 ／ 印字番号 23/24</p>
-          <p class="claim">同じ入力を二つの経路に与え、出力を加えると伝達関数は和になります。</p>
-          <p>図の分岐点では同じ信号 \(U\) が両方へ入り、丸い加算点で二つの出力が足されます。したがって、</p><div class="equation">\[X=X_1+X_2=H_1U+H_2U=(H_1+H_2)U,\qquad H=H_1+H_2.\]</div><p>水タンクの図でも、各タンクに同じ流入量を与えて、流出量を合流させています。「入力を二つに分岐する」は、信号として同じ値を複製する意味です。一つの物理的な流量を半分ずつに分配する場合は、その分配係数も各経路へ掛ける必要があります。</p><p>加算点が片方を引く記号なら \(H_1-H_2\) になります。並列という形だけで足し算と決めず、符号を確認してください。</p>
-        </div>
-      </section>
-      <div class="chapter-heading" id="chapter-05"><div class="chapter-title"><h2>システムの結合：フィードバック結合</h2><span class="reading-time">想定読了時間 約4〜5分</span></div><p class="source-note">PDF p.25〜26</p></div>
-      <section class="explanation" id="slide-025">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 25　負帰還の信号関係を立てる</h2><span class="reading-time">想定読了時間 約2分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=25" target="_blank" rel="noopener noreferrer" aria-label="原PDFの25ページを開く"><img src="assets/第4回-page-25-300dpi.png" alt="線形制御理論 第4回 PDF 25ページ：負帰還の信号関係を立てる" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.25 ／ 印字番号 24/24</p>
-          <p class="claim">出力の一部を戻して引くため、内部入力は外部入力だけでは決まりません。</p>
-          <p><strong>フィードバック（帰還）</strong>は、出力から得た信号を入力側へ戻す接続です。ここでは外部入力 \(r\) から戻り信号 \(z\) を引く<strong>負帰還</strong>になっています。順方向の \(H_1\) は \(u\) を \(y\) へ、帰還経路の \(H_2\) は \(v=y\) を \(z\) へ変えます。大文字は各信号のラプラス変換です。</p><div class="equation">\[Y=H_1U,\qquad Z=H_2Y,\qquad U=R-Z.\]</div><p>空欄を埋めるには、まず \(U\) と \(Z\) を消して \(Y=H_1(R-H_2Y)\) とし、\(Y\) を含む項を左辺に集めます。最後に \(Y\) の係数で割れば、外部入力 \(R\) から出力 \(Y\) への関係になります。</p><p>このページは式を組み立てる練習です。\(H_1\) は内部入力 \(U\) に対する比であり、求めたい全体の比 \(Y/R\) とは区別してください。完成した式は次ページで確認できます。</p>
-        </div>
-      </section>
-      <section class="explanation" id="slide-026">
-        <div class="explanation-grid">
-          <div class="explanation-heading"><h2>解説 26　フィードバック結合の公式と級数</h2><span class="reading-time">想定読了時間 約2〜3分</span></div>
-          <div class="slide"><a href="授業資料/線形制御理論【第4回】講義資料.pdf#page=26" target="_blank" rel="noopener noreferrer" aria-label="原PDFの26ページを開く"><img src="assets/第4回-page-26-300dpi.png" alt="線形制御理論 第4回 PDF 26ページ：フィードバック結合の公式と級数" loading="lazy"></a></div>
-          <p class="slide-label">PDF p.26 ／ 印字番号 24/24</p>
-          <p class="claim">一周して戻る効果を分母にまとめると、閉ループの伝達関数になります。</p>
-          <p>前ページを整理すると \((1+H_1H_2)Y=H_1R\) なので、外部入力から出力への<strong>閉ループ伝達関数</strong>は、</p><div class="equation">\[H(s)=\frac{Y(s)}{R(s)}=\frac{H_1(s)}{1+H_1(s)H_2(s)}.\]</div><p>負帰還の減算が、移項によって分母の「＋」になります。例えば \(H_1=1/(s+a)\)、\(H_2=k\) なら \(H=1/(s+a+k)\) です。\(a+k&gt;0\) ならこの一次の例の応答は減衰します。ここで \(k\) は一定の帰還係数です。ただし一般の系で負帰還にすれば必ず安定になる、という意味ではありません。</p><p>下の級数は、帰還経路を通らず出る寄与 \(H_1\)、一周する寄与 \(-H_1^2H_2\)、二周する寄与 \(H_1^3H_2^2\) を順に足す見方です。一周ごとに \(-H_1H_2\) が掛かります。</p><div class="equation">\[H_1\sum_{k=0}^{\infty}(-H_1H_2)^k=\frac{H_1}{1+H_1H_2}\qquad\bigl(|H_1(s)H_2(s)|&lt;1\bigr).\]</div><p><strong>補足：</strong>数値として無限等比級数を足すには、右に示した収束条件が必要です。一方、閉ループの有理式は信号の連立方程式から導けるので、この級数が収束しない \(s\) でも、分母が0でない範囲へ式を解釈できます。実際の接続では、内部信号が一意に定まることも前提です。</p>
-        </div>
-      </section>
+  <main class="main document talk-record">
+    <div class="document-back"><a aria-label="線形制御理論の資料一覧へ" title="線形制御理論の資料一覧へ" class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+    <article class="lesson-document talk-record">
+    <header class="document-header">
+      <p class="eyebrow">線形制御理論 · 第4回</p>
+      <h1 id="document-title">伝達関数・応答と水タンクの共有会話</h1>
+      <p class="subtitle">第4回：伝達関数・応答と水タンクの共有会話</p>
+    </header>
+    <section class="summary">
+      <h2>概要</h2>
+      <p>伝達関数・インパルス応答・ステップ応答の関係、畳み込みとデルタ関数、水タンクの微分方程式についての質問とAIの回答を収録しています。</p>
+    </section>
+    <p class="source-note">原典：<a href="https://chatgpt.com/share/6aeac76f-8f84-83ec-a1a3-26d0b14c2925" target="_blank" rel="noopener">共有会話1</a><br>想定読了時間：約15分</p>
+    <h2>共有会話1：線形制御理論 第4回</h2>
+<section class="talk-turn" id="question-1"><h2>質問1</h2><div class="talk-question"><div class="question-text"><h3>質問</h3><p>3~10枚目の「 伝達関数・インパルス応答・ステップ応答」について質問、この部分では、結局何が言いたい？</p><p><a href="授業資料/%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96%E3%80%90%E7%AC%AC4%E5%9B%9E%E3%80%91%E8%AC%9B%E7%BE%A9%E8%B3%87%E6%96%99.pdf">線形制御理論【第4回】講義資料.pdf</a></p></div></div><div class="talk-answer"><h3>AIの回答</h3><p>3〜10枚目を確認して、3つの概念のつながりと、この部分で伝えたいことを整理します。</p>
+<p>結局言いたいのは、<strong>「システムの反応の仕方は、伝達関数・インパルス応答・ステップ応答のどれか1つがわかれば把握でき、任意の入力に対する出力も計算できる」</strong>ということです。</p>
+<p>ここでは、<strong>線形・時間不変のシステムで、初期値が0の場合</strong>を考えています。</p>
+<h3>① 同じシステムを、3つの方法で表している</h3>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>何を表す？</th>
+<th>主な使い道</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>伝達関数 \(H(s)\)</strong></td>
+<td>ラプラス変換した世界で、入力を出力に変える係数</td>
+<td>\(Y(s)=H(s)U(s)\) と掛け算で計算する</td>
+</tr>
+<tr>
+<td><strong>インパルス応答 \(h(t)\)</strong></td>
+<td>瞬間的な入力を1回加えたとき、その後どう反応するか</td>
+<td>反応を重ね合わせて、任意の入力への出力を求める</td>
+</tr>
+<tr>
+<td><strong>ステップ応答</strong></td>
+<td>入力を0から1に切り替えて、そのまま保ったとき、どう反応するか</td>
+<td>実験でシステムの性質を調べる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3つは別々の性質ではなく、同じ入出力の性質を違う形で表したもの</strong>です。</p>
+<h3>② なぜ「瞬間的な入力への反応」だけで、すべてわかる？</h3>
+<p>これが6〜7枚目の核心です。</p>
+<p>どんな入力も、<strong>細かな瞬間的入力の集まり</strong>として考えられます。それぞれが生む反応を足し合わせれば、全体の出力になります。</p>
+<p>その足し合わせを数式にしたものが、畳み込みです。</p>
+<div class="equation">\[
+\boxed{y(t)=\int_0^t h(t-\tau)u(\tau)\,d\tau}
+\]</div>
+<p>つまり、<strong>「1回の瞬間的入力への反応」さえわかれば、複雑な入力への反応も組み立てられる</strong>ということです。</p>
+<h3>③ では、ステップ応答は何のためにある？</h3>
+<p>瞬間的な入力を正確に加えるよりも、<strong>入力を一定値に切り替えて保つほうが実験しやすい</strong>からです。</p>
+<p>しかも、</p>
+<div class="equation">\[
+\text{ステップ応答}=\int_0^t h(\tau)\,d\tau
+\]</div>
+<p>なので、ステップ応答を微分すればインパルス応答が得られます。<strong>測りやすいステップ応答から、任意の入力への反応を知るための情報を得られる</strong>わけです。</p>
+<p>なお、3枚目で初期値による応答を分けているのは、<strong>「最初から蓄えていたものによる動き」と「入力によって生じる動き」を区別して、後者の性質を取り出すため</strong>です。</p>
+<p>出典：講義資料3〜10枚目。<a href="授業資料/%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96%E3%80%90%E7%AC%AC4%E5%9B%9E%E3%80%91%E8%AC%9B%E7%BE%A9%E8%B3%87%E6%96%99.pdf">線形制御理論【第4回】講義資料.pdf</a></p></div></section>
+<section class="talk-turn" id="question-2"><h2>質問2</h2><div class="talk-question has-images"><div class="question-text"><h3>質問</h3><p>これは何を言っている？解説して</p></div><div class="talk-images"><figure><a href="assets/talk-lesson-04/input-01.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-01.png" alt="質問2の入力画像1" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-01.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure></div></div><div class="talk-answer"><h3>AIの回答</h3><p>このスライドが言いたいのは、<strong>「過去の各時刻に加えた入力の影響が、今どれだけ残っているかを全部足すと、今の出力になる」</strong>ということです。</p>
+<p>まず、初期値が \(0\) の場合で説明します。</p>
+<h3>1。一瞬だけ入力すると、その影響が残る</h3>
+<p>このシステムでは、時刻 \(0\) に単位インパルスを加えると、</p>
+<div class="equation">\[
+h(t)=e^{-at}
+\]</div>
+<p>という反応が起きます。\(a&gt;0\) なら、時間とともに影響が薄れていきます。</p>
+<p>同じ入力を<strong>時刻 \(\tau\) に加えた</strong>なら、時刻 \(t\) までに経過した時間は \(t-\tau\) なので、反応は</p>
+<div class="equation">\[
+h(t-\tau)=e^{-a(t-\tau)}
+\]</div>
+<p>になります。<strong>\(t\) は「今」、\(\tau\) は「過去に入力を加えた時刻」</strong>です。</p>
+<h3>2。連続する入力を、小さな入力に分ける</h3>
+<p>上の図のように、入力 \(u(\tau)\) を短い時間幅 \(\Delta\tau\) ごとに区切ります。</p>
+<p>時刻 \(\tau\) 付近の入力の面積は、</p>
+<div class="equation">\[
+u(\tau)\Delta\tau
+\]</div>
+<p>です。時間幅を十分小さくすると、これを<strong>大きさ \(u(\tau)\Delta\tau\) の瞬間的な入力</strong>として扱えます。その入力が時刻 \(t\) に残す影響は、</p>
+<div class="equation">\[
+\underbrace{h(t-\tau)}_{\text{経過時間による反応}}
+\underbrace{u(\tau)\Delta\tau}_{\text{加えた入力の大きさ}}
+\]</div>
+<p>です。</p>
+<h3>3。それぞれの影響を全部足す</h3>
+<p>線形システムでは、<strong>入力を足すと、それに対する出力も足せます</strong>。これが「重ね合わせの理」です。</p>
+<p>したがって、過去の入力による影響を全部足すと、</p>
+<div class="equation">\[
+y(t)\approx\sum_{\tau}h(t-\tau)u(\tau)\Delta\tau
+\]</div>
+<p>時間幅を限りなく小さくすれば、和が積分になって、</p>
+<div class="equation">\[
+\boxed{y(t)=\int_0^t h(t-\tau)u(\tau)\,d\tau}
+\]</div>
+<p>となります。これが<strong>畳み込み</strong>です。</p>
+<p>図では、中央の曲線が「各時刻に入力したときの反応の形」、下の色つき曲線が「入力の大きさと符号を反映した反応」、紫の線が「それらを足した出力」を表しています。負の入力は、下向きの反応になります。</p>
+<p>最後に、初期値が \(0\) でなければ、最初からあった状態の影響も加わります。</p>
+<div class="equation">\[
+\boxed{
+y(t)=
+\underbrace{y(0)e^{-at}}_{\text{初期状態の影響}}
++
+\underbrace{\int_0^t h(t-\tau)u(\tau)\,d\tau}_{\text{過去の入力の影響の合計}}
+}
+\]</div></div></section>
+<section class="talk-turn" id="question-3"><h2>質問3</h2><div class="talk-question has-images"><div class="question-text"><h3>質問</h3><p>このしきはいつでも成り立つの？それともそう置いている？</p></div><div class="talk-images"><figure><a href="assets/talk-lesson-04/input-02.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-02.png" alt="質問3の入力画像1" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-02.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure></div></div><div class="talk-answer"><h3>AIの回答</h3><p><strong>そう置いているのではなく、デルタ関数の性質によって成り立つ式です。</strong> ただし、積分範囲の端点については注意があります。</p>
+<p>デルタ関数には、<strong>積分の中で、指定した時刻の値だけを取り出す</strong>性質があります。</p>
+<div class="equation">\[
+\int_{-\infty}^{\infty}\delta(t-\tau)u(\tau)\,d\tau=u(t)
+\]</div>
+<p>ここでは、積分する変数は \(\tau\) です。\(\delta(t-\tau)\) は <strong>\(\tau=t\) の位置にあるデルタ関数</strong>なので、\(u(\tau)\) のうち \(u(t)\) だけを取り出します。これは、通常 \(u\) がその点で連続な場合に成り立ちます。</p>
+<p>スライドの意図は、この性質を使って、</p>
+<blockquote>
+<p><strong>どんな入力も、「各時刻に置いたデルタ関数に、その時刻の入力値を掛けたもの」の重ね合わせとして表せる。</strong></p>
+</blockquote>
+<p>と説明することです。</p>
+<p>なお、スライドでは積分の上端がちょうど \(t\) なので、デルタ関数が端点に重なっています。<strong>端点をどう扱うかの約束が必要な、少し省略した書き方</strong>です。因果的な入力、つまり \(t&lt;0\) では入力が0の場合、次の形ならその曖昧さを避けられます。</p>
+<div class="equation">\[
+\boxed{u(t)=\int_0^\infty\delta(t-\tau)u(\tau)\,d\tau\qquad(t&gt;0)}
+\]</div></div></section>
+<section class="talk-turn" id="question-4"><h2>質問4</h2><div class="talk-question has-images"><div class="question-text"><h3>質問</h3><p>ステップ応答とは結局何？入力を一定値に切り替えて保つとはどういうこと？どこでわかる？</p></div><div class="talk-images"><figure><a href="assets/talk-lesson-04/input-03.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-03.png" alt="質問4の入力画像1" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-03.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-04/input-04.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-04.png" alt="質問4の入力画像2" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-04.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-04/input-05.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-05.png" alt="質問4の入力画像3" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-05.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure></div></div><div class="talk-answer"><h3>AIの回答</h3><p><strong>ステップ応答とは、「時刻0で入力を0から1に変え、その後ずっと1を加え続けたときの、出力の時間変化」です。</strong> 初期状態は0とします。</p>
+<p>例えば、モーターなら、<strong>電圧を0 Vから1 Vに切り替え、1 Vをかけ続けたとき、回転速度がどう変化するか</strong>がステップ応答です。</p>
+<p>「入力を一定値に切り替えて保つ」は、数式ではこういうことです。</p>
+<div class="equation">\[
+u(t)=
+\begin{cases}
+0 &amp; (t&lt;0),\\
+1 &amp; (t\geq0).
+\end{cases}
+\]</div>
+<p><strong>入力が1で一定でも、出力まで一定になるとは限りません。</strong> モーターの速度が徐々に上がるように、出力には時間変化があります。その変化全体を「応答」と呼んでいます。</p>
+<p>スライドでは、<strong>1枚目の「入力が定数1」という定義と、微分方程式の右辺が1になっているところ</strong>に表れています。</p>
+<p>もともとの式は</p>
+<div class="equation">\[
+\frac{dy}{dt}+ay=u(t)
+\]</div>
+<p>でした。ここに、\(t\geq0\) で \(u(t)=1\) を入れて、</p>
+<div class="equation">\[
+\frac{dy}{dt}+ay=1,\qquad y(0)=0
+\]</div>
+<p>としています。「時刻0より前は入力0」という部分は、スライドでは省略されています。</p>
+<p>これを解いた</p>
+<div class="equation">\[
+\boxed{y(t)=\frac1a(1-e^{-at})}
+\]</div>
+<p>が、<strong>このシステムのステップ応答</strong>です。\(a&gt;0\) なら出力は0から徐々に増え、\(1/a\) に近づきます。<strong>下の紫色のグラフは、一定の入力ではなく、それに対する出力を描いています。</strong></p></div></section>
+<section class="talk-turn" id="question-5"><h2>質問5</h2><div class="talk-question has-images"><div class="question-text"><h3>質問</h3><p>これは結局何が言いたい？</p></div><div class="talk-images"><figure><a href="assets/talk-lesson-04/input-06.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-06.png" alt="質問5の入力画像1" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-06.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-04/input-07.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-07.png" alt="質問5の入力画像2" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-07.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure></div></div><div class="talk-answer"><h3>AIの回答</h3><p><strong>「一瞬だけ入力したときの反応」と「入力を加え続けたときの反応」は、互いに計算できる。だから、実験で測りやすいほうを使えばよい」</strong>ということです。</p>
+<p><strong>1枚目</strong>は、インパルス応答という名前の理由を説明しています。</p>
+<p>初期値が0なら、</p>
+<div class="equation">\[
+Y(s)=H(s)U(s)
+\]</div>
+<p>です。デルタ関数 \(u(t)=\delta(t)\) を入力すると、そのラプラス変換は \(U(s)=1\) なので、</p>
+<div class="equation">\[
+Y(s)=H(s)\quad\Rightarrow\quad y(t)=h(t).
+\]</div>
+<p>つまり、<strong>伝達関数を逆ラプラス変換した \(h(t)\) は、実際に単位インパルスを入力したときの出力でもある</strong>わけです。</p>
+<p>ここで、<strong>\(U(s)=1\) と \(u(t)=1\) は違います。</strong></p>
+<table>
+<thead>
+<tr>
+<th>時間領域の入力</th>
+<th>ラプラス変換</th>
+<th>出力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(u(t)=\delta(t)\)：瞬間的に加える</td>
+<td>\(U(s)=1\)</td>
+<td>インパルス応答</td>
+</tr>
+<tr>
+<td>\(u(t)=1\)（\(t\geq0\)）：加え続ける</td>
+<td>\(U(s)=1/s\)</td>
+<td>ステップ応答</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2枚目</strong>は、この2種類の応答の関係を言っています。ステップ応答を \(g(t)\) とすると、</p>
+<div class="equation">\[
+\boxed{g(t)=\int_0^t h(\tau)\,d\tau}
+\qquad
+\boxed{h(t)=\frac{dg(t)}{dt}}
+\]</div>
+<p>つまり、<strong>積分・微分で行き来できるので、両者は同じシステム情報を持っています。</strong></p>
+<p>実験では、理想的な「一瞬の入力」を作るより、スイッチを入れて一定の入力を加え続けるほうが簡単です。そこで、<strong>ステップ応答を測って、そこからシステムの性質を調べる</strong>ということです。</p></div></section>
+<section class="talk-turn" id="question-6"><h2>質問6</h2><div class="talk-question has-images"><div class="question-text"><h3>質問</h3><p>これはどうやって立式していて、何が言いたい？</p></div><div class="talk-images"><figure><a href="assets/talk-lesson-04/input-08.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-08.png" alt="質問6の入力画像1" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-08.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-04/input-09.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-09.png" alt="質問6の入力画像2" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-09.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure></div></div><div class="talk-answer"><h3>AIの回答</h3><p><strong>「水をどれだけ入れると、水位がどう変わるか」を、物理法則から微分方程式にしています。</strong></p>
+<h3>① 水の増加量＝入った量−出た量</h3>
+<p>タンクの断面積が \(A\)、水位が \(h\) なので、水の体積は</p>
+<div class="equation">\[
+V=Ah
+\]</div>
+<p>です。\(A\) は一定なので、体積の増加速度は</p>
+<div class="equation">\[
+\frac{dV}{dt}=A\frac{dh}{dt}.
+\]</div>
+<p>一方、1秒あたりに入る体積が \(q_i\)、出る体積が \(q_o\) なので、</p>
+<div class="equation">\[
+\boxed{A\frac{dh}{dt}=q_i-q_o}
+\]</div>
+<p>となります。</p>
+<p>例えば、毎秒3 L入って2 L出るなら、タンク内の水は毎秒1 L増える、というだけです。</p>
+<h3>② 出る水の量＝出口の面積×流速</h3>
+<p>出口の断面積が \(S\)、流速が \(v\) なら、1秒間で長さ \(v\times1\) の水が出口を通るので、</p>
+<div class="equation">\[
+\boxed{q_o=Sv}
+\]</div>
+<p>です。</p>
+<h3>③ 水位が高いほど、勢いよく流れ出る</h3>
+<p>水面と出口の高さの差が \(h\) あるため、その位置エネルギーが流出する水の運動エネルギーになると考えます。</p>
+<p>摩擦などの損失を無視し、水面の動きが十分遅いとすると、</p>
+<div class="equation">\[
+mgh=\frac12mv^2
+\quad\Rightarrow\quad
+\boxed{v=\sqrt{2gh}}.
+\]</div>
+<p>したがって、</p>
+<div class="equation">\[
+q_o=S\sqrt{2gh}.
+\]</div>
+<h3>④ まとめると、水位の変化を表す式になる</h3>
+<p>①に代入して、</p>
+<div class="equation">\[
+A\frac{dh}{dt}=q_i-S\sqrt{2gh}.
+\]</div>
+<p>両辺を \(A\) で割ると、スライドの式です。</p>
+<div class="equation">\[
+\boxed{
+\frac{dh}{dt}
+=
+\underbrace{\frac{q_i}{A}}_{\text{流入によって水位が上がる速さ}}
+-
+\underbrace{\frac{S}{A}\sqrt{2gh}}_{\text{流出によって水位が下がる速さ}}
+}
+\]</div>
+<p>この式から、次のことがわかります。</p>
+<ul>
+<li><strong>流入＞流出</strong>なら、水位が上がる。</li>
+<li><strong>流入＜流出</strong>なら、水位が下がる。</li>
+<li><strong>流入＝流出</strong>なら、水位が変わらない。</li>
+</ul>
+<p>ここでは <strong>入力が \(q_i(t)\)、出力として見たいものが \(h(t)\)</strong> です。入力と初期水位を与えれば、この微分方程式からその後の水位を求められます。</p>
+<p>ただし、<strong>\(h\) が \(\sqrt h\) の形で入っているため、これは非線形の式</strong>です。そこで次のスライドでは、平衡状態の近くで線形近似して、伝達関数を使える形にしていきます。</p></div></section>
+<section class="talk-turn" id="question-7"><h2>質問7</h2><div class="talk-question has-images"><div class="question-text"><h3>質問</h3><p>何がどう変わった？</p></div><div class="talk-images"><figure><a href="assets/talk-lesson-04/input-10.png" target="_blank" rel="noopener"><img src="assets/talk-lesson-04/input-10.png" alt="質問7の入力画像1" loading="lazy"></a><figcaption><a href="assets/talk-lesson-04/input-10.png" target="_blank" rel="noopener">元サイズで開く</a></figcaption></figure></div></div><div class="talk-answer"><h3>AIの回答</h3><p><strong>同じタンクについて、「水位 \(h\) の変化」を表す式から、「流出量 \(q_o\) の変化」を表す式に書き換えています。</strong> まだ近似はしていません。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>前のスライド</th>
+<th>今回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>入力</td>
+<td>流入量 \(q_i\)</td>
+<td>流入量 \(q_i\)</td>
+</tr>
+<tr>
+<td>変化を調べる量</td>
+<td>水位 \(h\)</td>
+<td>流出量 \(q_o\)</td>
+</tr>
+<tr>
+<td>消去する変数</td>
+<td>\(v,q_o\)</td>
+<td>\(v,h\)</td>
+</tr>
+</tbody>
+</table>
+<p>書き換え方は、まず</p>
+<div class="equation">\[
+q_o=Sv=S\sqrt{2gh}
+\]</div>
+<p>を2乗して、水位を流出量で表します。</p>
+<div class="equation">\[
+h=\frac{q_o^2}{2gS^2}
+\]</div>
+<p>時間で微分すると、</p>
+<div class="equation">\[
+\frac{dh}{dt}=\frac{q_o}{gS^2}\frac{dq_o}{dt}.
+\]</div>
+<p>これを、水の保存則</p>
+<div class="equation">\[
+A\frac{dh}{dt}=q_i-q_o
+\]</div>
+<p>に代入すると、</p>
+<div class="equation">\[
+A\frac{q_o}{gS^2}\frac{dq_o}{dt}=q_i-q_o.
+\]</div>
+<p>整理して、スライドの式が得られます（\(q_o&gt;0\)）。</p>
+<div class="equation">\[
+\boxed{\frac{dq_o}{dt}
+=\frac{S^2g}{A}\left(\frac{q_i}{q_o}-1\right)}
+\]</div>
+<p>この式は、<strong>入る量が出る量より多ければ、水位が上がり、それに伴って流出量も増える</strong>ことを表しています。</p>
+<p>流出量に注目し直したのは、<strong>このあとタンクを2段につなぐとき、「上のタンクの流出量＝下のタンクの流入量」として扱いやすくするため</strong>です。</p></div></section>
     </article>
-    <nav class="toc" aria-label="ページ内目次">
-      <button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
-      <div class="toc-panel" id="toc-panel" hidden><ul>
-        <li><a href="#summary">講義の要点</a></li>
-        <li><a href="#chapter-01">伝達関数・インパルス応答・ステップ応答（p.1〜10）</a><ul>
-        <li><a href="#slide-001">1　今回の到達点</a></li>
-        <li><a href="#slide-002">2　前半の見取り図</a></li>
-        <li><a href="#slide-003">3　初期値応答と入力応答を分ける</a></li>
-        <li><a href="#slide-004">4　伝達関数の定義と初期値の条件</a></li>
-        <li><a href="#slide-005">5　インパルス応答の意味</a></li>
-        <li><a href="#slide-006">6　畳み込みを図から読む</a></li>
-        <li><a href="#slide-007">7　一つの応答から任意の入力へ</a></li>
-        <li><a href="#slide-008">8　一定の入力に対するステップ応答</a></li>
-        <li><a href="#slide-009">9　ステップ応答はインパルス応答の積分</a></li>
-        <li><a href="#slide-010">10　ステップ応答を測る理由</a></li>
-        </ul></li>
-        <li><a href="#chapter-02">システムの結合：水タンクのモデルと線形化（p.11〜17）</a><ul>
-        <li><a href="#slide-011">11　後半の見取り図</a></li>
-        <li><a href="#slide-012">12　水タンクの保存則</a></li>
-        <li><a href="#slide-013">13　水位を変数にした非線形モデル</a></li>
-        <li><a href="#slide-014">14　流出量を変数に選び直す</a></li>
-        <li><a href="#slide-015">15　平衡点と微小なずれ</a></li>
-        <li><a href="#slide-016">16　線形化の空欄を埋める考え方</a></li>
-        <li><a href="#slide-017">17　線形化された一次系を読む</a></li>
-        </ul></li>
-        <li><a href="#chapter-03">システムの結合：直列結合（p.18〜23）</a><ul>
-        <li><a href="#slide-018">18　二つのタンクを直列につなぐ</a></li>
-        <li><a href="#slide-019">19　中間変数を消して二階の式にする</a></li>
-        <li><a href="#slide-020">20　二階の式から伝達関数へ</a></li>
-        <li><a href="#slide-021">21　各タンクを先に変換する</a></li>
-        <li><a href="#slide-022">22　直列結合の一般則</a></li>
-        <li><a href="#slide-023">23　直列の順序を交換できる範囲</a></li>
-        </ul></li>
-        <li><a href="#chapter-04">システムの結合：並列結合（p.24）</a><ul>
-        <li><a href="#slide-024">24　並列結合は出力を足す</a></li>
-        </ul></li>
-        <li><a href="#chapter-05">システムの結合：フィードバック結合（p.25〜26）</a><ul>
-        <li><a href="#slide-025">25　負帰還の信号関係を立てる</a></li>
-        <li><a href="#slide-026">26　フィードバック結合の公式と級数</a></li>
-        </ul></li>
-      </ul></div>
-    </nav>
-  </div>
-</main>
+  </main>
 </div>
 </body>
 </html>

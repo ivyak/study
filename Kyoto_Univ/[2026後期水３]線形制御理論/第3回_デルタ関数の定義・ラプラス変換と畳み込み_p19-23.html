@@ -9,7 +9,7 @@
 <meta name="study-lesson" content="3">
 <meta name="study-kind" content="解説">
 <meta name="study-created" content="2026-10-28">
-<title>線形制御理論｜第3回：デルタ関数の定義・ラプラス変換と畳み込み（p.19〜23）</title>
+<title>線形制御理論｜第3回：微分方程式・伝達関数の共有会話とデルタ関数</title>
 <link rel="stylesheet" href="../ui/life.css">
 <script defer src="../ui/life.js"></script>
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
@@ -58,6 +58,21 @@
 .control-slides .slide-label{font-size:12px;color:var(--muted);margin-top:0}
 .control-slides :is(.explanation,.chapter-heading,.summary){scroll-margin-top:110px}
 @media(max-width:650px){.control-slides .explanation-heading,.control-slides .chapter-title{flex-wrap:wrap;gap:6px}.control-slides .reading-time{width:100%}}
+
+.talk-record .talk-turn{margin:32px 0;padding-top:18px;border-top:1px solid var(--line);scroll-margin-top:110px}
+.talk-record .talk-turn>h2{font-size:21px}
+.talk-record .talk-question{padding:18px;background:rgba(215,182,108,.04);border:1px solid var(--line)}
+.talk-record .talk-question.has-images{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.talk-record .talk-question h3,.talk-record .talk-answer>h3:first-child{margin-top:0;color:var(--gold);font-size:14px}
+.talk-record .talk-answer{padding:24px 0;min-width:0}
+.talk-record .talk-images figure{margin:0 0 18px}
+.talk-record .talk-images img{display:block;width:100%;height:auto}
+.talk-record .talk-images figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.talk-record .talk-table{max-width:100%;overflow-x:auto}
+.talk-record table{width:100%;border-collapse:collapse}
+.talk-record th,.talk-record td{padding:12px;border:1px solid var(--line);text-align:left}
+.talk-record mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:10px 0}
+@media(max-width:650px){.talk-record .talk-question.has-images{grid-template-columns:minmax(0,1fr)}.talk-record .talk-question{padding:12px}}
 </style>
 </head>
 <body data-life-page="document" data-portal="../index.html" data-course="[2026後期水３]線形制御理論">
@@ -96,13 +111,134 @@
   <div class="breadcrumb"><a href="../index.html">授業資料</a><span>/</span><a href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96">線形制御理論</a><span>/</span><span>第3回 解説</span></div>
   <header class="document-header">
     <p class="eyebrow">2026年度 後期 · 水曜3限 / 第3回</p>
-    <h1 id="document-title">第3回　デルタ関数の定義・ラプラス変換と畳み込み</h1>
-    <p class="subtitle">PDF p.19〜23</p>
+    <h1 id="document-title">第3回　微分方程式・伝達関数の共有会話とデルタ関数</h1>
+    <p class="subtitle">最終値定理・微分方程式・伝達関数の共有会話 ／ デルタ関数 PDF p.19〜23</p>
   </header>
   <div class="section-rule"></div>
   <div class="reader">
     <article class="lesson-document control-slides" aria-labelledby="document-title">
 
+      <section class="summary" id="talk-summary">
+        <h2>概要</h2>
+        <p>最終値定理の意味と、微分方程式をラプラス変換して解く流れについての会話です。伝達関数・インパルス応答の定義と、微分方程式における入力・出力の対応を確認しています。</p>
+        <p class="source-note">原典：<a href="https://chatgpt.com/share/6aeaba4f-eff4-83ee-8835-26ad15d37cb2" target="_blank" rel="noopener noreferrer">共有会話1</a>。想定読了時間：約8分</p>
+      </section>
+      <section class="talk-record" id="shared-talk">
+        <div class="chapter-heading"><div class="chapter-title"><h2>共有会話：線形制御理論 第3回</h2></div></div>
+        <section class="talk-turn" id="talk-01">
+          <h2>最終値定理</h2>
+          <div class="talk-question has-images">
+            <div><h3>質問 1</h3><p>結局、最終知定理は何が言いたい？</p></div>
+            <div class="talk-images"><figure><a href="assets/talk-lesson-03/input-01.png" target="_blank" rel="noopener noreferrer"><img src="assets/talk-lesson-03/input-01.png" alt="質問1の入力画像1" loading="lazy"></a><figcaption>入力画像1 · <a href="assets/talk-lesson-03/input-01.png" target="_blank" rel="noopener noreferrer">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-03/input-02.png" target="_blank" rel="noopener noreferrer"><img src="assets/talk-lesson-03/input-02.png" alt="質問1の入力画像2" loading="lazy"></a><figcaption>入力画像2 · <a href="assets/talk-lesson-03/input-02.png" target="_blank" rel="noopener noreferrer">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-03/input-03.png" target="_blank" rel="noopener noreferrer"><img src="assets/talk-lesson-03/input-03.png" alt="質問1の入力画像3" loading="lazy"></a><figcaption>入力画像3 · <a href="assets/talk-lesson-03/input-03.png" target="_blank" rel="noopener noreferrer">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-03/input-04.png" target="_blank" rel="noopener noreferrer"><img src="assets/talk-lesson-03/input-04.png" alt="質問1の入力画像4" loading="lazy"></a><figcaption>入力画像4 · <a href="assets/talk-lesson-03/input-04.png" target="_blank" rel="noopener noreferrer">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-03/input-05.png" target="_blank" rel="noopener noreferrer"><img src="assets/talk-lesson-03/input-05.png" alt="質問1の入力画像5" loading="lazy"></a><figcaption>入力画像5 · <a href="assets/talk-lesson-03/input-05.png" target="_blank" rel="noopener noreferrer">元サイズで開く</a></figcaption></figure></div>
+          </div>
+          <div class="talk-answer"><h3>ChatGPTの回答 1</h3>
+<p>最終値定理が言いたいのは、**「時間が十分たったときに何の値に落ち着くかは、逆ラプラス変換しなくても求められる」**ということ。</p>
+\[\boxed{\underbrace{\lim_{t\to\infty}f(t)}_{\text{最終的に落ち着く値}}
+=
+\underbrace{\lim_{s\to0}sF(s)}_{\text{\(F(s)\)に\(s\)を掛けて極限を取る}}}\]
+<p>例えば、</p>
+\[F(s)=\frac{3}{s(s+2)}\]
+<p>なら、</p>
+\[\lim_{s\to0}sF(s)=\lim_{s\to0}\frac{3}{s+2}=\frac32.\]
+<p>これだけで、<strong>\(f(t)\)は最終的に \(1.5\) に落ち着く</strong>と分かる。</p>
+<p>ただし、<strong>ずっと振動したり、増え続けたりする関数には使えない。</strong> スライドの「極の条件」は、ちゃんと一定値に落ち着くことを確認するための条件である。</p>
+          </div>
+        </section>
+        <section class="talk-turn" id="talk-02">
+          <h2>微分方程式とラプラス変換</h2>
+          <div class="talk-question">
+            <div><h3>質問 2</h3><p><a href="授業資料/線形制御理論【第3回】講義資料.pdf" target="_blank" rel="noopener noreferrer">線形制御理論【第3回】講義資料.pdf</a></p><p>9~17枚目の「微分方程式とラプラス変換」について質問、この部分では、結局何が言いたい？</p></div>
+
+          </div>
+          <div class="talk-answer"><h3>ChatGPTの回答 2</h3>
+<p>**「微分方程式は、ラプラス変換すると普通の方程式になり、計算で解ける」**というのが、この部分の主張。</p>
+<p>例えば、</p>
+\[y'(t)+ay(t)=u(t),\qquad y(0)=y_0\]
+<p>を解きたいとき、</p>
+<ol>
+  <li><p><strong>ラプラス変換する</strong><br>微分 \(y'\) が \(sY-y_0\) に変わるので、</p>\[sY-y_0+aY=U.\]</li>
+  <li><p><strong>普通の方程式として \(Y\) を求める</strong></p>\[Y(s)=\frac{y_0}{s+a}+\frac{1}{s+a}U(s).\]</li>
+  <li><p><strong>逆ラプラス変換して、解 \(y(t)\) に戻す。</strong></p></li>
+</ol>
+<p>さらに、この式から、<strong>解は「最初の状態による動き」と「外から加えた入力による動き」の和になる</strong>と分かる。</p>
+\[Y(s)=
+\underbrace{\frac{y_0}{s+a}}_{\text{最初の状態の影響}}
++
+\underbrace{\frac{1}{s+a}U(s)}_{\text{入力の影響}}\]
+<p>後半の複雑な式は、<strong>この方法が2階・3階などの微分方程式でも同じように使える</strong>ことを示している。そして、入力に掛かる係数 \(H(s)\) が、後で出てくる「伝達関数」になる。</p>
+          </div>
+        </section>
+        <section class="talk-turn" id="talk-03">
+          <h2>伝達関数とインパルス応答</h2>
+          <div class="talk-question">
+            <div><h3>質問 3</h3><p>伝達関数、インパルス応答のそもそもの定義は何か？また、ここでの微分方程式における役割は何か？</p></div>
+
+          </div>
+          <div class="talk-answer"><h3>ChatGPTの回答 3</h3>
+<p>どちらも、**「入力を加えたとき、そのシステムがどう反応するか」**を表すもの。ここでは、\(u(t)\) が入力、\(y(t)\) が出力である。</p>
+<h3>① 伝達関数 \(H(s)\)</h3>
+<p><strong>初期値をすべて0にしたときの、ラプラス変換した出力と入力の比</strong>として定義する。</p>
+\[\boxed{H(s)=\frac{Y(s)}{U(s)}}\]
+<p>つまり、</p>
+\[Y(s)=H(s)U(s)\]
+<p>という形で、<strong>入力から出力への変換を表す係数</strong>になる。</p>
+<p>例えば、</p>
+\[y'+ay=u,\qquad y(0)=0\]
+<p>なら、ラプラス変換すると</p>
+\[(s+a)Y=U\]
+<p>なので、</p>
+\[\boxed{H(s)=\frac{1}{s+a}}.\]
+<h3>② インパルス応答 \(h(t)\)</h3>
+<p><strong>初期値をすべて0にして、入力に単位インパルス \(\delta(t)\) を加えたときの出力</strong>として定義する。</p>
+<p>単位インパルスとは、直感的には「一瞬だけ加える、積分値が1の刺激」のこと。</p>
+<p>\(\mathcal L[\delta]=1\) なので、このとき</p>
+\[Y(s)=H(s)\times1=H(s).\]
+<p>したがって、</p>
+\[\boxed{h(t)=\mathcal L^{-1}[H(s)]}.\]
+<p>上の例では、</p>
+\[\boxed{h(t)=e^{-at}\qquad(t\geq0)}.\]
+<h3>この微分方程式での役割</h3>
+<p><strong>\(H(s)\) または \(h(t)\) が分かれば、いろいろな入力に対する出力を計算できる。</strong></p>
+<div class="talk-table"><table><thead><tr><th>表し方</th><th>初期値0での出力の求め方</th></tr></thead><tbody><tr><td>ラプラス変換した世界</td><td>\(Y(s)=H(s)U(s)\)</td></tr><tr><td>時間の世界</td><td>\(\displaystyle y(t)=\int_0^t h(t-\tau)u(\tau)\,d\tau\)</td></tr></tbody></table></div>
+<p>下の積分は、<strong>各時刻に加えた入力の影響を、現在まで足し合わせる</strong>という意味。</p>
+<p>初期値が \(y_0\neq0\) なら、さらに最初の状態による動きを足して、</p>
+\[\boxed{
+y(t)=
+\underbrace{y_0e^{-at}}_{\text{最初の状態の影響}}
++
+\underbrace{\int_0^t h(t-\tau)u(\tau)\,d\tau}_{\text{入力の影響}}
+}\]
+<p>となる。</p>
+<p>つまり、<strong>微分方程式が表す「入力への反応の仕方」を、\(s\) の世界では伝達関数、時間の世界ではインパルス応答で表している。</strong></p>
+          </div>
+        </section>
+        <section class="talk-turn" id="talk-04">
+          <h2>微分方程式と入力・出力の対応</h2>
+          <div class="talk-question">
+            <div><h3>質問 4</h3><p>そもそも、なぜ微分方程式が入力や出力の話になる？対応を教えて</p></div>
+
+          </div>
+          <div class="talk-answer"><h3>ChatGPTの回答 4</h3>
+<p><strong>この講義では「外から何かを加えると、対象がどう動くか」を微分方程式で表しているから。</strong> 外から加えるものを「入力」、調べたい動きを「出力」と呼んでいる。</p>
+<p>例えば、<strong>物体に力を加えて、速度がどう変わるか</strong>を考える。速度に比例する抵抗があるなら、運動方程式は</p>
+\[m\frac{dv}{dt}=F(t)-kv(t)\]
+<p>つまり、</p>
+\[m\frac{dv}{dt}+kv(t)=F(t).\]
+<p>講義の式との対応はこうなる。</p>
+<div class="talk-table"><table><thead><tr><th>講義の式 \(y'+ay=u\)</th><th>物体の運動</th></tr></thead><tbody><tr><td>入力 \(u(t)\)</td><td>加える力 \(F(t)/m\)</td></tr><tr><td>出力 \(y(t)\)</td><td>調べたい速度 \(v(t)\)</td></tr><tr><td>係数 \(a\)</td><td>抵抗の強さを表す \(k/m\)</td></tr><tr><td>初期値 \(y(0)\)</td><td>最初の速度 \(v(0)\)</td></tr><tr><td>微分方程式全体</td><td>力と速度の変化を結びつける法則</td></tr></tbody></table></div>
+<p>この式は、</p>
+\[\underbrace{y'(t)}_{\text{速度の変化率}}
+=
+\underbrace{u(t)}_{\text{外から加速させる効果}}
+-
+\underbrace{ay(t)}_{\text{抵抗で減速する効果}}\]
+<p>と読める。</p>
+<p><strong>入力 \(u(t)\) と初期値が決まると、微分方程式によって出力 \(y(t)\) が決まる。</strong> その「入力から出力への関係」をまとめたものが、伝達関数である。</p>
+<p>なお、すべての微分方程式に入力・出力が最初からあるわけではない。ここでは、<strong>対象への働きかけと、その結果という見方で微分方程式を使っている</strong>。</p>
+          </div>
+        </section>
+      </section>
+      <div class="chapter-heading" id="delta-chapter"><div class="chapter-title"><h2>デルタ関数</h2></div></div>
       <section class="summary" id="summary">
         <h2>講義を通して言いたいこと</h2>
         <span class="reading-time">想定読了時間 約11分</span>
@@ -199,7 +335,15 @@
     <nav class="toc" aria-label="ページ内目次">
       <button class="toc-toggle" aria-expanded="false" aria-controls="toc-panel"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/></svg>目次</button>
       <div class="toc-panel" id="toc-panel" hidden><ul>
-        <li><a href="#summary">講義の要点</a></li>
+        <li><a href="#talk-summary">概要</a></li>
+        <li><a href="#shared-talk">共有会話</a><ul>
+          <li><a href="#talk-01">最終値定理</a></li>
+          <li><a href="#talk-02">微分方程式とラプラス変換</a></li>
+          <li><a href="#talk-03">伝達関数とインパルス応答</a></li>
+          <li><a href="#talk-04">入力・出力の対応</a></li>
+        </ul></li>
+        <li><a href="#delta-chapter">デルタ関数</a></li>
+        <li><a href="#summary">デルタ関数：講義の要点</a></li>
         <li><a href="#chapter-01">デルタ関数の定義｜p.19〜21</a><ul>
           <li><a href="#slide-019">p.19｜学ぶ位置づけ</a></li>
           <li><a href="#slide-020">p.20｜幅・高さ・面積</a></li>

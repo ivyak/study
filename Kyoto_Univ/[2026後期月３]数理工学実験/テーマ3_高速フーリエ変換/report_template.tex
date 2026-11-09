@@ -260,7 +260,15 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
 
 \subsubsection{実験方法(1-b)}
 
-(a)より
+(a)で求めた係数を用いて、$x_{A}(t)$, $x_{B}(t)$, $x_{A,M}(t)$, $x_{B,M}(t)$をPythonの関数で表し、Matplotlibで描画できるようにする。
+
+\paragraph{描画方法}
+\texttt{utils\_math.py}に4つの関数を定義し、部分和は$k=1$から$M$まで加算して求めた。\texttt{kadai1\_b.py}では、$-2\le t\le 2$を4000点に分け、$M=1,5,50$の部分和を元の関数と重ねて描いた。描画には\texttt{utils\_plot.py}の\texttt{plot\_f}を使い、A、Bそれぞれの図を保存した。
+
+コード\ref{lst:fourier-plot-call}に、描画に用いたコードを示す。
+\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(b)のフーリエ部分和の描画},label={lst:fourier-plot-call}]{../section4/kadai1_b.py}
+
+\subsubsection{結果(1-b)}
 \[
   \begin{aligned}
     \mathrm{A}:\quad x_{A,M}(t)
@@ -271,16 +279,19 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
   \end{aligned}
 \]
 
-よって、$x_{A}(t)$, $x_{B}(t)$, $x_{A,M}(t)$, $x_{B,M}(t)$をPythonの関数で表し、Matplotlibで描画できるようにする。
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../section4/kadai1_b_A.png}
+  \caption{Aの元の関数と$M=1,5,50$のフーリエ部分和。}
+  \label{fig:fourier-A}
+\end{figure}
 
-\paragraph{描画方法}
-\texttt{utils\_math.py}に4つの関数を定義し、部分和は$k=1$から$M$まで加算して求めた。\texttt{kadai1\_b.py}では、$-2\le t\le 2$を4000点に分け、$M=1,5,50$の部分和を元の関数と重ねて描いた。描画には\texttt{utils\_plot.py}の\texttt{plot\_f}を使い、A、Bそれぞれの図を保存した。
-
-コード\ref{lst:fourier-plot-call}に、描画に用いたコードを示す。
-\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(b)のフーリエ部分和の描画},label={lst:fourier-plot-call}]{../section4/kadai1_b.py}
-
-\subsubsection{結果・考察(1-b)}
-$M$を大きくすると、A、Bともに部分和が元の関数に近づいた。Bでは$M=50$でほぼ重なったが、Aでは不連続点付近に振動が残った。これはギブズ現象であり、$M$を増やしても不連続点付近のはみ出しは残る。
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../section4/kadai1_b_B.png}
+  \caption{Bの元の関数と$M=1,5,50$のフーリエ部分和。}
+  \label{fig:fourier-B}
+\end{figure}
 
 \begin{itembox}[l]{課題1-(b)}
 二分法により関数 $f$ の全ての零点を求めよ。ただし、二つの異なる初期点は、(a)で描写した関数 $f$ の概形を参考にして適切に設定せよ。

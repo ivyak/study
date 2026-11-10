@@ -407,6 +407,96 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
 
 零点探索と最適化の方法をPythonで実装し、得られた値や更新回数を比較した。零点探索では、二分法とニュートン法のどちらでも、$-3$、$-1$、$2$に近い値が得られた。1変数の最適化でも、最急降下法とニュートン法でともに$x=3$に近い値が得られた。
 
+\subsubsection{実験方法(2-b)}
+
+$W_N=e^{-i2\pi/N}$とおく。$N=8$として、偶数番目と奇数番目の項に分けると、
+\[
+  \begin{aligned}
+    X_k
+    &=\sum_{n=0}^{7}x_n e^{-i\frac{2\pi kn}{8}}
+      =\sum_{n=0}^{7}x_n(W_8)^{kn}\\
+    &=x_0+x_1(W_8)^k+x_2(W_8)^{2k}+x_3(W_8)^{3k}\\
+    &\quad+x_4(W_8)^{4k}+x_5(W_8)^{5k}
+      +x_6(W_8)^{6k}+x_7(W_8)^{7k}\\
+    &=\sum_{m=0}^{3}x_{2m}(W_8)^{2mk}
+      +\sum_{m=0}^{3}x_{2m+1}(W_8)^{(2m+1)k}\\
+    &=\sum_{m=0}^{3}x_{2m}(W_4)^{mk}
+      +(W_8)^k\sum_{m=0}^{3}x_{2m+1}(W_4)^{mk}\\
+    &=X_k^{(0)}+(W_8)^kX_k^{(1)}.
+  \end{aligned}
+\]
+ここで、
+\[
+  X_k^{(0)}=\sum_{m=0}^{3}x_{2m}(W_4)^{mk},\qquad
+  X_k^{(1)}=\sum_{m=0}^{3}x_{2m+1}(W_4)^{mk}
+\]
+であり、$(W_8)^{2mk}=(W_4)^{mk}$を用いた。
+
+また、$a=0,1$について、
+\[
+  \begin{aligned}
+    X_{k+4}^{(a)}
+    &=\sum_{m=0}^{3}x_{2m+a}(W_4)^{m(k+4)}\\
+    &=\sum_{m=0}^{3}x_{2m+a}(W_4)^{mk}e^{-i2\pi m}
+      =X_k^{(a)},\\
+    (W_8)^{k+4}
+    &=e^{-i\pi}(W_8)^k=-(W_8)^k.
+  \end{aligned}
+\]
+よって、$k=0,1,2,3$について、
+\[
+  \begin{aligned}
+    X_k&=X_k^{(0)}+(W_8)^kX_k^{(1)},\\
+    X_{k+4}&=X_k^{(0)}-(W_8)^kX_k^{(1)}.
+  \end{aligned}
+\]
+
+さらに、各項を同様に分ける。
+\[
+  \begin{aligned}
+    X_k
+    &=\bigl(x_0+x_2(W_8)^{2k}+x_4(W_8)^{4k}+x_6(W_8)^{6k}\bigr)\\
+    &\quad+\bigl(x_1(W_8)^k+x_3(W_8)^{3k}
+      +x_5(W_8)^{5k}+x_7(W_8)^{7k}\bigr)\\
+    &=\bigl(x_0+x_4(W_8)^{4k}\bigr)
+      +\bigl(x_2(W_8)^{2k}+x_6(W_8)^{6k}\bigr)\\
+    &\quad+\bigl(x_1(W_8)^k+x_5(W_8)^{5k}\bigr)
+      +\bigl(x_3(W_8)^{3k}+x_7(W_8)^{7k}\bigr)\\
+    &=\sum_{m=0}^{1}x_{4m}(W_2)^{mk}
+      +(W_4)^k\sum_{m=0}^{1}x_{4m+2}(W_2)^{mk}\\
+    &\quad+(W_8)^k\left\{
+      \sum_{m=0}^{1}x_{4m+1}(W_2)^{mk}
+      +(W_4)^k\sum_{m=0}^{1}x_{4m+3}(W_2)^{mk}\right\}\\
+    &=X_k^{(00)}+(W_4)^kX_k^{(01)}
+      +(W_8)^k\left\{X_k^{(10)}+(W_4)^kX_k^{(11)}\right\}.
+  \end{aligned}
+\]
+ここで、$a,b=0,1$として、
+\[
+  X_k^{(ab)}=\sum_{m=0}^{1}x_{4m+2b+a}(W_2)^{mk}
+\]
+とした。もう一度分けると、
+\[
+  \begin{aligned}
+    X_k
+    &=X_k^{(000)}+(W_2)^kX_k^{(001)}\\
+    &\quad+(W_4)^k\left\{X_k^{(010)}+(W_2)^kX_k^{(011)}\right\}\\
+    &\quad+(W_8)^k\Bigl[
+      X_k^{(100)}+(W_2)^kX_k^{(101)}\\
+    &\qquad\qquad+(W_4)^k\left\{X_k^{(110)}+(W_2)^kX_k^{(111)}\right\}
+      \Bigr].
+  \end{aligned}
+\]
+ここで、$a,b,c=0,1$について、
+\[
+  \begin{aligned}
+    X_k^{(abc)}
+    &=\sum_{m=0}^{8/8-1}x_{8m+4c+2b+a}(W_1)^{mk}\\
+    &=x_{4c+2b+a}=x_{(cba)_2}.
+  \end{aligned}
+\]
+したがって、$X_k^{(abc)}$は$k$によらない。
+
 \paragraph{生成AIの利用}
 課題6-2,3の調査・理解の中でOpenAI Codexを利用した。
 

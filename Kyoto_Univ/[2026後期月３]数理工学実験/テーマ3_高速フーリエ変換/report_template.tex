@@ -451,29 +451,30 @@ $W_N=e^{-i2\pi/N}$とおく。$N=8$として、偶数番目と奇数番目の項
   \end{aligned}
 \]
 
-さらに、各項を同様に分ける。
+さらに、各項を同様に分ける。添字は$2^2c+2^1b+2^0a$と表し、2進数の各桁を明示する。
 \[
   \begin{aligned}
     X_k
-    &=\bigl(x_0+x_2(W_8)^{2k}+x_4(W_8)^{4k}+x_6(W_8)^{6k}\bigr)\\
-    &\quad+\bigl(x_1(W_8)^k+x_3(W_8)^{3k}
-      +x_5(W_8)^{5k}+x_7(W_8)^{7k}\bigr)\\
-    &=\bigl(x_0+x_4(W_8)^{4k}\bigr)
-      +\bigl(x_2(W_8)^{2k}+x_6(W_8)^{6k}\bigr)\\
-    &\quad+\bigl(x_1(W_8)^k+x_5(W_8)^{5k}\bigr)
-      +\bigl(x_3(W_8)^{3k}+x_7(W_8)^{7k}\bigr)\\
-    &=\sum_{m=0}^{1}x_{4m}(W_2)^{mk}
-      +(W_4)^k\sum_{m=0}^{1}x_{4m+2}(W_2)^{mk}\\
-    &\quad+(W_8)^k\left\{
-      \sum_{m=0}^{1}x_{4m+1}(W_2)^{mk}
-      +(W_4)^k\sum_{m=0}^{1}x_{4m+3}(W_2)^{mk}\right\}\\
+    &=\Bigl(x_{2^2\cdot0+2^1\cdot0+2^0\cdot0}+x_{2^2\cdot0+2^1\cdot1+2^0\cdot0}(W_8)^{2k}\\
+    &\qquad+x_{2^2\cdot1+2^1\cdot0+2^0\cdot0}(W_8)^{4k}+x_{2^2\cdot1+2^1\cdot1+2^0\cdot0}(W_8)^{6k}\Bigr)\\
+    &\quad+\Bigl(x_{2^2\cdot0+2^1\cdot0+2^0\cdot1}(W_8)^k+x_{2^2\cdot0+2^1\cdot1+2^0\cdot1}(W_8)^{3k}\\
+    &\qquad+x_{2^2\cdot1+2^1\cdot0+2^0\cdot1}(W_8)^{5k}+x_{2^2\cdot1+2^1\cdot1+2^0\cdot1}(W_8)^{7k}\Bigr)\\
+    &=\Bigl(x_{2^2\cdot0+2^1\cdot0+2^0\cdot0}+x_{2^2\cdot1+2^1\cdot0+2^0\cdot0}(W_8)^{4k}\Bigr)\\
+    &\quad+\Bigl(x_{2^2\cdot0+2^1\cdot1+2^0\cdot0}(W_8)^{2k}+x_{2^2\cdot1+2^1\cdot1+2^0\cdot0}(W_8)^{6k}\Bigr)\\
+    &\quad+\Bigl(x_{2^2\cdot0+2^1\cdot0+2^0\cdot1}(W_8)^k+x_{2^2\cdot1+2^1\cdot0+2^0\cdot1}(W_8)^{5k}\Bigr)\\
+    &\quad+\Bigl(x_{2^2\cdot0+2^1\cdot1+2^0\cdot1}(W_8)^{3k}+x_{2^2\cdot1+2^1\cdot1+2^0\cdot1}(W_8)^{7k}\Bigr)\\
+    &=\sum_{m=0}^{1}x_{2^2m+2^1\cdot0+2^0\cdot0}(W_2)^{mk}\\
+    &\quad+(W_4)^k\sum_{m=0}^{1}x_{2^2m+2^1\cdot1+2^0\cdot0}(W_2)^{mk}\\
+    &\quad+(W_8)^k\Bigl\{
+      \sum_{m=0}^{1}x_{2^2m+2^1\cdot0+2^0\cdot1}(W_2)^{mk}\\
+    &\qquad\qquad+(W_4)^k\sum_{m=0}^{1}x_{2^2m+2^1\cdot1+2^0\cdot1}(W_2)^{mk}\Bigr\}\\
     &=X_k^{(00)}+(W_4)^kX_k^{(01)}
       +(W_8)^k\left\{X_k^{(10)}+(W_4)^kX_k^{(11)}\right\}.
   \end{aligned}
 \]
 ここで、$a,b=0,1$として、
 \[
-  X_k^{(ab)}=\sum_{m=0}^{1}x_{4m+2b+a}(W_2)^{mk}
+  X_k^{(ab)}=\sum_{m=0}^{1}x_{2^2m+2^1b+2^0a}(W_2)^{mk}
 \]
 とした。もう一度分けると、
 \[
@@ -491,8 +492,8 @@ $W_N=e^{-i2\pi/N}$とおく。$N=8$として、偶数番目と奇数番目の項
 \[
   \begin{aligned}
     X_k^{(abc)}
-    &=\sum_{m=0}^{8/8-1}x_{8m+4c+2b+a}(W_1)^{mk}\\
-    &=x_{4c+2b+a}=x_{(cba)_2}.
+    &=\sum_{m=0}^{8/8-1}x_{2^3m+2^2c+2^1b+2^0a}(W_1)^{mk}\\
+    &=x_{2^2c+2^1b+2^0a}=x_{(cba)_2}.
   \end{aligned}
 \]
 したがって、$X_k^{(abc)}$は$k$によらない。

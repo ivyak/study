@@ -293,6 +293,25 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
   \label{fig:fourier-B}
 \end{figure}
 
+\begin{itembox}[l]{問題2（動作テスト）}
+  次のような時系列データ $\{x_n\}_{n=0}^{7}$：
+  \[
+    \begin{aligned}
+      x_0&=1, & x_1&=1, & x_2&=1, & x_3&=1,\\
+      x_4&=0, & x_5&=0, & x_6&=0, & x_7&=0
+    \end{aligned}
+  \]
+  が与えられたとき、以下の問に答えよ。
+  \begin{enumerate}
+    \item[(a)] DFT［本文の式 (4.18)］の定義式に従ってフーリエ係数 $X_k$ を計算し、可能な限り厳密な形で求めよ。
+    \item[(b)] FFTを用いてフーリエ係数 $X_k$ を数値的に求めよ。また、その結果 $(X_k^{\mathrm{FFT}})$ と (a)の結果 $(X_k^{\mathrm{exact}})$ との差から最大誤差
+      \[
+        \max_k\left|X_k^{\mathrm{FFT}}-X_k^{\mathrm{exact}}\right|
+      \]
+      を評価し、誤差の大きさを $10^{-K}$ のオーダーで表せ。さらに、誤差の原因について述べよ。
+  \end{enumerate}
+\end{itembox}
+
 \begin{itembox}[l]{課題1-(b)}
 二分法により関数 $f$ の全ての零点を求めよ。ただし、二つの異なる初期点は、(a)で描写した関数 $f$ の概形を参考にして適切に設定せよ。
 \end{itembox}

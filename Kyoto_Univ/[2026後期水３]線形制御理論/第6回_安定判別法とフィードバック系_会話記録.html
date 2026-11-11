@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="study-ui" content="life">
+  <meta name="study-lesson" content="6">
+  <meta name="study-kind" content="解説">
+  <meta name="study-created" content="2026-11-11">
+  <title>線形制御理論｜第6回：安定判別法とフィードバック系の会話記録</title>
+  <link rel="stylesheet" href="../ui/life.css">
+  <script defer src="../ui/life.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},chtml:{displayAlign:'center'}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+  <style>
+    .talk-record .exchange{border-top:1px solid var(--line);padding:28px 0;scroll-margin-top:100px}
+    .talk-record .question:has(.input-images){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
+    .talk-record .question{padding:20px;background:rgba(215,182,108,.06)}
+    .talk-record h3{color:var(--gold);font-size:15px;margin:0 0 14px}
+    .talk-record .answer{margin-top:24px;min-width:0;line-height:1.95}
+    .talk-record .input-images{min-width:0}
+    .talk-record figure{margin:0 0 18px}
+    .talk-record img{display:block;width:100%;height:auto}
+    .talk-record figcaption{font-size:12px;color:var(--muted);margin-top:8px;overflow-wrap:anywhere}
+    .talk-record mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;padding:8px 0;max-width:100%;width:100%;min-width:0!important}
+    .talk-record .question > div{min-width:0;overflow-wrap:anywhere}
+    @media(max-width:700px){.talk-record .question:has(.input-images){grid-template-columns:1fr}.talk-record .question{padding:16px}}
+  </style>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水３]線形制御理論">
+<div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+  <div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%93%5D%E7%B7%9A%E5%BD%A2%E5%88%B6%E5%BE%A1%E7%90%86%E8%AB%96" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+  <header class="document-header">
+    <p class="eyebrow">線形制御理論 / 第6回</p>
+    <h1 id="document-title">第6回　安定判別法とフィードバック系の会話記録</h1>
+  </header>
+  <div class="section-rule"></div>
+  <div class="reader">
+    <article class="lesson-document talk-record" aria-labelledby="document-title">
+      <section class="summary"><h2>概要</h2><p>多項式の係数と安定性の関係、ラウス法とフルビッツ法による安定判別について確認する会話です。フィードバック系のブロック線図から式を立て、閉ループ分母の意味を確認しています。</p></section>
+      <p>原典：<a href="https://chatgpt.com/share/6af3f84f-49a8-83ee-af28-037f3f60a00b" target="_blank" rel="noopener">共有会話1</a></p>
+      <p>想定読了時間：約8分</p>
+      <h2>共有会話1：講義内容の要約</h2>
+<section class="exchange" id="exchange-1"><div class="question"><div><h3>質問 1</h3><p>係数が正でも、3 次以上では安定とは限らない。これはなんで？</p></div></div><div class="answer"><h3>ChatGPTの回答 1</h3><p><strong>3次になると、不安定な根が作る負の係数を、別の因数との掛け算で打ち消せる</strong>からです。</p><p>たとえば、</p>\[D(s)=(s+2)(s^2-s+3)=s^3+s^2+s+6\]<p>は、展開すると係数がすべて正です。ところが、\(s^2-s+3=0\) の根は</p>\[s=\frac{1\pm i\sqrt{11}}{2}\]<p>で、<strong>実部が \(1/2&gt;0\)</strong> なので不安定です。二次因子には \(-s\) があっても、\(s+2\) を掛けると、たとえば \(s^2\) の係数は \(2-1=1\) になります。</p><p><strong>2次までなら</strong>、正の係数を持つ多項式は \(s\ge0\) で正なので、実数の根はすべて負です。2次で根が共役な複素数の場合も、根の和が \(-a_1/a_2&lt;0\) なので、両方の実部は負です。<strong>3次では、負の実根が1つ加わることで、残り2つの根の実部が正でも、全体の係数がすべて正になり得ます。</strong></p></div></section>
+<section class="exchange" id="exchange-2"><div class="question"><div><h3>質問 2</h3><p>ラウスの安定判別法の結論は？</p></div></div><div class="answer"><h3>ChatGPTの回答 2</h3><p>ラウスの安定判別法は、<strong>伝達関数の分母の係数からラウス表を作り、第1列の符号を見る</strong>方法です。</p><h3>1. 最初の2行に係数を交互に入れる</h3><p>例として、講義の \(D(s)=s^5+s^4+3s^3+2s^2+6s+2\) を使います。最高次係数を正にそろえ、係数を次数の高い順に並べます。</p><ul><li>\(s^5\) の行には、\(s^5,s^3,s^1\) の係数 \(1,3,6\) を入れる。</li><li>\(s^4\) の行には、\(s^4,s^2,s^0\) の係数 \(1,2,2\) を入れる。</li></ul><h3>2. 直前の2行から次の行を作る</h3><p>直前の2行を上から \((u_1,u_2,u_3,\ldots)\)、\((v_1,v_2,v_3,\ldots)\) とすると、次の行は</p>\[\left(
+\frac{v_1u_2-u_1v_2}{v_1},
+\frac{v_1u_3-u_1v_3}{v_1},
+\ldots
+\right)\]<p>です。<strong>左端の \(u_1,v_1\) は固定し、右側の列だけずらす</strong>と覚えればOKです。足りない欄は \(0\) として計算します。</p><p>たとえば \(s^3\) の行は \((1\cdot3-1\cdot2)/1=1\)、\((1\cdot6-1\cdot2)/1=4\) です。同じ計算を繰り返します。</p><table><thead><tr><th>行</th><th>第1列</th><th>第2列</th><th>第3列</th></tr></thead><tbody><tr><td>\(s^5\)</td><td><strong>1</strong></td><td>3</td><td>6</td></tr><tr><td>\(s^4\)</td><td><strong>1</strong></td><td>2</td><td>2</td></tr><tr><td>\(s^3\)</td><td><strong>1</strong></td><td>4</td><td>0</td></tr><tr><td>\(s^2\)</td><td><strong>−2</strong></td><td>2</td><td>0</td></tr><tr><td>\(s^1\)</td><td><strong>5</strong></td><td>0</td><td>0</td></tr><tr><td>\(s^0\)</td><td><strong>2</strong></td><td>0</td><td>0</td></tr></tbody></table><h3>3. 第1列を上から読む</h3><p><strong>符号が変わる回数が、実部が正の根の個数</strong>です。この例では \(+,+,+,-,+,+\) と <strong>2回</strong>変わるので、不安定です。通常の計算で<strong>第1列がすべて正なら安定</strong>です。</p><p>第1列だけが \(0\) なら、その \(0\) を \(\varepsilon&gt;0\) に置き換えて計算し、\(\varepsilon\to0^+\) で符号を見ます。行全体が \(0\) なら、直上の行から作った多項式を微分し、その係数でゼロの行を置き換えます。</p></div></section>
+<section class="exchange" id="exchange-3"><div class="question"><div><h3>質問 3</h3><p>フルビッツの判定方法のやり方は？</p></div></div><div class="answer"><h3>ChatGPTの回答 3</h3><p>フルビッツの判定法は、<strong>分母の係数から行列を作り、左上から切り出した小行列の行列式がすべて正かを調べる</strong>方法です。</p><h3>1. 係数を交互に並べて行列を作る</h3><p>まず最高次係数を正にそろえます。\(n\) 次式なら、\(n\times n\) の行列を作ります。</p><ul><li><strong>1行目</strong>は、最高次の<strong>一つ下</strong>の係数から一つおきに並べる。</li><li><strong>2行目</strong>は、<strong>最高次</strong>の係数から一つおきに並べる。</li><li><strong>3、4行目</strong>は、1、2行目を右に1列ずらす。以降も2行ごとに右に1列ずらし、空欄には \(0\) を入れる。</li></ul><p>たとえば、講義の \(D(s)=s^3+3s^2+2s+K\) では、1行目が \((3,K,0)\)、2行目が \((1,2,0)\) なので、</p>\[H=
+\begin{pmatrix}
+3 &amp; K &amp; 0\\
+1 &amp; 2 &amp; 0\\
+0 &amp; 3 &amp; K
+\end{pmatrix}\]<p>となります。</p><h3>2. 左上から \(1\times1,\ 2\times2,\ 3\times3\) と切り出す</h3><p>それぞれの行列式を計算します。</p>\[\Delta_1=3,\qquad
+\Delta_2=
+\begin{vmatrix}
+3&amp;K\\
+1&amp;2
+\end{vmatrix}
+=6-K,\qquad
+\Delta_3=\det H=K(6-K).\]<h3>3. 行列式がすべて正になる条件を求める</h3><p><strong>\(\Delta_1,\ldots,\Delta_n\) がすべて正 ⇔ すべての根の実部が負</strong>です。</p><p>この例では、まず \(\Delta_2&gt;0\) から \(K&lt;6\)。その条件のもとで \(\Delta_3&gt;0\) にするには \(K&gt;0\) が必要なので、安定範囲は <strong>\(0&lt;K&lt;6\)</strong> です。</p></div></section>
+<section class="exchange" id="exchange-4"><div class="question"><div><h3>質問 4</h3><p>これは何が起きている？フィードバック系ってなんですか？E = R − Y , Y = KPEという式はどうやってたててるの？閉ループ分母とは？</p></div><div class="input-images"><figure><a href="assets/talk-lesson-06/input-01.png" target="_blank"><img src="assets/talk-lesson-06/input-01.png" alt="入力画像：image(20261111-045711).png"></a><figcaption>image(20261111-045711).png · <a href="assets/talk-lesson-06/input-01.png" target="_blank">元サイズで開く</a></figcaption></figure><figure><a href="assets/talk-lesson-06/input-02.png" target="_blank"><img src="assets/talk-lesson-06/input-02.png" alt="入力画像：image(20261111-045716).png"></a><figcaption>image(20261111-045716).png · <a href="assets/talk-lesson-06/input-02.png" target="_blank">元サイズで開く</a></figcaption></figure></div></div><div class="answer"><h3>ChatGPTの回答 4</h3><p>この図では、<strong>実際の出力 \(y\) を目標 \(r\) と比べて、そのズレに応じて入力を調整</strong>しています。出力を手前に戻して、次の入力を決めるために使う仕組みが<strong>フィードバック系</strong>です。</p><p>たとえば、車の速度を \(60\ \mathrm{km/h}\) に保ちたいとします。実際の速度が \(55\ \mathrm{km/h}\) なら、ズレは \(60-55=5\) です。このズレに比例してアクセルを調整するのが、図の \(K\) の役割です。</p><h3>\(E=R-Y\)、\(Y=KPE\) は図のどこから出る？</h3><p>図の小文字 \(r,e,y\) は時間の関数で、大文字 \(R,E,Y\) はそれぞれのラプラス変換です。矢印に沿って読むと、式が立ちます。</p><ol><li><strong>左の丸</strong>では、目標 \(R\) が \(+\) 側、戻ってきた出力 \(Y\) が \(-\) 側に入るので、出ていく誤差は <strong>\(E=R-Y\)</strong> です。</li><li><strong>\(K\) の箱</strong>は誤差を \(K\) 倍します。箱から出る操作入力を \(U\) とすると、<strong>\(U=KE\)</strong> です。</li><li><strong>\(P(s)\) の箱</strong>は操作入力 \(U\) を受け取る制御対象です。伝達関数が \(P(s)\) なので、<strong>\(Y=P(s)U=P(s)KE\)</strong> です。スライドではこれを \(Y=KPE\) と書いています。</li></ol><h3>閉ループ分母って何？</h3><p>下の線で出力が手前に戻り、経路が一周するので<strong>閉ループ</strong>と呼びます。閉ループ伝達関数は、<strong>この戻り線まで含めた系全体の、目標 \(R\) から出力 \(Y\) への伝達関数</strong> \(Y/R\) です。</p>\[Y=KP(R-Y)
+\quad\Longrightarrow\quad
+(1+KP)Y=KPR
+\quad\Longrightarrow\quad
+\frac{Y}{R}=\frac{KP}{1+KP}.\]<p>ここに \(P(s)=1/[s(s+1)(s+2)]\) を代入し、分子・分母に \(s(s+1)(s+2)\) を掛けると、</p>\[\frac{Y(s)}{R(s)}
+=\frac{K}{\underbrace{s(s+1)(s+2)+K}_{\text{閉ループ分母}}}
+=\frac{K}{s^3+3s^2+2s+K}.\]<p>つまり、<strong>出力を戻す仕組みを入れると、系全体の分母に \(K\) が入ります。</strong> だから \(K\) を変えると根の位置も変わります。次のスライドでは、この分母にラウス法やフルビッツ法を使って、すべての根の実部が負になる範囲 \(0&lt;K&lt;6\) を求めています。</p></div></section>
+<section class="exchange" id="exchange-5"><div class="question"><div><h3>質問 5</h3><p>フルビッツの判定方法の行列って何次元まで書くの？</p></div></div><div class="answer"><h3>ChatGPTの回答 5</h3><p><strong>判定する多項式が \(n\) 次なら、フルビッツ行列は \(n\times n\) まで</strong>書きます。その行列の左上から \(1\times1,\ 2\times2,\ \ldots,\ n\times n\) を切り出し、それぞれの行列式が正かを調べます。</p><p>今回の閉ループ分母 \(D(s)=s^3+3s^2+2s+K\) は <strong>3次</strong>なので、作る行列は <strong>\(3\times3\)</strong> です。確認する行列式は \(\Delta_1,\Delta_2,\Delta_3\) の3つです。</p></div></section>
+    </article>
+  </div>
+</main>
+</div>
+</body>
+</html>

@@ -342,19 +342,77 @@
     } catch(e) { console.error(e); }
   }
 
+  // エラーはホバーや短い通知に頼らず、閉じるまで残す。
+  const errorPanel = document.createElement('section');
+  errorPanel.id = 'kulms-download-error';
+  errorPanel.setAttribute('role', 'alert');
+  Object.assign(errorPanel.style, {
+    display: 'none', position: 'fixed', right: '16px', bottom: '16px',
+    width: '480px', maxWidth: 'calc(100vw - 32px)', boxSizing: 'border-box',
+    padding: '16px', backgroundColor: '#fff', color: '#333',
+    border: '2px solid #c92a2a', borderRadius: '8px', zIndex: '2147483647',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.25)', fontSize: '14px', textAlign: 'left'
+  });
+  const errorHeading = document.createElement('div');
+  errorHeading.textContent = 'ダウンロードに失敗しました';
+  errorHeading.style.fontWeight = 'bold';
+  const errorDetails = document.createElement('textarea');
+  errorDetails.readOnly = true;
+  errorDetails.setAttribute('aria-label', 'ダウンロードエラーの詳細');
+  Object.assign(errorDetails.style, {
+    display: 'block', width: '100%', height: '180px', margin: '12px 0',
+    boxSizing: 'border-box', color: '#333', backgroundColor: '#fff',
+    fontSize: '13px', lineHeight: '1.5', whiteSpace: 'pre-wrap'
+  });
+  const copyError = document.createElement('button');
+  copyError.textContent = 'エラーをコピー';
+  copyError.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(errorDetails.value);
+      copyError.textContent = 'コピーしました';
+    } catch (error) {
+      errorDetails.focus();
+      errorDetails.select();
+      copyError.textContent = '選択した詳細をコピーしてください';
+    }
+  });
+  const closeError = document.createElement('button');
+  closeError.textContent = '閉じる';
+  closeError.style.marginLeft = '8px';
+  closeError.addEventListener('click', () => { errorPanel.style.display = 'none'; });
+  errorPanel.appendChild(errorHeading);
+  errorPanel.appendChild(errorDetails);
+  errorPanel.appendChild(copyError);
+  errorPanel.appendChild(closeError);
+  document.body.appendChild(errorPanel);
+  const errorItem = createMenuItem('前回のエラーを表示', '⚠️');
+  errorItem.style.display = 'none';
+  errorItem.addEventListener('click', () => {
+    errorPanel.style.display = 'block';
+    toggleMenu(true);
+  });
+  menu.appendChild(errorItem);
+  let downloadRunning = false;
+  let resetButtonTimer;
+
   const startDownload = async (mode, forceFull = false) => {
     toggleMenu(true);
     if (mode === 'current' && !site_id) return;
-    if (mainBtn.style.pointerEvents === 'none') return;
+    if (downloadRunning) return;
+    downloadRunning = true;
+    clearTimeout(resetButtonTimer);
 
     // 処理中に選択が変わっても、開始時の期で最後まで処理する。
     const downloadTerm = selectedTerm;
-    const originalText = mainBtn.innerHTML;
+    const originalText = '<span style="margin-right: 5px;">📦</span>資料ダウンロード <span style="font-size: 0.8em; margin-left: 5px;">▼</span>';
+    let stage = '初期化';
+    let failed = false;
     mainBtn.title = '';
     mainBtn.innerHTML = '⏳ 準備中...';
     mainBtn.style.pointerEvents = 'none';
 
     try {
+      if (typeof JSZip !== 'function') throw new Error('ZIPライブラリを読み込めませんでした。拡張機能とKULMSのページを再読み込みしてください。');
       const zip = new JSZip();
       const saved = await readHistory();
       const pendingBySite = {};
@@ -362,20 +420,18 @@
       let targetSites = [];
       let siteDict = {};
 
-      // 全教科名を取得する処理
-      try {
-        const siteRes = await fetch(`https://lms.gakusei.kyoto-u.ac.jp/direct/site.json?_limit=400`);
-        if (siteRes.ok) {
-          const siteData = await siteRes.json();
-          (siteData.site_collection || []).forEach(site => {
-            siteDict[site.id] = site.title.replace(/[\\/:*?"<>|]/g, '_').trim();
-            if (mode === 'all' && !site.id.startsWith('~') && courseTerm(site.title) === downloadTerm) {
-              // マイページなどは除外
-              targetSites.push({ id: site.id, name: siteDict[site.id] });
-            }
-          });
+      stage = '教科一覧の取得';
+      const siteRes = await fetch('https://lms.gakusei.kyoto-u.ac.jp/direct/site.json?_limit=400', { credentials: 'same-origin', cache: 'no-store' });
+      if (!siteRes.ok) throw new Error(`教科一覧の取得に失敗しました（HTTP ${siteRes.status} ${siteRes.statusText || ''}）。KULMSにログインし直して再試行してください。`);
+      const siteData = await siteRes.json();
+      if (!Array.isArray(siteData.site_collection)) throw new Error('教科一覧が想定外の形式です。KULMSのページを再読み込みしてください。');
+      siteData.site_collection.forEach(site => {
+        if (!site || typeof site.id !== 'string' || typeof site.title !== 'string') return;
+        siteDict[site.id] = site.title.replace(/[\\/:*?"<>|]/g, '_').trim();
+        if (mode === 'all' && !site.id.startsWith('~') && courseTerm(site.title) === downloadTerm) {
+          targetSites.push({ id: site.id, name: siteDict[site.id] });
         }
-      } catch (e) { console.error(e); }
+      });
 
       if (mode === 'current') {
         let courseName = siteDict[site_id];
@@ -392,6 +448,7 @@
 
       for (let i = 0; i < targetSites.length; i++) {
         const target = targetSites[i];
+        stage = `資料の取得：${target.name}`;
         // 進行状況の表示（文字が崩れないように調整）
         mainBtn.innerHTML = `⏳ 処理中 (${i+1}/${targetSites.length})`;
         const folder = zip.folder(target.name);
@@ -405,9 +462,11 @@
         return;
       }
 
+      stage = 'ZIPの作成';
       mainBtn.innerHTML = '📦 ZIP圧縮中...';
       const zipBlob = await zip.generateAsync({ type: 'blob' });
 
+      stage = 'ZIPの保存';
       const downloadUrl = URL.createObjectURL(zipBlob);
       const a = document.createElement('a');
       a.href = downloadUrl;
@@ -427,11 +486,19 @@
 
     } catch (error) {
       console.error(error);
-      mainBtn.title = String(error?.message || error);
-      mainBtn.innerHTML = '❌ エラー（カーソルを合わせて詳細を確認）';
+      failed = true;
+      const message = String(error?.message || error);
+      mainBtn.title = message;
+      mainBtn.innerHTML = '❌ DL失敗（メニューで詳細）';
+      errorDetails.value = `対象：${mode === 'all' ? termLabels[downloadTerm] + 'の全教科' : '選択中の教科'}\n方法：${forceFull ? '再度フルDL' : '差分DL'}\n処理：${stage}\n\n${message}\n\n${error?.stack || ''}`;
+      copyError.textContent = 'エラーをコピー';
+      errorPanel.style.display = 'block';
+      errorItem.style.display = 'flex';
       mainBtn.style.backgroundColor = 'rgba(220, 53, 69, 0.8)';
     } finally {
-      setTimeout(() => {
+      downloadRunning = false;
+      mainBtn.style.pointerEvents = 'auto';
+      if (!failed) resetButtonTimer = setTimeout(() => {
         mainBtn.innerHTML = originalText;
         mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
         mainBtn.style.pointerEvents = 'auto';

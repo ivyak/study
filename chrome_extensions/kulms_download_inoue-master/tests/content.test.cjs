@@ -15,13 +15,15 @@ const sites = [
   { id: '~home', title: '[2026後期月１] マイページ' }
 ];
 
-async function setup({ term = 'first', failTitles = false, current = '~home' } = {}) {
+async function setup({ term = 'first', failTitles = false, current = '~home', siteList = sites, zipError = false, missingZip = false, clipboardError = false } = {}) {
   const elements = [];
   const requests = [];
   const downloads = [];
   const storage = new Map(term ? [['kulmsSelectedTermV1', term]] : []);
-  const timers = [];
+  const timers = new Map();
+  let nextTimerId = 0;
   const errors = [];
+  const copied = [];
   class Element {
     constructor(tag) {
       this.tag = tag;
@@ -44,6 +46,8 @@ async function setup({ term = 'first', failTitles = false, current = '~home' } =
     querySelector() { return null; }
     querySelectorAll() { return []; }
     closest() { return null; }
+    focus() { this.focused = true; }
+    select() { this.selected = true; }
     click() { downloads.push(this.download); }
     fire(type) { return this.listeners[type]?.({ stopPropagation() {} }); }
   }
@@ -55,7 +59,10 @@ async function setup({ term = 'first', failTitles = false, current = '~home' } =
     folder(name) {
       return { file: (path, content) => { this.files[`${name}/${path}`] = { content }; } };
     }
-    async generateAsync() { return {}; }
+    async generateAsync() {
+      if (zipError) throw new Error('ZIP generation failed');
+      return {};
+    }
   }
   vm.runInNewContext(source, {
     document: {
@@ -73,15 +80,20 @@ async function setup({ term = 'first', failTitles = false, current = '~home' } =
       getItem: key => storage.get(key) ?? null,
       setItem: (key, value) => storage.set(key, value)
     },
-    JSZip: Zip,
+    JSZip: missingZip ? undefined : Zip,
+    navigator: { clipboard: { writeText: async text => {
+      if (clipboardError) throw new Error('Clipboard denied');
+      copied.push(text);
+    } } },
     URL: { createObjectURL: () => 'blob:test', revokeObjectURL() {} },
     setInterval() {},
-    setTimeout: fn => timers.push(fn),
+    setTimeout: fn => { const id = nextTimerId++; timers.set(id, fn); return id; },
+    clearTimeout: id => timers.delete(id),
     console: { warn() {}, error: error => errors.push(error) },
     fetch: async url => {
       requests.push(url);
       if (url.includes('/direct/site.json')) {
-        return { ok: !failTitles, json: async () => ({ site_collection: sites }) };
+        return { ok: !failTitles, status: failTitles ? 503 : 200, statusText: failTitles ? 'Service Unavailable' : 'OK', json: async () => ({ site_collection: siteList }) };
       }
       const resource = url.match(/\/direct\/content\/site\/([^/.]+)\.json/);
       if (resource) {
@@ -101,8 +113,8 @@ async function setup({ term = 'first', failTitles = false, current = '~home' } =
   const tableNames = () => elements.filter(el => el.tag === 'a' && el.innerText).map(el => el.innerText);
   const processed = () => requests.filter(url => url.includes('/direct/content/site/')).map(url => url.match(/site\/([^/.]+)/)[1]);
   const switchTerm = value => { select.value = value; select.fire('change'); };
-  const resetDownload = () => { while (timers.length) timers.shift()(); requests.length = 0; };
-  return { select, ttButton, menuItem, tableNames, processed, switchTerm, resetDownload, downloads, storage, elements, errors };
+  const resetDownload = () => { for (const fn of timers.values()) fn(); timers.clear(); requests.length = 0; };
+  return { select, ttButton, menuItem, tableNames, processed, switchTerm, resetDownload, downloads, storage, elements, errors, copied };
 }
 
 test('一括DLは選択した期だけを処理し、履歴とフルDLを維持する', async () => {
@@ -165,4 +177,59 @@ test('API取得失敗時も画面上の名前で時間割を分類し、失敗�
   assert.deepEqual(app.tableNames(), ['省略名']);
   assert.ok(app.elements.some(el => el.innerText?.includes('画面上の科目のみ表示')));
   assert.equal(app.errors.length, 1);
+});
+
+
+test('教科一覧のHTTPエラーを握りつぶさず表示し、時間が経っても詳細を確認・コピーできる', async () => {
+  const app = await setup({ failTitles: true });
+  await app.menuItem('選択した期の全教科を再度フルDL').fire('click');
+  const panel = app.elements.find(el => el.id === 'kulms-download-error');
+  const details = app.elements.find(el => el.tag === 'textarea');
+  assert.equal(panel.style.display, 'block');
+  assert.match(details.value, /HTTP 503 Service Unavailable/);
+  assert.match(details.value, /処理：教科一覧の取得/);
+  assert.match(details.value, /方法：再度フルDL/);
+  assert.doesNotMatch(details.value, /教科が見つかりません/);
+  app.resetDownload();
+  assert.equal(panel.style.display, 'block');
+  await app.elements.find(el => el.textContent === 'エラーをコピー').fire('click');
+  assert.equal(app.copied[0], details.value);
+  app.elements.find(el => el.textContent === '閉じる').fire('click');
+  assert.equal(panel.style.display, 'none');
+  app.menuItem('前回のエラーを表示').fire('click');
+  assert.equal(panel.style.display, 'block');
+  assert.equal(app.downloads.length, 0);
+  assert.equal(app.storage.has('kulmsDownloadedSourcesV1'), false);
+});
+
+test('対象科目なしとZIPライブラリの未読込も、詳細を残して再試行できる', async () => {
+  for (const options of [{ siteList: [] }, { missingZip: true }]) {
+    const app = await setup(options);
+    await app.menuItem('選択した期の全教科を再度フルDL').fire('click');
+    const details = app.elements.find(el => el.tag === 'textarea');
+    assert.match(details.value, options.missingZip ? /ZIPライブラリ/ : /前期の教科が見つかりません/);
+    const main = app.elements.find(el => el.tag === 'button' && el.innerHTML.includes('DL失敗'));
+    assert.equal(main.style.pointerEvents, 'auto');
+    await app.menuItem('選択した期の全教科を再度フルDL').fire('click');
+    assert.equal(app.errors.length, 2);
+  }
+});
+
+test('ZIP作成に失敗した場合は取得済み履歴を更新しない', async () => {
+  const app = await setup({ zipError: true });
+  await app.menuItem('選択した期の全教科を再度フルDL').fire('click');
+  const details = app.elements.find(el => el.tag === 'textarea');
+  assert.match(details.value, /処理：ZIPの作成/);
+  assert.match(details.value, /ZIP generation failed/);
+  assert.equal(app.downloads.length, 0);
+  assert.equal(app.storage.has('kulmsDownloadedSourcesV1'), false);
+});
+
+test('コピーが拒否された場合もエラー詳細を選択して手動コピーできる', async () => {
+  const app = await setup({ siteList: [], clipboardError: true });
+  await app.menuItem('選択した期の全教科を再度フルDL').fire('click');
+  await app.elements.find(el => el.textContent === 'エラーをコピー').fire('click');
+  const details = app.elements.find(el => el.tag === 'textarea');
+  assert.equal(details.focused, true);
+  assert.equal(details.selected, true);
 });

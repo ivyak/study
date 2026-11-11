@@ -107,19 +107,20 @@
   Object.assign(menu.style, {
     position: 'absolute', top: '100%', right: '0', marginTop: '8px',
     backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-    overflow: 'hidden', minWidth: '220px', zIndex: '10000',
+    overflow: 'hidden', width: 'max-content', minWidth: '260px', zIndex: '10000',
     opacity: '0', visibility: 'hidden', transform: 'translateY(-10px)',
     transition: 'all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)'
   });
 
   const createMenuItem = (text, icon, isDisabled = false) => {
     const item = document.createElement('div');
-    item.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${text}`;
+    item.innerHTML = `<span style="margin-right: 8px; flex-shrink: 0;">${icon}</span>${text}`;
     Object.assign(item.style, {
       padding: '12px 16px', color: isDisabled ? '#ccc' : '#333',
       cursor: isDisabled ? 'not-allowed' : 'pointer',
-      fontSize: '14px', transition: 'background-color 0.2s',
-      borderBottom: '1px solid #eee'
+      display: 'flex', alignItems: 'center', whiteSpace: 'nowrap',
+      fontSize: '14px', lineHeight: '1.5', textAlign: 'left',
+      transition: 'background-color 0.2s', borderBottom: '1px solid #eee'
     });
     if (!isDisabled) {
       item.addEventListener('mouseover', () => item.style.backgroundColor = '#f5f5f5');
@@ -131,7 +132,7 @@
   const itemAllCourses = createMenuItem('選択した期の全教科を一括DL', '📚');
   const itemCurrentCourse = createMenuItem('選択中の教科のみDL', '📖', !site_id);
   const itemFullAllCourses = createMenuItem('選択した期の全教科を再度フルDL', '🔄');
-  const itemFullCurrentCourse = createMenuItem('選択中の教科を再度フルダウンロード', '🔄', !site_id);
+  const itemFullCurrentCourse = createMenuItem('選択中の教科を再度フルDL', '🔄', !site_id);
   itemFullCurrentCourse.style.borderBottom = 'none';
 
   menu.appendChild(itemAllCourses);

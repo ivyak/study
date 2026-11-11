@@ -3,723 +3,784 @@
 // この中で宣言された変数（site_idなど）が、他の拡張機能やKULMS自体のプログラムと
 // ぶつかってバグを起こさないように、自分だけの「密室（スコープ）」を作るための定石です。
 (function() {
-    'use strict'; // エラーチェックを厳しくするおまじない。安全なコードを書くために必須です。
+  'use strict'; // エラーチェックを厳しくするおまじない。安全なコードを書くために必須です。
 
-    // 【解説：String.prototype.includes()】
-    // 文字列の中に特定の文字列が含まれているかを true/false で返します。
-    // ここではURLに '/portal' が含まれていない場合（＝LMSの外部ページなど）は処理を止めます。
-    if (!window.location.href.includes('/portal')) return;
+  // 【解説：String.prototype.includes()】
+  // 文字列の中に特定の文字列が含まれているかを true/false で返します。
+  // ここではURLに '/portal' が含まれていない場合（＝LMSの外部ページなど）は処理を止めます。
+  if (!window.location.href.includes('/portal')) return;
 
-    // 重複実行の防止（拡張機能が何らかの理由で2回読み込まれた時の対策）
-    if (document.getElementById('kulms-ext-container')) return;
+  // 重複実行の防止（拡張機能が何らかの理由で2回読み込まれた時の対策）
+  if (document.getElementById('kulms-ext-container')) return;
 
-    // match() は、JavaScriptで文字列の中から正規表現のパターンに一致する部分を探して、結果を取り出すための関数
-    // 結果は配列で返ってくる
-    // 基本構文：const 結果 = 探される文字列.match(/検索する正規表現パターン/(フラグ));
-    // URLの中から "/portal/site/◯◯◯" の ◯◯◯（site_id）の部分だけを抽出しています。
-    // ([^\/]+) は「スラッシュ以外の文字が1文字以上続く部分」をキャプチャ（記憶）するという意味です。
-    // window.location.href で現在のページのURL文字列を取得します。
-    // 返ってきた配列[0] : マッチした文字列全体　[1], [2]... : キャプチャグループ（正規表現で () で囲んだ部分）があればここに入る
-    const urlMatch = window.location.href.match(/\/portal\/site\/([^\/]+)/);
+  // match() は、JavaScriptで文字列の中から正規表現のパターンに一致する部分を探して、結果を取り出すための関数
+  // 結果は配列で返ってくる
+  // 基本構文：const 結果 = 探される文字列.match(/検索する正規表現パターン/(フラグ));
+  // URLの中から "/portal/site/◯◯◯" の ◯◯◯（site_id）の部分だけを抽出しています。
+  // ([^\/]+) は「スラッシュ以外の文字が1文字以上続く部分」をキャプチャ（記憶）するという意味です。
+  // window.location.href で現在のページのURL文字列を取得します。
+  // 返ってきた配列[0] : マッチした文字列全体　[1], [2]... : キャプチャグループ（正規表現で () で囲んだ部分）があればここに入る
+  const urlMatch = window.location.href.match(/\/portal\/site\/([^\/]+)/);
 
-    // 【解説：三項演算子（条件演算子）と startsWith】
-    // 構文: 条件 ? 真の場合 : 偽の場合
-    // urlMatch[1]（抽出したID）が '~' から始まる場合（個人のマイページ）は null にし、
-    // それ以外の正規の授業ページならそのIDを site_id に代入しています。
-    const site_id = (urlMatch && !urlMatch[1].startsWith('~')) ? urlMatch[1] : null;
+  // 【解説：三項演算子（条件演算子）と startsWith】
+  // 構文: 条件 ? 真の場合 : 偽の場合
+  // urlMatch[1]（抽出したID）が '~' から始まる場合（個人のマイページ）は null にし、
+  // それ以外の正規の授業ページならそのIDを site_id に代入しています。
+  const site_id = (urlMatch && !urlMatch[1].startsWith('~')) ? urlMatch[1] : null;
 
-    // 【解説：親コンテナ（マスターコンテナ）の作成】
-    // DLボタンと時間割ボタンの両方をまとめるための大枠（箱）を作ります。
-    // これをヘッダーに1つだけ挿入することで、レイアウトが崩れにくくなります。
-    const masterContainer = document.createElement('div');
-    masterContainer.id = 'kulms-ext-container';
-    masterContainer.style.position = 'relative';
-    masterContainer.style.display = 'inline-flex'; // 横並びにするためのFlexbox
-    masterContainer.style.alignItems = 'center';   // 縦方向の中央揃え
-    masterContainer.style.height = '100%';
-    masterContainer.style.margin = '0 15px';
-    masterContainer.style.gap = '8px'; // 中に入るボタン同士の隙間を8pxに設定
+  // 【解説：親コンテナ（マスターコンテナ）の作成】
+  // DLボタンと時間割ボタンの両方をまとめるための大枠（箱）を作ります。
+  // これをヘッダーに1つだけ挿入することで、レイアウトが崩れにくくなります。
+  const masterContainer = document.createElement('div');
+  masterContainer.id = 'kulms-ext-container';
+  masterContainer.style.position = 'relative';
+  masterContainer.style.display = 'inline-flex'; // 横並びにするためのFlexbox
+  masterContainer.style.alignItems = 'center';   // 縦方向の中央揃え
+  masterContainer.style.height = '100%';
+  masterContainer.style.margin = '0 15px';
+  masterContainer.style.gap = '8px'; // 中に入るボタン同士の隙間を8pxに設定
 
-    // 排他制御（時間割メニュー用）のために変数を先に準備しておきます。
-    let toggleTt = () => {};
+  // 期の記載がない科目や両方の期を含む科目は、別枠で確認できるようにする。
+  const termLabels = { first: '前期', second: '後期', unspecified: '期指定なし' };
+  const termKey = 'kulmsSelectedTermV1';
+  const courseTerm = (title) => {
+    const first = title.includes('前期');
+    const second = title.includes('後期');
+    return first === second ? 'unspecified' : first ? 'first' : 'second';
+  };
+  const month = new Date().getMonth() + 1;
+  let selectedTerm = month >= 4 && month <= 9 ? 'first' : 'second';
+  try {
+    const stored = localStorage.getItem(termKey);
+    if (Object.hasOwn(termLabels, stored)) selectedTerm = stored;
+  } catch (error) {
+    console.warn('期の選択を読み込めませんでした', error);
+  }
 
-    // ==========================================
-    // --- 1. 一括DLボタン（全ページ共通で作成） ---
-    // ==========================================
-    
-    // DLボタン用の変数を準備しておきます。
-    let toggleMenu = () => {};
+  const termLabel = document.createElement('label');
+  termLabel.textContent = '対象期 ';
+  Object.assign(termLabel.style, { color: '#ffffff', fontSize: '14px', whiteSpace: 'nowrap' });
+  const termSelect = document.createElement('select');
+  termSelect.setAttribute('aria-label', '一括DLと時間割の対象期');
+  termSelect.title = '科目名の前期・後期で分類します。記載なし・両方の記載は「期指定なし」です。';
+  Object.assign(termSelect.style, { color: '#333', backgroundColor: '#fff', borderRadius: '4px', padding: '4px' });
+  for (const [value, text] of Object.entries(termLabels)) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = text;
+    termSelect.appendChild(option);
+  }
+  termSelect.value = selectedTerm;
+  termLabel.appendChild(termSelect);
+  masterContainer.appendChild(termLabel);
 
-    const dlContainer = document.createElement('div');
-    dlContainer.style.position = 'relative';
-    dlContainer.style.display = 'inline-flex';
-    dlContainer.style.height = '100%';
-    dlContainer.style.alignItems = 'center'; 
+  // 排他制御（時間割メニュー用）のために変数を先に準備しておきます。
+  let toggleTt = () => {};
 
-    const mainBtn = document.createElement('button');
-    mainBtn.innerHTML = '<span style="margin-right: 5px;">📦</span>資料ダウンロード <span style="font-size: 0.8em; margin-left: 5px;">▼</span>';
-    
-    Object.assign(mainBtn.style, {
-        padding: '6px 15px', backgroundColor: 'rgba(255, 255, 255, 0.15)',
-        color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.5)', borderRadius: '20px',
-        cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', display: 'inline-flex',
-        alignItems: 'center', transition: 'all 0.2s', height: '32px'
+  // ==========================================
+  // --- 1. 一括DLボタン（全ページ共通で作成） ---
+  // ==========================================
+
+  // DLボタン用の変数を準備しておきます。
+  let toggleMenu = () => {};
+
+  const dlContainer = document.createElement('div');
+  dlContainer.style.position = 'relative';
+  dlContainer.style.display = 'inline-flex';
+  dlContainer.style.height = '100%';
+  dlContainer.style.alignItems = 'center';
+
+  const mainBtn = document.createElement('button');
+  mainBtn.innerHTML = '<span style="margin-right: 5px;">📦</span>資料ダウンロード <span style="font-size: 0.8em; margin-left: 5px;">▼</span>';
+
+  Object.assign(mainBtn.style, {
+    padding: '6px 15px', backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.5)', borderRadius: '20px',
+    cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', display: 'inline-flex',
+    alignItems: 'center', transition: 'all 0.2s', height: '32px'
+  });
+
+  mainBtn.addEventListener('mouseover', () => mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)');
+  mainBtn.addEventListener('mouseout', () => mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)');
+
+  const menu = document.createElement('div');
+  Object.assign(menu.style, {
+    position: 'absolute', top: '100%', right: '0', marginTop: '8px',
+    backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+    overflow: 'hidden', minWidth: '220px', zIndex: '10000',
+    opacity: '0', visibility: 'hidden', transform: 'translateY(-10px)',
+    transition: 'all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)'
+  });
+
+  const createMenuItem = (text, icon, isDisabled = false) => {
+    const item = document.createElement('div');
+    item.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${text}`;
+    Object.assign(item.style, {
+      padding: '12px 16px', color: isDisabled ? '#ccc' : '#333',
+      cursor: isDisabled ? 'not-allowed' : 'pointer',
+      fontSize: '14px', transition: 'background-color 0.2s',
+      borderBottom: '1px solid #eee'
     });
+    if (!isDisabled) {
+      item.addEventListener('mouseover', () => item.style.backgroundColor = '#f5f5f5');
+      item.addEventListener('mouseout', () => item.style.backgroundColor = 'transparent');
+    }
+    return item;
+  };
 
-    mainBtn.addEventListener('mouseover', () => mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)');
-    mainBtn.addEventListener('mouseout', () => mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)');
+  const itemAllCourses = createMenuItem('選択した期の全教科を一括DL', '📚');
+  const itemCurrentCourse = createMenuItem('選択中の教科のみDL', '📖', !site_id);
+  const itemFullAllCourses = createMenuItem('選択した期の全教科を再度フルDL', '🔄');
+  const itemFullCurrentCourse = createMenuItem('選択中の教科を再度フルダウンロード', '🔄', !site_id);
+  itemFullCurrentCourse.style.borderBottom = 'none';
 
-    const menu = document.createElement('div');
-    Object.assign(menu.style, {
-        position: 'absolute', top: '100%', right: '0', marginTop: '8px',
-        backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-        overflow: 'hidden', minWidth: '220px', zIndex: '10000',
-        opacity: '0', visibility: 'hidden', transform: 'translateY(-10px)',
-        transition: 'all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)'
-    });
+  menu.appendChild(itemAllCourses);
+  menu.appendChild(itemCurrentCourse);
+  menu.appendChild(itemFullAllCourses);
+  menu.appendChild(itemFullCurrentCourse);
+  dlContainer.appendChild(mainBtn);
+  dlContainer.appendChild(menu);
 
-    const createMenuItem = (text, icon, isDisabled = false) => {
-        const item = document.createElement('div');
-        item.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${text}`;
-        Object.assign(item.style, {
-            padding: '12px 16px', color: isDisabled ? '#ccc' : '#333', 
-            cursor: isDisabled ? 'not-allowed' : 'pointer',
-            fontSize: '14px', transition: 'background-color 0.2s',
-            borderBottom: '1px solid #eee'
-        });
-        if (!isDisabled) {
-            item.addEventListener('mouseover', () => item.style.backgroundColor = '#f5f5f5');
-            item.addEventListener('mouseout', () => item.style.backgroundColor = 'transparent');
-        }
-        return item;
-    };
+  let isMenuOpen = false;
+  toggleMenu = (forceClose = false) => {
+    if (isMenuOpen || forceClose) {
+      menu.style.opacity = '0';
+      menu.style.visibility = 'hidden';
+      menu.style.transform = 'translateY(-10px)';
+      isMenuOpen = false;
+    } else {
+      menu.style.opacity = '1';
+      menu.style.visibility = 'visible';
+      menu.style.transform = 'translateY(0)';
+      isMenuOpen = true;
+    }
+  };
 
-    const itemAllCourses = createMenuItem('全教科を一括DL', '📚');
-    const itemCurrentCourse = createMenuItem('選択中の教科のみDL', '📖', !site_id);
-    const itemFullAllCourses = createMenuItem('全教科を再度フルダウンロード', '🔄');
-    const itemFullCurrentCourse = createMenuItem('選択中の教科を再度フルダウンロード', '🔄', !site_id);
-    itemFullCurrentCourse.style.borderBottom = 'none';
+  mainBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (typeof toggleTt === 'function') toggleTt(true);
+    toggleMenu();
+  });
 
-    menu.appendChild(itemAllCourses);
-    menu.appendChild(itemCurrentCourse);
-    menu.appendChild(itemFullAllCourses);
-    menu.appendChild(itemFullCurrentCourse);
-    dlContainer.appendChild(mainBtn);
-    dlContainer.appendChild(menu);
+  document.addEventListener('click', (e) => { if (!dlContainer.contains(e.target)) toggleMenu(true); });
 
-    let isMenuOpen = false;
-    toggleMenu = (forceClose = false) => {
-        if (isMenuOpen || forceClose) {
-            menu.style.opacity = '0';
-            menu.style.visibility = 'hidden';
-            menu.style.transform = 'translateY(-10px)';
-            isMenuOpen = false;
-        } else {
-            menu.style.opacity = '1';
-            menu.style.visibility = 'visible';
-            menu.style.transform = 'translateY(0)';
-            isMenuOpen = true;
-        }
-    };
+  // サイトごとに保存する。日時がない項目は安全に同一判定できないため記録しない。
+  const historyKey = 'kulmsDownloadedSourcesV1';
+  const readHistory = async () => {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+        const stored = (await chrome.storage.local.get(historyKey))[historyKey];
+        if (stored) return stored;
+      }
+    } catch (error) {
+      console.warn('Chrome のダウンロード履歴を読み込めませんでした', error);
+    }
+    try {
+      return JSON.parse(localStorage.getItem(historyKey)) || {};
+    } catch (error) {
+      console.warn('ダウンロード履歴を読み込めませんでした', error);
+      return {};
+    }
+  };
 
-    mainBtn.addEventListener('click', (e) => { 
-        e.stopPropagation(); 
-        if (typeof toggleTt === 'function') toggleTt(true);
-        toggleMenu(); 
-    });
-    
-    document.addEventListener('click', (e) => { if (!dlContainer.contains(e.target)) toggleMenu(true); });
+  const writeHistory = async (history) => {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+        await chrome.storage.local.set({ [historyKey]: history });
+        return true;
+      }
+    } catch (error) {
+      console.warn('Chrome にダウンロード履歴を保存できませんでした', error);
+    }
+    try {
+      localStorage.setItem(historyKey, JSON.stringify(history));
+      return true;
+    } catch (error) {
+      console.error('ダウンロード履歴を保存できませんでした', error);
+      return false;
+    }
+  };
+  const sourceDate = (item) => {
+    const fields = ['createdDate', 'creationDate', 'dateCreated', 'addedDate', 'addedAt',
+      'createdTime', 'created', 'modifiedDate', 'dateModified', 'lastModified'];
+    if (!item) return null;
+    for (const field of fields) {
+      const value = item[field];
+      if (value !== undefined && value !== null && value !== '') return String(value);
+    }
+    return null;
+  };
 
-    // サイトごとに保存する。日時がない項目は安全に同一判定できないため記録しない。
-    const historyKey = 'kulmsDownloadedSourcesV1';
-    const readHistory = async () => {
-        try {
-            if (typeof chrome !== 'undefined' && chrome.storage?.local) {
-                const stored = (await chrome.storage.local.get(historyKey))[historyKey];
-                if (stored) return stored;
-            }
-        } catch (error) {
-            console.warn('Chrome のダウンロード履歴を読み込めませんでした', error);
-        }
-        try {
-            return JSON.parse(localStorage.getItem(historyKey)) || {};
-        } catch (error) {
-            console.warn('ダウンロード履歴を読み込めませんでした', error);
-            return {};
-        }
-    };
+  const sourceKey = (name, date) => name && date ? JSON.stringify([name, date]) : null;
 
-    const writeHistory = async (history) => {
-        try {
-            if (typeof chrome !== 'undefined' && chrome.storage?.local) {
-                await chrome.storage.local.set({ [historyKey]: history });
-                return true;
-            }
-        } catch (error) {
-            console.warn('Chrome にダウンロード履歴を保存できませんでした', error);
-        }
-        try {
-            localStorage.setItem(historyKey, JSON.stringify(history));
-            return true;
-        } catch (error) {
-            console.error('ダウンロード履歴を保存できませんでした', error);
-            return false;
-        }
-    };
-    const sourceDate = (item) => {
-        const fields = ['createdDate', 'creationDate', 'dateCreated', 'addedDate', 'addedAt',
-            'createdTime', 'created', 'modifiedDate', 'dateModified', 'lastModified'];
-        if (!item) return null;
-        for (const field of fields) {
-            const value = item[field];
-            if (value !== undefined && value !== null && value !== '') return String(value);
-        }
-        return null;
-    };
+  async function addFileToZip(zipFolder, url, path) {
+    if (!url || typeof url !== 'string') return false;
 
-    const sourceKey = (name, date) => name && date ? JSON.stringify([name, date]) : null;
-
-    async function addFileToZip(zipFolder, url, path) {
-        if (!url || typeof url !== 'string') return false;
-        
-        // 学外リンク（YouTube等）の場合は、直接Windowsショートカット(.url)として作成
-        if (!url.includes('lms.gakusei.kyoto-u.ac.jp') && url.startsWith('http')) {
-            const shortcutContent = `[InternetShortcut]\r\nURL=${url}`;
-            if (!path.toLowerCase().endsWith('.url')) path += '.url';
-            zipFolder.file(path, shortcutContent);
-            return true;
-        }
-
-        try {
-            const res = await fetch(url);
-            if (!res.ok) return false;
-            const blob = await res.blob(); 
-            zipFolder.file(path, blob);
-            return true;
-        } catch (e) { 
-            console.error('DL Error:', url, e); 
-            // 取得に失敗した場合も、URLショートカットとして保存して代替する
-            const shortcutContent = `[InternetShortcut]\r\nURL=${url}`;
-            if (!path.toLowerCase().endsWith('.url')) path += '.url';
-            zipFolder.file(path, shortcutContent);
-            return false;
-        }
+    // 学外リンク（YouTube等）の場合は、直接Windowsショートカット(.url)として作成
+    if (!url.includes('lms.gakusei.kyoto-u.ac.jp') && url.startsWith('http')) {
+      const shortcutContent = `[InternetShortcut]\r\nURL=${url}`;
+      if (!path.toLowerCase().endsWith('.url')) path += '.url';
+      zipFolder.file(path, shortcutContent);
+      return true;
     }
 
-    async function processCourse(zipFolder, targetSiteId, downloaded, pending, forceFull) {
-        const addSource = async (url, path, name, item) => {
-            const key = sourceKey(name, sourceDate(item));
-            if (!forceFull && key && (downloaded.has(key) || pending.has(key))) return;
-            if (await addFileToZip(zipFolder, url, path) && key) pending.add(key);
-        };
-        // --- 授業資料の取得 ---
-        try {
-            const resApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/content/site/${targetSiteId}.json`;
-            const resResponse = await fetch(resApiUrl);
-            if (resResponse.ok) {
-                const resData = await resResponse.json();
-                const items = resData.content_collection.filter(i => i.type !== 'collection');
-                for (const item of items) {
-                    let path = item.title;
-                    const m = item.url.match(new RegExp(`/(?:group|attachment)/${targetSiteId}/(.+)$`));
-                    if (m) {
-                        path = decodeURIComponent(m[1]); 
-                    } else {
-                        // 外部リンクなどパスが抽出できない場合は、タイトルをファイル名として禁則文字を置換
-                        path = path.replace(/[\\/:*?"<>|]/g, '_');
-                    }
-                    const sourceName = m ? path.split('/').pop() : item.title;
-                    await addSource(item.url, `授業資料/${path}`, sourceName, item);
-                }
-            }
-        } catch (e) { console.error(e); }
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return false;
+      const blob = await res.blob();
+      zipFolder.file(path, blob);
+      return true;
+    } catch (e) {
+      console.error('DL Error:', url, e);
+      // 取得に失敗した場合も、URLショートカットとして保存して代替する
+      const shortcutContent = `[InternetShortcut]\r\nURL=${url}`;
+      if (!path.toLowerCase().endsWith('.url')) path += '.url';
+      zipFolder.file(path, shortcutContent);
+      return false;
+    }
+  }
 
-        // --- 課題リソースの取得 ---
-        try {
-            const assignApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/assignment/site/${targetSiteId}.json`;
-            const assignResponse = await fetch(assignApiUrl);
-            if (assignResponse.ok) {
-                const assignData = await assignResponse.json();
-                const assignments = assignData.assignment_collection || [];
-                for (const asgn of assignments) {
-                    const title = asgn.title.replace(/[\\/:*?"<>|]/g, '_');
-                    const baseDir = `課題資料/${title}`;
-                    if (asgn.attachments) {
-                        for (const att of asgn.attachments) {
-                            await addSource(att.url, `${baseDir}/先生の配布資料/${att.name}`, att.name, att);
-                        }
-                    }
-                    const detailApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/assignment/item/${asgn.id}.json`;
-                    const detailRes = await fetch(detailApiUrl);
-                    if (detailRes.ok) {
-                        const detailData = await detailRes.json();
-                        const sub = detailData.submissions ? detailData.submissions[0] : null;
-                        if (sub) {
-                            if (sub.submittedAttachments) {
-                                for (const att of sub.submittedAttachments) {
-                                    await addSource(att.url, `${baseDir}/提出したファイル/${att.name}`, att.name, att);
-                                }
-                            }
-                            if (sub.feedbackAttachments) {
-                                for (const att of sub.feedbackAttachments) {
-                                    await addSource(att.url, `${baseDir}/返却・フィードバック/${att.name}`, att.name, att);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (e) { console.error(e); }
+  async function processCourse(zipFolder, targetSiteId, downloaded, pending, forceFull) {
+    const addSource = async (url, path, name, item) => {
+      const key = sourceKey(name, sourceDate(item));
+      if (!forceFull && key && (downloaded.has(key) || pending.has(key))) return;
+      if (await addFileToZip(zipFolder, url, path) && key) pending.add(key);
+    };
+    // --- 授業資料の取得 ---
+    try {
+      const resApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/content/site/${targetSiteId}.json`;
+      const resResponse = await fetch(resApiUrl);
+      if (resResponse.ok) {
+        const resData = await resResponse.json();
+        const items = resData.content_collection.filter(i => i.type !== 'collection');
+        for (const item of items) {
+          let path = item.title;
+          const m = item.url.match(new RegExp(`/(?:group|attachment)/${targetSiteId}/(.+)$`));
+          if (m) {
+            path = decodeURIComponent(m[1]);
+          } else {
+            // 外部リンクなどパスが抽出できない場合は、タイトルをファイル名として禁則文字を置換
+            path = path.replace(/[\\/:*?"<>|]/g, '_');
+          }
+          const sourceName = m ? path.split('/').pop() : item.title;
+          await addSource(item.url, `授業資料/${path}`, sourceName, item);
+        }
+      }
+    } catch (e) { console.error(e); }
 
-        // --- 概要(シラバス)リソースの取得 ---
-        try {
-            const sylApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/syllabus/site/${targetSiteId}.json`;
-            const sylResponse = await fetch(sylApiUrl);
-            if (sylResponse.ok) {
-                const sylData = await sylResponse.json();
-                const syllabuses = sylData.syllabusItem_collection || [];
-                for (const syl of syllabuses) {
-                    if (syl.attachments) {
-                        for (const att of syl.attachments) {
-                            await addSource(att.url, `概要/${att.name}`, att.name, att);
-                        }
-                    }
-                }
+    // --- 課題リソースの取得 ---
+    try {
+      const assignApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/assignment/site/${targetSiteId}.json`;
+      const assignResponse = await fetch(assignApiUrl);
+      if (assignResponse.ok) {
+        const assignData = await assignResponse.json();
+        const assignments = assignData.assignment_collection || [];
+        for (const asgn of assignments) {
+          const title = asgn.title.replace(/[\\/:*?"<>|]/g, '_');
+          const baseDir = `課題資料/${title}`;
+          if (asgn.attachments) {
+            for (const att of asgn.attachments) {
+              await addSource(att.url, `${baseDir}/先生の配布資料/${att.name}`, att.name, att);
             }
-        } catch(e) { console.error(e); }
+          }
+          const detailApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/assignment/item/${asgn.id}.json`;
+          const detailRes = await fetch(detailApiUrl);
+          if (detailRes.ok) {
+            const detailData = await detailRes.json();
+            const sub = detailData.submissions ? detailData.submissions[0] : null;
+            if (sub) {
+              if (sub.submittedAttachments) {
+                for (const att of sub.submittedAttachments) {
+                  await addSource(att.url, `${baseDir}/提出したファイル/${att.name}`, att.name, att);
+                }
+              }
+              if (sub.feedbackAttachments) {
+                for (const att of sub.feedbackAttachments) {
+                  await addSource(att.url, `${baseDir}/返却・フィードバック/${att.name}`, att.name, att);
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (e) { console.error(e); }
 
-        // --- お知らせリソースの取得 ---
-        try {
-            const annApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/announcement/site/${targetSiteId}.json`;
-            const annResponse = await fetch(annApiUrl);
-            if (annResponse.ok) {
-                const annData = await annResponse.json();
-                const announcements = annData.announcement_collection || [];
-                for (const ann of announcements) {
-                    if (ann.attachments) {
-                        const title = ann.title ? ann.title.replace(/[\\/:*?"<>|]/g, '_') : '無題';
-                        for (const att of ann.attachments) {
-                            await addSource(att.url, `お知らせ/${title}/${att.name}`, att.name, att);
-                        }
-                    }
-                }
+    // --- 概要(シラバス)リソースの取得 ---
+    try {
+      const sylApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/syllabus/site/${targetSiteId}.json`;
+      const sylResponse = await fetch(sylApiUrl);
+      if (sylResponse.ok) {
+        const sylData = await sylResponse.json();
+        const syllabuses = sylData.syllabusItem_collection || [];
+        for (const syl of syllabuses) {
+          if (syl.attachments) {
+            for (const att of syl.attachments) {
+              await addSource(att.url, `概要/${att.name}`, att.name, att);
             }
-        } catch(e) { console.error(e); }
+          }
+        }
+      }
+    } catch(e) { console.error(e); }
+
+    // --- お知らせリソースの取得 ---
+    try {
+      const annApiUrl = `https://lms.gakusei.kyoto-u.ac.jp/direct/announcement/site/${targetSiteId}.json`;
+      const annResponse = await fetch(annApiUrl);
+      if (annResponse.ok) {
+        const annData = await annResponse.json();
+        const announcements = annData.announcement_collection || [];
+        for (const ann of announcements) {
+          if (ann.attachments) {
+            const title = ann.title ? ann.title.replace(/[\\/:*?"<>|]/g, '_') : '無題';
+            for (const att of ann.attachments) {
+              await addSource(att.url, `お知らせ/${title}/${att.name}`, att.name, att);
+            }
+          }
+        }
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  const startDownload = async (mode, forceFull = false) => {
+    toggleMenu(true);
+    if (mode === 'current' && !site_id) return;
+    if (mainBtn.style.pointerEvents === 'none') return;
+
+    // 処理中に選択が変わっても、開始時の期で最後まで処理する。
+    const downloadTerm = selectedTerm;
+    const originalText = mainBtn.innerHTML;
+    mainBtn.title = '';
+    mainBtn.innerHTML = '⏳ 準備中...';
+    mainBtn.style.pointerEvents = 'none';
+
+    try {
+      const zip = new JSZip();
+      const saved = await readHistory();
+      const pendingBySite = {};
+
+      let targetSites = [];
+      let siteDict = {};
+
+      // 全教科名を取得する処理
+      try {
+        const siteRes = await fetch(`https://lms.gakusei.kyoto-u.ac.jp/direct/site.json?_limit=400`);
+        if (siteRes.ok) {
+          const siteData = await siteRes.json();
+          (siteData.site_collection || []).forEach(site => {
+            siteDict[site.id] = site.title.replace(/[\\/:*?"<>|]/g, '_').trim();
+            if (mode === 'all' && !site.id.startsWith('~') && courseTerm(site.title) === downloadTerm) {
+              // マイページなどは除外
+              targetSites.push({ id: site.id, name: siteDict[site.id] });
+            }
+          });
+        }
+      } catch (e) { console.error(e); }
+
+      if (mode === 'current') {
+        let courseName = siteDict[site_id];
+        if (!courseName) {
+          const currentSiteRes = await fetch(`https://lms.gakusei.kyoto-u.ac.jp/direct/site/${site_id}.json`);
+          if (!currentSiteRes.ok) throw new Error('教科名を取得できませんでした');
+          const currentSite = await currentSiteRes.json();
+          courseName = currentSite.title?.replace(/[\\/:*?"<>|]/g, '_').trim();
+        }
+        if (!courseName) throw new Error('教科名を取得できませんでした');
+        targetSites = [{ id: site_id, name: courseName }];
+      }
+      if (targetSites.length === 0) throw new Error(`${termLabels[downloadTerm]}の教科が見つかりませんでした。期の選択と接続を確認してください。`);
+
+      for (let i = 0; i < targetSites.length; i++) {
+        const target = targetSites[i];
+        // 進行状況の表示（文字が崩れないように調整）
+        mainBtn.innerHTML = `⏳ 処理中 (${i+1}/${targetSites.length})`;
+        const folder = zip.folder(target.name);
+        const pending = new Set();
+        pendingBySite[target.id] = pending;
+        await processCourse(folder, target.id, new Set(saved[target.id] || []), pending, forceFull);
+      }
+
+      if (Object.keys(zip.files).every(path => zip.files[path].dir)) {
+        mainBtn.innerHTML = '✅ 新しい資料はありません';
+        return;
+      }
+
+      mainBtn.innerHTML = '📦 ZIP圧縮中...';
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+      const downloadUrl = URL.createObjectURL(zipBlob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+
+      const downloadName = mode === 'all' ? `${termLabels[downloadTerm]}_全教科一括DL.zip` : `${targetSites[0].name}.zip`;
+      a.download = downloadName;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
+
+      for (const [id, keys] of Object.entries(pendingBySite)) {
+        saved[id] = [...new Set([...(saved[id] || []), ...keys])];
+      }
+      const historySaved = await writeHistory(saved);
+
+      mainBtn.innerHTML = historySaved ? '✅ 完了！' : '⚠️ ZIP保存済・履歴保存失敗';
+      mainBtn.style.backgroundColor = 'rgba(40, 167, 69, 0.8)';
+
+    } catch (error) {
+      console.error(error);
+      mainBtn.title = String(error?.message || error);
+      mainBtn.innerHTML = '❌ エラー（カーソルを合わせて詳細を確認）';
+      mainBtn.style.backgroundColor = 'rgba(220, 53, 69, 0.8)';
+    } finally {
+      setTimeout(() => {
+        mainBtn.innerHTML = originalText;
+        mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+        mainBtn.style.pointerEvents = 'auto';
+      }, 3000);
+    }
+  };
+
+  itemAllCourses.addEventListener('click', () => startDownload('all'));
+  itemFullAllCourses.addEventListener('click', () => startDownload('all', true));
+  if (site_id) {
+    itemCurrentCourse.addEventListener('click', () => startDownload('current'));
+    itemFullCurrentCourse.addEventListener('click', () => startDownload('current', true));
+  }
+
+  masterContainer.appendChild(dlContainer);
+
+
+  // ==========================================
+  // --- 2. 時間割ボタン（全ページ共通で作成） ---
+  // ==========================================
+
+  // このブロックは if (site_id) の外にあるため、ダッシュボード等の教科外ページでも必ず実行されます。
+  const ttContainer = document.createElement('div');
+  ttContainer.style.position = 'relative';
+  ttContainer.style.display = 'inline-flex';
+  ttContainer.style.alignItems = 'center';
+  ttContainer.style.height = '100%';
+
+  const ttBtn = document.createElement('button');
+  ttBtn.innerHTML = '<span style="margin-right: 5px;">🗓️</span>時間割';
+  Object.assign(ttBtn.style, {
+    padding: '6px 15px', backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.5)', borderRadius: '20px',
+    cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', display: 'inline-flex',
+    alignItems: 'center', transition: 'all 0.2s', height: '32px'
+  });
+  ttBtn.addEventListener('mouseover', () => ttBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)');
+  ttBtn.addEventListener('mouseout', () => ttBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)');
+
+  const ttMenu = document.createElement('div');
+  Object.assign(ttMenu.style, {
+    position: 'absolute', top: '100%', right: '0', marginTop: '8px',
+    backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+    overflow: 'hidden', width: '450px', zIndex: '10000',
+    opacity: '0', visibility: 'hidden', transform: 'translateY(-10px)',
+    transition: 'all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)', padding: '10px'
+  });
+
+  ttContainer.appendChild(ttBtn);
+  ttContainer.appendChild(ttMenu);
+
+  // 時間割コンテナもマスターコンテナに追加します。
+  // （教科ページならDLボタンの右に並び、ホームなら時間割ボタンだけが配置されます）
+  masterContainer.appendChild(ttContainer);
+
+  // 【解説：getComputedStyle を使った色の抽出】
+  // 構文: window.getComputedStyle(要素)
+  // HTMLのstyle属性だけでなく、外部CSSファイルなどで最終的に適用されている「実際の見た目」を取得します。
+  // 他の拡張機能がどうやって色を塗っていても、最終的な描画色を特定できる強力なハックです。
+  function extractExtColor(el) {
+    if (!el) return '#ffffff';
+    // 'transparent' などの透明色や黒を除外するチェッカー関数
+    const checkColor = (c) => c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent' && c !== 'rgb(255, 255, 255)' && c !== '#ffffff';
+
+    // 【解説：スプレッド構文 (...) と filter(Boolean)】
+    // ...el.querySelectorAll('*') で要素の中にある全ての子要素を配列として展開・結合しています。
+    // filter(Boolean) は null や undefined を配列から取り除くためのテクニックです。
+    const targets = [el, el.querySelector('a'), ...el.querySelectorAll('*')].filter(Boolean);
+
+    for (let target of targets) {
+      const cs = window.getComputedStyle(target);
+      // 左側の枠線(border-left)に色がついていれば取得
+      if (checkColor(cs.borderLeftColor) && parseInt(cs.borderLeftWidth) > 0) return cs.borderLeftColor;
+      // 背景色(background-color)がついていれば取得
+      if (checkColor(cs.backgroundColor)) return cs.backgroundColor;
+
+      // ::before などの疑似要素（CSSで作られた装飾）の色もチェック
+      for (let pseudo of ['::before', '::after']) {
+        const pseudoCs = window.getComputedStyle(target, pseudo);
+        if (checkColor(pseudoCs.borderLeftColor) && parseInt(pseudoCs.borderLeftWidth) > 0) return pseudoCs.borderLeftColor;
+        if (checkColor(pseudoCs.backgroundColor)) return pseudoCs.backgroundColor;
+      }
+    }
+    return '#ffffff';
+  }
+
+  // 教科の「正式名称」をAPIから一括取得し、オブジェクト（辞書）としてキャッシュしておきます。
+  // これにより、画面上で「プログラミ...」のように省略されていてもフルネームを復元できます。
+  const apiTitles = {};
+  let titlesLoaded = false;
+  let titlesFailed = false;
+  fetch('https://lms.gakusei.kyoto-u.ac.jp/direct/site.json?_limit=400')
+    .then(r => {
+      if (!r.ok) throw new Error('教科一覧を取得できませんでした');
+      return r.json();
+    })
+    .then(data => {
+      (data.site_collection || []).forEach(site => {
+        // 期と曜日を判定するため、角括弧内も含めた正式名称を保持する。
+        if (!site.id.startsWith('~')) apiTitles[site.id] = site.title;
+      });
+      titlesLoaded = true;
+      // APIの取得が終わる前にユーザーがメニューを開いていた場合は、再描画して最新化します
+      let isTtOpenLocal = ttMenu.style.visibility === 'visible';
+      if (isTtOpenLocal) buildTimetable();
+    }).catch(e => {
+      console.error('API Fetch Error:', e);
+      titlesFailed = true;
+      if (ttMenu.style.visibility === 'visible') buildTimetable();
+    });
+
+  // 時間割のDOMを生成するメイン関数
+  function buildTimetable() {
+    ttMenu.innerHTML = '';
+    const classes = {}; // 曜日と時限をキーにして教科データを格納するオブジェクト
+
+    const heading = document.createElement('div');
+    heading.textContent = `${termLabels[selectedTerm]}の時間割`;
+    Object.assign(heading.style, { fontWeight: 'bold', color: '#333', marginBottom: '8px' });
+    ttMenu.appendChild(heading);
+
+    // APIの全科目を使い、ナビゲーションに表示されない科目も拾う。
+    // API取得前や失敗時には、画面上の科目名で判定する。
+    const courses = new Map(Object.entries(apiTitles).map(([id, title]) => [id, {
+      title, url: `https://lms.gakusei.kyoto-u.ac.jp/portal/site/${id}`, color: '#ffffff'
+    }]));
+    document.querySelectorAll('a[href*="/portal/site/"]').forEach(a => {
+      // 拡張機能自身が生成した時間割のリンクは候補に含めない。
+      if (masterContainer.contains(a)) return;
+      const m = a.href.match(/\/portal\/site\/([a-zA-Z0-9\-_]+)/);
+      if (!m) return;
+      const id = m[1];
+      const title = apiTitles[id] || (a.getAttribute('title') || a.textContent || '').replace(/\r?\n|\r/g, '').trim();
+      const color = extractExtColor(a.closest('li') || a);
+      const previous = courses.get(id);
+      if (!previous || previous.color === '#ffffff') courses.set(id, { title, url: a.href, color });
+    });
+
+    for (const [id, course] of courses) {
+      if (courseTerm(course.title) !== selectedTerm) continue;
+      const match = course.title.match(/\[.*?([月火水木金])\s*([1-6１-６]).*?\]\s*(.*)/);
+      if (!match) continue;
+      const day = match[1];
+      const period = match[2].normalize('NFKC');
+      const name = match[3].replace(/…|\.{3,}$/, '').trim();
+      if (!classes[day]) classes[day] = {};
+      if (!classes[day][period]) classes[day][period] = [];
+      classes[day][period].push({ id, name, url: course.url, color: course.color });
     }
 
-    const startDownload = async (mode, forceFull = false) => {
-        toggleMenu(true);
-        if (mode === 'current' && !site_id) return;
-        if (mainBtn.style.pointerEvents === 'none') return;
+    // 【解説：CSS Grid を使った表のレイアウト】
+    // display: grid と grid-template-columns を使うと、簡単にエクセルのような表組みができます。
+    // 25px(1列目) + 残りの5列は1fr(利用可能なスペースを均等に割る)という意味です。
+    const grid = document.createElement('div');
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = '25px repeat(5, 1fr)';
+    grid.style.gap = '3px';
+    grid.style.backgroundColor = '#ddd'; // gapの部分から背景色が見えることで「枠線」のように見せます
+    grid.style.border = '1px solid #ccc';
+    grid.style.borderRadius = '4px';
 
-        const originalText = mainBtn.innerHTML;
-        mainBtn.title = '';
-        mainBtn.innerHTML = '⏳ 準備中...';
-        mainBtn.style.pointerEvents = 'none';
+    const days = ['月', '火', '水', '木', '金'];
 
-        try {
-            const zip = new JSZip();
-            const saved = await readHistory();
-            const pendingBySite = {};
+    // 【解説：Dateオブジェクト】
+    // getDay() は 0(日曜日) 〜 6(土曜日) の数値を返すので、それをインデックスにして今日の漢字を取得します。
+    const currentDay = ['日', '月', '火', '水', '木', '金', '土'][new Date().getDay()];
 
-            let targetSites = [];
-            let siteDict = {};
-            
-            // 全教科名を取得する処理
-            try {
-                const siteRes = await fetch(`https://lms.gakusei.kyoto-u.ac.jp/direct/site.json?_limit=400`);
-                if (siteRes.ok) {
-                    const siteData = await siteRes.json();
-                    (siteData.site_collection || []).forEach(site => {
-                        siteDict[site.id] = site.title.replace(/[\\/:*?"<>|]/g, '_').trim();
-                        if (mode === 'all' && !site.id.startsWith('~')) {
-                            // マイページなどは除外
-                            targetSites.push({ id: site.id, name: siteDict[site.id] });
-                        }
-                    });
-                }
-            } catch (e) { console.error(e); }
-
-            if (mode === 'current') {
-                let courseName = siteDict[site_id];
-                if (!courseName) {
-                    const currentSiteRes = await fetch(`https://lms.gakusei.kyoto-u.ac.jp/direct/site/${site_id}.json`);
-                    if (!currentSiteRes.ok) throw new Error('教科名を取得できませんでした');
-                    const currentSite = await currentSiteRes.json();
-                    courseName = currentSite.title?.replace(/[\\/:*?"<>|]/g, '_').trim();
-                }
-                if (!courseName) throw new Error('教科名を取得できませんでした');
-                targetSites = [{ id: site_id, name: courseName }];
-            }
-            if (targetSites.length === 0) throw new Error('教科一覧を取得できませんでした');
-
-            for (let i = 0; i < targetSites.length; i++) {
-                const target = targetSites[i];
-                // 進行状況の表示（文字が崩れないように調整）
-                mainBtn.innerHTML = `⏳ 処理中 (${i+1}/${targetSites.length})`;
-                const folder = zip.folder(target.name);
-                const pending = new Set();
-                pendingBySite[target.id] = pending;
-                await processCourse(folder, target.id, new Set(saved[target.id] || []), pending, forceFull);
-            }
-
-            if (Object.keys(zip.files).every(path => zip.files[path].dir)) {
-                mainBtn.innerHTML = '✅ 新しい資料はありません';
-                return;
-            }
-
-            mainBtn.innerHTML = '📦 ZIP圧縮中...';
-            const zipBlob = await zip.generateAsync({ type: 'blob' }); 
-            
-            const downloadUrl = URL.createObjectURL(zipBlob); 
-            const a = document.createElement('a'); 
-            a.href = downloadUrl;
-            
-            const downloadName = mode === 'all' ? '全教科一括DL.zip' : `${targetSites[0].name}.zip`;
-            a.download = downloadName; 
-            a.click(); 
-            setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
-
-            for (const [id, keys] of Object.entries(pendingBySite)) {
-                saved[id] = [...new Set([...(saved[id] || []), ...keys])];
-            }
-            const historySaved = await writeHistory(saved);
-
-            mainBtn.innerHTML = historySaved ? '✅ 完了！' : '⚠️ ZIP保存済・履歴保存失敗';
-            mainBtn.style.backgroundColor = 'rgba(40, 167, 69, 0.8)';
-
-        } catch (error) {
-            console.error(error);
-            mainBtn.title = String(error?.message || error);
-            mainBtn.innerHTML = '❌ エラー（カーソルを合わせて詳細を確認）';
-            mainBtn.style.backgroundColor = 'rgba(220, 53, 69, 0.8)';
-        } finally {
-            setTimeout(() => {
-                mainBtn.innerHTML = originalText;
-                mainBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-                mainBtn.style.pointerEvents = 'auto';
-            }, 3000);
-        }
+    // セル（マス目）を作る共通関数
+    const createCell = (text, bg, isHeader) => {
+      const div = document.createElement('div');
+      div.innerText = text;
+      Object.assign(div.style, {
+        backgroundColor: bg, padding: '4px', textAlign: 'center',
+        fontSize: isHeader ? '12px' : '11px', fontWeight: isHeader ? 'bold' : 'normal',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: '#333', minHeight: isHeader ? '25px' : '50px'
+      });
+      return div;
     };
 
-    itemAllCourses.addEventListener('click', () => startDownload('all'));
-    itemFullAllCourses.addEventListener('click', () => startDownload('all', true));
-    if (site_id) {
-        itemCurrentCourse.addEventListener('click', () => startDownload('current'));
-        itemFullCurrentCourse.addEventListener('click', () => startDownload('current', true));
-    }
+    // 左上の空白セル
+    grid.appendChild(createCell('', '#f8f9fa', true));
 
-    masterContainer.appendChild(dlContainer);
-
-
-    // ==========================================
-    // --- 2. 時間割ボタン（全ページ共通で作成） ---
-    // ==========================================
-    
-    // このブロックは if (site_id) の外にあるため、ダッシュボード等の教科外ページでも必ず実行されます。
-    const ttContainer = document.createElement('div');
-    ttContainer.style.position = 'relative';
-    ttContainer.style.display = 'inline-flex';
-    ttContainer.style.alignItems = 'center';
-    ttContainer.style.height = '100%';
-
-    const ttBtn = document.createElement('button');
-    ttBtn.innerHTML = '<span style="margin-right: 5px;">🗓️</span>時間割';
-    Object.assign(ttBtn.style, {
-        padding: '6px 15px', backgroundColor: 'rgba(255, 255, 255, 0.15)',
-        color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.5)', borderRadius: '20px',
-        cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', display: 'inline-flex',
-        alignItems: 'center', transition: 'all 0.2s', height: '32px'
-    });
-    ttBtn.addEventListener('mouseover', () => ttBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)');
-    ttBtn.addEventListener('mouseout', () => ttBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)');
-
-    const ttMenu = document.createElement('div');
-    Object.assign(ttMenu.style, {
-        position: 'absolute', top: '100%', right: '0', marginTop: '8px',
-        backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-        overflow: 'hidden', width: '450px', zIndex: '10000',
-        opacity: '0', visibility: 'hidden', transform: 'translateY(-10px)',
-        transition: 'all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)', padding: '10px'
+    // 曜日ヘッダーの生成
+    days.forEach(d => {
+      const isToday = (d === currentDay);
+      // 今日なら薄い青色（#d0ebff）にする
+      grid.appendChild(createCell(d, isToday ? '#d0ebff' : '#f8f9fa', true));
     });
 
-    ttContainer.appendChild(ttBtn);
-    ttContainer.appendChild(ttMenu);
-    
-    // 時間割コンテナもマスターコンテナに追加します。
-    // （教科ページならDLボタンの右に並び、ホームなら時間割ボタンだけが配置されます）
-    masterContainer.appendChild(ttContainer);
+    // 曜日時限の抽出に合わせて6限まで表示する。
+    for (let period = 1; period <= 6; period++) {
+      grid.appendChild(createCell(period.toString(), '#f8f9fa', true)); // 左端の時限番号セル
 
-    // 【解説：getComputedStyle を使った色の抽出】
-    // 構文: window.getComputedStyle(要素)
-    // HTMLのstyle属性だけでなく、外部CSSファイルなどで最終的に適用されている「実際の見た目」を取得します。
-    // 他の拡張機能がどうやって色を塗っていても、最終的な描画色を特定できる強力なハックです。
-    function extractExtColor(el) {
-        if (!el) return '#ffffff';
-        // 'transparent' などの透明色や黒を除外するチェッカー関数
-        const checkColor = (c) => c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent' && c !== 'rgb(255, 255, 255)' && c !== '#ffffff';
-        
-        // 【解説：スプレッド構文 (...) と filter(Boolean)】
-        // ...el.querySelectorAll('*') で要素の中にある全ての子要素を配列として展開・結合しています。
-        // filter(Boolean) は null や undefined を配列から取り除くためのテクニックです。
-        const targets = [el, el.querySelector('a'), ...el.querySelectorAll('*')].filter(Boolean);
+      days.forEach(day => {
+        const entries = classes[day] && classes[day][period];
+        const isToday = (day === currentDay);
+        const emptyBg = isToday ? '#f1f8ff' : '#ffffff'; // 空きコマの背景色
 
-        for (let target of targets) {
-            const cs = window.getComputedStyle(target);
-            // 左側の枠線(border-left)に色がついていれば取得
-            if (checkColor(cs.borderLeftColor) && parseInt(cs.borderLeftWidth) > 0) return cs.borderLeftColor;
-            // 背景色(background-color)がついていれば取得
-            if (checkColor(cs.backgroundColor)) return cs.backgroundColor;
+        if (entries) {
+          const cell = createCell('', emptyBg, false);
+          cell.style.flexDirection = 'column';
+          cell.style.gap = '3px';
+          for (const info of entries) {
+            const aTag = document.createElement('a');
+            aTag.href = info.url;
+            aTag.innerText = info.name;
+            aTag.title = info.name; // マウスホバーでツールチップとしてフルネームを表示
 
-            // ::before などの疑似要素（CSSで作られた装飾）の色もチェック
-            for (let pseudo of ['::before', '::after']) {
-                const pseudoCs = window.getComputedStyle(target, pseudo);
-                if (checkColor(pseudoCs.borderLeftColor) && parseInt(pseudoCs.borderLeftWidth) > 0) return pseudoCs.borderLeftColor;
-                if (checkColor(pseudoCs.backgroundColor)) return pseudoCs.backgroundColor;
-            }
-        }
-        return '#ffffff';
-    }
-
-    // 教科の「正式名称」をAPIから一括取得し、オブジェクト（辞書）としてキャッシュしておきます。
-    // これにより、画面上で「プログラミ...」のように省略されていてもフルネームを復元できます。
-    const apiTitles = {};
-    fetch('https://lms.gakusei.kyoto-u.ac.jp/direct/site.json?_limit=400')
-        .then(r => r.json())
-        .then(data => {
-            (data.site_collection || []).forEach(site => {
-                // 正規表現 /^\[.*?\]\s*/ : 文字列の先頭(^)にある [2026前期...] のカッコ部分を空文字に置換して削除
-                apiTitles[site.id] = site.title.replace(/^\[.*?\]\s*/, '').trim();
+            Object.assign(aTag.style, {
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              backgroundColor: (info.color === '#ffffff' && isToday) ? emptyBg : info.color,
+              color: '#333', fontSize: '11px', textDecoration: 'none',
+              textAlign: 'center', height: '100%', width: '100%',
+              padding: '4px', boxSizing: 'border-box', lineHeight: '1.3',
+              wordBreak: 'break-all', position: 'relative'
             });
-            // APIの取得が終わる前にユーザーがメニューを開いていた場合は、再描画して最新化します
-            let isTtOpenLocal = ttMenu.style.visibility === 'visible';
-            if (isTtOpenLocal) buildTimetable();
-        }).catch(e => console.error('API Fetch Error:', e));
 
-    // 時間割のDOMを生成するメイン関数
-    function buildTimetable() {
-        ttMenu.innerHTML = '';
-        const classes = {}; // 曜日と時限をキーにして教科データを格納するオブジェクト
-        
-        // 画面上にある全ての教科リンク（/portal/site/）をかき集めます
-        const links = document.querySelectorAll('a[href*="/portal/site/"]');
-        
-        links.forEach(a => {
-            const m = a.href.match(/\/portal\/site\/([a-zA-Z0-9\-\_]+)/);
-            if (!m) return;
-            const siteId = m[1];
-            
-            // a.textContentなどでテキストを取得し、改行(\rや\n)を取り除いて1行にします
-            let rawText = (a.getAttribute('title') || a.textContent || '').replace(/\r?\n|\r/g, '').trim();
-            // 「曜日」と「時限」を抽出
-            const match = rawText.match(/\[.*?([月火水木金])\s*([1-6１-６]).*?\]\s*(.*)/);
-            
-            if (match) {
-                const day = match[1];
-                
-                // 【解説：文字コードによる全角・半角変換】
-                // charCodeAt(0)で文字コードを取得。全角の'１'等は255より大きいため、65248を引くことで半角の'1'に変換できます。
-                const period = String.fromCharCode(match[2].charCodeAt(0) - (match[2].charCodeAt(0) > 255 ? 65248 : 0));
-                
-                // APIでキャッシュした正式名称があればそれを使い、なければ抽出した文字から省略記号(…)を消して使います
-                const name = apiTitles[siteId] || match[3].replace(/…|\.{3,}$/, '').trim();
-                const color = extractExtColor(a.closest('li') || a);
-                
-                if (!classes[day]) classes[day] = {};
-                
-                // もし同じ時限に別のリンク（上部タブとサイドバーなど）が重複した場合、色が着いている方を優先保存します
-                if (!classes[day][period] || (classes[day][period].color === '#ffffff' && color !== '#ffffff')) {
-                    classes[day][period] = { name, url: a.href, color };
-                }
+            // 【解説：box-shadow のハック利用】
+            // rgba(255,255,255,0.7) で白い半透明の影を要素の内側(inset)いっぱいに広げることで、
+            // 背景の原色を少し薄く（パステル調に）して文字を読みやすくしています。
+            if(info.color !== '#ffffff') {
+              aTag.style.boxShadow = 'inset 0 0 0 1000px rgba(255,255,255,0.7)';
+              aTag.style.fontWeight = 'bold';
             }
-        });
 
-        // 【解説：CSS Grid を使った表のレイアウト】
-        // display: grid と grid-template-columns を使うと、簡単にエクセルのような表組みができます。
-        // 25px(1列目) + 残りの5列は1fr(利用可能なスペースを均等に割る)という意味です。
-        const grid = document.createElement('div');
-        grid.style.display = 'grid';
-        grid.style.gridTemplateColumns = '25px repeat(5, 1fr)';
-        grid.style.gap = '3px';
-        grid.style.backgroundColor = '#ddd'; // gapの部分から背景色が見えることで「枠線」のように見せます
-        grid.style.border = '1px solid #ccc';
-        grid.style.borderRadius = '4px';
-
-        const days = ['月', '火', '水', '木', '金'];
-        
-        // 【解説：Dateオブジェクト】
-        // getDay() は 0(日曜日) 〜 6(土曜日) の数値を返すので、それをインデックスにして今日の漢字を取得します。
-        const currentDay = ['日', '月', '火', '水', '木', '金', '土'][new Date().getDay()];
-
-        // セル（マス目）を作る共通関数
-        const createCell = (text, bg, isHeader) => {
-            const div = document.createElement('div');
-            div.innerText = text;
-            Object.assign(div.style, {
-                backgroundColor: bg, padding: '4px', textAlign: 'center',
-                fontSize: isHeader ? '12px' : '11px', fontWeight: isHeader ? 'bold' : 'normal',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#333', minHeight: isHeader ? '25px' : '50px'
-            });
-            return div;
-        };
-
-        // 左上の空白セル
-        grid.appendChild(createCell('', '#f8f9fa', true));
-        
-        // 曜日ヘッダーの生成
-        days.forEach(d => {
-            const isToday = (d === currentDay);
-            // 今日なら薄い青色（#d0ebff）にする
-            grid.appendChild(createCell(d, isToday ? '#d0ebff' : '#f8f9fa', true));
-        });
-
-        // 1限〜5限のループ
-        for (let period = 1; period <= 5; period++) {
-            grid.appendChild(createCell(period.toString(), '#f8f9fa', true)); // 左端の時限番号セル
-            
-            days.forEach(day => {
-                const info = classes[day] && classes[day][period];
-                const isToday = (day === currentDay);
-                const emptyBg = isToday ? '#f1f8ff' : '#ffffff'; // 空きコマの背景色
-
-                if (info) {
-                    const aTag = document.createElement('a');
-                    aTag.href = info.url;
-                    aTag.innerText = info.name;
-                    aTag.title = info.name; // マウスホバーでツールチップとしてフルネームを表示
-                    
-                    Object.assign(aTag.style, {
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        backgroundColor: (info.color === '#ffffff' && isToday) ? emptyBg : info.color,
-                        color: '#333', fontSize: '11px', textDecoration: 'none', 
-                        textAlign: 'center', height: '100%', width: '100%',
-                        padding: '4px', boxSizing: 'border-box', lineHeight: '1.3', 
-                        wordBreak: 'break-all', position: 'relative'
-                    });
-                    
-                    // 【解説：box-shadow のハック利用】
-                    // rgba(255,255,255,0.7) で白い半透明の影を要素の内側(inset)いっぱいに広げることで、
-                    // 背景の原色を少し薄く（パステル調に）して文字を読みやすくしています。
-                    if(info.color !== '#ffffff') {
-                         aTag.style.boxShadow = 'inset 0 0 0 1000px rgba(255,255,255,0.7)';
-                         aTag.style.fontWeight = 'bold';
-                    }
-                    
-                    // 【解説：filter: brightness】
-                    // マウスが乗った時に少し暗く(0.9倍)して、ボタンっぽさを演出します。
-                    aTag.addEventListener('mouseover', () => aTag.style.filter = 'brightness(0.9)');
-                    aTag.addEventListener('mouseout', () => aTag.style.filter = 'none');
-                    grid.appendChild(aTag);
-                } else {
-                    grid.appendChild(createCell('', emptyBg, false)); // 教科がない場合は空きコマセルを追加
-                }
-            });
+            // 【解説：filter: brightness】
+            // マウスが乗った時に少し暗く(0.9倍)して、ボタンっぽさを演出します。
+            aTag.addEventListener('mouseover', () => aTag.style.filter = 'brightness(0.9)');
+            aTag.addEventListener('mouseout', () => aTag.style.filter = 'none');
+            cell.appendChild(aTag);
+          }
+          grid.appendChild(cell);
+        } else {
+          grid.appendChild(createCell('', emptyBg, false)); // 教科がない場合は空きコマセルを追加
         }
-        ttMenu.appendChild(grid);
-        
-        // 【解説：Object.keys(obj).length】
-        // オブジェクトの中にプロパティ（キー）がいくつあるかを数えます。
-        // apiTitles が空＝まだAPIの取得が終わっていない場合は、ローディング文字を出します。
-        if (Object.keys(apiTitles).length === 0) {
-            const loadingInd = document.createElement('div');
-            Object.assign(loadingInd.style, { fontSize: '10px', color: '#888', textAlign: 'right', marginTop: '5px' });
-            loadingInd.innerText = '⏳ 詳細名をAPIから取得中...';
-            ttMenu.appendChild(loadingInd);
-        }
+      });
+    }
+    ttMenu.appendChild(grid);
+
+    if (!titlesLoaded) {
+      const loadingInd = document.createElement('div');
+      Object.assign(loadingInd.style, { fontSize: '10px', color: '#888', textAlign: 'right', marginTop: '5px' });
+      loadingInd.innerText = titlesFailed ? '⚠️ 教科一覧の取得に失敗しました。画面上の科目のみ表示しています。' : '⏳ 教科一覧をAPIから取得中...';
+      ttMenu.appendChild(loadingInd);
+    }
+  }
+
+  termSelect.addEventListener('change', () => {
+    selectedTerm = termSelect.value;
+    try {
+      localStorage.setItem(termKey, selectedTerm);
+    } catch (error) {
+      console.warn('期の選択を保存できませんでした', error);
+    }
+    toggleMenu(true);
+    if (ttMenu.style.visibility === 'visible') buildTimetable();
+  });
+
+  let isTtOpen = false;
+  toggleTt = (forceClose = false) => {
+    if (isTtOpen || forceClose) {
+      ttMenu.style.opacity = '0';
+      ttMenu.style.visibility = 'hidden';
+      ttMenu.style.transform = 'translateY(-10px)';
+      isTtOpen = false;
+    } else {
+      // メニューが開く直前に常に最新情報を読み取ってDOM(表)を再構築します
+      buildTimetable();
+      ttMenu.style.opacity = '1';
+      ttMenu.style.visibility = 'visible';
+      ttMenu.style.transform = 'translateY(0)';
+      isTtOpen = true;
+    }
+  };
+
+  ttBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (typeof toggleMenu === 'function') toggleMenu(true); // DLメニューが開いていれば強制的に閉じる（排他制御）
+    toggleTt();
+  });
+  // どこか外側をクリックした時に閉じるイベント
+  document.addEventListener('click', (e) => { if (!ttContainer.contains(e.target)) toggleTt(true); });
+
+
+  // ==========================================
+  // --- 3. ヘッダーへの挿入 ---
+  // ==========================================
+  const insertButton = () => {
+    // すでに親箱が挿入されていれば何もしない
+    if (document.body.contains(masterContainer)) return;
+
+    // 【解説：querySelector】
+    // CSSセレクタを使って、画面上の特定のHTML要素を探し出します。
+    // KULMSの仕様変更に備えて、複数の候補（selectors）を用意して順番に探しています。
+    const selectors = [
+      '#mastLogin > ul', '.Mrphs-loginNav > ul', 'ul.nav[role="menubar"]',
+      'nav[aria-label="ユーザーナビゲーション"] ul', 'nav[aria-label="User navigation"] ul', 'header .navbar-right'
+    ];
+
+    let targetNav = null;
+    for (const selector of selectors) {
+      targetNav = document.querySelector(selector);
+      if (targetNav) break; // 見つかったらループを抜ける
     }
 
-    let isTtOpen = false;
-    toggleTt = (forceClose = false) => {
-        if (isTtOpen || forceClose) {
-            ttMenu.style.opacity = '0';
-            ttMenu.style.visibility = 'hidden';
-            ttMenu.style.transform = 'translateY(-10px)';
-            isTtOpen = false;
-        } else {
-            // メニューが開く直前に常に最新情報を読み取ってDOM(表)を再構築します
-            buildTimetable();
-            ttMenu.style.opacity = '1';
-            ttMenu.style.visibility = 'visible';
-            ttMenu.style.transform = 'translateY(0)';
-            isTtOpen = true;
-        }
-    };
+    if (targetNav) {
+      const li = document.createElement('li');
+      li.style.display = 'inline-flex';
+      li.style.alignItems = 'center';
+      li.style.height = '100%';
+      li.style.listStyle = 'none';
+      li.appendChild(masterContainer); // 親箱ごと一気に挿入
 
-    ttBtn.addEventListener('click', (e) => { 
-        e.stopPropagation(); 
-        if (typeof toggleMenu === 'function') toggleMenu(true); // DLメニューが開いていれば強制的に閉じる（排他制御）
-        toggleTt(); 
-    });
-    // どこか外側をクリックした時に閉じるイベント
-    document.addEventListener('click', (e) => { if (!ttContainer.contains(e.target)) toggleTt(true); });
+      // 見つけたリストの一番最初（ヘルプアイコン等の左隣）に挿入する
+      targetNav.insertBefore(li, targetNav.firstChild);
+    } else {
+      // 見つからなかった場合の保険的配置処理（絶対位置指定）
+      const header = document.querySelector('header') || document.querySelector('#masthead');
+      if (header) {
+        if (window.getComputedStyle(header).position === 'static') header.style.position = 'relative';
+        masterContainer.style.position = 'absolute';
+        masterContainer.style.right = '320px';
+        // top: 0 と bottom: 0 を両方指定することで、ヘッダーの高さにぴったり追従させます
+        masterContainer.style.top = '0';
+        masterContainer.style.bottom = '0';
+        header.appendChild(masterContainer);
+      } else {
+        // 最終手段として画面の右下に固定表示
+        masterContainer.style.position = 'fixed';
+        masterContainer.style.bottom = '30px';
+        masterContainer.style.right = '30px';
+        masterContainer.style.zIndex = '9999';
+        document.body.appendChild(masterContainer);
+      }
+    }
+  };
 
-
-    // ==========================================
-    // --- 3. ヘッダーへの挿入 ---
-    // ==========================================
-    const insertButton = () => {
-        // すでに親箱が挿入されていれば何もしない
-        if (document.body.contains(masterContainer)) return;
-
-        // 【解説：querySelector】
-        // CSSセレクタを使って、画面上の特定のHTML要素を探し出します。
-        // KULMSの仕様変更に備えて、複数の候補（selectors）を用意して順番に探しています。
-        const selectors = [
-            '#mastLogin > ul', '.Mrphs-loginNav > ul', 'ul.nav[role="menubar"]', 
-            'nav[aria-label="ユーザーナビゲーション"] ul', 'nav[aria-label="User navigation"] ul', 'header .navbar-right'
-        ];
-
-        let targetNav = null;
-        for (const selector of selectors) {
-            targetNav = document.querySelector(selector);
-            if (targetNav) break; // 見つかったらループを抜ける
-        }
-
-        if (targetNav) {
-            const li = document.createElement('li');
-            li.style.display = 'inline-flex';
-            li.style.alignItems = 'center';  
-            li.style.height = '100%';        
-            li.style.listStyle = 'none';
-            li.appendChild(masterContainer); // 親箱ごと一気に挿入
-            
-            // 見つけたリストの一番最初（ヘルプアイコン等の左隣）に挿入する
-            targetNav.insertBefore(li, targetNav.firstChild);
-        } else {
-            // 見つからなかった場合の保険的配置処理（絶対位置指定）
-            const header = document.querySelector('header') || document.querySelector('#masthead');
-            if (header) {
-                if (window.getComputedStyle(header).position === 'static') header.style.position = 'relative';
-                masterContainer.style.position = 'absolute';
-                masterContainer.style.right = '320px';
-                // top: 0 と bottom: 0 を両方指定することで、ヘッダーの高さにぴったり追従させます
-                masterContainer.style.top = '0';
-                masterContainer.style.bottom = '0';
-                header.appendChild(masterContainer);
-            } else {
-                // 最終手段として画面の右下に固定表示
-                masterContainer.style.position = 'fixed';
-                masterContainer.style.bottom = '30px';
-                masterContainer.style.right = '30px';
-                masterContainer.style.zIndex = '9999';
-                document.body.appendChild(masterContainer);
-            }
-        }
-    };
-
-    // 【解説：setInterval による定期実行】
-    // 構文: setInterval(関数, ミリ秒)
-    // 画面の描画が遅い場合に対応するため、0.5秒おきに「ヘッダーはできた？」と確認しにいきます。
-    // 無限ループにならないよう、10回（5秒）試したら諦める（clearInterval）仕組みを入れています。
-    let attempts = 0;
-    const tryInsert = setInterval(() => {
-        attempts++;
-        if (document.querySelector('header') || document.querySelector('#mastLogin') || document.body) {
-            insertButton();
-            if (document.body.contains(masterContainer)) clearInterval(tryInsert);
-        }
-        if (attempts >= 10) clearInterval(tryInsert);
-    }, 500);
+  // 【解説：setInterval による定期実行】
+  // 構文: setInterval(関数, ミリ秒)
+  // 画面の描画が遅い場合に対応するため、0.5秒おきに「ヘッダーはできた？」と確認しにいきます。
+  // 無限ループにならないよう、10回（5秒）試したら諦める（clearInterval）仕組みを入れています。
+  let attempts = 0;
+  const tryInsert = setInterval(() => {
+    attempts++;
+    if (document.querySelector('header') || document.querySelector('#mastLogin') || document.body) {
+      insertButton();
+      if (document.body.contains(masterContainer)) clearInterval(tryInsert);
+    }
+    if (attempts >= 10) clearInterval(tryInsert);
+  }, 500);
 
 })();

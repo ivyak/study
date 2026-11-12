@@ -12,14 +12,36 @@ const { chromium } = require('playwright');
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
     await page.getByRole('button', { name: '答えを見る', exact: true }).click();
-    await page.getByRole('button', { name: '原典を見る（p.3）', exact: true }).click();
-    await page.locator('#source-image').evaluate(image => image.decode());
-    assert.ok(await page.locator('#source-image').evaluate(image => image.naturalWidth >= 1000));
-    await page.getByRole('button', { name: '拡大', exact: true }).click();
-    assert.ok(await page.locator('#source-scroll').evaluate(box => box.scrollWidth > box.clientWidth));
-    await page.screenshot({ path: path.resolve(__dirname, '../output/source-viewer.png'), fullPage: true });
-    await page.getByRole('button', { name: '原典を閉じる', exact: true }).click();
-    assert.equal(await page.locator('#source-viewer').evaluate(view => view.open), false);
+    const source = page.locator('.source-toggle').first();
+    const summary = source.locator('summary');
+    async function waitForSource() {
+      await page.waitForFunction(() => {
+        const image = document.querySelector('.source-toggle[open] img');
+        return image && image.complete && image.naturalWidth > 0;
+      });
+    }
+    await summary.click();
+    await waitForSource();
+    assert.ok(await source.locator('img').evaluate(image => image.naturalWidth >= 1000));
+    assert.equal(await page.locator('dialog').count(), 0);
+    await page.getByRole('button', { name: '原典を拡大（p.3）', exact: true }).click();
+    assert.equal(await source.locator('output').innerText(), '125%');
+    assert.ok(await source.locator('.source-viewport').evaluate(box => box.scrollWidth > box.clientWidth));
+    for (let i = 0; i < 2; i++) await page.getByRole('button', { name: '原典を縮小（p.3）', exact: true }).click();
+    assert.equal(await source.locator('output').innerText(), '75%');
+    await source.getByRole('button', { name: '全体', exact: true }).click();
+    assert.equal(await source.locator('output').innerText(), '100%');
+    for (const width of [320, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `source overflow at ${width}px`);
+    }
+    await page.screenshot({ path: path.resolve(__dirname, '../output/source-toggle.png'), fullPage: true });
+    await summary.click();
+    assert.equal(await source.evaluate(view => view.open), false);
+    await summary.click();
+    await waitForSource();
+    assert.equal(await source.locator('output').innerText(), '100%');
+    await summary.click();
     await page.getByRole('button', { name: '出なかった', exact: true }).click();
     await page.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     await page.reload();
@@ -52,6 +74,6 @@ const { chromium } = require('playwright');
     assert.deepEqual(saved.garden.items, ['sprout']);
     assert.equal(network.length, 0);
     assert.deepEqual(errors, []);
-    console.log('スマホ幅・原典画像の表示と拡大・MathML・再読込・自己判定・3問終了・購入・途中終了・外部通信なしを確認しました。');
+    console.log('スマホ幅・原典トグルの開閉と拡大縮小・MathML・再読込・自己判定・3問終了・購入・途中終了・外部通信なしを確認しました。');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

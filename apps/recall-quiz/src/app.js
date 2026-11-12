@@ -77,9 +77,9 @@
   function scene() {
     return `<div class="garden" aria-label="あなたの小さな庭"><div class="sun"></div><div class="hill back"></div><div class="hill"></div><div class="plants">${state.garden.items.length ? state.garden.items.map(id => `<span>${boot.shop.find(i => i.id === id).icon}</span>`).join('') : '<span class="empty-garden">ここに、少しずつ育てよう。</span>'}</div></div>`;
   }
-  function sourceButtons(q) {
+  function sourceToggles(q) {
     return q.sources.map(source => source.imageKey && deck.sourceImages && deck.sourceImages[source.imageKey] ?
-      `<button class="source-button" data-source="${escape(source.imageKey)}" data-source-label="${escape(source.file)} · p.${source.page}">原典を見る（p.${source.page}）</button>` : '').join('');
+      `<details class="source-toggle" data-source="${escape(source.imageKey)}" data-scale="100"><summary>原典を見る（p.${source.page}）</summary><p class="source-caption">${escape(source.file)} · p.${source.page}</p><div class="source-zoom-controls"><button type="button" data-zoom="-25" aria-label="原典を縮小（p.${source.page}）">−</button><input type="range" min="50" max="300" step="25" value="100" aria-label="原典の表示倍率（p.${source.page}）"><button type="button" data-zoom="25" aria-label="原典を拡大（p.${source.page}）">＋</button><output>100%</output><button type="button" data-zoom="reset">全体</button></div><div class="source-viewport"><img alt="${escape(source.file)} p.${source.page} の原典ページ"></div><p class="helper">拡大後は画像内を上下左右にスクロールできます。</p></details>` : '').join('');
   }
   function renderQuiz() {
     const s = state.session;
@@ -123,20 +123,31 @@
       const q = current && deck.questions.find(q => q.id === current.id);
       if (q) {
         const section = content.querySelector('.answer');
-        if (section) section.insertAdjacentHTML('beforeend', `<div class="source-buttons">${sourceButtons(q)}</div>`);
+        if (section) section.insertAdjacentHTML('beforeend', `<div class="source-toggles">${sourceToggles(q)}</div>`);
       }
     }
-    content.querySelectorAll('[data-source]').forEach(button => button.onclick = () => {
-      const url = deck.sourceImages[button.dataset.source];
-      if (!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '')) return;
-      const viewer = document.querySelector('#source-viewer');
-      document.querySelector('#source-title').textContent = button.dataset.sourceLabel;
-      const image = document.querySelector('#source-image');
-      image.src = url;
-      image.alt = button.dataset.sourceLabel + ' の原典ページ';
-      document.querySelector('#source-scroll').classList.remove('zoomed');
-      document.querySelector('#source-zoom').textContent = '拡大';
-      viewer.showModal();
+    content.querySelectorAll('.source-toggle').forEach(toggle => {
+      const image = toggle.querySelector('img');
+      const slider = toggle.querySelector('input');
+      function zoom(value) {
+        const scale = Math.max(50, Math.min(300, value));
+        toggle.dataset.scale = String(scale);
+        image.style.width = `${scale}%`;
+        slider.value = String(scale);
+        toggle.querySelector('output').textContent = `${scale}%`;
+        toggle.querySelector('[data-zoom="-25"]').disabled = scale === 50;
+        toggle.querySelector('[data-zoom="25"]').disabled = scale === 300;
+      }
+      toggle.addEventListener('toggle', () => {
+        if (!toggle.open) { image.removeAttribute('src'); return; }
+        const url = deck.sourceImages[toggle.dataset.source];
+        if (/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '')) image.src = url;
+      });
+      slider.oninput = () => zoom(Number(slider.value));
+      toggle.querySelectorAll('[data-zoom]').forEach(button => button.onclick = () => {
+        const scale = button.dataset.zoom === 'reset' ? 100 : Number(toggle.dataset.scale) + Number(button.dataset.zoom);
+        zoom(scale);
+      });
     });
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
     content.querySelectorAll('[data-page]').forEach(b => b.onclick = () => { page = b.dataset.page; status.textContent = ''; render(); });
@@ -148,14 +159,6 @@
   document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };
   document.querySelector('#garden-nav').onclick = () => { page = 'garden'; render(); };
   document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
-  document.querySelector('#source-close').onclick = () => document.querySelector('#source-viewer').close();
-  document.querySelector('#source-zoom').onclick = () => {
-    const zoomed = document.querySelector('#source-scroll').classList.toggle('zoomed');
-    document.querySelector('#source-zoom').textContent = zoomed ? '全体表示' : '拡大';
-  };
-  document.querySelector('#source-viewer').addEventListener('close', () => {
-    document.querySelector('#source-image').removeAttribute('src');
-  });
   if (!boot.native) {
     try {
       const saved = localStorage.getItem('recall-quiz-preview-v1');

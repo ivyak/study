@@ -38,16 +38,17 @@ math { font-family: 'STIX Two Math', 'Cambria Math', math; }
 details { margin-top: 15px; font-size: 13px; }
 summary { cursor: pointer; padding: 5px 0; color: var(--muted); min-height: 38px; }
 .sources { color: var(--muted); font-size: 11px; margin-top: 12px; overflow-wrap: anywhere; }
-.source-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.source-button { border: 1px solid var(--line); border-radius: 10px; background: #f1f3e9; padding: 8px 12px; font-size: 13px; }
-#source-viewer { width: min(1000px, calc(100% - 16px)); max-width: none; height: 90vh; height: 90dvh; max-height: none; padding: 0; border: 1px solid var(--line); border-radius: 15px; background: var(--paper); color: var(--ink); overflow: hidden; }
-#source-viewer[open] { display: flex; flex-direction: column; }
-#source-viewer::backdrop { background: #12291ed0; }
-.source-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 12px; flex-shrink: 0; }
-#source-title { font-size: 12px; overflow-wrap: anywhere; }
-#source-scroll { flex: 1; min-height: 0; overflow: auto; background: #eeeee6; overscroll-behavior: contain; }
-#source-image { display: block; width: 100%; height: auto; }
-#source-scroll.zoomed #source-image { width: 200%; max-width: none; }
+.source-toggles { display: grid; gap: 10px; margin-top: 14px; }
+.source-toggle { margin: 0; border: 1px solid var(--line); border-radius: 12px; padding: 0 10px; background: #f5f6ed; min-width: 0; }
+.source-toggle > summary { min-height: 46px; padding: 10px 0; color: var(--green); font-weight: 650; }
+.source-caption { font-size: 11px; color: var(--muted); margin: 0 0 8px; overflow-wrap: anywhere; }
+.source-zoom-controls { display: flex; align-items: center; gap: 5px; margin-bottom: 8px; }
+.source-zoom-controls button { min-width: 38px; min-height: 44px; border: 1px solid var(--line); border-radius: 9px; background: #fffef9; padding: 6px; }
+.source-zoom-controls input { flex: 1; min-width: 35px; width: 100%; accent-color: var(--green); }
+.source-zoom-controls output { font-size: 11px; min-width: 35px; text-align: center; font-variant-numeric: tabular-nums; }
+.source-viewport { max-height: 60vh; overflow: auto; background: #eeeee6; overscroll-behavior: contain; border-radius: 6px; }
+.source-viewport img { display: block; width: 100%; max-width: none; height: auto; margin-inline: auto; }
+.source-toggle .helper { font-size: 11px; }
 .ratings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .reward-hint { color: #8a7849; font-size: 12px; text-align: center; margin-bottom: 8px; }
 .notice { border: 1px solid #d8d9b9; padding: 10px 13px; border-radius: 10px; font-size: 12px; margin-bottom: 16px; background: #f0f1e2; }

@@ -1,0 +1,14 @@
+{
+  "name": "study-recall-quiz",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node --test test/*.test.js",
+    "test:browser": "node scripts/check-browser.js"
+  },
+  "devDependencies": {
+    "katex": "0.16.22",
+    "playwright": "1.65.0"
+  }
+}

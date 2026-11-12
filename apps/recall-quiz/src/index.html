@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'">
+  <title>ひとつ想起 · Recall Garden</title>
+  <style>/*__STYLE__*/</style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <button id="home" class="brand" aria-label="クイズに戻る"><span class="brand-mark">✳</span> ひとつ想起</button>
+      <div class="header-end"><span id="coins" class="coins" aria-label="コイン"></span><button id="garden-nav" class="icon-button">庭</button><button id="settings-nav" class="icon-button">設定</button></div>
+    </header>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <main id="content"></main>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <footer>思い出そうとした、その1回を大切に。</footer>
+  </div>
+  <script>window.BOOT = __BOOTSTRAP__;</script>
+  <script>/*__CORE__*/</script>
+  <script>/*__APP__*/</script>
+</body>
+</html>

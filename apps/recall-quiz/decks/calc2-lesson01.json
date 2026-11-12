@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "id": "calc2-lesson01",
+  "version": 1,
+  "title": "微分積分学続論II",
+  "subtitle": "第1回 · 常微分方程式と変数分離",
+  "scope": "授業資料1、全10ページ。初等解法の想起用。試験全範囲の習得率は示さない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木３]微分積分学続論II/授業資料/微分積分学続論II 1.pdf",
+      "sha256": "9f03c51eaff02aefa5dca62da7229b8af1e5bc93df34634d930c72871f86b46d",
+      "pageCount": 10,
+      "reviewedPages": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "method": "PDFKitで全ページを画像化して照合。手書きの抽出テキストは数式の根拠にしない。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "calc2-l01-q01", "version": 1,
+      "prompt": "常微分方程式の独立変数はいくつ？",
+      "answer": "1つ。",
+      "criterion": "「1つ」と言えれば正解。",
+      "explanation": "講義では独立変数が1つの常微分方程式を扱う。多変数関数の偏微分方程式と区別する。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 3 }]
+    },
+    {
+      "id": "calc2-l01-q02", "version": 1,
+      "prompt": "思いついた関数が解か、どう確かめる？",
+      "answer": "微分して、元の微分方程式に代入する。",
+      "criterion": "「微分して元の式に代入」が出れば正解。",
+      "explanation": "変形後の式だけでなく、最初の式と定義域・初期条件を確かめる。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 2 }, { "file": "微分積分学続論II 1.pdf", "page": 9 }]
+    },
+    {
+      "id": "calc2-l01-q03", "version": 1,
+      "prompt": "変数分離型の基本形は？",
+      "answer": "\\(y'=f(x)g(y)\\)。",
+      "criterion": "右辺をxだけの関数とyだけの関数の積で書ければ正解。",
+      "explanation": "独立変数と未知関数の側を分けて積分するための型。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 5 }]
+    },
+    {
+      "id": "calc2-l01-q04", "version": 1,
+      "prompt": "\\(y'=f(x)g(y)\\)。\\(g(y)\\)で割る条件は？",
+      "answer": "扱う区間で\\(g(y(x))\\ne0\\)。",
+      "criterion": "0ではないことと、その区間で成り立つことを言えれば正解。",
+      "explanation": "割れない点や定数解は別に確認する。講義p.10の零解の注意と対応する。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 6 }, { "file": "微分積分学続論II 1.pdf", "page": 10 }]
+    },
+    {
+      "id": "calc2-l01-q05", "version": 1,
+      "prompt": "\\(g(y)\\ne0\\)のとき、変数分離後の積分式は？",
+      "answer": "\\(\\int\\frac{1}{g(y)}\\,dy=\\int f(x)\\,dx\\)。",
+      "criterion": "y側が1/g(y)、x側がf(x)となれば正解。積分定数は次の段階で整理する。",
+      "explanation": "講義の置換積分を簡便に書いた形。微分記号を単なる数として割り算しているという意味ではない。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 8 }]
+    },
+    {
+      "id": "calc2-l01-q06", "version": 1,
+      "prompt": "\\(G\\)を\\(1/g\\)の原始関数とすると、\\(G(y(x))\\)の微分は？",
+      "answer": "\\(\\frac{y'(x)}{g(y(x))}\\)。",
+      "criterion": "合成関数の微分でy'(x)が掛かることまで言えれば正解。",
+      "explanation": "分離後の左辺を積分できる理由。g(y(x))が0でない区間で考える。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 6 }, { "file": "微分積分学続論II 1.pdf", "page": 7 }]
+    },
+    {
+      "id": "calc2-l01-q07", "version": 1,
+      "prompt": "\\(G'=1/g,\\ F'=f\\)。変数分離後の解の関係式は？",
+      "answer": "\\(G(y(x))=F(x)+C\\)。",
+      "criterion": "積分定数Cを含む関係式が出れば正解。",
+      "explanation": "この段階ではyを陽に表せていなくてもよい。gが0になる場合の解は別途確認する。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 7 }]
+    },
+    {
+      "id": "calc2-l01-q08", "version": 1,
+      "prompt": "\\(G(y)=F(x)+C\\)、初期条件\\(y(x_0)=y_0\\)。\\(C\\)は？",
+      "answer": "\\(C=G(y_0)-F(x_0)\\)。",
+      "criterion": "初期条件を代入し、符号まで正しければ正解。",
+      "explanation": "一般解の積分定数を初期条件で決める。これだけで全ての初期値問題の解の一意性が保証されるわけではない。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 8 }]
+    },
+    {
+      "id": "calc2-l01-q09", "version": 1,
+      "prompt": "講義でいう「一般解」とは？",
+      "answer": "積分定数を含む解の表現。",
+      "criterion": "積分定数を含むことが出れば正解。",
+      "explanation": "その表現に現れない解がないかは別に確認する。特に途中で関数を割った場合に注意する。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 8 }, { "file": "微分積分学続論II 1.pdf", "page": 10 }]
+    },
+    {
+      "id": "calc2-l01-q10", "version": 1,
+      "prompt": "解を「陽に表す」とは？",
+      "answer": "\\(y=\\text{xの式}\\)の形にすること。",
+      "criterion": "yをxの関数として直接表すことが言えれば正解。",
+      "explanation": "y'を含まないxとyの関係式で表す場合は、陰的な表現という。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 7 }]
+    },
+    {
+      "id": "calc2-l01-q11", "version": 1,
+      "prompt": "\\(y'=2\\sqrt y\\)、\\(y>0\\)。分離した左辺は？",
+      "answer": "\\(\\frac{1}{2\\sqrt y}\\,dy\\)。",
+      "criterion": "2√yで割った形が出れば正解。右辺はdx。",
+      "explanation": "分母が0にならない区間で行う操作。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 9 }]
+    },
+    {
+      "id": "calc2-l01-q12", "version": 1,
+      "prompt": "\\(y'=2\\sqrt y\\)、\\(y>0\\)。分離して積分すると？",
+      "answer": "\\(\\sqrt y=x+C\\)。",
+      "criterion": "積分定数を含むこの関係式が出れば正解。",
+      "explanation": "まずこの式を保つ。両辺を二乗する際は元の符号条件を失わないようにする。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 9 }]
+    },
+    {
+      "id": "calc2-l01-q13", "version": 1,
+      "prompt": "\\(\\sqrt y=x+C\\)から必ず残す符号条件は？",
+      "answer": "\\(x+C\\ge0\\)。",
+      "criterion": "右辺が非負と答えれば正解。y>0の区間ではさらに正。",
+      "explanation": "平方根は非負。この条件を捨てて二乗すると、元の式を満たさない枝まで候補に入る。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 9 }]
+    },
+    {
+      "id": "calc2-l01-q14", "version": 1,
+      "prompt": "\\(y'=2\\sqrt y\\)。割り算で落とした定数解は？",
+      "answer": "\\(y(x)\\equiv0\\)。",
+      "criterion": "恒等的に0の関数と答えれば正解。",
+      "explanation": "分離の際に√yで割ったため、零解は別に戻して確認する。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 10 }]
+    },
+    {
+      "id": "calc2-l01-q15", "version": 1,
+      "prompt": "両辺を二乗して解の候補を得たら、何をする？",
+      "answer": "元の微分方程式へ戻して検算する。",
+      "criterion": "元の式への代入と、符号・定義域の確認が出れば正解。",
+      "explanation": "二乗は同値変形とは限らない。例ではy=(x+C)²の枝を無条件に採用しない。",
+      "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 9 }]
+    }
+  ]
+}

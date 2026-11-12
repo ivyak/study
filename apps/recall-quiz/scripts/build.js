@@ -4,6 +4,7 @@ const crypto = require('node:crypto');
 const vm = require('node:vm');
 const katex = require('katex');
 const core = require('../src/core.js');
+const { addSourceImages } = require('./source-images.js');
 const root = path.resolve(__dirname, '..');
 const repo = path.resolve(root, '../..');
 const input = process.argv.find(a => a.endsWith('.json'));
@@ -39,6 +40,7 @@ for (const q of deck.questions) {
     }
   }
 }
+if (!process.argv.includes('--without-source-images')) addSourceImages(deck, root, repo);
 deck.renderVersion = 1;
 const read = name => fs.readFileSync(path.join(root, 'src', name), 'utf8');
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');

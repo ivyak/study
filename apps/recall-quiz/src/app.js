@@ -55,7 +55,7 @@
     if (busy) return;
     busy = true;
     status.textContent = '保存・処理中…';
-    document.querySelectorAll('button').forEach(b => { b.disabled = true; });
+    document.querySelectorAll('header button, #content button').forEach(b => { b.disabled = true; });
     const slow = setTimeout(() => {
       status.textContent = '処理を待っています。反応が戻らない場合は、一度閉じて開き直してください。';
     }, 15000);
@@ -63,7 +63,7 @@
       const result = await call(action, payload);
       if (!result.ok) throw Error(result.error);
       state = result.state;
-      deck = result.deck;
+      if (result.deck) deck = result.deck;
       if (['start', 'importDeck', 'importState'].includes(action)) page = 'quiz';
       status.textContent = result.message || (action === 'rate' ? '＋1コイン。思い出そうとした1回を記録しました。' : '');
     } catch (error) {
@@ -76,6 +76,10 @@
   }
   function scene() {
     return `<div class="garden" aria-label="あなたの小さな庭"><div class="sun"></div><div class="hill back"></div><div class="hill"></div><div class="plants">${state.garden.items.length ? state.garden.items.map(id => `<span>${boot.shop.find(i => i.id === id).icon}</span>`).join('') : '<span class="empty-garden">ここに、少しずつ育てよう。</span>'}</div></div>`;
+  }
+  function sourceButtons(q) {
+    return q.sources.map(source => source.imageKey && deck.sourceImages && deck.sourceImages[source.imageKey] ?
+      `<button class="source-button" data-source="${escape(source.imageKey)}" data-source-label="${escape(source.file)} · p.${source.page}">原典を見る（p.${source.page}）</button>` : '').join('');
   }
   function renderQuiz() {
     const s = state.session;
@@ -114,6 +118,26 @@
     if (page === 'garden') renderGarden();
     else if (page === 'settings') renderSettings();
     else renderQuiz();
+    if (page === 'quiz' && state.session && state.session.answerShown) {
+      const current = state.session.queue[state.session.index];
+      const q = current && deck.questions.find(q => q.id === current.id);
+      if (q) {
+        const section = content.querySelector('.answer');
+        if (section) section.insertAdjacentHTML('beforeend', `<div class="source-buttons">${sourceButtons(q)}</div>`);
+      }
+    }
+    content.querySelectorAll('[data-source]').forEach(button => button.onclick = () => {
+      const url = deck.sourceImages[button.dataset.source];
+      if (!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '')) return;
+      const viewer = document.querySelector('#source-viewer');
+      document.querySelector('#source-title').textContent = button.dataset.sourceLabel;
+      const image = document.querySelector('#source-image');
+      image.src = url;
+      image.alt = button.dataset.sourceLabel + ' の原典ページ';
+      document.querySelector('#source-scroll').classList.remove('zoomed');
+      document.querySelector('#source-zoom').textContent = '拡大';
+      viewer.showModal();
+    });
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
     content.querySelectorAll('[data-page]').forEach(b => b.onclick = () => { page = b.dataset.page; status.textContent = ''; render(); });
     content.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => act('buy', { id: b.dataset.buy }));
@@ -124,6 +148,14 @@
   document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };
   document.querySelector('#garden-nav').onclick = () => { page = 'garden'; render(); };
   document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
+  document.querySelector('#source-close').onclick = () => document.querySelector('#source-viewer').close();
+  document.querySelector('#source-zoom').onclick = () => {
+    const zoomed = document.querySelector('#source-scroll').classList.toggle('zoomed');
+    document.querySelector('#source-zoom').textContent = zoomed ? '全体表示' : '拡大';
+  };
+  document.querySelector('#source-viewer').addEventListener('close', () => {
+    document.querySelector('#source-image').removeAttribute('src');
+  });
   if (!boot.native) {
     try {
       const saved = localStorage.getItem('recall-quiz-preview-v1');

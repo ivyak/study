@@ -123,7 +123,8 @@ async function runRecallQuiz() {
     try {
       if (!command || typeof command.id !== 'string' || typeof command.action !== 'string') throw Error('操作を読み取れません。');
       const message = await handle(command.action, command.payload || {});
-      response = { ok: true, deck, state, message };
+      response = { ok: true, state, message };
+      if (command.action === 'importDeck') response.deck = deck;
     } catch (error) {
       response = { ok: false, error: String(error.message || error) };
     }

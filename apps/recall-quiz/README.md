@@ -33,6 +33,26 @@ Scriptableで動く個人用の短い想起クイズ。初版は微分積分学�
 
 Node.js 18以上を使用します。KaTeXはビルド時の数式変換、PlaywrightはPCでの画面検証に使います。iPhoneではnpmを使いません。
 
+PCでUIを編集する場合は、リポジトリルートで次を実行します。
+
+```bash
+npm run dev --prefix apps/recall-quiz
+```
+
+`http://localhost:8766/` を開き、`src/index.html`、`src/style.css`、`src/app.js` を編集してください。保存すると再ビルドし、ブラウザを自動更新します。庭・設定の表示中はその画面を保ちます。ビルドエラーは画面に表示し、修正後に回復します。停止はCtrl+Cです。
+
+- 見た目：`src/style.css`。
+- 共通の外枠：`src/index.html`。
+- 問題・解答・庭・設定の画面構成：`src/app.js`。
+
+`src/index.html` はビルド前のテンプレートです。直接開かず、プレビューを使います。`output/` は生成物なので直接修正しません。開発用の自動更新処理は配布する `Quiz.js` には入りません。スマホ幅の確認はブラウザの開発者ツールの端末表示を使えます。
+
+庭だけを開く場合は `http://localhost:8766/?screen=garden`、設定は `?screen=settings`。ポートを変える場合は `RECALL_QUIZ_PORT=8770 npm run dev --prefix apps/recall-quiz` のように指定します。
+
+UIの修正後は、生成された `output/Quiz.js` をiPhoneの同じスクリプトへ取り込み直します。PCでの見た目の変更が、既に取り込み済みのiPhoneへ自動配信される仕組みではありません。
+
+通常のビルドとロジック検証：
+
 ```bash
 npm ci --prefix apps/recall-quiz
 npm run build --prefix apps/recall-quiz -- --verify-sources

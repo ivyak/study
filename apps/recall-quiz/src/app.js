@@ -1,6 +1,7 @@
 (() => {
   const boot = window.BOOT;
-  let state = boot.state, deck = boot.deck, page = 'quiz', busy = false, serial = 0;
+  const initialPage = !boot.native ? new URLSearchParams(location.search).get('screen') : null;
+  let state = boot.state, deck = boot.deck, page = ['garden', 'settings'].includes(initialPage) ? initialPage : 'quiz', busy = false, serial = 0;
   const content = document.querySelector('#content');
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
@@ -103,6 +104,11 @@
     };
   }
   function render() {
+    if (!boot.native && /^https?:$/.test(location.protocol)) {
+      const url = new URL(location.href);
+      url.searchParams.set('screen', page);
+      history.replaceState(null, '', url);
+    }
     document.querySelector('#coins').innerHTML = `<span class="coin-dot" aria-hidden="true"></span>${state.garden.coins}`;
     document.querySelectorAll('header button').forEach(b => { b.disabled = busy; });
     if (page === 'garden') renderGarden();

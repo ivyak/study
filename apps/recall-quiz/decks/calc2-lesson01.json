@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "calc2-lesson01",
-  "version": 2,
+  "version": 3,
   "title": "微分積分学続論II",
   "subtitle": "第1回 · 常微分方程式と変数分離",
   "scope": "授業資料1、全10ページ。初等解法の想起用。試験全範囲の習得率は示さない。",
@@ -56,11 +56,11 @@
       "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 8 }]
     },
     {
-      "id": "calc2-l01-q06", "version": 1,
-      "prompt": "\\(G\\)を\\(1/g\\)の原始関数とすると、\\(G(y(x))\\)の微分は？",
+      "id": "calc2-l01-q06", "version": 2,
+      "prompt": "\\(G'(z)=1/g(z)\\)とする。\\(G(y(x))\\)を\\(x\\)で微分すると？",
       "answer": "\\(\\frac{y'(x)}{g(y(x))}\\)。",
-      "criterion": "合成関数の微分でy'(x)が掛かることまで言えれば正解。",
-      "explanation": "分離後の左辺を積分できる理由。g(y(x))が0でない区間で考える。",
+      "criterion": "外側の微分G'(y(x))に、内側の微分y'(x)を掛けて答えられれば正解。",
+      "explanation": "Gが1/gの原始関数とは、\\(G'(z)=1/g(z)\\)ということ。連鎖律より\\(\\frac{d}{dx}G(y(x))=G'(y(x))y'(x)=\\frac{y'(x)}{g(y(x))}\\)。g(y(x))が0でない区間で考える。この形から、変数分離後の左辺を積分するとG(y(x))になるとわかる。",
       "sources": [{ "file": "微分積分学続論II 1.pdf", "page": 6 }, { "file": "微分積分学続論II 1.pdf", "page": 7 }]
     },
     {

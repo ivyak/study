@@ -107,6 +107,7 @@
 \end{itemize}
 
 \subsection{問題1：ギブズ現象}
+\subsubsection{問題(1-a)}
 \begin{itembox}[l]{問題1}
 次の2つの周期関数について、以下の問いに答えよ。
 \[
@@ -247,6 +248,7 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
 \]
 
 
+\subsubsection{問題(1-b)}
 \begin{itembox}[l]{課題1-(b)}
 それぞれについて、$M$次までのフーリエ級数展開
 \[
@@ -305,7 +307,10 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
 
 \subsubsection{考察(1-c)}
 
-\begin{itembox}[l]{問題2（動作テスト）}
+\subsection{問題2（動作テスト）}
+\subsubsection{問題(2-a)}
+
+\begin{itembox}[l]{問題2}
   次のような時系列データ $\{x_n\}_{n=0}^{7}$：
   \[
     \begin{aligned}
@@ -313,15 +318,83 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
       x_4&=0, & x_5&=0, & x_6&=0, & x_7&=0
     \end{aligned}
   \]
-  が与えられたとき、以下の問に答えよ。
+  が与えられたとき、以下の問いに答えよ。
   \begin{enumerate}
-    \item[(a)] DFT［本文の式 (4.18)］の定義式に従ってフーリエ係数 $X_k$ を計算し、可能な限り厳密な形で求めよ。
-    \item[(b)] FFTを用いてフーリエ係数 $X_k$ を数値的に求めよ。また、その結果 $(X_k^{\mathrm{FFT}})$ と (a)の結果 $(X_k^{\mathrm{exact}})$ との差から最大誤差
+    \item[(a)] DFT［本文の式 (3.21)］の定義式に従ってフーリエ係数 $X_k$ を計算し、可能な限り厳密な形で求めよ。
+  \end{enumerate}
+\end{itembox}
+
+\subsubsection{実験方法(2-a)}
+
+本文の式は以下である。
+\begin{equation}
+  X_k=\sum_{n=0}^{N-1}x_n e^{-i\frac{2\pi kn}{N}},
+  \tag{3.21}
+  \label{eq:dft-definition}
+\end{equation}
+ここで$N=8$である。式変形を行い、以下に示す。
+
+\subsubsection{結果(2-a)}
+
+\[
+  \begin{aligned}
+    X_k
+    &=\sum_{n=0}^{7}x_n e^{-i\frac{2\pi kn}{8}}\\
+    &=x_0e^0+x_1e^{-i\frac{2\pi k}{8}}
+      +x_2e^{-i\frac{4\pi k}{8}}+x_3e^{-i\frac{6\pi k}{8}}\\
+    &=1+e^{-i\frac{\pi k}{4}}+e^{-i\frac{2\pi k}{4}}
+      +e^{-i\frac{3\pi k}{4}}\\
+    &=\sum_{n=0}^{3}\cos\left(\frac{nk\pi}{4}\right)
+      -i\sum_{n=0}^{3}\sin\left(\frac{nk\pi}{4}\right).
+  \end{aligned}
+\]
+
+ここで、$k=1,\ldots,7$について、
+\[
+  \begin{aligned}
+    X_{N-k}=X_{8-k}
+    &=\sum_{n=0}^{3}\cos\left(\frac{n(8-k)\pi}{4}\right)
+      -i\sum_{n=0}^{3}\sin\left(\frac{n(8-k)\pi}{4}\right)\\
+    &=\sum_{n=0}^{3}\cos\left(-\frac{nk\pi}{4}+2n\pi\right)
+      -i\sum_{n=0}^{3}\sin\left(-\frac{nk\pi}{4}+2n\pi\right)\\
+    &=\sum_{n=0}^{3}\cos\left(\frac{nk\pi}{4}\right)
+      +i\sum_{n=0}^{3}\sin\left(\frac{nk\pi}{4}\right)\\
+    &=\overline{X_k}.
+  \end{aligned}
+\]
+よって、$k=0,1,2,3,4$を代入すれば、残りは共役対称性から求められる。
+
+それぞれ代入すると、
+\[
+  \begin{aligned}
+    X_0&=1+1+1+1=4,\\
+    X_1&=1+\frac{1-i}{\sqrt{2}}-i+\frac{-1-i}{\sqrt{2}}
+      =1-i(1+\sqrt{2}),\\
+    X_2&=1-i-1+i=0,\\
+    X_3&=1+\frac{-1-i}{\sqrt{2}}+i+\frac{1-i}{\sqrt{2}}
+      =1-i(\sqrt{2}-1),\\
+    X_4&=1-1+1-1=0.
+  \end{aligned}
+\]
+共役対称性より、
+\[
+  \begin{aligned}
+    X_5&=\overline{X_3}=1+i(\sqrt{2}-1),\\
+    X_6&=\overline{X_2}=0,\\
+    X_7&=\overline{X_1}=1+i(1+\sqrt{2}).
+  \end{aligned}
+\]
+
+\subsubsection{考察(2-a)}
+
+\subsubsection{問題(2-b)}
+
+\begin{itembox}[l]{問題2-(b)}
+FFTを用いてフーリエ係数 $X_k$ を数値的に求めよ。また、その結果 $(X_k^{\mathrm{FFT}})$ と (a)の結果 $(X_k^{\mathrm{exact}})$ との差から最大誤差
       \[
         \max_k\left|X_k^{\mathrm{FFT}}-X_k^{\mathrm{exact}}\right|
       \]
       を評価し、誤差の大きさを $10^{-K}$ のオーダーで表せ。さらに、誤差の原因について述べよ。
-  \end{enumerate}
 \end{itembox}
 
 \begin{itembox}[l]{課題1-(b)}
@@ -408,6 +481,7 @@ b_k=\int_{-1}^{1}\cos\left(\frac{\pi}{2}t\right)\sin(k\pi t)\,dt=0
 零点探索と最適化の方法をPythonで実装し、得られた値や更新回数を比較した。零点探索では、二分法とニュートン法のどちらでも、$-3$、$-1$、$2$に近い値が得られた。1変数の最適化でも、最急降下法とニュートン法でともに$x=3$に近い値が得られた。
 
 \subsubsection{実験方法(2-b)}
+以下のように式を変形し、アルゴリズムを考える。
 
 $W_N=e^{-i2\pi/N}$とおく。$N=8$として、偶数番目と奇数番目の項に分けると、
 \[

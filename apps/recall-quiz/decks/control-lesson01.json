@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "id": "control-lesson01",
+  "version": 1,
+  "title": "線形制御理論",
+  "subtitle": "第1回 · 第2回資料・ラプラス変換",
+  "scope": "線形制御理論【第2回】講義資料.pdf、全31ページ。ラプラス変換の定義・性質と、部分分数分解による逆変換。変換式は積分が存在する領域で用いる。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期水３]線形制御理論/授業資料/線形制御理論【第2回】講義資料.pdf",
+      "sha256": "fd82a1e78e531e0fa8b09c65f58b640927769c1e4615e2f4089988a50db4d6e9",
+      "pageCount": 31,
+      "reviewedPages": [
+        3,
+        5,
+        9,
+        10,
+        12,
+        13,
+        15,
+        16,
+        18,
+        22,
+        25,
+        26,
+        30
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "control-l01-q01",
+      "version": 1,
+      "prompt": "\\(F(s)=\\mathcal L[f](s)\\)とする。片側ラプラス変換で、微分\\(f\\prime(t)\\)の変換は？変換と境界処理が成立するとする。",
+      "answer": "\\(\\mathcal L[f\\prime](s)=sF(s)-f(0)\\)。",
+      "criterion": "sFから初期値を引くと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q02",
+      "version": 1,
+      "prompt": "\\(F=\\mathcal L[f]\\)、\\(G=\\mathcal L[g]\\)とする。畳み込み\\((f*g)(t)=\\int_0^t f(t-\\tau)g(\\tau)\\,d\\tau\\)のラプラス変換は？",
+      "answer": "\\(\\mathcal L[f*g](s)=F(s)G(s)\\)。",
+      "criterion": "変換後は積になると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 9
+        },
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q03",
+      "version": 1,
+      "prompt": "\\(t\\ge0\\)で定義された関数\\(f(t)\\)の片側ラプラス変換の定義式は？",
+      "answer": "\\(\\mathcal L[f](s)=\\int_0^\\infty f(t)e^{-st}\\,dt\\)。",
+      "criterion": "積分範囲0から∞と、eの指数−stを含めば正解。",
+      "explanation": "この積分が収束するsの範囲で定義する。",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q04",
+      "version": 1,
+      "prompt": "実定数\\(a\\)に対し、\\(e^{at}\\)の片側ラプラス変換と、その収束条件は？",
+      "answer": "\\(1/(s-a)\\)。収束条件は\\(\\operatorname{Re}s>a\\)。",
+      "criterion": "分母s−aと、Re s>aの両方を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q05",
+      "version": 1,
+      "prompt": "\\(F(s)=\\mathcal L[f](s)\\)、\\(T\\ge0\\)。\\(g(t)\\)を、\\(0\\le t<T\\)では0、\\(t\\ge T\\)では\\(f(t-T)\\)とする。\\(\\mathcal L[g](s)\\)は？",
+      "answer": "\\(e^{-sT}F(s)\\)。",
+      "criterion": "遅延Tに対してeの指数−sTを掛ければ正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q06",
+      "version": 1,
+      "prompt": "\\(F(s)=\\mathcal L[f](s)\\)、\\(a\\)は実定数。\\(e^{at}f(t)\\)のラプラス変換は？",
+      "answer": "\\(F(s-a)\\)。",
+      "criterion": "Fの引数をs−aに置き換えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q07",
+      "version": 1,
+      "prompt": "\\(F(s)=\\mathcal L[f](s)\\)とする。\\(g(t)=\\int_0^t f(\\tau)\\,d\\tau\\)のラプラス変換は？",
+      "answer": "\\(F(s)/s\\)。",
+      "criterion": "Fをsで割ると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q08",
+      "version": 1,
+      "prompt": "分子の次数が分母より低い有理関数\\(F(s)\\)を、ラプラス変換表を使って逆変換する基本的な手順は？",
+      "answer": "部分分数分解し、各項を変換表で逆変換して足す。",
+      "criterion": "部分分数分解、項ごとの逆変換、和という手順が言えれば正解。",
+      "explanation": "分子と分母が同次数の場合は定数項が残り、講義ではデルタ関数として扱う。",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 25
+        },
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q09",
+      "version": 1,
+      "prompt": "\\(a\\)は実定数、\\(k\\ge1\\)は整数。\\(1/(s-a)^k\\)の逆ラプラス変換は？",
+      "answer": "\\(\\dfrac{t^{k-1}}{(k-1)!}e^{at}\\)。",
+      "criterion": "tの次数がk−1、分母がその階乗、指数がatなら正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 22
+        },
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "id": "control-l01-q10",
+      "version": 1,
+      "prompt": "\\(F(s)=\\mathcal L[f](s)\\)、\\(a>0\\)とする。\\(f(at)\\)のラプラス変換は？",
+      "answer": "\\(\\dfrac1a F(s/a)\\)。",
+      "criterion": "引数s/aへの置き換えと係数1/aを両方言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第2回】講義資料.pdf",
+          "page": 18
+        }
+      ]
+    }
+  ]
+}

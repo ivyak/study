@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "statistics-lesson01",
+  "version": 1,
+  "title": "数理統計",
+  "subtitle": "第1回 · 第2回板書・標本と統計量",
+  "scope": "実際の第2回の板書、第2回_1の4枚と第2回_2の7枚。大数の法則、中心極限定理、標本抽出、標本平均・分散・順序統計量。正規母集団の分布論など次回の内容は含めない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_1/IMG_3519.png",
+      "sha256": "a47f11ae1bdb24be2cdbd41bd435f7b7b239dbe164b72af22758d0354b0f36ad",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    },
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_1/IMG_3520.png",
+      "sha256": "4bf80d7ae3596c36c3a5ee3a78d951e0ddbca0f1efd7d07175374c78d287fcc1",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    },
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_2/IMG_3525.png",
+      "sha256": "a39ba8666543b6449d77840effadc18bd2e81082d2c00da2bf827b3107d12e7f",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    },
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_2/IMG_3526.png",
+      "sha256": "cbd02fb530a841db1fdd879c991f772e5fd04a0168e66bc230e1d0201f586760",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    },
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_2/IMG_3527.png",
+      "sha256": "164b4b0fe592b09d51074828d73bf49d98e56374dedc8e0fda50169d888790b7",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    },
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_2/IMG_3528.png",
+      "sha256": "b8157aa3caa573580986c4a3f94fa0575cef94d055c9a27e56ea230a7f8703d1",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    },
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/第2回_2/IMG_3529.png",
+      "sha256": "ceaeb8f68e67353c65567a3792316d86f615fc692a6eb0586f340af940a234ce",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "statistics-l01-q01",
+      "version": 1,
+      "prompt": "独立同分布の\\(X_1,\\ldots,X_n\\)は平均\\(\\mu\\)、分散\\(0<\\sigma^2<\\infty\\)を持つ。標本平均\\(\\bar X_n\\)を中心極限定理で標準化する式と、極限分布は？",
+      "answer": "\\(Z_n=\\sqrt n(\\bar X_n-\\mu)/\\sigma\\)。極限分布は標準正規分布\\(N(0,1)\\)。",
+      "criterion": "標準化で√n/σを掛け、極限がN(0,1)と言えれば正解。",
+      "explanation": "有限のnで標本平均が必ず厳密な正規分布になるわけではない。",
+      "sources": [
+        {
+          "file": "IMG_3520.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q02",
+      "version": 1,
+      "prompt": "独立同分布で平均\\(\\mu\\)、有限分散を持つ標本の平均\\(\\bar X_n\\)について、大数の法則は何への収束を述べる？",
+      "answer": "標本平均が母平均μに確率収束する。",
+      "criterion": "母平均に近づき、一定以上ずれる確率が0へ近づくと言えれば正解。",
+      "explanation": "任意のε>0に対して、\\(P(|\\bar X_n-\\mu|>\\varepsilon)\\to0\\)。",
+      "sources": [
+        {
+          "file": "IMG_3519.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q03",
+      "version": 1,
+      "prompt": "標本\\(X_1,\\ldots,X_n\\)が独立同分布であるとは、どの2つの条件を満たすこと？",
+      "answer": "互いに独立であり、すべて同じ母集団分布に従うこと。",
+      "criterion": "独立と同分布を両方言えれば正解。",
+      "explanation": "同分布だけでは独立とは限らない。",
+      "sources": [
+        {
+          "file": "IMG_3526.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q04",
+      "version": 1,
+      "prompt": "標本\\(X_1,\\ldots,X_n\\)から作る統計量とは何？",
+      "answer": "標本だけから計算できる関数\\(T(X_1,\\ldots,X_n)\\)。",
+      "criterion": "標本を引数とする関数と言えれば正解。",
+      "explanation": "未知の母数の値を直接必要とする式は、標本だけでは計算できない。観測前は統計量も確率変数になる。",
+      "sources": [
+        {
+          "file": "IMG_3527.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q05",
+      "version": 1,
+      "prompt": "標本\\(X_1,\\ldots,X_n\\)の標本平均\\(\\bar X_n\\)の定義式は？",
+      "answer": "\\(\\bar X_n=\\dfrac1n\\sum_{k=1}^n X_k\\)。",
+      "criterion": "標本の合計を標本の大きさnで割ると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3527.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q06",
+      "version": 1,
+      "prompt": "標本の大きさを\\(n\\)、標本平均を\\(\\bar X_n\\)とする。この講義で標本分散\\(S^2\\)と呼ぶ量の定義は？",
+      "answer": "\\(S^2=\\dfrac1n\\sum_{k=1}^n(X_k-\\bar X_n)^2\\)。",
+      "criterion": "偏差平方和をnで割ると言えれば正解。",
+      "explanation": "本によっては、n−1で割る量を標本分散と呼ぶこともある。この講義の呼び方で答える。",
+      "sources": [
+        {
+          "file": "IMG_3528.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q07",
+      "version": 1,
+      "prompt": "\\(n\\ge2\\)個の標本の平均を\\(\\bar X_n\\)とする。不偏分散\\(U^2\\)の定義式は？",
+      "answer": "\\(U^2=\\dfrac1{n-1}\\sum_{k=1}^n(X_k-\\bar X_n)^2\\)。",
+      "criterion": "偏差平方和をn−1で割ると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3528.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q08",
+      "version": 1,
+      "prompt": "独立同分布の標本で母分散\\(\\sigma^2\\)が有限。不偏分散\\(U^2\\)の不偏とは、期待値について何が成り立つこと？",
+      "answer": "\\(E[U^2]=\\sigma^2\\)。",
+      "criterion": "期待値が母分散に等しいと言えれば正解。",
+      "explanation": "nで割った標本分散では、\\(E[S^2]=(n-1)\\sigma^2/n\\)。",
+      "sources": [
+        {
+          "file": "IMG_3528.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q09",
+      "version": 1,
+      "prompt": "有限母集団からの復元抽出と非復元抽出は、取り出した対象をどう扱う点で違う？",
+      "answer": "復元抽出では元に戻してから次を選び、非復元抽出では戻さない。",
+      "criterion": "戻すか戻さないかを区別できれば正解。",
+      "explanation": "非復元抽出では、過去の結果を条件とする次の抽出の分布が変わり、一般に独立でなくなる。",
+      "sources": [
+        {
+          "file": "IMG_3525.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "statistics-l01-q10",
+      "version": 1,
+      "prompt": "標本\\(X_1,\\ldots,X_n\\)の順序統計量\\(X_{(1)}\\le\\cdots\\le X_{(n)}\\)とは、標本をどう並べたもの？",
+      "answer": "値の小さい順に並べたもの。X₍₁₎は最小値、X₍ₙ₎は最大値。",
+      "criterion": "観測した順番でなく、小さい順と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3529.png",
+          "page": 1
+        }
+      ]
+    }
+  ]
+}

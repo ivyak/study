@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "id": "complex-lesson01",
+  "version": 1,
+  "title": "工業数学Ａ１",
+  "subtitle": "第1回 · a1.pdf・命題2.3まで",
+  "scope": "a1.pdfの本文第1節から命題2.3まで、物理ページ4〜6。複素微分、講義での正則性の定義、微分の演算法則。7ページ以降のコーシー・リーマンの関係式は含めない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木２]工業数学Ａ１/授業資料/a1.pdf",
+      "sha256": "0cd174f170304b00aa4435c4edfe5352763d7a4f8b40ae14e2908abc496ca3af",
+      "pageCount": 85,
+      "reviewedPages": [
+        4,
+        5,
+        6
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・条件を照らし合わせた。画像ファイルは1枚を1ページとする。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "complex-l01-q01",
+      "version": 1,
+      "prompt": "複素関数\\(f\\)が\\(z_0\\)で複素微分可能であるためには、差商\\(\\{f(z_0+h)-f(z_0)\\}/h\\)が\\(h\\to0\\)のときどうなる必要がある？",
+      "answer": "複素数hの0への近づき方によらず、同じ有限の値に収束する。",
+      "criterion": "実軸方向だけでなく、すべての近づき方で同じ極限と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 4
+        },
+        {
+          "file": "a1.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q02",
+      "version": 1,
+      "prompt": "この講義で、領域\\(U\\)上の関数\\(f\\)が正則であるという定義は？",
+      "answer": "Uの各点で複素微分可能で、導関数f′がU上で連続であること。",
+      "criterion": "各点での複素微分可能性と、導関数の連続性を両方言えれば正解。",
+      "explanation": "資料は導関数の連続性も定義に含める。複素関数では、領域全体での複素微分可能性から導関数の連続性も導ける。",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q03",
+      "version": 1,
+      "prompt": "複素関数\\(f(z)=|z|^2\\)が複素微分可能なのはどの点？",
+      "answer": "\\(z=0\\)だけ。そこでの微分係数は0。",
+      "criterion": "0でのみ微分可能と言えれば正解。",
+      "explanation": "0以外では、差商の極限が近づく方向によって異なる。1点で微分可能でも、その近傍で正則とは限らない。",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q04",
+      "version": 1,
+      "prompt": "領域\\(U\\)上で正則な\\(f_1,f_2\\)について、商\\(f_1/f_2\\)がU上で正則になるための分母に関する条件は？",
+      "answer": "Uのどの点でも\\(f_2(z)\\ne0\\)。",
+      "criterion": "分母が領域内で0にならないと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q05",
+      "version": 1,
+      "prompt": "領域上で正則な\\(f_1,f_2\\)の積の微分公式は？",
+      "answer": "\\((f_1f_2)\\prime=f_1\\prime f_2+f_1f_2\\prime\\)。",
+      "criterion": "片方ずつ微分した2項の和になれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q06",
+      "version": 1,
+      "prompt": "領域\\(U\\)上で正則な\\(f\\)、領域\\(V\\)上で正則な\\(g\\)が\\(f(U)\\subseteq V\\)を満たす。合成関数\\(g(f(z))\\)の微分公式は？",
+      "answer": "\\((g\\circ f)\\prime(z)=g\\prime(f(z))f\\prime(z)\\)。",
+      "criterion": "外側を内側の値で微分し、内側の微分を掛ければ正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q07",
+      "version": 1,
+      "prompt": "正則関数\\(f\\)に局所逆関数\\(g\\)があり、\\(f\\prime(z)\\ne0\\)。逆関数の微分係数\\(g\\prime(f(z))\\)は？",
+      "answer": "\\(g\\prime(f(z))=1/f\\prime(z)\\)。",
+      "criterion": "対応する点でのfの微分係数の逆数と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q08",
+      "version": 1,
+      "prompt": "この講義で、複素平面の領域とはどんな集合？",
+      "answer": "弧状連結な開集合。",
+      "criterion": "開集合で、任意の2点を集合内の連続な曲線で結べると言えれば正解。",
+      "explanation": "開集合では、各点の周りに集合内に収まる小さな円板を取れる。",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "complex-l01-q09",
+      "version": 1,
+      "prompt": "領域上で正則な\\(f_1,f_2\\)に対し、\\(f_2(z)\\ne0\\)とする。商の微分公式は？",
+      "answer": "\\(\\left(\\dfrac{f_1}{f_2}\\right)\\prime=\\dfrac{f_1\\prime f_2-f_1f_2\\prime}{f_2^2}\\)。",
+      "criterion": "分子の順序と負号、分母の2乗が正しければ正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 6
+        }
+      ]
+    }
+  ]
+}

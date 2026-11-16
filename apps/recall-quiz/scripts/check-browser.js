@@ -5,12 +5,14 @@ const { chromium } = require('playwright');
 (async () => {
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   try {
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+    const context = await browser.newContext({ viewport: { width: 402, height: 874 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
     const network = [], errors = [];
     await context.route(/^https?:\/\//, route => { network.push(route.request().url()); return route.abort(); });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
+    assert.ok(await page.locator('.scroll-region').evaluate(el => el.scrollHeight <= el.clientHeight), 'initial quiz should fit without scrolling');
     const nav = page.getByRole('navigation', { name: '画面の切り替え' });
     assert.deepEqual(await nav.locator('button').allTextContents(), ['クイズ', 'カレンダー', '庭', '一覧']);
     assert.equal(await nav.locator('svg').count(), 4);
@@ -20,6 +22,12 @@ const { chromium } = require('playwright');
       assert.ok(icon.width >= 28 && icon.y + icon.height <= label.y);
     }
     assert.equal(await nav.evaluate(el => getComputedStyle(el).position), 'fixed');
+    assert.ok((await nav.boundingBox()).height <= 68);
+    assert.ok((await page.locator('footer').boundingBox()).height <= 12);
+    const safeArea = await page.addStyleTag({ content: '.shell { padding-top: 62px; padding-bottom: 120px; } .main-nav { bottom: 34px; }' });
+    assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
+    assert.ok(await page.locator('.scroll-region').evaluate(el => el.scrollHeight <= el.clientHeight));
+    await safeArea.evaluate(el => el.remove());
     await page.getByRole('button', { name: '答えを見る', exact: true }).click();
     const source = page.locator('.source-toggle').first();
     const summary = source.locator('summary');
@@ -108,15 +116,32 @@ const { chromium } = require('playwright');
         await page.setViewportSize({ width, height: 844 });
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${screen} overflow at ${width}`);
         const bar = await nav.boundingBox();
-        assert.ok(bar.x >= 0 && bar.x + bar.width <= width && bar.y + bar.height <= 844);
-        await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-        const bounds = await page.locator('#content').boundingBox();
-        assert.ok(bounds.y + bounds.height < bar.y, `${screen} bottom content hidden by navigation`);
+        assert.ok(bar.x >= 0 && bar.x + bar.width <= width && bar.y + bar.height <= page.viewportSize().height);
+        const headerBefore = await page.locator('header').boundingBox();
+        await page.locator('.scroll-region').evaluate(el => { el.scrollTop = el.scrollHeight; });
+        const region = await page.locator('.scroll-region').boundingBox();
+        const last = await page.locator(screen === 'catalog' ? '.catalog-question' : '.day-detail').last().boundingBox();
+        assert.ok(last.y + last.height <= region.y + region.height - 12, `${screen} last item obscured`);
+        assert.ok(region.y + region.height < bar.y, `${screen} content hidden by navigation`);
+        assert.deepEqual(await page.locator('header').boundingBox(), headerBefore);
+        assert.equal(await page.evaluate(() => window.scrollY), 0);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
+        assert.notEqual(await page.locator('.scroll-region').evaluate(el => getComputedStyle(el).maskImage), 'none');
       }
     }
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.setViewportSize({ width: 402, height: 874 });
+    await page.locator('.scroll-region').evaluate(el => { el.scrollTop = 0; });
     await page.screenshot({ path: path.resolve(__dirname, '../output/catalog.png'), fullPage: true, animations: 'disabled' });
+    // Model both the full display and the shorter area available in an embedded WebView.
+    for (const height of [874, 760, 640]) {
+      await page.setViewportSize({ width: 402, height });
+      await page.locator('.scroll-region').evaluate(el => { el.scrollTop = el.scrollHeight; });
+      assert.ok(await page.locator('.scroll-region').evaluate(el => el.scrollTop > 0));
+      assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
+      assert.equal(await page.evaluate(() => window.scrollY), 0);
+    }
+    await page.setViewportSize({ width: 402, height: 874 });
+    await page.locator('.scroll-region').evaluate(el => { el.scrollTop = 0; });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
     assert.equal(await page.locator('#content').evaluate(el => el.getAnimations().length), 0);

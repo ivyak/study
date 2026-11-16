@@ -7,6 +7,7 @@
   let selectedDay = RecallCore.day(new Date()), subject = '';
   let renderedKey = '', renderedPage = page;
   const content = document.querySelector('#content');
+  const scrollRegion = document.querySelector('.scroll-region');
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
   let nativeWaiter = null;
@@ -191,7 +192,7 @@
           { opacity: 1, transform: 'translate(0, 0)' }
         ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
       }
-      if (changedPage) window.scrollTo(0, 0);
+      scrollRegion.scrollTop = 0;
       renderedKey = key;
       renderedPage = page;
     }

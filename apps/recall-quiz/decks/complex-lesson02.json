@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "complex-lesson02",
+  "version": 1,
+  "title": "工業数学Ａ１",
+  "subtitle": "第2回 · 第2章の残りと複素積分",
+  "scope": "a1.pdfの第2章の命題2.3後から章末まで、物理ページ7〜8。第4章の最初から命題4.1まで、物理ページ11〜12。第3章と命題4.1後の例は含めない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木２]工業数学Ａ１/授業資料/a1.pdf",
+      "sha256": "0cd174f170304b00aa4435c4edfe5352763d7a4f8b40ae14e2908abc496ca3af",
+      "pageCount": 85,
+      "reviewedPages": [
+        7,
+        8,
+        11,
+        12
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "complex-l02-q01",
+      "version": 1,
+      "prompt": "\\(f(x+iy)=u(x,y)+iv(x,y)\\)のコーシー・リーマンの関係式は？",
+      "answer": "\\(u_x=v_y\\)、\\(u_y=-v_x\\)。",
+      "criterion": "2つの関係と負号を正しく言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 7
+        },
+        {
+          "file": "a1.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q02",
+      "version": 1,
+      "prompt": "u,vが領域でC¹級で、\\(f=u+iv\\)とする。fの正則性を判定するには、どんな関係式を確かめればよい？",
+      "answer": "領域のすべての点で\\(u_x=v_y\\)、\\(u_y=-v_x\\)を確かめる。",
+      "criterion": "C¹級の仮定の下で、領域全体のコーシー・リーマンの関係式を確かめると言えれば正解。",
+      "explanation": "1点で関係式が成り立つだけでは、その近傍での正則性を示したことにならない。",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 7
+        },
+        {
+          "file": "a1.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q03",
+      "version": 1,
+      "prompt": "C¹級の複素関数fの正則性は、\\(\\partial/\\partial\\bar z=\\tfrac12(\\partial/\\partial x+i\\partial/\\partial y)\\)を使うと、どんな等式で表せる？",
+      "answer": "\\(\\partial f/\\partial\\bar z=0\\)。",
+      "criterion": "共役変数側の微分が0と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q04",
+      "version": 1,
+      "prompt": "向きのある区分的C¹級曲線Cを\\(z=z(t),a\\le t\\le b\\)と表す。連続な複素関数fの複素積分\\(\\int_C f(z)\\,dz\\)を、実変数tの積分に直す式は？",
+      "answer": "\\(\\int_C f(z)\\,dz=\\int_a^b f(z(t))z^{\\prime}(t)\\,dt\\)。",
+      "criterion": "fへの代入だけでなく、z′を掛けると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q05",
+      "version": 1,
+      "prompt": "連続な複素関数の経路積分を指定するとき、始点と終点だけで積分値は必ず決まる？",
+      "answer": "決まらない。一般には経路とその向きも指定する。",
+      "criterion": "経路と向きが必要と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q06",
+      "version": 1,
+      "prompt": "C⁻¹を向きのある曲線Cの逆向きの曲線とする。\\(\\int_{C^{-1}}f(z)\\,dz\\)と\\(\\int_Cf(z)\\,dz\\)の関係は？",
+      "answer": "\\(\\int_{C^{-1}}f(z)\\,dz=-\\int_Cf(z)\\,dz\\)。",
+      "criterion": "符号が反転すると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q07",
+      "version": 1,
+      "prompt": "C₁の終点がC₂の始点に一致し、C₁からC₂へ順にたどる曲線をC₁C₂とする。連続関数の積分はどう分けられる？",
+      "answer": "\\(\\int_{C_1C_2}f(z)\\,dz=\\int_{C_1}f(z)\\,dz+\\int_{C_2}f(z)\\,dz\\)。",
+      "criterion": "各経路での積分の和と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q08",
+      "version": 1,
+      "prompt": "区分的C¹級曲線C上で\\(|f(z)|\\le M\\)、Cの長さをℓとする。\\(\\left|\\int_C f(z)\\,dz\\right|\\)の上界は？",
+      "answer": "\\(M\\ell\\)。",
+      "criterion": "関数の絶対値の上界×曲線の長さと言えれば正解。",
+      "explanation": "命題4.1の積分の絶対値評価と曲線長の式から得る。",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "complex-l02-q09",
+      "version": 1,
+      "prompt": "同じ向きの曲線を、区分的C¹級の単調な再パラメータ化で表し直すと、連続関数の複素積分の値は変わる？",
+      "answer": "変わらない。",
+      "criterion": "向きを保つパラメータの取り替えで積分値は不変と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "a1.pdf",
+          "page": 11
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "id": "probability-lesson07",
+  "version": 1,
+  "title": "確率論基礎",
+  "subtitle": "第7回 · 極限定理・用語から内容を想起",
+  "scope": "ユーザー指定の第7回。確率論基礎 演習問題_第7回_ 資料.pdfの全3ページ。用語を提示し、定義または定理の主張を思い出す形式。証明や計算問題は含めない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026前期木１]確率論基礎/授業資料/講義資料/確率論基礎 演習問題_第7回_ 資料.pdf",
+      "sha256": "007979528b92912d062df061a3f8fa0d75623d3426fecd0639204e82bc0f40a0",
+      "pageCount": 3,
+      "reviewedPages": [
+        1,
+        2,
+        3
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "probability-l07-q01",
+      "version": 1,
+      "prompt": "確率収束の定義は？確率変数列Zₙと確率変数Zについて答えてください。",
+      "answer": "すべてのε>0に対し、\\(P(|Z_n-Z|\\ge\\varepsilon)\\to0\\)。",
+      "criterion": "任意の正のずれ幅に対し、それ以上ずれる確率が0になると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q02",
+      "version": 1,
+      "prompt": "概収束の定義は？確率変数列Zₙと確率変数Zについて答えてください。",
+      "answer": "\\(P(\\lim_{n\\to\\infty}Z_n=Z)=1\\)。",
+      "criterion": "極限がZになる事象の確率が1と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q03",
+      "version": 1,
+      "prompt": "分布収束の定義は？Zₙ,Zの分布関数をそれぞれFₙ,Fとして答えてください。",
+      "answer": "Fが連続なすべての点xで、\\(F_n(x)\\to F(x)\\)。",
+      "criterion": "極限の分布関数Fの連続点で分布関数が収束すると言えれば正解。",
+      "explanation": "Fの不連続点まで要求しない。",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q04",
+      "version": 1,
+      "prompt": "大数の弱法則とは？独立同分布のX₁,X₂,…について、μ=E[X₁]、E[X₁²]<∞とし、標本平均を\\(\\bar X_n\\)として答えてください。",
+      "answer": "標本平均が母平均μへ確率収束する。",
+      "criterion": "母平均への確率収束と言えれば正解。",
+      "explanation": "資料が採用する有限2次モーメントの仮定に合わせた。",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q05",
+      "version": 1,
+      "prompt": "大数の強法則とは？独立同分布のX₁,X₂,…についてE[|X₁|]<∞、μ=E[X₁]とし、標本平均を\\(\\bar X_n\\)として答えてください。",
+      "answer": "標本平均が母平均μへ概収束する。",
+      "criterion": "母平均への概収束と言えれば正解。",
+      "explanation": "弱法則の確率収束との違いを区別する。",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q06",
+      "version": 1,
+      "prompt": "中心極限定理とは？独立同分布のX₁,X₂,…の平均がμ、分散が0<σ²<∞のとき、和\\(S_n=X_1+\\cdots+X_n\\)の標準化と極限分布を答えてください。",
+      "answer": "\\((S_n-n\\mu)/(\\sigma\\sqrt n)\\)が標準正規分布N(0,1)に分布収束する。",
+      "criterion": "標準化の式と、標準正規分布への分布収束を言えれば正解。",
+      "explanation": "資料のσ²>0には有限分散の条件を明記した。",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q07",
+      "version": 1,
+      "prompt": "Chebyshevの不等式とは？Xの平均がμ、有限分散がσ²、ε>0として答えてください。",
+      "answer": "\\(P(|X-\\mu|\\ge\\varepsilon)\\le\\sigma^2/\\varepsilon^2\\)。",
+      "criterion": "平均からのずれの確率を、分散÷ずれ幅の2乗で上から抑えると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l07-q08",
+      "version": 1,
+      "prompt": "Poissonの少数の法則とは？λ>0、\\(X_n\\sim\\mathrm{Bin}(n,\\lambda/n)\\)として、極限の分布を答えてください。",
+      "answer": "\\(X_n\\)がパラメータλのPoisson分布に分布収束する。",
+      "criterion": "成功確率をλ/nとし、平均λを保って試行数を増やすとPoisson(λ)へ近づくと言えれば正解。",
+      "explanation": "各非負整数kについて確率は\\(e^{-\\lambda}\\lambda^k/k!\\)に収束する。",
+      "sources": [
+        {
+          "file": "確率論基礎 演習問題_第7回_ 資料.pdf",
+          "page": 1
+        }
+      ]
+    }
+  ]
+}

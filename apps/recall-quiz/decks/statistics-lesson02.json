@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "id": "statistics-lesson02",
+  "version": 1,
+  "title": "数理統計",
+  "subtitle": "第2回 · 第3回資料・正規標本とカイ二乗分布",
+  "scope": "数理統計3.pdfの全14ページ。標本平均の分布、不偏分散の性質、正規標本での独立性、カイ二乗分布とガンマ分布。長い証明の再現は求めない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/数理統計3.pdf",
+      "sha256": "49294b559502ce86d47c4ec6efe3210409e9da9e3fb857672d0afd0bc99283b5",
+      "pageCount": 14,
+      "reviewedPages": [
+        2,
+        4,
+        5,
+        9,
+        10,
+        11,
+        13
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "statistics-l02-q01",
+      "version": 1,
+      "prompt": "\\(X_1,\\ldots,X_n\\)は\\(N(\\mu,\\sigma^2)\\)からの独立な標本。標本平均\\(\\bar X_n\\)が従う分布は？",
+      "answer": "\\(\\bar X_n\\sim N(\\mu,\\sigma^2/n)\\)。",
+      "criterion": "平均μ、分散σ²/nの正規分布と言えれば正解。",
+      "explanation": "正規母集団なら有限のnでも厳密に成り立つ。中心極限定理による近似とは区別する。",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q02",
+      "version": 1,
+      "prompt": "\\(X_1,\\ldots,X_n\\)は\\(N(\\mu,\\sigma^2)\\)からの独立な標本でn≥2。不偏分散をU²とすると、\\((n-1)U^2/\\sigma^2\\)の分布は？",
+      "answer": "自由度\\(n-1\\)のカイ二乗分布\\(\\chi^2_{n-1}\\)。",
+      "criterion": "カイ二乗分布で自由度n−1と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q03",
+      "version": 1,
+      "prompt": "正規母集団からの独立な標本で、標本平均\\(\\bar X_n\\)と不偏分散U²は独立？",
+      "answer": "独立である。",
+      "criterion": "正規標本では独立と言えれば正解。",
+      "explanation": "一般の母集団でも独立とは限らない。",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q04",
+      "version": 1,
+      "prompt": "互いに独立な標準正規変数Z₁,…,Zₙについて、\\(W=\\sum_{j=1}^n Z_j^2\\)が従う分布は？",
+      "answer": "自由度nのカイ二乗分布\\(\\chi_n^2\\)。",
+      "criterion": "二乗和が自由度nのカイ二乗分布と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 9
+        },
+        {
+          "file": "数理統計3.pdf",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q05",
+      "version": 1,
+      "prompt": "独立同分布の標本X₁,…,Xₙの母平均がμ、母分散が有限なσ²。標本平均の期待値と分散は？",
+      "answer": "\\(E[\\bar X_n]=\\mu\\)、\\(V(\\bar X_n)=\\sigma^2/n\\)。",
+      "criterion": "期待値μ、分散σ²/nを両方言えれば正解。",
+      "explanation": "正規分布である必要はない。",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q06",
+      "version": 1,
+      "prompt": "標本X₁,…,Xₙの平均を\\(\\bar X_n\\)、定数をμとする。\\(\\sum_i(X_i-\\mu)^2\\)を、標本平均からの偏差平方和を使って分解すると？",
+      "answer": "\\(\\sum_i(X_i-\\mu)^2=\\sum_i(X_i-\\bar X_n)^2+n(\\bar X_n-\\mu)^2\\)。",
+      "criterion": "標本平均からの偏差平方和と、n×平均のずれの2乗に分けられれば正解。",
+      "explanation": "標本平均からの偏差の和が0なので交差項が消える。",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 4
+        },
+        {
+          "file": "数理統計3.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q07",
+      "version": 1,
+      "prompt": "標本平均からのn個の偏差には、自由度が1つ減る原因となるどんな制約がある？",
+      "answer": "偏差の和が0。\\(\\sum_i(X_i-\\bar X_n)=0\\)。",
+      "criterion": "和が0なので、最後の偏差は残りから決まると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q08",
+      "version": 1,
+      "prompt": "講義のガンマ分布Ga(α,β)ではα>0が形状、β>0が尺度。x>0での確率密度関数は？",
+      "answer": "\\(f(x)=\\dfrac{x^{\\alpha-1}e^{-x/\\beta}}{\\Gamma(\\alpha)\\beta^\\alpha}\\)。",
+      "criterion": "xの指数α−1、指数関数−x/β、分母Γ(α)β^αが正しければ正解。",
+      "explanation": "x≤0での密度は0と置ける。別の本では第2引数が尺度の逆数である率を表すことがある。",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q09",
+      "version": 1,
+      "prompt": "自由度nのカイ二乗分布を、形状α・尺度βのガンマ分布Ga(α,β)として表すと？",
+      "answer": "\\(\\chi_n^2=\\mathrm{Ga}(n/2,2)\\)。",
+      "criterion": "形状n/2、尺度2と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "statistics-l02-q10",
+      "version": 1,
+      "prompt": "独立なX,Yが、同じ尺度βのガンマ分布Ga(α,β)、Ga(γ,β)に従う。X+Yの分布は？",
+      "answer": "\\(X+Y\\sim\\mathrm{Ga}(\\alpha+\\gamma,\\beta)\\)。",
+      "criterion": "形状を足して尺度を保つと言えれば正解。",
+      "explanation": "独立性と、尺度が同じという条件が必要。",
+      "sources": [
+        {
+          "file": "数理統計3.pdf",
+          "page": 13
+        }
+      ]
+    }
+  ]
+}

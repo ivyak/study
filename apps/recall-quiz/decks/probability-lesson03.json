@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "id": "probability-lesson03",
+  "version": 1,
+  "title": "確率論基礎",
+  "subtitle": "第3回 · 添付画像・期待値からモーメント母関数",
+  "scope": "ユーザー指定の第3回。添付画像2〜6だけを対象とする。期待値、分散、共分散、相関係数、モーメント母関数と微分によるモーメントの取り出し。",
+  "sourceManifest": [
+    {
+      "file": "apps/recall-quiz/sources/probability/expectation.png",
+      "sha256": "53b603a31c07b0eee539d990aafdc455eb76671e01c47408ea089fd052d9de49",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    },
+    {
+      "file": "apps/recall-quiz/sources/probability/variance.png",
+      "sha256": "152cf9e6b30bc816e18abb47a56388d79fce996a37716fb941e3d4f88b22b90f",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    },
+    {
+      "file": "apps/recall-quiz/sources/probability/covariance.png",
+      "sha256": "8f9d1000064e7c78f4eb99e8821ba0fd56d520f9a5c13f4d26c79aabba3ef121",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    },
+    {
+      "file": "apps/recall-quiz/sources/probability/mgf.png",
+      "sha256": "bc7b6680fe490a6507aedc3969c902a0d078aa7e9ab185cfe7aedb53f3a4ae57",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    },
+    {
+      "file": "apps/recall-quiz/sources/probability/moments.png",
+      "sha256": "4808763eefbbf2d96df9e7117e22f86fee101fdfc675b389cfa3659716f074bc",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "probability-l03-q01",
+      "version": 1,
+      "prompt": "連続型確率変数Xの密度がf(x)で\\(E[|X|]<\\infty\\)。期待値E[X]の定義式は？",
+      "answer": "\\(E[X]=\\int_{-\\infty}^{\\infty}xf(x)\\,dx\\)。",
+      "criterion": "値xに密度を掛け、全実数で積分すると言えれば正解。",
+      "explanation": "離散型では各値xₙにその確率を掛けた和になる。連続型の関数φ(X)の期待値は、絶対可積分なら\\(E[\\varphi(X)]=\\int_{-\\infty}^{\\infty}\\varphi(x)f(x)\\,dx\\)。",
+      "sources": [
+        {
+          "file": "expectation.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q02",
+      "version": 1,
+      "prompt": "X,Yの期待値が存在し、a,bが実定数のとき、\\(E[aX+bY]\\)は？独立性は必要？",
+      "answer": "\\(aE[X]+bE[Y]\\)。独立性は不要。",
+      "criterion": "線形性の式と、独立性不要を両方言えれば正解。",
+      "explanation": "期待値の線形性には独立性を要しない。一方、独立なX,Yについては\\(E[XY]=E[X]E[Y]\\)も成り立つ。",
+      "sources": [
+        {
+          "file": "variance.png",
+          "page": 1
+        },
+        {
+          "file": "expectation.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q03",
+      "version": 1,
+      "prompt": "\\(E[X^2]<\\infty\\)、\\(\\mu=E[X]\\)とする。分散V(X)の定義式は？",
+      "answer": "\\(V(X)=E[(X-\\mu)^2]\\)。",
+      "criterion": "平均からの偏差を2乗した期待値と言えれば正解。",
+      "explanation": "標準偏差は分散の非負の平方根。",
+      "sources": [
+        {
+          "file": "variance.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q04",
+      "version": 1,
+      "prompt": "\\(E[X^2]<\\infty\\)とする。分散V(X)をE[X²]とE[X]で表す公式は？",
+      "answer": "\\(V(X)=E[X^2]-(E[X])^2\\)。",
+      "criterion": "2乗の期待値から期待値の2乗を引けば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "covariance.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q05",
+      "version": 1,
+      "prompt": "Xの分散が有限、a,bが実定数。\\(V(aX+b)\\)は？",
+      "answer": "\\(a^2V(X)\\)。",
+      "criterion": "aは2乗され、bは分散に影響しないと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "covariance.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q06",
+      "version": 1,
+      "prompt": "X,Yの2次モーメントが有限で、\\(\\mu_X=E[X],\\mu_Y=E[Y]\\)。共分散Cov(X,Y)の定義式は？",
+      "answer": "\\(\\operatorname{Cov}(X,Y)=E[(X-\\mu_X)(Y-\\mu_Y)]\\)。",
+      "criterion": "それぞれの平均からの偏差の積の期待値と言えれば正解。",
+      "explanation": "展開すると\\(E[XY]-E[X]E[Y]\\)。独立なら0になるが、0だから独立とは限らない。",
+      "sources": [
+        {
+          "file": "covariance.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q07",
+      "version": 1,
+      "prompt": "X,Yの分散が有限でともに正。相関係数ρ(X,Y)の定義式は？",
+      "answer": "\\(\\rho(X,Y)=\\dfrac{\\operatorname{Cov}(X,Y)}{\\sqrt{V(X)V(Y)}}\\)。",
+      "criterion": "共分散を2つの標準偏差の積で割れば正解。",
+      "explanation": "分散が0の場合はこの式では定義できない。",
+      "sources": [
+        {
+          "file": "covariance.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q08",
+      "version": 1,
+      "prompt": "独立なX,Yの分散が有限のとき、V(X+Y)は？",
+      "answer": "\\(V(X+Y)=V(X)+V(Y)\\)。",
+      "criterion": "独立なら分散を足すと言えれば正解。",
+      "explanation": "独立でない場合は共分散の項も必要。",
+      "sources": [
+        {
+          "file": "covariance.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q09",
+      "version": 1,
+      "prompt": "確率変数Xのモーメント母関数Mₓ(t)の定義は？",
+      "answer": "\\(M_X(t)=E[e^{tX}]\\)。",
+      "criterion": "指数関数eᵗˣの期待値と言えれば正解。",
+      "explanation": "その期待値が有限となるtで定義する。次の性質には0の近傍での存在が必要。",
+      "sources": [
+        {
+          "file": "mgf.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "probability-l03-q10",
+      "version": 1,
+      "prompt": "モーメント母関数Mₓ(t)が0を含む開区間で有限に存在する。k次モーメントE[Xᵏ]をMₓから取り出す方法は？",
+      "answer": "\\(E[X^k]=M_X^{(k)}(0)\\)。",
+      "criterion": "tでk回微分し、t=0を代入すると言えれば正解。",
+      "explanation": "k≥1。原点付近での存在条件を使う。",
+      "sources": [
+        {
+          "file": "moments.png",
+          "page": 1
+        }
+      ]
+    }
+  ]
+}

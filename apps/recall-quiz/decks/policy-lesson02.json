@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "id": "policy-lesson02",
+  "version": 1,
+  "title": "公共政策論II",
+  "subtitle": "第2回 · 第3回資料・条件付き確率とベイズ推論",
+  "scope": "実際の第3回、公共政策論II 3.pdfの全6ページ。写真に各9枚のスライドが写る。人物や事件の暗記ではなく、条件付き確率、独立、全確率、事前・事後確率を扱う。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期金２]公共政策論II/公共政策論II 3.pdf",
+      "sha256": "50c41945f03995022db9ce7a6fb0a6af7728f2fbaebcfdc1b6110ea9d1de6276",
+      "pageCount": 6,
+      "reviewedPages": [
+        2,
+        3,
+        5,
+        6
+      ],
+      "method": "原資料の該当ページ画像を目視し、問題・解答・適用条件を照らし合わせた。添付画像は画像1枚を1ページとして参照する。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "policy-l02-q01",
+      "version": 1,
+      "prompt": "事象\\(A,B\\)について\\(P(A)>0\\)。Aが起きたという条件の下でBが起きる確率\\(P(B\\mid A)\\)の定義式は？",
+      "answer": "\\(P(B\\mid A)=P(A\\cap B)/P(A)\\)。",
+      "criterion": "共通部分の確率を、条件Aの確率で割れば正解。",
+      "explanation": "PDF2ページ内のスライド10。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q02",
+      "version": 1,
+      "prompt": "事象\\(A,B\\)について\\(P(A)>0\\)。条件付き確率を用いた乗法公式は？",
+      "answer": "\\(P(A\\cap B)=P(A)P(B\\mid A)\\)。",
+      "criterion": "Aの確率に、Aの下でのBの条件付き確率を掛ければ正解。",
+      "explanation": "PDF2ページ内のスライド13。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q03",
+      "version": 1,
+      "prompt": "事象\\(A,B\\)が独立であるとは、\\(P(A\\cap B)\\)についてどんな等式が成り立つこと？",
+      "answer": "\\(P(A\\cap B)=P(A)P(B)\\)。",
+      "criterion": "同時に起きる確率が、各確率の積と言えれば正解。",
+      "explanation": "独立を仮定しない限り、この積にはできない。PDF2ページのスライド14。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q04",
+      "version": 1,
+      "prompt": "事象\\(A,F\\)について\\(P(A)>0\\)、\\(P(F)>0\\)。ベイズの定理で\\(P(A\\mid F)\\)を\\(P(F\\mid A)\\)から表すと？",
+      "answer": "\\(P(A\\mid F)=\\dfrac{P(F\\mid A)P(A)}{P(F)}\\)。",
+      "criterion": "尤度P(F|A)と事前確率P(A)の積をP(F)で割れば正解。",
+      "explanation": "PDF2ページのスライド16、3ページのスライド23〜26。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 2
+        },
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q05",
+      "version": 1,
+      "prompt": "互いに排反な\\(A_1,\\ldots,A_m\\)が全事象を分割し、各\\(P(A_i)>0\\)とする。全確率の公式で\\(P(F)\\)を表すと？",
+      "answer": "\\(P(F)=\\sum_{i=1}^m P(F\\mid A_i)P(A_i)\\)。",
+      "criterion": "各場合の条件付き確率に、その場合の確率を掛けて足せば正解。",
+      "explanation": "PDF3ページのスライド25、6ページのスライド50。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 3
+        },
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q06",
+      "version": 1,
+      "prompt": "ベイズ推論で、事前確率と事後確率は、証拠を得る前後のどちらの確率？",
+      "answer": "事前確率は証拠を得る前、事後確率は証拠で条件を付けた後の確率。",
+      "criterion": "前と後を正しく区別できれば正解。",
+      "explanation": "PDF3ページのスライド23。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q07",
+      "version": 1,
+      "prompt": "検査の陽性率が感染者で高くても、陽性になった人が感染者である確率が高いとは限らないのはなぜ？",
+      "answer": "母集団の感染率と、非感染者が陽性になる確率にも左右されるため。",
+      "criterion": "事前の感染率と偽陽性の影響を言えれば正解。",
+      "explanation": "PDF5ページのスライド38〜44。検査で陽性になる確率と、陽性の下で感染している確率は条件の向きが違う。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "policy-l02-q08",
+      "version": 1,
+      "prompt": "\\(P(A\\mid B)\\)と\\(P(B\\mid A)\\)は、一般に同じ値として扱ってよい？",
+      "answer": "扱えない。条件と対象を入れ替えると、一般に別の確率になる。",
+      "criterion": "条件の向きが逆で、一般には異なると言えれば正解。",
+      "explanation": "PDF2ページのスライド10〜16。両者はベイズの定理で結び付ける。",
+      "sources": [
+        {
+          "file": "公共政策論II 3.pdf",
+          "page": 2
+        }
+      ]
+    }
+  ]
+}

@@ -21,8 +21,17 @@
     template.innerHTML = markup;
     for (const node of [...template.content.querySelectorAll('*')]) {
       if (!allowedMath.has(node.localName)) { node.replaceWith(document.createTextNode(node.textContent)); continue; }
+      // Use a stretchable overbar instead of the spacing macron emitted for \bar.
+      // Reserve a small gap so the bar does not touch italic capitals.
+      if (node.localName === 'mo' && ['ˉ', '‾'].includes(node.textContent) &&
+        node.parentElement?.localName === 'mover' && node.parentElement.getAttribute('accent') === 'true') {
+        node.textContent = '‾';
+        node.setAttribute('stretchy', 'true');
+        node.setAttribute('class', 'math-overbar');
+      }
       for (const attr of [...node.attributes]) {
-        if (!(mathAttrs.has(attr.name) || (node.localName === 'span' && attr.name === 'class'))) node.removeAttribute(attr.name);
+        if (!(mathAttrs.has(attr.name) || (node.localName === 'span' && attr.name === 'class') ||
+          (node.localName === 'mo' && attr.name === 'class' && attr.value === 'math-overbar'))) node.removeAttribute(attr.name);
       }
     }
     return template.innerHTML;

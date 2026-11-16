@@ -202,6 +202,22 @@ const { chromium } = require('playwright');
     await page.reload();
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
     assert.match(await page.locator('.month-total').innerText(), /3回/);
+    await nav.getByRole('button', { name: '一覧', exact: true }).click();
+    await page.getByLabel('教科', { exact: true }).selectOption({ label: '数理統計' });
+    await page.getByRole('button', { name: 'この教材で学習', exact: true }).click();
+    await page.getByRole('button', { name: '答えを見る', exact: true }).click();
+    const overbars = page.locator('.question mover, .answer-main mover');
+    assert.equal(await overbars.count(), 2);
+    for (const mover of await overbars.all()) {
+      const bounds = await mover.evaluate(el => {
+        const base = el.querySelector('mi').getBoundingClientRect();
+        const bar = el.lastElementChild.getBoundingClientRect();
+        return { gap: base.top - bar.bottom, offset: Math.abs((base.left + base.right - bar.left - bar.right) / 2) };
+      });
+      assert.ok(bounds.gap >= 1.5, 'overbar overlaps the X');
+      assert.ok(bounds.offset < 3, 'overbar is not centered over the X');
+    }
+    await page.screenshot({ path: path.resolve(__dirname, '../output/statistics-overbar.png'), animations: 'disabled' });
     const libraryContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
     await libraryContext.route(/^https?:\/\//, route => route.abort());
     await libraryContext.addInitScript(() => {

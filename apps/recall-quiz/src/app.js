@@ -5,6 +5,7 @@
   let decks = boot.decks || [deck];
   let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let selectedDay = RecallCore.day(new Date()), subject = '';
+  let renderedKey = '', renderedPage = page;
   const content = document.querySelector('#content');
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
@@ -67,7 +68,7 @@
     if (busy) return;
     busy = true;
     status.textContent = '保存・処理中…';
-    document.querySelectorAll('header button, #content button').forEach(b => { b.disabled = true; });
+    document.querySelectorAll('header button, .main-nav button, #content button').forEach(b => { b.disabled = true; });
     const slow = setTimeout(() => {
       status.textContent = '処理を待っています。反応が戻らない場合は、一度閉じて開き直してください。';
     }, 15000);
@@ -136,20 +137,23 @@
     const [sy, sm, sd] = selectedDay.split('-');
     content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;
   }
+  function resultCounts(n) {
+    return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
+  }
   function renderCatalog() {
     const stats = RecallCore.statistics(state);
     const subjects = [...new Set(decks.map(item => item.title))];
     if (!subjects.includes(subject)) subject = subjects[0];
     const items = decks.filter(item => item.title === subject);
-    content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">出題は問題を開いた回数です。正解・ミスは自己判定の回数で、旧版での回答も含みます。更新前の未回答の出題は記録されていません。</p>${items.map(item => {
+    content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">○は正解、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${items.map(item => {
       const rows = item.questions.map((q, index) => {
         const n = RecallCore.questionStatistics(stats, item.id, q.id);
-        return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts"><span>出題 <strong>${n.presented}回</strong></span><span>正解 <strong>${n.correct}回</strong></span><span>ミス <strong>${n.mistakes}回</strong></span></span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
+        return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
       }).join('');
       const retired = Object.entries(stats.questions).filter(([key]) => {
         const [deckId, questionId] = JSON.parse(key);
         return deckId === item.id && !item.questions.some(q => q.id === questionId);
-      }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts"><span>出題 <strong>${n.presented}回</strong></span><span>正解 <strong>${n.correct}回</strong></span><span>ミス <strong>${n.mistakes}回</strong></span></div></div>`).join('');
+      }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
       return `<section class="lesson"><div class="lesson-head"><div><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">${item.questions.length}問${item.id === deck.id ? ' · 選択中' : ''}</p></div><button class="lesson-start" data-deck="${escape(item.id)}">${item.id === deck.id ? 'クイズに戻る' : 'この教材で学習'}</button></div>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
     }).join('')}`;
   }
@@ -160,7 +164,7 @@
       history.replaceState(null, '', url);
     }
     document.querySelector('#coins').innerHTML = `<span class="coin-dot" aria-hidden="true"></span>${state.garden.coins}`;
-    document.querySelectorAll('header button').forEach(b => { b.disabled = busy; });
+    document.querySelectorAll('header button, .main-nav button').forEach(b => { b.disabled = busy; });
     document.querySelectorAll('[data-screen]').forEach(button => button.setAttribute('aria-current', button.dataset.screen === page ? 'page' : 'false'));
     if (page === 'calendar') renderCalendar();
     else if (page === 'catalog') renderCatalog();
@@ -174,6 +178,22 @@
         const section = content.querySelector('.answer');
         if (section) section.insertAdjacentHTML('beforeend', `<div class="source-toggles">${sourceToggles(q)}</div>`);
       }
+    }
+    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}`;
+    if (key !== renderedKey) {
+      const changedPage = page !== renderedPage;
+      if (content.getAnimations) content.getAnimations().forEach(animation => animation.cancel());
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && content.animate) {
+        const order = ['quiz', 'calendar', 'garden', 'catalog', 'settings'];
+        const direction = order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
+        content.animate([
+          { opacity: 0, transform: changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
+          { opacity: 1, transform: 'translate(0, 0)' }
+        ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
+      }
+      if (changedPage) window.scrollTo(0, 0);
+      renderedKey = key;
+      renderedPage = page;
     }
     content.querySelectorAll('.source-toggle').forEach(toggle => {
       const image = toggle.querySelector('img');
@@ -218,7 +238,6 @@
   }
   document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => { page = button.dataset.screen; status.textContent = ''; render(); });
   document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };
-  document.querySelector('#garden-nav').onclick = () => { page = 'garden'; render(); };
   document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
   if (!boot.native) {
     try {

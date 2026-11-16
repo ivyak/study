@@ -8,21 +8,38 @@
   <style>/*__STYLE__*/</style>
 </head>
 <body>
+  <div class="landscape" aria-hidden="true">
+    <svg viewBox="0 0 900 420" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#f9e6d5"/><stop offset=".58" stop-color="#f0b6aa"/><stop offset="1" stop-color="#c18fa3"/></linearGradient>
+        <linearGradient id="sunset" x2="0" y2="1"><stop stop-color="#fff5cb"/><stop offset="1" stop-color="#f6cfab"/></linearGradient>
+      </defs>
+      <path fill="url(#sky)" d="M0 0h900v420H0z"/>
+      <circle cx="570" cy="145" r="55" fill="url(#sunset)"/>
+      <path d="M0 224 100 160Q118 146 135 170L205 232 293 194 397 258 495 218 570 253 680 216 774 250 900 193V420H0Z" fill="#cf8e9c"/>
+      <path d="M0 265Q50 267 102 223T183 244L255 290Q309 312 362 281T457 280L551 310Q628 331 692 282T802 280L900 268V420H0Z" fill="#8f7892"/>
+      <path d="M0 313 62 280Q80 273 96 295L146 323Q191 350 224 321L301 297Q320 291 345 316L400 348Q462 370 511 340L588 311Q607 303 636 323L697 348Q744 368 785 333L856 299 900 315V420H0Z" fill="#4e5b76"/>
+      <path d="M0 354Q84 310 158 363T315 365 478 381 635 364 793 382 900 349V420H0Z" fill="#2b4057"/>
+      <path d="M0 375Q85 346 166 383M655 386Q735 363 810 389" fill="none" stroke="#8990a1" stroke-opacity=".35" stroke-width="2"/>
+    </svg>
+  </div>
   <div class="shell">
     <header>
-      <button id="home" class="brand" aria-label="クイズに戻る"><span class="brand-mark">✳</span> ひとつ想起</button>
-      <div class="header-end"><span id="coins" class="coins" aria-label="コイン"></span><button id="garden-nav" class="icon-button">庭</button><button id="settings-nav" class="icon-button">設定</button></div>
+      <button id="home" class="brand" aria-label="クイズに戻る"><span class="brand-mark">✧</span> ひとつ想起</button>
+      <div class="header-end"><span id="coins" class="coins" aria-label="コイン"></span><button id="settings-nav" class="icon-button" aria-label="設定"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 1-2h4l1 2 2 1 2-.2 2 3-1 2v3l1 2-2 3-2-.2-2 1-1 2h-4l-1-2-2-1-2 .2-2-3 1-2v-3l-1-2 2-3 2 .2Z"/><circle cx="12" cy="11.5" r="3"/></svg></button></div>
     </header>
-    <nav class="main-nav" aria-label="画面の切り替え">
-      <button data-screen="quiz">クイズ</button>
-      <button data-screen="calendar">カレンダー</button>
-      <button data-screen="catalog">クイズ一覧</button>
-    </nav>
+    <p class="hero-note">今日も、ひとつずつ。</p>
     <div id="notice" class="notice" role="status" hidden></div>
     <main id="content"></main>
     <p id="status" class="status" role="status" aria-live="polite"></p>
     <footer>思い出そうとした、その1回を大切に。</footer>
   </div>
+  <nav class="main-nav" aria-label="画面の切り替え">
+    <button data-screen="quiz"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6q6-2 12 2 6-4 12-2v21q-6-2-12 2-6-4-12-2Z"/><path d="M16 8v21M8 12l4 1M20 13l4-1M8 18l4 1M20 19l4-1"/></svg><span>クイズ</span></button>
+    <button data-screen="calendar"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="6" width="24" height="23" rx="5"/><path d="M10 3v7M22 3v7M4 14h24M10 20h1M16 20h1M22 20h1M10 25h1M16 25h1"/></svg><span>カレンダー</span></button>
+    <button data-screen="garden"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V15M16 20Q3 22 4 8q12-1 12 12ZM16 15Q16 3 28 4q1 12-12 11ZM9 29h14"/></svg><span>庭</span></button>
+    <button data-screen="catalog"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="3" width="22" height="26" rx="5"/><path d="M11 10h1M16 10h6M11 16h1M16 16h6M11 22h1M16 22h6"/></svg><span>一覧</span></button>
+  </nav>
   <script>window.BOOT = __BOOTSTRAP__;</script>
   <script>/*__CORE__*/</script>
   <script>/*__APP__*/</script>

@@ -11,6 +11,15 @@ const { chromium } = require('playwright');
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
+    const nav = page.getByRole('navigation', { name: '画面の切り替え' });
+    assert.deepEqual(await nav.locator('button').allTextContents(), ['クイズ', 'カレンダー', '庭', '一覧']);
+    assert.equal(await nav.locator('svg').count(), 4);
+    for (const button of await nav.locator('button').all()) {
+      const icon = await button.locator('svg').boundingBox();
+      const label = await button.locator('span').boundingBox();
+      assert.ok(icon.width >= 28 && icon.y + icon.height <= label.y);
+    }
+    assert.equal(await nav.evaluate(el => getComputedStyle(el).position), 'fixed');
     await page.getByRole('button', { name: '答えを見る', exact: true }).click();
     const source = page.locator('.source-toggle').first();
     const summary = source.locator('summary');
@@ -35,7 +44,7 @@ const { chromium } = require('playwright');
       await page.setViewportSize({ width, height: 844 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `source overflow at ${width}px`);
     }
-    await page.screenshot({ path: path.resolve(__dirname, '../output/source-toggle.png'), fullPage: true });
+    await page.screenshot({ path: path.resolve(__dirname, '../output/source-toggle.png'), fullPage: true, animations: 'disabled' });
     await summary.click();
     assert.equal(await source.evaluate(view => view.open), false);
     await summary.click();
@@ -50,7 +59,7 @@ const { chromium } = require('playwright');
       await page.getByRole('button', { name: '答えを見る', exact: true }).click();
       if (i === 1) {
         assert.ok(await page.locator('.question').innerText());
-        await page.screenshot({ path: path.resolve(__dirname, '../output/question.png'), fullPage: true });
+        await page.screenshot({ path: path.resolve(__dirname, '../output/question.png'), fullPage: true, animations: 'disabled' });
       }
       await page.getByRole('button', { name: '思い出せた', exact: true }).click();
     }
@@ -59,7 +68,7 @@ const { chromium } = require('playwright');
     await page.getByRole('button', { name: '3 コイン', exact: true }).click();
     await page.getByRole('button', { name: '庭にいます', exact: true }).waitFor();
     assert.equal(await page.locator('#coins').innerText(), '0');
-    await page.screenshot({ path: path.resolve(__dirname, '../output/garden.png'), fullPage: true });
+    await page.screenshot({ path: path.resolve(__dirname, '../output/garden.png'), fullPage: true, animations: 'disabled' });
     await page.locator('#content').getByRole('button', { name: 'クイズに戻る', exact: true }).click();
     await page.getByRole('button', { name: 'あと3問', exact: true }).click();
     await page.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
@@ -82,24 +91,36 @@ const { chromium } = require('playwright');
     await page.getByRole('button', { name: '前の月', exact: true }).click();
     assert.equal(await page.locator('.calendar-day.has-answers').count(), 0);
     await page.getByRole('button', { name: '今月に戻る', exact: true }).click();
-    await page.screenshot({ path: path.resolve(__dirname, '../output/calendar.png'), fullPage: true });
-    await page.getByRole('button', { name: 'クイズ一覧', exact: true }).click();
+    await page.screenshot({ path: path.resolve(__dirname, '../output/calendar.png'), fullPage: true, animations: 'disabled' });
+    await page.getByRole('button', { name: '一覧', exact: true }).click();
     assert.equal(await page.locator('.catalog-question').count(), 8);
     const firstCounts = await page.locator('.catalog-question').first().locator('.question-counts').innerText();
-    assert.match(firstCounts, /出題\s+1回/);
-    assert.match(firstCounts, /正解\s+0回/);
-    assert.match(firstCounts, /ミス\s+1回/);
+    assert.match(firstCounts, /出題\s+1/);
+    await page.locator('.catalog-question').first().getByLabel('正解0回', { exact: true }).waitFor();
+    await page.locator('.catalog-question').first().getByLabel('ミス1回', { exact: true }).waitFor();
+    assert.notEqual(await page.locator('.correct').first().evaluate(el => getComputedStyle(el).color), await page.locator('.mistake').first().evaluate(el => getComputedStyle(el).color));
     await page.locator('.catalog-question').first().locator('summary').click();
     assert.ok(await page.locator('.catalog-question[open] math').count() > 0);
     for (const screen of ['calendar', 'catalog']) {
       await page.locator(`[data-screen="${screen}"]`).click();
+      assert.ok(await page.locator('#content').evaluate(el => el.getAnimations().length > 0));
       for (const width of [320, 390, 840]) {
         await page.setViewportSize({ width, height: 844 });
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${screen} overflow at ${width}`);
+        const bar = await nav.boundingBox();
+        assert.ok(bar.x >= 0 && bar.x + bar.width <= width && bar.y + bar.height <= 844);
+        await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+        const bounds = await page.locator('#content').boundingBox();
+        assert.ok(bounds.y + bounds.height < bar.y, `${screen} bottom content hidden by navigation`);
       }
     }
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.screenshot({ path: path.resolve(__dirname, '../output/catalog.png'), fullPage: true });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.screenshot({ path: path.resolve(__dirname, '../output/catalog.png'), fullPage: true, animations: 'disabled' });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
+    assert.equal(await page.locator('#content').evaluate(el => el.getAnimations().length), 0);
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.reload();
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
     assert.match(await page.locator('.month-total').innerText(), /3回/);
@@ -115,14 +136,14 @@ const { chromium } = require('playwright');
     });
     const libraryPage = await libraryContext.newPage();
     await libraryPage.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
-    await libraryPage.getByRole('button', { name: 'クイズ一覧', exact: true }).click();
+    await libraryPage.getByRole('button', { name: '一覧', exact: true }).click();
     await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '物理学' });
     assert.equal(await libraryPage.locator('.catalog-question').count(), 8);
     await libraryPage.getByRole('button', { name: 'この教材で学習', exact: true }).click();
     assert.equal(await libraryPage.locator('.eyebrow').innerText(), '物理学');
     await libraryPage.reload();
     assert.equal(await libraryPage.locator('.eyebrow').innerText(), '物理学');
-    await libraryPage.getByRole('button', { name: 'クイズ一覧', exact: true }).click();
+    await libraryPage.getByRole('button', { name: '一覧', exact: true }).click();
     await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '微分積分学続論II' });
     await libraryPage.getByRole('button', { name: 'この教材で学習', exact: true }).click();
     assert.equal(await libraryPage.locator('.eyebrow').innerText(), '微分積分学続論II');

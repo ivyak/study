@@ -158,6 +158,10 @@
       return `<section class="lesson"><div class="lesson-head"><div><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">${item.questions.length}問${item.id === deck.id ? ' · 選択中' : ''}</p></div>${item.id === deck.id ? '' : `<button class="lesson-start" data-deck="${escape(item.id)}">この教材で学習</button>`}</div>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
     }).join('')}`;
   }
+  function updateScrollFade() {
+    scrollRegion.classList.toggle('has-more-above', scrollRegion.scrollTop > 1);
+    scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
+  }
   function render() {
     if (!boot.native && /^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
@@ -232,9 +236,18 @@
     content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
     content.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => act('buy', { id: b.dataset.buy }));
+    updateScrollFade();
     content.querySelectorAll('[data-result]').forEach(b => b.onclick = () => act('rate', {
       eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result
     }));
+  }
+  scrollRegion.addEventListener('scroll', updateScrollFade, { passive: true });
+  scrollRegion.addEventListener('toggle', updateScrollFade, true);
+  window.addEventListener('resize', updateScrollFade);
+  if (window.ResizeObserver) {
+    const observer = new ResizeObserver(updateScrollFade);
+    observer.observe(scrollRegion);
+    observer.observe(content);
   }
   document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => { page = button.dataset.screen; status.textContent = ''; render(); });
   document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };

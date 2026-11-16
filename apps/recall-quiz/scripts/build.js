@@ -57,6 +57,6 @@ fs.writeFileSync(path.join(output, 'Quiz.js'), bundle);
 fs.writeFileSync(path.join(output, `${deck.id}.compiled.json`), JSON.stringify(deck, null, 2));
 const state = core.ensureSession(core.initial(), deck, new Date());
 fs.writeFileSync(path.join(output, 'preview.html'), html.replace('__BOOTSTRAP__', json({
-  native: false, deck, state, shop: core.shop, notice: 'PCプレビューです。通知とファイル保存はiPhone版で確認します。'
+  native: false, deck, state, shop: core.shop, notice: ''
 })));
 console.log(`${deck.questions.length}問をビルドしました。output/Quiz.js をScriptableへ取り込めます。`);

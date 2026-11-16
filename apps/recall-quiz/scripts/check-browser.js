@@ -23,7 +23,8 @@ const { chromium } = require('playwright');
     }
     assert.equal(await nav.evaluate(el => getComputedStyle(el).position), 'fixed');
     assert.ok((await nav.boundingBox()).height <= 68);
-    assert.ok((await page.locator('footer').boundingBox()).height <= 12);
+    assert.equal(await page.locator('footer').count(), 0);
+    assert.equal(await page.locator('#notice').isVisible(), false);
     const safeArea = await page.addStyleTag({ content: '.shell { padding-top: 62px; padding-bottom: 120px; } .main-nav { bottom: 34px; }' });
     assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
     assert.ok(await page.locator('.scroll-region').evaluate(el => el.scrollHeight <= el.clientHeight));

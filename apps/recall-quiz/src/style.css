@@ -56,7 +56,6 @@ summary { cursor: pointer; padding: 5px 0; color: var(--muted); min-height: 38px
 .notice { border: 1px solid #fff8ef; padding: 10px 13px; border-radius: 10px; font-size: 12px; margin-bottom: 16px; background: #fff6edc9; }
 .status { flex-shrink: 0; font-size: 11px; color: #7d592f; line-height: 1.5; margin: 3px 4px 0; max-height: 50px; overflow: auto; }
 .status:empty { display: none; }
-footer { flex-shrink: 0; margin-top: 3px; color: #817584; font-size: 9px; line-height: 12px; text-align: center; }
 h1.page-title { font-size: 27px; font-weight: 650; margin: 14px 0 8px; }
 .lead { color: #7b7282; font-size: 14px; margin-top: 8px; }
 .garden { position: relative; height: 200px; overflow: hidden; background: linear-gradient(#efb9aa, #f6d6ba 60%, #b5a3ba); border: 1px solid #e5c4bd; border-radius: 24px; margin: 25px 0; }

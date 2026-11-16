@@ -85,11 +85,12 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .landscape { position: absolute; inset: 0 0 auto; height: 300px; overflow: hidden; pointer-events: none; }
 .landscape svg { width: 100%; height: 100%; display: block; }
 .hero-note { flex-shrink: 0; margin: 0 7px 12px; font-size: 13px; letter-spacing: .12em; color: #69596c; }
-.scroll-region { flex: 1; min-height: 0; overflow: hidden auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; border: 0; border-radius: 26px; background: #fff9f3f5; scrollbar-width: none; -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / var(--fade-top, 1)), #000 14px, #000 calc(100% - 18px), rgb(0 0 0 / var(--fade-bottom, 1))); mask-image: linear-gradient(to bottom, rgb(0 0 0 / var(--fade-top, 1)), #000 14px, #000 calc(100% - 18px), rgb(0 0 0 / var(--fade-bottom, 1))); }
+.scroll-region { flex: 1; min-height: 0; overflow: hidden auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; border: 0; border-radius: 26px; background: #fff9f3f5; scrollbar-width: none; -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / var(--fade-top, 1)), #000 14px, #000 calc(100% - 18px), rgb(0 0 0 / var(--fade-bottom, 1))); mask-image: linear-gradient(to bottom, rgb(0 0 0 / var(--fade-top, 1)), #000 14px, #000 calc(100% - 18px), rgb(0 0 0 / var(--fade-bottom, 1))); }
 .scroll-region.has-more-above { --fade-top: 0; }
 .scroll-region.has-more-below { --fade-bottom: 0; }
 .scroll-region::-webkit-scrollbar { display: none; }
 .scroll-region:focus-visible { outline: 2px solid #a56c7b; outline-offset: 2px; }
+.stretch-content { min-height: 100%; transform-origin: center top; }
 #content { position: relative; padding: 22px 20px 26px; min-width: 0; }
 .shell > .notice { flex-shrink: 0; padding: 6px 10px; margin-bottom: 6px; font-size: 10px; }
 .notice { font-size: 11px; margin-bottom: 12px; backdrop-filter: blur(12px); }

@@ -14,6 +14,20 @@ const { chromium } = require('playwright');
     assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
     assert.ok(await page.locator('.scroll-region').evaluate(el => el.scrollHeight <= el.clientHeight), 'initial quiz should fit without scrolling');
     assert.equal(await page.locator('.has-more-above, .has-more-below').count(), 0);
+    const touchSession = await context.newCDPSession(page);
+    async function pullFrom(y, direction = 1) {
+      await touchSession.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 200, y }] });
+      for (const distance of [15, 45, 90, 130]) {
+        await touchSession.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 200, y: y + distance * direction }] });
+      }
+    }
+    async function releaseTouch() {
+      await touchSession.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      await page.waitForFunction(() => document.querySelector('.stretch-content').getAnimations().length === 0);
+    }
+    await pullFrom(230);
+    assert.equal(await page.locator('.stretch-content').evaluate(el => el.style.transform), '');
+    await releaseTouch();
     const nav = page.getByRole('navigation', { name: '画面の切り替え' });
     assert.deepEqual(await nav.locator('button').allTextContents(), ['クイズ', 'カレンダー', '庭', '一覧']);
     assert.equal(await nav.locator('svg').count(), 4);
@@ -151,6 +165,26 @@ const { chromium } = require('playwright');
     await page.setViewportSize({ width: 402, height: 874 });
     await page.locator('.scroll-region').evaluate(el => { el.scrollTop = 0; });
     await page.screenshot({ path: path.resolve(__dirname, '../output/catalog.png'), fullPage: true, animations: 'disabled' });
+    const headerAtRest = await page.locator('header').boundingBox();
+    const navAtRest = await nav.boundingBox();
+    await pullFrom(220);
+    assert.match(await page.locator('.stretch-content').evaluate(el => el.style.transform), /scaleY/);
+    assert.deepEqual(await page.locator('header').boundingBox(), headerAtRest);
+    assert.deepEqual(await nav.boundingBox(), navAtRest);
+    await page.screenshot({ path: path.resolve(__dirname, '../output/scroll-stretch.png') });
+    await releaseTouch();
+    assert.equal(await page.locator('.stretch-content').evaluate(el => getComputedStyle(el).transform), 'none');
+    await page.locator('.scroll-region').evaluate(el => { el.scrollTop = el.scrollHeight; });
+    await pullFrom(600, -1);
+    assert.match(await page.locator('.stretch-content').evaluate(el => el.style.transform), /scaleY/);
+    assert.equal(await page.locator('.stretch-content').evaluate(el => el.style.transformOrigin), 'center bottom');
+    await releaseTouch();
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.locator('.scroll-region').evaluate(el => { el.scrollTop = 0; });
+    await pullFrom(220);
+    assert.equal(await page.locator('.stretch-content').evaluate(el => el.style.transform), '');
+    await releaseTouch();
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
     // Model both the full display and the shorter area available in an embedded WebView.
     for (const height of [874, 760, 640]) {
       await page.setViewportSize({ width: 402, height });

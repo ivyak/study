@@ -8,6 +8,8 @@
   let renderedKey = '', renderedPage = page;
   const content = document.querySelector('#content');
   const scrollRegion = document.querySelector('.scroll-region');
+  const stretchContent = document.querySelector('.stretch-content');
+  let pullGesture = null, spring = null;
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
   let nativeWaiter = null;
@@ -158,6 +160,56 @@
       return `<section class="lesson"><div class="lesson-head"><div><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">${item.questions.length}問${item.id === deck.id ? ' · 選択中' : ''}</p></div>${item.id === deck.id ? '' : `<button class="lesson-start" data-deck="${escape(item.id)}">この教材で学習</button>`}</div>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
     }).join('')}`;
   }
+  function releasePull(animate = true) {
+    pullGesture = null;
+    const transform = stretchContent.style.transform;
+    if (spring) spring.cancel();
+    spring = null;
+    stretchContent.style.transform = '';
+    if (animate && transform && stretchContent.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      spring = stretchContent.animate([
+        { transform }, { transform: 'scaleY(.995)', offset: .65 }, { transform: 'scaleY(1)' }
+      ], { duration: 420, easing: 'cubic-bezier(.2,.75,.25,1)' });
+      spring.onfinish = () => { spring = null; updateScrollFade(); };
+    }
+    updateScrollFade();
+  }
+  function startPull(event) {
+    releasePull(false);
+    if (event.touches.length !== 1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      scrollRegion.scrollHeight <= scrollRegion.clientHeight + 1) return;
+    // Leave independently scrollable PDF images, formulas and form controls alone.
+    for (let node = event.target; node && node !== scrollRegion; node = node.parentElement) {
+      if (node.matches('input, select, textarea') ||
+        ((node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1) &&
+          /auto|scroll/.test(getComputedStyle(node).overflow))) return;
+    }
+    const touch = event.touches[0];
+    pullGesture = { x: touch.clientX, y: touch.clientY, lastY: touch.clientY,
+      limit: scrollRegion.scrollHeight - scrollRegion.clientHeight, edge: null, originY: touch.clientY };
+  }
+  function movePull(event) {
+    if (!pullGesture) return;
+    if (event.touches.length !== 1) { releasePull(false); return; }
+    const touch = event.touches[0], gesture = pullGesture;
+    if (Math.abs(touch.clientX - gesture.x) > Math.abs(touch.clientY - gesture.y)) { releasePull(); return; }
+    const dy = touch.clientY - gesture.lastY;
+    const edge = scrollRegion.scrollTop <= 1 && dy > 0 ? 'top' :
+      scrollRegion.scrollTop >= gesture.limit - 1 && dy < 0 ? 'bottom' : null;
+    if (!gesture.edge && edge) {
+      gesture.edge = edge;
+      gesture.originY = gesture.lastY;
+      stretchContent.style.transformOrigin = edge === 'top' ? 'center top' : 'center bottom';
+    }
+    gesture.lastY = touch.clientY;
+    if (!gesture.edge) return;
+    const distance = (touch.clientY - gesture.originY) * (gesture.edge === 'top' ? 1 : -1);
+    if (distance <= 0) { releasePull(); return; }
+    if (event.cancelable) event.preventDefault();
+    // Increasing resistance keeps even a long pull within a small visual stretch.
+    const stretch = 54 * (1 - Math.exp(-distance / 160));
+    stretchContent.style.transform = `scaleY(${1 + stretch / scrollRegion.clientHeight})`;
+  }
   function updateScrollFade() {
     scrollRegion.classList.toggle('has-more-above', scrollRegion.scrollTop > 1);
     scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
@@ -196,6 +248,7 @@
           { opacity: 1, transform: 'translate(0, 0)' }
         ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
       }
+      releasePull(false);
       scrollRegion.scrollTop = 0;
       renderedKey = key;
       renderedPage = page;
@@ -241,9 +294,13 @@
       eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result
     }));
   }
+  scrollRegion.addEventListener('touchstart', startPull, { passive: true });
+  scrollRegion.addEventListener('touchmove', movePull, { passive: false });
+  scrollRegion.addEventListener('touchend', () => releasePull());
+  scrollRegion.addEventListener('touchcancel', () => releasePull());
   scrollRegion.addEventListener('scroll', updateScrollFade, { passive: true });
   scrollRegion.addEventListener('toggle', updateScrollFade, true);
-  window.addEventListener('resize', updateScrollFade);
+  window.addEventListener('resize', () => { releasePull(false); updateScrollFade(); });
   if (window.ResizeObserver) {
     const observer = new ResizeObserver(updateScrollFade);
     observer.observe(scrollRegion);

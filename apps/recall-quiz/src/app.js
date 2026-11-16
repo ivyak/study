@@ -1,7 +1,10 @@
 (() => {
   const boot = window.BOOT;
   const initialPage = !boot.native ? new URLSearchParams(location.search).get('screen') : null;
-  let state = boot.state, deck = boot.deck, page = ['garden', 'settings'].includes(initialPage) ? initialPage : 'quiz', busy = false, serial = 0;
+  let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog'].includes(initialPage) ? initialPage : 'quiz', busy = false, serial = 0;
+  let decks = boot.decks || [deck];
+  let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  let selectedDay = RecallCore.day(new Date()), subject = '';
   const content = document.querySelector('#content');
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
@@ -40,6 +43,15 @@
       if (['importDeck', 'importState', 'testNotification', 'settings'].includes(action)) {
         throw Error('通知・読み込みの実機操作は、iPhoneのScriptable版で使えます。');
       }
+      if (action === 'selectDeck') {
+        const selected = decks.find(item => item.id === payload.id);
+        if (!selected) throw Error('教材が見つかりません。');
+        if (selected.id !== deck.id) state = RecallCore.start(state, selected, new Date());
+        deck = selected;
+        localStorage.setItem('recall-quiz-preview-deck', deck.id);
+        localStorage.setItem('recall-quiz-preview-v1', JSON.stringify(state));
+        return { ok: true, state, deck, decks };
+      }
       const next = RecallCore.dispatch(state, deck, action, payload);
       localStorage.setItem('recall-quiz-preview-v1', JSON.stringify(next));
       return { ok: true, state: next, deck, message: '' };
@@ -64,7 +76,8 @@
       if (!result.ok) throw Error(result.error);
       state = result.state;
       if (result.deck) deck = result.deck;
-      if (['start', 'importDeck', 'importState'].includes(action)) page = 'quiz';
+      if (result.decks) decks = result.decks;
+      if (['start', 'importDeck', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
       status.textContent = result.message || (action === 'rate' ? '＋1コイン。思い出そうとした1回を記録しました。' : '');
     } catch (error) {
       status.textContent = String(error.message || error);
@@ -107,6 +120,39 @@
       });
     };
   }
+  function renderCalendar() {
+    const stats = RecallCore.statistics(state);
+    const year = month.getFullYear(), m = month.getMonth();
+    const count = new Date(year, m + 1, 0).getDate();
+    let cells = '<span class="calendar-blank" aria-hidden="true"></span>'.repeat(month.getDay());
+    let total = 0, activeDays = 0;
+    for (let date = 1; date <= count; date++) {
+      const key = RecallCore.day(new Date(year, m, date));
+      const answers = stats.days[key] || 0;
+      total += answers;
+      if (answers) activeDays++;
+      cells += `<button class="calendar-day ${answers ? 'has-answers' : ''} ${key === RecallCore.day(new Date()) ? 'is-today' : ''}" data-day="${key}" aria-pressed="${key === selectedDay}" aria-label="${year}年${m + 1}月${date}日、${answers}回答"><span>${date}</span><small>${answers ? `${answers}回` : '·'}</small></button>`;
+    }
+    const [sy, sm, sd] = selectedDay.split('-');
+    content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;
+  }
+  function renderCatalog() {
+    const stats = RecallCore.statistics(state);
+    const subjects = [...new Set(decks.map(item => item.title))];
+    if (!subjects.includes(subject)) subject = subjects[0];
+    const items = decks.filter(item => item.title === subject);
+    content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">出題は問題を開いた回数です。正解・ミスは自己判定の回数で、旧版での回答も含みます。更新前の未回答の出題は記録されていません。</p>${items.map(item => {
+      const rows = item.questions.map((q, index) => {
+        const n = RecallCore.questionStatistics(stats, item.id, q.id);
+        return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts"><span>出題 <strong>${n.presented}回</strong></span><span>正解 <strong>${n.correct}回</strong></span><span>ミス <strong>${n.mistakes}回</strong></span></span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
+      }).join('');
+      const retired = Object.entries(stats.questions).filter(([key]) => {
+        const [deckId, questionId] = JSON.parse(key);
+        return deckId === item.id && !item.questions.some(q => q.id === questionId);
+      }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts"><span>出題 <strong>${n.presented}回</strong></span><span>正解 <strong>${n.correct}回</strong></span><span>ミス <strong>${n.mistakes}回</strong></span></div></div>`).join('');
+      return `<section class="lesson"><div class="lesson-head"><div><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">${item.questions.length}問${item.id === deck.id ? ' · 選択中' : ''}</p></div><button class="lesson-start" data-deck="${escape(item.id)}">${item.id === deck.id ? 'クイズに戻る' : 'この教材で学習'}</button></div>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
+    }).join('')}`;
+  }
   function render() {
     if (!boot.native && /^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
@@ -115,7 +161,10 @@
     }
     document.querySelector('#coins').innerHTML = `<span class="coin-dot" aria-hidden="true"></span>${state.garden.coins}`;
     document.querySelectorAll('header button').forEach(b => { b.disabled = busy; });
-    if (page === 'garden') renderGarden();
+    document.querySelectorAll('[data-screen]').forEach(button => button.setAttribute('aria-current', button.dataset.screen === page ? 'page' : 'false'));
+    if (page === 'calendar') renderCalendar();
+    else if (page === 'catalog') renderCatalog();
+    else if (page === 'garden') renderGarden();
     else if (page === 'settings') renderSettings();
     else renderQuiz();
     if (page === 'quiz' && state.session && state.session.answerShown) {
@@ -149,6 +198,17 @@
         zoom(scale);
       });
     });
+    content.querySelectorAll('[data-month]').forEach(button => button.onclick = () => {
+      month = new Date(month.getFullYear(), month.getMonth() + Number(button.dataset.month), 1);
+      selectedDay = RecallCore.day(month);
+      render();
+    });
+    content.querySelectorAll('[data-day]').forEach(button => button.onclick = () => { selectedDay = button.dataset.day; render(); });
+    const today = content.querySelector('[data-today]');
+    if (today) today.onclick = () => { month = new Date(new Date().getFullYear(), new Date().getMonth(), 1); selectedDay = RecallCore.day(new Date()); render(); };
+    const filter = content.querySelector('#subject');
+    if (filter) filter.onchange = () => { subject = filter.value; render(); };
+    content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
     content.querySelectorAll('[data-page]').forEach(b => b.onclick = () => { page = b.dataset.page; status.textContent = ''; render(); });
     content.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => act('buy', { id: b.dataset.buy }));
@@ -156,11 +216,14 @@
       eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result
     }));
   }
+  document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => { page = button.dataset.screen; status.textContent = ''; render(); });
   document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };
   document.querySelector('#garden-nav').onclick = () => { page = 'garden'; render(); };
   document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
   if (!boot.native) {
     try {
+      const selected = localStorage.getItem('recall-quiz-preview-deck');
+      deck = decks.find(item => item.id === selected) || deck;
       const saved = localStorage.getItem('recall-quiz-preview-v1');
       state = RecallCore.ensureSession(saved ? RecallCore.validateState(JSON.parse(saved)) : state, deck, new Date());
     } catch (error) { status.textContent = 'PCプレビューの保存を利用できません。iPhone版は別のファイル保存です。'; }

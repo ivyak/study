@@ -9,6 +9,17 @@ async function runRecallQuiz() {
     const imported = RecallCore.validateDeck(JSON.parse(fm.readString(deckPath)));
     if (imported.id !== deck.id || imported.version >= deck.version) deck = imported;
   }
+  const libraryPath = fm.joinPath(root, 'decks.json');
+  let decks = fm.fileExists(libraryPath) ? JSON.parse(fm.readString(libraryPath)) : [];
+  if (!Array.isArray(decks)) throw Error('教材一覧を読み取れません。');
+  decks.forEach(item => RecallCore.validateDeck(item));
+  for (const item of [QUIZ_DECK, deck]) {
+    const old = decks.find(saved => saved.id === item.id);
+    if (!old) decks.push(item);
+    else if (item.version > old.version) decks[decks.indexOf(old)] = item;
+  }
+  deck = decks.find(item => item.id === deck.id);
+  fm.writeString(libraryPath, JSON.stringify(decks));
   let state = store.load();
   const notice = store.notice;
   state = store.save(RecallCore.ensureSession(state, deck, new Date()));
@@ -72,15 +83,25 @@ async function runRecallQuiz() {
       imported.settings = { ...state.settings };
       state = store.save(RecallCore.ensureSession(imported, deck, new Date()));
       message = await backup() || '学習記録を復元しました。';
+    } else if (action === 'selectDeck') {
+      const selected = decks.find(item => item.id === payload.id);
+      if (!selected) throw Error('教材が見つかりません。');
+      if (selected.id !== deck.id) {
+        const next = RecallCore.start(state, selected, new Date());
+        state = store.save(next);
+        fm.writeString(deckPath, JSON.stringify(selected));
+        deck = selected;
+      }
     } else if (action === 'importDeck') {
       const imported = RecallCore.validateDeck(await readPicked());
       if (imported.renderVersion !== 1 || imported.questions.some(q => !q.promptHtml || !q.answerHtml)) {
         throw Error('ビルドで作った compiled.json の教材を選んでください。');
       }
-      if (imported.id === deck.id) {
-        if (imported.version < deck.version) throw Error('古い版の教材です。');
+      const previous = decks.find(item => item.id === imported.id);
+      if (previous) {
+        if (imported.version < previous.version) throw Error('古い版の教材です。');
         for (const q of imported.questions) {
-          const old = deck.questions.find(x => x.id === q.id);
+          const old = previous.questions.find(x => x.id === q.id);
           if (old && (q.version < old.version || (q.version === old.version &&
             ['prompt', 'answer', 'criterion', 'explanation'].some(k => q[k] !== old[k])))) {
             throw Error('内容を変更した問題の版を上げてください。');
@@ -88,6 +109,9 @@ async function runRecallQuiz() {
         }
       }
       if (!await confirm('教材を読み込む', `${imported.title}、${imported.questions.length}問。これまでの回答履歴と庭は残ります。`)) return '';
+      const updated = decks.filter(item => item.id !== imported.id).concat(imported);
+      fm.writeString(libraryPath, JSON.stringify(updated));
+      decks = updated;
       fm.writeString(deckPath, JSON.stringify(imported));
       deck = imported;
       state = store.save(RecallCore.start(state, deck, new Date()));
@@ -108,7 +132,7 @@ async function runRecallQuiz() {
   }
   const view = new WebView();
   const encode = value => JSON.stringify(value).replace(/</g, '\\u003c');
-  const boot = { native: true, deck, state, shop: RecallCore.shop, notice };
+  const boot = { native: true, deck, decks, state, shop: RecallCore.shop, notice };
   await view.loadHTML(QUIZ_HTML.replace('__BOOTSTRAP__', encode(boot)));
   let closed = false;
   const dismissed = view.present(true).then(() => { closed = true; return { closed: true }; });
@@ -124,7 +148,7 @@ async function runRecallQuiz() {
       if (!command || typeof command.id !== 'string' || typeof command.action !== 'string') throw Error('操作を読み取れません。');
       const message = await handle(command.action, command.payload || {});
       response = { ok: true, state, message };
-      if (command.action === 'importDeck') response.deck = deck;
+      if (['importDeck', 'selectDeck'].includes(command.action)) { response.deck = deck; response.decks = decks; }
     } catch (error) {
       response = { ok: false, error: String(error.message || error) };
     }

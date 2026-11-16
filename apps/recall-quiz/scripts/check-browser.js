@@ -24,10 +24,10 @@ const { chromium } = require('playwright');
     await waitForSource();
     assert.ok(await source.locator('img').evaluate(image => image.naturalWidth >= 1000));
     assert.equal(await page.locator('dialog').count(), 0);
-    await page.getByRole('button', { name: '原典を拡大（p.3）', exact: true }).click();
+    await source.locator('[data-zoom="25"]').click();
     assert.equal(await source.locator('output').innerText(), '125%');
     assert.ok(await source.locator('.source-viewport').evaluate(box => box.scrollWidth > box.clientWidth));
-    for (let i = 0; i < 2; i++) await page.getByRole('button', { name: '原典を縮小（p.3）', exact: true }).click();
+    for (let i = 0; i < 2; i++) await source.locator('[data-zoom="-25"]').click();
     assert.equal(await source.locator('output').innerText(), '75%');
     await source.getByRole('button', { name: '全体', exact: true }).click();
     assert.equal(await source.locator('output').innerText(), '100%');
@@ -49,7 +49,7 @@ const { chromium } = require('playwright');
     for (let i = 0; i < 2; i++) {
       await page.getByRole('button', { name: '答えを見る', exact: true }).click();
       if (i === 1) {
-        assert.ok(await page.locator('math').count() > 0);
+        assert.ok(await page.locator('.question').innerText());
         await page.screenshot({ path: path.resolve(__dirname, '../output/question.png'), fullPage: true });
       }
       await page.getByRole('button', { name: '思い出せた', exact: true }).click();
@@ -74,6 +74,60 @@ const { chromium } = require('playwright');
     assert.deepEqual(saved.garden.items, ['sprout']);
     assert.equal(network.length, 0);
     assert.deepEqual(errors, []);
+    await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
+    await page.getByRole('heading', { name: '学習カレンダー' }).waitFor();
+    const today = new Date();
+    await page.getByRole('button', { name: `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日、3回答`, exact: true }).click();
+    assert.equal(await page.locator('.day-count').innerText(), '3回回答');
+    await page.getByRole('button', { name: '前の月', exact: true }).click();
+    assert.equal(await page.locator('.calendar-day.has-answers').count(), 0);
+    await page.getByRole('button', { name: '今月に戻る', exact: true }).click();
+    await page.screenshot({ path: path.resolve(__dirname, '../output/calendar.png'), fullPage: true });
+    await page.getByRole('button', { name: 'クイズ一覧', exact: true }).click();
+    assert.equal(await page.locator('.catalog-question').count(), 8);
+    const firstCounts = await page.locator('.catalog-question').first().locator('.question-counts').innerText();
+    assert.match(firstCounts, /出題\s+1回/);
+    assert.match(firstCounts, /正解\s+0回/);
+    assert.match(firstCounts, /ミス\s+1回/);
+    await page.locator('.catalog-question').first().locator('summary').click();
+    assert.ok(await page.locator('.catalog-question[open] math').count() > 0);
+    for (const screen of ['calendar', 'catalog']) {
+      await page.locator(`[data-screen="${screen}"]`).click();
+      for (const width of [320, 390, 840]) {
+        await page.setViewportSize({ width, height: 844 });
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${screen} overflow at ${width}`);
+      }
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.screenshot({ path: path.resolve(__dirname, '../output/catalog.png'), fullPage: true });
+    await page.reload();
+    await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
+    assert.match(await page.locator('.month-total').innerText(), /3回/);
+    const libraryContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    await libraryContext.route(/^https?:\/\//, route => route.abort());
+    await libraryContext.addInitScript(() => {
+      Object.defineProperty(window, 'BOOT', { configurable: true, set(value) {
+        delete window.BOOT;
+        value.decks = [value.deck, { ...value.deck, id: 'physics-lesson01', title: '物理学',
+          questions: value.deck.questions.map(q => ({ ...q, id: 'physics-' + q.id })) }];
+        window.BOOT = value;
+      } });
+    });
+    const libraryPage = await libraryContext.newPage();
+    await libraryPage.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
+    await libraryPage.getByRole('button', { name: 'クイズ一覧', exact: true }).click();
+    await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '物理学' });
+    assert.equal(await libraryPage.locator('.catalog-question').count(), 8);
+    await libraryPage.getByRole('button', { name: 'この教材で学習', exact: true }).click();
+    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '物理学');
+    await libraryPage.reload();
+    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '物理学');
+    await libraryPage.getByRole('button', { name: 'クイズ一覧', exact: true }).click();
+    await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '微分積分学続論II' });
+    await libraryPage.getByRole('button', { name: 'この教材で学習', exact: true }).click();
+    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '微分積分学続論II');
+    await libraryContext.close();
+    console.log('カレンダー・問題別出題数と正誤・教科別閲覧と教材切り替え・再読込を確認しました。');
     console.log('スマホ幅・原典トグルの開閉と拡大縮小・MathML・再読込・自己判定・3問終了・購入・途中終了・外部通信なしを確認しました。');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -34,7 +34,7 @@ const RecallCore = (() => {
   }
   function initial() {
     return {
-      schemaVersion: 1, reviews: [], cards: {}, garden: { coins: 0, items: [] },
+      schemaVersion: 1, reviews: [], presentations: [], cards: {}, garden: { coins: 0, items: [] },
       settings: { notificationEnabled: false, notificationTime: '12:30', batchSize: 3, iCloudBackup: false },
       session: null
     };
@@ -58,6 +58,17 @@ const RecallCore = (() => {
         throw Error('回答履歴を読み取れません。');
       }
       ids.add(r.id);
+    }
+    if (state.presentations !== undefined) {
+      if (!Array.isArray(state.presentations)) throw Error('出題履歴を読み取れません。');
+      const shown = new Set();
+      for (const event of state.presentations) {
+        if (!event || typeof event.id !== 'string' || !event.id || shown.has(event.id) ||
+          typeof event.deckId !== 'string' || typeof event.questionId !== 'string' ||
+          !Number.isInteger(event.questionVersion) || event.questionVersion < 1 ||
+          !Number.isFinite(Date.parse(event.presentedAt))) throw Error('出題履歴を読み取れません。');
+        shown.add(event.id);
+      }
     }
     for (const c of Object.values(state.cards)) {
       if (!c || !Number.isInteger(c.version) || c.version < 1 || !Number.isInteger(c.level) ||
@@ -102,6 +113,43 @@ const RecallCore = (() => {
     // A bounded batch, never an obligation to clear the entire queue.
     return [...due, ...fresh, ...retry].slice(0, 3).map(q => ({ id: q.id, version: q.version }));
   }
+  function recordPresentation(state, now) {
+    const s = state.session;
+    if (!s || s.closed || s.index >= s.queue.length) return state;
+    const id = `${s.id}:${s.index}`;
+    state.presentations = state.presentations || [];
+    if (!state.presentations.some(event => event.id === id)) {
+      const q = s.queue[s.index];
+      state.presentations.push({ id, deckId: s.deckId, questionId: q.id, questionVersion: q.version,
+        presentedAt: now.toISOString() });
+    }
+    return state;
+  }
+  function statistics(state) {
+    const days = {}, questions = {};
+    const key = (deckId, questionId) => JSON.stringify([deckId || '', questionId]);
+    const counts = event => {
+      const id = key(event.deckId, event.questionId);
+      return questions[id] || (questions[id] = { presented: 0, correct: 0, mistakes: 0 });
+    };
+    const shown = new Set();
+    for (const event of state.presentations || []) {
+      counts(event).presented++;
+      shown.add(event.id);
+    }
+    for (const review of state.reviews) {
+      const date = review.reviewedDay || day(new Date(review.reviewedAt));
+      days[date] = (days[date] || 0) + 1;
+      const item = counts(review);
+      // Older versions recorded only completed answers. Count each of those as one presentation.
+      if (!shown.has(review.id)) item.presented++;
+      item[review.result === 'good' ? 'correct' : 'mistakes']++;
+    }
+    return { days, questions };
+  }
+  function questionStatistics(stats, deckId, questionId) {
+    return stats.questions[JSON.stringify([deckId, questionId])] || { presented: 0, correct: 0, mistakes: 0 };
+  }
   function start(state, deck, now) {
     const next = reconcile(state, deck);
     const queue = select(next, deck, now);
@@ -110,7 +158,7 @@ const RecallCore = (() => {
       deckId: deck.id, queue, index: 0, correct: 0, closed: false,
       answerShown: false, presentedAt: now.toISOString(), revealedAt: null
     };
-    return next;
+    return recordPresentation(next, now);
   }
   function ensureSession(state, deck, now) {
     const next = reconcile(state, deck);
@@ -118,7 +166,7 @@ const RecallCore = (() => {
       day(new Date(next.session.presentedAt)) !== day(now))) {
       return start(next, deck, now);
     }
-    return next;
+    return recordPresentation(next, now);
   }
   function dispatch(state, deck, action, payload = {}, now = new Date()) {
     let next = reconcile(state, deck);
@@ -163,7 +211,7 @@ const RecallCore = (() => {
       next.cards[q.id] = c;
       next.reviews.push({
         id: payload.eventId, questionId: q.id, questionVersion: q.version, deckId: deck.id,
-        reviewedAt: now.toISOString(), result: payload.result,
+        reviewedAt: now.toISOString(), reviewedDay: today, result: payload.result,
         recallMs: Math.max(0, Date.parse(s.revealedAt) - Date.parse(s.presentedAt))
       });
       next.garden.coins += 1;
@@ -171,6 +219,7 @@ const RecallCore = (() => {
       s.answerShown = false;
       s.presentedAt = now.toISOString();
       s.revealedAt = null;
+      recordPresentation(next, now);
     } else if (action === 'buy') {
       const item = shop.find(i => i.id === payload.id);
       if (!item || next.garden.items.includes(item.id) || next.garden.coins < item.cost) {
@@ -183,6 +232,6 @@ const RecallCore = (() => {
     } else throw Error('この操作は使えません。');
     return validateState(next);
   }
-  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, shop, day };
+  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, shop, day, statistics, questionStatistics };
 })();
 if (typeof module !== 'undefined') module.exports = RecallCore;

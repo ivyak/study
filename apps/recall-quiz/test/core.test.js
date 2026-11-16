@@ -76,3 +76,36 @@ test('a completed batch opens the first due question directly on the following d
   assert.equal(resumed.session.queue[0].id, deck.questions[0].id);
   assert.equal(resumed.reviews.length, 3);
 });
+test('calendar and question counts preserve legacy answers, versions, unfinished presentations and duplicate protection', () => {
+  let state = core.start(core.initial(), deck, date());
+  const first = deck.questions[0];
+  let stats = core.statistics(state);
+  assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 1, correct: 0, mistakes: 0 });
+  state = core.ensureSession(state, deck, date());
+  assert.equal(state.presentations.length, 1);
+  state = rate(state, 'again');
+  const event = state.reviews[0];
+  state = core.dispatch(state, deck, 'rate', { eventId: event.id, result: 'again' });
+  const legacy = structuredClone(state);
+  delete legacy.presentations;
+  delete legacy.reviews[0].reviewedDay;
+  core.validateState(legacy);
+  assert.equal(core.questionStatistics(core.statistics(legacy), deck.id, first.id).presented, 1);
+  const updated = structuredClone(deck);
+  updated.questions[0].version++;
+  state = core.start(state, updated, date('2026-11-13T12:00:00+09:00'));
+  state = core.dispatch(state, updated, 'reveal', {}, date('2026-11-13T12:00:00+09:00'));
+  state = core.dispatch(state, updated, 'rate', { eventId: `${state.session.id}:0`, result: 'good' }, date('2026-11-13T12:00:00+09:00'));
+  stats = core.statistics(state);
+  assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 2, correct: 1, mistakes: 1 });
+  assert.equal(stats.days[event.reviewedDay], 1);
+  assert.equal(Object.values(stats.days).reduce((a, b) => a + b, 0), 2);
+  assert.equal(state.garden.coins, 2);
+});
+test('calendar uses the recorded answer day even after the device timezone changes', () => {
+  const state = core.initial();
+  state.reviews.push({ id: 'old', deckId: deck.id, questionId: deck.questions[0].id, questionVersion: 1,
+    reviewedAt: '2026-12-31T15:10:00Z', reviewedDay: '2027-1-1', result: 'good' });
+  assert.deepEqual(core.statistics(state).days, { '2027-1-1': 1 });
+  assert.deepEqual(core.questionStatistics(core.statistics(state), 'other', deck.questions[0].id), { presented: 0, correct: 0, mistakes: 0 });
+});

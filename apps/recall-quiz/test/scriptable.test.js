@@ -27,7 +27,17 @@ test('Scriptable host bridges commands, persists, exports and configures only it
       files.set('picked.json', exported);
       return { action: 'importState' };
     },
-    () => ({ action: 'settings', payload: { notificationEnabled: false, notificationTime: '12:15' } })
+    () => ({ action: 'settings', payload: { notificationEnabled: false, notificationTime: '12:15' } }),
+    () => {
+      const imported = JSON.parse(fs.readFileSync(path.join(root, 'decks/calc2-lesson01.json'), 'utf8'));
+      imported.id = 'physics-lesson01';
+      imported.title = '物理学';
+      imported.renderVersion = 1;
+      imported.questions = imported.questions.map(q => ({ ...q, id: 'physics-' + q.id, promptHtml: q.prompt, answerHtml: q.answer }));
+      files.set('picked.json', JSON.stringify(imported));
+      return { action: 'importDeck' };
+    },
+    () => ({ action: 'selectDeck', payload: { id: 'calc2-lesson01' } })
   ];
   class MockNotification {
     static async removePending(ids) { ids.forEach(id => scheduled.delete(id)); }
@@ -78,4 +88,15 @@ test('Scriptable host bridges commands, persists, exports and configures only it
   assert.equal(scheduled.has('study-recall-quiz-daily'), false);
   assert.equal(scheduled.has('study-recall-quiz-daily-test'), false);
   assert.equal(JSON.parse(exported).reviews.length, 1);
+  assert.equal(JSON.parse(files.get('documents/RecallQuiz/decks.json')).length, 2);
+  assert.equal(JSON.parse(files.get('documents/RecallQuiz/deck.json')).id, 'calc2-lesson01');
+  assert.equal(saved.session.deckId, 'calc2-lesson01');
+  assert.equal(responses.at(-1).decks.length, 2);
+  const presentationCount = saved.presentations.length;
+  commands.length = 0;
+  index = 0;
+  await vm.runInNewContext(`(async () => { ${code} })()`, sandbox);
+  assert.equal(boot.decks.length, 2);
+  assert.equal(boot.deck.id, 'calc2-lesson01');
+  assert.equal(boot.state.presentations.length, presentationCount);
 });

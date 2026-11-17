@@ -11,7 +11,7 @@
   const stretchContent = document.querySelector('.stretch-content');
   let pullGesture = null, spring = null;
   let disclosureCleanups = [];
-  let shopOpen = false;
+  let shopOpen = false, gachaView = 'draw', drawResult = null, lineupAnimal = null, shownDrawId = null;
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
   let nativeWaiter = null;
@@ -92,8 +92,12 @@
       state = result.state;
       if (result.deck) deck = result.deck;
       if (result.decks) decks = result.decks;
+      if (action === 'draw') {
+        drawResult = state.garden.draws?.find(draw => draw.id === payload.eventId) || null;
+        gachaView = 'draw';
+      }
       if (['start', 'importDeck', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
-      status.textContent = result.message || (action === 'rate' ? '＋1コイン。思い出そうとした1回を記録しました。' : '');
+      status.textContent = result.message || (action === 'rate' ? (payload.result === 'good' ? '正解。＋1コイン。' : 'ミスを記録しました。') : '');
     } catch (error) {
       status.textContent = String(error.message || error);
     } finally {
@@ -144,15 +148,37 @@
       return;
     }
     const q = deck.questions.find(q => q.id === s.queue[s.index].id);
-    content.innerHTML = `<p class="eyebrow">${escape(deck.title)}</p><p class="course">${escape(deck.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">どちらを押しても ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+    content.innerHTML = `<p class="eyebrow">${escape(deck.title)}</p><p class="course">${escape(deck.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+  }
+  function gachaContents() {
+    const available = boot.shop.filter(item => !state.garden.items.includes(item.id));
+    if (gachaView === 'lineup') {
+      const selected = boot.shop.find(item => item.id === lineupAnimal && state.garden.items.includes(item.id));
+      if (selected) return `<div class="lineup-detail"><button class="lineup-back">‹ ラインナップに戻る</button>${animalImage(selected)}<h3>${escape(selected.name)}</h3><p>${escape(selected.description)}</p></div>`;
+      return `<p class="lineup-hint">出会った動物だけ、姿を見ることができます。</p><div class="animal-lineup">${boot.shop.map((item, index) => {
+        const owned = state.garden.items.includes(item.id);
+        return owned ? `<button class="lineup-card owned" data-lineup="${item.id}">${animalImage(item)}<span class="lineup-name">${escape(item.name)}</span><small>No.${String(index + 1).padStart(2, '0')}</small></button>` : `<div class="lineup-card locked" aria-label="未入手の動物 ${index + 1}"><span class="unknown-animal" aria-hidden="true">?</span><span class="lineup-name">未入手</span><small>No.${String(index + 1).padStart(2, '0')}</small></div>`;
+      }).join('')}</div>`;
+    }
+    const result = drawResult && boot.shop.find(item => item.id === drawResult.animalId && state.garden.items.includes(item.id));
+    const visual = result ? `<div class="gacha-result" role="status"><p class="eyebrow">NEW FRIEND</p>${animalImage(result, 'draw-animal-image')}<h3>${escape(result.name)}</h3><p>${escape(result.description)}</p></div>` : `<div class="gacha-welcome"><div class="gacha-capsule" aria-hidden="true"><span>?</span></div><h3>次は、どの子に会えるかな。</h3><p>小さな庭に、新しい仲間を。</p></div>`;
+    return `${visual}<div class="gacha-controls"><button class="draw-gacha primary" ${state.garden.coins < RecallCore.gachaCost || !available.length ? 'disabled' : ''}>${available.length ? '10コインで1回まわす' : 'コンプリート'}</button>
+      <p class="gacha-short">${!available.length ? `全${boot.shop.length}種類がそろいました。` : state.garden.coins < RecallCore.gachaCost ? `あと${RecallCore.gachaCost - state.garden.coins}コインでまわせます。` : '新しい仲間は、そのまま庭に加わります。'}</p>
+      <p class="gacha-rule">${available.length ? `残り${available.length}種類から均等に抽選。重複はありません。` : '集めた動物は、ラインナップから見られます。'}</p></div>`;
   }
   function renderGarden() {
     const residents = boot.shop.filter(item => state.garden.items.includes(item.id));
-    content.innerHTML = `<section class="garden-stage" aria-label="動物たちの庭">${gardenLandscape()}<div class="garden-caption"><p class="eyebrow">LITTLE WILD GARDEN</p><h1>ひとつの庭</h1><p>${residents.length ? `${residents.length}匹が、のんびり暮らしています。` : '学んだぶんだけ、仲間が増えていく。'}</p></div><div class="garden-residents">${residents.map(item => `<button class="garden-animal animal-${item.asset}" aria-label="${escape(item.name)}に声をかける"><span class="animal-shadow"></span><span class="animal-roam"><span class="animal-body">${animalImage(item)}</span></span><span class="animal-name">${escape(item.name)}</span></button>`).join('')}</div>${!residents.length ? '<div class="garden-invitation"><span class="invitation-line"></span><p>最初の仲間を、迎えよう。</p><small>右下のショップで出会えます。</small></div>' : ''}<button class="open-garden-shop" aria-haspopup="dialog"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12h20l-2 16H8ZM11 12V9a5 5 0 0 1 10 0v3"/></svg><span>ショップ</span></button><p class="garden-tip">${residents.length ? '動物にタッチしてみよう。' : 'クイズの答え合わせ1回で、1コイン。'}</p></section><dialog class="garden-shop" aria-labelledby="garden-shop-title"><div class="shop-sheet"><div class="shop-grip" aria-hidden="true"></div><div class="garden-shop-header"><div><p class="eyebrow">WELCOME A LITTLE FRIEND</p><h2 id="garden-shop-title">庭の仲間を迎える</h2></div><button class="close-garden-shop" aria-label="ショップを閉じる">×</button></div><p class="shop-balance"><span class="coin-dot"></span> ${state.garden.coins} <span>コイン</span></p><div class="animal-shop-list">${boot.shop.map(item => {
-      const owned = state.garden.items.includes(item.id);
-      const short = Math.max(0, item.cost - state.garden.coins);
-      return `<article class="animal-shop-card">${animalImage(item, 'shop-animal-image')}<div class="animal-shop-info"><h3>${escape(item.name)}</h3><p>${escape(item.description)}</p><button data-buy="${item.id}" ${owned || short ? 'disabled' : ''}>${owned ? 'お迎え済み' : `${item.cost} コイン`}</button>${!owned && short ? `<small>あと${short}コイン</small>` : ''}</div></article>`;
-    }).join('')}</div><p class="shop-footnote">答え合わせ1回で1コイン。正解でもミスでも増えます。</p></div></dialog>`;
+    content.innerHTML = `<section class="garden-stage ${residents.length > 4 ? 'many-residents' : ''}" aria-label="動物たちの庭">${gardenLandscape()}
+      <div class="garden-caption"><p class="eyebrow">LITTLE WILD GARDEN</p><h1>ひとつの庭</h1><p>${residents.length ? `${residents.length}匹が、のんびり暮らしています。` : '学んだぶんだけ、仲間が増えていく。'}</p></div>
+      <div class="garden-residents">${residents.map((item, index) => `<button class="garden-animal animal-${item.asset} motion-${item.motion}" style="--x:${item.x}%;--y:${item.y}%;--delay:-${index * .7}s" aria-label="${escape(item.name)}に声をかける"><span class="animal-shadow"></span><span class="animal-roam"><span class="animal-body">${animalImage(item)}</span></span><span class="animal-name">${escape(item.name)}</span></button>`).join('')}</div>
+      ${!residents.length ? '<div class="garden-invitation"><span class="invitation-line"></span><p>最初の仲間を、迎えよう。</p><small>右下のガチャで出会えます。</small></div>' : ''}
+      <button class="open-garden-shop" aria-haspopup="dialog"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="13" r="10"/><path d="M6 13h20M11 23l-2 6h14l-2-6M13 18h6"/><circle cx="16" cy="8" r="1"/></svg><span>ガチャ</span></button>
+      <p class="garden-tip">${residents.length ? '動物にタッチしてみよう。' : 'クイズに正解すると、1コイン。'}</p></section>
+      <dialog class="garden-shop" aria-labelledby="garden-shop-title"><div class="shop-sheet"><div class="shop-grip" aria-hidden="true"></div>
+      <div class="garden-shop-header"><div><p class="eyebrow">MEET A LITTLE FRIEND</p><h2 id="garden-shop-title">どうぶつガチャ</h2></div><button class="close-garden-shop" aria-label="ガチャを閉じる">×</button></div>
+      <p class="shop-balance"><span class="coin-dot"></span> ${state.garden.coins} <span>コイン</span><small>${residents.length} / ${boot.shop.length}種類</small></p>
+      <div class="gacha-tabs" aria-label="ガチャの表示"><button data-gacha-view="draw" aria-pressed="${gachaView === 'draw'}">ガチャ</button><button data-gacha-view="lineup" aria-pressed="${gachaView === 'lineup'}">ラインナップ</button></div>
+      <div class="gacha-scroll">${gachaContents()}</div><p class="shop-footnote">クイズに正解すると1コイン。ミスでは増えません。</p></div></dialog>`;
   }
   function setupGardenShop() {
     const dialog = content.querySelector('.garden-shop');
@@ -161,9 +187,12 @@
     const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     content.querySelector('.open-garden-shop').onclick = () => {
       shopOpen = true;
-      dialog.inert = false;
-      dialog.showModal();
-      if (!reduced()) sheet.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], {
+      gachaView = 'draw';
+      drawResult = null;
+      lineupAnimal = null;
+      render();
+      const opened = content.querySelector('.shop-sheet');
+      if (!reduced()) opened.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], {
         duration: 320, easing: 'cubic-bezier(.2,.7,.2,1)'
       });
     };
@@ -183,12 +212,33 @@
     dialog.querySelector('.close-garden-shop').onclick = closeShop;
     dialog.addEventListener('cancel', event => { event.preventDefault(); closeShop(); });
     dialog.addEventListener('click', event => { if (event.target === dialog) closeShop(); });
+    function navigate(view, animal = null) {
+      gachaView = view;
+      lineupAnimal = animal;
+      render();
+      if (!reduced()) content.querySelector('.gacha-scroll').animate([
+        { transform: 'translateY(14px)' }, { transform: 'translateY(0)' }
+      ], { duration: 260, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    }
+    dialog.querySelectorAll('[data-gacha-view]').forEach(button => button.onclick = () => navigate(button.dataset.gachaView));
+    dialog.querySelectorAll('[data-lineup]').forEach(button => button.onclick = () => navigate('lineup', button.dataset.lineup));
+    const back = dialog.querySelector('.lineup-back');
+    if (back) back.onclick = () => navigate('lineup');
+    const draw = dialog.querySelector('.draw-gacha');
+    if (draw) draw.onclick = () => act('draw', { eventId: `draw-${Date.now()}-${Math.random().toString(36).slice(2)}` });
     content.querySelectorAll('.garden-animal').forEach(animal => animal.onclick = () => {
       animal.classList.remove('says-hello');
       void animal.offsetWidth;
       animal.classList.add('says-hello');
     });
     if (shopOpen) dialog.showModal();
+    const resultImage = dialog.querySelector('.draw-animal-image');
+    if (resultImage && shownDrawId !== drawResult.id) {
+      shownDrawId = drawResult.id;
+      if (!reduced()) resultImage.animate([{ transform: 'translateY(22px) scale(.85)' }, { transform: 'translateY(0) scale(1)' }], {
+        duration: 450, easing: 'cubic-bezier(.2,.7,.2,1)'
+      });
+    }
   }
   function renderSettings() {
     const settings = state.settings;
@@ -430,7 +480,6 @@
     if (filter) filter.onchange = () => { subject = filter.value; render(); };
     content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
-    content.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => act('buy', { id: b.dataset.buy }));
     updateScrollFade();
     content.querySelectorAll('[data-result]').forEach(b => b.onclick = () => act('rate', {
       eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result

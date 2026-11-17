@@ -15,8 +15,8 @@ test('bounded recall, immediate feedback and exactly-once rewards survive reload
   state = rate(state, 'again');
   const loaded = core.validateState(JSON.parse(JSON.stringify(state)));
   assert.equal(loaded.session.index, 1);
-  assert.equal(loaded.garden.coins, 1);
-  assert.equal(core.dispatch(loaded, deck, 'rate', { eventId: id, result: 'again' }).garden.coins, 1);
+  assert.equal(loaded.garden.coins, 0);
+  assert.equal(core.dispatch(loaded, deck, 'rate', { eventId: id, result: 'again' }).garden.coins, 0);
   assert.equal(state.reviews[0].questionId, deck.questions[0].id);
 });
 test('a failed card returns after intervening recalls, at most once again that day', () => {
@@ -49,17 +49,17 @@ test('updated question versions preserve the ledger and garden but re-enter lear
   assert.equal(s.garden.coins, 1);
   assert.equal(core.select(s, updated, date())[0].id, deck.questions[0].id);
 });
-test('coins cannot be spent twice, and malformed backups are rejected', () => {
-  let s = core.start(core.initial(), deck, date());
-  for (let i = 0; i < 3; i++) s = rate(s, 'good');
-  s = core.dispatch(s, deck, 'buy', { id: 'sprout' });
-  assert.equal(s.garden.coins, 0);
-  assert.deepEqual(s.garden.items, ['sprout']);
+test('legacy animal ownership and coin balances survive updates, while malformed backups are rejected', () => {
+  const legacy = core.initial();
+  legacy.garden = { coins: 42, items: ['sprout', 'flower', 'tree'] };
+  const s = core.reconcile(legacy, deck);
+  assert.deepEqual(s.garden, legacy.garden);
   assert.throws(() => core.dispatch(s, deck, 'buy', { id: 'sprout' }));
   const broken = structuredClone(s); broken.garden.coins = -1;
   assert.throws(() => core.validateState(broken));
-  const duplicate = structuredClone(s); duplicate.reviews.push(duplicate.reviews[0]);
-  assert.throws(() => core.validateState(duplicate));
+  const answered = rate(core.start(s, deck, date()), 'good');
+  answered.reviews.push(answered.reviews[0]);
+  assert.throws(() => core.validateState(answered));
 });
 test('stopping after one question saves the reward and never forces the remaining batch', () => {
   const s = core.dispatch(rate(core.start(core.initial(), deck, date()), 'good'), deck, 'finish');
@@ -100,7 +100,7 @@ test('calendar and question counts preserve legacy answers, versions, unfinished
   assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 2, correct: 1, mistakes: 1 });
   assert.equal(stats.days[event.reviewedDay], 1);
   assert.equal(Object.values(stats.days).reduce((a, b) => a + b, 0), 2);
-  assert.equal(state.garden.coins, 2);
+  assert.equal(state.garden.coins, 1);
 });
 test('calendar uses the recorded answer day even after the device timezone changes', () => {
   const state = core.initial();

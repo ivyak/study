@@ -13,6 +13,9 @@ test('Scriptable host bridges commands, persists, exports and configures only it
     readString: p => files.get(p), writeString: (p, s) => files.set(p, s), remove: p => files.delete(p),
     move(a, b) { files.set(b, files.get(a)); files.delete(a); }, isFileStoredIniCloud: () => false
   };
+  const seed = require('../src/core.js').initial();
+  seed.garden.coins = 10;
+  files.set('documents/RecallQuiz/state.json', JSON.stringify(seed));
   const commands = [
     () => ({ action: 'reveal' }),
     () => {
@@ -37,7 +40,9 @@ test('Scriptable host bridges commands, persists, exports and configures only it
       files.set('picked.json', JSON.stringify(imported));
       return { action: 'importDeck' };
     },
-    () => ({ action: 'selectDeck', payload: { id: 'calc2-lesson01' } })
+    () => ({ action: 'selectDeck', payload: { id: 'calc2-lesson01' } }),
+    () => ({ action: 'draw', payload: { eventId: 'native-draw' } }),
+    () => ({ action: 'draw', payload: { eventId: 'native-draw' } })
   ];
   class MockNotification {
     static async removePending(ids) { ids.forEach(id => scheduled.delete(id)); }
@@ -82,7 +87,9 @@ test('Scriptable host bridges commands, persists, exports and configures only it
   assert.ok(responses.every(r => r.ok), responses.map(r => r.error).join(','));
   const saved = JSON.parse(files.get('documents/RecallQuiz/state.json'));
   assert.equal(saved.reviews.length, 1);
-  assert.equal(saved.garden.coins, 1);
+  assert.equal(saved.garden.coins, 0);
+  assert.equal(saved.garden.draws.length, 1);
+  assert.equal(saved.garden.items.length, 1);
   assert.equal(saved.settings.notificationEnabled, false);
   assert.equal(scheduled.has('other-app'), true);
   assert.equal(scheduled.has('study-recall-quiz-daily'), false);
@@ -91,7 +98,7 @@ test('Scriptable host bridges commands, persists, exports and configures only it
   assert.equal(JSON.parse(files.get('documents/RecallQuiz/decks.json')).length, 2);
   assert.equal(JSON.parse(files.get('documents/RecallQuiz/deck.json')).id, 'calc2-lesson01');
   assert.equal(saved.session.deckId, 'calc2-lesson01');
-  assert.equal(responses.at(-1).decks.length, 2);
+  assert.equal(responses.find(r => r.decks)?.decks.length, 2);
   const presentationCount = saved.presentations.length;
   commands.length = 0;
   index = 0;

@@ -1,11 +1,22 @@
 /* Shared domain logic. No Scriptable or browser APIs. */
 const RecallCore = (() => {
   const intervals = [1, 3, 7, 14, 30];
-  // Keep the original item IDs so existing purchases become the matching animals.
+  // Original item IDs preserve the animals already obtained in earlier versions.
+  const gachaCost = 10;
   const shop = [
-    { id: 'sprout', name: '白いうさぎ', asset: 'rabbit', description: '気ままに、ぴょん。草むらが好きな子。', cost: 3 },
-    { id: 'flower', name: '夕焼けのきつね', asset: 'fox', description: 'ふさふさのしっぽで、庭をおさんぽ。', cost: 8 },
-    { id: 'tree', name: '森のこじか', asset: 'deer', description: '静かな木かげで、のんびりひと休み。', cost: 15 }
+    { id: 'sprout', name: '白いうさぎ', asset: 'rabbit', description: '草むらが好きな、気ままな子。', x: 24, y: 67, motion: 'hop' },
+    { id: 'flower', name: '夕焼けのきつね', asset: 'fox', description: 'ふさふさのしっぽで、庭をおさんぽ。', x: 75, y: 58, motion: 'stroll' },
+    { id: 'tree', name: '森のこじか', asset: 'deer', description: '静かな木かげで、のんびりひと休み。', x: 35, y: 40, motion: 'rest' },
+    { id: 'squirrel', name: 'どんぐりりす', asset: 'squirrel', description: 'お気に入りのどんぐりは、いつも一緒。', x: 60, y: 47, motion: 'hop' },
+    { id: 'raccoon', name: 'しましまアライグマ', asset: 'raccoon', description: 'しましまのしっぽで、あたりを探検。', x: 45, y: 60, motion: 'stroll' },
+    { id: 'hedgehog', name: 'まんまるハリネズミ', asset: 'hedgehog', description: 'ちいさな足で、ゆっくり進みます。', x: 15, y: 55, motion: 'stroll' },
+    { id: 'owl', name: '木かげのふくろう', asset: 'owl', description: '庭のみんなを、そっと見守っています。', x: 82, y: 38, motion: 'float' },
+    { id: 'redpanda', name: 'もみじレッサーパンダ', asset: 'redpanda', description: '夕日の色をまとった、のんびり屋。', x: 59, y: 73, motion: 'rest' },
+    { id: 'capybara', name: 'ひなたのカピバラ', asset: 'capybara', description: 'あたたかな水辺で、ひとやすみ。', x: 18, y: 77, motion: 'rest' },
+    { id: 'cat', name: 'おひるねねこ', asset: 'cat', description: '日だまりを見つけるのが得意です。', x: 39, y: 77, motion: 'rest' },
+    { id: 'shiba', name: 'おさんぽしばいぬ', asset: 'shiba', description: '庭の小道を、てくてく歩きます。', x: 82, y: 70, motion: 'stroll' },
+    { id: 'bear', name: 'こもれびこぐま', asset: 'bear', description: '大きく伸びをして、今日もゆったり。', x: 15, y: 43, motion: 'rest' },
+    { id: 'otter', name: '水辺のかわうそ', asset: 'otter', description: '小さな池のそばが、いつもの場所。', x: 10, y: 68, motion: 'rest' }
   ];
   const copy = value => JSON.parse(JSON.stringify(value));
   const day = date => [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
@@ -35,7 +46,7 @@ const RecallCore = (() => {
   }
   function initial() {
     return {
-      schemaVersion: 1, reviews: [], presentations: [], cards: {}, garden: { coins: 0, items: [] },
+      schemaVersion: 1, reviews: [], presentations: [], cards: {}, garden: { coins: 0, items: [], draws: [] },
       settings: { notificationEnabled: false, notificationTime: '12:30', batchSize: 3, iCloudBackup: false },
       session: null
     };
@@ -50,6 +61,17 @@ const RecallCore = (() => {
       (state.settings.iCloudBackup !== undefined && typeof state.settings.iCloudBackup !== 'boolean') ||
       !/^([01]\d|2[0-3]):[0-5]\d$/.test(state.settings.notificationTime) || state.settings.batchSize !== 3) {
       throw Error('学習記録の形式が違います。元のファイルは消していません。');
+    }
+    if (state.garden.draws !== undefined) {
+      if (!Array.isArray(state.garden.draws)) throw Error('ガチャの記録を読み取れません。');
+      const draws = new Set(), animals = new Set();
+      for (const draw of state.garden.draws) {
+        if (!draw || typeof draw.id !== 'string' || !draw.id || draws.has(draw.id) ||
+          !state.garden.items.includes(draw.animalId) || animals.has(draw.animalId) ||
+          !Number.isFinite(Date.parse(draw.drawnAt))) throw Error('ガチャの記録を読み取れません。');
+        draws.add(draw.id);
+        animals.add(draw.animalId);
+      }
     }
     const ids = new Set();
     for (const r of state.reviews) {
@@ -169,7 +191,7 @@ const RecallCore = (() => {
     }
     return recordPresentation(next, now);
   }
-  function dispatch(state, deck, action, payload = {}, now = new Date()) {
+  function dispatch(state, deck, action, payload = {}, now = new Date(), random = Math.random) {
     let next = reconcile(state, deck);
     const s = next.session;
     if (action === 'start') return start(next, deck, now);
@@ -215,24 +237,30 @@ const RecallCore = (() => {
         reviewedAt: now.toISOString(), reviewedDay: today, result: payload.result,
         recallMs: Math.max(0, Date.parse(s.revealedAt) - Date.parse(s.presentedAt))
       });
-      next.garden.coins += 1;
+      if (payload.result === 'good') next.garden.coins += 1;
       s.index += 1;
       s.answerShown = false;
       s.presentedAt = now.toISOString();
       s.revealedAt = null;
       recordPresentation(next, now);
-    } else if (action === 'buy') {
-      const item = shop.find(i => i.id === payload.id);
-      if (!item || next.garden.items.includes(item.id) || next.garden.coins < item.cost) {
-        throw Error('コインが足りないか、すでに持っています。');
-      }
-      next.garden.coins -= item.cost;
-      next.garden.items.push(item.id);
+    } else if (action === 'draw') {
+      if (typeof payload.eventId !== 'string' || !payload.eventId) throw Error('ガチャの操作を読み取れません。');
+      const draws = next.garden.draws || [];
+      if (draws.some(draw => draw.id === payload.eventId)) return next;
+      const available = shop.filter(item => !next.garden.items.includes(item.id));
+      if (!available.length) throw Error('すべての動物がそろっています。');
+      if (next.garden.coins < gachaCost) throw Error('ガチャには10コイン必要です。');
+      const value = random();
+      if (!Number.isFinite(value) || value < 0 || value >= 1) throw Error('抽選できませんでした。コインは使っていません。');
+      const animal = available[Math.floor(value * available.length)];
+      next.garden.coins -= gachaCost;
+      next.garden.items.push(animal.id);
+      next.garden.draws = [...draws, { id: payload.eventId, animalId: animal.id, drawnAt: now.toISOString() }];
     } else if (action === 'settings') {
       next.settings = { ...next.settings, ...payload, batchSize: 3 };
     } else throw Error('この操作は使えません。');
     return validateState(next);
   }
-  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, shop, day, statistics, questionStatistics };
+  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, shop, gachaCost, day, statistics, questionStatistics };
 })();
 if (typeof module !== 'undefined') module.exports = RecallCore;

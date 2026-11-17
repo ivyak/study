@@ -190,7 +190,7 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .garden-invitation small { font-size: 10px; }
 .garden-shop { position: fixed; inset: auto 0 max(8px, env(safe-area-inset-bottom)); width: min(calc(100% - 16px), 600px); max-width: none; max-height: none; margin: 0 auto; padding: 0; border: 0; overflow: visible; background: transparent; color: var(--ink); }
 .garden-shop::backdrop { background: #263b4d55; backdrop-filter: blur(5px); }
-.shop-sheet { background: #fff9ef; border-radius: 28px; padding: 10px 20px 20px; max-height: 79vh; max-height: 79dvh; overflow: auto; overscroll-behavior: contain; box-shadow: 0 15px 70px #23394c33; }
+.shop-sheet { background: #fff9ef; border-radius: 28px; padding: 10px 20px 20px; height: 79vh; height: min(79dvh, 720px); overflow: hidden; display: flex; flex-direction: column; overscroll-behavior: contain; box-shadow: 0 15px 70px #23394c33; }
 .shop-grip { width: 32px; height: 4px; border-radius: 4px; background: #dacdc3; margin: 0 auto 16px; }
 .garden-shop-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .garden-shop-header .eyebrow { font-size: 9px; letter-spacing: .12em; }
@@ -198,15 +198,6 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .close-garden-shop { flex-shrink: 0; width: 40px; min-height: 40px; padding: 0; border: 0; border-radius: 50%; background: #efe7df; font-size: 25px; line-height: 1; color: #7a776e; }
 .shop-balance { display: flex; align-items: center; gap: 6px; font-weight: 650; font-size: 20px; margin: 12px 0 18px; }
 .shop-balance > span:last-child { font-size: 11px; font-weight: 400; color: #8a8375; }
-.animal-shop-list { display: grid; gap: 12px; }
-.animal-shop-card { display: flex; align-items: center; gap: 13px; padding: 10px; border: 1px solid #e9dfd0; border-radius: 20px; background: #fffdf7; }
-.shop-animal-image { flex: 0 0 116px; width: 116px; height: 130px; object-fit: contain; background: radial-gradient(ellipse at 50% 75%, #e8ead9, #fffdf7 65%); border-radius: 14px; }
-.animal-shop-info { flex: 1; min-width: 0; }
-.animal-shop-info h3 { font-size: 15px; margin: 0 0 5px; font-weight: 650; }
-.animal-shop-info p { font-size: 11px; color: #8a8375; margin: 0 0 10px; line-height: 1.7; }
-.animal-shop-info button { background: #3e6052; color: #fffaf0; border: 0; border-radius: 12px; padding: 6px 13px; min-height: 38px; font-size: 12px; font-weight: 600; }
-.animal-shop-info button:disabled { background: #ede9de; color: #8c8a7e; opacity: 1; }
-.animal-shop-info small { display: block; margin-top: 3px; font-size: 10px; color: #9b8c77; }
 .shop-footnote { font-size: 10px; text-align: center; color: #938a7a; margin: 15px 0 0; }
 @keyframes rabbit-hop { 0%, 18%, 80%, 100% { transform: translate(0, 0); } 24% { transform: translate(9px, -12px); } 30% { transform: translate(18px, 0); } 36% { transform: translate(22px, -9px); } 42%, 72% { transform: translate(26px, 0); } }
 @keyframes animal-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
@@ -217,7 +208,50 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 @keyframes animal-name { 0%, 100% { opacity: 0; } 12%, 80% { opacity: 1; } }
 @media (max-width: 360px) {
   .shop-sheet { padding-inline: 14px; }
-  .shop-animal-image { flex-basis: 92px; width: 92px; height: 118px; }
-  .animal-shop-card { gap: 8px; }
-  .animal-shop-info h3 { font-size: 13px; }
+}
+.shop-grip, .garden-shop-header, .shop-balance, .gacha-tabs, .shop-footnote { flex-shrink: 0; }
+.shop-balance small { margin-left: auto; color: #8a8375; font-size: 11px; font-weight: 400; }
+.gacha-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px; margin-bottom: 10px; border-radius: 14px; background: #eee9df; }
+.gacha-tabs button { min-height: 38px; border: 0; border-radius: 11px; font-size: 12px; background: transparent; color: #918572; }
+.gacha-tabs button[aria-pressed='true'] { background: #fffdf7; color: #456353; font-weight: 650; box-shadow: 0 2px 5px #6c614710; }
+.gacha-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none; padding-bottom: 8px; }
+.gacha-welcome, .gacha-result { text-align: center; padding: 12px 6px 4px; }
+.gacha-welcome h3, .gacha-result h3 { margin: 10px 0 7px; font-size: 18px; font-weight: 650; }
+.gacha-welcome p, .gacha-result p:not(.eyebrow) { margin: 0 0 10px; font-size: 11px; color: #8a8375; }
+.gacha-result .eyebrow { color: #a2915b; font-size: 9px; letter-spacing: .18em; margin: 0; }
+.draw-animal-image { display: block; width: 176px; height: 176px; object-fit: contain; margin: 0 auto; background: radial-gradient(ellipse, #e7eddc, transparent 70%); }
+.gacha-capsule { position: relative; width: 114px; height: 114px; margin: 16px auto 23px; border-radius: 46% 46% 48% 48%; background: linear-gradient(150deg, #f8e6b5, #e3c99c 48%, #fffcf1 49%, #f5eee0 74%, #d7dbc9); border: 2px solid #fff9e5; box-shadow: inset -8px -7px 14px #7d88551a, 0 12px 22px #8c8c6818; transform: rotate(-12deg); }
+.gacha-capsule::after { content: ''; position: absolute; width: 14px; height: 32px; left: 22px; top: 13px; border-radius: 60%; background: #fffaf080; transform: rotate(30deg); }
+.gacha-capsule span { display: grid; place-items: center; height: 100%; font-size: 40px; font-weight: 550; color: #8e9777; transform: rotate(12deg); }
+.gacha-controls { padding: 8px 3px 0; text-align: center; }
+.gacha-controls .primary { min-height: 49px; font-size: 14px; padding: 10px; background: #3e6052; border-color: #3e6052; }
+.gacha-short { font-size: 11px; color: #8d8069; margin: 10px 0 4px; }
+.gacha-rule { color: #9b9488; font-size: 10px; margin: 6px 0 0; }
+.lineup-hint { margin: 3px 0 14px; font-size: 11px; color: #8a8375; text-align: center; }
+.animal-lineup { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.lineup-card { display: flex; flex-direction: column; align-items: center; min-width: 0; border: 1px solid #e7dfd1; border-radius: 16px; padding: 8px 5px; background: #fffdf7; text-align: center; }
+.lineup-card img, .unknown-animal { display: block; width: 100%; height: 83px; object-fit: contain; }
+.lineup-name { display: block; min-height: 29px; font-size: 10px; line-height: 1.5; color: #506350; margin-top: 5px; overflow-wrap: anywhere; }
+.lineup-card small { color: #a19b8b; font-size: 8px; margin-top: 4px; }
+.lineup-card.locked { background: #eeeee4; border: 1px dashed #dcdccb; }
+.locked .lineup-name { color: #a4a48f; }
+.unknown-animal { display: grid; place-items: center; font-size: 35px; font-weight: 400; color: #c0c2ac; }
+.lineup-detail { text-align: center; }
+.lineup-detail img { width: min(100%, 260px); height: 250px; object-fit: contain; display: block; margin: 0 auto; }
+.lineup-detail h3 { font-size: 19px; margin: 10px 0 7px; }
+.lineup-detail p { font-size: 12px; color: #8a8375; }
+.lineup-back { border: 0; background: none; color: #768369; display: block; min-height: 38px; padding: 5px; font-size: 12px; }
+.garden-animal { --size: clamp(90px, 32vw, 160px); }
+.many-residents .garden-animal { --size: clamp(66px, 25vw, 125px); }
+.motion-hop .animal-roam { animation: rabbit-hop 10s ease-in-out infinite; }
+.motion-stroll .animal-roam { animation: fox-stroll 18s ease-in-out infinite; }
+.motion-rest .animal-body { animation: deer-rest 6s ease-in-out infinite; }
+.motion-float .animal-body { animation: owl-float 4s ease-in-out infinite; }
+.garden-animal .animal-body, .garden-animal .animal-roam { animation-delay: var(--delay, 0s); }
+@keyframes owl-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-6px) rotate(1deg); } }
+@media (max-width: 360px) {
+  .animal-lineup { gap: 6px; }
+  .lineup-card { padding-inline: 3px; }
+  .lineup-card img, .unknown-animal { height: 70px; }
+  .draw-animal-image { width: 150px; height: 150px; }
 }

@@ -9,7 +9,7 @@ function rate(state, result, now = date()) {
 }
 test('bounded recall, immediate feedback and exactly-once rewards survive reload', () => {
   let state = core.ensureSession(core.initial(), deck, date());
-  assert.equal(state.session.queue.length, 3);
+  assert.equal(state.session.queue.length, 5);
   assert.throws(() => core.dispatch(state, deck, 'rate', { result: 'good' }, date()));
   const id = `${state.session.id}:0`;
   state = rate(state, 'again');
@@ -69,18 +69,18 @@ test('stopping after one question saves the reward and never forces the remainin
 });
 test('a completed batch opens the first due question directly on the following day', () => {
   let s = core.start(core.initial(), deck, date());
-  for (let i = 0; i < 3; i++) s = rate(s, 'good');
-  assert.equal(s.session.index, 3);
+  for (let i = 0; i < 5; i++) s = rate(s, 'good');
+  assert.equal(s.session.index, 5);
   const resumed = core.ensureSession(s, deck, date('2026-11-13T12:00:00+09:00'));
   assert.equal(resumed.session.index, 0);
   assert.equal(resumed.session.queue[0].id, deck.questions[0].id);
-  assert.equal(resumed.reviews.length, 3);
+  assert.equal(resumed.reviews.length, 5);
 });
 test('calendar and question counts preserve legacy answers, versions, unfinished presentations and duplicate protection', () => {
   let state = core.start(core.initial(), deck, date());
   const first = deck.questions[0];
   let stats = core.statistics(state);
-  assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 1, correct: 0, mistakes: 0 });
+  assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 1, correct: 0, uncertain: 0, mistakes: 0 });
   state = core.ensureSession(state, deck, date());
   assert.equal(state.presentations.length, 1);
   state = rate(state, 'again');
@@ -97,7 +97,7 @@ test('calendar and question counts preserve legacy answers, versions, unfinished
   state = core.dispatch(state, updated, 'reveal', {}, date('2026-11-13T12:00:00+09:00'));
   state = core.dispatch(state, updated, 'rate', { eventId: `${state.session.id}:0`, result: 'good' }, date('2026-11-13T12:00:00+09:00'));
   stats = core.statistics(state);
-  assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 2, correct: 1, mistakes: 1 });
+  assert.deepEqual(core.questionStatistics(stats, deck.id, first.id), { presented: 2, correct: 1, uncertain: 0, mistakes: 1 });
   assert.equal(stats.days[event.reviewedDay], 1);
   assert.equal(Object.values(stats.days).reduce((a, b) => a + b, 0), 2);
   assert.equal(state.garden.coins, 1);
@@ -107,7 +107,7 @@ test('calendar uses the recorded answer day even after the device timezone chang
   state.reviews.push({ id: 'old', deckId: deck.id, questionId: deck.questions[0].id, questionVersion: 1,
     reviewedAt: '2026-12-31T15:10:00Z', reviewedDay: '2027-1-1', result: 'good' });
   assert.deepEqual(core.statistics(state).days, { '2027-1-1': 1 });
-  assert.deepEqual(core.questionStatistics(core.statistics(state), 'other', deck.questions[0].id), { presented: 0, correct: 0, mistakes: 0 });
+  assert.deepEqual(core.questionStatistics(core.statistics(state), 'other', deck.questions[0].id), { presented: 0, correct: 0, uncertain: 0, mistakes: 0 });
 });
 
 test('study selection prioritizes fewer successful recalls and randomizes ties across lessons', () => {
@@ -122,7 +122,7 @@ test('study selection prioritizes fewer successful recalls and randomizes ties a
   assert.deepEqual(new Set(a.slice(0, 2).map(q => q.id)), new Set(pool.questions.slice(2).map(q => q.id)));
   assert.equal(a[2].id, pool.questions[1].id);
   assert.notDeepEqual(a, b);
-  assert.equal(new Set(a.map(q => q.id)).size, 3);
+  assert.equal(new Set(a.map(q => q.id)).size, 4);
 });
 test('mixed sessions keep the source lesson for both presentation and answer records', () => {
   const pool = { ...deck, id: 'study-all', studyScope: { type: 'all' }, questions: deck.questions.map(q => ({ ...q, deckId: deck.id })) };
@@ -138,4 +138,47 @@ test('mixed sessions keep the source lesson for both presentation and answer rec
   assert.equal(home.session, null);
   assert.equal(home.reviews.length, 1);
   assert.equal(home.garden.coins, 1);
+});
+
+test('legacy three-question sessions migrate without losing answers', () => {
+  const legacy = core.start(core.initial(), deck, date());
+  legacy.settings.batchSize = 3;
+  legacy.session.queue = legacy.session.queue.slice(0, 3);
+  const restored = core.reconcile(legacy, deck);
+  assert.equal(restored.settings.batchSize, 5);
+  assert.equal(restored.session.queue.length, 3);
+  assert.equal(core.start(restored, deck, date()).session.queue.length, 5);
+});
+test('uncertain answers remain separate from successes and mistakes after reload', () => {
+  let state = core.start(core.initial(), deck, date());
+  const id = state.session.queue[0].id;
+  state = rate(state, 'uncertain');
+  state = core.validateState(JSON.parse(JSON.stringify(state)));
+  assert.equal(state.reviews[0].result, 'uncertain');
+  assert.equal(state.session.correct, 0);
+  assert.equal(state.garden.coins, 0);
+  assert.equal(state.cards[id].level, 0);
+  assert.deepEqual(core.questionStatistics(core.statistics(state), deck.id, id),
+    { presented: 1, correct: 0, uncertain: 1, mistakes: 0 });
+});
+test('timeouts reveal at ten seconds, then record one failure after ten more seconds', () => {
+  let state = core.start(core.initial(), deck, date());
+  const payload = { eventId: `${state.session.id}:0`, answerShown: false };
+  const at = ms => new Date(date().getTime() + ms);
+  state = core.dispatch(state, deck, 'timeout', payload, at(9999));
+  assert.equal(state.session.answerShown, false);
+  state = core.dispatch(state, deck, 'timeout', payload, at(10000));
+  assert.equal(state.session.answerShown, true);
+  assert.equal(state.reviews.length, 0);
+  const answer = { ...payload, answerShown: true };
+  state = core.dispatch(state, deck, 'timeout', answer, at(19999));
+  assert.equal(state.session.index, 0);
+  state = core.dispatch(state, deck, 'timeout', answer, at(20000));
+  assert.equal(state.session.index, 1);
+  assert.equal(state.reviews[0].result, 'again');
+  assert.equal(state.reviews[0].recallMs, 10000);
+  assert.equal(state.garden.coins, 0);
+  state = core.dispatch(state, deck, 'timeout', answer, at(21000));
+  assert.equal(state.reviews.length, 1);
+  assert.equal(state.session.answerShown, false);
 });

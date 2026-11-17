@@ -100,7 +100,7 @@ const RecallWeb = (() => {
       const selectedDeckId = this.catalog.some(item => item.id === data.selectedDeckId) ? data.selectedDeckId : this.record.selectedDeckId;
       const selected = await this.sessionDeck(state, selectedDeckId);
       // Scriptable-only notification and cloud settings have no browser-side effect.
-      state.settings = { batchSize: 3 };
+      state.settings = { batchSize: 5 };
       this.record = await this.store.update(() => ({ selectedDeckId,
         state: rules.reconcile(state, selected)
       }), this.record.revision);

@@ -47,7 +47,7 @@ const RecallCore = (() => {
   function initial() {
     return {
       schemaVersion: 1, reviews: [], presentations: [], cards: {}, garden: { coins: 0, items: [], draws: [] },
-      settings: { batchSize: 3 },
+      settings: { batchSize: 5 },
       session: null
     };
   }
@@ -59,7 +59,7 @@ const RecallCore = (() => {
       new Set(state.garden.items).size !== state.garden.items.length || !state.settings ||
       (state.settings.notificationEnabled !== undefined && typeof state.settings.notificationEnabled !== 'boolean') ||
       (state.settings.iCloudBackup !== undefined && typeof state.settings.iCloudBackup !== 'boolean') ||
-      (state.settings.notificationTime !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(state.settings.notificationTime)) || state.settings.batchSize !== 3) {
+      (state.settings.notificationTime !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(state.settings.notificationTime)) || ![3, 5].includes(state.settings.batchSize)) {
       throw Error('学習記録の形式が違います。元のファイルは消していません。');
     }
     if (state.garden.draws !== undefined) {
@@ -77,7 +77,7 @@ const RecallCore = (() => {
     for (const r of state.reviews) {
       if (!r || typeof r.id !== 'string' || !r.id || ids.has(r.id) || typeof r.questionId !== 'string' ||
         !Number.isInteger(r.questionVersion) || r.questionVersion < 1 ||
-        !['good', 'again'].includes(r.result) || !Number.isFinite(Date.parse(r.reviewedAt))) {
+        !['good', 'uncertain', 'again'].includes(r.result) || !Number.isFinite(Date.parse(r.reviewedAt))) {
         throw Error('回答履歴を読み取れません。');
       }
       ids.add(r.id);
@@ -105,7 +105,7 @@ const RecallCore = (() => {
     if (state.session !== null) {
       const s = state.session;
       if (!s || typeof s.id !== 'string' || typeof s.deckId !== 'string' ||
-        !Array.isArray(s.queue) || s.queue.length > 3 || !Number.isInteger(s.index) ||
+        !Array.isArray(s.queue) || s.queue.length > 5 || !Number.isInteger(s.index) ||
         s.index < 0 || s.index > s.queue.length || !Number.isInteger(s.correct) ||
         s.correct < 0 || s.correct > s.index || typeof s.closed !== 'boolean' ||
         typeof s.answerShown !== 'boolean' || !Number.isFinite(Date.parse(s.presentedAt)) ||
@@ -125,6 +125,7 @@ const RecallCore = (() => {
   }
   function reconcile(state, deck) {
     const next = copy(validateState(state));
+    next.settings.batchSize = 5;
     const s = next.session;
     if (s && (s.deckId !== deck.id || s.queue.some(ref =>
       !deck.questions.some(q => q.id === ref.id && q.version === ref.version)))) next.session = null;
@@ -140,7 +141,7 @@ const RecallCore = (() => {
     }
     due.sort((a, b) => Date.parse(state.cards[a.id].dueAt) - Date.parse(state.cards[b.id].dueAt));
     // A bounded batch, never an obligation to clear the entire queue.
-    return [...due, ...fresh, ...retry].slice(0, 3).map(q => ({ id: q.id, version: q.version }));
+    return [...due, ...fresh, ...retry].slice(0, 5).map(q => ({ id: q.id, version: q.version }));
   }
   function selectStudy(state, deck, random = Math.random) {
     const successes = new Map();
@@ -157,7 +158,7 @@ const RecallCore = (() => {
     }
     const count = q => successes.get(JSON.stringify([q.deckId, q.id, q.version])) || 0;
     questions.sort((a, b) => count(a) - count(b));
-    return questions.slice(0, 3).map(q => ({ id: q.id, version: q.version, deckId: q.deckId }));
+    return questions.slice(0, 5).map(q => ({ id: q.id, version: q.version, deckId: q.deckId }));
   }
   function recordPresentation(state, now) {
     const s = state.session;
@@ -176,7 +177,7 @@ const RecallCore = (() => {
     const key = (deckId, questionId) => JSON.stringify([deckId || '', questionId]);
     const counts = event => {
       const id = key(event.deckId, event.questionId);
-      return questions[id] || (questions[id] = { presented: 0, correct: 0, mistakes: 0 });
+      return questions[id] || (questions[id] = { presented: 0, correct: 0, uncertain: 0, mistakes: 0 });
     };
     const shown = new Set();
     for (const event of state.presentations || []) {
@@ -189,12 +190,12 @@ const RecallCore = (() => {
       const item = counts(review);
       // Older versions recorded only completed answers. Count each of those as one presentation.
       if (!shown.has(review.id)) item.presented++;
-      item[review.result === 'good' ? 'correct' : 'mistakes']++;
+      item[review.result === 'good' ? 'correct' : review.result === 'uncertain' ? 'uncertain' : 'mistakes']++;
     }
     return { days, questions };
   }
   function questionStatistics(stats, deckId, questionId) {
-    return stats.questions[JSON.stringify([deckId, questionId])] || { presented: 0, correct: 0, mistakes: 0 };
+    return stats.questions[JSON.stringify([deckId, questionId])] || { presented: 0, correct: 0, uncertain: 0, mistakes: 0 };
   }
   function start(state, deck, now, random = Math.random) {
     const next = reconcile(state, deck);
@@ -219,6 +220,14 @@ const RecallCore = (() => {
     let next = reconcile(state, deck);
     const s = next.session;
     if (action === 'start') return start(next, deck, now, random);
+    if (action === 'timeout') {
+      if (!s || s.closed || s.index >= s.queue.length || payload.eventId !== `${s.id}:${s.index}` ||
+        payload.answerShown !== s.answerShown) return next;
+      const began = Date.parse(s.answerShown ? s.revealedAt : s.presentedAt);
+      if (now.getTime() - began < 10000) return next;
+      return dispatch(next, deck, s.answerShown ? 'rate' : 'reveal',
+        { eventId: payload.eventId, result: 'again' }, now, random);
+    }
     if (action === 'home') next.session = null;
     else if (action === 'finish') {
       if (s) s.closed = true;
@@ -229,7 +238,7 @@ const RecallCore = (() => {
     } else if (action === 'rate') {
       if (next.reviews.some(r => r.id === payload.eventId)) return next;
       if (!s || s.closed || !s.answerShown || s.index >= s.queue.length ||
-        payload.eventId !== `${s.id}:${s.index}` || !['good', 'again'].includes(payload.result)) {
+        payload.eventId !== `${s.id}:${s.index}` || !['good', 'uncertain', 'again'].includes(payload.result)) {
         throw Error('先に答え合わせをしてください。');
       }
       const q = s.queue[s.index];
@@ -241,7 +250,7 @@ const RecallCore = (() => {
       const today = day(now);
       const isRetry = c.retryAfter !== null && Date.parse(c.dueAt || '') > now.getTime();
       c.seen += 1;
-      if (payload.result === 'again') {
+      if (payload.result !== 'good') {
         c.level = 0;
         c.lapses += 1;
         c.dueAt = later(now, 1);
@@ -282,7 +291,7 @@ const RecallCore = (() => {
       next.garden.items.push(animal.id);
       next.garden.draws = [...draws, { id: payload.eventId, animalId: animal.id, drawnAt: now.toISOString() }];
     } else if (action === 'settings') {
-      next.settings = { ...next.settings, ...payload, batchSize: 3 };
+      next.settings = { ...next.settings, ...payload, batchSize: 5 };
     } else throw Error('この操作は使えません。');
     return validateState(next);
   }

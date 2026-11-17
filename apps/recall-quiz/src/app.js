@@ -2,13 +2,14 @@
   const boot = window.BOOT;
   const runtime = window.RecallRuntime;
   const initialPage = new URLSearchParams(location.search).get('screen');
-  let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog'].includes(initialPage) ? initialPage : 'quiz', busy = false;
+  let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog', 'history'].includes(initialPage) ? initialPage : 'quiz', busy = false;
   let decks = boot.decks || [deck];
   let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let selectedDay = RecallCore.day(new Date()), subject = new URLSearchParams(location.search).get('subject') || '';
   let catalogLesson = new URLSearchParams(location.search).get('lesson') || '';
   let studySubject = boot.decks[0].title;
   const catalogErrors = new Map();
+  let quizTimer = null;
   let renderedKey = '', renderedPage = page;
   const catalogRequests = new Map();
   const content = document.querySelector('#content');
@@ -166,7 +167,7 @@
         gachaView = 'draw';
       }
       if (['start', 'startAll', 'startSubject', 'home', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
-      status.textContent = result.message || (action === 'rate' ? (payload.result === 'good' ? '正解。＋1コイン。' : 'ミスを記録しました。') : '');
+      status.textContent = result.message || (action === 'rate' ? (payload.result === 'good' ? '正解。＋1コイン。' : payload.result === 'uncertain' ? 'あやふやを記録しました。' : 'ミスを記録しました。') : '');
     } catch (error) {
       if (error.name === 'ConflictError') {
         const current = await runtime.refresh();
@@ -215,7 +216,7 @@
   function renderQuiz() {
     const s = state.session;
     if (!s) {
-      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに3問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
+      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに5問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
       return;
     }
     const scope = s.scope || { type: 'lesson', id: s.deckId };
@@ -223,12 +224,12 @@
       decks.find(item => item.id === scope.id)?.subtitle || deck.title;
     if (s.closed || s.index >= s.queue.length) {
       const completed = s.index >= s.queue.length;
-      content.innerHTML = `<p class="eyebrow">${escape(scopeLabel)}</p><h1 class="page-title">${completed ? '3問、おつかれさま。' : '今日は、ここまで。'}</h1><p class="lead">${s.index ? `${s.index}問に回答しました。` : '答え合わせをした問題はありません。'}<br>思い出せた問題は${s.correct}問です。</p><div class="stack quiz-start"><button class="primary" data-action="home">最初の画面に戻る</button><button class="secondary" data-action="start">${scope.type === 'all' ? 'あと3問' : scope.type === 'subject' ? '同じ教科であと3問' : '同じ回であと3問'}</button>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科から始める</button>' : ''}</div><p class="helper center">回答の記録とコインは保存されています。</p>`;
+      content.innerHTML = `<p class="eyebrow">${escape(scopeLabel)}</p><h1 class="page-title">${completed ? `${s.queue.length}問、おつかれさま。` : '今日は、ここまで。'}</h1><p class="lead">${s.index ? `${s.index}問に回答しました。` : '答え合わせをした問題はありません。'}<br>思い出せた問題は${s.correct}問です。</p><div class="stack quiz-start"><button class="primary" data-action="home">最初の画面に戻る</button><button class="secondary" data-action="start">${scope.type === 'all' ? 'あと5問' : scope.type === 'subject' ? '同じ教科であと5問' : '同じ回であと5問'}</button>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科から始める</button>' : ''}</div><p class="helper center">回答の記録とコインは保存されています。</p>`;
       return;
     }
     const q = deck.questions.find(q => q.id === s.queue[s.index].id);
     const source = decks.find(item => item.id === (q.deckId || deck.id)) || deck;
-    content.innerHTML = `<div class="quiz-scope"><span class="badge">${escape(scopeLabel)}から出題</span>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科に切り替える</button>' : ''}</div><p class="eyebrow">${escape(source.title)}</p><p class="course">${escape(source.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+    content.innerHTML = `<div class="quiz-scope"><span class="badge">${escape(scopeLabel)}から出題</span>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科に切り替える</button>' : ''}</div><p class="eyebrow">${escape(source.title)}</p><p class="course">${escape(source.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><div class="quiz-timer"><div class="timer-caption"><span>${s.answerShown ? '次の問題まで' : '答えの表示まで'}</span><span data-timer-seconds>10秒</span></div><div class="timer-track" role="progressbar" aria-label="残り時間" aria-valuemin="0" aria-valuemax="10" aria-valuenow="10"><div class="timer-fill"></div></div></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="secondary uncertain" data-result="uncertain">あやふや</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">10秒以内に選んでください。未選択なら出なかったとして次に進みます。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
   }
   function gachaContents() {
     const available = boot.shop.filter(item => !state.garden.items.includes(item.id));
@@ -338,8 +339,41 @@
     const [sy, sm, sd] = selectedDay.split('-');
     content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;
   }
+  function updateQuizTimer() {
+    if (page !== 'quiz') return;
+    const s = state.session;
+    if (!s || s.closed || s.index >= s.queue.length) return;
+    const remaining = Math.max(0, Math.min(10000, 10000 - (Date.now() - Date.parse(s.answerShown ? s.revealedAt : s.presentedAt))));
+    const track = content.querySelector('.timer-track');
+    if (!track) return;
+    track.setAttribute('aria-valuenow', String(Math.ceil(remaining / 1000)));
+    track.dataset.tone = remaining <= 2000 ? 'red' : remaining <= 5000 ? 'yellow' : 'blue';
+    track.querySelector('.timer-fill').style.transform = `scaleX(${remaining / 10000})`;
+    content.querySelector('[data-timer-seconds]').textContent = `${Math.ceil(remaining / 1000)}秒`;
+    if (remaining === 0 && !busy) act('timeout', { eventId: `${s.id}:${s.index}`, answerShown: s.answerShown });
+  }
+  function renderHistory() {
+    const reviews = [...state.reviews].reverse().sort((a, b) => Date.parse(b.reviewedAt) - Date.parse(a.reviewedAt)).slice(0, 30);
+    for (const review of reviews) {
+      const item = decks.find(item => item.id === review.deckId);
+      if (!item || item.questions || catalogRequests.has(item.id) || catalogErrors.has(item.id)) continue;
+      catalogRequests.set(item.id, runtime.loadDeck(item.id).then(() => {
+        decks = runtime.decks();
+      }).catch(error => { catalogErrors.set(item.id, error.message); }).finally(() => {
+        catalogRequests.delete(item.id);
+        if (page === 'history') render();
+      }));
+    }
+    const rows = reviews.map((review, index) => {
+      const item = decks.find(item => item.id === review.deckId);
+      const q = item?.questions?.find(q => q.id === review.questionId && q.version === review.questionVersion);
+      const result = review.result === 'good' ? ['correct', '○', '思い出せた'] : review.result === 'uncertain' ? ['uncertain', '△', 'あやふや'] : ['mistake', '×', '出なかった'];
+      return `<details class="catalog-question history-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
+    }).join('');
+    content.innerHTML = `<h1 class="page-title">回答履歴</h1><p class="lead">直近30問を新しい順に表示します。</p><p class="helper">○は思い出せた、△はあやふや、×は出なかった。問題を押すと解答が開きます。</p>${rows || '<div class="panel">まだ回答履歴がありません。</div>'}`;
+  }
   function resultCounts(n) {
-    return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
+    return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge uncertain" aria-label="あやふや${n.uncertain}回"><span class="result-symbol" aria-hidden="true">△</span><strong aria-hidden="true">${n.uncertain}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
   }
   function catalogNavigate(id = '') {
     catalogLesson = id;
@@ -390,7 +424,7 @@
       const [deckId, questionId] = JSON.parse(key);
       return deckId === selected.id && !selected.questions.some(q => q.id === questionId);
     }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
-    content.innerHTML = `${heading}<section class="lesson"><div class="lesson-head"><p class="helper">${selected.questions.length}問</p><button class="lesson-start" data-deck="${escape(selected.id)}">この回で学習</button></div><p class="helper">○は正解、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
+    content.innerHTML = `${heading}<section class="lesson"><div class="lesson-head"><p class="helper">${selected.questions.length}問</p><button class="lesson-start" data-deck="${escape(selected.id)}">この回で学習</button></div><p class="helper">○は正解、△はあやふや、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
   }
   function slideDisclosures() {
     for (const details of content.querySelectorAll('details')) {
@@ -498,6 +532,7 @@
     scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
   }
   function render() {
+    clearInterval(quizTimer);
     document.body.classList.toggle('garden-mode', page === 'garden');
     if (page !== 'garden') shopOpen = false;
     disclosureCleanups.forEach(dispose => dispose());
@@ -520,6 +555,7 @@
     document.querySelectorAll('[data-screen]').forEach(button => button.setAttribute('aria-current', button.dataset.screen === page ? 'page' : 'false'));
     if (page === 'calendar') renderCalendar();
     else if (page === 'catalog') renderCatalog();
+    else if (page === 'history') renderHistory();
     else if (page === 'garden') renderGarden();
     else if (page === 'settings') renderSettings();
     else renderQuiz();
@@ -542,7 +578,7 @@
             duration: 300, easing: 'cubic-bezier(.2,.7,.2,1)'
           });
         } else {
-          const order = ['quiz', 'calendar', 'garden', 'catalog', 'settings'];
+          const order = ['quiz', 'calendar', 'garden', 'catalog', 'history', 'settings'];
           const direction = order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
           content.animate([
             { opacity: 0, transform: changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
@@ -598,6 +634,10 @@
     });
     content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
+    if (page === 'quiz') {
+      quizTimer = setInterval(updateQuizTimer, 100);
+      updateQuizTimer();
+    }
     updateScrollFade();
     content.querySelectorAll('[data-result]').forEach(b => b.onclick = () => act('rate', {
       eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result
@@ -621,6 +661,7 @@
     if (button.dataset.screen === 'quiz') { act('home'); return; }
     page = button.dataset.screen;
     if (page === 'catalog') catalogLesson = '';
+    if (page === 'history') catalogErrors.clear();
     if (page === 'calendar') {
       const today = new Date();
       month = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -641,7 +682,7 @@
     if (busy) return;
     const params = new URLSearchParams(location.search);
     const requested = params.get('screen');
-    page = ['garden', 'settings', 'calendar', 'catalog'].includes(requested) ? requested : 'quiz';
+    page = ['garden', 'settings', 'calendar', 'catalog', 'history'].includes(requested) ? requested : 'quiz';
     catalogLesson = params.get('lesson') || '';
     subject = params.get('subject') || '';
     render();

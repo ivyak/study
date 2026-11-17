@@ -24,6 +24,7 @@ async function chooseSubject(page, selector, title) {
     });
     await context.addInitScript(() => { Math.random = () => .999999; });
     const page = await context.newPage();
+    await page.clock.setFixedTime(new Date());
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(siteURL);
     await page.getByRole('heading', { name: '今日のクイズ', exact: true }).waitFor();
@@ -48,8 +49,8 @@ async function chooseSubject(page, selector, title) {
     assert.equal(await page.locator('.stretch-content').evaluate(el => el.style.transform), '');
     await releaseTouch();
     const nav = page.getByRole('navigation', { name: '画面の切り替え' });
-    assert.deepEqual(await nav.locator('button').allTextContents(), ['クイズ', 'カレンダー', '庭', '一覧']);
-    assert.equal(await nav.locator('svg').count(), 4);
+    assert.deepEqual(await nav.locator('button').allTextContents(), ['クイズ', 'カレンダー', '庭', '一覧', '履歴']);
+    assert.equal(await nav.locator('svg').count(), 5);
     for (const button of await nav.locator('button').all()) {
       const icon = await button.locator('svg').boundingBox();
       const label = await button.locator('span').boundingBox();
@@ -101,8 +102,8 @@ async function chooseSubject(page, selector, title) {
     assert.equal(await page.locator('#coins').innerText(), '0');
     await page.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     await page.reload();
-    assert.match(await page.locator('.step').innerText(), /2 \/ 3/);
-    for (let i = 0; i < 2; i++) {
+    assert.match(await page.locator('.step').innerText(), /2 \/ 5/);
+    for (let i = 0; i < 4; i++) {
       await page.getByRole('button', { name: '答えを見る', exact: true }).click();
       if (i === 1) {
         assert.ok(await page.locator('.question').innerText());
@@ -110,7 +111,7 @@ async function chooseSubject(page, selector, title) {
       }
       await page.getByRole('button', { name: '思い出せた', exact: true }).click();
     }
-    await page.getByRole('heading', { name: '3問、おつかれさま。' }).waitFor();
+    await page.getByRole('heading', { name: '5問、おつかれさま。' }).waitFor();
     assert.equal(await page.locator('#content [data-page]').count(), 0);
     await page.setViewportSize({ width: 402, height: 874 });
     await page.getByRole('button', { name: '庭', exact: true }).click();
@@ -120,7 +121,7 @@ async function chooseSubject(page, selector, title) {
     assert.equal(garden.y, 0);
     assert.equal(garden.width, page.viewportSize().width);
     assert.equal(garden.height, page.viewportSize().height);
-    assert.equal(await page.locator('#coins').innerText(), '2');
+    assert.equal(await page.locator('#coins').innerText(), '4');
     const gachaButton = await page.locator('.open-garden-shop').boundingBox();
     assert.ok(gachaButton.x > garden.width / 2 && gachaButton.y > garden.height / 2);
     await page.locator('.open-garden-shop').click();
@@ -155,16 +156,16 @@ async function chooseSubject(page, selector, title) {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `overflow at ${width}px`);
     }
     const saved = await page.evaluate(async () => (await window.RecallRuntime.snapshot()).state);
-    assert.equal(saved.reviews.length, 3);
+    assert.equal(saved.reviews.length, 5);
     assert.deepEqual(saved.garden.items, []);
-    assert.equal(saved.garden.coins, 2);
+    assert.equal(saved.garden.coins, 4);
     assert.equal(network.length, 0);
     assert.deepEqual(errors, []);
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
     await page.getByRole('heading', { name: '学習カレンダー' }).waitFor();
     const today = new Date();
-    await page.getByRole('button', { name: `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日、3回答`, exact: true }).click();
-    assert.equal(await page.locator('.day-count').innerText(), '3回回答');
+    await page.getByRole('button', { name: `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日、5回答`, exact: true }).click();
+    assert.equal(await page.locator('.day-count').innerText(), '5回回答');
     await page.getByRole('button', { name: '前の月', exact: true }).click();
     assert.equal(await page.locator('.calendar-day.has-answers').count(), 0);
     assert.ok(await page.locator('.calendar-day small').evaluateAll(nodes => nodes.every(node => node.textContent === '')));
@@ -193,7 +194,7 @@ async function chooseSubject(page, selector, title) {
     await page.locator('.scroll-region').evaluate(el => { el.scrollTop = 0; });
     await page.waitForFunction(() => !document.querySelector('.scroll-region').classList.contains('has-more-above'));
     const firstCounts = await page.locator('.catalog-question').first().locator('.question-counts').innerText();
-    assert.match(firstCounts, /出題\s+2/);
+    assert.match(firstCounts, /出題\s+1/);
     await page.locator('.catalog-question').first().getByLabel('正解0回', { exact: true }).waitFor();
     await page.locator('.catalog-question').first().getByLabel('ミス1回', { exact: true }).waitFor();
     assert.notEqual(await page.locator('.correct').first().evaluate(el => getComputedStyle(el).color), await page.locator('.mistake').first().evaluate(el => getComputedStyle(el).color));
@@ -278,7 +279,7 @@ async function chooseSubject(page, selector, title) {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.reload();
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
-    assert.match(await page.locator('.month-total').innerText(), /3回/);
+    assert.match(await page.locator('.month-total').innerText(), /5回/);
     await nav.getByRole('button', { name: '一覧', exact: true }).click();
     await chooseSubject(page, '#subject', '数理統計');
     await page.locator('[data-open-lesson="statistics-lesson01"]').click();
@@ -299,6 +300,7 @@ async function chooseSubject(page, selector, title) {
     await page.screenshot({ path: path.resolve(__dirname, '../output/statistics-overbar.png'), animations: 'disabled' });
     const flowContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     const flow = await flowContext.newPage();
+    await flow.clock.setFixedTime(new Date());
     const fetchedLessons = [];
     flow.on('request', request => { if (/\/decks\/.*\.json$/.test(request.url())) fetchedLessons.push(request.url()); });
     await flow.goto(siteURL);
@@ -394,15 +396,15 @@ async function chooseSubject(page, selector, title) {
     await flow.reload();
     await flow.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     assert.deepEqual(await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state.session), session);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       await flow.getByRole('button', { name: '答えを見る', exact: true }).click();
       await flow.getByRole('button', { name: '思い出せた', exact: true }).click();
     }
-    await flow.getByRole('heading', { name: '3問、おつかれさま。', exact: true }).waitFor();
+    await flow.getByRole('heading', { name: '5問、おつかれさま。', exact: true }).waitFor();
     await flow.screenshot({ path: path.resolve(__dirname, '../output/quiz-completed.png'), animations: 'disabled' });
     const answered = await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state);
-    assert.equal(answered.reviews.length, 4);
-    assert.equal(answered.garden.coins, 4);
+    assert.equal(answered.reviews.length, 6);
+    assert.equal(answered.garden.coins, 6);
     await flow.locator('#content').getByRole('button', { name: '最初の画面に戻る', exact: true }).click();
     await flow.getByRole('heading', { name: '今日のクイズ', exact: true }).waitFor();
     await flow.reload();
@@ -414,7 +416,7 @@ async function chooseSubject(page, selector, title) {
     await flow.locator('[data-screen="quiz"]').click();
     await flow.getByRole('heading', { name: '今日のクイズ', exact: true }).waitFor();
     assert.equal((await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state)).session, null);
-    assert.equal((await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state)).reviews.length, 4);
+    assert.equal((await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state)).reviews.length, 6);
     await flow.locator('[data-screen="catalog"]').click();
     await chooseSubject(flow, '#subject', '数理統計');
     await flow.locator('[data-open-lesson="statistics-lesson04"]').click();
@@ -433,7 +435,7 @@ async function chooseSubject(page, selector, title) {
     await flow.locator('[data-screen="calendar"]').click();
     const currentDate = new Date();
     assert.equal(await flow.locator('.month-nav h2').innerText(), `${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`);
-    assert.equal(await flow.locator('.calendar-day[aria-pressed="true"]').innerText(), `${currentDate.getDate()}\n4回`);
+    assert.equal(await flow.locator('.calendar-day[aria-pressed="true"]').innerText(), `${currentDate.getDate()}\n6回`);
     await flow.locator('[data-screen="garden"]').click();
     await flow.locator('.open-garden-shop').click();
     await flow.getByRole('button', { name: 'ラインナップ', exact: true }).click();
@@ -502,6 +504,7 @@ async function chooseSubject(page, selector, title) {
     await gardenContext.close();
     const libraryContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const libraryPage = await libraryContext.newPage();
+    await libraryPage.clock.setFixedTime(new Date());
     await libraryPage.goto(siteURL);
     await libraryPage.getByRole('button', { name: '一覧', exact: true }).click();
     await chooseSubject(libraryPage, '#subject', '数理統計');
@@ -534,6 +537,7 @@ async function chooseSubject(page, selector, title) {
     await (await chooserEvent).setFiles({ name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(exported)) });
     await libraryPage.waitForFunction(() => document.querySelector('#coins').textContent === '10');
     const stalePage = await libraryContext.newPage();
+    await stalePage.clock.setFixedTime(new Date());
     await stalePage.goto(siteURL);
     await stalePage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     await libraryPage.getByRole('button', { name: '庭', exact: true }).click();
@@ -550,6 +554,6 @@ async function chooseSubject(page, selector, title) {
     await libraryContext.close();
     console.log('開始前・全教科と教科指定・中断と終了・最初の画面への復帰・授業回の非同期読み込みと再試行を確認しました。');
     console.log('カレンダー・問題別出題数と正誤・教科別閲覧と教材切り替え・再読込を確認しました。');
-    console.log('スマホ幅・原典トグルの開閉と拡大縮小・MathML・再読込・自己判定・3問終了・ガチャ・途中終了・外部通信なしを確認しました。');
+    console.log('スマホ幅・原典トグルの開閉と拡大縮小・MathML・再読込・自己判定・5問終了・ガチャ・途中終了・外部通信なしを確認しました。');
   } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

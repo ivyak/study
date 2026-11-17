@@ -33,7 +33,7 @@ test('Scriptable and browser JSON backups import without losing answers, coins o
   legacy.settings = { batchSize: 3, notificationEnabled: true, notificationTime: '12:30', iCloudBackup: true };
   await app.restore(legacy);
   assert.deepEqual((await app.snapshot()).state.garden, legacy.garden);
-  assert.deepEqual((await app.snapshot()).state.settings, { batchSize: 3 });
+  assert.deepEqual((await app.snapshot()).state.settings, { batchSize: 5 });
   const backup = await app.export();
   await app.dispatch('draw', { eventId: 'once' });
   assert.equal((await app.snapshot()).state.garden.coins, 10);

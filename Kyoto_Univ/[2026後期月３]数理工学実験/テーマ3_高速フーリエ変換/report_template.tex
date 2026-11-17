@@ -657,6 +657,100 @@ FFTで求めたフーリエ係数は次のとおりであった。
 \]
 であり、$K=15.653559774527022$であった。したがって、誤差の大きさは$10^{-16}$程度であった。
 
+\subsection{問題4：近い周波数の線スペクトルの識別}
+% 問題文の出典：ユーザー提供の問題4の画像3枚。表は原典の表3.2に対応する。
+\begin{itembox}[l]{問題4}
+二つの近い周波数の正弦波からなる信号
+\begin{equation}
+  x(t)=\sin\left[2\pi(f-\delta)t\right]
+      +\sin\left[2\pi(f+\delta)t\right]
+  \tag{P4}
+  \label{eq:close-frequency-signal}
+\end{equation}
+があり、$0<\delta\ll f$とする。これを標本化周期
+\[
+  \tau=\frac{1}{5f}
+\]
+の離散時刻
+\[
+  t=n\tau\qquad(n=0,1,\ldots,N-1)
+\]
+で標本化したものを考える。以下の問に答えよ。
+\end{itembox}
+
+\subsubsection{問題(4-a)}
+\begin{itembox}[l]{問題4-(a)}
+周波数が近い2つの正弦波がある場合、うなりと呼ばれる包絡線がゆっくり変動する振動が生じる。式\eqref{eq:close-frequency-signal}の場合に、式を変形して、うなりの周波数を求めよ。ここで、うなりの周波数は、振幅が最大になる間隔に対応する周波数である。
+\end{itembox}
+
+\subsubsection{実験方法(4-a)}
+
+\subsubsection{結果(4-a)}
+
+\subsubsection{考察(4-a)}
+
+\subsubsection{問題(4-b)}
+\begin{itembox}[l]{問題4-(b)}
+$f=10$として、
+\[
+  \mathrm{(I)}\ \delta=0.2,\qquad
+  \mathrm{(II)}\ \delta=0.1,\qquad
+  \mathrm{(III)}\ \delta=0.05
+\]
+および、窓関数が(i)矩形窓、(ii)Parzen窓、(iii)Hann窓の各々の組み合わせについて、データ長を
+\[
+  N=256,512,1024,2048,4096,\ldots
+\]
+と変えて標本化した時系列データ$\{x(n\tau)\}_{n=0}^{N-1}$のパワースペクトル密度を計算せよ。二つの周波数$f-\delta$と$f+\delta$に対応するピークを区別できると判断した最小のデータ長を$N_c$とし、表\ref{tab:frequency-resolution}の各欄に$N_c$を書き入れよ。また、$N_c$を判断した根拠となるパワースペクトル密度の図を示せ。
+\end{itembox}
+
+\begin{table}[htbp]
+  \centering
+  \caption{$\delta$および窓関数の組み合わせに対する二つの線スペクトルを識別できる最小データ長$N_c$。}
+  \label{tab:frequency-resolution}
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+     & $\delta=0.2$ & $\delta=0.1$ & $\delta=0.05$ \\
+    \hline
+    矩形窓 & & & \\
+    \hline
+    Parzen窓 & & & \\
+    \hline
+    Hann窓 & & & \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsubsection{実験方法(4-b)}
+
+\subsubsection{結果(4-b)}
+
+\subsubsection{考察(4-b)}
+
+\subsubsection{問題(4-c)}
+\begin{itembox}[l]{問題4-(c)}
+前問の結果より$N_c$と$\delta$についてどの様な関係が予想されるか、解答せよ。例えば、比例や反比例などを考えよ。
+\end{itembox}
+
+\subsubsection{実験方法(4-c)}
+
+\subsubsection{結果(4-c)}
+
+\subsubsection{考察(4-c)}
+
+\subsubsection{問題(4-d)}
+\begin{itembox}[l]{問題4-(d)}
+問(b)で取り扱った窓関数の中で、近接した周波数の線スペクトルを識別・推定するという目的に、最もかなっていたものはどれか。甲乙つけがたい場合は複数挙げよ。パワースペクトル密度などの図や理由を付けて答えよ。
+
+目的にかなう窓関数は標本化周期のとり方、窓の開始・終了時刻の取り方、推定の正しさの基準などに依存して変わるので、この小問に関しては、正解を設定していない。目的は問題5と問題6で用いる窓関数を決定することである。
+\end{itembox}
+
+\subsubsection{実験方法(4-d)}
+
+\subsubsection{結果(4-d)}
+
+\subsubsection{考察(4-d)}
+
 \paragraph{生成AIの利用}
 課題6-2,3の調査・理解の中でOpenAI Codexを利用した。
 

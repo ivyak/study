@@ -1,10 +1,11 @@
 /* Shared domain logic. No Scriptable or browser APIs. */
 const RecallCore = (() => {
   const intervals = [1, 3, 7, 14, 30];
+  // Keep the original item IDs so existing purchases become the matching animals.
   const shop = [
-    { id: 'sprout', name: '小さな芽', icon: '🌱', cost: 3 },
-    { id: 'flower', name: 'ひだまりの花', icon: '🌼', cost: 8 },
-    { id: 'tree', name: '木かげの木', icon: '🌳', cost: 15 }
+    { id: 'sprout', name: '白いうさぎ', asset: 'rabbit', description: '気ままに、ぴょん。草むらが好きな子。', cost: 3 },
+    { id: 'flower', name: '夕焼けのきつね', asset: 'fox', description: 'ふさふさのしっぽで、庭をおさんぽ。', cost: 8 },
+    { id: 'tree', name: '森のこじか', asset: 'deer', description: '静かな木かげで、のんびりひと休み。', cost: 15 }
   ];
   const copy = value => JSON.parse(JSON.stringify(value));
   const day = date => [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');

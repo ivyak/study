@@ -11,6 +11,7 @@
   const stretchContent = document.querySelector('.stretch-content');
   let pullGesture = null, spring = null;
   let disclosureCleanups = [];
+  let shopOpen = false;
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
   let nativeWaiter = null;
@@ -101,8 +102,34 @@
       render();
     }
   }
-  function scene() {
-    return `<div class="garden" aria-label="あなたの小さな庭"><div class="sun"></div><div class="hill back"></div><div class="hill"></div><div class="plants">${state.garden.items.length ? state.garden.items.map(id => `<span>${boot.shop.find(i => i.id === id).icon}</span>`).join('') : '<span class="empty-garden">ここに、少しずつ育てよう。</span>'}</div></div>`;
+  function animalImage(item, className = '') {
+    return `<img class="${className}" src="${window.GARDEN_ASSETS[item.asset]}" alt="${escape(item.name)}" draggable="false">`;
+  }
+  function gardenLandscape() {
+    return `<svg class="garden-landscape" viewBox="0 0 600 1100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="garden-sky" x2="0" y2="1"><stop stop-color="#edc9b6"/><stop offset="1" stop-color="#fae9c9"/></linearGradient><linearGradient id="garden-water" x2="0" y2="1"><stop stop-color="#a3c3b7"/><stop offset="1" stop-color="#6b9d9b"/></linearGradient></defs>
+      <path fill="url(#garden-sky)" d="M0 0h600v1100H0z"/><circle cx="445" cy="225" r="67" fill="#fff1c2"/>
+      <path d="m0 330 90-99 75 80 69-109 129 152 71-60 75 22 91-94v315H0Z" fill="#b5a6ac"/>
+      <path d="m165 311 69-109 39 112-36-19-18 28-15-45Z" fill="#e5d6cd"/><path d="m364 354 70-60 75 22 91-94v219H0V330l90-99 53 97-66-27 30 76Z" fill="#a79da4"/>
+      <path d="m0 409 101-76 130 102 113-68 109 72 147-85v746H0Z" fill="#8d9e8b"/>
+      <path d="m0 409 101-76-25 177 155-75 70 143 152-139 147-85v746H0Z" fill="#a7b692"/>
+      <path d="m0 522 121-73 180 129 122-81 177 42v561H0Z" fill="#c1c49c"/>
+      <path d="m0 522 121-73 37 156 143-27 122-81-10 194 187-152v561H0Z" fill="#b7be95"/>
+      <path d="m0 633 158-28 106 108 149-22 187 46v363H0Z" fill="#ccd0a7"/>
+      <path d="m0 633 158-28L67 797l197-84 34 184 115-206 187 46v363H0Z" fill="#b7c09a"/>
+      <path d="m0 748 67-13 63 35 34 66-27 71-137 49Z" fill="#90afa4"/><path d="m0 763 70-8 49 35 26 49-23 53L0 936Z" fill="url(#garden-water)"/>
+      <path d="m0 830 62-36 83 45-23 53L0 936Z" fill="#85aea6"/><path d="m12 840 32-5m16 18 46-8M5 882l68-12" fill="none" stroke="#d9e1c6" stroke-width="3" opacity=".6"/>
+      <path d="m600 574-78 39-68 72-30 147-85 129-29 139h58l18-134 80-121 32-143 68-64 34-13Z" fill="#e4d6b4"/>
+      <path d="m600 574-40 48-80 73-30 146-83 129-29 130h30l18-134 80-121 32-143 68-64 34-13Z" fill="#d6c9aa"/>
+      <g fill="#677f70"><path d="m35 285-47 133h94Z"/><path d="m91 321-45 130h90Z"/><path d="m552 353-48 148h96Z"/></g>
+      <g fill="#87987a"><path d="m35 285 10 133h37Z"/><path d="m91 321 3 130h42Z"/><path d="m552 353 9 148h39Z"/></g>
+      <g stroke="#796f59" stroke-width="7"><path d="M35 413v30m56-3v23m461 24v30"/></g>
+      <g><path d="m420 485 20-112 30 112Z" fill="#758d76"/><path d="m440 373 2 112h28Z" fill="#9cab83"/><path d="M440 480v18" stroke="#86765e" stroke-width="6"/></g>
+      <g fill="#8d9c7c"><path d="m194 798 18-16 32 9 8 21-41 10Z"/><path d="m473 917 22-22 35 9 12 29-45 11Z"/></g>
+      <g fill="#c6c1a5"><path d="m27 665 13-20 27 5 13 19-33 12Z"/><path d="m490 752 19-13 22 5 7 21-35 3Z"/></g>
+      <g fill="#e9d7b1"><path d="m27 665 13-20 11 18Z"/><path d="m490 752 19-13 8 17Z"/></g>
+      <g fill="#efdfb7"><circle cx="220" cy="642" r="3"/><circle cx="233" cy="648" r="2"/><circle cx="216" cy="655" r="2"/><circle cx="509" cy="846" r="3"/><circle cx="524" cy="849" r="2"/></g>
+    </svg>`;
   }
   function sourceToggles(q) {
     return q.sources.map(source => source.imageKey && deck.sourceImages && deck.sourceImages[source.imageKey] ?
@@ -112,7 +139,7 @@
     const s = state.session;
     if (!s || s.closed || s.index >= s.queue.length) {
       const count = s ? s.index : 0;
-      content.innerHTML = `<p class="eyebrow">A LITTLE RECALL, EVERY DAY</p><h1 class="page-title">${count ? '今日は、ここまででも。' : 'いまは、ひと休み。'}</h1><p class="lead">${count ? `${count}回の想起を記録しました。<br>また少し時間を空けて、思い出そう。` : 'いま出す問題はありません。<br>新しい教材や、別の日の復習でまた会おう。'}</p>${scene()}<div class="stack"><button class="primary" data-action="start">あと3問</button></div><p class="helper center">休んでも、コインや植物はなくなりません。</p>`;
+      content.innerHTML = `<p class="eyebrow">A LITTLE RECALL, EVERY DAY</p><h1 class="page-title">${count ? '今日は、ここまででも。' : 'いまは、ひと休み。'}</h1><p class="lead">${count ? `${count}回の想起を記録しました。<br>また少し時間を空けて、思い出そう。` : 'いま出す問題はありません。<br>新しい教材や、別の日の復習でまた会おう。'}</p><div class="stack"><button class="primary" data-action="start">あと3問</button></div><p class="helper center">休んでも、コインや動物はなくなりません。</p>`;
       content.querySelector('[data-action="start"]').disabled = RecallCore.select(state, deck, new Date()).length === 0;
       return;
     }
@@ -120,7 +147,48 @@
     content.innerHTML = `<p class="eyebrow">${escape(deck.title)}</p><p class="course">${escape(deck.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">どちらを押しても ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
   }
   function renderGarden() {
-    content.innerHTML = `<p class="eyebrow">YOUR LITTLE GARDEN</p><h1 class="page-title">想起のあとに、小さな庭。</h1><p class="lead">正解でも、出なかった日でも。<br>ひとつ取り組むたびに、1コイン。</p>${scene()}<div class="shop">${boot.shop.map(item => `<div class="shop-item"><div><span class="plant">${item.icon}</span>${item.name}</div><button data-buy="${item.id}" ${state.garden.items.includes(item.id) || state.garden.coins < item.cost ? 'disabled' : ''}>${state.garden.items.includes(item.id) ? '庭にいます' : `${item.cost} コイン`}</button></div>`).join('')}</div>`;
+    const residents = boot.shop.filter(item => state.garden.items.includes(item.id));
+    content.innerHTML = `<section class="garden-stage" aria-label="動物たちの庭">${gardenLandscape()}<div class="garden-caption"><p class="eyebrow">LITTLE WILD GARDEN</p><h1>ひとつの庭</h1><p>${residents.length ? `${residents.length}匹が、のんびり暮らしています。` : '学んだぶんだけ、仲間が増えていく。'}</p></div><div class="garden-residents">${residents.map(item => `<button class="garden-animal animal-${item.asset}" aria-label="${escape(item.name)}に声をかける"><span class="animal-shadow"></span><span class="animal-roam"><span class="animal-body">${animalImage(item)}</span></span><span class="animal-name">${escape(item.name)}</span></button>`).join('')}</div>${!residents.length ? '<div class="garden-invitation"><span class="invitation-line"></span><p>最初の仲間を、迎えよう。</p><small>右下のショップで出会えます。</small></div>' : ''}<button class="open-garden-shop" aria-haspopup="dialog"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12h20l-2 16H8ZM11 12V9a5 5 0 0 1 10 0v3"/></svg><span>ショップ</span></button><p class="garden-tip">${residents.length ? '動物にタッチしてみよう。' : 'クイズの答え合わせ1回で、1コイン。'}</p></section><dialog class="garden-shop" aria-labelledby="garden-shop-title"><div class="shop-sheet"><div class="shop-grip" aria-hidden="true"></div><div class="garden-shop-header"><div><p class="eyebrow">WELCOME A LITTLE FRIEND</p><h2 id="garden-shop-title">庭の仲間を迎える</h2></div><button class="close-garden-shop" aria-label="ショップを閉じる">×</button></div><p class="shop-balance"><span class="coin-dot"></span> ${state.garden.coins} <span>コイン</span></p><div class="animal-shop-list">${boot.shop.map(item => {
+      const owned = state.garden.items.includes(item.id);
+      const short = Math.max(0, item.cost - state.garden.coins);
+      return `<article class="animal-shop-card">${animalImage(item, 'shop-animal-image')}<div class="animal-shop-info"><h3>${escape(item.name)}</h3><p>${escape(item.description)}</p><button data-buy="${item.id}" ${owned || short ? 'disabled' : ''}>${owned ? 'お迎え済み' : `${item.cost} コイン`}</button>${!owned && short ? `<small>あと${short}コイン</small>` : ''}</div></article>`;
+    }).join('')}</div><p class="shop-footnote">答え合わせ1回で1コイン。正解でもミスでも増えます。</p></div></dialog>`;
+  }
+  function setupGardenShop() {
+    const dialog = content.querySelector('.garden-shop');
+    if (!dialog) return;
+    const sheet = dialog.querySelector('.shop-sheet');
+    const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    content.querySelector('.open-garden-shop').onclick = () => {
+      shopOpen = true;
+      dialog.inert = false;
+      dialog.showModal();
+      if (!reduced()) sheet.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], {
+        duration: 320, easing: 'cubic-bezier(.2,.7,.2,1)'
+      });
+    };
+    async function closeShop() {
+      if (dialog.dataset.closing) return;
+      dialog.dataset.closing = 'true';
+      dialog.inert = true;
+      if (!reduced()) await sheet.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(100%)' }], {
+        duration: 220, easing: 'ease-in', fill: 'forwards'
+      }).finished;
+      shopOpen = false;
+      dialog.close();
+      dialog.inert = false;
+      delete dialog.dataset.closing;
+      sheet.getAnimations().forEach(animation => animation.cancel());
+    }
+    dialog.querySelector('.close-garden-shop').onclick = closeShop;
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closeShop(); });
+    dialog.addEventListener('click', event => { if (event.target === dialog) closeShop(); });
+    content.querySelectorAll('.garden-animal').forEach(animal => animal.onclick = () => {
+      animal.classList.remove('says-hello');
+      void animal.offsetWidth;
+      animal.classList.add('says-hello');
+    });
+    if (shopOpen) dialog.showModal();
   }
   function renderSettings() {
     const settings = state.settings;
@@ -276,6 +344,8 @@
     scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
   }
   function render() {
+    document.body.classList.toggle('garden-mode', page === 'garden');
+    if (page !== 'garden') shopOpen = false;
     disclosureCleanups.forEach(dispose => dispose());
     disclosureCleanups = [];
     if (!boot.native && /^https?:$/.test(location.protocol)) {
@@ -346,6 +416,7 @@
         zoom(scale);
       });
     });
+    setupGardenShop();
     slideDisclosures();
     content.querySelectorAll('[data-month]').forEach(button => button.onclick = () => {
       month = new Date(month.getFullYear(), month.getMonth() + Number(button.dataset.month), 1);

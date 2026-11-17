@@ -53,7 +53,9 @@ const decks = input ? [deck] : [deck, ...fs.readdirSync(path.join(root, 'decks')
   .map(file => compile(path.join(root, 'decks', file)))];
 const read = name => fs.readFileSync(path.join(root, 'src', name), 'utf8');
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
+const gardenAssets = Object.fromEntries(core.shop.map(item => [item.asset, `data:image/png;base64,${fs.readFileSync(path.join(root, 'assets/garden', `${item.asset}.png`)).toString('base64')}`]));
 const html = read('index.html').replace('/*__STYLE__*/', read('style.css'))
+  .replace('/*__GARDEN_ASSETS__*/', json(gardenAssets))
   .replace('/*__CORE__*/', read('core.js')).replace('/*__APP__*/', read('app.js'));
 const bundle = '// Variables used by Scriptable.\n// icon-color: green; icon-glyph: seedling;\n' +
   read('core.js') + '\n' + read('storage.js') + '\n' +

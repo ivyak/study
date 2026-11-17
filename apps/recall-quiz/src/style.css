@@ -38,6 +38,8 @@ math mo.math-overbar { transform: translateY(-.12em); }
 .answer .label { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin: 0 0 9px; }
 .answer-main { font-size: 21px; margin-bottom: 12px; }
 .criterion { font-size: 13px; color: #71687a; }
+.disclosure-body, .answer-reveal { overflow: hidden; }
+.disclosure-content { display: flow-root; }
 details { margin-top: 15px; font-size: 13px; }
 summary { cursor: pointer; padding: 5px 0; color: var(--muted); min-height: 38px; }
 .sources { color: var(--muted); font-size: 11px; margin-top: 12px; overflow-wrap: anywhere; }

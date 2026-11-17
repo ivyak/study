@@ -10,6 +10,7 @@
   const scrollRegion = document.querySelector('.scroll-region');
   const stretchContent = document.querySelector('.stretch-content');
   let pullGesture = null, spring = null;
+  let disclosureCleanups = [];
   const status = document.querySelector('#status');
   const queue = [], pending = new Map();
   let nativeWaiter = null;
@@ -116,7 +117,7 @@
       return;
     }
     const q = deck.questions.find(q => q.id === s.queue[s.index].id);
-    content.innerHTML = `<p class="eyebrow">${escape(deck.title)}</p><p class="course">${escape(deck.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">どちらを押しても ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+    content.innerHTML = `<p class="eyebrow">${escape(deck.title)}</p><p class="course">${escape(deck.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">どちらを押しても ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
   }
   function renderGarden() {
     content.innerHTML = `<p class="eyebrow">YOUR LITTLE GARDEN</p><h1 class="page-title">想起のあとに、小さな庭。</h1><p class="lead">正解でも、出なかった日でも。<br>ひとつ取り組むたびに、1コイン。</p>${scene()}<div class="shop">${boot.shop.map(item => `<div class="shop-item"><div><span class="plant">${item.icon}</span>${item.name}</div><button data-buy="${item.id}" ${state.garden.items.includes(item.id) || state.garden.coins < item.cost ? 'disabled' : ''}>${state.garden.items.includes(item.id) ? '庭にいます' : `${item.cost} コイン`}</button></div>`).join('')}</div>`;
@@ -168,6 +169,57 @@
       }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
       return `<section class="lesson"><div class="lesson-head"><div><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">${item.questions.length}問${item.id === deck.id ? ' · 選択中' : ''}</p></div>${item.id === deck.id ? '' : `<button class="lesson-start" data-deck="${escape(item.id)}">この教材で学習</button>`}</div>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
     }).join('')}`;
+  }
+  function slideDisclosures() {
+    for (const details of content.querySelectorAll('details')) {
+      const summary = details.querySelector(':scope > summary');
+      if (!summary) continue;
+      const body = document.createElement('div');
+      body.className = 'disclosure-body';
+      const inner = document.createElement('div');
+      inner.className = 'disclosure-content';
+      for (const node of [...details.childNodes]) if (node !== summary) inner.appendChild(node);
+      body.appendChild(inner);
+      details.appendChild(body);
+      let expanded = details.open, animation = null;
+      function slide(open) {
+        const from = details.open ? body.getBoundingClientRect().height : 0;
+        if (animation) animation.cancel();
+        animation = null;
+        expanded = open;
+        summary.setAttribute('aria-expanded', String(open));
+        body.inert = !open;
+        details.open = true;
+        const to = open ? inner.getBoundingClientRect().height : 0;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !body.animate || Math.abs(from - to) < 1) {
+          details.open = open;
+          updateScrollFade();
+          return;
+        }
+        const active = body.animate([{ height: `${from}px` }, { height: `${to}px` }], {
+          duration: 280, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'both'
+        });
+        animation = active;
+        active.onfinish = () => {
+          if (animation !== active) return;
+          animation = null;
+          details.open = open;
+          active.cancel();
+          updateScrollFade();
+        };
+      }
+      summary.setAttribute('aria-expanded', String(expanded));
+      summary.addEventListener('click', event => {
+        if (event.target.closest('a, button, input, select')) return;
+        event.preventDefault();
+        slide(!expanded);
+      });
+      const observer = window.ResizeObserver ? new ResizeObserver(() => {
+        if (animation && expanded) slide(true);
+      }) : null;
+      if (observer) observer.observe(inner);
+      disclosureCleanups.push(() => { if (animation) animation.cancel(); if (observer) observer.disconnect(); });
+    }
   }
   function releasePull(animate = true) {
     pullGesture = null;
@@ -224,6 +276,8 @@
     scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
   }
   function render() {
+    disclosureCleanups.forEach(dispose => dispose());
+    disclosureCleanups = [];
     if (!boot.native && /^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
       url.searchParams.set('screen', page);
@@ -249,13 +303,20 @@
     if (key !== renderedKey) {
       const changedPage = page !== renderedPage;
       if (content.getAnimations) content.getAnimations().forEach(animation => animation.cancel());
+      const answerReveal = page === 'quiz' && !changedPage ? content.querySelector('.answer-reveal') : null;
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && content.animate) {
-        const order = ['quiz', 'calendar', 'garden', 'catalog', 'settings'];
-        const direction = order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
-        content.animate([
-          { opacity: 0, transform: changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
-          { opacity: 1, transform: 'translate(0, 0)' }
-        ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        if (answerReveal) {
+          answerReveal.animate([{ height: '0px' }, { height: `${answerReveal.scrollHeight}px` }], {
+            duration: 300, easing: 'cubic-bezier(.2,.7,.2,1)'
+          });
+        } else {
+          const order = ['quiz', 'calendar', 'garden', 'catalog', 'settings'];
+          const direction = order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
+          content.animate([
+            { opacity: 0, transform: changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
+            { opacity: 1, transform: 'translate(0, 0)' }
+          ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        }
       }
       releasePull(false);
       scrollRegion.scrollTop = 0;
@@ -285,6 +346,7 @@
         zoom(scale);
       });
     });
+    slideDisclosures();
     content.querySelectorAll('[data-month]').forEach(button => button.onclick = () => {
       month = new Date(month.getFullYear(), month.getMonth() + Number(button.dataset.month), 1);
       selectedDay = RecallCore.day(month);

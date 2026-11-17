@@ -305,7 +305,7 @@
         if (page === 'catalog' && catalogLesson === id) render();
       }));
     }
-    const heading = `<button class="quiet catalog-back" data-catalog-back>‹ 授業回の一覧に戻る</button><p class="eyebrow">${escape(selected.title)}</p><h1 class="page-title">${escape(selected.subtitle || selected.title)}</h1>`;
+    const heading = `<button class="catalog-back" data-catalog-back aria-label="授業回の一覧に戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><p class="eyebrow">${escape(selected.title)}</p><h1 class="page-title">${escape(selected.subtitle || selected.title)}</h1>`;
     if (!selected.questions) {
       const error = catalogErrors.get(selected.id);
       content.innerHTML = `${heading}<div class="panel" role="status" aria-live="polite">${error ? `<p>${escape(error)}</p><button class="secondary" data-retry-lesson="${escape(selected.id)}">もう一度読み込む</button>` : '<p>問題を読み込み中…</p>'}</div>`;
@@ -547,7 +547,27 @@
     observer.observe(scrollRegion);
     observer.observe(content);
   }
-  document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => { page = button.dataset.screen; status.textContent = ''; render(); });
+  document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => {
+    if (busy) return;
+    renderedKey = '';
+    if (button.dataset.screen === 'quiz') { act('home'); return; }
+    page = button.dataset.screen;
+    if (page === 'catalog') catalogLesson = '';
+    if (page === 'calendar') {
+      const today = new Date();
+      month = new Date(today.getFullYear(), today.getMonth(), 1);
+      selectedDay = RecallCore.day(today);
+    }
+    if (page === 'garden') {
+      shopOpen = false;
+      gachaView = 'draw';
+      drawResult = null;
+      lineupAnimal = null;
+      shownDrawId = null;
+    }
+    status.textContent = '';
+    render();
+  });
   document.querySelector('#home').onclick = () => act('home');
   window.addEventListener('popstate', () => {
     if (busy) return;

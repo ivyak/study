@@ -133,7 +133,8 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .lesson-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; min-width: 0; padding: 16px 13px; border: 1px solid var(--line); border-radius: 17px; background: #fffcf7; font-size: 12px; overflow-wrap: anywhere; }
 .lesson-card-number { font-size: 19px; font-weight: 650; }
 .lesson-card small { color: var(--muted); margin-top: auto; }
-.catalog-back { padding-left: 0; }
+.catalog-back { display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 10px; margin-left: -10px; border: 0; background: none; color: var(--muted); }
+.catalog-back svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .catalog-question { background: #fffcf7; border: 1px solid var(--line); border-radius: 13px; padding: 12px; margin: 10px 0; }
 .catalog-question > summary { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; color: var(--ink); padding: 0; }
 .question-number { color: var(--muted); font-size: 12px; padding-top: 5px; }

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "calc2-lesson04",
+  "version": 1,
+  "title": "微分積分学続論II",
+  "subtitle": "第4回 · 一階線型と対角化による連立系の解法",
+  "scope": "微分積分学続論II 4.pdf、全12物理ページ。一階線型と対角化による連立系の解法。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木３]微分積分学続論II/授業資料/微分積分学続論II 4.pdf",
+      "sha256": "1b1c37484d0d18a0c3cdf9018d9ddf644f647ae927a76f1ef77db99dcb26ecd5",
+      "pageCount": 12,
+      "reviewedPages": [
+        2,
+        3,
+        7,
+        8,
+        11,
+        12
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "calc2-l04-q01",
+      "version": 1,
+      "prompt": "連続なa,bに対する一階線型方程式\\(y'=a(x)y+b(x)\\)で、積分因子は？",
+      "answer": "\\(M(x)=\\exp(-\\int a(x)\\,dx)\\)。",
+      "criterion": "aの原始関数の負を指数に置ければ正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 4.pdf",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "calc2-l04-q02",
+      "version": 1,
+      "prompt": "\\(y'=a(x)y+b(x)\\)に\\(M=\\exp(-\\int a\\,dx)\\)を掛けると、左辺をどの積の微分にまとめる？",
+      "answer": "\\((My)'=Mb\\)。",
+      "criterion": "積Myの微分と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 4.pdf",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "calc2-l04-q03",
+      "version": 1,
+      "prompt": "一階線型方程式\\(y'=a(x)y+b(x)\\)を定数変化法で解く。A′=aとすると、どの形のyを代入する？",
+      "answer": "\\(y=C(x)e^{A(x)}\\)。",
+      "criterion": "同次解の定数をxの関数へ置き換えると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 4.pdf",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "calc2-l04-q04",
+      "version": 1,
+      "prompt": "\\(y'=a(x)y+b(x)\\)、A′=aで、y=C(x)eᴬと置く。C′は？",
+      "answer": "\\(C'(x)=b(x)e^{-A(x)}\\)。",
+      "criterion": "bにeの−A乗を掛けた式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 4.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "calc2-l04-q05",
+      "version": 1,
+      "prompt": "定数行列Aが\\(P^{-1}AP=D\\)と対角化できる。\\(\\mathbf x'=A\\mathbf x\\)を対角な系へ変える未知関数の置換は？",
+      "answer": "\\(\\mathbf y=P^{-1}\\mathbf x\\)。",
+      "criterion": "y=Pの逆行列×xと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 4.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "calc2-l04-q06",
+      "version": 1,
+      "prompt": "\\(\\mathbf y'=D\\mathbf y\\)、D=diag(λ1,…,λn)の各成分の一般解は？",
+      "answer": "\\(y_i(t)=C_i e^{\\lambda_i t}\\)。",
+      "criterion": "各固有値を指数とする成分ごとの解を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 4.pdf",
+          "page": 12
+        }
+      ]
+    }
+  ]
+}

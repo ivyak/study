@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "mechanics-lesson04",
+  "version": 1,
+  "title": "解析力学",
+  "subtitle": "第4回 · 元の第4回・ダランベールの原理と一般化力",
+  "scope": "kaiseki_2026_fall_04.pdf、全12物理ページ。元の第4回・ダランベールの原理と一般化力。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期水２]解析力学（数理）/授業資料/kaiseki_2026_fall_04.pdf",
+      "sha256": "bce250215f07e4ae6bf9c47640d4523dc4e4d40d3034a57a73fce9848b69dae6",
+      "pageCount": 12,
+      "reviewedPages": [
+        6,
+        7,
+        10,
+        11
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mechanics-l04-q01",
+      "version": 1,
+      "prompt": "質量mi、位置ri、外力Fiの質点系に理想拘束がある。仮想変位δriを用いたダランベールの原理は？",
+      "answer": "\\(\\sum_i(m_i\\ddot{\\mathbf r}_i-\\mathbf F_i)\\cdot\\delta\\mathbf r_i=0\\)。",
+      "criterion": "慣性項と外力の差による仮想仕事が0と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_04.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l04-q02",
+      "version": 1,
+      "prompt": "位置\\(\\mathbf r_\\alpha(q_1,\\ldots,q_n,t)\\)に対する、時刻固定の仮想変位をδqjで表すと？",
+      "answer": "\\(\\delta\\mathbf r_\\alpha=\\sum_j(\\partial\\mathbf r_\\alpha/\\partial q_j)\\delta q_j\\)。",
+      "criterion": "時刻変化の項を入れず、一般化座標による変化を足せれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_04.pdf",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l04-q03",
+      "version": 1,
+      "prompt": "外力Fαと位置rαを一般化座標qjで表した。qjに対応する一般化力Qjは？",
+      "answer": "\\(Q_j=\\sum_\\alpha\\mathbf F_\\alpha\\cdot\\partial\\mathbf r_\\alpha/\\partial q_j\\)。",
+      "criterion": "力と位置の偏微分の内積を足せれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_04.pdf",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l04-q04",
+      "version": 1,
+      "prompt": "理想拘束のもとで、運動エネルギーTと一般化力Qjを用いるラグランジュ方程式は？",
+      "answer": "\\(\\frac{d}{dt}\\frac{\\partial T}{\\partial\\dot q_j}-\\frac{\\partial T}{\\partial q_j}=Q_j\\)。",
+      "criterion": "一般化力を右辺に持つ式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_04.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l04-q05",
+      "version": 1,
+      "prompt": "速度に依存しないポテンシャルU(q,t)から力が導かれるとき、一般化力Qjは？",
+      "answer": "\\(Q_j=-\\partial U/\\partial q_j\\)。",
+      "criterion": "ポテンシャルの負の偏微分と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_04.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l04-q06",
+      "version": 1,
+      "prompt": "\\(\\sum_j A_j\\delta q_j=0\\)から各Aj=0を結論するため、仮想変位δqjに必要な性質は？",
+      "answer": "互いに独立で、任意に選べること。",
+      "criterion": "独立性と任意性を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_04.pdf",
+          "page": 11
+        }
+      ]
+    }
+  ]
+}

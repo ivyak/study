@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "id": "control-lesson04",
+  "version": 1,
+  "title": "線形制御理論",
+  "subtitle": "第4回 · 元の第5回・一次系と二次系の応答",
+  "scope": "線形制御理論【第5回】講義資料.pdf、全26物理ページ。元の第5回・一次系と二次系の応答。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期水３]線形制御理論/授業資料/線形制御理論【第5回】講義資料.pdf",
+      "sha256": "60b8e0eec5985955a9acb3c548a674c348131fae7c1c4c2461b6a9be5e79f534",
+      "pageCount": 26,
+      "reviewedPages": [
+        12,
+        14,
+        15,
+        17,
+        18,
+        25,
+        26
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "control-l04-q01",
+      "version": 1,
+      "prompt": "\\(H(s)=1/(s+a)\\)、a>0の一次系の時定数は？",
+      "answer": "\\(1/a\\)。",
+      "criterion": "減衰率aの逆数と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "control-l04-q02",
+      "version": 1,
+      "prompt": "実係数二次系\\(H(s)=1/(s^2+a_1s+a_2)\\)の極がすべて開左半平面にあるための条件は？",
+      "answer": "\\(a_1>0,\\ a_2>0\\)。",
+      "criterion": "両係数が正と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "control-l04-q03",
+      "version": 1,
+      "prompt": "二次系の分母\\(s^2+2\\zeta\\omega_ns+\\omega_n^2\\)で、ωn>0。0<ζ<1、ζ=1、ζ>1で極はそれぞれどうなる？",
+      "answer": "共役複素数、負の重根、相異なる負の実数。",
+      "criterion": "ζの3範囲に対応する極の型を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "control-l04-q04",
+      "version": 1,
+      "prompt": "二次系の極が\\(-\\zeta\\omega_n\\pm i\\omega_n\\sqrt{1-\\zeta^2}\\)、0<ζ<1のとき、応答に現れる振動の角周波数は？",
+      "answer": "\\(\\omega_n\\sqrt{1-\\zeta^2}\\)。",
+      "criterion": "極の虚部の絶対値と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "control-l04-q05",
+      "version": 1,
+      "prompt": "安定な系の単純極\\(p=\\sigma+i\\omega\\)が生むモード\\(e^{pt}\\)で、減衰の速さを決めるのは実部と虚部のどちら？",
+      "answer": "実部σ。負で、絶対値が大きいほど速く減衰する。",
+      "criterion": "実部が振幅の減衰を決めると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "id": "control-l04-q06",
+      "version": 1,
+      "prompt": "\\(H(s)=1/(s^2+2\\zeta\\omega_ns+\\omega_n^2)\\)、ωn>0、ζ>0、初期値0の単位ステップ応答の最終値は？",
+      "answer": "\\(H(0)=1/\\omega_n^2\\)。",
+      "criterion": "分子が1なので最終値は1ではなく1/ωn²と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "control-l04-q07",
+      "version": 1,
+      "prompt": "質量M、ばね定数K、粘性抵抗係数Dの系\\(M\\ddot x+D\\dot x+Kx=F\\)で、自然角周波数ωnと減衰係数ζは？M,K>0とする。",
+      "answer": "\\(\\omega_n=\\sqrt{K/M},\\quad\\zeta=D/(2\\sqrt{KM})\\)。",
+      "criterion": "両方の式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "線形制御理論【第5回】講義資料.pdf",
+          "page": 25
+        }
+      ]
+    }
+  ]
+}

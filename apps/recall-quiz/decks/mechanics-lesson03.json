@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "id": "mechanics-lesson03",
+  "version": 1,
+  "title": "解析力学",
+  "subtitle": "第3回 · 元の第3回・拘束と仮想仕事",
+  "scope": "kaiseki_2026_fall_03.pdf、全21物理ページ。元の第3回・拘束と仮想仕事。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期水２]解析力学（数理）/授業資料/kaiseki_2026_fall_03.pdf",
+      "sha256": "b0123519ba0068c77b59f8ff991767f379763f00e12db569e1b65b1a5758df6d",
+      "pageCount": 21,
+      "reviewedPages": [
+        8,
+        13,
+        14,
+        15,
+        17,
+        19
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mechanics-l03-q01",
+      "version": 1,
+      "prompt": "N質点の位置と時刻だけの等式\\(f_k(\\mathbf r_1,\\ldots,\\mathbf r_N,t)=0\\)で表される拘束を何という？",
+      "answer": "ホロノミック拘束。",
+      "criterion": "ホロノミック拘束と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l03-q02",
+      "version": 1,
+      "prompt": "3次元空間のN質点に、独立なホロノミック拘束がp個ある。拘束が正則な配置での自由度はいくつ？",
+      "answer": "\\(3N-p\\)。",
+      "criterion": "位置座標の数から独立な拘束の数を引ければ正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l03-q03",
+      "version": 1,
+      "prompt": "拘束のある力学系で、仮想変位は時刻を進めて考える変位？",
+      "answer": "時刻を固定し、拘束と両立する微小変位を考える。",
+      "criterion": "時刻固定と拘束との両立の両方を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l03-q04",
+      "version": 1,
+      "prompt": "拘束力Riと許される仮想変位δriを用いて、理想拘束の条件を式で表すと？",
+      "answer": "\\(\\sum_i\\mathbf R_i\\cdot\\delta\\mathbf r_i=0\\)。",
+      "criterion": "すべての許される仮想変位に対して、拘束力の仮想仕事の総和が0と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l03-q05",
+      "version": 1,
+      "prompt": "理想的な両側ホロノミック拘束のある系が静止している。外力Fiによる仮想仕事は、任意の許される仮想変位δriに対してどうなる？",
+      "answer": "\\(\\sum_i\\mathbf F_i\\cdot\\delta\\mathbf r_i=0\\)。",
+      "criterion": "外力の仮想仕事の総和が0と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l03-q06",
+      "version": 1,
+      "prompt": "一定の角速度ベクトルΩで回転する座標系で、質量m、回転系での速度vの質点に働くコリオリ力は？",
+      "answer": "\\(-2m\\boldsymbol\\Omega\\times\\mathbf v\\)。",
+      "criterion": "符号を含めた外積の式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "mechanics-l03-q07",
+      "version": 1,
+      "prompt": "速度を含む拘束条件は、必ず非ホロノミック拘束になる？",
+      "answer": "ならない。位置と時刻の等式に積分できればホロノミック拘束になる。",
+      "criterion": "位置の等式に積分できるかで判断すると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "kaiseki_2026_fall_03.pdf",
+          "page": 15
+        }
+      ]
+    }
+  ]
+}

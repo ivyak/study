@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "numerical-lesson05",
+  "version": 1,
+  "title": "数値解析",
+  "subtitle": "第5回 · 元の資料6・LU分解と二次関数",
+  "scope": "数値解析 6.pdf、全11物理ページ。元の資料6・LU分解と二次関数。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期水４]数値解析/数値解析 6.pdf",
+      "sha256": "fc3fd48904fe2d5fc467dd99fd7dbaadca5649695ff3e611f9369aa95aebe7e3",
+      "pageCount": 11,
+      "reviewedPages": [
+        3,
+        5,
+        6,
+        8,
+        9
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "numerical-l05-q01",
+      "version": 1,
+      "prompt": "A=LUで、Lは正則な下三角、Uは正則な上三角とする。Ax=bを解く手順は？",
+      "answer": "まずLy=bを前進代入で解き、次にUx=yを後退代入で解く。",
+      "criterion": "三角方程式を解く順番を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "numerical-l05-q02",
+      "version": 1,
+      "prompt": "n次の密な正則三角行列の連立方程式を、前進代入または後退代入で解く計算量は？",
+      "answer": "\\(O(n^2)\\)。",
+      "criterion": "nの2乗のオーダーと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "numerical-l05-q03",
+      "version": 1,
+      "prompt": "同じn次密行列Aで右辺bだけが変わる連立方程式を繰り返し解く。LU分解を再利用すると、分解後の右辺1つあたりの計算量は？",
+      "answer": "\\(O(n^2)\\)。",
+      "criterion": "LUを再計算せず、三角方程式2つを解くと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "numerical-l05-q04",
+      "version": 1,
+      "prompt": "実対称正定値行列Aのコレスキー分解はどの形？",
+      "answer": "\\(A=LL^{\\mathsf T}\\)。Lは対角成分が正の下三角行列。",
+      "criterion": "下三角行列とその転置の積と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "numerical-l05-q05",
+      "version": 1,
+      "prompt": "実対称行列Aと実ベクトルbについて、\\(\\Phi(x)=\\tfrac12x^{\\mathsf T}Ax-b^{\\mathsf T}x\\)の勾配は？",
+      "answer": "\\(\\nabla\\Phi(x)=Ax-b\\)。",
+      "criterion": "Axからbを引くと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "numerical-l05-q06",
+      "version": 1,
+      "prompt": "Aは実対称正定値行列とする。\\(Ax=b\\)の解は、\\(\\Phi(x)=\\tfrac12x^{\\mathsf T}Ax-b^{\\mathsf T}x\\)についてどのような点？",
+      "answer": "Φを一意に最小にする点。",
+      "criterion": "一意な最小点と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "numerical-l05-q07",
+      "version": 1,
+      "prompt": "実対称行列Aが正定値である条件を、非零ベクトルxの二次形式で表すと？",
+      "answer": "すべてのx≠0に対し\\(x^{\\mathsf T}Ax>0\\)。",
+      "criterion": "すべての非零ベクトルで厳密に正と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 6.pdf",
+          "page": 9
+        }
+      ]
+    }
+  ]
+}

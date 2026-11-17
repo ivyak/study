@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "id": "calc2-lesson03",
+  "version": 1,
+  "title": "微分積分学続論II",
+  "subtitle": "第3回 · 完全形の解法と積分因子",
+  "scope": "微分積分学続論II 3.pdf、全10物理ページ。完全形の解法と積分因子。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木３]微分積分学続論II/授業資料/微分積分学続論II 3.pdf",
+      "sha256": "79992399ee0cb9d0fa35c514fbca3bb9cf21244144c03f78395cf51336d6ef2c",
+      "pageCount": 10,
+      "reviewedPages": [
+        1,
+        6,
+        7,
+        8,
+        9
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "calc2-l03-q01",
+      "version": 1,
+      "prompt": "完全形\\(P\\,dx+Q\\,dy=0\\)で、fx=Pをxについて積分してfを求める。積分定数の代わりに何を加える？",
+      "answer": "yの任意関数g(y)。その後fy=Qでgを決める。",
+      "criterion": "g(y)を加え、もう一方の偏微分条件で決めると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 3.pdf",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "calc2-l03-q02",
+      "version": 1,
+      "prompt": "\\(\\nabla f=(P,Q)\\)を満たすポテンシャルfがある。点AからBへの\\(\\int(P\\,dx+Q\\,dy)\\)は何で決まる？",
+      "answer": "\\(f(B)-f(A)\\)。",
+      "criterion": "終点と始点のポテンシャルの差と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 3.pdf",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "calc2-l03-q03",
+      "version": 1,
+      "prompt": "\\(P\\,dx+Q\\,dy=0\\)の積分因子Mとは、どのような関数？",
+      "answer": "掛けることで\\(MP\\,dx+MQ\\,dy\\)を完全微分にする関数。",
+      "criterion": "掛けた後に完全形になると言えれば正解。",
+      "explanation": "元の方程式との同値性は、Mが定義されて0でない領域で考える。",
+      "sources": [
+        {
+          "file": "微分積分学続論II 3.pdf",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "calc2-l03-q04",
+      "version": 1,
+      "prompt": "P,Q,Mはなめらかとする。Mが\\(P\\,dx+Q\\,dy=0\\)の積分因子となるための偏微分条件は？",
+      "answer": "\\(\\partial_y(MP)=\\partial_x(MQ)\\)。",
+      "criterion": "積の微分を含めた交差偏微分の一致と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 3.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "calc2-l03-q05",
+      "version": 1,
+      "prompt": "Q≠0の領域で、\\((P_y-Q_x)/Q\\)がxだけの関数h(x)になる。xだけに依存する非零の積分因子Mはどう求める？",
+      "answer": "\\(M'/M=h(x)\\)より\\(M=\\exp(\\int h(x)\\,dx)\\)。",
+      "criterion": "積分して指数関数にする手順を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 3.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "calc2-l03-q06",
+      "version": 1,
+      "prompt": "P≠0の領域で、\\((Q_x-P_y)/P\\)がyだけの関数k(y)になる。yだけに依存する非零の積分因子Mはどう求める？",
+      "answer": "\\(M'/M=k(y)\\)より\\(M=\\exp(\\int k(y)\\,dy)\\)。",
+      "criterion": "xだけの場合と符号が逆になる式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "微分積分学続論II 3.pdf",
+          "page": 9
+        }
+      ]
+    }
+  ]
+}

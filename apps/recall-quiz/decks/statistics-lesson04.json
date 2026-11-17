@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "id": "statistics-lesson04",
+  "version": 1,
+  "title": "数理統計",
+  "subtitle": "第4回 · 元の資料5・t分布と信頼区間",
+  "scope": "数理統計5.pdf、全15物理ページ。元の資料5・t分布と信頼区間。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期木１]数理統計/数理統計5.pdf",
+      "sha256": "0231d0aa43a8084a1d7c9f1c1fb644ec94682ff7dd8f75604a66b0fdada15029",
+      "pageCount": 15,
+      "reviewedPages": [
+        9,
+        10,
+        11,
+        13,
+        14
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "statistics-l04-q01",
+      "version": 1,
+      "prompt": "\\(Z\\sim N(0,1)\\)と\\(V\\sim\\chi^2_\\nu\\)は独立とする。自由度νのt分布を作る式は？",
+      "answer": "\\(T=Z/\\sqrt{V/\\nu}\\)。",
+      "criterion": "独立なカイ二乗変数を自由度で割り、その平方根で標準正規変数を割れれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計5.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "statistics-l04-q02",
+      "version": 1,
+      "prompt": "n≥2個の独立なN(μ,σ²)標本で、\\(\\bar X\\)は標本平均、\\(S^2=\\sum_i(X_i-\\bar X)^2/(n-1)\\)。\\(\\sqrt n(\\bar X-\\mu)/S\\)の分布は？σ>0とする。",
+      "answer": "自由度n−1のt分布。",
+      "criterion": "自由度も含めて言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計5.pdf",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "statistics-l04-q03",
+      "version": 1,
+      "prompt": "自由度νのt分布は、ν→∞でどの分布に近づく？",
+      "answer": "標準正規分布N(0,1)。",
+      "criterion": "標準正規分布と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計5.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "statistics-l04-q04",
+      "version": 1,
+      "prompt": "自由度ν>2のt分布の分散は？",
+      "answer": "\\(\\nu/(\\nu-2)\\)。",
+      "criterion": "自由度の条件と式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計5.pdf",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "statistics-l04-q05",
+      "version": 1,
+      "prompt": "未知母数θの信頼度1−αの信頼区間を、標本から作る下限Lと上限Uの確率で表すと？",
+      "answer": "\\(P_\\theta(L\\leq\\theta\\leq U)=1-\\alpha\\)。",
+      "criterion": "確率変数は区間の両端であると分かる式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数理統計5.pdf",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "statistics-l04-q06",
+      "version": 1,
+      "prompt": "信頼度95％の区間推定を同じ方法で繰り返すとき、95％とは何の割合？",
+      "answer": "作られる区間のうち、真の母数を含む区間の長期的な割合。",
+      "criterion": "標本を取り直した区間の被覆割合と言えれば正解。",
+      "explanation": "観測済みの1つの区間に、固定された母数が95％の確率で入るという意味ではない。",
+      "sources": [
+        {
+          "file": "数理統計5.pdf",
+          "page": 14
+        }
+      ]
+    }
+  ]
+}

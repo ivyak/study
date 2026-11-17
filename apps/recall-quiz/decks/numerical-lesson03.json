@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "id": "numerical-lesson03",
+  "version": 1,
+  "title": "数値解析",
+  "subtitle": "第3回 · 元の資料4・狭義対角優位と反復の収束",
+  "scope": "数値解析 4.pdf、全13物理ページ。元の資料4・狭義対角優位と反復の収束。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期水４]数値解析/数値解析 4.pdf",
+      "sha256": "12036cbe6b701d081274ae2ff6f55460ba529401699333b484876049fb5c2e82",
+      "pageCount": 13,
+      "reviewedPages": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "numerical-l03-q01",
+      "version": 1,
+      "prompt": "正方行列Aが行について狭義対角優位である条件は？",
+      "answer": "各iで\\(\\lvert a_{ii}\\rvert>\\sum_{j\\ne i}\\lvert a_{ij}\\rvert\\)。",
+      "criterion": "各行の対角成分の絶対値が、ほかの成分の絶対値の和を厳密に上回ると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 4.pdf",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "numerical-l03-q02",
+      "version": 1,
+      "prompt": "行について狭義対角優位な正方行列は、必ず正則？",
+      "answer": "正則である。",
+      "criterion": "正則と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 4.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "numerical-l03-q03",
+      "version": 1,
+      "prompt": "Ax=bのAが行について狭義対角優位であるとき、ヤコビ法の収束は初期値に依存する？",
+      "answer": "任意の初期値から厳密解へ収束する。",
+      "criterion": "初期値によらず収束すると言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 4.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "numerical-l03-q04",
+      "version": 1,
+      "prompt": "ヤコビ法の誤差の無限大ノルムを評価する縮小率rは、行列成分からどう選ぶ？対角成分は非零とする。",
+      "answer": "\\(r=\\max_i\\sum_{j\\ne i}\\lvert a_{ij}\\rvert/\\lvert a_{ii}\\rvert\\)。",
+      "criterion": "各行の非対角成分の和を対角成分で割り、最大を取れれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 4.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "numerical-l03-q05",
+      "version": 1,
+      "prompt": "反復誤差ekが\\(\\lVert e_{k+1}\\rVert\\leq r\\lVert e_k\\rVert\\)、0≤r<1を満たす。初期誤差e0からk回目の誤差をどう評価する？",
+      "answer": "\\(\\lVert e_k\\rVert\\leq r^k\\lVert e_0\\rVert\\)。",
+      "criterion": "rのk乗による幾何的減少と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 4.pdf",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "numerical-l03-q06",
+      "version": 1,
+      "prompt": "無限次元空間で、関数列があるノルムで0に収束した。他のノルムでも0に収束すると一般に言える？",
+      "answer": "言えない。どのノルムでの収束かを区別する必要がある。",
+      "criterion": "有限次元のノルム同値性をそのまま使えないと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "数値解析 4.pdf",
+          "page": 6
+        }
+      ]
+    }
+  ]
+}

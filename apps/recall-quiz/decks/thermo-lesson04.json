@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "id": "thermo-lesson04",
+  "version": 1,
+  "title": "熱力学",
+  "subtitle": "第4回 · エンタルピーと理想気体の過程",
+  "scope": "熱力学 4.pdf、全13物理ページ。エンタルピーと理想気体の過程。既存問題と重複する復習と長い証明の再現は出題しない。",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/[2026後期火１]熱力学/熱力学 4.pdf",
+      "sha256": "5e1d70c334ae66a0bda35d336a9134481183320516bd780d187fe0c7af6da5d2",
+      "pageCount": 13,
+      "reviewedPages": [
+        4,
+        5,
+        7,
+        8,
+        9,
+        12,
+        13
+      ],
+      "method": "原資料の抽出テキストと該当ページ画像を確認し、数式・記号・適用条件を照らし合わせた。板書写真は原画像を目視した。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "thermo-l04-q01",
+      "version": 1,
+      "prompt": "物質量一定の単純圧縮系で、定圧熱容量CpはエンタルピーHのどの偏微分？",
+      "answer": "\\(C_p=(\\partial H/\\partial T)_p\\)。",
+      "criterion": "圧力一定での温度による偏微分と言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q02",
+      "version": 1,
+      "prompt": "同じ圧力でのモル蒸発エンタルピーをT1からT2へ換算する。気体と液体のモル定圧熱容量をCp,gとCp,lとすると、加える補正は？",
+      "answer": "\\(\\int_{T_1}^{T_2}(C_{p,g}-C_{p,l})\\,dT\\)。",
+      "criterion": "気体から液体の熱容量を引いた差を積分できれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q03",
+      "version": 1,
+      "prompt": "n molの液体が温度Tで理想気体へ蒸発する。液体体積を無視すると、蒸発の内部エネルギー変化ΔUとエンタルピー変化ΔHの関係は？",
+      "answer": "\\(\\Delta U=\\Delta H-nRT\\)。",
+      "criterion": "ΔHからnRTを引くと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q04",
+      "version": 1,
+      "prompt": "物質量一定の系で、Cp−Cvを内部エネルギーUと体積Vの偏微分で表すと？",
+      "answer": "\\(C_p-C_v=[(\\partial U/\\partial V)_T+p](\\partial V/\\partial T)_p\\)。",
+      "criterion": "体積依存の項と膨張仕事の項を含めて言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q05",
+      "version": 1,
+      "prompt": "n molの理想気体の定圧熱容量Cpと定積熱容量Cvの差は？Rは気体定数。",
+      "answer": "\\(C_p-C_v=nR\\)。",
+      "criterion": "全体の熱容量ではnRと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q06",
+      "version": 1,
+      "prompt": "n molの理想気体が温度T一定でV1からV2へ可逆膨張する。系が受ける仕事Wは？",
+      "answer": "\\(W=-nRT\\log(V_2/V_1)\\)。",
+      "criterion": "膨張で負になる対数の式を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q07",
+      "version": 1,
+      "prompt": "熱容量一定の理想気体の可逆断熱過程で、圧力pと体積Vの関係は？γ=Cp/Cvとする。",
+      "answer": "\\(pV^\\gamma=\\text{一定}\\)。",
+      "criterion": "γ乗を含む関係を言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "thermo-l04-q08",
+      "version": 1,
+      "prompt": "n molの理想気体を断熱変化させる。モル定積熱容量Cv,mは一定とする。系が受ける仕事は、始温度T1と終温度T2でどう表せる？",
+      "answer": "\\(W=\\Delta U=nC_{v,m}(T_2-T_1)\\)。",
+      "criterion": "断熱なので仕事が内部エネルギー変化に等しいと言えれば正解。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "熱力学 4.pdf",
+          "page": 12
+        }
+      ]
+    }
+  ]
+}

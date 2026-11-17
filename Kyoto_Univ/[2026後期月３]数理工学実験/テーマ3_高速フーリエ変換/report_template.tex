@@ -139,7 +139,7 @@
 x_A(t+1)=(t+1)-[t+1]=t-[t]=x_A(t).
 \]
 
-また、$x_A(0)=0$ であり、$0<t<1$ では $[t]=0$ なので $x_A(t)=t>0$ である。よって $1$ より小さい正の周期は存在せず、$x_A(t)$の基本周期は \textbf{$T_A=1$} となる。Bについては、$t$ を $2$ 増やすと、コサインの角度が $\pi$ 増えて符号が反転する。よって、
+また、$x_A(0)=0$ であり、$0<t<1$ では $x_A(t)=t>0$ 。よって $1$ より小さい正の周期は存在せず、$x_A(t)$の基本周期は \textbf{$T_A=1$} となる。Bについては、
 
 \[
 \begin{aligned}
@@ -150,7 +150,7 @@ x_B(t+2)
 \end{aligned}
 \]
 
-また、$x_B(0)=1$ であり、$0<t<2$ では角度 $\frac{\pi}{2}t$ が $0$ と $\pi$ の間にあるので $x_B(t)<1$ である。よって $2$ より小さい正の周期は存在せず、基本周期は \textbf{$T_B=2$} となる。
+また、$x_B(0)=1$ 、$0<t<2$ では $x_B(t)<1$ である。よって $2$ より小さい正の周期は存在せず、基本周期は \textbf{$T_B=2$} 。
 
 $T_A=1$ なので、積分区間は $[-\frac12,\frac12]$ となり、その区間で$x_A(t)$は以下のように書ける。
 
@@ -397,89 +397,6 @@ FFTを用いてフーリエ係数 $X_k$ を数値的に求めよ。また、そ�
       を評価し、誤差の大きさを $10^{-K}$ のオーダーで表せ。さらに、誤差の原因について述べよ。
 \end{itembox}
 
-\begin{itembox}[l]{課題1-(b)}
-二分法により関数 $f$ の全ての零点を求めよ。ただし、二つの異なる初期点は、(a)で描写した関数 $f$ の概形を参考にして適切に設定せよ。
-\end{itembox}
-\paragraph{二分法の実装と条件}
-
-\texttt{kadai1\_b.py}から\texttt{bisection}を呼び出した。(a)で描画したグラフの三つの交点をそれぞれ含む区間$[-5,-2.5]$、$[-2.5,0]$、$[0,2.5]$を選んだ。端点の関数値は順に$(-56,3.375)$、$(3.375,-6)$、$(-6,9.625)$であり、各区間で符号が異なる。実装では負の関数値を持つ端点を$a$、非負の関数値を持つ端点を$b$として保持するため、数値として$a<b$とは限らない。中点$c=(a+b)/2$を計算し、$f(c)$の符号に応じて同符号の端点を$c$へ置き換える。
-
-\par\noindent
-コード\ref{lst:bisection}に、\texttt{utils\_math.py}の14〜34行を示す。
-\par
-\lstinputlisting[firstline=14,lastline=34,firstnumber=14,language=Python,caption={課題1-(b)の二分法},label={lst:bisection}]{../section3/utils_math.py}
-
-
-\par\noindent
-コード\ref{lst:bisect-call}に、\texttt{kadai1\_b.py}の全体を示す。
-\par
-\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(b)の初期区間},label={lst:bisect-call}]{../section3/kadai1_b.py}
-
-
-
-\begin{itembox}[l]{課題1-(c)}
-ニュートン法により関数 $f$ の全ての零点を求めよ。ただし、(a)で描写した関数 $f$ の概形を参考にして、零点の近くに初期点を設定せよ。
-\end{itembox}
-\paragraph{ニュートン法}
-
-\texttt{kadai1\_c.py}で、(a)で描画したグラフの交点を参考に初期点$-2.5,0,2.5$を選んだ。\texttt{newton}は$f'(x)=3x^2+4x-5$を用い、
-\begin{align}
-  x^{k+1}=x^k-\frac{f(x^k)}{f'(x^k)}
-  \label{eq:root-newton}
-\end{align}
-と更新する。
-
-\par\noindent
-コード\ref{lst:root-newton}に、\texttt{utils\_math.py}の38〜54行を示す。
-\par
-\lstinputlisting[firstline=38,lastline=54,firstnumber=38,language=Python,caption={課題1-(c)のニュートン法},label={lst:root-newton}]{../section3/utils_math.py}
-
-
-
-\par\noindent
-コード\ref{lst:root-newton-call}に、\texttt{kadai1\_c.py}の全体を示す。
-\par
-\lstinputlisting[language=Python,firstnumber=1,caption={課題1-(c)の初期点},label={lst:root-newton-call}]{../section3/kadai1_c.py}
-
-\subsection{課題1：関数の零点探索}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\linewidth]{../section3/kadai1_a.png}
-  \caption{課題 1-(a)の描画結果。}
-  \label{fig:example}
-\end{figure}
-
-\paragraph{二分法}
-二分法で求めた零点の近似値は、約$-3$、$-1$、$2$であった。各初期区間に対する近似値は表\ref{tab:bisect}の通りであり、この結果は\texttt{kadai1\_b.txt}に保存されている。
-\begin{table}[htbp]
-  \centering
-  \caption{二分法の結果。}
-  \label{tab:bisect}
-  \begin{tabular}{lr}\hline
-    初期区間 & 零点の近似値\\\hline
-    $[-5,-2.5]$ & $-2.9999999999999716$\\
-    $[-2.5,0]$ & $-0.9999999999999432$\\
-    $[0,2.5]$ & $2.0000000000000284$\\\hline
-  \end{tabular}
-\end{table}
-
-\paragraph{ニュートン法}
-ニュートン法で求めた零点の近似値は、$-3.0$、$-1.0$、$2.0$であった。各初期点に対する近似値は表\ref{tab:root-newton}の通りであり、この結果は\texttt{kadai1\_c.txt}に保存されている。
-\begin{table}[htbp]
-  \centering
-  \caption{零点探索のニュートン法の結果。}
-  \label{tab:root-newton}
-  \begin{tabular}{rr}\hline
-    初期点 & 得られた点\\\hline
-    $-2.5$ & $-3.0$\\
-    $0$ & $-1.0$\\
-    $2.5$ & $2.0$\\\hline
-  \end{tabular}
-\end{table}
-
-零点探索と最適化の方法をPythonで実装し、得られた値や更新回数を比較した。零点探索では、二分法とニュートン法のどちらでも、$-3$、$-1$、$2$に近い値が得られた。1変数の最適化でも、最急降下法とニュートン法でともに$x=3$に近い値が得られた。
-
 \subsubsection{実験方法(2-b)}
 以下のように式を変形し、アルゴリズムを考える。
 
@@ -575,6 +492,149 @@ $W_N=e^{-i2\pi/N}$とおく。$N=8$として、偶数番目と奇数番目の項
   \end{aligned}
 \]
 したがって、$X_k^{(abc)}$は$k$によらない。
+
+よって、以下のようにして高速フーリエ変換を考える。
+
+\paragraph{Step 0}
+入力値 $x_n$ の添字 $n=0,\ldots,7$ を3桁の2進数 $(b_2b_1b_0)_2$ で表す。
+桁の順序を反転した $(b_0b_1b_2)_2$ を新しいアドレスとし、$x_n$を配列 $X_{\mathrm{abr}}$ に格納する。
+\paragraph{Step 1}
+
+ビット反転による対応は
+\[
+\begin{aligned}
+X_0^{(000)} &= x_0, & X_0^{(001)} &= x_4,\\
+X_0^{(010)} &= x_2, & X_0^{(011)} &= x_6,\\
+X_0^{(100)} &= x_1, & X_0^{(101)} &= x_5,\\
+X_0^{(110)} &= x_3, & X_0^{(111)} &= x_7
+\end{aligned}
+\]
+となる。$i$ を虚数単位として、
+$W_N=e^{-2\pi i/N}$ と定義すると、
+
+\[
+X_l^{(\alpha\beta)}
+= X_l^{(\alpha\beta0)} + W_2^l X_l^{(\alpha\beta1)}
+\qquad (l=0,1).
+\]
+
+$W_2^l$については、
+\[
+\begin{aligned}
+W_2^0 &= e^{-2\pi i\cdot 0/2}=e^0=1,\\
+W_2^1 &= e^{-2\pi i\cdot 1/2}=e^{-\pi i}
+       =\cos\pi-i\sin\pi=-1.
+\end{aligned}
+\]
+
+右辺のDFTは長さ1なので、$l$ によらない。
+したがって、
+\[
+\begin{aligned}
+X_0^{(00)} &= X_0^{(000)} + W_2^0 X_0^{(001)} = x_0+x_4,\\
+X_1^{(00)} &= X_0^{(000)} + W_2^1 X_0^{(001)} = x_0-x_4,\\[4pt]
+X_0^{(01)} &= X_0^{(010)} + W_2^0 X_0^{(011)} = x_2+x_6,\\
+X_1^{(01)} &= X_0^{(010)} + W_2^1 X_0^{(011)} = x_2-x_6,\\[4pt]
+X_0^{(10)} &= X_0^{(100)} + W_2^0 X_0^{(101)} = x_1+x_5,\\
+X_1^{(10)} &= X_0^{(100)} + W_2^1 X_0^{(101)} = x_1-x_5,\\[4pt]
+X_0^{(11)} &= X_0^{(110)} + W_2^0 X_0^{(111)} = x_3+x_7,\\
+X_1^{(11)} &= X_0^{(110)} + W_2^1 X_0^{(111)} = x_3-x_7.
+\end{aligned}
+\]
+
+\paragraph{Step 2}
+
+\[
+X_l^{(\alpha)}
+= X_l^{(\alpha0)} + W_4^l X_l^{(\alpha1)}
+\qquad (l=0,1,2,3).
+\]
+$W_4^l$については、
+\[
+\begin{aligned}
+W_4^0 &= e^{-2\pi i\cdot 0/4}=e^0=1,\\
+W_4^1 &= e^{-2\pi i\cdot 1/4}=e^{-\pi i/2}
+       =\cos(\pi/2)-i\sin(\pi/2)=-i,\\
+W_4^2 &= e^{-2\pi i\cdot 2/4}=e^{-\pi i}
+       =\cos\pi-i\sin\pi=-1,\\
+W_4^3 &= e^{-2\pi i\cdot 3/4}=e^{-3\pi i/2}
+       =\cos(3\pi/2)-i\sin(3\pi/2)=i.
+\end{aligned}
+\]
+
+右辺のDFTは長さ2なので、右辺の $X$ の添字が $2,3$ のときは
+それぞれ $0,1$ に戻せる。したがって、
+\[
+\begin{aligned}
+X_0^{(0)} &= X_0^{(00)} + W_4^0 X_0^{(01)}
+           = X_0^{(00)} + X_0^{(01)},\\
+X_1^{(0)} &= X_1^{(00)} + W_4^1 X_1^{(01)}
+           = X_1^{(00)} - iX_1^{(01)},\\
+X_2^{(0)} &= X_0^{(00)} + W_4^2 X_0^{(01)}
+           = X_0^{(00)} - X_0^{(01)},\\
+X_3^{(0)} &= X_1^{(00)} + W_4^3 X_1^{(01)}
+           = X_1^{(00)} + iX_1^{(01)},\\[4pt]
+X_0^{(1)} &= X_0^{(10)} + W_4^0 X_0^{(11)}
+           = X_0^{(10)} + X_0^{(11)},\\
+X_1^{(1)} &= X_1^{(10)} + W_4^1 X_1^{(11)}
+           = X_1^{(10)} - iX_1^{(11)},\\
+X_2^{(1)} &= X_0^{(10)} + W_4^2 X_0^{(11)}
+           = X_0^{(10)} - X_0^{(11)},\\
+X_3^{(1)} &= X_1^{(10)} + W_4^3 X_1^{(11)}
+           = X_1^{(10)} + iX_1^{(11)}.
+\end{aligned}
+\]
+
+\paragraph{Step 3}
+
+\[
+X_l = X_l^{(0)} + W_8^l X_l^{(1)}
+\qquad (l=0,1,2,3,4,5,6,7).
+\]
+
+$W_8^l$については、
+\[
+\begin{aligned}
+W_8^0 &= e^{-2\pi i\cdot 0/8}=e^0=1,\\
+W_8^1 &= e^{-2\pi i\cdot 1/8}
+       =\cos(\pi/4)-i\sin(\pi/4)=\frac{1-i}{\sqrt{2}},\\
+W_8^2 &= e^{-2\pi i\cdot 2/8}
+       =\cos(\pi/2)-i\sin(\pi/2)=-i,\\
+W_8^3 &= e^{-2\pi i\cdot 3/8}
+       =\cos(3\pi/4)-i\sin(3\pi/4)=\frac{-1-i}{\sqrt{2}},\\
+W_8^4 &= e^{-2\pi i\cdot 4/8}
+       =\cos\pi-i\sin\pi=-1,\\
+W_8^5 &= e^{-2\pi i\cdot 5/8}
+       =\cos(5\pi/4)-i\sin(5\pi/4)=\frac{-1+i}{\sqrt{2}},\\
+W_8^6 &= e^{-2\pi i\cdot 6/8}
+       =\cos(3\pi/2)-i\sin(3\pi/2)=i,\\
+W_8^7 &= e^{-2\pi i\cdot 7/8}
+       =\cos(7\pi/4)-i\sin(7\pi/4)=\frac{1+i}{\sqrt{2}}.
+\end{aligned}
+\]
+
+右辺のDFTは長さ4なので、右辺の $X$ の添字が $4,5,6,7$ のときは
+それぞれ $0,1,2,3$ に戻せる。したがって、
+\[
+\begin{aligned}
+X_0 &= X_0^{(0)} + W_8^0 X_0^{(1)}
+     = X_0^{(0)} + X_0^{(1)},\\
+X_1 &= X_1^{(0)} + W_8^1 X_1^{(1)}
+     = X_1^{(0)} + \frac{1-i}{\sqrt{2}}X_1^{(1)},\\
+X_2 &= X_2^{(0)} + W_8^2 X_2^{(1)}
+     = X_2^{(0)} - iX_2^{(1)},\\
+X_3 &= X_3^{(0)} + W_8^3 X_3^{(1)}
+     = X_3^{(0)} - \frac{1+i}{\sqrt{2}}X_3^{(1)},\\[4pt]
+X_4 &= X_0^{(0)} + W_8^4 X_0^{(1)}
+     = X_0^{(0)} - X_0^{(1)},\\
+X_5 &= X_1^{(0)} + W_8^5 X_1^{(1)}
+     = X_1^{(0)} - \frac{1-i}{\sqrt{2}}X_1^{(1)},\\
+X_6 &= X_2^{(0)} + W_8^6 X_2^{(1)}
+     = X_2^{(0)} + iX_2^{(1)},\\
+X_7 &= X_3^{(0)} + W_8^7 X_3^{(1)}
+     = X_3^{(0)} + \frac{1+i}{\sqrt{2}}X_3^{(1)}.
+\end{aligned}
+\]
 
 \subsubsection{結果(2-b)}
 FFTで求めたフーリエ係数は次のとおりであった。

@@ -190,7 +190,7 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .garden-invitation small { font-size: 10px; }
 .garden-shop { position: fixed; inset: auto 0 max(8px, env(safe-area-inset-bottom)); width: min(calc(100% - 16px), 600px); max-width: none; max-height: none; margin: 0 auto; padding: 0; border: 0; overflow: visible; background: transparent; color: var(--ink); }
 .garden-shop::backdrop { background: #263b4d55; backdrop-filter: blur(5px); }
-.shop-sheet { background: #fff9ef; border-radius: 28px; padding: 10px 20px 20px; height: 79vh; height: min(79dvh, 720px); overflow: hidden; display: flex; flex-direction: column; overscroll-behavior: contain; box-shadow: 0 15px 70px #23394c33; }
+.shop-sheet { background: #fff9ef; border-radius: 28px; padding: 10px 20px 20px; height: auto; max-height: 79vh; max-height: min(79dvh, 720px); overflow: hidden; display: flex; flex-direction: column; overscroll-behavior: contain; box-shadow: 0 15px 70px #23394c33; }
 .shop-grip { width: 32px; height: 4px; border-radius: 4px; background: #dacdc3; margin: 0 auto 16px; }
 .garden-shop-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .garden-shop-header .eyebrow { font-size: 9px; letter-spacing: .12em; }
@@ -213,7 +213,7 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .gacha-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px; margin-bottom: 10px; border-radius: 14px; background: #eee9df; }
 .gacha-tabs button { min-height: 38px; border: 0; border-radius: 11px; font-size: 12px; background: transparent; color: #918572; }
 .gacha-tabs button[aria-pressed='true'] { background: #fffdf7; color: #456353; font-weight: 650; box-shadow: 0 2px 5px #6c614710; }
-.gacha-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none; padding-bottom: 8px; }
+.gacha-scroll { flex: 0 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none; padding-bottom: 8px; }
 .gacha-welcome, .gacha-result { text-align: center; padding: 12px 6px 4px; }
 .gacha-welcome h3, .gacha-result h3 { margin: 10px 0 7px; font-size: 18px; font-weight: 650; }
 .gacha-welcome p, .gacha-result p:not(.eyebrow) { margin: 0 0 10px; font-size: 11px; color: #8a8375; }

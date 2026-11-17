@@ -286,3 +286,12 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .history-question > summary { grid-template-columns: 20px minmax(0, 1fr) auto; align-items: start; }
 
 .main-nav button span { white-space: nowrap; font-size: clamp(9px, 2.5vw, 10px); }
+
+.start-countdown { min-height: 420px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.countdown-label { color: var(--muted); font-size: 14px; margin: 0; }
+.countdown-number { margin: 12px 0; font-size: clamp(90px, 25vw, 140px); line-height: 1.5; font-weight: 750; color: var(--green); animation: countdown-pop .45s ease-out; }
+.countdown-number.countdown-start { font-size: clamp(38px, 12vw, 64px); }
+@keyframes countdown-pop {
+  from { opacity: 0; transform: scale(.8); }
+  to { opacity: 1; transform: scale(1); }
+}

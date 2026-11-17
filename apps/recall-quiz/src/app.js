@@ -9,7 +9,7 @@
   let catalogLesson = new URLSearchParams(location.search).get('lesson') || '';
   let studySubject = boot.decks[0].title;
   const catalogErrors = new Map();
-  let quizTimer = null;
+  let quizTimer = null, countdown = null;
   let renderedKey = '', renderedPage = page;
   const catalogRequests = new Map();
   const content = document.querySelector('#content');
@@ -131,6 +131,19 @@
       input.click();
     });
   }
+  async function showCountdown() {
+    page = 'quiz';
+    status.textContent = '';
+    try {
+      for (const label of ['3', '2', '1', 'スタート']) {
+        countdown = label;
+        render();
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    } finally {
+      countdown = null;
+    }
+  }
   async function call(action, payload) {
     if (action === 'export') {
       const url = URL.createObjectURL(new Blob([JSON.stringify(await runtime.export(), null, 2)], { type: 'application/json' }));
@@ -144,8 +157,15 @@
       if (!window.confirm(`${restored.reviews.length}件の回答、${restored.garden.coins}コインの記録に置き換えます。`)) return { ok: true, ...runtime.boot() };
       return { ok: true, ...await runtime.restore(data), message: '学習記録を読み込みました。' };
     }
-    if (action === 'startAll') return { ok: true, ...await runtime.dispatch('startStudy', { scope: { type: 'all' } }) };
-    if (action === 'startSubject') return { ok: true, ...await runtime.dispatch('startStudy', { scope: { type: 'subject', title: studySubject } }) };
+    if (['start', 'startAll', 'startSubject', 'selectDeck'].includes(action)) {
+      const scope = action === 'startAll' ? { type: 'all' } :
+        action === 'startSubject' ? { type: 'subject', title: studySubject } :
+        action === 'selectDeck' ? { type: 'lesson', id: payload.id } :
+        state.session?.scope || deck.studyScope || { type: 'lesson', id: deck.id };
+      await runtime.studyDeck(scope);
+      await showCountdown();
+      return { ok: true, ...await runtime.dispatch('startStudy', { scope }) };
+    }
     return { ok: true, ...await runtime.dispatch(action, payload) };
   }
   async function act(action, payload = {}) {
@@ -214,6 +234,10 @@
       `<details class="source-toggle" data-source="${escape(source.imageKey)}" data-scale="100"><summary>原典を見る（p.${source.page}）</summary><p class="source-caption">${escape(source.file)} · p.${source.page}</p><div class="source-zoom-controls"><button type="button" data-zoom="-25" aria-label="原典を縮小（p.${source.page}）">−</button><input type="range" min="50" max="300" step="25" value="100" aria-label="原典の表示倍率（p.${source.page}）"><button type="button" data-zoom="25" aria-label="原典を拡大（p.${source.page}）">＋</button><output>100%</output><button type="button" data-zoom="reset">全体</button></div><div class="source-viewport"><img alt="${escape(source.file)} p.${source.page} の原典ページ"></div><p class="helper">拡大後は画像内を上下左右にスクロールできます。</p></details>` : '').join('');
   }
   function renderQuiz() {
+    if (countdown !== null) {
+      content.innerHTML = `<div class="start-countdown" role="status" aria-live="assertive" aria-atomic="true"><p class="countdown-label">まもなく始まります</p><p class="countdown-number ${countdown === 'スタート' ? 'countdown-start' : ''}">${countdown}</p></div>`;
+      return;
+    }
     const s = state.session;
     if (!s) {
       content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに5問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
@@ -340,7 +364,7 @@
     content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;
   }
   function updateQuizTimer() {
-    if (page !== 'quiz') return;
+    if (page !== 'quiz' || countdown !== null) return;
     const s = state.session;
     if (!s || s.closed || s.index >= s.queue.length) return;
     const remaining = Math.max(0, Math.min(15000, 15000 - (Date.now() - Date.parse(s.answerShown ? s.revealedAt : s.presentedAt))));
@@ -634,7 +658,7 @@
     });
     content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
-    if (page === 'quiz') {
+    if (page === 'quiz' && countdown === null) {
       quizTimer = setInterval(updateQuizTimer, 100);
       updateQuizTimer();
     }

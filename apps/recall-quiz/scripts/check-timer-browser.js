@@ -17,7 +17,15 @@ const { createStaticServer } = require('./serve.js');
     await page.getByText('まだ回答履歴がありません。', { exact: true }).waitFor();
     await page.locator('[data-screen="quiz"]').click();
     await page.getByRole('button', { name: '全教科から始める', exact: true }).click();
+    for (const label of ['3', '2', '1', 'スタート']) {
+      await page.locator('.countdown-number').filter({ hasText: new RegExp(`^${label}$`) }).waitFor();
+      assert.equal(await page.locator('.question, .timer-track').count(), 0);
+      assert.equal((await page.evaluate(() => window.RecallRuntime.snapshot())).state.session, null);
+      assert.equal(await page.locator('[data-screen="quiz"]').isDisabled(), true);
+      if (label === '3') await page.screenshot({ path: path.resolve(__dirname, '../output/quiz-countdown.png'), animations: 'disabled' });
+    }
     await page.locator('.timer-track[data-tone="blue"]').waitFor();
+    assert.equal(await page.locator('[data-timer-seconds]').innerText(), '15秒');
     assert.match(await page.locator('.step').innerText(), /1 \/ 5/);
     const tone = async (elapsed, expected) => {
       await page.clock.setFixedTime(now + elapsed);
@@ -96,7 +104,7 @@ const { createStaticServer } = require('./serve.js');
     assert.equal(await page.locator('.history-question').count(), 30);
     assert.equal((await page.evaluate(() => window.RecallRuntime.snapshot())).state.reviews.length, 35);
     assert.deepEqual(errors, []);
-    console.log('15秒タイマーの色変更とスクロール中の固定、自動解答、自動進行、あやふや、一覧の△、直近30問の履歴と再読込を確認しました。');
+    console.log('開始前のカウントダウン、15秒タイマーの色変更とスクロール中の固定、自動解答、自動進行、あやふや、一覧の△、直近30問の履歴と再読込を確認しました。');
   } finally {
     await browser.close();
     await new Promise(resolve => server.close(resolve));

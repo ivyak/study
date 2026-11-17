@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "replace-subject-lesson01",
+  "version": 1,
+  "title": "__科目名__",
+  "subtitle": "第1回 · __範囲名__",
+  "scope": "__元資料、対象ページ、出題する範囲と対象外の範囲__",
+  "sourceManifest": [
+    {
+      "file": "Kyoto_Univ/__科目フォルダ__/__原資料__.pdf",
+      "sha256": "__SOURCE_SHA256__",
+      "pageCount": 1,
+      "reviewedPages": [
+        1
+      ],
+      "method": "__実際に行った内容照合の方法と範囲__"
+    }
+  ],
+  "questions": [
+    {
+      "id": "replace-subject-l01-q01",
+      "version": 1,
+      "prompt": "__前提、記号の意味、必要な条件を含めた問い。数式は\\(x^2\\)のように書く__",
+      "answer": "__頭の中で短く答えられる解答__",
+      "criterion": "__何が言えれば正解かを示す短い基準__",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "__原資料__.pdf",
+          "page": 1
+        }
+      ]
+    }
+  ]
+}

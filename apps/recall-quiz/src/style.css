@@ -125,6 +125,15 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .lesson-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
 .lesson-head .helper { margin: 4px 0 0; }
 .lesson-start { background: #f2dedc; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 12px; }
+.quiz-start { margin-top: 24px; }
+.subject-start { border-top: 1px solid var(--line); margin-top: 28px; padding-top: 4px; }
+.quiz-scope { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 12px; }
+.quiz-scope .quiet { padding: 4px 0; font-size: 11px; }
+.lesson-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.lesson-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; min-width: 0; padding: 16px 13px; border: 1px solid var(--line); border-radius: 17px; background: #fffcf7; font-size: 12px; overflow-wrap: anywhere; }
+.lesson-card-number { font-size: 19px; font-weight: 650; }
+.lesson-card small { color: var(--muted); margin-top: auto; }
+.catalog-back { padding-left: 0; }
 .catalog-question { background: #fffcf7; border: 1px solid var(--line); border-radius: 13px; padding: 12px; margin: 10px 0; }
 .catalog-question > summary { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; color: var(--ink); padding: 0; }
 .question-number { color: var(--muted); font-size: 12px; padding-top: 5px; }

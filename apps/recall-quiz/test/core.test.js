@@ -109,3 +109,33 @@ test('calendar uses the recorded answer day even after the device timezone chang
   assert.deepEqual(core.statistics(state).days, { '2027-1-1': 1 });
   assert.deepEqual(core.questionStatistics(core.statistics(state), 'other', deck.questions[0].id), { presented: 0, correct: 0, mistakes: 0 });
 });
+
+test('study selection prioritizes fewer successful recalls and randomizes ties across lessons', () => {
+  const pool = { id: 'study-all', studyScope: { type: 'all' }, questions: deck.questions.slice(0, 4).map((q, i) => ({ ...q, deckId: i < 2 ? 'one' : 'two' })) };
+  const state = core.initial();
+  const add = (i, version, result) => state.reviews.push({ id: `review-${state.reviews.length}`, deckId: pool.questions[i].deckId,
+    questionId: pool.questions[i].id, questionVersion: version, result, reviewedAt: date().toISOString() });
+  add(0, pool.questions[0].version, 'good'); add(0, pool.questions[0].version, 'good'); add(1, 1, 'good'); add(2, 1, 'again');
+  add(3, 2, 'good');
+  const a = core.selectStudy(state, pool, () => 0);
+  const b = core.selectStudy(state, pool, () => .5);
+  assert.deepEqual(new Set(a.slice(0, 2).map(q => q.id)), new Set(pool.questions.slice(2).map(q => q.id)));
+  assert.equal(a[2].id, pool.questions[1].id);
+  assert.notDeepEqual(a, b);
+  assert.equal(new Set(a.map(q => q.id)).size, 3);
+});
+test('mixed sessions keep the source lesson for both presentation and answer records', () => {
+  const pool = { ...deck, id: 'study-all', studyScope: { type: 'all' }, questions: deck.questions.map(q => ({ ...q, deckId: deck.id })) };
+  let state = core.start(core.initial(), pool, date(), () => .999);
+  assert.equal(state.presentations[0].deckId, deck.id);
+  state = core.dispatch(state, pool, 'reveal', {}, date());
+  state = core.dispatch(state, pool, 'rate', { eventId: `${state.session.id}:0`, result: 'good' }, date());
+  assert.equal(state.reviews[0].deckId, deck.id);
+  state = core.dispatch(state, pool, 'finish');
+  const saved = core.validateState(JSON.parse(JSON.stringify(state)));
+  assert.deepEqual(saved.session.scope, { type: 'all' });
+  const home = core.dispatch(saved, pool, 'home');
+  assert.equal(home.session, null);
+  assert.equal(home.reviews.length, 1);
+  assert.equal(home.garden.coins, 1);
+});

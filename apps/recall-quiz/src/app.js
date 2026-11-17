@@ -5,7 +5,10 @@
   let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog'].includes(initialPage) ? initialPage : 'quiz', busy = false;
   let decks = boot.decks || [deck];
   let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-  let selectedDay = RecallCore.day(new Date()), subject = '';
+  let selectedDay = RecallCore.day(new Date()), subject = new URLSearchParams(location.search).get('subject') || '';
+  let catalogLesson = new URLSearchParams(location.search).get('lesson') || '';
+  let studySubject = boot.decks[0].title;
+  const catalogErrors = new Map();
   let renderedKey = '', renderedPage = page;
   const catalogRequests = new Map();
   const content = document.querySelector('#content');
@@ -68,6 +71,8 @@
       if (!window.confirm(`${restored.reviews.length}件の回答、${restored.garden.coins}コインの記録に置き換えます。`)) return { ok: true, ...runtime.boot() };
       return { ok: true, ...await runtime.restore(data), message: '学習記録を読み込みました。' };
     }
+    if (action === 'startAll') return { ok: true, ...await runtime.dispatch('startStudy', { scope: { type: 'all' } }) };
+    if (action === 'startSubject') return { ok: true, ...await runtime.dispatch('startStudy', { scope: { type: 'subject', title: studySubject } }) };
     return { ok: true, ...await runtime.dispatch(action, payload) };
   }
   async function act(action, payload = {}) {
@@ -88,7 +93,7 @@
         drawResult = state.garden.draws?.find(draw => draw.id === payload.eventId) || null;
         gachaView = 'draw';
       }
-      if (['start', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
+      if (['start', 'startAll', 'startSubject', 'home', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
       status.textContent = result.message || (action === 'rate' ? (payload.result === 'good' ? '正解。＋1コイン。' : 'ミスを記録しました。') : '');
     } catch (error) {
       if (error.name === 'ConflictError') {
@@ -137,14 +142,22 @@
   }
   function renderQuiz() {
     const s = state.session;
-    if (!s || s.closed || s.index >= s.queue.length) {
-      const count = s ? s.index : 0;
-      content.innerHTML = `<p class="eyebrow">A LITTLE RECALL, EVERY DAY</p><h1 class="page-title">${count ? '今日は、ここまででも。' : 'いまは、ひと休み。'}</h1><p class="lead">${count ? `${count}回の想起を記録しました。<br>また少し時間を空けて、思い出そう。` : 'いま出す問題はありません。<br>新しい教材や、別の日の復習でまた会おう。'}</p><div class="stack"><button class="primary" data-action="start">あと3問</button></div><p class="helper center">休んでも、コインや動物はなくなりません。</p>`;
-      content.querySelector('[data-action="start"]').disabled = RecallCore.select(state, deck, new Date()).length === 0;
+    if (!s) {
+      const subjects = [...new Set(decks.map(item => item.title))];
+      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに3問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start"><label class="subject-field">教科を指定する<select id="study-subject" aria-label="出題する教科">${subjects.map(title => `<option ${title === studySubject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
+      return;
+    }
+    const scope = s.scope || { type: 'lesson', id: s.deckId };
+    const scopeLabel = scope.type === 'all' ? '全教科' : scope.type === 'subject' ? scope.title :
+      decks.find(item => item.id === scope.id)?.subtitle || deck.title;
+    if (s.closed || s.index >= s.queue.length) {
+      const completed = s.index >= s.queue.length;
+      content.innerHTML = `<p class="eyebrow">${escape(scopeLabel)}</p><h1 class="page-title">${completed ? '3問、おつかれさま。' : '今日は、ここまで。'}</h1><p class="lead">${s.index ? `${s.index}問に回答しました。` : '答え合わせをした問題はありません。'}<br>思い出せた問題は${s.correct}問です。</p><div class="stack quiz-start"><button class="primary" data-action="home">最初の画面に戻る</button><button class="secondary" data-action="start">${scope.type === 'all' ? 'あと3問' : scope.type === 'subject' ? '同じ教科であと3問' : '同じ回であと3問'}</button>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科から始める</button>' : ''}</div><p class="helper center">回答の記録とコインは保存されています。</p>`;
       return;
     }
     const q = deck.questions.find(q => q.id === s.queue[s.index].id);
-    content.innerHTML = `<p class="eyebrow">${escape(deck.title)}</p><p class="course">${escape(deck.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+    const source = decks.find(item => item.id === (q.deckId || deck.id)) || deck;
+    content.innerHTML = `<div class="quiz-scope"><span class="badge">${escape(scopeLabel)}から出題</span>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科に切り替える</button>' : ''}</div><p class="eyebrow">${escape(source.title)}</p><p class="course">${escape(source.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">読んで納得しただけなら「出なかった」でOK。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
   }
   function gachaContents() {
     const available = boot.shop.filter(item => !state.garden.items.includes(item.id));
@@ -257,30 +270,56 @@
   function resultCounts(n) {
     return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
   }
+  function catalogNavigate(id = '') {
+    catalogLesson = id;
+    const url = new URL(location.href);
+    url.searchParams.set('screen', 'catalog');
+    url.searchParams.set('subject', subject);
+    if (id) url.searchParams.set('lesson', id);
+    else url.searchParams.delete('lesson');
+    history.pushState(null, '', url);
+    render();
+  }
   function renderCatalog() {
     const stats = RecallCore.statistics(state);
     const subjects = [...new Set(decks.map(item => item.title))];
+    const selected = decks.find(item => item.id === catalogLesson);
+    if (selected) subject = selected.title;
+    else catalogLesson = '';
     if (!subjects.includes(subject)) subject = subjects[0];
-    const items = decks.filter(item => item.title === subject);
-    if (items.some(item => !item.questions) && !catalogRequests.has(subject)) {
-      const title = subject;
-      catalogRequests.set(title, runtime.subject(title).then(loaded => {
-        decks = loaded;
-        if (page === 'catalog' && subject === title) render();
-      }).catch(error => { catalogRequests.delete(title); status.textContent = error.message; }));
+    if (!selected) {
+      const items = decks.filter(item => item.title === subject);
+      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">授業回を選ぶと、その回の問題を表示します。</p><div class="lesson-grid">${items.map(item => {
+        const label = item.subtitle || item.title;
+        const [lesson, ...topic] = label.split(' · ');
+        return `<button class="lesson-card" data-open-lesson="${escape(item.id)}"><span class="lesson-card-number">${escape(lesson)}</span><span>${escape(topic.join(' · '))}</span><small>${item.questionCount || item.questions?.length || 0}問<span aria-hidden="true"> →</span></small></button>`;
+      }).join('')}</div>`;
+      return;
     }
-    content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">○は正解、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${items.map(item => {
-      if (!item.questions) return `<section class="lesson"><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">読み込み中…</p></section>`;
-      const rows = item.questions.map((q, index) => {
-        const n = RecallCore.questionStatistics(stats, item.id, q.id);
-        return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
-      }).join('');
-      const retired = Object.entries(stats.questions).filter(([key]) => {
-        const [deckId, questionId] = JSON.parse(key);
-        return deckId === item.id && !item.questions.some(q => q.id === questionId);
-      }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
-      return `<section class="lesson"><div class="lesson-head"><div><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">${item.questions.length}問${item.id === deck.id ? ' · 選択中' : ''}</p></div>${item.id === deck.id ? '' : `<button class="lesson-start" data-deck="${escape(item.id)}">この教材で学習</button>`}</div>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
-    }).join('')}`;
+    if (!selected.questions && !catalogRequests.has(selected.id) && !catalogErrors.has(selected.id)) {
+      const id = selected.id;
+      catalogRequests.set(id, runtime.loadDeck(id).then(() => {
+        decks = runtime.decks();
+      }).catch(error => { catalogErrors.set(id, error.message); }).finally(() => {
+        catalogRequests.delete(id);
+        if (page === 'catalog' && catalogLesson === id) render();
+      }));
+    }
+    const heading = `<button class="quiet catalog-back" data-catalog-back>‹ 授業回の一覧に戻る</button><p class="eyebrow">${escape(selected.title)}</p><h1 class="page-title">${escape(selected.subtitle || selected.title)}</h1>`;
+    if (!selected.questions) {
+      const error = catalogErrors.get(selected.id);
+      content.innerHTML = `${heading}<div class="panel" role="status" aria-live="polite">${error ? `<p>${escape(error)}</p><button class="secondary" data-retry-lesson="${escape(selected.id)}">もう一度読み込む</button>` : '<p>問題を読み込み中…</p>'}</div>`;
+      return;
+    }
+    const rows = selected.questions.map((q, index) => {
+      const n = RecallCore.questionStatistics(stats, selected.id, q.id);
+      return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
+    }).join('');
+    const retired = Object.entries(stats.questions).filter(([key]) => {
+      const [deckId, questionId] = JSON.parse(key);
+      return deckId === selected.id && !selected.questions.some(q => q.id === questionId);
+    }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
+    content.innerHTML = `${heading}<section class="lesson"><div class="lesson-head"><p class="helper">${selected.questions.length}問</p><button class="lesson-start" data-deck="${escape(selected.id)}">この回で学習</button></div><p class="helper">○は正解、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
   }
   function slideDisclosures() {
     for (const details of content.querySelectorAll('details')) {
@@ -395,6 +434,14 @@
     if (/^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
       url.searchParams.set('screen', page);
+      if (page === 'catalog') {
+        if (catalogLesson) url.searchParams.set('lesson', catalogLesson);
+        else url.searchParams.delete('lesson');
+        if (subject) url.searchParams.set('subject', subject);
+      } else {
+        url.searchParams.delete('lesson');
+        url.searchParams.delete('subject');
+      }
       history.replaceState(null, '', url);
     }
     document.querySelector('#coins').innerHTML = `<span class="coin-dot" aria-hidden="true"></span>${state.garden.coins}`;
@@ -413,7 +460,7 @@
         if (section) section.insertAdjacentHTML('beforeend', `<div class="source-toggles">${sourceToggles(q)}</div>`);
       }
     }
-    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}`;
+    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${subject}:${catalogLesson}`;
     if (key !== renderedKey) {
       const changedPage = page !== renderedPage;
       if (content.getAnimations) content.getAnimations().forEach(animation => animation.cancel());
@@ -471,7 +518,16 @@
     const today = content.querySelector('[data-today]');
     if (today) today.onclick = () => { month = new Date(new Date().getFullYear(), new Date().getMonth(), 1); selectedDay = RecallCore.day(new Date()); render(); };
     const filter = content.querySelector('#subject');
-    if (filter) filter.onchange = () => { subject = filter.value; render(); };
+    if (filter) filter.onchange = () => { subject = filter.value; catalogNavigate(); };
+    const studyFilter = content.querySelector('#study-subject');
+    if (studyFilter) studyFilter.onchange = () => { studySubject = studyFilter.value; };
+    content.querySelectorAll('[data-open-lesson]').forEach(button => button.onclick = () => catalogNavigate(button.dataset.openLesson));
+    const back = content.querySelector('[data-catalog-back]');
+    if (back) back.onclick = () => catalogNavigate();
+    content.querySelectorAll('[data-retry-lesson]').forEach(button => button.onclick = () => {
+      catalogErrors.delete(button.dataset.retryLesson);
+      render();
+    });
     content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
     content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
     updateScrollFade();
@@ -492,7 +548,16 @@
     observer.observe(content);
   }
   document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => { page = button.dataset.screen; status.textContent = ''; render(); });
-  document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };
+  document.querySelector('#home').onclick = () => act('home');
+  window.addEventListener('popstate', () => {
+    if (busy) return;
+    const params = new URLSearchParams(location.search);
+    const requested = params.get('screen');
+    page = ['garden', 'settings', 'calendar', 'catalog'].includes(requested) ? requested : 'quiz';
+    catalogLesson = params.get('lesson') || '';
+    subject = params.get('subject') || '';
+    render();
+  });
   document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
   if (boot.notice) {
     const notice = document.querySelector('#notice'); notice.textContent = boot.notice; notice.hidden = false;

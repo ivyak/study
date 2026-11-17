@@ -114,6 +114,12 @@ const RecallCore = (() => {
         s.queue.some(q => typeof q.id !== 'string' || !Number.isInteger(q.version) || q.version < 1)) {
         throw Error('途中の学習記録を読み取れません。');
       }
+      if (s.scope !== undefined && (!s.scope || !['all', 'subject', 'lesson'].includes(s.scope.type) ||
+        (s.scope.type === 'subject' && (typeof s.scope.title !== 'string' || !s.scope.title)) ||
+        (s.scope.type === 'lesson' && (typeof s.scope.id !== 'string' || !s.scope.id)) ||
+        s.queue.some(q => typeof q.deckId !== 'string' || !q.deckId))) {
+        throw Error('出題範囲を読み取れません。');
+      }
     }
     return state;
   }
@@ -136,6 +142,23 @@ const RecallCore = (() => {
     // A bounded batch, never an obligation to clear the entire queue.
     return [...due, ...fresh, ...retry].slice(0, 3).map(q => ({ id: q.id, version: q.version }));
   }
+  function selectStudy(state, deck, random = Math.random) {
+    const successes = new Map();
+    for (const r of state.reviews) {
+      if (r.result !== 'good') continue;
+      const key = JSON.stringify([r.deckId, r.questionId, r.questionVersion]);
+      successes.set(key, (successes.get(key) || 0) + 1);
+    }
+    // Shuffle before sorting so equally recalled questions have no fixed order.
+    const questions = [...deck.questions];
+    for (let i = questions.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+    const count = q => successes.get(JSON.stringify([q.deckId, q.id, q.version])) || 0;
+    questions.sort((a, b) => count(a) - count(b));
+    return questions.slice(0, 3).map(q => ({ id: q.id, version: q.version, deckId: q.deckId }));
+  }
   function recordPresentation(state, now) {
     const s = state.session;
     if (!s || s.closed || s.index >= s.queue.length) return state;
@@ -143,7 +166,7 @@ const RecallCore = (() => {
     state.presentations = state.presentations || [];
     if (!state.presentations.some(event => event.id === id)) {
       const q = s.queue[s.index];
-      state.presentations.push({ id, deckId: s.deckId, questionId: q.id, questionVersion: q.version,
+      state.presentations.push({ id, deckId: q.deckId || s.deckId, questionId: q.id, questionVersion: q.version,
         presentedAt: now.toISOString() });
     }
     return state;
@@ -173,14 +196,15 @@ const RecallCore = (() => {
   function questionStatistics(stats, deckId, questionId) {
     return stats.questions[JSON.stringify([deckId, questionId])] || { presented: 0, correct: 0, mistakes: 0 };
   }
-  function start(state, deck, now) {
+  function start(state, deck, now, random = Math.random) {
     const next = reconcile(state, deck);
-    const queue = select(next, deck, now);
+    const queue = deck.studyScope ? selectStudy(next, deck, random) : select(next, deck, now);
     next.session = {
       id: `${now.getTime()}-${Math.random().toString(36).slice(2)}`,
       deckId: deck.id, queue, index: 0, correct: 0, closed: false,
       answerShown: false, presentedAt: now.toISOString(), revealedAt: null
     };
+    if (deck.studyScope) next.session.scope = copy(deck.studyScope);
     return recordPresentation(next, now);
   }
   function ensureSession(state, deck, now) {
@@ -194,8 +218,9 @@ const RecallCore = (() => {
   function dispatch(state, deck, action, payload = {}, now = new Date(), random = Math.random) {
     let next = reconcile(state, deck);
     const s = next.session;
-    if (action === 'start') return start(next, deck, now);
-    if (action === 'finish') {
+    if (action === 'start') return start(next, deck, now, random);
+    if (action === 'home') next.session = null;
+    else if (action === 'finish') {
       if (s) s.closed = true;
     } else if (action === 'reveal') {
       if (!s || s.closed || s.index >= s.queue.length) throw Error('問題を開き直してください。');
@@ -233,7 +258,7 @@ const RecallCore = (() => {
       if (isRetry) c.retryDay = today;
       next.cards[q.id] = c;
       next.reviews.push({
-        id: payload.eventId, questionId: q.id, questionVersion: q.version, deckId: deck.id,
+        id: payload.eventId, questionId: q.id, questionVersion: q.version, deckId: q.deckId || deck.id,
         reviewedAt: now.toISOString(), reviewedDay: today, result: payload.result,
         recallMs: Math.max(0, Date.parse(s.revealedAt) - Date.parse(s.presentedAt))
       });
@@ -261,6 +286,6 @@ const RecallCore = (() => {
     } else throw Error('この操作は使えません。');
     return validateState(next);
   }
-  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, shop, gachaCost, day, statistics, questionStatistics };
+  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, selectStudy, shop, gachaCost, day, statistics, questionStatistics };
 })();
 if (typeof module !== 'undefined') module.exports = RecallCore;

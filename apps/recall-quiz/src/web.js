@@ -34,6 +34,29 @@ const RecallWeb = (() => {
       await Promise.all(this.catalog.filter(item => item.title === title).map(item => this.loadDeck(item.id)));
       return this.decks();
     }
+    async studyDeck(scope) {
+      if (!scope || !['all', 'subject', 'lesson'].includes(scope.type)) throw Error('出題範囲を選んでください。');
+      const entries = this.catalog.filter(item => scope.type === 'all' ||
+        (scope.type === 'subject' ? item.title === scope.title : item.id === scope.id));
+      if (!entries.length) throw Error('この範囲の教材が見つかりません。');
+      const decks = await Promise.all(entries.map(item => this.loadDeck(item.id)));
+      return {
+        id: scope.type === 'lesson' ? scope.id : `study-${scope.type}`,
+        title: scope.type === 'all' ? '全教科' : decks[0].title,
+        studyScope: scope,
+        questions: decks.flatMap(deck => deck.questions.map(q => ({ ...q, deckId: deck.id }))),
+        sourceImages: Object.assign({}, ...decks.map(deck => deck.sourceImages || {}))
+      };
+    }
+    async sessionDeck(state, selectedDeckId) {
+      const session = state.session;
+      if (session?.scope) return this.studyDeck(session.scope);
+      if (session) {
+        const id = this.catalog.some(item => item.id === session.deckId) ? session.deckId : selectedDeckId;
+        if (this.catalog.some(item => item.id === id)) return this.loadDeck(id);
+      }
+      return { id: 'study-all', title: '全教科', questions: [], sourceImages: {}, studyScope: { type: 'all' } };
+    }
     async start(legacyStorage) {
       let record = await this.store.read();
       if (record.revision === 0 && legacyStorage) {
@@ -46,9 +69,9 @@ const RecallWeb = (() => {
           }), record.revision);
         }
       }
-      this.deck = await this.loadDeck(this.catalog.some(item => item.id === record.selectedDeckId) ? record.selectedDeckId : this.defaultDeckId);
-      this.record = await this.store.update(previous => ({ selectedDeckId: this.deck.id,
-        state: rules.ensureSession(previous.state, this.deck, new Date())
+      this.deck = await this.sessionDeck(record.state, record.selectedDeckId);
+      this.record = await this.store.update(previous => ({ selectedDeckId: previous.selectedDeckId,
+        state: rules.reconcile(previous.state, this.deck)
       }), record.revision);
       return this.boot();
     }
@@ -57,25 +80,29 @@ const RecallWeb = (() => {
     }
     async refresh() {
       this.record = await this.store.read();
-      this.deck = await this.loadDeck(this.catalog.some(item => item.id === this.record.selectedDeckId) ? this.record.selectedDeckId : this.defaultDeckId);
+      this.deck = await this.sessionDeck(this.record.state, this.record.selectedDeckId);
       return this.boot();
     }
     async dispatch(action, payload = {}) {
-      const selected = action === 'selectDeck' ? await this.loadDeck(payload.id) : this.deck;
-      this.record = await this.store.update(previous => ({ selectedDeckId: selected.id,
-        state: action === 'selectDeck' ? (selected.id === previous.selectedDeckId ? previous.state : rules.start(previous.state, selected, new Date())) :
-          rules.dispatch(previous.state, selected, action, payload)
+      const scope = action === 'selectDeck' ? { type: 'lesson', id: payload.id } : action === 'start' ?
+        this.record.state.session?.scope || this.deck.studyScope || { type: 'lesson', id: this.deck.id } : payload.scope;
+      const starting = ['selectDeck', 'startStudy', 'start'].includes(action);
+      const selected = starting ? await this.studyDeck(scope) : this.deck;
+      this.record = await this.store.update(previous => ({
+        selectedDeckId: starting && scope.type === 'lesson' ? scope.id : previous.selectedDeckId,
+        state: rules.dispatch(previous.state, selected, starting ? 'start' : action, payload)
       }), this.record.revision);
       this.deck = selected;
       return this.boot();
     }
     async restore(data) {
       const state = rules.validateState(data.state || data);
-      const selected = this.catalog.some(item => item.id === data.selectedDeckId) ? await this.loadDeck(data.selectedDeckId) : this.deck;
+      const selectedDeckId = this.catalog.some(item => item.id === data.selectedDeckId) ? data.selectedDeckId : this.record.selectedDeckId;
+      const selected = await this.sessionDeck(state, selectedDeckId);
       // Scriptable-only notification and cloud settings have no browser-side effect.
       state.settings = { batchSize: 3 };
-      this.record = await this.store.update(() => ({ selectedDeckId: selected.id,
-        state: rules.ensureSession(state, selected, new Date())
+      this.record = await this.store.update(() => ({ selectedDeckId,
+        state: rules.reconcile(state, selected)
       }), this.record.revision);
       this.deck = selected;
       return this.boot();

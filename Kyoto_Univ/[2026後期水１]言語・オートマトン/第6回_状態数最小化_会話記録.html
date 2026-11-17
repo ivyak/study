@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="icon" type="image/svg+xml" href="../ui/favicon.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>言語・オートマトン｜第6回：状態数最小化の会話記録・画像未取得</title>
+<meta name="study-ui" content="life"><meta name="study-lesson" content="6"><meta name="study-kind" content="解説"><meta name="study-created" content="2026-11-17"><link rel="stylesheet" href="../ui/life.css"><script defer src="../ui/life.js"></script>
+<style>
+.question-with-images{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.question-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.question-images figure{margin:0 0 18px}.question-images img{display:block;width:100%;height:auto}.question-images figcaption{font-size:12px;overflow-wrap:anywhere;margin-top:6px}
+.exchange{padding:24px 0;border-top:1px solid var(--line)}.exchange h3{color:var(--gold);margin:16px 0}.answer{overflow-wrap:anywhere}.answer p{margin:14px 0}.answer li{margin:6px 0}
+.table-scroll{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%}th,td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+math[display="block"]{display:block;overflow-x:auto;margin:20px 0;padding:8px 0}.original-diagram{text-align:center;overflow-x:auto;background:#fff;color:#111;border-radius:8px;padding:16px}.original-diagram svg{max-width:100%;height:auto}pre.mermaid{white-space:pre-wrap}.summary h2{margin-top:0}
+@media(max-width:700px){.question-with-images{grid-template-columns:1fr}.question-images{width:100%}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body data-life-page="document" data-portal="../index.html" data-course="[2026後期水１]言語・オートマトン"><div class="shell">
+<!-- LIFE-SHELL:START -->
+  <svg class="icon-defs" aria-hidden="true" width="0" height="0"><defs>
+    <symbol id="face" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10h.01M16 10h.01M9 16h6"/></symbol>
+    <symbol id="scroll" viewBox="0 0 24 24"><path d="M7 4H5a3 3 0 0 0-3 3h5m0-3h9a3 3 0 0 1 3 3v13H9a2 2 0 0 1-2-2V4Zm2 16h9a3 3 0 0 0 3-3h-9a3 3 0 0 1-3 3Z M11 8h4m-4 4h4"/></symbol>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5-10-5Zm4 3v7l6 3 6-3v-7m4-3v9m-2 3 2-3 2 3"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 5v16m0-16C8 2 5 2 2 3v15c4-1 7 0 10 3 3-3 6-4 10-3V3c-3-1-6-1-10 2Zm4 3h3m-3 4h3"/></symbol>
+    <symbol id="puzzle" viewBox="0 0 24 24"><path d="M4 9h5V6a3 3 0 1 1 6 0v3h5v5h-2a3 3 0 1 0 0 6h2v2H4v-6h2a3 3 0 1 0 0-6H4V9Z"/></symbol>
+    <symbol id="wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-3M3 8a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3"/><path d="M16 11h6v6h-6a3 3 0 0 1 0-6Z"/><circle cx="17" cy="14" r=".5"/></symbol>
+    <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M6 10v4m4-4v4m4-4v4"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="pen" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15l-1 5Zm1-5 4 4"/></symbol>
+    <symbol id="slide-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 17 4-7 4 7H6Z"/><circle cx="17" cy="9" r="2"/></symbol>
+  </defs></svg>
+    <aside class="sidebar">
+      <button class="brand" data-home aria-label="LIFE ホーム"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#face"/></svg>LIFE</button>
+      <nav class="side-nav" aria-label="メインメニュー">
+        <button data-section="スキル"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#scroll"/></svg>スキル</button>
+        <button data-section="授業資料" class="active" aria-current="page"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cap"/></svg>授業資料</button>
+        <button data-section="目標"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#pen"/></svg>目標</button>
+        <button data-section="記事解説"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>記事解説</button>
+        <button data-section="Codex使用量"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#battery"/></svg>Codex使用量</button>
+        <button data-section="定期実行"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#clock"/></svg>定期実行</button>
+        <button data-section="学習コンテンツ"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#book"/></svg>学習コンテンツ</button>
+        <button data-section="拡張機能"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#puzzle"/></svg>拡張機能</button>
+        <button data-section="家計"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#wallet"/></svg>家計</button>
+      </nav>
+      <div class="sidebar-foot">LIFE / STUDY SPACE</div>
+    </aside>
+<!-- LIFE-SHELL:END -->
+<main>
+<div class="document-back"><a class="back-step" href="../index.html#course=%5B2026%E5%BE%8C%E6%9C%9F%E6%B0%B4%EF%BC%91%5D%E8%A8%80%E8%AA%9E%E3%83%BB%E3%82%AA%E3%83%BC%E3%83%88%E3%83%9E%E3%83%88%E3%83%B3" aria-label="授業一覧に戻る" title="授業一覧に戻る"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></a></div>
+<header class="document-header"><p class="eyebrow">言語・オートマトン 第6回</p><h1 id="document-title">状態数最小化の会話記録</h1><p class="subtitle">第6回 状態数最小化の会話記録・画像未取得</p></header>
+<div class="reader"><article class="lesson-document" aria-labelledby="document-title">
+<section class="summary"><h2>概要</h2><p>前綴木と節点のラベル付け、状態のグループ分け、有限状態オートマトンの状態数最小化に使う記号と手順についての会話です。</p></section>
+<p>原典：<a href="https://chatgpt.com/share/6afbc3c4-5754-83ee-87c5-612a23fa4999" target="_blank" rel="noopener">共有会話1</a></p>
+<p>想定読了時間：約12分</p>
+<p role="status">入力画像5枚と参考PDFは未取得です。</p>
+<h2>状態数最小化の説明</h2>
+<section class="exchange" id="exchange-01"><h3>質問 1</h3><div class="question question-with-images"><div class="question-text">有限状態オートマトンの状態数最小化において、この画像は何をいっている？pdfは参考</div><div class="question-images"><figure><figcaption>入力画像未取得 image(20261117-021528).png</figcaption></figure></div></div><p>参考資料未取得 オートマトン2026Part1(2).pdf</p><h3>ChatGPT の回答 1</h3><div class="answer" data-message-id="64e58859-6fc7-5490-9ec6-e406e1203875"><p>PDFの前後も確認して、図のピンクの部分木が状態の最小化にどうつながるか説明します。</p></div>
+<h3>ChatGPT の回答 2</h3><div class="answer" data-message-id="a25c82cf-0c97-5ed4-9bb2-d621b0198d62"><p>このスライドが言っているのは、<strong>違う文字列を読んで同じ状態 \(q_i\) に着いたなら、そこから同じ続きを読んだとき、受理するかどうかも必ず同じになる</strong>、ということです。</p>
+<h3>ピンクの三角形は「ここから先の受理パターン」</h3>
+<p>前綴木では、根 \(q_0\) から節点までの道が「ここまでに読んだ文字列」を表し、節点のラベル \(q_i\) が「その文字列を読んだ後の状態」を表します。図の３つの \(q_i\) は、<strong>別々の道を通って、同じ状態にたどり着いた</strong>場面です。</p>
+<p>たとえば、左の \(q_i\) にも右の \(q_i\) にも、続けて <code>ab</code> を入力するとします。</p>
+<ul>
+<li><code>a</code> を読むと、どちらも \(\delta(q_i,a)\) に移る。</li>
+<li>そこから <code>b</code> を読むと、また両方とも同じ状態に移る。</li>
+<li>最後の状態が同じなので、受理するかどうかも一致する。</li>
+</ul>
+<p>これはどんな長さの続きでも成り立ちます。図のピンクの部分木で「任意の深さまで同じ」というのは、<strong>同じ枝の並びをたどって着いた節点同士で、受理・非受理が一致する</strong>という意味です。</p>
+<h3>どう最小化につながる？</h3>
+<p>ここから、<strong>元のオートマトンで別々の状態でも、どんな続きを入力しても受理・非受理が一致するなら、１つにまとめられる</strong>と考えます。ここには「そこで入力を終える」という空文字の続きも含みます。</p>
+<p>逆に、たとえば <code>ab</code> を続けると片方だけ受理するなら、２つを同じ状態にまとめると、その違いを表せなくなります。</p>
+<p>PDFの後続の手順では、この考え方を使って、まず<strong>その場で受理するか</strong>で状態を分け、次に<strong>各記号を読んだ先がどのグループに属するか</strong>で分類を細かくしていきます。分類が変わらなくなったら、同じグループの状態を１つにまとめます。</p></div>
+</section>
+<section class="exchange" id="exchange-02"><h3>質問 2</h3><div class="question question-with-images"><div class="question-text">これは何を言っている？前綴木とは？なんと読む？</div><div class="question-images"><figure><figcaption>入力画像未取得 image(20261117-021953).png</figcaption></figure></div></div><h3>ChatGPT の回答 3</h3><div class="answer" data-message-id="43330928-cad3-5cbe-bfc5-91ec8ee7fec5"><p><strong>前綴木（ぜんてつき）</strong>は、<strong>文字列を先頭から１文字ずつ読んでいく道を描いた木</strong>です。「前綴」は「接頭辞」のことで、前綴木は<strong>接頭辞木（せっとうじき）</strong>とも呼ばれます。</p>
+<h3>図の見方</h3>
+<p>いちばん上の根は、まだ何も読んでいない状態を表す空文字 \(\varepsilon\) です。そこから <code>a</code> の枝、次に <code>b</code> の枝をたどると、節点 <code>ab</code> に着きます。<code>aa</code> と <code>ab</code> は共通の接頭辞 <code>a</code> を持つので、途中まで同じ道を通ります。</p>
+<p>図では、<strong>緑の節点は、その文字列を読み終えた時点で受理する</strong>ことを表します。たとえば <code>a</code> と <code>ab</code> は緑、<code>aa</code> は白です。各節点に受理・非受理の２通りがあるので、節点が \(K\) 個なら、色の付け方は \(2^K\) 通りです。</p>
+<h3>なぜ \(n-1\) 文字までで状態が出尽くす？</h3>
+<p>スライドの最後の箇条書きは、<strong>状態が \(n\) 個なら、ある節点 \(N\) の状態から行ける状態には、すべて \(n-1\) 文字以下で行ける</strong>、という意味です。</p>
+<p>たとえば４状態なら、３文字以下で十分です。ある状態への最短経路が４文字以上だとすると、出発点も含めて少なくとも５回状態を通ります。状態は４個しかないので、途中で同じ状態を２回通ります。その間の寄り道を丸ごと取り除いても同じ目的地に着けるので、元の経路が最短だったことに矛盾します。</p>
+<p>つまり、<strong>前綴木では文字列を伸ばすたびに新しい節点が増えるけれど、節点につく「オートマトンの状態」は何度も再登場する</strong>、という話です。なお、「状態が出尽くす」は<strong>長さちょうど \(n-1\)</strong> ではなく、<strong>長さ \(0,1,\dots,n-1\) の入力を全部試したとき</strong>の話です。</p>
+<p>スライドの節点数 \(K=|\Sigma|^n-1\) は、図のように記号が２種類なら \(1+2+\cdots+2^{n-1}=2^n-1\) で合っています。記号が一般に \(m=|\Sigma|\) 種類なら、節点数は \(1+m+\cdots+m^{n-1}\) です。</p></div>
+</section>
+<section class="exchange" id="exchange-03"><h3>質問 3</h3><div class="question"><div class="question-text">この文書においてラベル付けするとは？</div></div><h3>ChatGPT の回答 4</h3><div class="answer" data-message-id="edbd1ed4-0da4-5ae5-8658-315bb81edf47"><p>この資料で「ラベル付けする」とは、<strong>前綴木の各節点に、その節点までの文字列を読んだ結果を書き込む</strong>ことです。前の２枚のスライドでは、書き込む情報が違います。</p>
+<table>
+<thead>
+<tr>
+<th>スライド</th>
+<th>節点に付けるラベル</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>41ページ「同じ状態 \(q_i\) をラベル付け」</td>
+<td>状態名 \(q_i\)</td>
+<td>その文字列を読み終えたとき、どの状態にいるか</td>
+</tr>
+<tr>
+<td>42ページ「受理状態か否かをラベル付け」</td>
+<td>受理・非受理（図では緑・白）</td>
+<td>その状態で入力を終えたとき、受理するか</td>
+</tr>
+</tbody>
+</table>
+<p>たとえば <code>ab</code> を読むと受理状態 \(q_2\) に着くなら、<strong>節点 <code>ab</code> に状態名でラベルを付けると \(q_2\)、受理・非受理でラベルを付けると「受理（緑）」</strong>です。枝の <code>a</code> や <code>b</code> は、そこを通るときに読む文字を表します。</p>
+<p>42ページの最後にある「ラベル付けされるはずだった状態」は、<strong>図では緑・白だけを描いているけれど、状態名まで書き込むなら、そこに書かれる状態</strong>という意味です。</p></div>
+</section>
+<section class="exchange" id="exchange-04"><h3>質問 4</h3><div class="question question-with-images"><div class="question-text">これは何をしている？</div><div class="question-images"><figure><figcaption>入力画像未取得 image(20261117-024521).png</figcaption></figure></div></div><h3>ChatGPT の回答 5</h3><div class="answer" data-message-id="3d783f40-d79e-5c16-92f7-47e2036a14e8"><p><strong>「１文字先まで見て同じだった状態」を、２文字先まで見ても区別できないか確かめています。</strong> やり方は、元の遷移表の行き先 \(q_i\) を、左の表で付けた分類ラベル \(A,B\) に置き換えて、行を比べ直すことです。</p>
+<h3>\(q_0\) と \(q_2\) の行を比べる</h3>
+<p>左の表では、どちらも \((F,a,b)=(1,1,0)\) です。つまり、<strong>その場で終われば受理、<code>a</code> を１文字読んでも受理、<code>b</code> を１文字読むと非受理</strong>なので、同じ \(A\) に分類されています。</p>
+<p>右の表を作るときは、元の遷移先を見て、その状態の<strong>行全体のパターン</strong>を表す \(A,B\) を書き込みます。\(F\) 欄は、その場での受理・非受理なので、\(1,0\) のままです。</p>
+<table>
+<thead>
+<tr>
+<th>状態</th>
+<th style="text-align: right;">その場で受理するか \(F\)</th>
+<th><code>a</code> の行き先と分類</th>
+<th><code>b</code> の行き先と分類</th>
+<th>新しい行のパターン</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(q_0\)</td>
+<td style="text-align: right;">1</td>
+<td>\(q_0\) → \(A\)</td>
+<td>\(q_1\) → \(B\)</td>
+<td>\((1,A,B)\)</td>
+</tr>
+<tr>
+<td>\(q_2\)</td>
+<td style="text-align: right;">1</td>
+<td>\(q_2\) → \(A\)</td>
+<td>\(q_3\) → \(B\)</td>
+<td>\((1,A,B)\)</td>
+</tr>
+</tbody>
+</table>
+<p>新しい行も同じなので、\(q_0,q_2\) はそろって \(A&#x27;\) になります。同様に、\(q_1,q_3\) は \(B&#x27;\) になります。<strong>この例では、名前にダッシュが付いただけで、グループの中身は変わっていません。</strong></p>
+<h3>下の木は何を表している？</h3>
+<p>\(A&#x27;\) の木は、<strong>根が受理で、<code>a</code> の下に \(A\) の木、<code>b</code> の下に \(B\) の木をつないだもの</strong>です。たとえば <code>ab</code> の判定は、最初の <code>a</code> で \(A\) の木に入り、次の <code>b</code> で一重丸に着くので非受理です。こうして、前の段階で作った「１文字先までのパターン」を使って、２文字先まで調べられます。</p>
+<p>この例では、同じグループの状態から同じ文字を読むと、毎回また同じグループに入ります。だから何文字続けても受理・非受理は一致し、<strong>\(q_0,q_2\) を１状態、\(q_1,q_3\) をもう１状態にまとめられます。</strong></p></div>
+</section>
+<section class="exchange" id="exchange-05"><h3>質問 5</h3><div class="question question-with-images"><div class="question-text">これがよくわからない。q_0とq_2に対してAが定義されてたのになんでq_0 * a = A , q_0 * b = Bとかになる？</div><div class="question-images"><figure><figcaption>入力画像未取得 image(20261117-024727).png</figcaption></figure></div></div><h3>ChatGPT の回答 6</h3><div class="answer" data-message-id="4757982f-30d6-5061-bb72-ae759f954f76"><p>\(A\) は <strong>\(q_0,q_2\) が属するグループの名前</strong>です。表の <code>a</code>・<code>b</code> 欄には、<strong>その文字を読んだあとに着く状態のグループ</strong>を書いています。</p>
+<table>
+<thead>
+<tr>
+<th>\(q_0\) から読む文字</th>
+<th>元の遷移先</th>
+<th>遷移先のグループ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a</code></td>
+<td>\(q_0\)</td>
+<td>\(A\)（\(q_0,q_2\) の組）</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>\(q_1\)</td>
+<td>\(B\)（\(q_1,q_3\) の組）</td>
+</tr>
+</tbody>
+</table>
+<p>つまり、\(q_0 * b = B\) と見える欄は、<strong>「\(q_0\) で <code>b</code> を読むと \(q_1\) に移り、その \(q_1\) が \(B\) に属する」</strong>という意味です。出発点の \(q_0\) が \(A\) に属していても、<code>b</code> を読むと \(B\) に移ります。</p>
+<p>\(q_2\) でも、<code>a</code> → \(q_2\) → \(A\)、<code>b</code> → \(q_3\) → \(B\) です。どちらも受理状態なので、行全体が同じ \((1,A,B)\) になります。この<strong>行全体の新しい分類名</strong>が、右端の \(A&#x27;\) です。</p></div>
+</section>
+<section class="exchange" id="exchange-06"><h3>質問 6</h3><div class="question question-with-images"><div class="question-text">これはどういう意味？それぞれの文字の定義を述べながら解説して</div><div class="question-images"><figure><figcaption>入力画像未取得 image(20261117-025202).png</figcaption></figure></div></div><h3>ChatGPT の回答 7</h3><div class="answer" data-message-id="c1d8c9e8-93fa-5388-b977-80b75a0ba2d0"><p>このスライドは、<strong>前の表で \(A,B\) を使って \(A&#x27;,B&#x27;\) に分類し直した操作を、どんなオートマトンにも使えるように式で書いたもの</strong>です。</p>
+<h3>記号の意味</h3>
+<table>
+<thead>
+<tr>
+<th>記号</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(M=(\Sigma,S,\delta,q_0,F)\)</td>
+<td>最小化する元のオートマトン</td>
+</tr>
+<tr>
+<td>\(\Sigma\)、\(c\)</td>
+<td>\(\Sigma\) は入力記号の集合。前の例では \(\{a,b\}\)。\(c\) はその中の１文字</td>
+</tr>
+<tr>
+<td>\(S\)、\(q_i,q_j\)</td>
+<td>\(S\) は状態の集合。\(q_i,q_j\) は今比べている２つの状態</td>
+</tr>
+<tr>
+<td>\(q_0\)</td>
+<td>初期状態</td>
+</tr>
+<tr>
+<td>\(\delta(q_i,c)\)</td>
+<td>\(q_i\) にいるとき、文字 \(c\) を読んだ先の状態</td>
+</tr>
+<tr>
+<td>\(F\)、\(f(q_i)\)</td>
+<td>\(F\) は受理状態の集合。\(f(q_i)\) は \(q_i\) が受理状態なら \(1\)、そうでなければ \(0\)。前の表の \(F\) 欄の数字にあたる</td>
+</tr>
+<tr>
+<td>\(M&#x27;\equiv M\)</td>
+<td>\(M&#x27;\) と \(M\) が同じ文字列を受理すること。出力する \(M&#x27;\) は、その条件を満たす中で状態数が最小</td>
+</tr>
+</tbody>
+</table>
+<h3>\(C_k\) と \(\equiv_k\) は何を表す？</h3>
+<p>\(k\) は、<strong>続きの入力を何文字先まで比べたか</strong>です。長さ \(0\) は、その場で入力を終える場合です。</p>
+<ul>
+<li>\(q_i\equiv_k q_j\) は、<strong>長さ \(k\) 以下のどの続きを読んでも、受理・非受理が一致する</strong>という意味です。</li>
+<li>\(C_{k0},C_{k1},\ldots\) は、その段階でできたグループです。「同値類」はここではグループのことです。</li>
+<li>\(C_k(q_i)\) は、<strong>第 \(k\) 段階で \(q_i\) が入っているグループ</strong>です。前の例なら、１文字先まで比べた段階で \(C_1(q_0)=C_1(q_2)=A\) です。</li>
+</ul>
+<h3>手順３の式をどう読む？</h3>
+<p>\(q_i\) と \(q_j\) を次の段階でも同じグループに入れるには、次の２条件を満たす必要があります。</p>
+<ol>
+<li><strong>その場で入力を終えたときの判定が同じ。</strong> これが \(f(q_i)=f(q_j)\)。</li>
+<li><strong>どの文字 \(c\) を１文字読んでも、行き先が今の分類で同じグループに入る。</strong> これが \(C_k(\delta(q_i,c))=C_k(\delta(q_j,c))\)。</li>
+</ol>
+<p>式は<strong>内側から</strong>読むと分かりやすいです。たとえば前の表の \(q_0\) の <code>b</code> 欄は、</p>
+<p>\[
+C_1(\underbrace{\delta(q_0,b)}_{q_1})
+=C_1(q_1)=B
+\]</p>
+<p>です。<strong>まず <code>b</code> を読んで \(q_1\) に移り、次に \(q_1\) のグループ \(B\) を調べる</strong>という順番です。行き先が同じグループなら、そこからさらに \(k\) 文字まで判定が一致します。最初の１文字を足すと、これで \(k+1\) 文字先まで比べたことになります。</p>
+<h3>最初と最後に何をする？</h3>
+<ol>
+<li><strong>初期状態 \(q_0\) から到達できない状態を除く。</strong> どんな入力でも訪れないので、受理結果に影響しません。</li>
+<li><strong>受理・非受理で最初のグループを作る。</strong> \(C_{00}=F\) が受理グループ、\(C_{01}=S-F\) が非受理グループです。空のグループは省きます。</li>
+<li><strong>上の２条件で分類を繰り返す。</strong> グループの中身が変わらなくなったら終了です。前の例の \(A\to A&#x27;\) のように、名前が変わっても中身が同じなら終了できます。</li>
+</ol>
+<p>分類が変わらなくなった時点では、<strong>同じグループの２状態から同じ文字を読むと、次も同じグループに入ります</strong>。これが何文字でも続くので、最後は<strong>各グループを１つの状態</strong>にまとめます。</p></div>
+</section></article></div></main></div></body></html>

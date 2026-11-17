@@ -46,30 +46,47 @@ function compile(file) {
   return deck;
 }
 const deck = compile(deckPath);
-// The PC catalog includes every local deck when no single deck was requested.
 const decks = input ? [deck] : [deck, ...fs.readdirSync(path.join(root, 'decks'))
   .filter(file => file.endsWith('.json') && file !== path.basename(deckPath))
-  .sort()
-  .map(file => compile(path.join(root, 'decks', file)))];
+  .sort().map(file => compile(path.join(root, 'decks', file)))];
+if (new Set(decks.map(item => item.id)).size !== decks.length) throw Error('教材IDが重複しています。');
 const read = name => fs.readFileSync(path.join(root, 'src', name), 'utf8');
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
-const gardenAssets = Object.fromEntries(core.shop.map(item => [item.asset, `data:image/png;base64,${fs.readFileSync(path.join(root, 'assets/garden', `${item.asset}.png`)).toString('base64')}`]));
-const html = read('index.html').replace('/*__STYLE__*/', read('style.css'))
-  .replace('/*__GARDEN_ASSETS__*/', json(gardenAssets))
-  .replace('/*__CORE__*/', read('core.js')).replace('/*__APP__*/', read('app.js'));
-const bundle = '// Variables used by Scriptable.\n// icon-color: green; icon-glyph: seedling;\n' +
-  read('core.js') + '\n' + read('storage.js') + '\n' +
-  `const QUIZ_DECK = ${json(deck)};\nconst QUIZ_HTML = ${json(html)};\n` + read('scriptable.js');
-// Parse top-level await with an async wrapper, without running Scriptable APIs.
-new vm.Script(`(async () => { ${bundle}\n})()`);
-const output = path.join(root, 'output');
-fs.mkdirSync(output, { recursive: true });
-fs.writeFileSync(path.join(output, 'Quiz.js'), bundle);
+const output = path.join(root, 'output/site');
+fs.rmSync(output, { recursive: true, force: true });
+for (const folder of ['decks', 'assets/garden', 'assets/sources']) fs.mkdirSync(path.join(output, folder), { recursive: true });
 for (const item of decks) {
-  fs.writeFileSync(path.join(output, `${item.id}.compiled.json`), JSON.stringify(item, null, 2));
+  for (const [key, data] of Object.entries(item.sourceImages || {})) {
+    if (!/^[a-f0-9]{64}:\d+$/.test(key) || !data.startsWith('data:image/png;base64,')) throw Error('原典画像の形式が違います。');
+    const file = `assets/sources/${key.replace(':', '-')}.png`;
+    fs.writeFileSync(path.join(output, file), Buffer.from(data.slice('data:image/png;base64,'.length), 'base64'));
+    item.sourceImages[key] = `./${file}`;
+  }
+  fs.writeFileSync(path.join(output, 'decks', `${item.id}.json`), JSON.stringify(item));
 }
-const state = core.ensureSession(core.initial(), deck, new Date());
-fs.writeFileSync(path.join(output, 'preview.html'), html.replace('__BOOTSTRAP__', json({
-  native: false, deck, decks, state, shop: core.shop, notice: ''
-})));
-console.log(`${deck.questions.length}問をビルドしました。output/Quiz.js をScriptableへ取り込めます。`);
+const gardenAssets = Object.fromEntries(core.shop.map(item => {
+  const file = `assets/garden/${item.asset}.png`;
+  fs.copyFileSync(path.join(root, file), path.join(output, file));
+  return [item.asset, `./${file}`];
+}));
+const manifest = { defaultDeckId: deck.id, decks: decks.map(item => ({ id: item.id, version: item.version,
+  title: item.title, subtitle: item.subtitle, scope: item.scope, questionCount: item.questions.length,
+  file: `./decks/${item.id}.json` })) };
+fs.writeFileSync(path.join(output, 'decks/manifest.json'), JSON.stringify(manifest, null, 2));
+const runtime = read('storage.js') + '\n' + read('web.js') + '\n' +
+  'RecallWeb.start(window.BOOT).then(boot => { window.BOOT = boot;\n' + read('app.js') + '\n}).catch(RecallWeb.failure);';
+new vm.Script(read('core.js') + '\n' + runtime);
+let html = read('index.html').replace('/*__STYLE__*/', read('style.css'))
+  .replace('/*__GARDEN_ASSETS__*/', json(gardenAssets)).replace('__BOOTSTRAP__', json(manifest))
+  .replace('/*__CORE__*/', read('core.js')).replace('/*__APP__*/', runtime)
+  .replace('img-src data:', "img-src 'self' data:").replace("connect-src 'none'", "connect-src 'self'");
+// Keep the editable template independent of the hosting root and preserve existing favicon edits.
+html = html.replace(/<link[^>]+rel=["']icon["'][^>]*>\s*/g, '');
+const favicon = path.join(repo, 'Kyoto_Univ/ui/favicon.svg');
+if (fs.existsSync(favicon)) {
+  fs.copyFileSync(favicon, path.join(output, 'assets/favicon.svg'));
+  html = html.replace('</head>', '  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">\n</head>');
+}
+fs.writeFileSync(path.join(output, 'index.html'), html);
+fs.writeFileSync(path.join(output, '.nojekyll'), '');
+console.log(`${decks.length}教材を output/site/ に出力しました。GitHub Pagesにはこのフォルダだけを公開します。`);

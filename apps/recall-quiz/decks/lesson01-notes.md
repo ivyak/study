@@ -26,7 +26,7 @@
 npm run build --prefix apps/recall-quiz -- apps/recall-quiz/decks/thermo-lesson01.json --verify-sources
 ```
 
-ファイル名を表の教材IDに置き換える。出力先の `apps/recall-quiz/output/<教材ID>.compiled.json` をiPhoneへ渡し、設定の教材を読み込む操作で追加する。9ファイルをそれぞれ読み込めば、教科と授業回で選べる。回答履歴と庭は教材と別に保存される。
+全教材をビルドしてGitHub Pagesを更新すると、ブラウザの一覧から教科と授業回で選べる。教材ファイルを端末へ取り込む操作は不要。回答履歴と庭はブラウザ内に保存され、教材の更新では初期化しない。
 
 PNGとJPEGの板書を原典画像として使うため、原典画像を作る処理も対応した。教材ファイルに画像が同梱されるので、取り込み後の参照にMacは不要。PDFと板書写真の原ファイルは、従来どおりローカルに保持する。
 

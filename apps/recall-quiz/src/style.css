@@ -251,3 +251,5 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
   .lineup-card img, .unknown-animal { height: 70px; }
   .draw-animal-image { width: 150px; height: 150px; }
 }
+
+.settings-heading { font-size: 17px; margin: 0 0 12px; font-weight: 650; }

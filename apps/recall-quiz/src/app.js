@@ -1,11 +1,13 @@
 (() => {
   const boot = window.BOOT;
-  const initialPage = !boot.native ? new URLSearchParams(location.search).get('screen') : null;
-  let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog'].includes(initialPage) ? initialPage : 'quiz', busy = false, serial = 0;
+  const runtime = window.RecallRuntime;
+  const initialPage = new URLSearchParams(location.search).get('screen');
+  let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog'].includes(initialPage) ? initialPage : 'quiz', busy = false;
   let decks = boot.decks || [deck];
   let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let selectedDay = RecallCore.day(new Date()), subject = '';
   let renderedKey = '', renderedPage = page;
+  const catalogRequests = new Map();
   const content = document.querySelector('#content');
   const scrollRegion = document.querySelector('.scroll-region');
   const stretchContent = document.querySelector('.stretch-content');
@@ -13,8 +15,6 @@
   let disclosureCleanups = [];
   let shopOpen = false, gachaView = 'draw', drawResult = null, lineupAnimal = null, shownDrawId = null;
   const status = document.querySelector('#status');
-  const queue = [], pending = new Map();
-  let nativeWaiter = null;
   const escape = text => String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const allowedMath = new Set('span math semantics mrow mi mn mo mtext mspace mfrac msqrt mroot msup msub msubsup mover munder munderover mtable mtr mtd menclose mpadded mstyle mphantom annotation'.split(' '));
   const mathAttrs = new Set('xmlns display mathvariant stretchy fence separator accent accentunder largeop movablelimits lspace rspace width height depth columnalign rowalign columnspacing rowspacing notation encoding scriptlevel displaystyle'.split(' '));
@@ -39,44 +39,36 @@
     return template.innerHTML;
   }
   const text = (q, name) => q[`${name}Html`] ? safeMath(q[`${name}Html`]) : escape(q[name]);
-  window.takeNativeCommand = callback => {
-    if (queue.length) callback(queue.shift());
-    else nativeWaiter = callback;
-  };
-  window.resolveNativeCommand = (id, response) => {
-    const resolve = pending.get(id);
-    if (resolve) { pending.delete(id); resolve(response); }
-  };
-  async function call(action, payload) {
-    if (!boot.native) {
-      if (action === 'export') {
-        const url = URL.createObjectURL(new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }));
-        const link = document.createElement('a'); link.href = url; link.download = 'recall-quiz-preview-state.json'; link.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-        return { ok: true, state, deck, message: 'PCプレビューの記録を書き出しました。' };
-      }
-      if (['importDeck', 'importState', 'testNotification', 'settings'].includes(action)) {
-        throw Error('通知・読み込みの実機操作は、iPhoneのScriptable版で使えます。');
-      }
-      if (action === 'selectDeck') {
-        const selected = decks.find(item => item.id === payload.id);
-        if (!selected) throw Error('教材が見つかりません。');
-        if (selected.id !== deck.id) state = RecallCore.start(state, selected, new Date());
-        deck = selected;
-        localStorage.setItem('recall-quiz-preview-deck', deck.id);
-        localStorage.setItem('recall-quiz-preview-v1', JSON.stringify(state));
-        return { ok: true, state, deck, decks };
-      }
-      const next = RecallCore.dispatch(state, deck, action, payload);
-      localStorage.setItem('recall-quiz-preview-v1', JSON.stringify(next));
-      return { ok: true, state: next, deck, message: '' };
-    }
-    return new Promise(resolve => {
-      const command = { id: String(++serial), action, payload };
-      pending.set(command.id, resolve);
-      if (nativeWaiter) { const waiter = nativeWaiter; nativeWaiter = null; waiter(command); }
-      else queue.push(command);
+  function pickRecord() {
+    return new Promise((resolve, reject) => {
+      const input = document.createElement('input');
+      input.type = 'file'; input.accept = '.json,application/json'; input.hidden = true;
+      document.body.appendChild(input);
+      input.addEventListener('change', async () => {
+        try {
+          if (!input.files.length) throw Error('ファイル選択を取り消しました。');
+          resolve(JSON.parse(await input.files[0].text()));
+        } catch (error) { reject(error); }
+        finally { input.remove(); }
+      }, { once: true });
+      input.addEventListener('cancel', () => { input.remove(); reject(Error('ファイル選択を取り消しました。')); }, { once: true });
+      input.click();
     });
+  }
+  async function call(action, payload) {
+    if (action === 'export') {
+      const url = URL.createObjectURL(new Blob([JSON.stringify(await runtime.export(), null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a'); link.href = url; link.download = 'recall-quiz-state.json'; link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return { ok: true, ...await runtime.refresh(), message: '学習記録を書き出しました。' };
+    }
+    if (action === 'importState') {
+      const data = await pickRecord();
+      const restored = RecallCore.validateState(data.state || data);
+      if (!window.confirm(`${restored.reviews.length}件の回答、${restored.garden.coins}コインの記録に置き換えます。`)) return { ok: true, ...runtime.boot() };
+      return { ok: true, ...await runtime.restore(data), message: '学習記録を読み込みました。' };
+    }
+    return { ok: true, ...await runtime.dispatch(action, payload) };
   }
   async function act(action, payload = {}) {
     if (busy) return;
@@ -96,10 +88,14 @@
         drawResult = state.garden.draws?.find(draw => draw.id === payload.eventId) || null;
         gachaView = 'draw';
       }
-      if (['start', 'importDeck', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
+      if (['start', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
       status.textContent = result.message || (action === 'rate' ? (payload.result === 'good' ? '正解。＋1コイン。' : 'ミスを記録しました。') : '');
     } catch (error) {
-      status.textContent = String(error.message || error);
+      if (error.name === 'ConflictError') {
+        const current = await runtime.refresh();
+        state = current.state; deck = current.deck; decks = current.decks;
+      }
+      status.textContent = error.name === 'QuotaExceededError' ? 'ブラウザの保存領域が不足しています。記録は更新していません。' : String(error.message || error);
     } finally {
       clearTimeout(slow);
       busy = false;
@@ -240,16 +236,7 @@
     }
   }
   function renderSettings() {
-    const settings = state.settings;
-    content.innerHTML = `<p class="eyebrow">MAKE IT EASY TO RETURN</p><h1 class="page-title">自分のペースで。</h1>${!boot.native ? '<p class="badge">PCプレビュー · iPhoneの記録とは別です</p>' : ''}<form id="settings-form" class="panel"><label class="field">昼の通知<input id="notify" type="checkbox" ${settings.notificationEnabled ? 'checked' : ''}></label><label class="field">通知する時刻<input id="notify-time" type="time" value="${settings.notificationTime}" required></label><p class="helper">1日1回、追撃なし。夜のバイト中を避けた時刻に。</p><label class="field">iCloudへ記録をバックアップ<input id="cloud" type="checkbox" ${settings.iCloudBackup ? 'checked' : ''}></label><p class="helper">本体保存の後にコピーします。初期値はOFF。端末間の即時同期ではありません。</p><button class="primary" type="submit" ${boot.native ? '' : 'disabled'}>設定を保存</button></form><div class="stack"><button class="secondary" data-action="testNotification" ${boot.native ? '' : 'disabled'}>1分後の通知をテスト</button><button class="secondary" data-action="importDeck" ${boot.native ? '' : 'disabled'}>教材を読み込む</button><button class="secondary" data-action="export">学習記録を書き出す</button><button class="secondary" data-action="importState" ${boot.native ? '' : 'disabled'}>学習記録を復元する</button></div><p class="helper">教材：${escape(deck.subtitle || deck.title)}、${deck.questions.length}問。復習の間隔は初版では1・3・7・14・30日。誤答は翌日と、他の問題を挟んだ当日の再確認候補になります。同日だけの成功で間隔は延びません。</p><p class="helper">出題は短い区切りです。試験の計算演習も別に確認してください。</p>`;
-    document.querySelector('#settings-form').onsubmit = event => {
-      event.preventDefault();
-      act('settings', {
-        notificationEnabled: document.querySelector('#notify').checked,
-        notificationTime: document.querySelector('#notify-time').value,
-        iCloudBackup: document.querySelector('#cloud').checked
-      });
-    };
+    content.innerHTML = `<h1 class="page-title">設定</h1><section class="panel"><h2 class="settings-heading">このブラウザの記録</h2><p class="lead">回答 ${state.reviews.length}回 · 動物 ${state.garden.items.length}種類</p><div class="stack"><button class="secondary" data-action="export">学習記録を書き出す</button><button class="secondary" data-action="importState">学習記録を読み込む</button></div><p class="helper">記録はこの端末のブラウザに保存します。端末を替えるときは、書き出したファイルを読み込んでください。</p></section>`;
   }
   function renderCalendar() {
     const stats = RecallCore.statistics(state);
@@ -275,7 +262,15 @@
     const subjects = [...new Set(decks.map(item => item.title))];
     if (!subjects.includes(subject)) subject = subjects[0];
     const items = decks.filter(item => item.title === subject);
+    if (items.some(item => !item.questions) && !catalogRequests.has(subject)) {
+      const title = subject;
+      catalogRequests.set(title, runtime.subject(title).then(loaded => {
+        decks = loaded;
+        if (page === 'catalog' && subject === title) render();
+      }).catch(error => { catalogRequests.delete(title); status.textContent = error.message; }));
+    }
     content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">○は正解、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${items.map(item => {
+      if (!item.questions) return `<section class="lesson"><h2>${escape(item.subtitle || item.title)}</h2><p class="helper">読み込み中…</p></section>`;
       const rows = item.questions.map((q, index) => {
         const n = RecallCore.questionStatistics(stats, item.id, q.id);
         return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
@@ -397,7 +392,7 @@
     if (page !== 'garden') shopOpen = false;
     disclosureCleanups.forEach(dispose => dispose());
     disclosureCleanups = [];
-    if (!boot.native && /^https?:$/.test(location.protocol)) {
+    if (/^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
       url.searchParams.set('screen', page);
       history.replaceState(null, '', url);
@@ -457,7 +452,7 @@
       toggle.addEventListener('toggle', () => {
         if (!toggle.open) { image.removeAttribute('src'); return; }
         const url = deck.sourceImages[toggle.dataset.source];
-        if (/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '')) image.src = url;
+        if (/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '') || /^\.\/assets\/sources\/[a-f0-9]{64}-\d+\.png$/.test(url || '')) image.src = url;
       });
       slider.oninput = () => zoom(Number(slider.value));
       toggle.querySelectorAll('[data-zoom]').forEach(button => button.onclick = () => {
@@ -499,14 +494,6 @@
   document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => { page = button.dataset.screen; status.textContent = ''; render(); });
   document.querySelector('#home').onclick = () => { page = 'quiz'; render(); };
   document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
-  if (!boot.native) {
-    try {
-      const selected = localStorage.getItem('recall-quiz-preview-deck');
-      deck = decks.find(item => item.id === selected) || deck;
-      const saved = localStorage.getItem('recall-quiz-preview-v1');
-      state = RecallCore.ensureSession(saved ? RecallCore.validateState(JSON.parse(saved)) : state, deck, new Date());
-    } catch (error) { status.textContent = 'PCプレビューの保存を利用できません。iPhone版は別のファイル保存です。'; }
-  }
   if (boot.notice) {
     const notice = document.querySelector('#notice'); notice.textContent = boot.notice; notice.hidden = false;
   }

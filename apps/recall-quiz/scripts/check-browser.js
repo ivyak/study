@@ -1,16 +1,27 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
-const { pathToFileURL } = require('node:url');
+const fs = require('node:fs');
+const { createStaticServer } = require('./serve.js');
 const { chromium } = require('playwright');
 (async () => {
+  const server = createStaticServer({ directory: path.resolve(__dirname, '../output/site'), prefix: '/study/' });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const siteURL = `http://127.0.0.1:${server.address().port}/study/`;
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   try {
     const context = await browser.newContext({ viewport: { width: 402, height: 874 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
     const network = [], errors = [];
-    await context.route(/^https?:\/\//, route => { network.push(route.request().url()); return route.abort(); });
+    await context.route(/^https?:\/\//, route => {
+      if (route.request().url().startsWith(siteURL)) {
+        assert.equal(route.request().method(), 'GET');
+        return route.continue();
+      }
+      network.push(route.request().url()); return route.abort();
+    });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
+    await page.goto(siteURL);
+    await page.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight));
     assert.ok(await page.locator('.scroll-region').evaluate(el => el.scrollHeight <= el.clientHeight), 'initial quiz should fit without scrolling');
     assert.equal(await page.locator('.has-more-above, .has-more-below').count(), 0);
@@ -135,7 +146,7 @@ const { chromium } = require('playwright');
       await page.setViewportSize({ width, height: 844 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `overflow at ${width}px`);
     }
-    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('recall-quiz-preview-v1')));
+    const saved = await page.evaluate(async () => (await window.RecallRuntime.snapshot()).state);
     assert.equal(saved.reviews.length, 3);
     assert.deepEqual(saved.garden.items, []);
     assert.equal(saved.garden.coins, 2);
@@ -259,6 +270,7 @@ const { chromium } = require('playwright');
     await page.getByLabel('教科', { exact: true }).selectOption({ label: '数理統計' });
     await page.locator('[data-deck="statistics-lesson01"]').click();
     await page.getByRole('button', { name: '答えを見る', exact: true }).click();
+    await page.locator('.answer-main').waitFor();
     const overbars = page.locator('.question mover, .answer-main mover');
     assert.equal(await overbars.count(), 2);
     for (const mover of await overbars.all()) {
@@ -272,18 +284,17 @@ const { chromium } = require('playwright');
     }
     await page.screenshot({ path: path.resolve(__dirname, '../output/statistics-overbar.png'), animations: 'disabled' });
     const gardenContext = await browser.newContext({ viewport: { width: 402, height: 874 }, isMobile: true, hasTouch: true });
-    await gardenContext.route(/^https?:\/\//, route => route.abort());
     const gardenState = require('../src/core.js').initial();
     gardenState.garden.coins = 130;
     await gardenContext.addInitScript(state => {
       if (!localStorage.getItem('recall-quiz-preview-v1')) localStorage.setItem('recall-quiz-preview-v1', JSON.stringify(state));
     }, gardenState);
     const gardenPage = await gardenContext.newPage();
-    await gardenPage.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
+    await gardenPage.goto(siteURL);
     await gardenPage.getByRole('button', { name: '庭', exact: true }).click();
     await gardenPage.locator('.open-garden-shop').click();
     await gardenPage.locator('.draw-gacha').evaluate(el => { el.click(); el.click(); });
-    await gardenPage.waitForFunction(() => JSON.parse(localStorage.getItem('recall-quiz-preview-v1')).garden.draws.length === 1);
+    await gardenPage.waitForFunction(async () => (await window.RecallRuntime.snapshot()).state.garden.draws.length === 1);
     assert.equal(await gardenPage.locator('#coins').innerText(), '120');
     await gardenPage.locator('.gacha-result img').waitFor();
     await gardenPage.screenshot({ path: path.resolve(__dirname, '../output/gacha-result.png'), animations: 'disabled' });
@@ -298,7 +309,7 @@ const { chromium } = require('playwright');
     await gardenPage.getByRole('dialog').getByRole('button', { name: 'ガチャ', exact: true }).click();
     for (let i = 1; i < 13; i++) {
       await gardenPage.locator('.draw-gacha').click();
-      await gardenPage.waitForFunction(count => JSON.parse(localStorage.getItem('recall-quiz-preview-v1')).garden.draws.length === count, i + 1);
+      await gardenPage.waitForFunction(async count => (await window.RecallRuntime.snapshot()).state.garden.draws.length === count, i + 1);
       assert.equal(await gardenPage.locator('#coins').innerText(), String(130 - (i + 1) * 10));
     }
     assert.equal(await gardenPage.getByRole('button', { name: 'コンプリート', exact: true }).isDisabled(), true);
@@ -313,8 +324,9 @@ const { chromium } = require('playwright');
     await gardenPage.screenshot({ path: path.resolve(__dirname, '../output/garden-populated.png'), animations: 'disabled' });
     await gardenPage.reload();
     await gardenPage.getByRole('button', { name: '庭', exact: true }).click();
+    await gardenPage.locator('.garden-animal').first().waitFor();
     assert.equal(await gardenPage.locator('.garden-animal').count(), 13);
-    const savedDraws = await gardenPage.evaluate(() => JSON.parse(localStorage.getItem('recall-quiz-preview-v1')).garden.draws);
+    const savedDraws = await gardenPage.evaluate(async () => (await window.RecallRuntime.snapshot()).state.garden.draws);
     assert.equal(savedDraws.length, 13);
     assert.equal(new Set(savedDraws.map(draw => draw.animalId)).size, 13);
     await gardenPage.emulateMedia({ reducedMotion: 'reduce' });
@@ -328,30 +340,50 @@ const { chromium } = require('playwright');
     }
     await gardenContext.close();
     const libraryContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
-    await libraryContext.route(/^https?:\/\//, route => route.abort());
-    await libraryContext.addInitScript(() => {
-      Object.defineProperty(window, 'BOOT', { configurable: true, set(value) {
-        delete window.BOOT;
-        value.decks = [value.deck, { ...value.deck, id: 'physics-lesson01', title: '物理学',
-          questions: value.deck.questions.map(q => ({ ...q, id: 'physics-' + q.id })) }];
-        window.BOOT = value;
-      } });
-    });
     const libraryPage = await libraryContext.newPage();
-    await libraryPage.goto(pathToFileURL(path.resolve(__dirname, '../output/preview.html')).href);
+    await libraryPage.goto(siteURL);
     await libraryPage.getByRole('button', { name: '一覧', exact: true }).click();
-    await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '物理学' });
-    assert.equal(await libraryPage.locator('.catalog-question').count(), 8);
-    await libraryPage.getByRole('button', { name: 'この教材で学習', exact: true }).click();
-    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '物理学');
+    await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '数理統計' });
+    await libraryPage.locator('.catalog-question').first().waitFor();
+    await libraryPage.locator('[data-deck="statistics-lesson01"]').click();
+    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '数理統計');
     await libraryPage.reload();
-    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '物理学');
+    await libraryPage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
+    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '数理統計');
     await libraryPage.getByRole('button', { name: '一覧', exact: true }).click();
     await libraryPage.getByLabel('教科', { exact: true }).selectOption({ label: '微分積分学続論II' });
-    await libraryPage.getByRole('button', { name: 'この教材で学習', exact: true }).click();
+    await libraryPage.locator('[data-deck="calc2-lesson01"]').click();
     assert.equal(await libraryPage.locator('.eyebrow').innerText(), '微分積分学続論II');
+    assert.equal(await libraryPage.locator('#coins').innerText(), '0');
+    await libraryPage.getByRole('button', { name: '設定', exact: true }).click();
+    const downloadEvent = libraryPage.waitForEvent('download');
+    await libraryPage.getByRole('button', { name: '学習記録を書き出す', exact: true }).click();
+    const download = await downloadEvent;
+    const exported = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
+    assert.equal(exported.format, 'recall-quiz-browser');
+    assert.equal(exported.state.garden.coins, 0);
+    exported.state.garden.coins = 10;
+    libraryPage.on('dialog', dialog => dialog.accept());
+    const chooserEvent = libraryPage.waitForEvent('filechooser');
+    await libraryPage.getByRole('button', { name: '学習記録を読み込む', exact: true }).click();
+    await (await chooserEvent).setFiles({ name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(exported)) });
+    await libraryPage.waitForFunction(() => document.querySelector('#coins').textContent === '10');
+    const stalePage = await libraryContext.newPage();
+    await stalePage.goto(siteURL);
+    await stalePage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
+    await libraryPage.getByRole('button', { name: '庭', exact: true }).click();
+    await libraryPage.locator('.open-garden-shop').click();
+    await libraryPage.locator('.draw-gacha').click();
+    await libraryPage.waitForFunction(async () => (await window.RecallRuntime.snapshot()).state.garden.coins === 0);
+    await stalePage.getByRole('button', { name: '庭', exact: true }).click();
+    await stalePage.locator('.open-garden-shop').click();
+    await stalePage.locator('.draw-gacha').click();
+    await stalePage.waitForFunction(() => document.querySelector('#coins').textContent === '0');
+    const conflictState = await stalePage.evaluate(async () => (await window.RecallRuntime.snapshot()).state);
+    assert.equal(conflictState.garden.draws.length, 1);
+    assert.equal(conflictState.garden.coins, 0);
     await libraryContext.close();
     console.log('カレンダー・問題別出題数と正誤・教科別閲覧と教材切り替え・再読込を確認しました。');
     console.log('スマホ幅・原典トグルの開閉と拡大縮小・MathML・再読込・自己判定・3問終了・ガチャ・途中終了・外部通信なしを確認しました。');
-  } finally { await browser.close(); }
+  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

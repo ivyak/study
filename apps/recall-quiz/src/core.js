@@ -47,7 +47,7 @@ const RecallCore = (() => {
   function initial() {
     return {
       schemaVersion: 1, reviews: [], presentations: [], cards: {}, garden: { coins: 0, items: [], draws: [] },
-      settings: { notificationEnabled: false, notificationTime: '12:30', batchSize: 3, iCloudBackup: false },
+      settings: { batchSize: 3 },
       session: null
     };
   }
@@ -57,9 +57,9 @@ const RecallCore = (() => {
       !state.garden || !Number.isSafeInteger(state.garden.coins) || state.garden.coins < 0 ||
       !Array.isArray(state.garden.items) || state.garden.items.some(id => !shop.some(i => i.id === id)) ||
       new Set(state.garden.items).size !== state.garden.items.length || !state.settings ||
-      typeof state.settings.notificationEnabled !== 'boolean' ||
+      (state.settings.notificationEnabled !== undefined && typeof state.settings.notificationEnabled !== 'boolean') ||
       (state.settings.iCloudBackup !== undefined && typeof state.settings.iCloudBackup !== 'boolean') ||
-      !/^([01]\d|2[0-3]):[0-5]\d$/.test(state.settings.notificationTime) || state.settings.batchSize !== 3) {
+      (state.settings.notificationTime !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(state.settings.notificationTime)) || state.settings.batchSize !== 3) {
       throw Error('学習記録の形式が違います。元のファイルは消していません。');
     }
     if (state.garden.draws !== undefined) {

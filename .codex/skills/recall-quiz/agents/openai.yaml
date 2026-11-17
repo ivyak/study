@@ -1,4 +1,4 @@
 interface:
   display_name: "1問1答の想起クイズ"
-  short_description: "講義資料から短い自由想起クイズを出典付きで作り、Scriptableへ渡す"
+  short_description: "講義資料から短い自由想起クイズを出典付きで作り、ブラウザ版へ反映する"
   default_prompt: "$recall-quiz で、指定した科目の習った範囲から短い1問1答クイズを作成して。"

@@ -34,6 +34,6 @@ npm run build --prefix apps/recall-quiz -- --verify-sources
 npm test --prefix apps/recall-quiz
 ```
 
-iPhoneでは `output/<教材ID>.compiled.json` を設定の教材を読み込む操作で追加する。今回の追加は `*-lesson02` の9ファイルと、`probability-lesson03`・`probability-lesson06`・`probability-lesson07` の3ファイル。教材名の後ろに `.compiled.json` が付く。
+全教材をビルドしてGitHub Pagesを更新すると、ブラウザの一覧から教科と授業回で選べる。教材ファイルを端末へ取り込む操作は不要。回答履歴と庭はブラウザ内に保存され、教材の更新では初期化しない。
 
 PCでの確認はiPhoneの学習記録と別に行う。iPhone実機の通知、ファイル選択、中断復帰は今回の確認に含めない。

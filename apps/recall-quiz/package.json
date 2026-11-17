@@ -6,9 +6,12 @@
     "dev": "node scripts/dev.js",
     "build": "node scripts/build.js",
     "test": "node --test test/*.test.js",
-    "test:browser": "node scripts/check-browser.js"
+    "test:browser": "node scripts/check-browser.js",
+    "preview": "node scripts/serve.js",
+    "deploy": "node scripts/deploy-pages.js"
   },
   "devDependencies": {
+    "fake-indexeddb": "^6.2.8",
     "katex": "0.16.22",
     "playwright": "1.65.0"
   }

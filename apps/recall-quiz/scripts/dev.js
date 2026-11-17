@@ -1,5 +1,4 @@
 const fs = require('node:fs');
-const http = require('node:http');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
@@ -44,27 +43,12 @@ const refresh = `<script>
   poll();
 })();
 </script>`;
-const server = http.createServer((request, response) => {
-  response.setHeader('Cache-Control', 'no-store');
-  const host = request.headers.host;
-  if (![ 'localhost:' + port, '127.0.0.1:' + port ].includes(host)) {
-    response.writeHead(403); response.end('Forbidden'); return;
-  }
-  if (request.method !== 'GET') { response.writeHead(405); response.end(); return; }
-  const pathname = new URL(request.url, 'http://localhost').pathname;
-  if (pathname === '/__dev_status') {
-    response.setHeader('Content-Type', 'application/json; charset=utf-8');
-    response.end(JSON.stringify({ revision, error })); return;
-  }
-  if (!['/', '/preview.html'].includes(pathname)) { response.writeHead(404); response.end('Not found'); return; }
-  response.setHeader('Content-Type', 'text/html; charset=utf-8');
-  const preview = path.join(root, 'output/preview.html');
-  let html = fs.existsSync(preview) ? fs.readFileSync(preview, 'utf8') : '<!doctype html><html><body></body></html>';
-  // Only the development response may connect to the local reload endpoint.
-  html = html.replace("connect-src 'none'", "connect-src 'self'").replace('</body>', refresh + '</body>');
-  response.end(html);
+const { createStaticServer } = require('./serve.js');
+const server = createStaticServer({ directory: path.join(root, 'output/site'),
+  status: () => ({ revision, error }),
+  transformHTML: html => html.replace('</body>', refresh + '</body>')
 });
-const targets = ['src', 'decks'].map(folder => path.join(root, folder));
+const targets = ['src', 'decks', 'assets'].map(folder => path.join(root, folder));
 const watchers = targets.map(target => fs.watch(target, { recursive: true }, () => {
   clearTimeout(timer); timer = setTimeout(build, 150);
 }));

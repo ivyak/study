@@ -120,7 +120,16 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .day-count { font-size: 38px; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
 .day-count span { font-size: 14px; margin-left: 8px; color: var(--muted); }
 .subject-field { display: grid; gap: 7px; margin: 22px 0 12px; font-size: 13px; }
-.subject-field select { width: 100%; min-width: 0; min-height: 48px; font: inherit; font-size: 15px; color: var(--ink); border: 1px solid var(--line); background: #fffcf7; border-radius: 10px; padding: 10px; }
+.subject-picker { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-width: 0; min-height: 50px; text-align: left; font-size: 15px; color: var(--ink); border: 1px solid var(--line); background: #fffcf7; border-radius: 13px; padding: 12px 14px; }
+.subject-picker svg, .subject-options svg { flex-shrink: 0; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.subject-picker > svg { color: var(--muted); transition: transform .18s ease; }
+.subject-picker[aria-expanded='true'] { border-color: #a68795; }
+.subject-picker[aria-expanded='true'] > svg { transform: rotate(180deg); }
+.subject-options { position: fixed; z-index: 100; overflow-y: auto; overscroll-behavior: contain; padding: 6px; border: 1px solid var(--line); border-radius: 16px; background: #fffcf7; box-shadow: 0 12px 35px #29394d24; -webkit-overflow-scrolling: touch; }
+.subject-options[hidden] { display: none; }
+.subject-options [role='option'] { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 46px; padding: 10px 12px; border: 0; border-radius: 10px; background: none; text-align: left; font-size: 14px; }
+.subject-options [aria-selected='true'] { color: var(--green); background: #f4e4e3; font-weight: 650; }
+.subject-options [role='option']:hover, .subject-options [role='option']:focus-visible { background: #f5eeea; outline: 2px solid #b99ba8; outline-offset: -2px; }
 .lesson { margin-top: 24px; min-width: 0; }
 .lesson-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
 .lesson-head .helper { margin: 4px 0 0; }

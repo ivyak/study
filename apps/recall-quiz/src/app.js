@@ -42,6 +42,78 @@
     return template.innerHTML;
   }
   const text = (q, name) => q[`${name}Html`] ? safeMath(q[`${name}Html`]) : escape(q[name]);
+  function subjectPicker(id, label, value, name) {
+    return `<div class="subject-field"><span id="${id}-label">${label}</span><button type="button" id="${id}" class="subject-picker" role="combobox" aria-label="${name}" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}-options" data-value="${escape(value)}"><span>${escape(value)}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>`;
+  }
+  function setupSubjectPickers() {
+    const subjects = [...new Set(decks.map(item => item.title))];
+    content.querySelectorAll('.subject-picker').forEach(button => {
+      const menu = document.createElement('div');
+      menu.id = button.getAttribute('aria-controls');
+      menu.className = 'subject-options';
+      menu.setAttribute('role', 'listbox');
+      menu.setAttribute('aria-label', button.getAttribute('aria-label'));
+      menu.hidden = true;
+      menu.innerHTML = subjects.map(title => `<button type="button" role="option" tabindex="-1" aria-selected="${title === button.dataset.value}" data-value="${escape(title)}"><span>${escape(title)}</span>${title === button.dataset.value ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>' : ''}</button>`).join('');
+      document.body.appendChild(menu);
+      const options = [...menu.querySelectorAll('[role="option"]')];
+      function close(focus = false) {
+        menu.hidden = true;
+        button.setAttribute('aria-expanded', 'false');
+        if (focus) button.focus({ preventScroll: true });
+      }
+      function open(index = subjects.indexOf(button.dataset.value)) {
+        const box = button.getBoundingClientRect();
+        const below = innerHeight - box.bottom - 12, above = box.top - 12;
+        const down = below >= Math.min(280, above);
+        menu.style.left = `${box.left}px`;
+        menu.style.width = `${box.width}px`;
+        menu.style.maxHeight = `${Math.min(280, down ? below : above)}px`;
+        menu.hidden = false;
+        menu.style.top = `${down ? box.bottom + 6 : box.top - menu.offsetHeight - 6}px`;
+        button.setAttribute('aria-expanded', 'true');
+        const option = options[Math.max(0, index)];
+        option.focus({ preventScroll: true });
+        option.scrollIntoView({ block: 'nearest' });
+      }
+      function choose(option) {
+        const value = option.dataset.value;
+        close();
+        if (button.id === 'subject') { subject = value; catalogNavigate(); }
+        else { studySubject = value; render(); }
+        document.getElementById(button.id)?.focus({ preventScroll: true });
+      }
+      button.onclick = () => menu.hidden ? open() : close(true);
+      button.onkeydown = event => {
+        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+          event.preventDefault();
+          open(event.key === 'End' || event.key === 'ArrowUp' ? options.length - 1 : event.key === 'Home' ? 0 : undefined);
+        }
+      };
+      menu.onclick = event => {
+        const option = event.target.closest('[role="option"]');
+        if (option) choose(option);
+      };
+      menu.onkeydown = event => {
+        const index = options.indexOf(document.activeElement);
+        const move = { ArrowDown: Math.min(options.length - 1, index + 1), ArrowUp: Math.max(0, index - 1), Home: 0, End: options.length - 1 };
+        if (event.key in move) { event.preventDefault(); options[move[event.key]].focus(); }
+        else if (event.key === 'Escape') { event.preventDefault(); close(true); }
+        else if (event.key === 'Tab') close(true);
+      };
+      const outside = event => { if (!button.contains(event.target) && !menu.contains(event.target)) close(); };
+      const dismiss = () => close();
+      document.addEventListener('pointerdown', outside);
+      window.addEventListener('resize', dismiss);
+      scrollRegion.addEventListener('scroll', dismiss);
+      disclosureCleanups.push(() => {
+        document.removeEventListener('pointerdown', outside);
+        window.removeEventListener('resize', dismiss);
+        scrollRegion.removeEventListener('scroll', dismiss);
+        menu.remove();
+      });
+    });
+  }
   function pickRecord() {
     return new Promise((resolve, reject) => {
       const input = document.createElement('input');
@@ -143,8 +215,7 @@
   function renderQuiz() {
     const s = state.session;
     if (!s) {
-      const subjects = [...new Set(decks.map(item => item.title))];
-      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに3問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start"><label class="subject-field">教科を指定する<select id="study-subject" aria-label="出題する教科">${subjects.map(title => `<option ${title === studySubject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
+      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに3問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
       return;
     }
     const scope = s.scope || { type: 'lesson', id: s.deckId };
@@ -289,7 +360,7 @@
     if (!subjects.includes(subject)) subject = subjects[0];
     if (!selected) {
       const items = decks.filter(item => item.title === subject);
-      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1><label class="subject-field">教科<select id="subject" aria-label="教科">${subjects.map(title => `<option ${title === subject ? 'selected' : ''}>${escape(title)}</option>`).join('')}</select></label><p class="helper">授業回を選ぶと、その回の問題を表示します。</p><div class="lesson-grid">${items.map(item => {
+      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1>${subjectPicker('subject', '教科', subject, '教科')}<p class="helper">授業回を選ぶと、その回の問題を表示します。</p><div class="lesson-grid">${items.map(item => {
         const label = item.subtitle || item.title;
         const [lesson, ...topic] = label.split(' · ');
         return `<button class="lesson-card" data-open-lesson="${escape(item.id)}"><span class="lesson-card-number">${escape(lesson)}</span><span>${escape(topic.join(' · '))}</span><small>${item.questionCount || item.questions?.length || 0}問<span aria-hidden="true"> →</span></small></button>`;
@@ -517,10 +588,7 @@
     content.querySelectorAll('[data-day]').forEach(button => button.onclick = () => { selectedDay = button.dataset.day; render(); });
     const today = content.querySelector('[data-today]');
     if (today) today.onclick = () => { month = new Date(new Date().getFullYear(), new Date().getMonth(), 1); selectedDay = RecallCore.day(new Date()); render(); };
-    const filter = content.querySelector('#subject');
-    if (filter) filter.onchange = () => { subject = filter.value; catalogNavigate(); };
-    const studyFilter = content.querySelector('#study-subject');
-    if (studyFilter) studyFilter.onchange = () => { studySubject = studyFilter.value; };
+    setupSubjectPickers();
     content.querySelectorAll('[data-open-lesson]').forEach(button => button.onclick = () => catalogNavigate(button.dataset.openLesson));
     const back = content.querySelector('[data-catalog-back]');
     if (back) back.onclick = () => catalogNavigate();

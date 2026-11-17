@@ -224,7 +224,7 @@ const RecallCore = (() => {
       if (!s || s.closed || s.index >= s.queue.length || payload.eventId !== `${s.id}:${s.index}` ||
         payload.answerShown !== s.answerShown) return next;
       const began = Date.parse(s.answerShown ? s.revealedAt : s.presentedAt);
-      if (now.getTime() - began < 10000) return next;
+      if (now.getTime() - began < 15000) return next;
       return dispatch(next, deck, s.answerShown ? 'rate' : 'reveal',
         { eventId: payload.eventId, result: 'again' }, now, random);
     }

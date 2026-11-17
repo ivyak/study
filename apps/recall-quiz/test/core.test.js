@@ -161,24 +161,24 @@ test('uncertain answers remain separate from successes and mistakes after reload
   assert.deepEqual(core.questionStatistics(core.statistics(state), deck.id, id),
     { presented: 1, correct: 0, uncertain: 1, mistakes: 0 });
 });
-test('timeouts reveal at ten seconds, then record one failure after ten more seconds', () => {
+test('timeouts reveal at fifteen seconds, then record one failure after fifteen more seconds', () => {
   let state = core.start(core.initial(), deck, date());
   const payload = { eventId: `${state.session.id}:0`, answerShown: false };
   const at = ms => new Date(date().getTime() + ms);
-  state = core.dispatch(state, deck, 'timeout', payload, at(9999));
+  state = core.dispatch(state, deck, 'timeout', payload, at(14999));
   assert.equal(state.session.answerShown, false);
-  state = core.dispatch(state, deck, 'timeout', payload, at(10000));
+  state = core.dispatch(state, deck, 'timeout', payload, at(15000));
   assert.equal(state.session.answerShown, true);
   assert.equal(state.reviews.length, 0);
   const answer = { ...payload, answerShown: true };
-  state = core.dispatch(state, deck, 'timeout', answer, at(19999));
+  state = core.dispatch(state, deck, 'timeout', answer, at(29999));
   assert.equal(state.session.index, 0);
-  state = core.dispatch(state, deck, 'timeout', answer, at(20000));
+  state = core.dispatch(state, deck, 'timeout', answer, at(30000));
   assert.equal(state.session.index, 1);
   assert.equal(state.reviews[0].result, 'again');
-  assert.equal(state.reviews[0].recallMs, 10000);
+  assert.equal(state.reviews[0].recallMs, 15000);
   assert.equal(state.garden.coins, 0);
-  state = core.dispatch(state, deck, 'timeout', answer, at(21000));
+  state = core.dispatch(state, deck, 'timeout', answer, at(31000));
   assert.equal(state.reviews.length, 1);
   assert.equal(state.session.answerShown, false);
 });

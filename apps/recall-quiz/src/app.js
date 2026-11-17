@@ -155,16 +155,15 @@
     if (gachaView === 'lineup') {
       const selected = boot.shop.find(item => item.id === lineupAnimal && state.garden.items.includes(item.id));
       if (selected) return `<div class="lineup-detail"><button class="lineup-back">‹ ラインナップに戻る</button>${animalImage(selected)}<h3>${escape(selected.name)}</h3><p>${escape(selected.description)}</p></div>`;
-      return `<p class="lineup-hint">出会った動物だけ、姿を見ることができます。</p><div class="animal-lineup">${boot.shop.map((item, index) => {
+      return `<div class="animal-lineup">${boot.shop.map((item, index) => {
         const owned = state.garden.items.includes(item.id);
         return owned ? `<button class="lineup-card owned" data-lineup="${item.id}">${animalImage(item)}<span class="lineup-name">${escape(item.name)}</span><small>No.${String(index + 1).padStart(2, '0')}</small></button>` : `<div class="lineup-card locked" aria-label="未入手の動物 ${index + 1}"><span class="unknown-animal" aria-hidden="true">?</span><span class="lineup-name">未入手</span><small>No.${String(index + 1).padStart(2, '0')}</small></div>`;
       }).join('')}</div>`;
     }
     const result = drawResult && boot.shop.find(item => item.id === drawResult.animalId && state.garden.items.includes(item.id));
-    const visual = result ? `<div class="gacha-result" role="status"><p class="eyebrow">NEW FRIEND</p>${animalImage(result, 'draw-animal-image')}<h3>${escape(result.name)}</h3><p>${escape(result.description)}</p></div>` : `<div class="gacha-welcome"><div class="gacha-capsule" aria-hidden="true"><span>?</span></div><h3>次は、どの子に会えるかな。</h3><p>小さな庭に、新しい仲間を。</p></div>`;
+    const visual = result ? `<div class="gacha-result" role="status"><p class="eyebrow">NEW FRIEND</p>${animalImage(result, 'draw-animal-image')}<h3>${escape(result.name)}</h3><p>${escape(result.description)}</p></div>` : `<div class="gacha-welcome"><div class="gacha-capsule" aria-hidden="true"><span>?</span></div></div>`;
     return `${visual}<div class="gacha-controls"><button class="draw-gacha primary" ${state.garden.coins < RecallCore.gachaCost || !available.length ? 'disabled' : ''}>${available.length ? '10コインで1回まわす' : 'コンプリート'}</button>
-      <p class="gacha-short">${!available.length ? `全${boot.shop.length}種類がそろいました。` : state.garden.coins < RecallCore.gachaCost ? `あと${RecallCore.gachaCost - state.garden.coins}コインでまわせます。` : '新しい仲間は、そのまま庭に加わります。'}</p>
-      <p class="gacha-rule">${available.length ? `残り${available.length}種類から均等に抽選。重複はありません。` : '集めた動物は、ラインナップから見られます。'}</p></div>`;
+      </div>`;
   }
   function renderGarden() {
     const residents = boot.shop.filter(item => state.garden.items.includes(item.id));
@@ -178,7 +177,7 @@
       <div class="garden-shop-header"><div><p class="eyebrow">MEET A LITTLE FRIEND</p><h2 id="garden-shop-title">どうぶつガチャ</h2></div><button class="close-garden-shop" aria-label="ガチャを閉じる">×</button></div>
       <p class="shop-balance"><span class="coin-dot"></span> ${state.garden.coins} <span>コイン</span><small>${residents.length} / ${boot.shop.length}種類</small></p>
       <div class="gacha-tabs" aria-label="ガチャの表示"><button data-gacha-view="draw" aria-pressed="${gachaView === 'draw'}">ガチャ</button><button data-gacha-view="lineup" aria-pressed="${gachaView === 'lineup'}">ラインナップ</button></div>
-      <div class="gacha-scroll">${gachaContents()}</div><p class="shop-footnote">クイズに正解すると1コイン。ミスでは増えません。</p></div></dialog>`;
+      <div class="gacha-scroll">${gachaContents()}</div></div></dialog>`;
   }
   function setupGardenShop() {
     const dialog = content.querySelector('.garden-shop');
@@ -263,7 +262,7 @@
       const answers = stats.days[key] || 0;
       total += answers;
       if (answers) activeDays++;
-      cells += `<button class="calendar-day ${answers ? 'has-answers' : ''} ${key === RecallCore.day(new Date()) ? 'is-today' : ''}" data-day="${key}" aria-pressed="${key === selectedDay}" aria-label="${year}年${m + 1}月${date}日、${answers}回答"><span>${date}</span><small>${answers ? `${answers}回` : '·'}</small></button>`;
+      cells += `<button class="calendar-day ${answers ? 'has-answers' : ''} ${key === RecallCore.day(new Date()) ? 'is-today' : ''}" data-day="${key}" aria-pressed="${key === selectedDay}" aria-label="${year}年${m + 1}月${date}日、${answers}回答"><span>${date}</span><small>${answers ? `${answers}回` : ''}</small></button>`;
     }
     const [sy, sm, sd] = selectedDay.split('-');
     content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;

@@ -1291,7 +1291,7 @@ RecallWeb.start(window.BOOT).then(boot => { window.BOOT = boot;
       return `<details class="catalog-question history-question"><summary><span class="question-number">${offset + index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, item)}</div>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
     }).join('');
     const pagination = pageCount > 1 ? `<nav class="history-pagination" aria-label="回答履歴のページ"><button data-history-page="${historyPage - 1}" aria-label="前の10問" ${historyPage === 1 ? 'disabled' : ''}>‹</button><span aria-live="polite" aria-label="${historyPage}ページ目、全${pageCount}ページ">${historyPage} / ${pageCount}</span><button data-history-page="${historyPage + 1}" aria-label="次の10問" ${historyPage === pageCount ? 'disabled' : ''}>›</button></nav>` : '';
-    content.innerHTML = `<div class="page-heading history-heading"><h1 class="page-title">回答履歴</h1>${pagination}</div>${rows || '<div class="panel">まだ回答履歴がありません。</div>'}`;
+    content.innerHTML = `<div class="page-heading history-heading"><h1 class="page-title">回答履歴</h1>${pagination}</div><div class="history-list">${rows || '<div class="panel">まだ回答履歴がありません。</div>'}</div>`;
   }
   function resultCounts(n) {
     return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge uncertain" aria-label="あやふや${n.uncertain}回"><span class="result-symbol" aria-hidden="true">△</span><strong aria-hidden="true">${n.uncertain}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
@@ -1516,7 +1516,8 @@ RecallWeb.start(window.BOOT).then(boot => { window.BOOT = boot;
           const order = ['quiz', 'calendar', 'garden', 'catalog', 'history', 'settings'];
           const direction = historyTurn ? Math.sign(historyPage - renderedHistoryPage) :
             order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
-          content.animate([
+          const animationTarget = page === 'history' ? content.querySelector('.history-list') : content;
+          animationTarget.animate([
             { opacity: 0, transform: historyTurn ? `translateX(${direction * 24}px)` :
               changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
             { opacity: 1, transform: 'translate(0, 0)' }

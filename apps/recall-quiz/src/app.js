@@ -621,10 +621,10 @@
           const direction = historyTurn ? Math.sign(historyPage - renderedHistoryPage) :
             order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
           content.animate([
-            { opacity: 0, transform: historyTurn ? `translateX(${direction * 100}%)` :
+            { opacity: 0, transform: historyTurn ? `translateX(${direction * 24}px)` :
               changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
             { opacity: 1, transform: 'translate(0, 0)' }
-          ], { duration: historyTurn || changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
+          ], { duration: historyTurn ? 180 : changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
         }
       }
       releasePull(false);

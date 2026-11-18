@@ -116,7 +116,7 @@ const RecallWeb = (() => {
   }
   async function start(manifest) {
     const baseURL = new URL('./', document.baseURI).href;
-    const store = new Store({ name: `recall-quiz:${new URL(baseURL).pathname}` });
+    const store = new Store({ name: `recall-quiz:${new URL('./', location.href).pathname}` });
     const runtime = new Runtime({ ...manifest, baseURL, store, fetch: (...args) => fetch(...args) });
     window.RecallRuntime = runtime;
     return runtime.start(window.localStorage);

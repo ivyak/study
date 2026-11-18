@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <base href="./public/">
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src 'self'">
+  <title>ひとつ想起 · Recall Garden</title>
+  <style>:root { color-scheme: light; --ink: #29394d; --muted: #7b7282; --green: #344a63; --paper: #f7e9e4; --line: #e9d8d4; --gold: #bb8936; }
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+body { margin: 0; background: linear-gradient(160deg, #f7ddd0, #ede3ed 65%, #dce4eb) fixed; color: var(--ink); font: 16px/1.7 -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif; -webkit-text-size-adjust: 100%; }
+button, input { font: inherit; }
+button { cursor: pointer; min-height: 46px; touch-action: manipulation; color: inherit; }
+button:disabled { cursor: default; opacity: .48; }
+button:focus-visible, input:focus-visible { outline: 3px solid #be943d; outline-offset: 3px; }
+.shell { width: min(100%, 660px); height: 100vh; height: 100dvh; margin: auto; padding: max(12px, env(safe-area-inset-top)) 18px calc(86px + env(safe-area-inset-bottom)); position: relative; display: flex; flex-direction: column; overflow: hidden; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 5px 6px; flex-shrink: 0; }
+.brand { display: flex; align-items: center; gap: 6px; font-weight: 750; font-size: 15px; border: 0; background: none; padding: 0; white-space: nowrap; }
+.brand-mark { font-size: 27px; color: #a56c7b; }
+.header-end { display: flex; align-items: center; gap: 2px; }
+.icon-button { border: 1px solid #ffffff80; background: #fff7ef80; padding: 11px; width: 44px; height: 44px; min-height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.icon-button svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.coins { display: inline-flex; align-items: center; gap: 5px; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 14px; white-space: nowrap; margin-right: 4px; }
+.coin-dot { width: 17px; height: 17px; background: #ebcc83; border: 2px solid #d9b563; border-radius: 50%; display: inline-block; }
+.eyebrow { margin: 6px 0 4px; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
+.course { margin: 0; font-size: 13px; color: var(--muted); }
+.question-head { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+.step { color: var(--muted); font-size: 13px; }
+.dots { display: flex; gap: 6px; }
+.dots i { display: block; width: 7px; height: 7px; background: #dfe4d9; border-radius: 50%; }
+.dots i.done { background: #6f8a66; }
+.dots i.current { background: #b69b60; }
+.question { font-size: clamp(21px, 5.5vw, 27px); font-weight: 650; line-height: 1.8; margin: 18px 0 20px; min-height: 90px; overflow-wrap: anywhere; }
+.math-text { overflow-x: auto; padding: 2px 0 7px; }
+math { font-family: 'STIX Two Math', 'Cambria Math', math; }
+math mo.math-overbar { transform: translateY(-.12em); }
+.katex { white-space: nowrap; }
+.helper { font-size: 13px; color: var(--muted); margin: 14px 0; }
+.primary, .secondary { width: 100%; border-radius: 14px; padding: 14px 12px; border: 1px solid var(--line); font-weight: 650; }
+.primary { background: var(--green); color: #fff; border-color: var(--green); }
+.secondary { background: #f4e4e3; }
+.quiet { border: 0; background: none; color: var(--muted); padding: 12px 8px; font-size: 13px; }
+.center { text-align: center; }
+.answer { background: #fffcf7; border: 1px solid var(--line); border-radius: 22px; padding: 18px; margin: 0 0 20px; }
+.answer .label { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin: 0 0 9px; }
+.answer-main { font-size: 21px; margin-bottom: 12px; }
+.criterion { font-size: 13px; color: #71687a; }
+.disclosure-body, .answer-reveal { overflow: hidden; }
+.disclosure-content { display: flow-root; }
+details { margin-top: 15px; font-size: 13px; }
+summary { cursor: pointer; padding: 5px 0; color: var(--muted); min-height: 38px; }
+.sources { color: var(--muted); font-size: 11px; margin-top: 12px; overflow-wrap: anywhere; }
+.source-toggles { display: grid; gap: 10px; margin-top: 14px; }
+.source-toggle { margin: 0; border: 1px solid var(--line); border-radius: 12px; padding: 0 10px; background: #f6eeee; min-width: 0; }
+.source-toggle > summary { min-height: 46px; padding: 10px 0; color: var(--green); font-weight: 650; }
+.source-caption { font-size: 11px; color: var(--muted); margin: 0 0 8px; overflow-wrap: anywhere; }
+.source-zoom-controls { display: flex; align-items: center; gap: 5px; margin-bottom: 8px; }
+.source-zoom-controls button { min-width: 38px; min-height: 44px; border: 1px solid var(--line); border-radius: 9px; background: #fffcf7; padding: 6px; }
+.source-zoom-controls input { flex: 1; min-width: 35px; width: 100%; accent-color: var(--green); }
+.source-zoom-controls output { font-size: 11px; min-width: 35px; text-align: center; font-variant-numeric: tabular-nums; }
+.source-viewport { max-height: 60vh; overflow: auto; background: #eeeee6; overscroll-behavior: contain; border-radius: 6px; }
+.source-viewport img { display: block; width: 100%; max-width: none; height: auto; margin-inline: auto; }
+.source-toggle .helper { font-size: 11px; }
+.ratings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.reward-hint { color: #8a7849; font-size: 12px; text-align: center; margin-bottom: 8px; }
+.notice { border: 1px solid #fff8ef; padding: 10px 13px; border-radius: 10px; font-size: 12px; margin-bottom: 16px; background: #fff6edc9; }
+.status { flex-shrink: 0; font-size: 11px; color: #7d592f; line-height: 1.5; margin: 3px 4px 0; max-height: 50px; overflow: auto; }
+.status:empty { display: none; }
+h1.page-title { font-size: 27px; font-weight: 650; margin: 14px 0 8px; }
+.lead { color: #7b7282; font-size: 14px; margin-top: 8px; }
+.panel { background: #fffcf7; border: 1px solid var(--line); border-radius: 15px; padding: 17px; margin: 18px 0; }
+.field { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; font-size: 14px; }
+input[type='checkbox'] { width: 23px; height: 23px; accent-color: var(--green); }
+input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-radius: 8px; padding: 8px; color: var(--ink); background: white; }
+.stack { display: grid; gap: 10px; }
+.badge { display: inline-block; padding: 3px 9px; font-size: 11px; color: #8a6679; background: #f1e1e1; border-radius: 10px; }
+@media (max-width: 360px) {
+  .shell { padding-left: 16px; padding-right: 16px; }
+  .brand { font-size: 13px; }
+  .icon-button { padding: 6px; }
+  .question { font-size: 21px; }
+  #content { padding: 21px 16px; }
+}
+/* The landscape and navigation are drawn locally and remain available offline. */
+.landscape { position: absolute; inset: 0 0 auto; height: 300px; overflow: hidden; pointer-events: none; }
+.landscape svg { width: 100%; height: 100%; display: block; }
+.hero-note { flex-shrink: 0; margin: 0 7px 12px; font-size: 13px; letter-spacing: .12em; color: #69596c; }
+.scroll-region { flex: 1; min-height: 0; overflow: hidden auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; border: 0; border-radius: 26px; background: #fff9f3f5; scrollbar-width: none; -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / var(--fade-top, 1)), #000 14px, #000 calc(100% - 18px), rgb(0 0 0 / var(--fade-bottom, 1))); mask-image: linear-gradient(to bottom, rgb(0 0 0 / var(--fade-top, 1)), #000 14px, #000 calc(100% - 18px), rgb(0 0 0 / var(--fade-bottom, 1))); }
+.scroll-region.has-more-above { --fade-top: 0; }
+.scroll-region.has-more-below { --fade-bottom: 0; }
+.scroll-region::-webkit-scrollbar { display: none; }
+.scroll-region:focus-visible { outline: 2px solid #a56c7b; outline-offset: 2px; }
+.stretch-content { min-height: 100%; transform-origin: center top; }
+#content { position: relative; padding: 22px 20px 26px; min-width: 0; }
+.shell > .notice { flex-shrink: 0; padding: 6px 10px; margin-bottom: 6px; font-size: 10px; }
+.notice { font-size: 11px; margin-bottom: 12px; backdrop-filter: blur(12px); }
+.primary { box-shadow: 0 5px 12px #2b40571a; }
+.primary, .secondary { border-radius: 18px; }
+.main-nav { position: fixed; bottom: max(8px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(calc(100% - 28px), 608px); z-index: 20; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; padding: 6px 9px; border: 1px solid #ffffff30; border-radius: 22px; background: #293d55f5; box-shadow: 0 12px 30px #26334630; backdrop-filter: blur(18px); }
+.main-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 0; min-height: 52px; border: 0; border-radius: 18px; color: #d1ccdb; background: none; font-size: 10px; padding: 3px 2px; transition: color .22s ease, background .22s ease, transform .22s ease; }
+.main-nav svg { display: block; width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.main-nav button[aria-current='page'] { color: #ffddce; background: #ffffff13; font-weight: 650; }
+.main-nav button:active { transform: scale(.94); }
+.result-badge { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 20px; }
+.result-badge.correct { color: #287552; background: #e4f0e8; }
+.result-badge.mistake { color: #b34956; background: #f9e5e5; }
+.result-badge strong { color: inherit; }
+.result-symbol { font-size: 20px; line-height: 1.3; font-weight: 600; }
+.count-presented { display: inline-flex; align-items: center; gap: 5px; }
+.count-note { margin: -5px 0 18px; color: var(--muted); font-size: 11px; }
+.count-note summary { min-height: 30px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+.month-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.month-nav h2, .day-detail h2, .lesson h2 { font-size: 17px; margin: 0; font-weight: 650; }
+.month-nav button { background: #f4e4e3; border: 0; border-radius: 10px; min-width: 44px; font-size: 24px; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.weekday { text-align: center; font-size: 11px; color: var(--muted); padding-bottom: 8px; }
+.calendar-day { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; min-height: 54px; padding: 3px 0; border: 1px solid transparent; border-radius: 9px; background: #f7eeea; font-size: 13px; }
+.calendar-day small { min-height: 1.5em; font-size: 9px; line-height: 1.5; overflow-wrap: anywhere; }
+.calendar-day.has-answers { background: #e9d4d5; color: #744e63; }
+.calendar-day.is-today { border-color: #bd929c; }
+.calendar-day[aria-pressed='true'] { background: var(--green); color: white; border-color: var(--green); }
+.month-total { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 18px; font-size: 12px; color: var(--muted); }
+.month-total strong { color: var(--ink); }
+.day-count { font-size: 38px; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+.day-count span { font-size: 14px; margin-left: 8px; color: var(--muted); }
+.subject-field { display: grid; gap: 7px; margin: 22px 0 12px; font-size: 13px; }
+.subject-picker { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-width: 0; min-height: 50px; text-align: left; font-size: 15px; color: var(--ink); border: 1px solid var(--line); background: #fffcf7; border-radius: 13px; padding: 12px 14px; }
+.subject-picker svg, .subject-options svg { flex-shrink: 0; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.subject-picker > svg { color: var(--muted); transition: transform .18s ease; }
+.subject-picker[aria-expanded='true'] { border-color: #a68795; }
+.subject-picker[aria-expanded='true'] > svg { transform: rotate(180deg); }
+.subject-options { position: fixed; z-index: 100; overflow-y: auto; overscroll-behavior: contain; padding: 6px; border: 1px solid var(--line); border-radius: 16px; background: #fffcf7; box-shadow: 0 12px 35px #29394d24; -webkit-overflow-scrolling: touch; }
+.subject-options[hidden] { display: none; }
+.subject-options [role='option'] { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 46px; padding: 10px 12px; border: 0; border-radius: 10px; background: none; text-align: left; font-size: 14px; }
+.subject-options [aria-selected='true'] { color: var(--green); background: #f4e4e3; font-weight: 650; }
+.subject-options [role='option']:hover, .subject-options [role='option']:focus-visible { background: #f5eeea; outline: 2px solid #b99ba8; outline-offset: -2px; }
+.lesson { margin-top: 24px; min-width: 0; }
+.lesson-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.lesson-head .helper { margin: 4px 0 0; }
+.lesson-start { background: #f2dedc; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 12px; }
+.quiz-start { margin-top: 24px; }
+.subject-start { border-top: 1px solid var(--line); margin-top: 28px; padding-top: 4px; }
+.quiz-scope { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 12px; }
+.quiz-scope .quiet { padding: 4px 0; font-size: 11px; }
+.lesson-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.lesson-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; min-width: 0; padding: 16px 13px; border: 1px solid var(--line); border-radius: 17px; background: #fffcf7; font-size: 12px; overflow-wrap: anywhere; }
+.lesson-card-number { font-size: 19px; font-weight: 650; }
+.lesson-card small { color: var(--muted); margin-top: auto; }
+.catalog-back { display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 10px; margin-left: -10px; border: 0; background: none; color: var(--muted); }
+.catalog-back svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.catalog-question { background: #fffcf7; border: 1px solid var(--line); border-radius: 13px; padding: 12px; margin: 10px 0; }
+.catalog-question > summary { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; color: var(--ink); padding: 0; }
+.question-number { color: var(--muted); font-size: 12px; padding-top: 5px; }
+.catalog-prompt { font-size: 15px; overflow-wrap: anywhere; }
+.question-counts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 11px; color: var(--muted); margin-top: 10px; font-variant-numeric: tabular-nums; }
+.catalog-question summary .question-counts { grid-column: 2; margin: 0; }
+.question-counts strong { color: var(--ink); font-weight: 600; }
+.catalog-answer { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px; font-size: 15px; }
+.catalog-answer .label { color: var(--muted); font-size: 11px; margin: 0 0 5px; }
+.retired-question { padding: 10px 0; border-top: 1px solid var(--line); }
+.retired-question p { margin: 0; }
+.retired-question small { overflow-wrap: anywhere; }
+
+@media (max-width: 360px) {
+  #content { padding: 20px 14px; }
+  .panel { padding: 12px; }
+  .calendar-grid { gap: 3px; }
+  .calendar-day { min-height: 46px; }
+  .question-counts { gap: 6px 8px; }
+}
+
+@media (max-height: 760px) {
+  .hero-note { margin-bottom: 6px; font-size: 11px; }
+  h1.page-title { font-size: 24px; }
+}
+/* The garden is a viewport-sized scene; only the shop sheet scrolls. */
+.garden-mode .landscape, .garden-mode .hero-note { display: none; }
+.garden-mode .shell { width: 100%; pointer-events: none; }
+.garden-mode header { position: relative; z-index: 5; pointer-events: auto; width: min(100%, 620px); margin-inline: auto; }
+.garden-mode .header-end { background: #fff8eac9; border-radius: 26px; padding-left: 12px; backdrop-filter: blur(12px); }
+.garden-mode .brand { text-shadow: 0 1px 12px #fff4dd; }
+.garden-mode .scroll-region { position: fixed; inset: 0; border-radius: 0; background: transparent; overflow: hidden; mask-image: none; -webkit-mask-image: none; pointer-events: auto; }
+.garden-mode .stretch-content, .garden-mode #content { height: 100%; min-height: 0; padding: 0; }
+.garden-mode .status { position: fixed; bottom: calc(83px + env(safe-area-inset-bottom)); left: 22px; right: 120px; z-index: 7; color: #354b48; padding: 5px 10px; background: #fff9e9d9; border-radius: 10px; }
+.garden-stage { position: absolute; inset: 0; overflow: hidden; background: #c9cdab; }
+.garden-landscape { display: block; width: 100%; height: 100%; }
+.garden-caption { position: absolute; top: calc(92px + env(safe-area-inset-top)); left: max(25px, calc((100vw - 580px) / 2)); color: #384f50; pointer-events: none; }
+.garden-caption .eyebrow { color: #7f7b70; font-size: 9px; letter-spacing: .18em; }
+.garden-caption h1 { font-size: 30px; font-weight: 600; letter-spacing: .08em; line-height: 1.3; margin: 7px 0 9px; }
+.garden-caption p:last-child { margin: 0; font-size: 11px; color: #68796d; }
+.garden-residents { position: absolute; inset: 0; }
+.garden-animal { position: absolute; left: var(--x); top: var(--y); width: var(--size); height: var(--size); transform: translate(-50%, -50%); border: 0; padding: 0; min-height: 0; background: transparent; -webkit-tap-highlight-color: transparent; }
+.animal-rabbit { --x: 27%; --y: 65%; --size: clamp(110px, 36vw, 170px); }
+.animal-fox { --x: 70%; --y: 56%; --size: clamp(140px, 44vw, 210px); }
+.animal-deer { --x: 40%; --y: 44%; --size: clamp(145px, 46vw, 220px); }
+.animal-shadow { position: absolute; bottom: 8%; left: 23%; width: 54%; height: 7%; border-radius: 50%; background: #4d65543b; filter: blur(3px); }
+.animal-roam, .animal-body { display: block; width: 100%; height: 100%; transform-origin: center 92%; }
+.animal-body img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; filter: drop-shadow(0 4px 3px #5b60471a); }
+.animal-name { display: block; position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); white-space: nowrap; font-size: 11px; padding: 4px 10px; border-radius: 20px; background: #fffaeae8; color: #46564e; opacity: 0; pointer-events: none; }
+.animal-rabbit .animal-roam { animation: rabbit-hop 9s ease-in-out infinite; }
+.animal-rabbit .animal-body { animation: animal-breathe 3.2s ease-in-out infinite; }
+.animal-fox .animal-roam { animation: fox-stroll 18s ease-in-out infinite; }
+.animal-fox .animal-body { animation: fox-step 1.8s ease-in-out infinite; }
+.animal-deer .animal-body { animation: deer-rest 6s ease-in-out infinite; }
+.garden-animal.says-hello .animal-body { animation: animal-hello .8s ease-in-out; }
+.garden-animal.says-hello .animal-name { animation: animal-name 2.4s ease both; }
+.garden-tip { position: absolute; bottom: calc(90px + env(safe-area-inset-bottom)); left: 24px; right: 130px; margin: 0; color: #596e5b; font-size: 10px; pointer-events: none; }
+.open-garden-shop { position: absolute; right: max(22px, calc((100vw - 580px) / 2)); bottom: calc(104px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: center; gap: 5px; width: 76px; height: 80px; padding: 10px 6px; border: 1px solid #fff7d9bb; border-radius: 24px; background: #fff3dcd9; backdrop-filter: blur(12px); box-shadow: 0 7px 16px #65745a20; color: #4d6155; font-size: 11px; font-weight: 650; }
+.open-garden-shop svg { width: 31px; height: 31px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.garden-invitation { position: absolute; top: 52%; left: 18%; right: 18%; text-align: center; color: #64735e; pointer-events: none; }
+.invitation-line { display: block; width: 28px; height: 1px; background: #83906c88; margin: 0 auto 13px; }
+.garden-invitation p { font-size: 15px; letter-spacing: .04em; margin: 0 0 7px; }
+.garden-invitation small { font-size: 10px; }
+.garden-shop { position: fixed; inset: auto 0 max(8px, env(safe-area-inset-bottom)); width: min(calc(100% - 16px), 600px); max-width: none; max-height: none; margin: 0 auto; padding: 0; border: 0; overflow: visible; background: transparent; color: var(--ink); }
+.garden-shop::backdrop { background: #263b4d55; backdrop-filter: blur(5px); }
+.shop-sheet { background: #fff9ef; border-radius: 28px; padding: 10px 20px 20px; height: auto; max-height: 79vh; max-height: min(79dvh, 720px); overflow: hidden; display: flex; flex-direction: column; overscroll-behavior: contain; box-shadow: 0 15px 70px #23394c33; }
+.shop-grip { width: 32px; height: 4px; border-radius: 4px; background: #dacdc3; margin: 0 auto 16px; }
+.garden-shop-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.garden-shop-header .eyebrow { font-size: 9px; letter-spacing: .12em; }
+.garden-shop-header h2 { font-size: 21px; font-weight: 650; margin: 2px 0 0; }
+.close-garden-shop { flex-shrink: 0; width: 40px; min-height: 40px; padding: 0; border: 0; border-radius: 50%; background: #efe7df; font-size: 25px; line-height: 1; color: #7a776e; }
+.shop-balance { display: flex; align-items: center; gap: 6px; font-weight: 650; font-size: 20px; margin: 12px 0 18px; }
+.shop-balance > span:last-child { font-size: 11px; font-weight: 400; color: #8a8375; }
+@keyframes rabbit-hop { 0%, 18%, 80%, 100% { transform: translate(0, 0); } 24% { transform: translate(9px, -12px); } 30% { transform: translate(18px, 0); } 36% { transform: translate(22px, -9px); } 42%, 72% { transform: translate(26px, 0); } }
+@keyframes animal-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+@keyframes fox-stroll { 0%, 100% { transform: translateX(-18px); } 50% { transform: translateX(20px); } }
+@keyframes fox-step { 0%, 100% { transform: translateY(0) rotate(-.5deg); } 50% { transform: translateY(-3px) rotate(.5deg); } }
+@keyframes deer-rest { 0%, 100% { transform: rotate(-1deg) scaleY(1); } 50% { transform: rotate(1deg) scaleY(1.015); } }
+@keyframes animal-hello { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-14px) rotate(-3deg); } 65% { transform: translateY(0) rotate(2deg); } }
+@keyframes animal-name { 0%, 100% { opacity: 0; } 12%, 80% { opacity: 1; } }
+@media (max-width: 360px) {
+  .shop-sheet { padding-inline: 14px; }
+}
+.shop-grip, .garden-shop-header, .shop-balance, .gacha-tabs { flex-shrink: 0; }
+.shop-balance small { margin-left: auto; color: #8a8375; font-size: 11px; font-weight: 400; }
+.gacha-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px; margin-bottom: 10px; border-radius: 14px; background: #eee9df; }
+.gacha-tabs button { min-height: 38px; border: 0; border-radius: 11px; font-size: 12px; background: transparent; color: #918572; }
+.gacha-tabs button[aria-pressed='true'] { background: #fffdf7; color: #456353; font-weight: 650; box-shadow: 0 2px 5px #6c614710; }
+.gacha-scroll { flex: 0 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none; padding-bottom: 8px; }
+.gacha-welcome, .gacha-result { text-align: center; padding: 12px 6px 4px; }
+.gacha-welcome h3, .gacha-result h3 { margin: 10px 0 7px; font-size: 18px; font-weight: 650; }
+.gacha-welcome p, .gacha-result p:not(.eyebrow) { margin: 0 0 10px; font-size: 11px; color: #8a8375; }
+.gacha-result .eyebrow { color: #a2915b; font-size: 9px; letter-spacing: .18em; margin: 0; }
+.draw-animal-image { display: block; width: 176px; height: 176px; object-fit: contain; margin: 0 auto; background: radial-gradient(ellipse, #e7eddc, transparent 70%); }
+.gacha-capsule { position: relative; width: 114px; height: 114px; margin: 16px auto 23px; border-radius: 46% 46% 48% 48%; background: linear-gradient(150deg, #f8e6b5, #e3c99c 48%, #fffcf1 49%, #f5eee0 74%, #d7dbc9); border: 2px solid #fff9e5; box-shadow: inset -8px -7px 14px #7d88551a, 0 12px 22px #8c8c6818; transform: rotate(-12deg); }
+.gacha-capsule::after { content: ''; position: absolute; width: 14px; height: 32px; left: 22px; top: 13px; border-radius: 60%; background: #fffaf080; transform: rotate(30deg); }
+.gacha-capsule span { display: grid; place-items: center; height: 100%; font-size: 40px; font-weight: 550; color: #8e9777; transform: rotate(12deg); }
+.gacha-controls { padding: 8px 3px 0; text-align: center; }
+.gacha-controls .primary { min-height: 49px; font-size: 14px; padding: 10px; background: #3e6052; border-color: #3e6052; }
+.animal-lineup { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.lineup-card { display: flex; flex-direction: column; align-items: center; min-width: 0; border: 1px solid #e7dfd1; border-radius: 16px; padding: 8px 5px; background: #fffdf7; text-align: center; }
+.lineup-card img, .unknown-animal { display: block; width: 100%; height: 83px; object-fit: contain; }
+.lineup-name { display: block; min-height: 29px; font-size: 10px; line-height: 1.5; color: #506350; margin-top: 5px; overflow-wrap: anywhere; }
+.lineup-card small { color: #a19b8b; font-size: 8px; margin-top: 4px; }
+.lineup-card.locked { background: #eeeee4; border: 1px dashed #dcdccb; }
+.locked .lineup-name { color: #a4a48f; }
+.unknown-animal { display: grid; place-items: center; font-size: 35px; font-weight: 400; color: #c0c2ac; }
+.lineup-detail { text-align: center; }
+.lineup-detail img { width: min(100%, 260px); height: 250px; object-fit: contain; display: block; margin: 0 auto; }
+.lineup-detail h3 { font-size: 19px; margin: 10px 0 7px; }
+.lineup-detail p { font-size: 12px; color: #8a8375; }
+.lineup-back { border: 0; background: none; color: #768369; display: block; min-height: 38px; padding: 5px; font-size: 12px; }
+.garden-animal { --size: clamp(90px, 32vw, 160px); }
+.many-residents .garden-animal { --size: clamp(66px, 25vw, 125px); }
+.motion-hop .animal-roam { animation: rabbit-hop 10s ease-in-out infinite; }
+.motion-stroll .animal-roam { animation: fox-stroll 18s ease-in-out infinite; }
+.motion-rest .animal-body { animation: deer-rest 6s ease-in-out infinite; }
+.motion-float .animal-body { animation: owl-float 4s ease-in-out infinite; }
+.garden-animal .animal-body, .garden-animal .animal-roam { animation-delay: var(--delay, 0s); }
+@keyframes owl-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-6px) rotate(1deg); } }
+@media (max-width: 360px) {
+  .animal-lineup { gap: 6px; }
+  .lineup-card { padding-inline: 3px; }
+  .lineup-card img, .unknown-animal { height: 70px; }
+  .draw-animal-image { width: 150px; height: 150px; }
+}
+
+.settings-heading { font-size: 17px; margin: 0 0 12px; font-weight: 650; }
+
+.quiz-timer { position: sticky; top: 0; z-index: 3; margin: 12px 0 18px; padding: 12px 0; background: #fff9f3; box-shadow: 0 1px 0 var(--line); }
+.timer-caption { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.timer-track { height: 8px; border-radius: 8px; background: #dde3ea; overflow: hidden; }
+.timer-fill { height: 100%; background: #3484d6; transform-origin: left; transition: transform .1s linear; }
+.timer-track[data-tone='yellow'] .timer-fill { background: #e9b52a; }
+.timer-track[data-tone='red'] .timer-fill { background: #db4551; }
+.result-badge.uncertain { color: #936c13; background: #fff0c5; }
+.ratings button { min-width: 0; padding: 12px 4px; font-size: 13px; }
+.history-question .catalog-prompt small { display: block; color: var(--muted); font-size: 11px; margin-bottom: 6px; }
+
+.history-question > summary { grid-template-columns: 20px minmax(0, 1fr) auto; align-items: start; }
+
+.main-nav button span { white-space: nowrap; font-size: clamp(9px, 2.5vw, 10px); }
+
+.start-countdown { min-height: 420px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.countdown-label { color: var(--muted); font-size: 14px; margin: 0; }
+.countdown-number { margin: 12px 0; font-size: clamp(90px, 25vw, 140px); line-height: 1.5; font-weight: 750; color: var(--green); animation: countdown-pop .45s ease-out; }
+.countdown-number.countdown-start { font-size: clamp(38px, 12vw, 64px); }
+@keyframes countdown-pop {
+  from { opacity: 0; transform: scale(.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+</head>
+<body>
+  <div class="landscape" aria-hidden="true">
+    <svg viewBox="0 0 900 420" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#f9e6d5"/><stop offset=".58" stop-color="#f0b6aa"/><stop offset="1" stop-color="#c18fa3"/></linearGradient>
+        <linearGradient id="sunset" x2="0" y2="1"><stop stop-color="#fff5cb"/><stop offset="1" stop-color="#f6cfab"/></linearGradient>
+      </defs>
+      <path fill="url(#sky)" d="M0 0h900v420H0z"/>
+      <circle cx="570" cy="145" r="55" fill="url(#sunset)"/>
+      <path d="M0 224 100 160Q118 146 135 170L205 232 293 194 397 258 495 218 570 253 680 216 774 250 900 193V420H0Z" fill="#cf8e9c"/>
+      <path d="M0 265Q50 267 102 223T183 244L255 290Q309 312 362 281T457 280L551 310Q628 331 692 282T802 280L900 268V420H0Z" fill="#8f7892"/>
+      <path d="M0 313 62 280Q80 273 96 295L146 323Q191 350 224 321L301 297Q320 291 345 316L400 348Q462 370 511 340L588 311Q607 303 636 323L697 348Q744 368 785 333L856 299 900 315V420H0Z" fill="#4e5b76"/>
+      <path d="M0 354Q84 310 158 363T315 365 478 381 635 364 793 382 900 349V420H0Z" fill="#2b4057"/>
+      <path d="M0 375Q85 346 166 383M655 386Q735 363 810 389" fill="none" stroke="#8990a1" stroke-opacity=".35" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="shell">
+    <header>
+      <button id="home" class="brand" aria-label="最初の画面に戻る"><span class="brand-mark">✧</span> ひとつ想起</button>
+      <div class="header-end"><span id="coins" class="coins" aria-label="コイン"></span><button id="settings-nav" class="icon-button" aria-label="設定"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 1-2h4l1 2 2 1 2-.2 2 3-1 2v3l1 2-2 3-2-.2-2 1-1 2h-4l-1-2-2-1-2 .2-2-3 1-2v-3l-1-2 2-3 2 .2Z"/><circle cx="12" cy="11.5" r="3"/></svg></button></div>
+    </header>
+    <p class="hero-note">今日も、ひとつずつ。</p>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <div class="scroll-region" tabindex="0" aria-label="学習画面の内容">
+      <div class="stretch-content">
+        <main id="content"></main>
+      </div>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </div>
+  <nav class="main-nav" aria-label="画面の切り替え">
+    <button data-screen="quiz"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6q6-2 12 2 6-4 12-2v21q-6-2-12 2-6-4-12-2Z"/><path d="M16 8v21M8 12l4 1M20 13l4-1M8 18l4 1M20 19l4-1"/></svg><span>クイズ</span></button>
+    <button data-screen="calendar"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="6" width="24" height="23" rx="5"/><path d="M10 3v7M22 3v7M4 14h24M10 20h1M16 20h1M22 20h1M10 25h1M16 25h1"/></svg><span>カレンダー</span></button>
+    <button data-screen="garden"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V15M16 20Q3 22 4 8q12-1 12 12ZM16 15Q16 3 28 4q1 12-12 11ZM9 29h14"/></svg><span>庭</span></button>
+    <button data-screen="catalog"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="3" width="22" height="26" rx="5"/><path d="M11 10h1M16 10h6M11 16h1M16 16h6M11 22h1M16 22h6"/></svg><span>一覧</span></button>
+    <button data-screen="history"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 12a12 12 0 1 1 0 10M5 4v8h8M16 9v8l5 3"/></svg><span>履歴</span></button>
+  </nav>
+  <script>window.GARDEN_ASSETS = {"rabbit":"./assets/garden/rabbit.png","fox":"./assets/garden/fox.png","deer":"./assets/garden/deer.png","squirrel":"./assets/garden/squirrel.png","raccoon":"./assets/garden/raccoon.png","hedgehog":"./assets/garden/hedgehog.png","owl":"./assets/garden/owl.png","redpanda":"./assets/garden/redpanda.png","capybara":"./assets/garden/capybara.png","cat":"./assets/garden/cat.png","shiba":"./assets/garden/shiba.png","bear":"./assets/garden/bear.png","otter":"./assets/garden/otter.png"};</script>
+  <script>window.BOOT = {"defaultDeckId":"calc2-lesson01","decks":[{"id":"calc2-lesson01","version":4,"title":"微分積分学続論II","subtitle":"第1回 · 常微分方程式と変数分離","scope":"授業資料1、全10ページ。第1回で扱った知識と解法パターンを優先順に8問。完全型と一階線型は型の名前までとし、具体的な解法は含めない。","questionCount":8,"file":"./decks/calc2-lesson01.json"},{"id":"automata-lesson01","version":1,"title":"言語・オートマトン","subtitle":"第1回 · Part1・27枚目まで","scope":"オートマトン2026Part1.pdfの物理ページ1〜27。有限状態オートマトン、正則言語、等価性、到達不可能状態まで。28枚目以降の補題や最小化手順は含めない。","questionCount":9,"file":"./decks/automata-lesson01.json"},{"id":"automata-lesson02","version":1,"title":"言語・オートマトン","subtitle":"第2回 · Part1・28〜39枚目","scope":"オートマトン2026Part1.pdfの前回の続き、28〜39枚目。到達可能性、状態の組による等価性判定、反復補題まで。40枚目以降の状態数最小化は含めない。","questionCount":8,"file":"./decks/automata-lesson02.json"},{"id":"automata-lesson03","version":1,"title":"言語・オートマトン","subtitle":"第3回 · Part1・41〜52枚目","scope":"オートマトン2026Part1.pdfの41〜52枚目。決定性有限状態オートマトンの状態数最小化について、状態の分類、再分類、終了条件、短い例を扱う。40枚目と53枚目以降は含めない。","questionCount":8,"file":"./decks/automata-lesson03.json"},{"id":"calc2-lesson02","version":1,"title":"微分積分学続論II","subtitle":"第2回 · 同次形・完全形と線積分","scope":"微分積分学続論II 2.pdf、全17物理ページ。同次形・完全形と線積分。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/calc2-lesson02.json"},{"id":"calc2-lesson03","version":1,"title":"微分積分学続論II","subtitle":"第3回 · 完全形の解法と積分因子","scope":"微分積分学続論II 3.pdf、全10物理ページ。完全形の解法と積分因子。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/calc2-lesson03.json"},{"id":"calc2-lesson04","version":1,"title":"微分積分学続論II","subtitle":"第4回 · 一階線型と対角化による連立系の解法","scope":"微分積分学続論II 4.pdf、全12物理ページ。一階線型と対角化による連立系の解法。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/calc2-lesson04.json"},{"id":"calc2-lesson05","version":1,"title":"微分積分学続論II","subtitle":"第5回 · 行列指数関数と一様収束","scope":"微分積分学続論II 5.pdf、全10物理ページ。行列指数関数と一様収束。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/calc2-lesson05.json"},{"id":"complex-lesson01","version":1,"title":"工業数学Ａ１","subtitle":"第1回 · a1.pdf・命題2.3まで","scope":"a1.pdfの本文第1節から命題2.3まで、物理ページ4〜6。複素微分、講義での正則性の定義、微分の演算法則。7ページ以降のコーシー・リーマンの関係式は含めない。","questionCount":9,"file":"./decks/complex-lesson01.json"},{"id":"complex-lesson02","version":1,"title":"工業数学Ａ１","subtitle":"第2回 · 第2章の残りと複素積分","scope":"a1.pdfの第2章の命題2.3後から章末まで、物理ページ7〜8。第4章の最初から命題4.1まで、物理ページ11〜12。第3章と命題4.1後の例は含めない。","questionCount":9,"file":"./decks/complex-lesson02.json"},{"id":"control-lesson01","version":1,"title":"線形制御理論","subtitle":"第1回 · 第2回資料・ラプラス変換","scope":"線形制御理論【第2回】講義資料.pdf、全31ページ。ラプラス変換の定義・性質と、部分分数分解による逆変換。変換式は積分が存在する領域で用いる。","questionCount":10,"file":"./decks/control-lesson01.json"},{"id":"control-lesson02","version":1,"title":"線形制御理論","subtitle":"第2回 · 第3回資料・最終値と伝達関数","scope":"実際の第3回、講義資料の全32物理ページ。印刷ページ番号には重複があるため物理ページで参照する。最終値定理、初期値応答、デルタ関数、伝達関数と各応答。","questionCount":10,"file":"./decks/control-lesson02.json"},{"id":"control-lesson03","version":1,"title":"線形制御理論","subtitle":"第3回 · 元の第4回・線形化とシステムの結合","scope":"線形制御理論【第4回】講義資料.pdf、全26物理ページ。元の第4回・線形化とシステムの結合。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/control-lesson03.json"},{"id":"control-lesson04","version":1,"title":"線形制御理論","subtitle":"第4回 · 元の第5回・一次系と二次系の応答","scope":"線形制御理論【第5回】講義資料.pdf、全26物理ページ。元の第5回・一次系と二次系の応答。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/control-lesson04.json"},{"id":"control-lesson05","version":1,"title":"線形制御理論","subtitle":"第5回 · 元の第6回・安定判別","scope":"線形制御理論【第6回】講義資料.pdf、全21物理ページ。元の第6回・安定判別。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":8,"file":"./decks/control-lesson05.json"},{"id":"finance-lesson01","version":1,"title":"コーポレートファイナンス","subtitle":"第1回 · PDF1・DCFと債券・株式評価","scope":"1. イントロ_CF基礎_講義資料.pdf、全59ページから選定。DCF、ローン、債券、デュレーション、定率成長モデルを対象とする。","questionCount":10,"file":"./decks/finance-lesson01.json"},{"id":"finance-lesson02","version":1,"title":"コーポレートファイナンス","subtitle":"第2回 · PDF2・成長と株価指標","scope":"2. サステナブル成長と価値創造_講義資料.pdfの全41ページ。PER・PBR・ROE、配当性向と再投資、サステナブル成長、投資収益率と資本コストの比較を中心に選定。","questionCount":10,"file":"./decks/finance-lesson02.json"},{"id":"mechanics-lesson01","version":1,"title":"解析力学","subtitle":"第1回 · 第1回資料・平面極座標","scope":"kaiseki_2026_fall_01.pdf、全12ページ。ニュートンの法則、デカルト座標と平面極座標の速度・加速度・運動方程式。","questionCount":8,"file":"./decks/mechanics-lesson01.json"},{"id":"mechanics-lesson02","version":1,"title":"解析力学","subtitle":"第2回 · 第2回修正版・ラグランジュ方程式","scope":"kaiseki_2026_fall_02_v2.pdfの全16ページ。保存力、ラグランジアン、一般化座標と点変換。平面中心力場の問題も、式の立て方を短く想起する形で扱う。","questionCount":8,"file":"./decks/mechanics-lesson02.json"},{"id":"mechanics-lesson03","version":1,"title":"解析力学","subtitle":"第3回 · 元の第3回・拘束と仮想仕事","scope":"kaiseki_2026_fall_03.pdf、全21物理ページ。元の第3回・拘束と仮想仕事。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/mechanics-lesson03.json"},{"id":"mechanics-lesson04","version":1,"title":"解析力学","subtitle":"第4回 · 元の第4回・ダランベールの原理と一般化力","scope":"kaiseki_2026_fall_04.pdf、全12物理ページ。元の第4回・ダランベールの原理と一般化力。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/mechanics-lesson04.json"},{"id":"mechanics-lesson05","version":1,"title":"解析力学","subtitle":"第5回 · 元の第5回・変分原理","scope":"kaiseki_2026_fall_05.pdf、全12物理ページ。元の第5回・変分原理。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/mechanics-lesson05.json"},{"id":"mechanics-lesson06","version":1,"title":"解析力学","subtitle":"第6回 · 元の第6回・未定乗数と拘束力","scope":"kaiseki_2026_fall_06.pdf、全13物理ページ。元の第6回・未定乗数と拘束力。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/mechanics-lesson06.json"},{"id":"numerical-lesson01","version":1,"title":"数値解析","subtitle":"第1回 · 資料2・丸め誤差とガウスの消去法","scope":"数値解析 2.pdf、全14ページ。浮動小数点数の精度、漸化式の丸め誤差、ガウスの消去法と部分軸選択、計算量。","questionCount":8,"file":"./decks/numerical-lesson01.json"},{"id":"numerical-lesson02","version":1,"title":"数値解析","subtitle":"第2回 · 資料3・定常反復法とノルム","scope":"数値解析 3.pdfの全11ページ。中心差分、疎行列、ヤコビ法とガウス・ザイデル法、ノルムと有限次元での同値性。丸め誤差の復習より新しい内容を優先する。","questionCount":9,"file":"./decks/numerical-lesson02.json"},{"id":"numerical-lesson03","version":1,"title":"数値解析","subtitle":"第3回 · 元の資料4・狭義対角優位と反復の収束","scope":"数値解析 4.pdf、全13物理ページ。元の資料4・狭義対角優位と反復の収束。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/numerical-lesson03.json"},{"id":"numerical-lesson04","version":1,"title":"数値解析","subtitle":"第4回 · 元の資料5・反復行列と固有値","scope":"数値解析 5.pdf、全13物理ページ。元の資料5・反復行列と固有値。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/numerical-lesson04.json"},{"id":"numerical-lesson05","version":1,"title":"数値解析","subtitle":"第5回 · 元の資料6・LU分解と二次関数","scope":"数値解析 6.pdf、全11物理ページ。元の資料6・LU分解と二次関数。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/numerical-lesson05.json"},{"id":"policy-lesson01","version":1,"title":"公共政策論II","subtitle":"第1回 · 第2回資料・存続期間の区間推定","scope":"保存されている第2回の写真2枚、スライド42〜47だけを対象とする。第2回のそれ以前の資料は未確認。総存続期間と残り期間、一様分布の仮定、50%信頼区間。","questionCount":6,"file":"./decks/policy-lesson01.json"},{"id":"policy-lesson02","version":1,"title":"公共政策論II","subtitle":"第2回 · 第3回資料・条件付き確率とベイズ推論","scope":"実際の第3回、公共政策論II 3.pdfの全6ページ。写真に各9枚のスライドが写る。人物や事件の暗記ではなく、条件付き確率、独立、全確率、事前・事後確率を扱う。","questionCount":8,"file":"./decks/policy-lesson02.json"},{"id":"probability-lesson03","version":1,"title":"確率論基礎","subtitle":"第3回 · 添付画像・期待値からモーメント母関数","scope":"ユーザー指定の第3回。添付画像2〜6だけを対象とする。期待値、分散、共分散、相関係数、モーメント母関数と微分によるモーメントの取り出し。","questionCount":10,"file":"./decks/probability-lesson03.json"},{"id":"probability-lesson06","version":1,"title":"確率論基礎","subtitle":"第6回 · 添付画像・正規分布","scope":"ユーザー指定の第6回。添付画像1の§5.6だけ。正規分布の密度、標準化、平均と分散。","questionCount":3,"file":"./decks/probability-lesson06.json"},{"id":"probability-lesson07","version":1,"title":"確率論基礎","subtitle":"第7回 · 極限定理・用語から内容を想起","scope":"ユーザー指定の第7回。確率論基礎 演習問題_第7回_ 資料.pdfの全3ページ。用語を提示し、定義または定理の主張を思い出す形式。証明や計算問題は含めない。","questionCount":8,"file":"./decks/probability-lesson07.json"},{"id":"statistics-lesson01","version":1,"title":"数理統計","subtitle":"第1回 · 第2回板書・標本と統計量","scope":"実際の第2回の板書、第2回_1の4枚と第2回_2の7枚。大数の法則、中心極限定理、標本抽出、標本平均・分散・順序統計量。正規母集団の分布論など次回の内容は含めない。","questionCount":10,"file":"./decks/statistics-lesson01.json"},{"id":"statistics-lesson02","version":1,"title":"数理統計","subtitle":"第2回 · 第3回資料・正規標本とカイ二乗分布","scope":"数理統計3.pdfの全14ページ。標本平均の分布、不偏分散の性質、正規標本での独立性、カイ二乗分布とガンマ分布。長い証明の再現は求めない。","questionCount":10,"file":"./decks/statistics-lesson02.json"},{"id":"statistics-lesson03","version":1,"title":"数理統計","subtitle":"第3回 · 元の資料4・正規ベクトルの直交分解","scope":"数理統計4.pdf、全16物理ページ。元の資料4・正規ベクトルの直交分解。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/statistics-lesson03.json"},{"id":"statistics-lesson04","version":1,"title":"数理統計","subtitle":"第4回 · 元の資料5・t分布と信頼区間","scope":"数理統計5.pdf、全15物理ページ。元の資料5・t分布と信頼区間。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/statistics-lesson04.json"},{"id":"statistics-lesson05","version":1,"title":"数理統計","subtitle":"第5回 · 元の資料6・正規母集団の区間推定","scope":"数理統計6.pdf、全12物理ページ。元の資料6・正規母集団の区間推定。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":7,"file":"./decks/statistics-lesson05.json"},{"id":"thermo-lesson01","version":1,"title":"熱力学","subtitle":"第1回 · 相律とエネルギー保存則","scope":"実際の授業第1回。20261006の資料、全22ページから選定。相律、第1法則、膨張仕事、熱容量を扱う。","questionCount":10,"file":"./decks/thermo-lesson01.json"},{"id":"thermo-lesson02","version":1,"title":"熱力学","subtitle":"第2回 · 第2回資料・可逆過程と熱機関","scope":"実際の第2回。20261013の資料、全21ページ。前回の復習を除き、可逆・断熱・自由膨張、エントロピー、カルノーサイクルを中心に選定。","questionCount":9,"file":"./decks/thermo-lesson02.json"},{"id":"thermo-lesson03","version":1,"title":"熱力学","subtitle":"第3回 · 状態関数と完全微分","scope":"熱力学 3.pdf、全11物理ページ。状態関数と完全微分。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/thermo-lesson03.json"},{"id":"thermo-lesson04","version":1,"title":"熱力学","subtitle":"第4回 · エンタルピーと理想気体の過程","scope":"熱力学 4.pdf、全13物理ページ。エンタルピーと理想気体の過程。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":8,"file":"./decks/thermo-lesson04.json"},{"id":"thermo-lesson05","version":1,"title":"熱力学","subtitle":"第5回 · 可逆過程の仕事と熱","scope":"熱力学 5.pdf、全12物理ページ。可逆過程の仕事と熱。既存問題と重複する復習と長い証明の再現は出題しない。","questionCount":6,"file":"./decks/thermo-lesson05.json"}]};</script>
+  <script>/* Shared domain logic. No Scriptable or browser APIs. */
+const RecallCore = (() => {
+  const intervals = [1, 3, 7, 14, 30];
+  // Original item IDs preserve the animals already obtained in earlier versions.
+  const gachaCost = 10;
+  const shop = [
+    { id: 'sprout', name: '白いうさぎ', asset: 'rabbit', description: '草むらが好きな、気ままな子。', x: 24, y: 67, motion: 'hop' },
+    { id: 'flower', name: '夕焼けのきつね', asset: 'fox', description: 'ふさふさのしっぽで、庭をおさんぽ。', x: 75, y: 58, motion: 'stroll' },
+    { id: 'tree', name: '森のこじか', asset: 'deer', description: '静かな木かげで、のんびりひと休み。', x: 35, y: 40, motion: 'rest' },
+    { id: 'squirrel', name: 'どんぐりりす', asset: 'squirrel', description: 'お気に入りのどんぐりは、いつも一緒。', x: 60, y: 47, motion: 'hop' },
+    { id: 'raccoon', name: 'しましまアライグマ', asset: 'raccoon', description: 'しましまのしっぽで、あたりを探検。', x: 45, y: 60, motion: 'stroll' },
+    { id: 'hedgehog', name: 'まんまるハリネズミ', asset: 'hedgehog', description: 'ちいさな足で、ゆっくり進みます。', x: 15, y: 55, motion: 'stroll' },
+    { id: 'owl', name: '木かげのふくろう', asset: 'owl', description: '庭のみんなを、そっと見守っています。', x: 82, y: 38, motion: 'float' },
+    { id: 'redpanda', name: 'もみじレッサーパンダ', asset: 'redpanda', description: '夕日の色をまとった、のんびり屋。', x: 59, y: 73, motion: 'rest' },
+    { id: 'capybara', name: 'ひなたのカピバラ', asset: 'capybara', description: 'あたたかな水辺で、ひとやすみ。', x: 18, y: 77, motion: 'rest' },
+    { id: 'cat', name: 'おひるねねこ', asset: 'cat', description: '日だまりを見つけるのが得意です。', x: 39, y: 77, motion: 'rest' },
+    { id: 'shiba', name: 'おさんぽしばいぬ', asset: 'shiba', description: '庭の小道を、てくてく歩きます。', x: 82, y: 70, motion: 'stroll' },
+    { id: 'bear', name: 'こもれびこぐま', asset: 'bear', description: '大きく伸びをして、今日もゆったり。', x: 15, y: 43, motion: 'rest' },
+    { id: 'otter', name: '水辺のかわうそ', asset: 'otter', description: '小さな池のそばが、いつもの場所。', x: 10, y: 68, motion: 'rest' }
+  ];
+  const copy = value => JSON.parse(JSON.stringify(value));
+  const day = date => [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
+  function later(now, days) {
+    const date = new Date(now);
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + days);
+    return date.toISOString();
+  }
+  function validateDeck(deck) {
+    if (!deck || deck.schemaVersion !== 1 || !/^[a-z0-9-]+$/.test(deck.id || '') ||
+      !Number.isInteger(deck.version) || deck.version < 1 || typeof deck.title !== 'string' ||
+      !Array.isArray(deck.questions) || !deck.questions.length) throw Error('教材の形式が違います。');
+    const ids = new Set();
+    for (const q of deck.questions) {
+      if (!q || !/^[a-z0-9-]+$/.test(q.id || '') || ids.has(q.id) ||
+        !Number.isInteger(q.version) || q.version < 1 ||
+        !['prompt', 'answer', 'criterion', 'explanation'].every(k => typeof q[k] === 'string') ||
+        !q.prompt.trim() || !q.answer.trim() || !q.criterion.trim() ||
+        !Array.isArray(q.sources) || !q.sources.length ||
+        q.sources.some(s => typeof s.file !== 'string' || !s.file || !Number.isInteger(s.page) || s.page < 1)) {
+        throw Error('問題ID・版・問い・答え・判定基準・出典を確認してください。');
+      }
+      ids.add(q.id);
+    }
+    return deck;
+  }
+  function initial() {
+    return {
+      schemaVersion: 1, reviews: [], presentations: [], cards: {}, garden: { coins: 0, items: [], draws: [] },
+      settings: { batchSize: 5 },
+      session: null
+    };
+  }
+  function validateState(state) {
+    if (!state || state.schemaVersion !== 1 || !Array.isArray(state.reviews) ||
+      !state.cards || Array.isArray(state.cards) || typeof state.cards !== 'object' ||
+      !state.garden || !Number.isSafeInteger(state.garden.coins) || state.garden.coins < 0 ||
+      !Array.isArray(state.garden.items) || state.garden.items.some(id => !shop.some(i => i.id === id)) ||
+      new Set(state.garden.items).size !== state.garden.items.length || !state.settings ||
+      (state.settings.notificationEnabled !== undefined && typeof state.settings.notificationEnabled !== 'boolean') ||
+      (state.settings.iCloudBackup !== undefined && typeof state.settings.iCloudBackup !== 'boolean') ||
+      (state.settings.notificationTime !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(state.settings.notificationTime)) || ![3, 5].includes(state.settings.batchSize)) {
+      throw Error('学習記録の形式が違います。元のファイルは消していません。');
+    }
+    if (state.garden.draws !== undefined) {
+      if (!Array.isArray(state.garden.draws)) throw Error('ガチャの記録を読み取れません。');
+      const draws = new Set(), animals = new Set();
+      for (const draw of state.garden.draws) {
+        if (!draw || typeof draw.id !== 'string' || !draw.id || draws.has(draw.id) ||
+          !state.garden.items.includes(draw.animalId) || animals.has(draw.animalId) ||
+          !Number.isFinite(Date.parse(draw.drawnAt))) throw Error('ガチャの記録を読み取れません。');
+        draws.add(draw.id);
+        animals.add(draw.animalId);
+      }
+    }
+    const ids = new Set();
+    for (const r of state.reviews) {
+      if (!r || typeof r.id !== 'string' || !r.id || ids.has(r.id) || typeof r.questionId !== 'string' ||
+        !Number.isInteger(r.questionVersion) || r.questionVersion < 1 ||
+        !['good', 'uncertain', 'again'].includes(r.result) || !Number.isFinite(Date.parse(r.reviewedAt))) {
+        throw Error('回答履歴を読み取れません。');
+      }
+      ids.add(r.id);
+    }
+    if (state.presentations !== undefined) {
+      if (!Array.isArray(state.presentations)) throw Error('出題履歴を読み取れません。');
+      const shown = new Set();
+      for (const event of state.presentations) {
+        if (!event || typeof event.id !== 'string' || !event.id || shown.has(event.id) ||
+          typeof event.deckId !== 'string' || typeof event.questionId !== 'string' ||
+          !Number.isInteger(event.questionVersion) || event.questionVersion < 1 ||
+          !Number.isFinite(Date.parse(event.presentedAt))) throw Error('出題履歴を読み取れません。');
+        shown.add(event.id);
+      }
+    }
+    for (const c of Object.values(state.cards)) {
+      if (!c || !Number.isInteger(c.version) || c.version < 1 || !Number.isInteger(c.level) ||
+        c.level < 0 || c.level > 5 || !Number.isFinite(Date.parse(c.dueAt)) ||
+        !Number.isInteger(c.seen) || c.seen < 1 || !Number.isInteger(c.lapses) || c.lapses < 0 ||
+        typeof c.lastSuccessDay !== 'string' || typeof c.retryDay !== 'string' ||
+        (c.retryAfter !== null && (!Number.isInteger(c.retryAfter) || c.retryAfter < 0))) {
+        throw Error('復習状態を読み取れません。');
+      }
+    }
+    if (state.session !== null) {
+      const s = state.session;
+      if (!s || typeof s.id !== 'string' || typeof s.deckId !== 'string' ||
+        !Array.isArray(s.queue) || s.queue.length > 5 || !Number.isInteger(s.index) ||
+        s.index < 0 || s.index > s.queue.length || !Number.isInteger(s.correct) ||
+        s.correct < 0 || s.correct > s.index || typeof s.closed !== 'boolean' ||
+        typeof s.answerShown !== 'boolean' || !Number.isFinite(Date.parse(s.presentedAt)) ||
+        (s.revealedAt !== null && !Number.isFinite(Date.parse(s.revealedAt))) ||
+        (s.answerShown && (s.revealedAt === null || s.index >= s.queue.length)) ||
+        s.queue.some(q => typeof q.id !== 'string' || !Number.isInteger(q.version) || q.version < 1)) {
+        throw Error('途中の学習記録を読み取れません。');
+      }
+      if (s.scope !== undefined && (!s.scope || !['all', 'subject', 'lesson'].includes(s.scope.type) ||
+        (s.scope.type === 'subject' && (typeof s.scope.title !== 'string' || !s.scope.title)) ||
+        (s.scope.type === 'lesson' && (typeof s.scope.id !== 'string' || !s.scope.id)) ||
+        s.queue.some(q => typeof q.deckId !== 'string' || !q.deckId))) {
+        throw Error('出題範囲を読み取れません。');
+      }
+    }
+    return state;
+  }
+  function reconcile(state, deck) {
+    const next = copy(validateState(state));
+    next.settings.batchSize = 5;
+    const s = next.session;
+    if (s && (s.deckId !== deck.id || s.queue.some(ref =>
+      !deck.questions.some(q => q.id === ref.id && q.version === ref.version)))) next.session = null;
+    return next;
+  }
+  function select(state, deck, now) {
+    const due = [], fresh = [], retry = [];
+    for (const q of deck.questions) {
+      const c = state.cards[q.id];
+      if (!c || c.version !== q.version) fresh.push(q);
+      else if (Date.parse(c.dueAt) <= now.getTime()) due.push(q);
+      else if (c.retryAfter !== null && state.reviews.length >= c.retryAfter && c.retryDay !== day(now)) retry.push(q);
+    }
+    due.sort((a, b) => Date.parse(state.cards[a.id].dueAt) - Date.parse(state.cards[b.id].dueAt));
+    // A bounded batch, never an obligation to clear the entire queue.
+    return [...due, ...fresh, ...retry].slice(0, 5).map(q => ({ id: q.id, version: q.version }));
+  }
+  function selectStudy(state, deck, random = Math.random) {
+    const successes = new Map();
+    for (const r of state.reviews) {
+      if (r.result !== 'good') continue;
+      const key = JSON.stringify([r.deckId, r.questionId, r.questionVersion]);
+      successes.set(key, (successes.get(key) || 0) + 1);
+    }
+    // Shuffle before sorting so equally recalled questions have no fixed order.
+    const questions = [...deck.questions];
+    for (let i = questions.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+    const count = q => successes.get(JSON.stringify([q.deckId, q.id, q.version])) || 0;
+    questions.sort((a, b) => count(a) - count(b));
+    return questions.slice(0, 5).map(q => ({ id: q.id, version: q.version, deckId: q.deckId }));
+  }
+  function recordPresentation(state, now) {
+    const s = state.session;
+    if (!s || s.closed || s.index >= s.queue.length) return state;
+    const id = `${s.id}:${s.index}`;
+    state.presentations = state.presentations || [];
+    if (!state.presentations.some(event => event.id === id)) {
+      const q = s.queue[s.index];
+      state.presentations.push({ id, deckId: q.deckId || s.deckId, questionId: q.id, questionVersion: q.version,
+        presentedAt: now.toISOString() });
+    }
+    return state;
+  }
+  function statistics(state) {
+    const days = {}, questions = {};
+    const key = (deckId, questionId) => JSON.stringify([deckId || '', questionId]);
+    const counts = event => {
+      const id = key(event.deckId, event.questionId);
+      return questions[id] || (questions[id] = { presented: 0, correct: 0, uncertain: 0, mistakes: 0 });
+    };
+    const shown = new Set();
+    for (const event of state.presentations || []) {
+      counts(event).presented++;
+      shown.add(event.id);
+    }
+    for (const review of state.reviews) {
+      const date = review.reviewedDay || day(new Date(review.reviewedAt));
+      days[date] = (days[date] || 0) + 1;
+      const item = counts(review);
+      // Older versions recorded only completed answers. Count each of those as one presentation.
+      if (!shown.has(review.id)) item.presented++;
+      item[review.result === 'good' ? 'correct' : review.result === 'uncertain' ? 'uncertain' : 'mistakes']++;
+    }
+    return { days, questions };
+  }
+  function questionStatistics(stats, deckId, questionId) {
+    return stats.questions[JSON.stringify([deckId, questionId])] || { presented: 0, correct: 0, uncertain: 0, mistakes: 0 };
+  }
+  function start(state, deck, now, random = Math.random) {
+    const next = reconcile(state, deck);
+    const queue = deck.studyScope ? selectStudy(next, deck, random) : select(next, deck, now);
+    next.session = {
+      id: `${now.getTime()}-${Math.random().toString(36).slice(2)}`,
+      deckId: deck.id, queue, index: 0, correct: 0, closed: false,
+      answerShown: false, presentedAt: now.toISOString(), revealedAt: null
+    };
+    if (deck.studyScope) next.session.scope = copy(deck.studyScope);
+    return recordPresentation(next, now);
+  }
+  function ensureSession(state, deck, now) {
+    const next = reconcile(state, deck);
+    if (!next.session || ((next.session.closed || next.session.index >= next.session.queue.length) &&
+      day(new Date(next.session.presentedAt)) !== day(now))) {
+      return start(next, deck, now);
+    }
+    return recordPresentation(next, now);
+  }
+  function dispatch(state, deck, action, payload = {}, now = new Date(), random = Math.random) {
+    let next = reconcile(state, deck);
+    const s = next.session;
+    if (action === 'start') return start(next, deck, now, random);
+    if (action === 'timeout') {
+      if (!s || s.closed || s.index >= s.queue.length || payload.eventId !== `${s.id}:${s.index}` ||
+        payload.answerShown !== s.answerShown) return next;
+      const began = Date.parse(s.answerShown ? s.revealedAt : s.presentedAt);
+      if (now.getTime() - began < 15000) return next;
+      return dispatch(next, deck, s.answerShown ? 'rate' : 'reveal',
+        { eventId: payload.eventId, result: 'again' }, now, random);
+    }
+    if (action === 'home') next.session = null;
+    else if (action === 'finish') {
+      if (s) s.closed = true;
+    } else if (action === 'reveal') {
+      if (!s || s.closed || s.index >= s.queue.length) throw Error('問題を開き直してください。');
+      s.answerShown = true;
+      s.revealedAt = s.revealedAt || now.toISOString();
+    } else if (action === 'rate') {
+      if (next.reviews.some(r => r.id === payload.eventId)) return next;
+      if (!s || s.closed || !s.answerShown || s.index >= s.queue.length ||
+        payload.eventId !== `${s.id}:${s.index}` || !['good', 'uncertain', 'again'].includes(payload.result)) {
+        throw Error('先に答え合わせをしてください。');
+      }
+      const q = s.queue[s.index];
+      const old = next.cards[q.id];
+      const c = old && old.version === q.version ? old : {
+        version: q.version, level: 0, seen: 0, lapses: 0,
+        lastSuccessDay: '', retryAfter: null, retryDay: ''
+      };
+      const today = day(now);
+      const isRetry = c.retryAfter !== null && Date.parse(c.dueAt || '') > now.getTime();
+      c.seen += 1;
+      if (payload.result !== 'good') {
+        c.level = 0;
+        c.lapses += 1;
+        c.dueAt = later(now, 1);
+        c.retryAfter = next.reviews.length + 3;
+      } else {
+        if (c.lastSuccessDay !== today) {
+          c.level = Math.min(c.level + 1, intervals.length);
+          c.lastSuccessDay = today;
+          c.dueAt = later(now, intervals[c.level - 1]);
+        }
+        c.retryAfter = null;
+        s.correct += 1;
+      }
+      if (isRetry) c.retryDay = today;
+      next.cards[q.id] = c;
+      next.reviews.push({
+        id: payload.eventId, questionId: q.id, questionVersion: q.version, deckId: q.deckId || deck.id,
+        reviewedAt: now.toISOString(), reviewedDay: today, result: payload.result,
+        recallMs: Math.max(0, Date.parse(s.revealedAt) - Date.parse(s.presentedAt))
+      });
+      if (payload.result === 'good') next.garden.coins += 1;
+      s.index += 1;
+      s.answerShown = false;
+      s.presentedAt = now.toISOString();
+      s.revealedAt = null;
+      recordPresentation(next, now);
+    } else if (action === 'draw') {
+      if (typeof payload.eventId !== 'string' || !payload.eventId) throw Error('ガチャの操作を読み取れません。');
+      const draws = next.garden.draws || [];
+      if (draws.some(draw => draw.id === payload.eventId)) return next;
+      const available = shop.filter(item => !next.garden.items.includes(item.id));
+      if (!available.length) throw Error('すべての動物がそろっています。');
+      if (next.garden.coins < gachaCost) throw Error('ガチャには10コイン必要です。');
+      const value = random();
+      if (!Number.isFinite(value) || value < 0 || value >= 1) throw Error('抽選できませんでした。コインは使っていません。');
+      const animal = available[Math.floor(value * available.length)];
+      next.garden.coins -= gachaCost;
+      next.garden.items.push(animal.id);
+      next.garden.draws = [...draws, { id: payload.eventId, animalId: animal.id, drawnAt: now.toISOString() }];
+    } else if (action === 'settings') {
+      next.settings = { ...next.settings, ...payload, batchSize: 5 };
+    } else throw Error('この操作は使えません。');
+    return validateState(next);
+  }
+  return { initial, validateDeck, validateState, reconcile, start, ensureSession, dispatch, select, selectStudy, shop, gachaCost, day, statistics, questionStatistics };
+})();
+if (typeof module !== 'undefined') module.exports = RecallCore;
+</script>
+  <script>/* Browser-only persistence. All changes to a record share one IndexedDB transaction. */
+const RecallStore = (() => {
+  const rules = typeof RecallCore === 'undefined' ? require('./core.js') : RecallCore;
+  const copy = value => JSON.parse(JSON.stringify(value));
+  function empty() {
+    return { schemaVersion: 1, revision: 0, selectedDeckId: null, state: rules.initial() };
+  }
+  function validate(record) {
+    if (!record || record.schemaVersion !== 1 || !Number.isSafeInteger(record.revision) || record.revision < 0 ||
+      (record.selectedDeckId !== null && typeof record.selectedDeckId !== 'string')) throw Error('保存した記録を読み取れません。');
+    rules.validateState(record.state);
+    return record;
+  }
+  function recover(current, backup) {
+    if (current === undefined && backup === undefined) return { record: empty(), intact: true };
+    try { return { record: validate(current), intact: true }; }
+    catch (_) {
+      try { return { record: validate(backup), intact: false }; }
+      catch (_) { throw Error('学習記録とバックアップを読み取れません。初期化せず停止しました。'); }
+    }
+  }
+  return class RecallStore {
+    constructor({ indexedDB: database = globalThis.indexedDB, name = 'recall-quiz' } = {}) {
+      this.factory = database;
+      this.name = name;
+      this.notice = '';
+      this.connection = null;
+    }
+    async open() {
+      if (!this.factory) throw Error('このブラウザでは記録を保存できません。');
+      if (!this.connection) this.connection = new Promise((resolve, reject) => {
+        const request = this.factory.open(this.name, 1);
+        request.onupgradeneeded = () => request.result.createObjectStore('records');
+        request.onsuccess = () => {
+          const db = request.result;
+          db.onversionchange = () => { db.close(); this.connection = null; };
+          resolve(db);
+        };
+        request.onerror = () => { this.connection = null; reject(request.error); };
+        request.onblocked = () => reject(Error('別のタブを閉じてから開き直してください。'));
+      });
+      return this.connection;
+    }
+    async read() {
+      const db = await this.open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('records', 'readonly'), records = tx.objectStore('records');
+        const current = records.get('current'), backup = records.get('backup');
+        tx.oncomplete = () => {
+          try {
+            const restored = recover(current.result, backup.result);
+            this.notice = restored.intact ? '' : '前回のバックアップから記録を復元しました。';
+            resolve(copy(restored.record));
+          } catch (error) { reject(error); }
+        };
+        tx.onabort = () => reject(tx.error || Error('学習記録を読み取れません。'));
+      });
+    }
+    async update(mutator, expectedRevision) {
+      const db = await this.open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('records', 'readwrite'), records = tx.objectStore('records');
+        const current = records.get('current'), backup = records.get('backup');
+        let ready = 0, result, failure;
+        function apply() {
+          if (++ready !== 2) return;
+          try {
+            const restored = recover(current.result, backup.result), previous = restored.record;
+            if (expectedRevision !== undefined && previous.revision !== expectedRevision) {
+              const error = Error('別のタブで記録が変わりました。内容を更新したので、もう一度操作してください。');
+              error.name = 'ConflictError';
+              throw error;
+            }
+            const next = mutator(copy(previous));
+            result = validate({ schemaVersion: 1, revision: previous.revision + 1,
+              selectedDeckId: next.selectedDeckId, state: next.state });
+            if (restored.intact && previous.revision > 0 && JSON.stringify(next.state) === JSON.stringify(previous.state) && next.selectedDeckId === previous.selectedDeckId) {
+              result = previous;
+              return;
+            }
+            if (current.result !== undefined && restored.intact) records.put(previous, 'backup');
+            else if (current.result !== undefined) records.put(current.result, `damaged-${Date.now()}`);
+            records.put(result, 'current');
+          } catch (error) { failure = error; tx.abort(); }
+        }
+        current.onsuccess = apply;
+        backup.onsuccess = apply;
+        tx.oncomplete = () => resolve(copy(result));
+        tx.onabort = () => reject(failure || tx.error || Error('記録を保存できませんでした。'));
+      });
+    }
+  };
+})();
+if (typeof module !== 'undefined') module.exports = RecallStore;
+
+/* Static-host runtime. Only public teaching material is fetched; records stay in IndexedDB. */
+const RecallWeb = (() => {
+  const rules = typeof RecallCore === 'undefined' ? require('./core.js') : RecallCore;
+  const Store = typeof RecallStore === 'undefined' ? require('./storage.js') : RecallStore;
+  class Runtime {
+    constructor({ decks, defaultDeckId, baseURL, store, fetch: fetcher = globalThis.fetch }) {
+      if (!Array.isArray(decks) || !decks.length) throw Error('教材一覧がありません。');
+      this.catalog = decks;
+      this.defaultDeckId = defaultDeckId || decks[0].id;
+      this.baseURL = baseURL;
+      this.store = store;
+      this.fetch = fetcher;
+      this.loaded = new Map();
+      this.requests = new Map();
+      this.record = null;
+      this.deck = null;
+    }
+    async loadDeck(id) {
+      if (this.loaded.has(id)) return this.loaded.get(id);
+      const entry = this.catalog.find(item => item.id === id);
+      if (!entry) throw Error('教材が見つかりません。');
+      if (!this.requests.has(id)) this.requests.set(id, (async () => {
+        const response = await this.fetch(new URL(entry.file, this.baseURL), { cache: 'no-cache' });
+        if (!response.ok) throw Error('教材を読み込めませんでした。接続を確認して、もう一度開いてください。');
+        const deck = rules.validateDeck(await response.json());
+        if (deck.id !== id) throw Error('教材のIDが一致しません。');
+        this.loaded.set(id, deck);
+        return deck;
+      })().catch(error => { this.requests.delete(id); throw error; }));
+      return this.requests.get(id);
+    }
+    decks() { return this.catalog.map(item => this.loaded.get(item.id) || item); }
+    async subject(title) {
+      await Promise.all(this.catalog.filter(item => item.title === title).map(item => this.loadDeck(item.id)));
+      return this.decks();
+    }
+    async studyDeck(scope) {
+      if (!scope || !['all', 'subject', 'lesson'].includes(scope.type)) throw Error('出題範囲を選んでください。');
+      const entries = this.catalog.filter(item => scope.type === 'all' ||
+        (scope.type === 'subject' ? item.title === scope.title : item.id === scope.id));
+      if (!entries.length) throw Error('この範囲の教材が見つかりません。');
+      const decks = await Promise.all(entries.map(item => this.loadDeck(item.id)));
+      return {
+        id: scope.type === 'lesson' ? scope.id : `study-${scope.type}`,
+        title: scope.type === 'all' ? '全教科' : decks[0].title,
+        studyScope: scope,
+        questions: decks.flatMap(deck => deck.questions.map(q => ({ ...q, deckId: deck.id }))),
+        sourceImages: Object.assign({}, ...decks.map(deck => deck.sourceImages || {}))
+      };
+    }
+    async sessionDeck(state, selectedDeckId) {
+      const session = state.session;
+      if (session?.scope) return this.studyDeck(session.scope);
+      if (session) {
+        const id = this.catalog.some(item => item.id === session.deckId) ? session.deckId : selectedDeckId;
+        if (this.catalog.some(item => item.id === id)) return this.loadDeck(id);
+      }
+      return { id: 'study-all', title: '全教科', questions: [], sourceImages: {}, studyScope: { type: 'all' } };
+    }
+    async start(legacyStorage) {
+      let record = await this.store.read();
+      if (record.revision === 0 && legacyStorage) {
+        const old = legacyStorage.getItem('recall-quiz-preview-v1');
+        if (old) {
+          const state = rules.validateState(JSON.parse(old));
+          const selected = legacyStorage.getItem('recall-quiz-preview-deck');
+          record = await this.store.update(() => ({ state,
+            selectedDeckId: this.catalog.some(item => item.id === selected) ? selected : this.defaultDeckId
+          }), record.revision);
+        }
+      }
+      this.deck = await this.sessionDeck(record.state, record.selectedDeckId);
+      this.record = await this.store.update(previous => ({ selectedDeckId: previous.selectedDeckId,
+        state: rules.reconcile(previous.state, this.deck)
+      }), record.revision);
+      return this.boot();
+    }
+    boot() {
+      return { state: this.record.state, deck: this.deck, decks: this.decks(), shop: rules.shop, notice: this.store.notice };
+    }
+    async refresh() {
+      this.record = await this.store.read();
+      this.deck = await this.sessionDeck(this.record.state, this.record.selectedDeckId);
+      return this.boot();
+    }
+    async dispatch(action, payload = {}) {
+      const scope = action === 'selectDeck' ? { type: 'lesson', id: payload.id } : action === 'start' ?
+        this.record.state.session?.scope || this.deck.studyScope || { type: 'lesson', id: this.deck.id } : payload.scope;
+      const starting = ['selectDeck', 'startStudy', 'start'].includes(action);
+      const selected = starting ? await this.studyDeck(scope) : this.deck;
+      this.record = await this.store.update(previous => ({
+        selectedDeckId: starting && scope.type === 'lesson' ? scope.id : previous.selectedDeckId,
+        state: rules.dispatch(previous.state, selected, starting ? 'start' : action, payload)
+      }), this.record.revision);
+      this.deck = selected;
+      return this.boot();
+    }
+    async restore(data) {
+      const state = rules.validateState(data.state || data);
+      const selectedDeckId = this.catalog.some(item => item.id === data.selectedDeckId) ? data.selectedDeckId : this.record.selectedDeckId;
+      const selected = await this.sessionDeck(state, selectedDeckId);
+      // Scriptable-only notification and cloud settings have no browser-side effect.
+      state.settings = { batchSize: 5 };
+      this.record = await this.store.update(() => ({ selectedDeckId,
+        state: rules.reconcile(state, selected)
+      }), this.record.revision);
+      this.deck = selected;
+      return this.boot();
+    }
+    async snapshot() { return this.store.read(); }
+    async export() {
+      const record = await this.snapshot();
+      return { format: 'recall-quiz-browser', version: 1, exportedAt: new Date().toISOString(),
+        selectedDeckId: record.selectedDeckId, state: record.state };
+    }
+  }
+  async function start(manifest) {
+    const baseURL = new URL('./', document.baseURI).href;
+    const store = new Store({ name: `recall-quiz:${new URL('./', location.href).pathname}` });
+    const runtime = new Runtime({ ...manifest, baseURL, store, fetch: (...args) => fetch(...args) });
+    window.RecallRuntime = runtime;
+    return runtime.start(window.localStorage);
+  }
+  function failure(error) {
+    const content = document.querySelector('#content');
+    content.replaceChildren();
+    const heading = document.createElement('h1');
+    heading.className = 'page-title';
+    heading.textContent = 'クイズを開けませんでした';
+    const message = document.createElement('p');
+    message.textContent = error.message || String(error);
+    const retry = document.createElement('button');
+    retry.className = 'primary'; retry.textContent = '読み込み直す';
+    retry.onclick = () => location.reload();
+    content.append(heading, message, retry);
+  }
+  return { Runtime, start, failure };
+})();
+if (typeof module !== 'undefined') module.exports = RecallWeb;
+
+RecallWeb.start(window.BOOT).then(boot => { window.BOOT = boot;
+(() => {
+  const boot = window.BOOT;
+  const runtime = window.RecallRuntime;
+  const initialPage = new URLSearchParams(location.search).get('screen');
+  let state = boot.state, deck = boot.deck, page = ['garden', 'settings', 'calendar', 'catalog', 'history'].includes(initialPage) ? initialPage : 'quiz', busy = false;
+  let decks = boot.decks || [deck];
+  let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  let selectedDay = RecallCore.day(new Date()), subject = new URLSearchParams(location.search).get('subject') || '';
+  let catalogLesson = new URLSearchParams(location.search).get('lesson') || '';
+  let studySubject = boot.decks[0].title;
+  const catalogErrors = new Map();
+  let quizTimer = null, countdown = null;
+  let renderedKey = '', renderedPage = page;
+  const catalogRequests = new Map();
+  const content = document.querySelector('#content');
+  const scrollRegion = document.querySelector('.scroll-region');
+  const stretchContent = document.querySelector('.stretch-content');
+  let pullGesture = null, spring = null;
+  let disclosureCleanups = [];
+  let shopOpen = false, gachaView = 'draw', drawResult = null, lineupAnimal = null, shownDrawId = null;
+  const status = document.querySelector('#status');
+  const escape = text => String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const allowedMath = new Set('span math semantics mrow mi mn mo mtext mspace mfrac msqrt mroot msup msub msubsup mover munder munderover mtable mtr mtd menclose mpadded mstyle mphantom annotation'.split(' '));
+  const mathAttrs = new Set('xmlns display mathvariant stretchy fence separator accent accentunder largeop movablelimits lspace rspace width height depth columnalign rowalign columnspacing rowspacing notation encoding scriptlevel displaystyle'.split(' '));
+  function safeMath(markup) {
+    const template = document.createElement('template');
+    template.innerHTML = markup;
+    for (const node of [...template.content.querySelectorAll('*')]) {
+      if (!allowedMath.has(node.localName)) { node.replaceWith(document.createTextNode(node.textContent)); continue; }
+      // Use a stretchable overbar instead of the spacing macron emitted for \bar.
+      // Reserve a small gap so the bar does not touch italic capitals.
+      if (node.localName === 'mo' && ['ˉ', '‾'].includes(node.textContent) &&
+        node.parentElement?.localName === 'mover' && node.parentElement.getAttribute('accent') === 'true') {
+        node.textContent = '‾';
+        node.setAttribute('stretchy', 'true');
+        node.setAttribute('class', 'math-overbar');
+      }
+      for (const attr of [...node.attributes]) {
+        if (!(mathAttrs.has(attr.name) || (node.localName === 'span' && attr.name === 'class') ||
+          (node.localName === 'mo' && attr.name === 'class' && attr.value === 'math-overbar'))) node.removeAttribute(attr.name);
+      }
+    }
+    return template.innerHTML;
+  }
+  const text = (q, name) => q[`${name}Html`] ? safeMath(q[`${name}Html`]) : escape(q[name]);
+  function subjectPicker(id, label, value, name) {
+    return `<div class="subject-field"><span id="${id}-label">${label}</span><button type="button" id="${id}" class="subject-picker" role="combobox" aria-label="${name}" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}-options" data-value="${escape(value)}"><span>${escape(value)}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>`;
+  }
+  function setupSubjectPickers() {
+    const subjects = [...new Set(decks.map(item => item.title))];
+    content.querySelectorAll('.subject-picker').forEach(button => {
+      const menu = document.createElement('div');
+      menu.id = button.getAttribute('aria-controls');
+      menu.className = 'subject-options';
+      menu.setAttribute('role', 'listbox');
+      menu.setAttribute('aria-label', button.getAttribute('aria-label'));
+      menu.hidden = true;
+      menu.innerHTML = subjects.map(title => `<button type="button" role="option" tabindex="-1" aria-selected="${title === button.dataset.value}" data-value="${escape(title)}"><span>${escape(title)}</span>${title === button.dataset.value ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>' : ''}</button>`).join('');
+      document.body.appendChild(menu);
+      const options = [...menu.querySelectorAll('[role="option"]')];
+      function close(focus = false) {
+        menu.hidden = true;
+        button.setAttribute('aria-expanded', 'false');
+        if (focus) button.focus({ preventScroll: true });
+      }
+      function open(index = subjects.indexOf(button.dataset.value)) {
+        const box = button.getBoundingClientRect();
+        const below = innerHeight - box.bottom - 12, above = box.top - 12;
+        const down = below >= Math.min(280, above);
+        menu.style.left = `${box.left}px`;
+        menu.style.width = `${box.width}px`;
+        menu.style.maxHeight = `${Math.min(280, down ? below : above)}px`;
+        menu.hidden = false;
+        menu.style.top = `${down ? box.bottom + 6 : box.top - menu.offsetHeight - 6}px`;
+        button.setAttribute('aria-expanded', 'true');
+        const option = options[Math.max(0, index)];
+        option.focus({ preventScroll: true });
+        option.scrollIntoView({ block: 'nearest' });
+      }
+      function choose(option) {
+        const value = option.dataset.value;
+        close();
+        if (button.id === 'subject') { subject = value; catalogNavigate(); }
+        else { studySubject = value; render(); }
+        document.getElementById(button.id)?.focus({ preventScroll: true });
+      }
+      button.onclick = () => menu.hidden ? open() : close(true);
+      button.onkeydown = event => {
+        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+          event.preventDefault();
+          open(event.key === 'End' || event.key === 'ArrowUp' ? options.length - 1 : event.key === 'Home' ? 0 : undefined);
+        }
+      };
+      menu.onclick = event => {
+        const option = event.target.closest('[role="option"]');
+        if (option) choose(option);
+      };
+      menu.onkeydown = event => {
+        const index = options.indexOf(document.activeElement);
+        const move = { ArrowDown: Math.min(options.length - 1, index + 1), ArrowUp: Math.max(0, index - 1), Home: 0, End: options.length - 1 };
+        if (event.key in move) { event.preventDefault(); options[move[event.key]].focus(); }
+        else if (event.key === 'Escape') { event.preventDefault(); close(true); }
+        else if (event.key === 'Tab') close(true);
+      };
+      const outside = event => { if (!button.contains(event.target) && !menu.contains(event.target)) close(); };
+      const dismiss = () => close();
+      document.addEventListener('pointerdown', outside);
+      window.addEventListener('resize', dismiss);
+      scrollRegion.addEventListener('scroll', dismiss);
+      disclosureCleanups.push(() => {
+        document.removeEventListener('pointerdown', outside);
+        window.removeEventListener('resize', dismiss);
+        scrollRegion.removeEventListener('scroll', dismiss);
+        menu.remove();
+      });
+    });
+  }
+  function pickRecord() {
+    return new Promise((resolve, reject) => {
+      const input = document.createElement('input');
+      input.type = 'file'; input.accept = '.json,application/json'; input.hidden = true;
+      document.body.appendChild(input);
+      input.addEventListener('change', async () => {
+        try {
+          if (!input.files.length) throw Error('ファイル選択を取り消しました。');
+          resolve(JSON.parse(await input.files[0].text()));
+        } catch (error) { reject(error); }
+        finally { input.remove(); }
+      }, { once: true });
+      input.addEventListener('cancel', () => { input.remove(); reject(Error('ファイル選択を取り消しました。')); }, { once: true });
+      input.click();
+    });
+  }
+  async function showCountdown() {
+    page = 'quiz';
+    status.textContent = '';
+    try {
+      for (const label of ['3', '2', '1', 'スタート']) {
+        countdown = label;
+        render();
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    } finally {
+      countdown = null;
+    }
+  }
+  async function call(action, payload) {
+    if (action === 'export') {
+      const url = URL.createObjectURL(new Blob([JSON.stringify(await runtime.export(), null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a'); link.href = url; link.download = 'recall-quiz-state.json'; link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return { ok: true, ...await runtime.refresh(), message: '学習記録を書き出しました。' };
+    }
+    if (action === 'importState') {
+      const data = await pickRecord();
+      const restored = RecallCore.validateState(data.state || data);
+      if (!window.confirm(`${restored.reviews.length}件の回答、${restored.garden.coins}コインの記録に置き換えます。`)) return { ok: true, ...runtime.boot() };
+      return { ok: true, ...await runtime.restore(data), message: '学習記録を読み込みました。' };
+    }
+    if (['start', 'startAll', 'startSubject', 'selectDeck'].includes(action)) {
+      const scope = action === 'startAll' ? { type: 'all' } :
+        action === 'startSubject' ? { type: 'subject', title: studySubject } :
+        action === 'selectDeck' ? { type: 'lesson', id: payload.id } :
+        state.session?.scope || deck.studyScope || { type: 'lesson', id: deck.id };
+      await runtime.studyDeck(scope);
+      await showCountdown();
+      return { ok: true, ...await runtime.dispatch('startStudy', { scope }) };
+    }
+    return { ok: true, ...await runtime.dispatch(action, payload) };
+  }
+  async function act(action, payload = {}) {
+    if (busy) return;
+    busy = true;
+    status.textContent = '保存・処理中…';
+    document.querySelectorAll('header button, .main-nav button, #content button').forEach(b => { b.disabled = true; });
+    const slow = setTimeout(() => {
+      status.textContent = '処理を待っています。反応が戻らない場合は、一度閉じて開き直してください。';
+    }, 15000);
+    try {
+      const result = await call(action, payload);
+      if (!result.ok) throw Error(result.error);
+      state = result.state;
+      if (result.deck) deck = result.deck;
+      if (result.decks) decks = result.decks;
+      if (action === 'draw') {
+        drawResult = state.garden.draws?.find(draw => draw.id === payload.eventId) || null;
+        gachaView = 'draw';
+      }
+      if (['start', 'startAll', 'startSubject', 'home', 'importState', 'selectDeck'].includes(action)) page = 'quiz';
+      status.textContent = result.message || (action === 'rate' ? (payload.result === 'good' ? '正解。＋1コイン。' : payload.result === 'uncertain' ? 'あやふやを記録しました。' : 'ミスを記録しました。') : '');
+    } catch (error) {
+      if (error.name === 'ConflictError') {
+        const current = await runtime.refresh();
+        state = current.state; deck = current.deck; decks = current.decks;
+      }
+      status.textContent = error.name === 'QuotaExceededError' ? 'ブラウザの保存領域が不足しています。記録は更新していません。' : String(error.message || error);
+    } finally {
+      clearTimeout(slow);
+      busy = false;
+      render();
+    }
+  }
+  function animalImage(item, className = '') {
+    return `<img class="${className}" src="${window.GARDEN_ASSETS[item.asset]}" alt="${escape(item.name)}" draggable="false">`;
+  }
+  function gardenLandscape() {
+    return `<svg class="garden-landscape" viewBox="0 0 600 1100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="garden-sky" x2="0" y2="1"><stop stop-color="#edc9b6"/><stop offset="1" stop-color="#fae9c9"/></linearGradient><linearGradient id="garden-water" x2="0" y2="1"><stop stop-color="#a3c3b7"/><stop offset="1" stop-color="#6b9d9b"/></linearGradient></defs>
+      <path fill="url(#garden-sky)" d="M0 0h600v1100H0z"/><circle cx="445" cy="225" r="67" fill="#fff1c2"/>
+      <path d="m0 330 90-99 75 80 69-109 129 152 71-60 75 22 91-94v315H0Z" fill="#b5a6ac"/>
+      <path d="m165 311 69-109 39 112-36-19-18 28-15-45Z" fill="#e5d6cd"/><path d="m364 354 70-60 75 22 91-94v219H0V330l90-99 53 97-66-27 30 76Z" fill="#a79da4"/>
+      <path d="m0 409 101-76 130 102 113-68 109 72 147-85v746H0Z" fill="#8d9e8b"/>
+      <path d="m0 409 101-76-25 177 155-75 70 143 152-139 147-85v746H0Z" fill="#a7b692"/>
+      <path d="m0 522 121-73 180 129 122-81 177 42v561H0Z" fill="#c1c49c"/>
+      <path d="m0 522 121-73 37 156 143-27 122-81-10 194 187-152v561H0Z" fill="#b7be95"/>
+      <path d="m0 633 158-28 106 108 149-22 187 46v363H0Z" fill="#ccd0a7"/>
+      <path d="m0 633 158-28L67 797l197-84 34 184 115-206 187 46v363H0Z" fill="#b7c09a"/>
+      <path d="m0 748 67-13 63 35 34 66-27 71-137 49Z" fill="#90afa4"/><path d="m0 763 70-8 49 35 26 49-23 53L0 936Z" fill="url(#garden-water)"/>
+      <path d="m0 830 62-36 83 45-23 53L0 936Z" fill="#85aea6"/><path d="m12 840 32-5m16 18 46-8M5 882l68-12" fill="none" stroke="#d9e1c6" stroke-width="3" opacity=".6"/>
+      <path d="m600 574-78 39-68 72-30 147-85 129-29 139h58l18-134 80-121 32-143 68-64 34-13Z" fill="#e4d6b4"/>
+      <path d="m600 574-40 48-80 73-30 146-83 129-29 130h30l18-134 80-121 32-143 68-64 34-13Z" fill="#d6c9aa"/>
+      <g fill="#677f70"><path d="m35 285-47 133h94Z"/><path d="m91 321-45 130h90Z"/><path d="m552 353-48 148h96Z"/></g>
+      <g fill="#87987a"><path d="m35 285 10 133h37Z"/><path d="m91 321 3 130h42Z"/><path d="m552 353 9 148h39Z"/></g>
+      <g stroke="#796f59" stroke-width="7"><path d="M35 413v30m56-3v23m461 24v30"/></g>
+      <g><path d="m420 485 20-112 30 112Z" fill="#758d76"/><path d="m440 373 2 112h28Z" fill="#9cab83"/><path d="M440 480v18" stroke="#86765e" stroke-width="6"/></g>
+      <g fill="#8d9c7c"><path d="m194 798 18-16 32 9 8 21-41 10Z"/><path d="m473 917 22-22 35 9 12 29-45 11Z"/></g>
+      <g fill="#c6c1a5"><path d="m27 665 13-20 27 5 13 19-33 12Z"/><path d="m490 752 19-13 22 5 7 21-35 3Z"/></g>
+      <g fill="#e9d7b1"><path d="m27 665 13-20 11 18Z"/><path d="m490 752 19-13 8 17Z"/></g>
+      <g fill="#efdfb7"><circle cx="220" cy="642" r="3"/><circle cx="233" cy="648" r="2"/><circle cx="216" cy="655" r="2"/><circle cx="509" cy="846" r="3"/><circle cx="524" cy="849" r="2"/></g>
+    </svg>`;
+  }
+  function sourceToggles(q) {
+    return q.sources.map(source => source.imageKey && deck.sourceImages && deck.sourceImages[source.imageKey] ?
+      `<details class="source-toggle" data-source="${escape(source.imageKey)}" data-scale="100"><summary>原典を見る（p.${source.page}）</summary><p class="source-caption">${escape(source.file)} · p.${source.page}</p><div class="source-zoom-controls"><button type="button" data-zoom="-25" aria-label="原典を縮小（p.${source.page}）">−</button><input type="range" min="50" max="300" step="25" value="100" aria-label="原典の表示倍率（p.${source.page}）"><button type="button" data-zoom="25" aria-label="原典を拡大（p.${source.page}）">＋</button><output>100%</output><button type="button" data-zoom="reset">全体</button></div><div class="source-viewport"><img alt="${escape(source.file)} p.${source.page} の原典ページ"></div><p class="helper">拡大後は画像内を上下左右にスクロールできます。</p></details>` : '').join('');
+  }
+  function renderQuiz() {
+    if (countdown !== null) {
+      content.innerHTML = `<div class="start-countdown" role="status" aria-live="assertive" aria-atomic="true"><p class="countdown-label">まもなく始まります</p><p class="countdown-number ${countdown === 'スタート' ? 'countdown-start' : ''}">${countdown}</p></div>`;
+      return;
+    }
+    const s = state.session;
+    if (!s) {
+      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに5問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
+      return;
+    }
+    const scope = s.scope || { type: 'lesson', id: s.deckId };
+    const scopeLabel = scope.type === 'all' ? '全教科' : scope.type === 'subject' ? scope.title :
+      decks.find(item => item.id === scope.id)?.subtitle || deck.title;
+    if (s.closed || s.index >= s.queue.length) {
+      const completed = s.index >= s.queue.length;
+      content.innerHTML = `<p class="eyebrow">${escape(scopeLabel)}</p><h1 class="page-title">${completed ? `${s.queue.length}問、おつかれさま。` : '今日は、ここまで。'}</h1><p class="lead">${s.index ? `${s.index}問に回答しました。` : '答え合わせをした問題はありません。'}<br>思い出せた問題は${s.correct}問です。</p><div class="stack quiz-start"><button class="primary" data-action="home">最初の画面に戻る</button><button class="secondary" data-action="start">${scope.type === 'all' ? 'あと5問' : scope.type === 'subject' ? '同じ教科であと5問' : '同じ回であと5問'}</button>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科から始める</button>' : ''}</div><p class="helper center">回答の記録とコインは保存されています。</p>`;
+      return;
+    }
+    const q = deck.questions.find(q => q.id === s.queue[s.index].id);
+    const source = decks.find(item => item.id === (q.deckId || deck.id)) || deck;
+    content.innerHTML = `<div class="quiz-scope"><span class="badge">${escape(scopeLabel)}から出題</span>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科に切り替える</button>' : ''}</div><p class="eyebrow">${escape(source.title)}</p><p class="course">${escape(source.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><div class="quiz-timer"><div class="timer-caption"><span>${s.answerShown ? '次の問題まで' : '答えの表示まで'}</span><span data-timer-seconds>15秒</span></div><div class="timer-track" role="progressbar" aria-label="残り時間" aria-valuemin="0" aria-valuemax="15" aria-valuenow="15"><div class="timer-fill"></div></div></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="secondary uncertain" data-result="uncertain">あやふや</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">15秒以内に選んでください。未選択なら出なかったとして次に進みます。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+  }
+  function gachaContents() {
+    const available = boot.shop.filter(item => !state.garden.items.includes(item.id));
+    if (gachaView === 'lineup') {
+      const selected = boot.shop.find(item => item.id === lineupAnimal && state.garden.items.includes(item.id));
+      if (selected) return `<div class="lineup-detail"><button class="lineup-back">‹ ラインナップに戻る</button>${animalImage(selected)}<h3>${escape(selected.name)}</h3><p>${escape(selected.description)}</p></div>`;
+      return `<div class="animal-lineup">${boot.shop.map((item, index) => {
+        const owned = state.garden.items.includes(item.id);
+        return owned ? `<button class="lineup-card owned" data-lineup="${item.id}">${animalImage(item)}<span class="lineup-name">${escape(item.name)}</span><small>No.${String(index + 1).padStart(2, '0')}</small></button>` : `<div class="lineup-card locked" aria-label="未入手の動物 ${index + 1}"><span class="unknown-animal" aria-hidden="true">?</span><span class="lineup-name">未入手</span><small>No.${String(index + 1).padStart(2, '0')}</small></div>`;
+      }).join('')}</div>`;
+    }
+    const result = drawResult && boot.shop.find(item => item.id === drawResult.animalId && state.garden.items.includes(item.id));
+    const visual = result ? `<div class="gacha-result" role="status"><p class="eyebrow">NEW FRIEND</p>${animalImage(result, 'draw-animal-image')}<h3>${escape(result.name)}</h3><p>${escape(result.description)}</p></div>` : `<div class="gacha-welcome"><div class="gacha-capsule" aria-hidden="true"><span>?</span></div></div>`;
+    return `${visual}<div class="gacha-controls"><button class="draw-gacha primary" ${state.garden.coins < RecallCore.gachaCost || !available.length ? 'disabled' : ''}>${available.length ? '10コインで1回まわす' : 'コンプリート'}</button>
+      </div>`;
+  }
+  function renderGarden() {
+    const residents = boot.shop.filter(item => state.garden.items.includes(item.id));
+    content.innerHTML = `<section class="garden-stage ${residents.length > 4 ? 'many-residents' : ''}" aria-label="動物たちの庭">${gardenLandscape()}
+      <div class="garden-caption"><p class="eyebrow">LITTLE WILD GARDEN</p><h1>ひとつの庭</h1><p>${residents.length ? `${residents.length}匹が、のんびり暮らしています。` : '学んだぶんだけ、仲間が増えていく。'}</p></div>
+      <div class="garden-residents">${residents.map((item, index) => `<button class="garden-animal animal-${item.asset} motion-${item.motion}" style="--x:${item.x}%;--y:${item.y}%;--delay:-${index * .7}s" aria-label="${escape(item.name)}に声をかける"><span class="animal-shadow"></span><span class="animal-roam"><span class="animal-body">${animalImage(item)}</span></span><span class="animal-name">${escape(item.name)}</span></button>`).join('')}</div>
+      ${!residents.length ? '<div class="garden-invitation"><span class="invitation-line"></span><p>最初の仲間を、迎えよう。</p><small>右下のガチャで出会えます。</small></div>' : ''}
+      <button class="open-garden-shop" aria-haspopup="dialog"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="13" r="10"/><path d="M6 13h20M11 23l-2 6h14l-2-6M13 18h6"/><circle cx="16" cy="8" r="1"/></svg><span>ガチャ</span></button>
+      <p class="garden-tip">${residents.length ? '動物にタッチしてみよう。' : 'クイズに正解すると、1コイン。'}</p></section>
+      <dialog class="garden-shop" aria-labelledby="garden-shop-title"><div class="shop-sheet"><div class="shop-grip" aria-hidden="true"></div>
+      <div class="garden-shop-header"><div><p class="eyebrow">MEET A LITTLE FRIEND</p><h2 id="garden-shop-title">どうぶつガチャ</h2></div><button class="close-garden-shop" aria-label="ガチャを閉じる">×</button></div>
+      <p class="shop-balance"><span class="coin-dot"></span> ${state.garden.coins} <span>コイン</span><small>${residents.length} / ${boot.shop.length}種類</small></p>
+      <div class="gacha-tabs" aria-label="ガチャの表示"><button data-gacha-view="draw" aria-pressed="${gachaView === 'draw'}">ガチャ</button><button data-gacha-view="lineup" aria-pressed="${gachaView === 'lineup'}">ラインナップ</button></div>
+      <div class="gacha-scroll">${gachaContents()}</div></div></dialog>`;
+  }
+  function setupGardenShop() {
+    const dialog = content.querySelector('.garden-shop');
+    if (!dialog) return;
+    const sheet = dialog.querySelector('.shop-sheet');
+    const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    content.querySelector('.open-garden-shop').onclick = () => {
+      shopOpen = true;
+      gachaView = 'draw';
+      drawResult = null;
+      lineupAnimal = null;
+      render();
+      const opened = content.querySelector('.shop-sheet');
+      if (!reduced()) opened.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], {
+        duration: 320, easing: 'cubic-bezier(.2,.7,.2,1)'
+      });
+    };
+    async function closeShop() {
+      if (dialog.dataset.closing) return;
+      dialog.dataset.closing = 'true';
+      dialog.inert = true;
+      if (!reduced()) await sheet.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(100%)' }], {
+        duration: 220, easing: 'ease-in', fill: 'forwards'
+      }).finished;
+      shopOpen = false;
+      dialog.close();
+      dialog.inert = false;
+      delete dialog.dataset.closing;
+      sheet.getAnimations().forEach(animation => animation.cancel());
+    }
+    dialog.querySelector('.close-garden-shop').onclick = closeShop;
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closeShop(); });
+    dialog.addEventListener('click', event => { if (event.target === dialog) closeShop(); });
+    function navigate(view, animal = null) {
+      gachaView = view;
+      lineupAnimal = animal;
+      render();
+      if (!reduced()) content.querySelector('.gacha-scroll').animate([
+        { transform: 'translateY(14px)' }, { transform: 'translateY(0)' }
+      ], { duration: 260, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    }
+    dialog.querySelectorAll('[data-gacha-view]').forEach(button => button.onclick = () => navigate(button.dataset.gachaView));
+    dialog.querySelectorAll('[data-lineup]').forEach(button => button.onclick = () => navigate('lineup', button.dataset.lineup));
+    const back = dialog.querySelector('.lineup-back');
+    if (back) back.onclick = () => navigate('lineup');
+    const draw = dialog.querySelector('.draw-gacha');
+    if (draw) draw.onclick = () => act('draw', { eventId: `draw-${Date.now()}-${Math.random().toString(36).slice(2)}` });
+    content.querySelectorAll('.garden-animal').forEach(animal => animal.onclick = () => {
+      animal.classList.remove('says-hello');
+      void animal.offsetWidth;
+      animal.classList.add('says-hello');
+    });
+    if (shopOpen) dialog.showModal();
+    const resultImage = dialog.querySelector('.draw-animal-image');
+    if (resultImage && shownDrawId !== drawResult.id) {
+      shownDrawId = drawResult.id;
+      if (!reduced()) resultImage.animate([{ transform: 'translateY(22px) scale(.85)' }, { transform: 'translateY(0) scale(1)' }], {
+        duration: 450, easing: 'cubic-bezier(.2,.7,.2,1)'
+      });
+    }
+  }
+  function renderSettings() {
+    content.innerHTML = `<h1 class="page-title">設定</h1><section class="panel"><h2 class="settings-heading">このブラウザの記録</h2><p class="lead">回答 ${state.reviews.length}回 · 動物 ${state.garden.items.length}種類</p><div class="stack"><button class="secondary" data-action="export">学習記録を書き出す</button><button class="secondary" data-action="importState">学習記録を読み込む</button></div><p class="helper">記録はこの端末のブラウザに保存します。端末を替えるときは、書き出したファイルを読み込んでください。</p></section>`;
+  }
+  function renderCalendar() {
+    const stats = RecallCore.statistics(state);
+    const year = month.getFullYear(), m = month.getMonth();
+    const count = new Date(year, m + 1, 0).getDate();
+    let cells = '<span class="calendar-blank" aria-hidden="true"></span>'.repeat(month.getDay());
+    let total = 0, activeDays = 0;
+    for (let date = 1; date <= count; date++) {
+      const key = RecallCore.day(new Date(year, m, date));
+      const answers = stats.days[key] || 0;
+      total += answers;
+      if (answers) activeDays++;
+      cells += `<button class="calendar-day ${answers ? 'has-answers' : ''} ${key === RecallCore.day(new Date()) ? 'is-today' : ''}" data-day="${key}" aria-pressed="${key === selectedDay}" aria-label="${year}年${m + 1}月${date}日、${answers}回答"><span>${date}</span><small>${answers ? `${answers}回` : ''}</small></button>`;
+    }
+    const [sy, sm, sd] = selectedDay.split('-');
+    content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;
+  }
+  function updateQuizTimer() {
+    if (page !== 'quiz' || countdown !== null) return;
+    const s = state.session;
+    if (!s || s.closed || s.index >= s.queue.length) return;
+    const remaining = Math.max(0, Math.min(15000, 15000 - (Date.now() - Date.parse(s.answerShown ? s.revealedAt : s.presentedAt))));
+    const track = content.querySelector('.timer-track');
+    if (!track) return;
+    track.setAttribute('aria-valuenow', String(Math.ceil(remaining / 1000)));
+    track.dataset.tone = remaining <= 2000 ? 'red' : remaining <= 5000 ? 'yellow' : 'blue';
+    track.querySelector('.timer-fill').style.transform = `scaleX(${remaining / 15000})`;
+    content.querySelector('[data-timer-seconds]').textContent = `${Math.ceil(remaining / 1000)}秒`;
+    if (remaining === 0 && !busy) act('timeout', { eventId: `${s.id}:${s.index}`, answerShown: s.answerShown });
+  }
+  function renderHistory() {
+    const reviews = [...state.reviews].reverse().sort((a, b) => Date.parse(b.reviewedAt) - Date.parse(a.reviewedAt)).slice(0, 30);
+    for (const review of reviews) {
+      const item = decks.find(item => item.id === review.deckId);
+      if (!item || item.questions || catalogRequests.has(item.id) || catalogErrors.has(item.id)) continue;
+      catalogRequests.set(item.id, runtime.loadDeck(item.id).then(() => {
+        decks = runtime.decks();
+      }).catch(error => { catalogErrors.set(item.id, error.message); }).finally(() => {
+        catalogRequests.delete(item.id);
+        if (page === 'history') render();
+      }));
+    }
+    const rows = reviews.map((review, index) => {
+      const item = decks.find(item => item.id === review.deckId);
+      const q = item?.questions?.find(q => q.id === review.questionId && q.version === review.questionVersion);
+      const result = review.result === 'good' ? ['correct', '○', '思い出せた'] : review.result === 'uncertain' ? ['uncertain', '△', 'あやふや'] : ['mistake', '×', '出なかった'];
+      return `<details class="catalog-question history-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
+    }).join('');
+    content.innerHTML = `<h1 class="page-title">回答履歴</h1><p class="lead">直近30問を新しい順に表示します。</p><p class="helper">○は思い出せた、△はあやふや、×は出なかった。問題を押すと解答が開きます。</p>${rows || '<div class="panel">まだ回答履歴がありません。</div>'}`;
+  }
+  function resultCounts(n) {
+    return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge uncertain" aria-label="あやふや${n.uncertain}回"><span class="result-symbol" aria-hidden="true">△</span><strong aria-hidden="true">${n.uncertain}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
+  }
+  function catalogNavigate(id = '') {
+    catalogLesson = id;
+    const url = new URL(location.href);
+    url.searchParams.set('screen', 'catalog');
+    url.searchParams.set('subject', subject);
+    if (id) url.searchParams.set('lesson', id);
+    else url.searchParams.delete('lesson');
+    history.pushState(null, '', url);
+    render();
+  }
+  function renderCatalog() {
+    const stats = RecallCore.statistics(state);
+    const subjects = [...new Set(decks.map(item => item.title))];
+    const selected = decks.find(item => item.id === catalogLesson);
+    if (selected) subject = selected.title;
+    else catalogLesson = '';
+    if (!subjects.includes(subject)) subject = subjects[0];
+    if (!selected) {
+      const items = decks.filter(item => item.title === subject);
+      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1>${subjectPicker('subject', '教科', subject, '教科')}<p class="helper">授業回を選ぶと、その回の問題を表示します。</p><div class="lesson-grid">${items.map(item => {
+        const label = item.subtitle || item.title;
+        const [lesson, ...topic] = label.split(' · ');
+        return `<button class="lesson-card" data-open-lesson="${escape(item.id)}"><span class="lesson-card-number">${escape(lesson)}</span><span>${escape(topic.join(' · '))}</span><small>${item.questionCount || item.questions?.length || 0}問<span aria-hidden="true"> →</span></small></button>`;
+      }).join('')}</div>`;
+      return;
+    }
+    if (!selected.questions && !catalogRequests.has(selected.id) && !catalogErrors.has(selected.id)) {
+      const id = selected.id;
+      catalogRequests.set(id, runtime.loadDeck(id).then(() => {
+        decks = runtime.decks();
+      }).catch(error => { catalogErrors.set(id, error.message); }).finally(() => {
+        catalogRequests.delete(id);
+        if (page === 'catalog' && catalogLesson === id) render();
+      }));
+    }
+    const heading = `<button class="catalog-back" data-catalog-back aria-label="授業回の一覧に戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><p class="eyebrow">${escape(selected.title)}</p><h1 class="page-title">${escape(selected.subtitle || selected.title)}</h1>`;
+    if (!selected.questions) {
+      const error = catalogErrors.get(selected.id);
+      content.innerHTML = `${heading}<div class="panel" role="status" aria-live="polite">${error ? `<p>${escape(error)}</p><button class="secondary" data-retry-lesson="${escape(selected.id)}">もう一度読み込む</button>` : '<p>問題を読み込み中…</p>'}</div>`;
+      return;
+    }
+    const rows = selected.questions.map((q, index) => {
+      const n = RecallCore.questionStatistics(stats, selected.id, q.id);
+      return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
+    }).join('');
+    const retired = Object.entries(stats.questions).filter(([key]) => {
+      const [deckId, questionId] = JSON.parse(key);
+      return deckId === selected.id && !selected.questions.some(q => q.id === questionId);
+    }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
+    content.innerHTML = `${heading}<section class="lesson"><div class="lesson-head"><p class="helper">${selected.questions.length}問</p><button class="lesson-start" data-deck="${escape(selected.id)}">この回で学習</button></div><p class="helper">○は正解、△はあやふや、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
+  }
+  function slideDisclosures() {
+    for (const details of content.querySelectorAll('details')) {
+      const summary = details.querySelector(':scope > summary');
+      if (!summary) continue;
+      const body = document.createElement('div');
+      body.className = 'disclosure-body';
+      const inner = document.createElement('div');
+      inner.className = 'disclosure-content';
+      for (const node of [...details.childNodes]) if (node !== summary) inner.appendChild(node);
+      body.appendChild(inner);
+      details.appendChild(body);
+      let expanded = details.open, animation = null;
+      function slide(open) {
+        const from = details.open ? body.getBoundingClientRect().height : 0;
+        if (animation) animation.cancel();
+        animation = null;
+        expanded = open;
+        summary.setAttribute('aria-expanded', String(open));
+        body.inert = !open;
+        details.open = true;
+        const to = open ? inner.getBoundingClientRect().height : 0;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !body.animate || Math.abs(from - to) < 1) {
+          details.open = open;
+          updateScrollFade();
+          return;
+        }
+        const active = body.animate([{ height: `${from}px` }, { height: `${to}px` }], {
+          duration: 280, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'both'
+        });
+        animation = active;
+        active.onfinish = () => {
+          if (animation !== active) return;
+          animation = null;
+          details.open = open;
+          active.cancel();
+          updateScrollFade();
+        };
+      }
+      summary.setAttribute('aria-expanded', String(expanded));
+      summary.addEventListener('click', event => {
+        if (event.target.closest('a, button, input, select')) return;
+        event.preventDefault();
+        slide(!expanded);
+      });
+      const observer = window.ResizeObserver ? new ResizeObserver(() => {
+        if (animation && expanded) slide(true);
+      }) : null;
+      if (observer) observer.observe(inner);
+      disclosureCleanups.push(() => { if (animation) animation.cancel(); if (observer) observer.disconnect(); });
+    }
+  }
+  function releasePull(animate = true) {
+    pullGesture = null;
+    const transform = stretchContent.style.transform;
+    if (spring) spring.cancel();
+    spring = null;
+    stretchContent.style.transform = '';
+    if (animate && transform && stretchContent.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      spring = stretchContent.animate([
+        { transform }, { transform: 'scaleY(.995)', offset: .65 }, { transform: 'scaleY(1)' }
+      ], { duration: 420, easing: 'cubic-bezier(.2,.75,.25,1)' });
+      spring.onfinish = () => { spring = null; updateScrollFade(); };
+    }
+    updateScrollFade();
+  }
+  function startPull(event) {
+    releasePull(false);
+    if (event.touches.length !== 1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      scrollRegion.scrollHeight <= scrollRegion.clientHeight + 1) return;
+    // Leave independently scrollable PDF images, formulas and form controls alone.
+    for (let node = event.target; node && node !== scrollRegion; node = node.parentElement) {
+      if (node.matches('input, select, textarea') ||
+        ((node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1) &&
+          /auto|scroll/.test(getComputedStyle(node).overflow))) return;
+    }
+    const touch = event.touches[0];
+    pullGesture = { x: touch.clientX, y: touch.clientY, lastY: touch.clientY,
+      limit: scrollRegion.scrollHeight - scrollRegion.clientHeight, edge: null, originY: touch.clientY };
+  }
+  function movePull(event) {
+    if (!pullGesture) return;
+    if (event.touches.length !== 1) { releasePull(false); return; }
+    const touch = event.touches[0], gesture = pullGesture;
+    if (Math.abs(touch.clientX - gesture.x) > Math.abs(touch.clientY - gesture.y)) { releasePull(); return; }
+    const dy = touch.clientY - gesture.lastY;
+    const edge = scrollRegion.scrollTop <= 1 && dy > 0 ? 'top' :
+      scrollRegion.scrollTop >= gesture.limit - 1 && dy < 0 ? 'bottom' : null;
+    if (!gesture.edge && edge) {
+      gesture.edge = edge;
+      gesture.originY = gesture.lastY;
+      stretchContent.style.transformOrigin = edge === 'top' ? 'center top' : 'center bottom';
+    }
+    gesture.lastY = touch.clientY;
+    if (!gesture.edge) return;
+    const distance = (touch.clientY - gesture.originY) * (gesture.edge === 'top' ? 1 : -1);
+    if (distance <= 0) { releasePull(); return; }
+    if (event.cancelable) event.preventDefault();
+    // Increasing resistance keeps even a long pull within a small visual stretch.
+    const stretch = 54 * (1 - Math.exp(-distance / 160));
+    stretchContent.style.transform = `scaleY(${1 + stretch / scrollRegion.clientHeight})`;
+  }
+  function updateScrollFade() {
+    scrollRegion.classList.toggle('has-more-above', scrollRegion.scrollTop > 1);
+    scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
+  }
+  function render() {
+    clearInterval(quizTimer);
+    document.body.classList.toggle('garden-mode', page === 'garden');
+    if (page !== 'garden') shopOpen = false;
+    disclosureCleanups.forEach(dispose => dispose());
+    disclosureCleanups = [];
+    if (/^https?:$/.test(location.protocol)) {
+      const url = new URL(location.href);
+      url.searchParams.set('screen', page);
+      if (page === 'catalog') {
+        if (catalogLesson) url.searchParams.set('lesson', catalogLesson);
+        else url.searchParams.delete('lesson');
+        if (subject) url.searchParams.set('subject', subject);
+      } else {
+        url.searchParams.delete('lesson');
+        url.searchParams.delete('subject');
+      }
+      history.replaceState(null, '', url);
+    }
+    document.querySelector('#coins').innerHTML = `<span class="coin-dot" aria-hidden="true"></span>${state.garden.coins}`;
+    document.querySelectorAll('header button, .main-nav button').forEach(b => { b.disabled = busy; });
+    document.querySelectorAll('[data-screen]').forEach(button => button.setAttribute('aria-current', button.dataset.screen === page ? 'page' : 'false'));
+    if (page === 'calendar') renderCalendar();
+    else if (page === 'catalog') renderCatalog();
+    else if (page === 'history') renderHistory();
+    else if (page === 'garden') renderGarden();
+    else if (page === 'settings') renderSettings();
+    else renderQuiz();
+    if (page === 'quiz' && state.session && state.session.answerShown) {
+      const current = state.session.queue[state.session.index];
+      const q = current && deck.questions.find(q => q.id === current.id);
+      if (q) {
+        const section = content.querySelector('.answer');
+        if (section) section.insertAdjacentHTML('beforeend', `<div class="source-toggles">${sourceToggles(q)}</div>`);
+      }
+    }
+    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${subject}:${catalogLesson}`;
+    if (key !== renderedKey) {
+      const changedPage = page !== renderedPage;
+      if (content.getAnimations) content.getAnimations().forEach(animation => animation.cancel());
+      const answerReveal = page === 'quiz' && !changedPage ? content.querySelector('.answer-reveal') : null;
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && content.animate) {
+        if (answerReveal) {
+          answerReveal.animate([{ height: '0px' }, { height: `${answerReveal.scrollHeight}px` }], {
+            duration: 300, easing: 'cubic-bezier(.2,.7,.2,1)'
+          });
+        } else {
+          const order = ['quiz', 'calendar', 'garden', 'catalog', 'history', 'settings'];
+          const direction = order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
+          content.animate([
+            { opacity: 0, transform: changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
+            { opacity: 1, transform: 'translate(0, 0)' }
+          ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        }
+      }
+      releasePull(false);
+      scrollRegion.scrollTop = 0;
+      renderedKey = key;
+      renderedPage = page;
+    }
+    content.querySelectorAll('.source-toggle').forEach(toggle => {
+      const image = toggle.querySelector('img');
+      const slider = toggle.querySelector('input');
+      function zoom(value) {
+        const scale = Math.max(50, Math.min(300, value));
+        toggle.dataset.scale = String(scale);
+        image.style.width = `${scale}%`;
+        slider.value = String(scale);
+        toggle.querySelector('output').textContent = `${scale}%`;
+        toggle.querySelector('[data-zoom="-25"]').disabled = scale === 50;
+        toggle.querySelector('[data-zoom="25"]').disabled = scale === 300;
+      }
+      toggle.addEventListener('toggle', () => {
+        if (!toggle.open) { image.removeAttribute('src'); return; }
+        const url = deck.sourceImages[toggle.dataset.source];
+        if (/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '') || /^\.\/assets\/sources\/[a-f0-9]{64}-\d+\.png$/.test(url || '')) image.src = url;
+      });
+      slider.oninput = () => zoom(Number(slider.value));
+      toggle.querySelectorAll('[data-zoom]').forEach(button => button.onclick = () => {
+        const scale = button.dataset.zoom === 'reset' ? 100 : Number(toggle.dataset.scale) + Number(button.dataset.zoom);
+        zoom(scale);
+      });
+    });
+    setupGardenShop();
+    slideDisclosures();
+    content.querySelectorAll('[data-month]').forEach(button => button.onclick = () => {
+      month = new Date(month.getFullYear(), month.getMonth() + Number(button.dataset.month), 1);
+      selectedDay = RecallCore.day(month);
+      render();
+    });
+    content.querySelectorAll('[data-day]').forEach(button => button.onclick = () => { selectedDay = button.dataset.day; render(); });
+    const today = content.querySelector('[data-today]');
+    if (today) today.onclick = () => { month = new Date(new Date().getFullYear(), new Date().getMonth(), 1); selectedDay = RecallCore.day(new Date()); render(); };
+    setupSubjectPickers();
+    content.querySelectorAll('[data-open-lesson]').forEach(button => button.onclick = () => catalogNavigate(button.dataset.openLesson));
+    const back = content.querySelector('[data-catalog-back]');
+    if (back) back.onclick = () => catalogNavigate();
+    content.querySelectorAll('[data-retry-lesson]').forEach(button => button.onclick = () => {
+      catalogErrors.delete(button.dataset.retryLesson);
+      render();
+    });
+    content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
+    content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
+    if (page === 'quiz' && countdown === null) {
+      quizTimer = setInterval(updateQuizTimer, 100);
+      updateQuizTimer();
+    }
+    updateScrollFade();
+    content.querySelectorAll('[data-result]').forEach(b => b.onclick = () => act('rate', {
+      eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result
+    }));
+  }
+  scrollRegion.addEventListener('touchstart', startPull, { passive: true });
+  scrollRegion.addEventListener('touchmove', movePull, { passive: false });
+  scrollRegion.addEventListener('touchend', () => releasePull());
+  scrollRegion.addEventListener('touchcancel', () => releasePull());
+  scrollRegion.addEventListener('scroll', updateScrollFade, { passive: true });
+  scrollRegion.addEventListener('toggle', updateScrollFade, true);
+  window.addEventListener('resize', () => { releasePull(false); updateScrollFade(); });
+  if (window.ResizeObserver) {
+    const observer = new ResizeObserver(updateScrollFade);
+    observer.observe(scrollRegion);
+    observer.observe(content);
+  }
+  document.querySelectorAll('[data-screen]').forEach(button => button.onclick = () => {
+    if (busy) return;
+    renderedKey = '';
+    if (button.dataset.screen === 'quiz') { act('home'); return; }
+    page = button.dataset.screen;
+    if (page === 'catalog') catalogLesson = '';
+    if (page === 'history') catalogErrors.clear();
+    if (page === 'calendar') {
+      const today = new Date();
+      month = new Date(today.getFullYear(), today.getMonth(), 1);
+      selectedDay = RecallCore.day(today);
+    }
+    if (page === 'garden') {
+      shopOpen = false;
+      gachaView = 'draw';
+      drawResult = null;
+      lineupAnimal = null;
+      shownDrawId = null;
+    }
+    status.textContent = '';
+    render();
+  });
+  document.querySelector('#home').onclick = () => act('home');
+  window.addEventListener('popstate', () => {
+    if (busy) return;
+    const params = new URLSearchParams(location.search);
+    const requested = params.get('screen');
+    page = ['garden', 'settings', 'calendar', 'catalog', 'history'].includes(requested) ? requested : 'quiz';
+    catalogLesson = params.get('lesson') || '';
+    subject = params.get('subject') || '';
+    render();
+  });
+  document.querySelector('#settings-nav').onclick = () => { page = 'settings'; render(); };
+  if (boot.notice) {
+    const notice = document.querySelector('#notice'); notice.textContent = boot.notice; notice.hidden = false;
+  }
+  render();
+})();
+
+}).catch(RecallWeb.failure);</script>
+</body>
+</html>

@@ -82,23 +82,24 @@ npm run preview --prefix apps/recall-quiz
 
 ## GitHub Pagesへ公開する
 
-GitHub CLIの認証と、リポジトリのPages設定を変更できる権限が必要です。公開前にビルドと検証を実行します。
+Pagesの公開元は `master` のルートを使います。ビルドしたクイズを、Gitで管理する `index.html` と `public/` に配置してからpushします。
 
 ```bash
-npm run deploy --prefix apps/recall-quiz -- --dry-run
 npm run deploy --prefix apps/recall-quiz
+git add apps/recall-quiz/index.html apps/recall-quiz/public
+git commit -m "deploy: クイズの公開ファイルを更新"
+git push origin master
 ```
 
-このコマンドは、現在のコミットにあるLIFEとGit学習ページのHTML・画像などの配信ファイルを保ち、`output/site/` の内容を公開用ブランチの `apps/recall-quiz/` に配置します。開発用ファイルを配置するだけではクイズは動きません。公開先は `https://ivyak.github.io/study/apps/recall-quiz/` です。
+公開先は `https://ivyak.github.io/study/apps/recall-quiz/` です。`index.html` がクイズの画面で、画像と教材は `public/` から読み込みます。`src/` は開発用のテンプレートなので、そのままではクイズは動きません。Pagesの公開元を変更する操作はありません。
 
-`origin` の `gh-pages` ブランチへ送信し、Pagesの公開元をそのルートに設定します。既存のLIFEのページも同じURLで配信します。公開元が `master` のルートの場合は、この構成に移行します。それ以外の構成では停止します。公開するのは既存ページの配信に使う拡張子のファイルとクイズのビルド成果物です。Markdown、LaTeX、Python、開発用設定、ブラウザ内の学習記録、未追跡のファイルは含めません。
-
-更新時も、ビルド後に同じコマンドを実行します。反映には数分かかることがあります。教材を更新するときは問題IDを保ち、内容を変えた問題の版を上げます。学習記録や入手済みの動物は公開更新で初期化しません。
+更新時も同じ手順で公開ファイルを更新してからpushします。反映には数分かかることがあります。教材を更新するときは問題IDを保ち、内容を変えた問題の版を上げます。学習記録や入手済みの動物は公開更新で初期化しません。
 
 ## ファイル構成
 
 | 場所 | 役割 |
 |---|---|
+| `index.html`、`public/` | masterで配信するビルド済みのクイズ。 |
 | `src/index.html` | 画面の外枠。 |
 | `src/style.css` | 配色、配置、アニメーション。 |
 | `src/app.js` | 画面と操作。 |

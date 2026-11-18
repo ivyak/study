@@ -26,12 +26,25 @@ TIMEOUT = 60
 WAIT_PROGRESS_INTERVAL = 5
 NATIVE_SOURCE = Path(__file__).with_name("book_screenshot_macos.swift")
 CHROME_SOURCE = Path(__file__).with_name("book_screenshot_chrome.mjs")
-ACCESSIBILITY_HELP = (
-  "右矢印キーの送信にはアクセシビリティの許可が必要です。\n"
-  "システム設定の「プライバシーとセキュリティ」から「アクセシビリティ」を開き、"
-  "このコマンドを実行したターミナルアプリを許可してから再実行してください。\n"
-  "許可が反映されない場合は、ターミナルアプリを終了して開き直してください。"
-)
+
+
+def terminal_app():
+  if os.environ.get("TERM_PROGRAM", "").casefold() == "ghostty":
+    return "Ghostty"
+  return "このコマンドを実行したターミナルアプリ"
+
+
+def accessibility_help():
+  app = terminal_app()
+  return (
+    "右矢印キーを送信する許可がありません。\n"
+    "システム設定の「プライバシーとセキュリティ」で"
+    "「デバイスの制御とデータへのアクセス」を開いてください。"
+    "この項目がない場合は、同じ画面の「アクセシビリティ」を開いてください。\n"
+    f"{app}をオンにします。一覧にない場合は、追加ボタンから{app}を選びます。\n"
+    "設定後、撮影コマンドをもう一度実行してください。許可が反映されない場合は、"
+    f"{app}を終了して開き直してください。"
+  )
 
 
 class ViewerCrop:
@@ -135,7 +148,7 @@ def check_accessibility():
   trusted.argtypes = []
   trusted.restype = ctypes.c_bool
   if not trusted():
-    raise ValueError(ACCESSIBILITY_HELP)
+    raise ValueError(accessibility_help())
 
 
 def native_command(temp, *, for_capture=False):
@@ -157,7 +170,7 @@ def run_native(native, action, *arguments):
   except subprocess.TimeoutExpired as error:
     raise ValueError("macOSから操作の応答がなかったため停止しました。") from error
   if result.returncode == 2:
-    raise ValueError(ACCESSIBILITY_HELP)
+    raise ValueError(accessibility_help())
   if result.returncode:
     raise ValueError(result.stderr.strip() or "macOSの撮影操作に失敗しました。")
   return result.stdout.strip()
@@ -184,7 +197,11 @@ def capture(args, temp, native):
     except subprocess.TimeoutExpired:
       return None
     except subprocess.CalledProcessError as error:
-      raise ValueError("画面を撮影できませんでした。画面収録の設定を確認してください。") from error
+      raise ValueError(
+        "画面を撮影できませんでした。画面収録の許可を確認してください。\n"
+        "システム設定の「プライバシーとセキュリティ」で"
+        f"「画面収録とシステムオーディオ録音」を開き、{terminal_app()}をオンにしてください。"
+      ) from error
     with Image.open(frame) as image:
       return image.convert("RGB")
 

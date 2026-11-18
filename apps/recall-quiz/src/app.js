@@ -11,7 +11,7 @@
   let studySubject = boot.decks[0].title;
   const catalogErrors = new Map();
   let quizTimer = null, countdown = null;
-  let renderedKey = '', renderedPage = page;
+  let renderedKey = '', renderedPage = page, renderedHistoryPage = historyPage;
   const catalogRequests = new Map();
   const content = document.querySelector('#content');
   const quizControls = document.querySelector('#quiz-controls');
@@ -608,6 +608,7 @@
     const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${subject}:${catalogLesson}:${historyPage}`;
     if (key !== renderedKey) {
       const changedPage = page !== renderedPage;
+      const historyTurn = page === 'history' && !changedPage && historyPage !== renderedHistoryPage;
       if (content.getAnimations) content.getAnimations().forEach(animation => animation.cancel());
       const answerReveal = page === 'quiz' && !changedPage ? content.querySelector('.answer-reveal') : null;
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && content.animate) {
@@ -617,17 +618,20 @@
           });
         } else {
           const order = ['quiz', 'calendar', 'garden', 'catalog', 'history', 'settings'];
-          const direction = order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
+          const direction = historyTurn ? Math.sign(historyPage - renderedHistoryPage) :
+            order.indexOf(page) >= order.indexOf(renderedPage) ? 1 : -1;
           content.animate([
-            { opacity: 0, transform: changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
+            { opacity: 0, transform: historyTurn ? `translateX(${direction * 100}%)` :
+              changedPage ? `translateX(${direction * 18}px)` : 'translateY(10px)' },
             { opacity: 1, transform: 'translate(0, 0)' }
-          ], { duration: changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
+          ], { duration: historyTurn || changedPage ? 320 : 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
         }
       }
       releasePull(false);
       scrollRegion.scrollTop = 0;
       renderedKey = key;
       renderedPage = page;
+      renderedHistoryPage = historyPage;
     }
     content.querySelectorAll('.source-toggle').forEach(toggle => {
       const image = toggle.querySelector('img');

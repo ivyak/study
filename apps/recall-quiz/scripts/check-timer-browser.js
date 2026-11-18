@@ -62,6 +62,7 @@ const { createStaticServer } = require('./serve.js');
     assert.equal(state.reviews.length, 2);
     assert.equal(state.reviews[1].result, 'uncertain');
     assert.equal(state.garden.coins, 0);
+    await page.locator('#settings-nav').click();
     await page.locator('[data-screen="history"]').click();
     assert.equal(await page.locator('.history-question').count(), 2);
     assert.equal(await page.locator('.history-question').first().locator('.result-badge').innerText(), '△');

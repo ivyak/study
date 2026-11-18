@@ -13,6 +13,7 @@
   let renderedKey = '', renderedPage = page;
   const catalogRequests = new Map();
   const content = document.querySelector('#content');
+  const quizControls = document.querySelector('#quiz-controls');
   const scrollRegion = document.querySelector('.scroll-region');
   const stretchContent = document.querySelector('.stretch-content');
   let pullGesture = null, spring = null;
@@ -172,7 +173,7 @@
     if (busy) return;
     busy = true;
     status.textContent = '保存・処理中…';
-    document.querySelectorAll('header button, .main-nav button, #content button').forEach(b => { b.disabled = true; });
+    document.querySelectorAll('header button, .main-nav button, #content button, #quiz-controls button').forEach(b => { b.disabled = true; });
     const slow = setTimeout(() => {
       status.textContent = '処理を待っています。反応が戻らない場合は、一度閉じて開き直してください。';
     }, 15000);
@@ -252,8 +253,7 @@
       return;
     }
     const q = deck.questions.find(q => q.id === s.queue[s.index].id);
-    const source = decks.find(item => item.id === (q.deckId || deck.id)) || deck;
-    content.innerHTML = `<div class="quiz-scope"><span class="badge">${escape(scopeLabel)}から出題</span>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科に切り替える</button>' : ''}</div><p class="eyebrow">${escape(source.title)}</p><p class="course">${escape(source.subtitle || '')}</p><div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><div class="quiz-timer"><div class="timer-caption"><span>${s.answerShown ? '次の問題まで' : '答えの表示まで'}</span><span data-timer-seconds>15秒</span></div><div class="timer-track" role="progressbar" aria-label="残り時間" aria-valuemin="0" aria-valuemax="15" aria-valuenow="15"><div class="timer-fill"></div></div></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again">出なかった</button><button class="secondary uncertain" data-result="uncertain">あやふや</button><button class="primary" data-result="good">思い出せた</button></div><p class="helper center">15秒以内に選んでください。未選択なら出なかったとして次に進みます。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+    content.innerHTML = `<div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><div class="quiz-timer"><div class="timer-caption"><span>${s.answerShown ? '次の問題まで' : '答えの表示まで'}</span><span data-timer-seconds>15秒</span></div><div class="timer-track" role="progressbar" aria-label="残り時間" aria-valuemin="0" aria-valuemax="15" aria-valuenow="15"><div class="timer-fill"></div></div></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again" aria-label="出なかった"><span class="rating-symbol mistake" aria-hidden="true">×</span><span>出なかった</span></button><button class="secondary uncertain" data-result="uncertain" aria-label="あやふや"><span class="rating-symbol uncertain" aria-hidden="true">△</span><span>あやふや</span></button><button class="primary" data-result="good" aria-label="思い出せた"><span class="rating-symbol correct" aria-hidden="true">○</span><span>思い出せた</span></button></div><p class="helper center">15秒以内に選んでください。未選択なら出なかったとして次に進みます。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
   }
   function gachaContents() {
     const available = boot.shop.filter(item => !state.garden.items.includes(item.id));
@@ -558,6 +558,11 @@
   function render() {
     clearInterval(quizTimer);
     document.body.classList.toggle('garden-mode', page === 'garden');
+    const activeQuiz = page === 'quiz' && (countdown !== null || (state.session && !state.session.closed && state.session.index < state.session.queue.length));
+    document.body.classList.toggle('quiz-active', Boolean(activeQuiz));
+    document.body.classList.toggle('quiz-answer', Boolean(activeQuiz && countdown === null && state.session?.answerShown));
+    quizControls.replaceChildren();
+    quizControls.hidden = true;
     if (page !== 'garden') shopOpen = false;
     disclosureCleanups.forEach(dispose => dispose());
     disclosureCleanups = [];
@@ -583,6 +588,11 @@
     else if (page === 'garden') renderGarden();
     else if (page === 'settings') renderSettings();
     else renderQuiz();
+    const ratings = content.querySelector('.ratings');
+    if (ratings) {
+      quizControls.appendChild(ratings);
+      quizControls.hidden = false;
+    }
     if (page === 'quiz' && state.session && state.session.answerShown) {
       const current = state.session.queue[state.session.index];
       const q = current && deck.questions.find(q => q.id === current.id);
@@ -663,7 +673,7 @@
       updateQuizTimer();
     }
     updateScrollFade();
-    content.querySelectorAll('[data-result]').forEach(b => b.onclick = () => act('rate', {
+    quizControls.querySelectorAll('[data-result]').forEach(b => b.onclick = () => act('rate', {
       eventId: `${state.session.id}:${state.session.index}`, result: b.dataset.result
     }));
   }

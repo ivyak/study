@@ -48,16 +48,10 @@ async function chooseSubject(page, selector, title) {
     await pullFrom(230);
     assert.equal(await page.locator('.stretch-content').evaluate(el => el.style.transform), '');
     await releaseTouch();
-    const nav = page.getByRole('navigation', { name: '画面の切り替え' });
+    const nav = page.locator('.main-nav');
     assert.deepEqual(await nav.locator('button').allTextContents(), ['クイズ', 'カレンダー', '庭', '一覧', '履歴']);
     assert.equal(await nav.locator('svg').count(), 5);
-    for (const button of await nav.locator('button').all()) {
-      const icon = await button.locator('svg').boundingBox();
-      const label = await button.locator('span').boundingBox();
-      assert.ok(icon.width >= 28 && icon.y + icon.height <= label.y);
-    }
-    assert.equal(await nav.evaluate(el => getComputedStyle(el).position), 'fixed');
-    assert.ok((await nav.boundingBox()).height <= 68);
+    assert.equal(await nav.isVisible(), false);
     assert.equal(await page.locator('footer').count(), 0);
     assert.equal(await page.locator('#notice').isVisible(), false);
     const safeArea = await page.addStyleTag({ content: '.shell { padding-top: 62px; padding-bottom: 120px; } .main-nav { bottom: 34px; }' });
@@ -389,8 +383,9 @@ async function chooseSubject(page, selector, title) {
     await flow.getByRole('button', { name: 'この教科で始める', exact: true }).click();
     await flow.getByRole('button', { name: '答えを見る', exact: true }).click();
     await flow.getByRole('button', { name: '思い出せた', exact: true }).click();
-    await flow.getByRole('button', { name: '全教科に切り替える', exact: true }).click();
-    await flow.locator('.quiz-scope').getByText('全教科から出題', { exact: true }).waitFor();
+    await flow.locator('#home').click();
+    await flow.getByRole('button', { name: '全教科から始める', exact: true }).click();
+    await flow.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     session = await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state.session);
     assert.deepEqual(session.scope, { type: 'all' });
     await flow.reload();
@@ -413,7 +408,7 @@ async function chooseSubject(page, selector, title) {
     await flow.getByRole('button', { name: '全教科から始める', exact: true }).click();
     await flow.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
     assert.deepEqual(await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state.session.scope), { type: 'all' });
-    await flow.locator('[data-screen="quiz"]').click();
+    await flow.locator('#home').click();
     await flow.getByRole('heading', { name: '今日のクイズ', exact: true }).waitFor();
     assert.equal((await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state)).session, null);
     assert.equal((await flow.evaluate(async () => (await window.RecallRuntime.snapshot()).state)).reviews.length, 6);
@@ -512,16 +507,17 @@ async function chooseSubject(page, selector, title) {
     await libraryPage.locator('.catalog-question').first().waitFor();
     await libraryPage.locator('[data-deck="statistics-lesson01"]').click();
     await libraryPage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
-    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '数理統計');
+    assert.equal((await libraryPage.evaluate(() => window.RecallRuntime.snapshot())).state.session.scope.id, 'statistics-lesson01');
     await libraryPage.reload();
     await libraryPage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
-    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '数理統計');
+    assert.equal((await libraryPage.evaluate(() => window.RecallRuntime.snapshot())).state.session.scope.id, 'statistics-lesson01');
+    await libraryPage.locator('#settings-nav').click();
     await libraryPage.getByRole('button', { name: '一覧', exact: true }).click();
     await chooseSubject(libraryPage, '#subject', '微分積分学続論II');
     await libraryPage.locator('[data-open-lesson="calc2-lesson01"]').click();
     await libraryPage.locator('[data-deck="calc2-lesson01"]').click();
     await libraryPage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
-    assert.equal(await libraryPage.locator('.eyebrow').innerText(), '微分積分学続論II');
+    assert.equal((await libraryPage.evaluate(() => window.RecallRuntime.snapshot())).state.session.scope.id, 'calc2-lesson01');
     assert.equal(await libraryPage.locator('#coins').innerText(), '0');
     await libraryPage.getByRole('button', { name: '設定', exact: true }).click();
     const downloadEvent = libraryPage.waitForEvent('download');
@@ -540,10 +536,12 @@ async function chooseSubject(page, selector, title) {
     await stalePage.clock.setFixedTime(new Date());
     await stalePage.goto(siteURL);
     await stalePage.getByRole('button', { name: '答えを見る', exact: true }).waitFor();
+    await libraryPage.locator('#settings-nav').click();
     await libraryPage.getByRole('button', { name: '庭', exact: true }).click();
     await libraryPage.locator('.open-garden-shop').click();
     await libraryPage.locator('.draw-gacha').click();
     await libraryPage.waitForFunction(async () => (await window.RecallRuntime.snapshot()).state.garden.coins === 0);
+    await stalePage.locator('#settings-nav').click();
     await stalePage.getByRole('button', { name: '庭', exact: true }).click();
     await stalePage.locator('.open-garden-shop').click();
     await stalePage.locator('.draw-gacha').click();

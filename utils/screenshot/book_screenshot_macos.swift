@@ -2,9 +2,15 @@ import AppKit
 import ApplicationServices
 import Vision
 
-func fail(_ message: String) -> Never {
+func fail(_ message: String, code: Int32 = 1) -> Never {
   FileHandle.standardError.write(Data((message + "\n").utf8))
-  exit(1)
+  exit(code)
+}
+
+func checkAccessibility() {
+  guard AXIsProcessTrusted() else {
+    fail("システム設定のアクセシビリティで、実行元のターミナルに操作を許可してください。", code: 2)
+  }
 }
 
 func chapterHeading(in url: URL) throws -> (number: Int, title: String)? {
@@ -53,10 +59,10 @@ func chapterHeading(in url: URL) throws -> (number: Int, title: String)? {
 
 let args = CommandLine.arguments
 switch args.dropFirst().first {
+case "check-accessibility":
+  checkAccessibility()
 case "front":
-  guard AXIsProcessTrusted() else {
-    fail("システム設定のアクセシビリティで、実行元のターミナルに操作を許可してください。")
-  }
+  checkAccessibility()
   guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
     fail("前面のアプリを確認できません。")
   }
@@ -66,10 +72,10 @@ case "right":
         NSWorkspace.shared.frontmostApplication?.processIdentifier == pid else {
     fail("撮影開始時と異なるアプリが前面にあるため停止しました。")
   }
-  guard AXIsProcessTrusted(),
-        let down = CGEvent(keyboardEventSource: nil, virtualKey: 124, keyDown: true),
+  checkAccessibility()
+  guard let down = CGEvent(keyboardEventSource: nil, virtualKey: 124, keyDown: true),
         let up = CGEvent(keyboardEventSource: nil, virtualKey: 124, keyDown: false) else {
-    fail("右矢印キーを送信できません。アクセシビリティの設定を確認してください。")
+    fail("右矢印キーの入力を作成できませんでした。")
   }
   down.flags = []
   up.flags = []

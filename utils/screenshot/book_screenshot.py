@@ -3,11 +3,13 @@
 import argparse
 from base64 import b64decode
 from collections import Counter
+import ctypes
 from hashlib import blake2b
 from io import BytesIO
 import json
 import os
 from pathlib import Path
+from shlex import join as shell_join
 from statistics import median
 import subprocess
 import sys
@@ -24,6 +26,12 @@ TIMEOUT = 60
 WAIT_PROGRESS_INTERVAL = 5
 NATIVE_SOURCE = Path(__file__).with_name("book_screenshot_macos.swift")
 CHROME_SOURCE = Path(__file__).with_name("book_screenshot_chrome.mjs")
+ACCESSIBILITY_HELP = (
+  "右矢印キーの送信にはアクセシビリティの許可が必要です。\n"
+  "システム設定の「プライバシーとセキュリティ」から「アクセシビリティ」を開き、"
+  "このコマンドを実行したターミナルアプリを許可してから再実行してください。\n"
+  "許可が反映されない場合は、ターミナルアプリを終了して開き直してください。"
+)
 
 
 class ViewerCrop:
@@ -120,9 +128,22 @@ def wait_for_page(read_page, previous, stable_seconds, deadline, number):
   return None
 
 
-def native_command(temp):
+def check_accessibility():
+  print("右矢印キーを送信できるよう、アクセシビリティの許可を確認しています。", flush=True)
+  framework = ctypes.CDLL("/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices")
+  trusted = framework.AXIsProcessTrusted
+  trusted.argtypes = []
+  trusted.restype = ctypes.c_bool
+  if not trusted():
+    raise ValueError(ACCESSIBILITY_HELP)
+
+
+def native_command(temp, *, for_capture=False):
   binary = temp / "book_screenshot_macos"
-  print("macOS用のプログラムを準備しています。完了まで数十秒かかる場合があります。", flush=True)
+  print("Swiftの補助プログラムを一時フォルダにコンパイルしています。数十秒かかる場合があります。", flush=True)
+  if for_capture:
+    print("撮影時は、前面のアプリの確認と、そのアプリへの右矢印キーの送信に使います。", flush=True)
+  print("章の自動判定では、PNGの上部から見出しを読み取るために使います。", flush=True)
   subprocess.run(
     ["swiftc", "-module-cache-path", str(temp / "swift-cache"), str(NATIVE_SOURCE), "-o", str(binary)],
     check=True,
@@ -130,13 +151,25 @@ def native_command(temp):
   return binary
 
 
+def run_native(native, action, *arguments):
+  try:
+    result = subprocess.run([native, action, *arguments], capture_output=True, text=True, timeout=5)
+  except subprocess.TimeoutExpired as error:
+    raise ValueError("macOSから操作の応答がなかったため停止しました。") from error
+  if result.returncode == 2:
+    raise ValueError(ACCESSIBILITY_HELP)
+  if result.returncode:
+    raise ValueError(result.stderr.strip() or "macOSの撮影操作に失敗しました。")
+  return result.stdout.strip()
+
+
 def capture(args, temp, native):
   print("書籍の最初のページを前面に表示してください。", flush=True)
   for seconds in range(args.delay, 0, -1):
     print(f"撮影開始まで {seconds} 秒。", flush=True)
     time.sleep(1)
-  print("撮影対象のアプリと操作権限を確認しています。", flush=True)
-  pid = subprocess.check_output([native, "front"], text=True).strip()
+  print("いま前面にあるアプリを撮影対象として確認しています。", flush=True)
+  pid = run_native(native, "front")
   frame = temp / "screen.png"
 
   def read_screen(deadline):
@@ -156,11 +189,11 @@ def capture(args, temp, native):
       return image.convert("RGB")
 
   def check_front():
-    if subprocess.check_output([native, "front"], text=True).strip() != pid:
+    if run_native(native, "front") != pid:
       raise ValueError("撮影開始時と異なるアプリが前面にあるため停止しました。")
 
   def right():
-    subprocess.run([native, "right", pid], check=True, timeout=5)
+    run_native(native, "right", pid)
 
   capture_pages(args, read_screen, right, check_front)
 
@@ -360,6 +393,22 @@ def positive_integer(value):
   return number
 
 
+def destination_error(args):
+  folder = args.folder
+  suffix = 2
+  while True:
+    alternative = folder.parent / f"{folder.name or 'book-capture'}-{suffix}"
+    if not os.path.lexists(alternative):
+      break
+    suffix += 1
+  example = shell_join([sys.executable, sys.argv[0], args.command, str(alternative)])
+  return ValueError(
+    f"保存先 {folder} はすでに存在します。既存の内容を上書きしないよう、撮影を開始しませんでした。\n"
+    "まだ存在しない保存先を指定してください。フォルダは撮影ツールが作成します。\n"
+    f"実行例\n  {example}"
+  )
+
+
 def main():
   parser = argparse.ArgumentParser(description="macOSで書籍ビューアを撮影し、章ごとにPDFにまとめます。")
   commands = parser.add_subparsers(dest="command", required=True)
@@ -393,12 +442,19 @@ def main():
       if args.command != "pdf":
         if sys.platform != "darwin":
           raise ValueError("画面撮影には macOS が必要です。")
-        if args.folder.exists():
-          raise ValueError(f"撮影先には新しいフォルダを指定してください。 {args.folder}")
+        if os.path.lexists(args.folder):
+          raise destination_error(args)
         print(f"書籍の撮影を準備しています。保存先は {args.folder} です。", flush=True)
         if args.command == "capture":
-          native = native_command(temp)
-        args.folder.mkdir(parents=True)
+          check_accessibility()
+          native = native_command(temp, for_capture=True)
+          run_native(native, "check-accessibility")
+        try:
+          args.folder.mkdir(parents=True)
+        except FileExistsError as error:
+          if not os.path.lexists(args.folder):
+            raise
+          raise destination_error(args) from error
         (args.folder / "pages").mkdir()
         assertion = "-di" if args.command == "capture" else "-i"
         with subprocess.Popen(["/usr/bin/caffeinate", assertion, "-w", str(os.getpid())]) as awake:

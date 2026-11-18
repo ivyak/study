@@ -33,14 +33,19 @@ function deploy() {
     run('git', ['remote', 'add', 'origin', remote], temporary);
     const existing = run('git', ['ls-remote', '--heads', 'origin', 'gh-pages']);
     if (existing) run('git', ['fetch', '--depth=1', 'origin', 'gh-pages'], temporary);
-    else run('git', ['fetch', root, 'HEAD'], temporary);
-    run('git', ['checkout', '-B', 'gh-pages', 'FETCH_HEAD'], temporary);
+    if (existing) run('git', ['checkout', '-B', 'gh-pages', 'FETCH_HEAD'], temporary);
     for (const name of fs.readdirSync(temporary)) {
       if (name !== '.git') fs.rmSync(path.join(temporary, name), { recursive: true, force: true });
     }
-    // Keep the existing site at its current URLs, then add the compiled quiz.
+    // Publish only static web assets from the existing site, plus the compiled quiz.
+    const webExtensions = new Set(['.html', '.css', '.js', '.json', '.svg', '.png', '.jpg', '.jpeg',
+      '.webp', '.gif', '.ico', '.woff', '.woff2', '.ttf', '.otf']);
+    const publicFiles = run('git', ['ls-tree', '-rz', '--name-only', 'HEAD']).split('\0').filter(file =>
+      file === 'index.html' || file === '.nojekyll' ||
+      ((file.startsWith('Kyoto_Univ/') || file.startsWith('code_study/git_study/')) &&
+        webExtensions.has(path.extname(file).toLowerCase())));
     const archive = path.join(workspace, 'source.tar');
-    run('git', ['archive', '--format=tar', `--output=${archive}`, 'HEAD']);
+    run('git', ['archive', '--format=tar', `--output=${archive}`, 'HEAD', '--', ...publicFiles]);
     run('tar', ['-xf', archive, '-C', temporary]);
     const quiz = path.join(temporary, 'apps/recall-quiz');
     fs.rmSync(quiz, { recursive: true, force: true });

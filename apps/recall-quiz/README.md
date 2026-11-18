@@ -89,9 +89,9 @@ npm run deploy --prefix apps/recall-quiz -- --dry-run
 npm run deploy --prefix apps/recall-quiz
 ```
 
-このコマンドは、現在のコミットにあるサイトを保ち、`output/site/` の内容を公開用ブランチの `apps/recall-quiz/` に配置します。開発用ファイルを配置するだけではクイズは動きません。公開先は `https://ivyak.github.io/study/apps/recall-quiz/` です。
+このコマンドは、現在のコミットにあるLIFEとGit学習ページのHTML・画像などの配信ファイルを保ち、`output/site/` の内容を公開用ブランチの `apps/recall-quiz/` に配置します。開発用ファイルを配置するだけではクイズは動きません。公開先は `https://ivyak.github.io/study/apps/recall-quiz/` です。
 
-`origin` の `gh-pages` ブランチへ送信し、Pagesの公開元をそのルートに設定します。既存のLIFEのページも同じURLで配信します。公開元が `master` のルートの場合は、この構成に移行します。それ以外の構成では停止します。公開するのはGitで管理されたファイルとクイズのビルド成果物で、ブラウザ内の学習記録や未追跡のファイルは含めません。
+`origin` の `gh-pages` ブランチへ送信し、Pagesの公開元をそのルートに設定します。既存のLIFEのページも同じURLで配信します。公開元が `master` のルートの場合は、この構成に移行します。それ以外の構成では停止します。公開するのは既存ページの配信に使う拡張子のファイルとクイズのビルド成果物です。Markdown、LaTeX、Python、開発用設定、ブラウザ内の学習記録、未追跡のファイルは含めません。
 
 更新時も、ビルド後に同じコマンドを実行します。反映には数分かかることがあります。教材を更新するときは問題IDを保ち、内容を変えた問題の版を上げます。学習記録や入手済みの動物は公開更新で初期化しません。
 

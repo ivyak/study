@@ -67,12 +67,9 @@ case "right":
   down.postToPid(pid)
   up.postToPid(pid)
 case "chapters":
-  guard args.count == 3 else { fail("撮影画像のフォルダを指定してください。") }
   do {
-    let folder = URL(fileURLWithPath: args[2], isDirectory: true)
-    let pages = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
-      .filter { $0.pathExtension == "png" && $0.hasDirectoryPath == false }
-      .sorted { $0.lastPathComponent < $1.lastPathComponent }
+    let paths = try JSONDecoder().decode([String].self, from: FileHandle.standardInput.readDataToEndOfFile())
+    let pages = paths.map { URL(fileURLWithPath: $0) }
     for (offset, page) in pages.enumerated() {
       do {
         let pageText = PageText(page: offset + 1, lines: try readPageText(page))

@@ -7,24 +7,23 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import ctypes
 from hashlib import blake2b
 from io import BytesIO
+from itertools import accumulate
 import json
 import os
 from pathlib import Path
-from shlex import join as shell_join
-import shutil
 from statistics import median
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
-from threading import Event, Lock
+from threading import Event
 import time
 
 import img2pdf
 from PIL import Image
-import pikepdf
 
 from book_screenshot_chapters import book_chapters
 from book_screenshot_chrome import ChromeConnection
+from book_screenshot_output import CaptureOutput, page_paths
 
 
 POLL_INTERVAL = 0.5
@@ -181,7 +180,7 @@ def run_native(native, action, *arguments):
   return result.stdout.strip()
 
 
-def capture(args, temp, native):
+def capture(args, temp, native, output):
   print("書籍の最初のページを前面に表示してください。", flush=True)
   for seconds in range(args.delay, 0, -1):
     print(f"撮影開始まで {seconds} 秒。", flush=True)
@@ -217,7 +216,7 @@ def capture(args, temp, native):
   def right():
     run_native(native, "right", pid)
 
-  yield from capture_pages(args, read_screen, right, check_front)
+  yield from capture_pages(args, read_screen, right, output, check_front)
 
 
 def list_chrome_tabs(tabs):
@@ -247,7 +246,7 @@ def select_chrome_tab(tabs):
   return choices[int(answer) - 1]
 
 
-def capture_chrome_tab(chrome, args, tab, *, label="", prepare=None, stop=None):
+def capture_chrome_tab(chrome, args, tab, output, *, label="", start=0, stop=None):
   session = chrome.request("attach", target=tab["targetId"])
   print(f'{label}撮影を開始します。 {tab["title"]}', flush=True)
 
@@ -267,7 +266,7 @@ def capture_chrome_tab(chrome, args, tab, *, label="", prepare=None, stop=None):
       return image.convert("RGB")
 
   try:
-    yield from capture_pages(args, read_screen, lambda: request("right"), label=label, prepare=prepare)
+    yield from capture_pages(args, read_screen, lambda: request("right"), output, label=label, start=start)
   finally:
     try:
       chrome.request("detach", sessionId=session)
@@ -275,7 +274,7 @@ def capture_chrome_tab(chrome, args, tab, *, label="", prepare=None, stop=None):
       pass
 
 
-def capture_chrome(args):
+def capture_chrome(args, output):
   with ChromeConnection(args.debug_port) as chrome:
     tabs = chrome.request("tabs", groupByWindow=not args.tab)
     if args.tab:
@@ -285,7 +284,7 @@ def capture_chrome(args):
       selected = matches[0]
     else:
       selected = select_chrome_tab(tabs)
-    yield from capture_chrome_tab(chrome, args, selected)
+    yield from capture_chrome_tab(chrome, args, selected, output)
 
 
 def select_chrome_ranges(tabs, args):
@@ -312,36 +311,30 @@ def select_chrome_ranges(tabs, args):
   return jobs
 
 
-def capture_chrome_batch(args, temp):
+def capture_chrome_batch(args, output):
   stop = Event()
-  output_lock = Lock()
-  output_created = False
   with ChromeConnection(args.debug_port) as chrome:
     jobs = select_chrome_ranges(chrome.request("tabs", groupByWindow=True), args)
+    offsets = accumulate((count for _, count in jobs), initial=0)
 
-    def prepare():
-      nonlocal output_created
-      with output_lock:
-        if not output_created:
-          create_capture_folder(args)
-          output_created = True
-
-    def take_part(index, tab, expected):
+    def take_part(index, tab, expected, start):
       label = f"[区間 {index}] "
       part = argparse.Namespace(**vars(args))
-      part.folder = args.folder / f"part-{index:02d}"
       part.max_pages = expected
-      paths = []
+      saved = 0
       try:
-        for path in capture_chrome_tab(chrome, part, tab, label=label, prepare=prepare, stop=stop):
-          paths.append(path)
+        for _ in capture_chrome_tab(chrome, part, tab, output, label=label, start=start, stop=stop):
+          saved += 1
       except (OSError, ValueError, subprocess.SubprocessError) as error:
         print(f"{label}{error}", file=sys.stderr, flush=True)
-      print(f"{label}{len(paths)}/{expected} 枚を保存しました。", flush=True)
-      return paths
+      print(f"{label}{saved}/{expected} 枚を保存しました。", flush=True)
+      return saved
 
     with ThreadPoolExecutor(max_workers=len(jobs)) as executor:
-      futures = [executor.submit(take_part, index, tab, count) for index, (tab, count) in enumerate(jobs, 1)]
+      futures = [
+        executor.submit(take_part, index, tab, count, start)
+        for index, ((tab, count), start) in enumerate(zip(jobs, offsets), 1)
+      ]
       try:
         for future in as_completed(futures):
           future.result()
@@ -350,30 +343,15 @@ def capture_chrome_batch(args, temp):
         stop.set()
         for future in futures:
           future.cancel()
-      parts = [future.result() if not future.cancelled() else [] for future in futures]
+      counts = [future.result() if not future.cancelled() else 0 for future in futures]
 
-  if not any(parts):
-    return 1
-  if any(len(paths) != count for paths, (_, count) in zip(parts, jobs)):
-    print("指定した枚数に届かなかった区間があります。撮影済みのPNGは各 part フォルダに保存しました。", flush=True)
-    print("ページの抜けを避けるため、全区間を連結するPDFの作成を中止しました。", flush=True)
-    return 1
-
-  with TemporaryDirectory(dir=args.folder) as staging:
-    pending = Path(staging) / "pages"
-    pending.mkdir()
-    for number, path in enumerate((path for part in parts for path in part), 1):
-      combined = pending / f"{number:06d}.png"
-      try:
-        os.link(path, combined)
-      except OSError:
-        shutil.copyfile(path, combined)
-    pending.rename(args.folder / "pages")
-  export_pdf(args, temp)
-  return 0
+  incomplete = any(saved != expected for saved, (_, expected) in zip(counts, jobs))
+  if incomplete and any(counts):
+    print("指定枚数に届かなかった区間があります。保存できた画像をまとめて章別PDFを作成します。", flush=True)
+  return sum(counts), incomplete or stop.is_set()
 
 
-def capture_pages(args, read_screen, right, check_target=None, *, label="", prepare=None):
+def capture_pages(args, read_screen, right, output, check_target=None, *, label="", start=0):
   def report(message):
     print(label + message, flush=True)
 
@@ -416,18 +394,9 @@ def capture_pages(args, read_screen, right, check_target=None, *, label="", prep
     page, previous = result
     if check_target is not None:
       check_target()
-    if number == 1:
-      if prepare is not None:
-        prepare()
-      create_capture_folder(args)
-      (args.folder / "pages").mkdir()
-
-    path = args.folder / "pages" / f"{number:06d}.png"
-    pending = path.with_suffix(".tmp")
-    page.save(pending, format="PNG")
-    pending.replace(path)
+    path = output.save(page, start + number - 1)
     yield path
-    report(f"{number} 枚目を保存しました。")
+    report(f"{number} 枚目を保存しました。{path.name}")
     if number == args.max_pages:
       report(f"指定された {number} 枚の撮影が完了しました。")
       return
@@ -447,12 +416,13 @@ def chapter_spec(value):
   return int(start), title
 
 
-def find_chapters(native, pages_dir, page_count):
+def find_chapters(native, paths):
   print("全ページの紙面を文字認識しています。", flush=True)
-  output = subprocess.check_output([native, "chapters", pages_dir], text=True)
+  images = json.dumps([str(path) for path in paths])
+  output = subprocess.check_output([native, "chapters"], input=images, text=True)
   pages = [json.loads(line) for line in output.splitlines()]
-  if len(pages) != page_count:
-    print(f"文字認識を利用できた画像は {len(pages)}/{page_count} 枚です。", file=sys.stderr, flush=True)
+  if len(pages) != len(paths):
+    print(f"文字認識を利用できた画像は {len(pages)}/{len(paths)} 枚です。", file=sys.stderr, flush=True)
   print("全ページの読み取りが終わりました。目次の続きと章の並びを確認しています。", flush=True)
   chapters = book_chapters(pages)
   for page, title in chapters:
@@ -460,9 +430,8 @@ def find_chapters(native, pages_dir, page_count):
   return chapters
 
 
-def export_pdf(args, temp, native=None):
-  pages_dir = args.folder / "pages"
-  pages = sorted(path for path in pages_dir.glob("*.png") if path.is_file())
+def export_pdfs(args, temp, native=None):
+  pages = page_paths(args.folder / "pages")
   if not pages:
     raise ValueError("PDFにできる撮影画像がありません。")
   print(f"撮影済みの {len(pages)} 枚からPDFを作成します。", flush=True)
@@ -476,12 +445,13 @@ def export_pdf(args, temp, native=None):
     starts = [(index, title) for index, title in starts if index <= len(pages)]
   else:
     try:
-      starts = find_chapters(native or native_command(temp), pages_dir, len(pages))
+      starts = find_chapters(native or native_command(temp), pages)
     except (OSError, subprocess.CalledProcessError, ValueError) as error:
       print(f"章の読み取りが中断されました。 {error}", file=sys.stderr)
       starts = []
   if not starts:
-    print("章の区切りが見つかりませんでした。撮影した画像はすべてPDFに入ります。", flush=True)
+    print("章の区切りが見つからなかったため、撮影画像を1つのPDFにまとめます。", flush=True)
+    starts = [(1, "全ページ")]
   elif starts[0][0] > 1:
     starts.insert(0, (1, "表紙・前付け"))
 
@@ -495,26 +465,22 @@ def export_pdf(args, temp, native=None):
       suffix += 1
       output = args.folder / f"pdf-{suffix}"
 
-  path = output / "全ページ.pdf"
-  print(f"{len(pages)} 枚を1つのPDFにまとめ、{len(starts)} 件のしおりを付けます。", flush=True)
-  with TemporaryDirectory(dir=output) as staging:
-    temporary_pdf = Path(staging) / path.name
+  stops = [index for index, _ in starts[1:]] + [len(pages) + 1]
+  for chapter, ((start, title), stop) in enumerate(zip(starts, stops), 1):
+    safe_title = title.replace("/", " ").replace("\\", " ").strip() or "章"
+    path = output / f"{chapter:02d} {safe_title[:60]}.pdf"
+    pending = path.with_suffix(".tmp")
+    print(f"{chapter}/{len(starts)} 件目のPDFを作成しています。{start}〜{stop - 1} 枚目。", flush=True)
     try:
-      with (Path(staging) / "images.pdf").open("w+b") as stream:
-        img2pdf.convert([str(page) for page in pages], outputstream=stream)
-        stream.seek(0)
-        with pikepdf.open(stream) as document:
-          if starts:
-            with document.open_outline() as outline:
-              outline.root.extend(pikepdf.OutlineItem(title, start - 1) for start, title in starts)
-            document.Root.PageMode = pikepdf.Name.UseOutlines
-          document.save(temporary_pdf)
+      with pending.open("wb") as stream:
+        img2pdf.convert([str(page) for page in pages[start - 1:stop - 1]], outputstream=stream)
+      pending.replace(path)
     except img2pdf.ImageOpenError as error:
-      raise ValueError(f"撮影画像を開けませんでした。 {error}") from error
-    except pikepdf.PdfError as error:
-      raise ValueError(f"PDFのしおりを書き込めませんでした。 {error}") from error
-    temporary_pdf.replace(path)
-  print(f"PDFの作成が完了しました。保存先は {path} です。", flush=True)
+      raise ValueError(f"{start}〜{stop - 1} 枚目のどれかを開けませんでした。 {error}") from error
+    finally:
+      pending.unlink(missing_ok=True)
+    print(f"{start}〜{stop - 1} 枚目を保存しました。 {path}", flush=True)
+  print(f"PDFの作成が完了しました。保存先は {output} です。", flush=True)
 
 
 def positive_integer(value):
@@ -524,33 +490,8 @@ def positive_integer(value):
   return number
 
 
-def create_capture_folder(args):
-  try:
-    args.folder.mkdir(parents=True)
-  except FileExistsError as error:
-    if not os.path.lexists(args.folder):
-      raise
-    raise destination_error(args) from error
-
-
-def destination_error(args):
-  folder = args.folder
-  suffix = 2
-  while True:
-    alternative = folder.parent / f"{folder.name or 'book-capture'}-{suffix}"
-    if not os.path.lexists(alternative):
-      break
-    suffix += 1
-  example = shell_join([sys.executable, sys.argv[0], args.command, str(alternative)])
-  return ValueError(
-    f"保存先 {folder} はすでに存在します。既存の内容を上書きしないよう、撮影を開始しませんでした。\n"
-    "まだ存在しない保存先を指定してください。フォルダは最初のPNGを保存するときに作成します。\n"
-    f"実行例\n  {example}"
-  )
-
-
 def main():
-  parser = argparse.ArgumentParser(description="macOSで書籍ビューアを撮影し、章のしおり付きPDFにまとめます。")
+  parser = argparse.ArgumentParser(description="macOSで書籍ビューアを撮影し、章ごとにPDFを作成します。")
   commands = parser.add_subparsers(dest="command", required=True)
   capture_parser = commands.add_parser("capture", help="撮影してPDFにまとめる")
   chrome_parser = commands.add_parser("chrome", help="Chromeの指定タブを撮影してPDFにまとめる")
@@ -578,16 +519,17 @@ def main():
     parser.error("--debug-port は 65535 以下にしてください。")
 
   try:
-    with TemporaryDirectory(prefix="book-screenshot-") as directory:
+    with TemporaryDirectory(prefix="book-screenshot-") as directory, CaptureOutput(args.folder) as output:
       temp = Path(directory)
       native = None
       capture_failed = False
       if args.command != "pdf":
         if sys.platform != "darwin":
           raise ValueError("画面撮影には macOS が必要です。")
-        if os.path.lexists(args.folder):
-          raise destination_error(args)
+        output.validate()
         print(f"書籍の撮影を準備しています。保存先は {args.folder} です。", flush=True)
+        if output.pages.is_dir():
+          print("保存済みのPNGがあれば、連番の続きに保存します。", flush=True)
         if args.command == "capture":
           check_accessibility()
           native = native_command(temp, for_capture=True)
@@ -597,10 +539,11 @@ def main():
         with subprocess.Popen(["/usr/bin/caffeinate", assertion, "-w", str(os.getpid())]) as awake:
           try:
             if args.command == "chrome" and args.parallel > 1:
-              return capture_chrome_batch(args, temp)
-            capture_session = capture_chrome(args) if args.command == "chrome" else capture(args, temp, native)
-            for _ in capture_session:
-              captured = True
+              captured, capture_failed = capture_chrome_batch(args, output)
+            else:
+              capture_session = capture_chrome(args, output) if args.command == "chrome" else capture(args, temp, native, output)
+              for _ in capture_session:
+                captured = True
           except KeyboardInterrupt:
             print("\n撮影を中断しました。", flush=True)
             capture_failed = True
@@ -611,7 +554,9 @@ def main():
             awake.terminate()
         if not captured:
           return 1
-      export_pdf(args, temp, native)
+      else:
+        output.acquire()
+      export_pdfs(args, temp, native)
       return int(capture_failed)
   except (OSError, ValueError, subprocess.SubprocessError) as error:
     print(error, file=sys.stderr)

@@ -211,7 +211,7 @@ def capture(args, temp, native):
   def right():
     run_native(native, "right", pid)
 
-  capture_pages(args, read_screen, right, check_front)
+  yield from capture_pages(args, read_screen, right, check_front)
 
 
 def select_chrome_tab(tabs):
@@ -280,7 +280,7 @@ def capture_chrome(args):
         with Image.open(BytesIO(b64decode(image_data))) as image:
           return image.convert("RGB")
 
-      capture_pages(args, read_screen, lambda: request("right"))
+      yield from capture_pages(args, read_screen, lambda: request("right"))
     finally:
       try:
         chrome.stdin.close()
@@ -324,10 +324,20 @@ def capture_pages(args, read_screen, right, check_target=None):
     page, previous = result
     if check_target is not None:
       check_target()
+    if number == 1:
+      try:
+        args.folder.mkdir(parents=True)
+      except FileExistsError as error:
+        if not os.path.lexists(args.folder):
+          raise
+        raise destination_error(args) from error
+      (args.folder / "pages").mkdir()
+
     path = args.folder / "pages" / f"{number:06d}.png"
     pending = path.with_suffix(".tmp")
     page.save(pending, format="PNG")
     pending.replace(path)
+    yield path
     print(f"{number} 枚目を保存しました。", flush=True)
     if number == args.max_pages:
       print(f"指定された {number} 枚の撮影が完了しました。", flush=True)
@@ -435,7 +445,7 @@ def destination_error(args):
   example = shell_join([sys.executable, sys.argv[0], args.command, str(alternative)])
   return ValueError(
     f"保存先 {folder} はすでに存在します。既存の内容を上書きしないよう、撮影を開始しませんでした。\n"
-    "まだ存在しない保存先を指定してください。フォルダは撮影ツールが作成します。\n"
+    "まだ存在しない保存先を指定してください。フォルダは最初のPNGを保存するときに作成します。\n"
     f"実行例\n  {example}"
   )
 
@@ -480,29 +490,22 @@ def main():
           check_accessibility()
           native = native_command(temp, for_capture=True)
           run_native(native, "check-accessibility")
-        try:
-          args.folder.mkdir(parents=True)
-        except FileExistsError as error:
-          if not os.path.lexists(args.folder):
-            raise
-          raise destination_error(args) from error
-        (args.folder / "pages").mkdir()
+        captured = False
         assertion = "-di" if args.command == "capture" else "-i"
         with subprocess.Popen(["/usr/bin/caffeinate", assertion, "-w", str(os.getpid())]) as awake:
           try:
-            if args.command == "chrome":
-              capture_chrome(args)
-            else:
-              capture(args, temp, native)
+            capture_session = capture_chrome(args) if args.command == "chrome" else capture(args, temp, native)
+            for _ in capture_session:
+              captured = True
           except KeyboardInterrupt:
-            print("\n撮影を中断しました。撮影済みの画像をPDFにまとめます。", flush=True)
+            print("\n撮影を中断しました。", flush=True)
             capture_failed = True
           except (OSError, ValueError, EOFError, subprocess.SubprocessError) as error:
             print(error, file=sys.stderr)
             capture_failed = True
           finally:
             awake.terminate()
-        if capture_failed and not any((args.folder / "pages").glob("*.png")):
+        if not captured:
           return 1
       export_pdfs(args, temp, native)
       return int(capture_failed)

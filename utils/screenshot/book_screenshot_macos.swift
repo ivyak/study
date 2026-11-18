@@ -13,48 +13,33 @@ func checkAccessibility() {
   }
 }
 
-func chapterHeading(in url: URL) throws -> (number: Int, title: String)? {
+struct TextLine: Encodable {
+  let text: String
+  let x: Double
+  let y: Double
+  let width: Double
+  let height: Double
+}
+
+struct PageText: Encodable {
+  let page: Int
+  let lines: [TextLine]
+}
+
+func readPageText(_ url: URL) throws -> [TextLine] {
   let request = VNRecognizeTextRequest()
   request.recognitionLevel = .accurate
   request.recognitionLanguages = ["ja-JP", "en-US"]
-  request.regionOfInterest = CGRect(x: 0, y: 0.55, width: 1, height: 0.45)
   try VNImageRequestHandler(url: url).perform([request])
 
-  let lines = (request.results ?? []).compactMap { observation -> (text: String, box: CGRect)? in
+  return (request.results ?? []).compactMap { observation in
     guard let text = observation.topCandidates(1).first?.string else { return nil }
-    let title = text.precomposedStringWithCompatibilityMapping
-      .split(whereSeparator: \.isWhitespace).joined(separator: " ")
-    return (title, observation.boundingBox)
+    let box = observation.boundingBox
+    return TextLine(
+      text: text.precomposedStringWithCompatibilityMapping,
+      x: box.minX, y: 1 - box.maxY, width: box.width, height: box.height
+    )
   }
-
-  let explicit = #/^(?:第\s*([0-9]{1,2})\s*章|(?i:chapter)\s+([0-9]{1,2})\b)/#
-  let numbered = #/^([1-9][0-9]?)\.(?:\s+(?=\S)|(?=[^0-9\s.]))/#
-  let section = #/^[0-9]+\.\s*[0-9]+(?:\.|\s|$)/#
-  let leaders = #/(?:[.·…]{2,}|\.\s+\.)\s*[0-9]+$/#
-  if lines.contains(where: { line in
-    let text = line.text.replacingOccurrences(of: " ", with: "")
-    return text == "目次" || text.lowercased() == "contents" ||
-      line.text.firstMatch(of: leaders) != nil
-  }) {
-    return nil
-  }
-
-  let typicalHeights = lines.map { $0.box.height }.sorted()
-  let typicalHeight = typicalHeights.isEmpty ? 0 : typicalHeights[typicalHeights.count / 2]
-  let candidates = lines.compactMap { line -> (number: Int, title: String)? in
-    if let match = line.text.firstMatch(of: explicit),
-       let digits = match.1 ?? match.2, let number = Int(digits) {
-      guard line.box.height >= 0.016 else { return nil }
-      return (number, line.text)
-    }
-    guard let match = line.text.firstMatch(of: numbered),
-          line.text.firstMatch(of: section) == nil,
-          let number = Int(match.1),
-          line.box.height >= max(0.020, typicalHeight * 1.25) ||
-            (lines.count <= 3 && line.box.height >= 0.022) else { return nil }
-    return (number, line.text)
-  }
-  return candidates.count == 1 ? candidates[0] : nil
 }
 
 let args = CommandLine.arguments
@@ -90,9 +75,10 @@ case "chapters":
       .sorted { $0.lastPathComponent < $1.lastPathComponent }
     for (offset, page) in pages.enumerated() {
       do {
-        if let heading = try chapterHeading(in: page) {
-          print("\(offset + 1)\t\(heading.number)\t\(heading.title)")
-        }
+        let pageText = PageText(page: offset + 1, lines: try readPageText(page))
+        let data = try JSONEncoder().encode(pageText)
+        FileHandle.standardOutput.write(data)
+        FileHandle.standardOutput.write(Data([0x0A]))
       } catch {
         let message = "\(offset + 1) 枚目の見出しを読み取れませんでした。 \(error)\n"
         FileHandle.standardError.write(Data(message.utf8))

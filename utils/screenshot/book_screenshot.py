@@ -3,6 +3,7 @@
 import argparse
 from base64 import b64decode
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import ctypes
 from hashlib import blake2b
 from io import BytesIO
@@ -10,21 +11,25 @@ import json
 import os
 from pathlib import Path
 from shlex import join as shell_join
+import shutil
 from statistics import median
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+from threading import Event, Lock
 import time
 
 import img2pdf
 from PIL import Image
+
+from book_screenshot_chapters import chapter_opening
+from book_screenshot_chrome import ChromeConnection
 
 
 POLL_INTERVAL = 0.5
 TIMEOUT = 60
 WAIT_PROGRESS_INTERVAL = 5
 NATIVE_SOURCE = Path(__file__).with_name("book_screenshot_macos.swift")
-CHROME_SOURCE = Path(__file__).with_name("book_screenshot_chrome.mjs")
 
 
 def terminal_app():
@@ -115,7 +120,7 @@ def signature(page):
   return page.size, blake2b(preview.tobytes(), digest_size=16).digest()
 
 
-def wait_for_page(read_page, previous, stable_seconds, deadline, number):
+def wait_for_page(read_page, previous, stable_seconds, deadline, number, report):
   candidate = None
   started = deadline - TIMEOUT
   next_progress = started + WAIT_PROGRESS_INTERVAL
@@ -134,7 +139,7 @@ def wait_for_page(read_page, previous, stable_seconds, deadline, number):
       return page, current
     if now >= next_progress:
       elapsed = int(now - started)
-      print(f"{number} 枚目の表示を待っています。{elapsed} 秒経過、上限 {TIMEOUT} 秒。", flush=True)
+      report(f"{number} 枚目の表示を待っています。{elapsed} 秒経過、上限 {TIMEOUT} 秒。")
       next_progress = now + WAIT_PROGRESS_INTERVAL
     time.sleep(min(POLL_INTERVAL, max(0, deadline - time.monotonic())))
   return None
@@ -155,7 +160,7 @@ def native_command(temp, *, for_capture=False):
   print("Swiftの補助プログラムを一時フォルダにコンパイルしています。数十秒かかる場合があります。", flush=True)
   if for_capture:
     print("撮影時は、前面のアプリの確認と、そのアプリへの右矢印キーの送信に使います。", flush=True)
-  print("章の自動判定では、PNGの上部から見出しを読み取るために使います。", flush=True)
+  print("章の自動判定では、PNGの紙面全体の文字と位置を読み取るために使います。", flush=True)
   subprocess.run(
     ["swiftc", "-module-cache-path", str(temp / "swift-cache"), str(NATIVE_SOURCE), "-o", str(binary)],
     check=True,
@@ -214,7 +219,7 @@ def capture(args, temp, native):
   yield from capture_pages(args, read_screen, right, check_front)
 
 
-def select_chrome_tab(tabs):
+def list_chrome_tabs(tabs):
   if not tabs:
     raise ValueError("Chromeに撮影できるタブがありません。")
   windows = {}
@@ -230,70 +235,156 @@ def select_chrome_tab(tabs):
       choices.append(tab)
       title = " ".join(tab["title"].splitlines()).strip() or "タイトルなし"
       print(f'  {len(choices):2}  {title}\n      {tab["url"]}')
+  return choices
+
+
+def select_chrome_tab(tabs):
+  choices = list_chrome_tabs(tabs)
   answer = input("\n撮影するタブの番号を入力してください。 ")
   if not answer.isdecimal() or not 1 <= int(answer) <= len(choices):
     raise ValueError("一覧にあるタブの番号を指定してください。")
   return choices[int(answer) - 1]
 
 
-def capture_chrome(args):
-  command = ["node", CHROME_SOURCE]
-  if args.debug_port:
-    command.append(str(args.debug_port))
-  print("Chromeに接続します。接続の許可が表示されたら、Chromeで許可してください。", flush=True)
-  with subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True) as chrome:
-    def request(operation, **params):
-      try:
-        chrome.stdin.write(json.dumps({"command": operation, **params}) + "\n")
-        chrome.stdin.flush()
-      except BrokenPipeError:
-        pass
-      line = chrome.stdout.readline()
-      if not line:
-        raise ValueError("Chromeとの接続が終了しました。Node.js 22 以上を確認してください。")
-      reply = json.loads(line)
-      if reply.get("timeout") and operation == "screenshot":
-        return None
-      if "error" in reply:
-        raise ValueError(reply["error"])
-      return reply["result"]
+def capture_chrome_tab(chrome, args, tab, *, label="", prepare=None, stop=None):
+  session = chrome.request("attach", target=tab["targetId"])
+  print(f'{label}撮影を開始します。 {tab["title"]}', flush=True)
 
+  def request(operation, **params):
+    if stop is not None and stop.is_set():
+      raise InterruptedError("撮影を中断しました。")
+    return chrome.request(operation, sessionId=session, **params)
+
+  def read_screen(deadline):
+    remaining = int((deadline - time.monotonic()) * 1000)
+    if remaining <= 0:
+      return None
+    image_data = request("screenshot", timeout=min(remaining, 5000))
+    if image_data is None:
+      return None
+    with Image.open(BytesIO(b64decode(image_data))) as image:
+      return image.convert("RGB")
+
+  try:
+    yield from capture_pages(args, read_screen, lambda: request("right"), label=label, prepare=prepare)
+  finally:
     try:
-      tabs = request("tabs", groupByWindow=not args.tab)
-      if args.tab:
-        matches = [tab for tab in tabs if tab["url"] == args.tab]
-        if len(matches) != 1:
-          raise ValueError("--tab とURLが一致するタブを1つ開いてください。")
-        selected = matches[0]
-      else:
-        selected = select_chrome_tab(tabs)
-      request("attach", target=selected["targetId"])
-      print(f'撮影を開始します。 {selected["title"]}', flush=True)
+      chrome.request("detach", sessionId=session)
+    except ValueError:
+      pass
 
-      def read_screen(deadline):
-        remaining = int((deadline - time.monotonic()) * 1000)
-        if remaining <= 0:
-          return None
-        image_data = request("screenshot", timeout=remaining)
-        if image_data is None:
-          return None
-        with Image.open(BytesIO(b64decode(image_data))) as image:
-          return image.convert("RGB")
 
-      yield from capture_pages(args, read_screen, lambda: request("right"))
-    finally:
+def capture_chrome(args):
+  with ChromeConnection(args.debug_port) as chrome:
+    tabs = chrome.request("tabs", groupByWindow=not args.tab)
+    if args.tab:
+      matches = [tab for tab in tabs if tab["url"] == args.tab]
+      if len(matches) != 1:
+        raise ValueError("--tab とURLが一致するタブを1つ開いてください。")
+      selected = matches[0]
+    else:
+      selected = select_chrome_tab(tabs)
+    yield from capture_chrome_tab(chrome, args, selected)
+
+
+def select_chrome_ranges(tabs, args):
+  choices = list_chrome_tabs(tabs)
+  print(f"本のページ順に {args.parallel} 個のタブ番号をカンマで入力してください。", flush=True)
+  answer = input("枚数を個別に指定する例  3:25, 7:25, 9:17\nタブ番号と撮影枚数  ")
+  specifications = [item.strip() for item in answer.split(",")]
+  if len(specifications) != args.parallel:
+    raise ValueError(f"異なるタブを {args.parallel} 個指定してください。")
+  jobs = []
+  used = set()
+  for specification in specifications:
+    index, separator, limit = specification.partition(":")
+    index, limit = index.strip(), limit.strip()
+    if not index.isdecimal() or not 1 <= int(index) <= len(choices) or int(index) in used:
+      raise ValueError("一覧にある異なるタブ番号を指定してください。")
+    count = args.max_pages
+    if separator:
+      count = int(limit) if limit.isdecimal() else None
+    if not count:
+      raise ValueError("各タブの撮影枚数を指定するか、--max-pages を指定してください。")
+    used.add(int(index))
+    jobs.append((choices[int(index) - 1], count))
+  return jobs
+
+
+def capture_chrome_batch(args, temp):
+  stop = Event()
+  output_lock = Lock()
+  output_created = False
+  with ChromeConnection(args.debug_port) as chrome:
+    jobs = select_chrome_ranges(chrome.request("tabs", groupByWindow=True), args)
+
+    def prepare():
+      nonlocal output_created
+      with output_lock:
+        if not output_created:
+          create_capture_folder(args)
+          output_created = True
+
+    def take_part(index, tab, expected):
+      label = f"[区間 {index}] "
+      part = argparse.Namespace(**vars(args))
+      part.folder = args.folder / f"part-{index:02d}"
+      part.max_pages = expected
+      paths = []
       try:
-        chrome.stdin.close()
-        chrome.wait(timeout=3)
-      except subprocess.TimeoutExpired:
-        chrome.kill()
+        for path in capture_chrome_tab(chrome, part, tab, label=label, prepare=prepare, stop=stop):
+          paths.append(path)
+      except (OSError, ValueError, subprocess.SubprocessError) as error:
+        print(f"{label}{error}", file=sys.stderr, flush=True)
+      print(f"{label}{len(paths)}/{expected} 枚を保存しました。", flush=True)
+      return paths
+
+    with ThreadPoolExecutor(max_workers=len(jobs)) as executor:
+      futures = [executor.submit(take_part, index, tab, count) for index, (tab, count) in enumerate(jobs, 1)]
+      try:
+        for future in as_completed(futures):
+          future.result()
+      except KeyboardInterrupt:
+        print("\n並列撮影を中断しています。", flush=True)
+        stop.set()
+        for future in futures:
+          future.cancel()
+      parts = [future.result() if not future.cancelled() else [] for future in futures]
+
+  if not any(parts):
+    return 1
+  if any(len(paths) != count for paths, (_, count) in zip(parts, jobs)):
+    print("指定した枚数に届かなかった区間があります。撮影済みのPNGは各 part フォルダに保存しました。", flush=True)
+    print("ページの抜けを避けるため、全区間を連結するPDFの作成を中止しました。", flush=True)
+    return 1
+
+  with TemporaryDirectory(dir=args.folder) as staging:
+    pending = Path(staging) / "pages"
+    pending.mkdir()
+    for number, path in enumerate((path for part in parts for path in part), 1):
+      combined = pending / f"{number:06d}.png"
+      try:
+        os.link(path, combined)
+      except OSError:
+        shutil.copyfile(path, combined)
+    pending.rename(args.folder / "pages")
+  export_pdfs(args, temp)
+  return 0
 
 
-def capture_pages(args, read_screen, right, check_target=None):
-  print("撮影範囲を確認しています。", flush=True)
-  screen = read_screen(time.monotonic() + TIMEOUT)
-  if screen is None:
-    raise ValueError("画面を取得できませんでした。")
+def capture_pages(args, read_screen, right, check_target=None, *, label="", prepare=None):
+  def report(message):
+    print(label + message, flush=True)
+
+  report("撮影範囲を確認しています。")
+  deadline = time.monotonic() + TIMEOUT
+  while True:
+    screen = read_screen(deadline)
+    if screen is not None:
+      break
+    if time.monotonic() >= deadline:
+      raise ValueError("画面を取得できませんでした。")
+    time.sleep(min(POLL_INTERVAL, max(0, deadline - time.monotonic())))
   screen_size = screen.size
   if args.crop is None:
     crop = ViewerCrop(screen)
@@ -316,21 +407,18 @@ def capture_pages(args, read_screen, right, check_target=None):
   deadline = time.monotonic() + TIMEOUT
   while True:
     if number == 1:
-      print("1 枚目の表示が安定するのを待っています。", flush=True)
-    result = wait_for_page(read_page, previous, args.stable, deadline, number)
+      report("1 枚目の表示が安定するのを待っています。")
+    result = wait_for_page(read_page, previous, args.stable, deadline, number, report)
     if result is None:
-      print(f"{TIMEOUT} 秒以内に新しいページを確認できなかったため停止しました。", flush=True)
+      report(f"{TIMEOUT} 秒以内に新しいページを確認できなかったため停止しました。")
       return
     page, previous = result
     if check_target is not None:
       check_target()
     if number == 1:
-      try:
-        args.folder.mkdir(parents=True)
-      except FileExistsError as error:
-        if not os.path.lexists(args.folder):
-          raise
-        raise destination_error(args) from error
+      if prepare is not None:
+        prepare()
+      create_capture_folder(args)
       (args.folder / "pages").mkdir()
 
     path = args.folder / "pages" / f"{number:06d}.png"
@@ -338,14 +426,14 @@ def capture_pages(args, read_screen, right, check_target=None):
     page.save(pending, format="PNG")
     pending.replace(path)
     yield path
-    print(f"{number} 枚目を保存しました。", flush=True)
+    report(f"{number} 枚目を保存しました。")
     if number == args.max_pages:
-      print(f"指定された {number} 枚の撮影が完了しました。", flush=True)
+      report(f"指定された {number} 枚の撮影が完了しました。")
       return
     number += 1
     right()
     deadline = time.monotonic() + TIMEOUT
-    print(f"右矢印キーを送りました。{number} 枚目の表示を待っています。", flush=True)
+    report(f"右矢印キーを送りました。{number} 枚目の表示を待っています。")
 
 
 def chapter_spec(value):
@@ -359,18 +447,21 @@ def chapter_spec(value):
 
 
 def find_chapters(native, pages_dir):
-  # OCR outputs a tab-separated capture index, chapter number and heading for each candidate.
-  print("章の見出しを読み取っています。", flush=True)
+  print("紙面全体を文字認識し、目次と章扉を見分けています。", flush=True)
   output = subprocess.check_output([native, "chapters", pages_dir], text=True)
   chapters = []
   last_number = 0
   for line in output.splitlines():
-    page, number, heading = line.split("\t", 2)
-    number = int(number)
+    page = json.loads(line)
+    heading = chapter_opening(page["lines"])
+    if heading is None:
+      continue
+    number, title = heading
     if number > last_number:
-      heading = heading.replace("/", " ").replace("\\", " ").strip()
-      chapters.append((int(page), heading))
+      title = title.replace("/", " ").replace("\\", " ").strip()
+      chapters.append((page["page"], title))
       last_number = number
+      print(f'{page["page"]} 枚目を章の開始として認識しました。{title}', flush=True)
   return chapters
 
 
@@ -434,6 +525,15 @@ def positive_integer(value):
   return number
 
 
+def create_capture_folder(args):
+  try:
+    args.folder.mkdir(parents=True)
+  except FileExistsError as error:
+    if not os.path.lexists(args.folder):
+      raise
+    raise destination_error(args) from error
+
+
 def destination_error(args):
   folder = args.folder
   suffix = 2
@@ -464,6 +564,7 @@ def main():
     command.add_argument("--stable", type=positive_integer, default=2, help="ページが静止したとみなすまでの秒数")
     command.add_argument("--max-pages", type=positive_integer, help="撮影する枚数の上限")
   capture_parser.add_argument("--delay", type=positive_integer, default=10, help="撮影開始までの秒数")
+  chrome_parser.add_argument("--parallel", type=positive_integer, default=1, help="同時に撮影するChromeのタブ数")
   chrome_parser.add_argument("--tab", help="撮影するタブのURL。省略時は一覧から選ぶ")
   chrome_parser.add_argument("--debug-port", type=positive_integer, help="明示的に起動したChromeのローカルデバッグポート")
   args = parser.parse_args()
@@ -472,6 +573,8 @@ def main():
     parser.error("同じ開始番号を複数の章に指定できません。")
   if args.command != "pdf" and args.stable >= TIMEOUT:
     parser.error(f"--stable は {TIMEOUT} 秒未満にしてください。")
+  if args.command == "chrome" and args.parallel > 1 and args.tab:
+    parser.error("--parallel で複数タブを選ぶ場合は --tab を省略してください。")
   if args.command == "chrome" and args.debug_port and args.debug_port > 65535:
     parser.error("--debug-port は 65535 以下にしてください。")
 
@@ -494,6 +597,8 @@ def main():
         assertion = "-di" if args.command == "capture" else "-i"
         with subprocess.Popen(["/usr/bin/caffeinate", assertion, "-w", str(os.getpid())]) as awake:
           try:
+            if args.command == "chrome" and args.parallel > 1:
+              return capture_chrome_batch(args, temp)
             capture_session = capture_chrome(args) if args.command == "chrome" else capture(args, temp, native)
             for _ in capture_session:
               captured = True

@@ -83,62 +83,84 @@ async function connect(url) {
   return { send, close: () => socket.close() };
 }
 
+const key = { key: "ArrowRight", code: "ArrowRight", windowsVirtualKeyCode: 39 };
+const sessions = new Set();
+
+async function detach(client, sessionId) {
+  if (!sessions.delete(sessionId)) return;
+  try {
+    await client.send("Emulation.setFocusEmulationEnabled", { enabled: false }, sessionId, 1000);
+  } catch {
+    // The tab may already have closed.
+  }
+  await client.send("Target.detachFromTarget", { sessionId }, undefined, 1000);
+}
+
+async function execute(client, request) {
+  const { sessionId } = request;
+  switch (request.command) {
+    case "tabs": {
+      const { targetInfos } = await client.send("Target.getTargets", {}, undefined, 60000);
+      const tabs = targetInfos.filter((tab) => tab.type === "page" && /^(https?|file):/.test(tab.url));
+      if (!request.groupByWindow) return tabs;
+      return Promise.all(tabs.map(async (tab) => {
+        try {
+          const { windowId } = await client.send("Browser.getWindowForTarget", { targetId: tab.targetId });
+          return { ...tab, windowId };
+        } catch {
+          // A tab can close while its window is being looked up.
+          return { ...tab, windowId: null };
+        }
+      }));
+    }
+    case "attach": {
+      const target = await client.send("Target.attachToTarget", { targetId: request.target, flatten: true });
+      sessions.add(target.sessionId);
+      await client.send("Emulation.setFocusEmulationEnabled", { enabled: true }, target.sessionId);
+      return target.sessionId;
+    }
+    case "screenshot": {
+      const { data } = await client.send("Page.captureScreenshot", {
+        format: "png",
+        fromSurface: true,
+      }, sessionId, request.timeout);
+      return data;
+    }
+    case "right":
+      await client.send("Input.dispatchKeyEvent", { ...key, type: "rawKeyDown" }, sessionId);
+      await client.send("Input.dispatchKeyEvent", { ...key, type: "keyUp" }, sessionId);
+      break;
+    case "detach":
+      await detach(client, sessionId);
+      break;
+    default:
+      throw new Error("未対応のChrome操作です。");
+  }
+}
+
+function reply(message) {
+  process.stdout.write(JSON.stringify(message) + "\n");
+}
+
 let client;
-let sessionId;
 try {
   client = await connect(await endpoint(process.argv[2]));
-  const key = { key: "ArrowRight", code: "ArrowRight", windowsVirtualKeyCode: 39 };
+  const commands = new Set();
   for await (const line of createInterface({ input: process.stdin })) {
-    try {
-      const request = JSON.parse(line);
-      let result;
-      switch (request.command) {
-        case "tabs": {
-          const { targetInfos } = await client.send("Target.getTargets", {}, undefined, 60000);
-          const tabs = targetInfos.filter((tab) => tab.type === "page" && /^(https?|file):/.test(tab.url));
-          result = request.groupByWindow ? await Promise.all(tabs.map(async (tab) => {
-            try {
-              const { windowId } = await client.send("Browser.getWindowForTarget", { targetId: tab.targetId });
-              return { ...tab, windowId };
-            } catch {
-              // A tab can close while its window is being looked up.
-              return { ...tab, windowId: null };
-            }
-          })) : tabs;
-          break;
-        }
-        case "attach":
-          ({ sessionId } = await client.send("Target.attachToTarget", { targetId: request.target, flatten: true }));
-          // Keep the reader active internally while a different tab is selected in Chrome.
-          await client.send("Emulation.setFocusEmulationEnabled", { enabled: true }, sessionId);
-          break;
-        case "screenshot":
-          ({ data: result } = await client.send("Page.captureScreenshot", {
-            format: "png",
-            fromSurface: true,
-          }, sessionId, request.timeout));
-          break;
-        case "right":
-          await client.send("Input.dispatchKeyEvent", { ...key, type: "rawKeyDown" }, sessionId);
-          await client.send("Input.dispatchKeyEvent", { ...key, type: "keyUp" }, sessionId);
-          break;
-        default:
-          throw new Error("未対応のChrome操作です。");
-      }
-      process.stdout.write(JSON.stringify({ result: result ?? null }) + "\n");
-    } catch (error) {
-      process.stdout.write(JSON.stringify({ error: error.message, timeout: error.name === "TimeoutError" }) + "\n");
-    }
+    const request = JSON.parse(line);
+    const command = execute(client, request).then(
+      (result) => reply({ id: request.id, result: result ?? null }),
+      (error) => reply({ id: request.id, error: error.message, timeout: error.name === "TimeoutError" }),
+    );
+    commands.add(command);
+    command.finally(() => commands.delete(command));
   }
+  await Promise.allSettled(commands);
 } catch (error) {
-  process.stdout.write(JSON.stringify({ error: error.message }) + "\n");
+  reply({ error: error.message });
 } finally {
-  if (sessionId) {
-    try {
-      await client.send("Emulation.setFocusEmulationEnabled", { enabled: false }, sessionId, 1000);
-    } catch {
-      // If the target is gone, there is no remaining focus state to reset.
-    }
+  if (client) {
+    await Promise.allSettled([...sessions].map((sessionId) => detach(client, sessionId)));
+    client.close();
   }
-  client?.close();
 }

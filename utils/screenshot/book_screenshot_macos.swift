@@ -91,6 +91,11 @@ case "chapters":
         let message = "\(offset + 1) 枚目の見出しを読み取れませんでした。 \(error)\n"
         FileHandle.standardError.write(Data(message.utf8))
       }
+      let processed = offset + 1
+      if processed.isMultiple(of: 10) || processed == pages.count {
+        let progress = "見出しの読み取りを \(processed)/\(pages.count) 枚終えました。\n"
+        FileHandle.standardError.write(Data(progress.utf8))
+      }
     }
   } catch {
     fail(error.localizedDescription)

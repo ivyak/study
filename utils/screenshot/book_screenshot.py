@@ -21,6 +21,7 @@ from PIL import Image
 
 POLL_INTERVAL = 0.5
 TIMEOUT = 60
+WAIT_PROGRESS_INTERVAL = 5
 NATIVE_SOURCE = Path(__file__).with_name("book_screenshot_macos.swift")
 CHROME_SOURCE = Path(__file__).with_name("book_screenshot_chrome.mjs")
 
@@ -94,8 +95,10 @@ def signature(page):
   return page.size, blake2b(preview.tobytes(), digest_size=16).digest()
 
 
-def wait_for_page(read_page, previous, stable_seconds, deadline):
+def wait_for_page(read_page, previous, stable_seconds, deadline, number):
   candidate = None
+  started = deadline - TIMEOUT
+  next_progress = started + WAIT_PROGRESS_INTERVAL
   while time.monotonic() < deadline:
     page = read_page(deadline)
     current = signature(page) if page is not None else None
@@ -109,12 +112,17 @@ def wait_for_page(read_page, previous, stable_seconds, deadline):
       since = now
     elif now - since >= stable_seconds:
       return page, current
+    if now >= next_progress:
+      elapsed = int(now - started)
+      print(f"{number} 枚目の表示を待っています。{elapsed} 秒経過、上限 {TIMEOUT} 秒。", flush=True)
+      next_progress = now + WAIT_PROGRESS_INTERVAL
     time.sleep(min(POLL_INTERVAL, max(0, deadline - time.monotonic())))
   return None
 
 
 def native_command(temp):
   binary = temp / "book_screenshot_macos"
+  print("macOS用のプログラムを準備しています。完了まで数十秒かかる場合があります。", flush=True)
   subprocess.run(
     ["swiftc", "-module-cache-path", str(temp / "swift-cache"), str(NATIVE_SOURCE), "-o", str(binary)],
     check=True,
@@ -123,8 +131,11 @@ def native_command(temp):
 
 
 def capture(args, temp, native):
-  print(f"{args.delay} 秒後に撮影を始めます。書籍の最初のページを表示してください。", flush=True)
-  time.sleep(args.delay)
+  print("書籍の最初のページを前面に表示してください。", flush=True)
+  for seconds in range(args.delay, 0, -1):
+    print(f"撮影開始まで {seconds} 秒。", flush=True)
+    time.sleep(1)
+  print("撮影対象のアプリと操作権限を確認しています。", flush=True)
   pid = subprocess.check_output([native, "front"], text=True).strip()
   frame = temp / "screen.png"
 
@@ -215,6 +226,7 @@ def capture_chrome(args):
 
 
 def capture_pages(args, read_screen, right, check_target=None):
+  print("撮影範囲を確認しています。", flush=True)
   screen = read_screen(time.monotonic() + TIMEOUT)
   if screen is None:
     raise ValueError("画面を取得できませんでした。")
@@ -239,7 +251,9 @@ def capture_pages(args, read_screen, right, check_target=None):
   number = 1
   deadline = time.monotonic() + TIMEOUT
   while True:
-    result = wait_for_page(read_page, previous, args.stable, deadline)
+    if number == 1:
+      print("1 枚目の表示が安定するのを待っています。", flush=True)
+    result = wait_for_page(read_page, previous, args.stable, deadline, number)
     if result is None:
       print(f"{TIMEOUT} 秒以内に新しいページを確認できなかったため停止しました。", flush=True)
       return
@@ -252,10 +266,12 @@ def capture_pages(args, read_screen, right, check_target=None):
     pending.replace(path)
     print(f"{number} 枚目を保存しました。", flush=True)
     if number == args.max_pages:
+      print(f"指定された {number} 枚の撮影が完了しました。", flush=True)
       return
     number += 1
     right()
     deadline = time.monotonic() + TIMEOUT
+    print(f"右矢印キーを送りました。{number} 枚目の表示を待っています。", flush=True)
 
 
 def chapter_spec(value):
@@ -289,6 +305,7 @@ def export_pdfs(args, temp, native=None):
   pages = sorted(path for path in pages_dir.glob("*.png") if path.is_file())
   if not pages:
     raise ValueError("PDFにできる撮影画像がありません。")
+  print(f"撮影済みの {len(pages)} 枚からPDFを作成します。", flush=True)
   if args.chapter:
     starts = sorted(args.chapter)
     missing = [index for index, _ in starts if index > len(pages)]
@@ -323,6 +340,7 @@ def export_pdfs(args, temp, native=None):
   for chapter, ((start, title), stop) in enumerate(zip(starts, stops), 1):
     path = output / f"{chapter:02d} {title[:60]}.pdf"
     pending = path.with_suffix(".tmp")
+    print(f"{chapter}/{len(starts)} 件目のPDFを作成しています。{start}〜{stop - 1} 枚目。", flush=True)
     try:
       with pending.open("wb") as stream:
         img2pdf.convert([str(page) for page in pages[start - 1:stop - 1]], outputstream=stream)
@@ -332,6 +350,7 @@ def export_pdfs(args, temp, native=None):
     finally:
       pending.unlink(missing_ok=True)
     print(f"{start}〜{stop - 1} 枚目を保存しました。 {path}", flush=True)
+  print(f"PDFの作成が完了しました。保存先は {output} です。", flush=True)
 
 
 def positive_integer(value):
@@ -376,6 +395,7 @@ def main():
           raise ValueError("画面撮影には macOS が必要です。")
         if args.folder.exists():
           raise ValueError(f"撮影先には新しいフォルダを指定してください。 {args.folder}")
+        print(f"書籍の撮影を準備しています。保存先は {args.folder} です。", flush=True)
         if args.command == "capture":
           native = native_command(temp)
         args.folder.mkdir(parents=True)

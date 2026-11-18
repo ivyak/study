@@ -89,4 +89,4 @@ if (fs.existsSync(favicon)) {
 }
 fs.writeFileSync(path.join(output, 'index.html'), html);
 fs.writeFileSync(path.join(output, '.nojekyll'), '');
-console.log(`${decks.length}教材を output/site/ に出力しました。GitHub Pagesにはこのフォルダだけを公開します。`);
+console.log(`${decks.length}教材を output/site/ に出力しました。クイズの公開にはこのフォルダを使います。`);

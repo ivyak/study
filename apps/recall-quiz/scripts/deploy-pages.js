@@ -20,23 +20,39 @@ function deploy() {
   catch (error) {
     if (!String(error.stdout).includes('404')) throw error;
   }
-  if (pages && (pages.source?.branch !== 'gh-pages' || pages.source?.path !== '/')) {
-    throw Error('既存のPages公開設定が異なります。公開先を確認してください。');
+  if (pages && (pages.build_type !== 'legacy' || pages.source?.path !== '/' ||
+    !['master', 'gh-pages'].includes(pages.source?.branch))) {
+    throw Error('この公開元には対応していません。masterかgh-pagesのルートを指定してください。');
   }
-  if (!pages && !repository.permissions?.admin) throw Error('Pagesの初回設定にはリポジトリの管理権限が必要です。');
-  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'recall-pages-'));
+  const configure = !pages || pages.source.branch !== 'gh-pages';
+  if (configure && !repository.permissions?.admin) throw Error('Pagesの公開元変更にはリポジトリの管理権限が必要です。');
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'recall-pages-'));
+  const temporary = path.join(workspace, 'site');
   try {
     run('git', ['init', '-b', 'gh-pages', temporary]);
     run('git', ['remote', 'add', 'origin', remote], temporary);
     const existing = run('git', ['ls-remote', '--heads', 'origin', 'gh-pages']);
-    if (existing) {
-      run('git', ['fetch', '--depth=1', 'origin', 'gh-pages'], temporary);
-      run('git', ['checkout', '-B', 'gh-pages', 'FETCH_HEAD'], temporary);
-    }
+    if (existing) run('git', ['fetch', '--depth=1', 'origin', 'gh-pages'], temporary);
+    else run('git', ['fetch', root, 'HEAD'], temporary);
+    run('git', ['checkout', '-B', 'gh-pages', 'FETCH_HEAD'], temporary);
     for (const name of fs.readdirSync(temporary)) {
       if (name !== '.git') fs.rmSync(path.join(temporary, name), { recursive: true, force: true });
     }
-    fs.cpSync(site, temporary, { recursive: true });
+    // Keep the existing site at its current URLs, then add the compiled quiz.
+    const archive = path.join(workspace, 'source.tar');
+    run('git', ['archive', '--format=tar', `--output=${archive}`, 'HEAD']);
+    run('tar', ['-xf', archive, '-C', temporary]);
+    const quiz = path.join(temporary, 'apps/recall-quiz');
+    fs.rmSync(quiz, { recursive: true, force: true });
+    fs.cpSync(site, quiz, { recursive: true });
+    fs.writeFileSync(path.join(temporary, '.nojekyll'), '');
+    if (process.argv.includes('--dry-run')) {
+      const html = fs.readFileSync(path.join(quiz, 'index.html'), 'utf8');
+      if (html.includes('__BOOTSTRAP__') || !fs.existsSync(path.join(quiz, 'decks/manifest.json')) ||
+        !fs.existsSync(path.join(temporary, 'Kyoto_Univ/index.html'))) throw Error('公開用ファイルが不足しています。');
+      console.log('既存のLIFEと、apps/recall-quiz/のビルド済みHTML・教材・画像を確認しました。送信はしていません。');
+      return;
+    }
     run('git', ['config', 'user.name', run('git', ['config', 'user.name'])], temporary);
     run('git', ['config', 'user.email', run('git', ['config', 'user.email'])], temporary);
     run('git', ['add', '--all'], temporary);
@@ -44,14 +60,14 @@ function deploy() {
       run('git', ['commit', '-m', 'deploy: Recall Quizを更新'], temporary);
       run('git', ['push', 'origin', 'HEAD:refs/heads/gh-pages'], temporary);
     }
-    if (!pages) {
-      pages = JSON.parse(execFileSync('gh', ['api', '--method', 'POST', `repos/${repo}/pages`, '--input', '-'], {
+    if (configure) {
+      pages = JSON.parse(execFileSync('gh', ['api', '--method', pages ? 'PUT' : 'POST', `repos/${repo}/pages`, '--input', '-'], {
         cwd: root, encoding: 'utf8', input: JSON.stringify({ build_type: 'legacy', source: { branch: 'gh-pages', path: '/' } })
       }));
     }
-    console.log(pages.html_url);
+    console.log(`${pages.html_url}apps/recall-quiz/`);
   } finally {
-    fs.rmSync(temporary, { recursive: true, force: true });
+    fs.rmSync(workspace, { recursive: true, force: true });
   }
 }
 if (require.main === module) {

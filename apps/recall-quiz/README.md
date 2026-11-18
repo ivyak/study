@@ -85,10 +85,13 @@ npm run preview --prefix apps/recall-quiz
 GitHub CLIの認証と、リポジトリのPages設定を変更できる権限が必要です。公開前にビルドと検証を実行します。
 
 ```bash
+npm run deploy --prefix apps/recall-quiz -- --dry-run
 npm run deploy --prefix apps/recall-quiz
 ```
 
-このコマンドは、`origin` の `gh-pages` ブランチに `output/site/` の内容だけをコミットして送信します。初回はPagesの公開元を `gh-pages` のルートに設定します。既存のPages設定が別の公開元を指す場合は停止します。リポジトリ内のほかの資料や学習記録は公開物に含めません。
+このコマンドは、現在のコミットにあるサイトを保ち、`output/site/` の内容を公開用ブランチの `apps/recall-quiz/` に配置します。開発用ファイルを配置するだけではクイズは動きません。公開先は `https://ivyak.github.io/study/apps/recall-quiz/` です。
+
+`origin` の `gh-pages` ブランチへ送信し、Pagesの公開元をそのルートに設定します。既存のLIFEのページも同じURLで配信します。公開元が `master` のルートの場合は、この構成に移行します。それ以外の構成では停止します。公開するのはGitで管理されたファイルとクイズのビルド成果物で、ブラウザ内の学習記録や未追跡のファイルは含めません。
 
 更新時も、ビルド後に同じコマンドを実行します。反映には数分かかることがあります。教材を更新するときは問題IDを保ち、内容を変えた問題の版を上げます。学習記録や入手済みの動物は公開更新で初期化しません。
 

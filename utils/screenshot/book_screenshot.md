@@ -8,7 +8,7 @@ Chrome 144 以上と Node.js 22 以上が必要です。PDF出力には下記と
 
 1. Chromeで `chrome://inspect/#remote-debugging` を開き、リモートデバッグを有効にします。
 2. 書籍の最初のページを1ページ表示にします。目次パネルを閉じ、左右に灰色の余白が見えるようにします。右矢印キーでページを送れる状態にして、最初のページに戻します。
-3. リポジトリのルートから次のコマンドを実行します。Chromeに接続許可が出たら許可し、ターミナルの一覧から書籍のタブを番号で選びます。
+3. リポジトリのルートから次のコマンドを実行します。Chromeに接続許可が出たら許可します。ターミナルにはウィンドウごとにタブのタイトルとURL全体が表示されます。書籍のタブの番号を入力して Enter を押します。
 
 ```bash
 .venv/bin/python utils/screenshot/book_screenshot.py chrome ~/Downloads/feedback-control-test --max-pages 3

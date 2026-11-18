@@ -15,7 +15,6 @@ import subprocess
 import sys
 from tempfile import TemporaryDirectory
 import time
-from urllib.parse import urlsplit
 
 import img2pdf
 from PIL import Image
@@ -215,6 +214,28 @@ def capture(args, temp, native):
   capture_pages(args, read_screen, right, check_front)
 
 
+def select_chrome_tab(tabs):
+  if not tabs:
+    raise ValueError("Chromeに撮影できるタブがありません。")
+  windows = {}
+  for tab in tabs:
+    windows.setdefault(tab.get("windowId"), []).append(tab)
+
+  choices = []
+  window_ids = sorted(windows, key=lambda window_id: (window_id is None, window_id))
+  for number, window_id in enumerate(window_ids, 1):
+    heading = f"ウィンドウ {number}" if window_id is not None else "ウィンドウが確認できなかったタブ"
+    print(f"\n{heading}")
+    for tab in windows[window_id]:
+      choices.append(tab)
+      title = " ".join(tab["title"].splitlines()).strip() or "タイトルなし"
+      print(f'  {len(choices):2}  {title}\n      {tab["url"]}')
+  answer = input("\n撮影するタブの番号を入力してください。 ")
+  if not answer.isdecimal() or not 1 <= int(answer) <= len(choices):
+    raise ValueError("一覧にあるタブの番号を指定してください。")
+  return choices[int(answer) - 1]
+
+
 def capture_chrome(args):
   command = ["node", CHROME_SOURCE]
   if args.debug_port:
@@ -238,21 +259,14 @@ def capture_chrome(args):
       return reply["result"]
 
     try:
-      tabs = request("tabs")
+      tabs = request("tabs", groupByWindow=not args.tab)
       if args.tab:
         matches = [tab for tab in tabs if tab["url"] == args.tab]
         if len(matches) != 1:
           raise ValueError("--tab とURLが一致するタブを1つ開いてください。")
         selected = matches[0]
       else:
-        if not tabs:
-          raise ValueError("Chromeに撮影できるタブがありません。")
-        for number, tab in enumerate(tabs, 1):
-          print(f'{number:2}  {tab["title"]}  {urlsplit(tab["url"]).hostname or ""}')
-        answer = input("撮影するタブの番号を入力してください。 ")
-        if not answer.isdecimal() or not 1 <= int(answer) <= len(tabs):
-          raise ValueError("一覧にあるタブの番号を指定してください。")
-        selected = tabs[int(answer) - 1]
+        selected = select_chrome_tab(tabs)
       request("attach", target=selected["targetId"])
       print(f'撮影を開始します。 {selected["title"]}', flush=True)
 

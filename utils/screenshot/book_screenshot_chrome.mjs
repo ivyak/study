@@ -95,7 +95,16 @@ try {
       switch (request.command) {
         case "tabs": {
           const { targetInfos } = await client.send("Target.getTargets", {}, undefined, 60000);
-          result = targetInfos.filter((tab) => tab.type === "page" && /^(https?|file):/.test(tab.url));
+          const tabs = targetInfos.filter((tab) => tab.type === "page" && /^(https?|file):/.test(tab.url));
+          result = request.groupByWindow ? await Promise.all(tabs.map(async (tab) => {
+            try {
+              const { windowId } = await client.send("Browser.getWindowForTarget", { targetId: tab.targetId });
+              return { ...tab, windowId };
+            } catch {
+              // A tab can close while its window is being looked up.
+              return { ...tab, windowId: null };
+            }
+          })) : tabs;
           break;
         }
         case "attach":

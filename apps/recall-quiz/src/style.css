@@ -305,5 +305,5 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 
 .history-heading .page-title { font-size: 24px; white-space: nowrap; }
 .history-pagination { display: flex; align-items: center; gap: 3px; }
-.history-pagination button { min-width: 38px; min-height: 44px; padding: 4px 8px; background: #f4e4e3; border: 0; border-radius: 10px; font-size: 24px; }
+.history-pagination button { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 0; line-height: 1; background: #f4e4e3; border: 0; border-radius: 10px; font-size: 24px; }
 .history-pagination span { min-width: 38px; text-align: center; font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }

@@ -71,6 +71,42 @@ const { createStaticServer } = require('./serve.js');
     await page.locator('[data-screen="history"]').click();
     assert.equal(await page.locator('.history-question').count(), 1);
     assert.equal(await page.locator('.history-question .result-badge').innerText(), '△');
+    assert.equal(await page.locator('.hero-note').count(), 0);
+    await page.locator('[data-screen="catalog"]').click();
+    assert.equal(await page.locator('#subject-label').count(), 0);
+    assert.equal(await page.getByText('授業回を選ぶと、その回の問題を表示します。', { exact: true }).count(), 0);
+    await page.locator('[data-open-lesson]').first().click();
+    await page.locator('.catalog-question').first().waitFor();
+    assert.equal(await page.locator('.lesson-head, .count-note, .lesson > .helper').count(), 0);
+    for (const width of [320, 390, 768]) {
+      await page.setViewportSize({ width, height: 844 });
+      const back = await page.locator('[data-catalog-back]').boundingBox();
+      const start = await page.locator('.catalog-toolbar [data-deck]').boundingBox();
+      assert.ok(start.x > back.x + back.width);
+      assert.ok(Math.abs((back.y + back.height / 2) - (start.y + start.height / 2)) < 2);
+      assert.ok(start.x + start.width <= width);
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    await page.screenshot({ path: path.resolve(__dirname, '../output/catalog-clean.png'), animations: 'disabled' });
+    await page.locator('[data-screen="calendar"]').click();
+    assert.equal(await page.locator('.calendar-panel').count(), 1);
+    assert.equal(await page.locator('#content .lead, .day-detail, .month-total').count(), 0);
+    for (const width of [320, 390, 768]) {
+      await page.setViewportSize({ width, height: 844 });
+      const title = await page.locator('.calendar-heading h1').boundingBox();
+      const today = await page.locator('.calendar-heading [data-today]').boundingBox();
+      assert.ok(today.x >= title.x + title.width);
+      assert.ok(Math.abs((title.y + title.height / 2) - (today.y + today.height / 2)) < 5);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    }
+    await page.locator('[data-month="-1"]').click();
+    await page.locator('[data-today]').click();
+    const now = new Date();
+    assert.equal(await page.locator('.month-nav h2').innerText(), `${now.getFullYear()}年${now.getMonth() + 1}月`);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    await page.screenshot({ path: path.resolve(__dirname, '../output/calendar-clean.png'), animations: 'disabled' });
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     await page.screenshot({ path: path.resolve(__dirname, '../output/published-quiz.png'), animations: 'disabled' });

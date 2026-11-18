@@ -159,7 +159,7 @@ async function chooseSubject(page, selector, title) {
     await page.getByRole('heading', { name: '学習カレンダー' }).waitFor();
     const today = new Date();
     await page.getByRole('button', { name: `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日、5回答`, exact: true }).click();
-    assert.equal(await page.locator('.day-count').innerText(), '5回回答');
+    assert.equal(await page.locator('.calendar-day[aria-pressed="true"] small').innerText(), '5回');
     await page.getByRole('button', { name: '前の月', exact: true }).click();
     assert.equal(await page.locator('.calendar-day.has-answers').count(), 0);
     assert.ok(await page.locator('.calendar-day small').evaluateAll(nodes => nodes.every(node => node.textContent === '')));
@@ -205,12 +205,6 @@ async function chooseSubject(page, selector, title) {
     // Reversing direction before a slide ends must leave the requested state intact.
     await disclosure.locator('summary').evaluate(el => { el.click(); el.click(); el.click(); });
     await page.waitForFunction(() => document.querySelector('.catalog-question').open && document.querySelector('.catalog-question .disclosure-body').getAnimations().length === 0);
-    const note = page.locator('.count-note');
-    await note.locator('summary').evaluate(el => el.click());
-    assert.ok(await note.locator('.disclosure-body').evaluate(el => el.getAnimations().length > 0));
-    await page.waitForFunction(() => document.querySelector('.count-note .disclosure-body').getAnimations().length === 0);
-    await note.locator('summary').press('Enter');
-    await page.waitForFunction(() => !document.querySelector('.count-note').open);
     for (const screen of ['calendar', 'catalog']) {
       await page.locator(`[data-screen="${screen}"]`).click();
       assert.ok(await page.locator('#content').evaluate(el => el.getAnimations().length > 0));
@@ -223,7 +217,7 @@ async function chooseSubject(page, selector, title) {
         const headerBefore = await page.locator('header').boundingBox();
         await page.locator('.scroll-region').evaluate(el => { el.scrollTop = el.scrollHeight; });
         const region = await page.locator('.scroll-region').boundingBox();
-        const last = await page.locator(screen === 'catalog' ? '.catalog-question' : '.day-detail').last().boundingBox();
+        const last = await page.locator(screen === 'catalog' ? '.catalog-question' : '.calendar-panel').last().boundingBox();
         assert.ok(last.y + last.height <= region.y + region.height - 12, `${screen} last item obscured`);
         assert.ok(region.y + region.height < bar.y, `${screen} content hidden by navigation`);
         assert.deepEqual(await page.locator('header').boundingBox(), headerBefore);
@@ -273,7 +267,7 @@ async function chooseSubject(page, selector, title) {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.reload();
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
-    assert.match(await page.locator('.month-total').innerText(), /5回/);
+    assert.equal(await page.locator('.calendar-day.has-answers').count(), 1);
     await nav.getByRole('button', { name: '一覧', exact: true }).click();
     await chooseSubject(page, '#subject', '数理統計');
     await page.locator('[data-open-lesson="statistics-lesson01"]').click();

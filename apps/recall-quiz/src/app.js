@@ -45,7 +45,7 @@
   }
   const text = (q, name) => q[`${name}Html`] ? safeMath(q[`${name}Html`]) : escape(q[name]);
   function subjectPicker(id, label, value, name) {
-    return `<div class="subject-field"><span id="${id}-label">${label}</span><button type="button" id="${id}" class="subject-picker" role="combobox" aria-label="${name}" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}-options" data-value="${escape(value)}"><span>${escape(value)}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>`;
+    return `<div class="subject-field">${label ? `<span id="${id}-label">${label}</span>` : ''}<button type="button" id="${id}" class="subject-picker" role="combobox" aria-label="${name}" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}-options" data-value="${escape(value)}"><span>${escape(value)}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>`;
   }
   function setupSubjectPickers() {
     const subjects = [...new Set(decks.map(item => item.title))];
@@ -352,16 +352,12 @@
     const year = month.getFullYear(), m = month.getMonth();
     const count = new Date(year, m + 1, 0).getDate();
     let cells = '<span class="calendar-blank" aria-hidden="true"></span>'.repeat(month.getDay());
-    let total = 0, activeDays = 0;
     for (let date = 1; date <= count; date++) {
       const key = RecallCore.day(new Date(year, m, date));
       const answers = stats.days[key] || 0;
-      total += answers;
-      if (answers) activeDays++;
       cells += `<button class="calendar-day ${answers ? 'has-answers' : ''} ${key === RecallCore.day(new Date()) ? 'is-today' : ''}" data-day="${key}" aria-pressed="${key === selectedDay}" aria-label="${year}年${m + 1}月${date}日、${answers}回答"><span>${date}</span><small>${answers ? `${answers}回` : ''}</small></button>`;
     }
-    const [sy, sm, sd] = selectedDay.split('-');
-    content.innerHTML = `<h1 class="page-title">学習カレンダー</h1><p class="lead">答え合わせを終えた回数を記録します。同じ問題の復習も1回に数えます。</p><section class="panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div><div class="month-total"><span>この月の回答 <strong>${total}回</strong></span><span>学習した日 <strong>${activeDays}日</strong></span></div><button class="quiet" data-today>今月に戻る</button></section><section class="panel day-detail"><h2>${sy}年${sm}月${sd}日</h2><p class="day-count">${stats.days[selectedDay] || 0}<span>回回答</span></p></section>`;
+    content.innerHTML = `<div class="page-heading calendar-heading"><h1 class="page-title">学習カレンダー</h1><button class="quiet" data-today>今月に戻る</button></div><section class="panel calendar-panel"><div class="month-nav"><button data-month="-1" aria-label="前の月">‹</button><h2>${year}年${m + 1}月</h2><button data-month="1" aria-label="次の月">›</button></div><div class="calendar-grid">${['日', '月', '火', '水', '木', '金', '土'].map(d => `<span class="weekday">${d}</span>`).join('')}${cells}</div></section>`;
   }
   function updateQuizTimer() {
     if (page !== 'quiz' || countdown !== null) return;
@@ -418,7 +414,7 @@
     if (!subjects.includes(subject)) subject = subjects[0];
     if (!selected) {
       const items = decks.filter(item => item.title === subject);
-      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1>${subjectPicker('subject', '教科', subject, '教科')}<p class="helper">授業回を選ぶと、その回の問題を表示します。</p><div class="lesson-grid">${items.map(item => {
+      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1>${subjectPicker('subject', '', subject, '教科')}<div class="lesson-grid">${items.map(item => {
         const label = item.subtitle || item.title;
         const [lesson, ...topic] = label.split(' · ');
         return `<button class="lesson-card" data-open-lesson="${escape(item.id)}"><span class="lesson-card-number">${escape(lesson)}</span><span>${escape(topic.join(' · '))}</span><small>${item.questionCount || item.questions?.length || 0}問<span aria-hidden="true"> →</span></small></button>`;
@@ -434,7 +430,7 @@
         if (page === 'catalog' && catalogLesson === id) render();
       }));
     }
-    const heading = `<button class="catalog-back" data-catalog-back aria-label="授業回の一覧に戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><p class="eyebrow">${escape(selected.title)}</p><h1 class="page-title">${escape(selected.subtitle || selected.title)}</h1>`;
+    const heading = `<div class="catalog-toolbar"><button class="catalog-back" data-catalog-back aria-label="授業回の一覧に戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><button class="lesson-start" data-deck="${escape(selected.id)}">この回で学習</button></div><p class="eyebrow">${escape(selected.title)}</p><h1 class="page-title">${escape(selected.subtitle || selected.title)}</h1>`;
     if (!selected.questions) {
       const error = catalogErrors.get(selected.id);
       content.innerHTML = `${heading}<div class="panel" role="status" aria-live="polite">${error ? `<p>${escape(error)}</p><button class="secondary" data-retry-lesson="${escape(selected.id)}">もう一度読み込む</button>` : '<p>問題を読み込み中…</p>'}</div>`;
@@ -448,7 +444,7 @@
       const [deckId, questionId] = JSON.parse(key);
       return deckId === selected.id && !selected.questions.some(q => q.id === questionId);
     }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
-    content.innerHTML = `${heading}<section class="lesson"><div class="lesson-head"><p class="helper">${selected.questions.length}問</p><button class="lesson-start" data-deck="${escape(selected.id)}">この回で学習</button></div><p class="helper">○は正解、△はあやふや、×はミス。問題を押すと解答が開きます。</p><details class="count-note"><summary>回数の数え方</summary>出題は問題を開いた回数です。旧版での回答も含みます。更新前の未回答の出題は記録されていません。</details>${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
+    content.innerHTML = `${heading}<section class="lesson">${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
   }
   function slideDisclosures() {
     for (const details of content.querySelectorAll('details')) {

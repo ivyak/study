@@ -21,8 +21,9 @@ import time
 
 import img2pdf
 from PIL import Image
+import pikepdf
 
-from book_screenshot_chapters import chapter_opening
+from book_screenshot_chapters import book_chapters
 from book_screenshot_chrome import ChromeConnection
 
 
@@ -368,7 +369,7 @@ def capture_chrome_batch(args, temp):
       except OSError:
         shutil.copyfile(path, combined)
     pending.rename(args.folder / "pages")
-  export_pdfs(args, temp)
+  export_pdf(args, temp)
   return 0
 
 
@@ -441,31 +442,25 @@ def chapter_spec(value):
   title = title.strip()
   if not colon or not start.isdecimal() or int(start) < 1 or not title:
     raise argparse.ArgumentTypeError("章は 12:第1章 のように、撮影順の番号と章名を指定してください。")
-  if any(char in "/\\" or ord(char) < 32 for char in title):
-    raise argparse.ArgumentTypeError("章名にはスラッシュや制御文字を使えません。")
+  if any(ord(char) < 32 for char in title):
+    raise argparse.ArgumentTypeError("章名には制御文字を使えません。")
   return int(start), title
 
 
-def find_chapters(native, pages_dir):
-  print("紙面全体を文字認識し、目次と章扉を見分けています。", flush=True)
+def find_chapters(native, pages_dir, page_count):
+  print("全ページの紙面を文字認識しています。", flush=True)
   output = subprocess.check_output([native, "chapters", pages_dir], text=True)
-  chapters = []
-  last_number = 0
-  for line in output.splitlines():
-    page = json.loads(line)
-    heading = chapter_opening(page["lines"])
-    if heading is None:
-      continue
-    number, title = heading
-    if number > last_number:
-      title = title.replace("/", " ").replace("\\", " ").strip()
-      chapters.append((page["page"], title))
-      last_number = number
-      print(f'{page["page"]} 枚目を章の開始として認識しました。{title}', flush=True)
+  pages = [json.loads(line) for line in output.splitlines()]
+  if len(pages) != page_count:
+    print(f"文字認識を利用できた画像は {len(pages)}/{page_count} 枚です。", file=sys.stderr, flush=True)
+  print("全ページの読み取りが終わりました。目次の続きと章の並びを確認しています。", flush=True)
+  chapters = book_chapters(pages)
+  for page, title in chapters:
+    print(f"{page} 枚目を章の開始として認識しました。{title}", flush=True)
   return chapters
 
 
-def export_pdfs(args, temp, native=None):
+def export_pdf(args, temp, native=None):
   pages_dir = args.folder / "pages"
   pages = sorted(path for path in pages_dir.glob("*.png") if path.is_file())
   if not pages:
@@ -481,13 +476,12 @@ def export_pdfs(args, temp, native=None):
     starts = [(index, title) for index, title in starts if index <= len(pages)]
   else:
     try:
-      starts = find_chapters(native or native_command(temp), pages_dir)
+      starts = find_chapters(native or native_command(temp), pages_dir, len(pages))
     except (OSError, subprocess.CalledProcessError, ValueError) as error:
       print(f"章の読み取りが中断されました。 {error}", file=sys.stderr)
       starts = []
   if not starts:
-    print("章の区切りが見つからなかったため、撮影分を1冊のPDFにまとめます。", flush=True)
-    starts = [(1, "全ページ")]
+    print("章の区切りが見つかりませんでした。撮影した画像はすべてPDFに入ります。", flush=True)
   elif starts[0][0] > 1:
     starts.insert(0, (1, "表紙・前付け"))
 
@@ -501,21 +495,26 @@ def export_pdfs(args, temp, native=None):
       suffix += 1
       output = args.folder / f"pdf-{suffix}"
 
-  stops = [index for index, _ in starts[1:]] + [len(pages) + 1]
-  for chapter, ((start, title), stop) in enumerate(zip(starts, stops), 1):
-    path = output / f"{chapter:02d} {title[:60]}.pdf"
-    pending = path.with_suffix(".tmp")
-    print(f"{chapter}/{len(starts)} 件目のPDFを作成しています。{start}〜{stop - 1} 枚目。", flush=True)
+  path = output / "全ページ.pdf"
+  print(f"{len(pages)} 枚を1つのPDFにまとめ、{len(starts)} 件のしおりを付けます。", flush=True)
+  with TemporaryDirectory(dir=output) as staging:
+    temporary_pdf = Path(staging) / path.name
     try:
-      with pending.open("wb") as stream:
-        img2pdf.convert([str(page) for page in pages[start - 1:stop - 1]], outputstream=stream)
-      pending.replace(path)
+      with (Path(staging) / "images.pdf").open("w+b") as stream:
+        img2pdf.convert([str(page) for page in pages], outputstream=stream)
+        stream.seek(0)
+        with pikepdf.open(stream) as document:
+          if starts:
+            with document.open_outline() as outline:
+              outline.root.extend(pikepdf.OutlineItem(title, start - 1) for start, title in starts)
+            document.Root.PageMode = pikepdf.Name.UseOutlines
+          document.save(temporary_pdf)
     except img2pdf.ImageOpenError as error:
-      raise ValueError(f"{start}〜{stop - 1} 枚目のどれかを開けませんでした。 {error}") from error
-    finally:
-      pending.unlink(missing_ok=True)
-    print(f"{start}〜{stop - 1} 枚目を保存しました。 {path}", flush=True)
-  print(f"PDFの作成が完了しました。保存先は {output} です。", flush=True)
+      raise ValueError(f"撮影画像を開けませんでした。 {error}") from error
+    except pikepdf.PdfError as error:
+      raise ValueError(f"PDFのしおりを書き込めませんでした。 {error}") from error
+    temporary_pdf.replace(path)
+  print(f"PDFの作成が完了しました。保存先は {path} です。", flush=True)
 
 
 def positive_integer(value):
@@ -551,7 +550,7 @@ def destination_error(args):
 
 
 def main():
-  parser = argparse.ArgumentParser(description="macOSで書籍ビューアを撮影し、章ごとにPDFにまとめます。")
+  parser = argparse.ArgumentParser(description="macOSで書籍ビューアを撮影し、章のしおり付きPDFにまとめます。")
   commands = parser.add_subparsers(dest="command", required=True)
   capture_parser = commands.add_parser("capture", help="撮影してPDFにまとめる")
   chrome_parser = commands.add_parser("chrome", help="Chromeの指定タブを撮影してPDFにまとめる")
@@ -612,7 +611,7 @@ def main():
             awake.terminate()
         if not captured:
           return 1
-      export_pdfs(args, temp, native)
+      export_pdf(args, temp, native)
       return int(capture_failed)
   except (OSError, ValueError, subprocess.SubprocessError) as error:
     print(error, file=sys.stderr)

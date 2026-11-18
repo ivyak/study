@@ -51,27 +51,33 @@ def is_contents(lines):
   return leaders >= 4 or (len(numbered_sections) >= 3 and aligned_folios >= 4)
 
 
-def chapter_opening(raw_lines):
-  lines = [Line(**{**item, "text": " ".join(item["text"].split())}) for item in raw_lines]
-  lines = [line for line in lines if line.text]
-  if not lines or is_contents(lines):
+def chapter_opening(lines):
+  if not lines:
     return None
 
   body_heights = [line.height for line in lines if line.y > 0.38 and len(line.text) >= 4]
   body_height = median(body_heights) if body_heights else 0.019
   title_height = max(0.023, body_height * 1.23)
   upper = [line for line in lines if 0.075 <= line.y <= 0.38]
+  first_subsections = [
+    (line.y, int(match[1])) for line in lines
+    if (match := SECTION.match(line.text)) and match[2] == "1"
+  ]
   explicit = []
   for line in upper:
     if line.height < title_height:
       continue
     match = EXPLICIT.match(line.text)
     if match:
-      explicit.append((int(match[1] or match[2]), line.text))
+      number = int(match[1] or match[2])
+      strength = 3 if any(n == number and y > line.y for y, n in first_subsections) else 2
+      explicit.append((number, line.text, strength))
       continue
     match = NUMBERED.match(line.text)
     if match and not SECTION.match(line.text):
-      explicit.append((int(match[1]), line.text))
+      number = int(match[1])
+      strength = 3 if any(n == number and y > line.y for y, n in first_subsections) else 1
+      explicit.append((number, line.text, strength))
   if explicit:
     return explicit[0] if len(explicit) == 1 else None
 
@@ -98,8 +104,7 @@ def chapter_opening(raw_lines):
     and FOLIO.fullmatch(line.text) and 1 <= int(line.text) <= 99
   ]
   subsection_numbers = {
-    int(match[1]) for line in lines
-    if first_title.y + 0.09 <= line.y <= 0.83 and (match := SECTION.match(line.text)) and match[2] == "1"
+    number for y, number in first_subsections if first_title.y + 0.09 <= y <= 0.83
   }
   numbers = set(large_numbers) or subsection_numbers
   if len(numbers) != 1 or (large_numbers and subsection_numbers and numbers.isdisjoint(subsection_numbers)):
@@ -110,4 +115,54 @@ def chapter_opening(raw_lines):
     if title and title[-1].isascii() and line.text[0].isascii():
       title += " "
     title += line.text
-  return number, f"{number}. {title}"
+  strength = 3 if large_numbers and number in subsection_numbers else 2
+  return number, f"{number}. {title}", strength
+
+
+def book_chapters(pages):
+  contents = set()
+  candidates = []
+  for page in sorted(pages, key=lambda item: item["page"]):
+    index = page["page"]
+    lines = [Line(**{**item, "text": " ".join(item["text"].split())}) for item in page["lines"]]
+    lines = [line for line in lines if line.text]
+    if is_contents(lines):
+      contents.add(index)
+    else:
+      heading = chapter_opening(lines)
+      if heading is not None:
+        candidates.append((index, *heading))
+
+  # A sparse page between two contents pages can look like a chapter when read alone.
+  candidates = [
+    candidate for candidate in candidates
+    if not (candidate[0] - 1 in contents and candidate[0] + 1 in contents)
+  ]
+  if not candidates:
+    return []
+
+  # Rank ordered sequences across the whole book so that an early false match does
+  # not cause later, consecutive chapter openings to be dropped.
+  scores = []
+  previous = []
+  for current, (_, number, _, strength) in enumerate(candidates):
+    best_score = strength + (2 if number == 1 else 0)
+    predecessor = None
+    for earlier in range(current):
+      gap = number - candidates[earlier][1] - 1
+      if gap < 0:
+        continue
+      transition = 2 if gap == 0 else -min(gap, 4)
+      score = scores[earlier] + strength + transition
+      if score > best_score:
+        best_score, predecessor = score, earlier
+    scores.append(best_score)
+    previous.append(predecessor)
+
+  current = max(range(len(scores)), key=scores.__getitem__)
+  chapters = []
+  while current is not None:
+    page, _, title, _ = candidates[current]
+    chapters.append((page, title))
+    current = previous[current]
+  return list(reversed(chapters))

@@ -34,7 +34,7 @@ const { createStaticServer } = require('./serve.js');
     assert.equal(new Set(colors).size, 3);
     assert.equal(await page.locator('[data-timer-seconds]').innerText(), '15秒');
     const source = page.locator('.source-toggle').first();
-    await source.locator('summary').click();
+    await source.locator(':scope > summary').click();
     await source.locator('img').evaluate(image => image.complete && image.naturalWidth ? null : new Promise((resolve, reject) => {
       image.onload = resolve;
       image.onerror = () => reject(Error('原典画像を読み込めません。'));
@@ -71,6 +71,16 @@ const { createStaticServer } = require('./serve.js');
     await page.locator('[data-screen="history"]').click();
     assert.equal(await page.locator('.history-question').count(), 1);
     assert.equal(await page.locator('.history-question .result-badge').innerText(), '△');
+    assert.equal(await page.locator('#content .lead, #content > .helper').count(), 0);
+    await page.locator('.history-question > summary').click();
+    const historySource = page.locator('.history-question .source-toggle').first();
+    await historySource.locator(':scope > summary').click();
+    await historySource.locator('img').evaluate(image => image.complete && image.naturalWidth ? null : new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = () => reject(Error('回答履歴の原典を読み込めません。'));
+    }));
+    await historySource.locator('[data-zoom="25"]').click();
+    assert.equal(await historySource.locator('output').innerText(), '125%');
     assert.equal(await page.locator('.hero-note').count(), 0);
     await page.locator('[data-screen="catalog"]').click();
     assert.equal(await page.locator('#subject-label').count(), 0);
@@ -78,6 +88,18 @@ const { createStaticServer } = require('./serve.js');
     await page.locator('[data-open-lesson]').first().click();
     await page.locator('.catalog-question').first().waitFor();
     assert.equal(await page.locator('.lesson-head, .count-note, .lesson > .helper').count(), 0);
+    const question = page.locator('.catalog-question').first();
+    await question.locator(':scope > summary').click();
+    const catalogSource = question.locator('.source-toggle').first();
+    await catalogSource.locator(':scope > summary').click();
+    await catalogSource.locator('img').evaluate(image => image.complete && image.naturalWidth ? null : new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = () => reject(Error('一覧の原典を読み込めません。'));
+    }));
+    await catalogSource.locator('[data-zoom="25"]').click();
+    assert.equal(await catalogSource.locator('output').innerText(), '125%');
+    await catalogSource.locator('[data-zoom="reset"]').click();
+    await question.locator(':scope > summary').click();
     for (const width of [320, 390, 768]) {
       await page.setViewportSize({ width, height: 844 });
       const back = await page.locator('[data-catalog-back]').boundingBox();

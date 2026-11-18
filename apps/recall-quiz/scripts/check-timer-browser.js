@@ -66,7 +66,7 @@ const { createStaticServer } = require('./serve.js');
     await page.locator('[data-screen="history"]').click();
     assert.equal(await page.locator('.history-question').count(), 2);
     assert.equal(await page.locator('.history-question').first().locator('.result-badge').innerText(), '△');
-    await page.locator('.history-question').first().locator('summary').click();
+    await page.locator('.history-question').first().locator(':scope > summary').click();
     await page.locator('.history-question[open] .catalog-answer .math-text').first().waitFor();
     const review = state.reviews[1];
     await page.locator('[data-screen="catalog"]').click();
@@ -77,7 +77,7 @@ const { createStaticServer } = require('./serve.js');
     await page.locator('.catalog-question').first().waitFor();
     const stats = await page.locator('.catalog-question').filter({ has: page.locator('[aria-label="あやふや1回"]') }).count();
     assert.equal(stats, 1);
-    // Keep more than thirty answers in storage while displaying only the latest thirty.
+    // Every saved answer remains available in ten-answer pages.
     await page.evaluate(async () => {
       const backup = await window.RecallRuntime.export();
       const sample = backup.state.reviews[1];
@@ -88,8 +88,35 @@ const { createStaticServer } = require('./serve.js');
     });
     await page.reload();
     await page.locator('[data-screen="history"]').click();
-    assert.equal(await page.locator('.history-question').count(), 30);
+    assert.equal(await page.locator('.history-question').count(), 10);
     assert.equal(await page.locator('.history-question').first().locator('.result-badge').innerText(), '△');
+    assert.equal(await page.getByRole('button', { name: '前の10問', exact: true }).isDisabled(), true);
+    await page.locator('.history-question .source-toggle').first().waitFor({ state: 'attached' });
+    await page.locator('.history-question').first().locator(':scope > summary').click();
+    const historicalSource = page.locator('.history-question').first().locator('.source-toggle').first();
+    await historicalSource.waitFor();
+    await historicalSource.locator(':scope > summary').click();
+    await historicalSource.locator('img').evaluate(image => image.complete && image.naturalWidth ? null : new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = () => reject(Error('履歴の原典画像を読み込めません。'));
+    }));
+    await page.getByRole('button', { name: '次の10問', exact: true }).click();
+    assert.equal(await page.locator('.history-question').count(), 10);
+    assert.equal(await page.locator('.history-question .question-number').first().innerText(), '11');
+    assert.equal(new URL(page.url()).searchParams.get('historyPage'), '2');
+    await page.reload();
+    await page.locator('.history-question').first().waitFor();
+    assert.equal(await page.locator('.history-question .question-number').first().innerText(), '11');
+    await page.getByRole('button', { name: '次の10問', exact: true }).click();
+    assert.equal(await page.locator('.history-question .question-number').first().innerText(), '21');
+    await page.getByRole('button', { name: '次の10問', exact: true }).click();
+    assert.equal(await page.locator('.history-question').count(), 5);
+    assert.equal(await page.locator('.history-question .question-number').first().innerText(), '31');
+    assert.equal(await page.getByRole('button', { name: '次の10問', exact: true }).isDisabled(), true);
+    await page.goBack();
+    assert.equal(await page.locator('.history-question .question-number').first().innerText(), '21');
+    await page.getByRole('button', { name: '前の10問', exact: true }).click();
+    await page.getByRole('button', { name: '前の10問', exact: true }).click();
     for (const width of [320, 390, 768]) {
       await page.setViewportSize({ width, height: 844 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
@@ -102,10 +129,10 @@ const { createStaticServer } = require('./serve.js');
     await page.screenshot({ path: path.resolve(__dirname, '../output/quiz-history.png'), animations: 'disabled' });
     await page.reload();
     await page.locator('.history-question').first().waitFor();
-    assert.equal(await page.locator('.history-question').count(), 30);
+    assert.equal(await page.locator('.history-question').count(), 10);
     assert.equal((await page.evaluate(() => window.RecallRuntime.snapshot())).state.reviews.length, 35);
     assert.deepEqual(errors, []);
-    console.log('開始前のカウントダウン、15秒タイマーの色変更とスクロール中の固定、自動解答、自動進行、あやふや、一覧の△、直近30問の履歴と再読込を確認しました。');
+    console.log('開始前のカウントダウン、15秒タイマーの色変更とスクロール中の固定、自動解答、自動進行、あやふや、一覧の△、10問ずつの履歴ページ、履歴の原典、再読込を確認しました。');
   } finally {
     await browser.close();
     await new Promise(resolve => server.close(resolve));

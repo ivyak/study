@@ -7,6 +7,7 @@
   let month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let selectedDay = RecallCore.day(new Date()), subject = new URLSearchParams(location.search).get('subject') || '';
   let catalogLesson = new URLSearchParams(location.search).get('lesson') || '';
+  let historyPage = Math.max(1, parseInt(new URLSearchParams(location.search).get('historyPage'), 10) || 1);
   let studySubject = boot.decks[0].title;
   const catalogErrors = new Map();
   let quizTimer = null, countdown = null;
@@ -230,9 +231,9 @@
       <g fill="#efdfb7"><circle cx="220" cy="642" r="3"/><circle cx="233" cy="648" r="2"/><circle cx="216" cy="655" r="2"/><circle cx="509" cy="846" r="3"/><circle cx="524" cy="849" r="2"/></g>
     </svg>`;
   }
-  function sourceToggles(q) {
-    return q.sources.map(source => source.imageKey && deck.sourceImages && deck.sourceImages[source.imageKey] ?
-      `<details class="source-toggle" data-source="${escape(source.imageKey)}" data-scale="100"><summary>原典を見る（p.${source.page}）</summary><p class="source-caption">${escape(source.file)} · p.${source.page}</p><div class="source-zoom-controls"><button type="button" data-zoom="-25" aria-label="原典を縮小（p.${source.page}）">−</button><input type="range" min="50" max="300" step="25" value="100" aria-label="原典の表示倍率（p.${source.page}）"><button type="button" data-zoom="25" aria-label="原典を拡大（p.${source.page}）">＋</button><output>100%</output><button type="button" data-zoom="reset">全体</button></div><div class="source-viewport"><img alt="${escape(source.file)} p.${source.page} の原典ページ"></div><p class="helper">拡大後は画像内を上下左右にスクロールできます。</p></details>` : '').join('');
+  function sourceToggles(q, sourceDeck = deck) {
+    return q.sources.map(source => source.imageKey && sourceDeck.sourceImages?.[source.imageKey] ?
+      `<details class="source-toggle" data-source="${escape(source.imageKey)}" data-source-url="${escape(sourceDeck.sourceImages[source.imageKey])}" data-scale="100"><summary>原典を見る（p.${source.page}）</summary><p class="source-caption">${escape(source.file)} · p.${source.page}</p><div class="source-zoom-controls"><button type="button" data-zoom="-25" aria-label="原典を縮小（p.${source.page}）">−</button><input type="range" min="50" max="300" step="25" value="100" aria-label="原典の表示倍率（p.${source.page}）"><button type="button" data-zoom="25" aria-label="原典を拡大（p.${source.page}）">＋</button><output>100%</output><button type="button" data-zoom="reset">全体</button></div><div class="source-viewport"><img alt="${escape(source.file)} p.${source.page} の原典ページ"></div><p class="helper">拡大後は画像内を上下左右にスクロールできます。</p></details>` : '').join('');
   }
   function renderQuiz() {
     if (countdown !== null) {
@@ -373,7 +374,10 @@
     if (remaining === 0 && !busy) act('timeout', { eventId: `${s.id}:${s.index}`, answerShown: s.answerShown });
   }
   function renderHistory() {
-    const reviews = [...state.reviews].reverse().sort((a, b) => Date.parse(b.reviewedAt) - Date.parse(a.reviewedAt)).slice(0, 30);
+    const ordered = [...state.reviews].reverse().sort((a, b) => Date.parse(b.reviewedAt) - Date.parse(a.reviewedAt));
+    const pageCount = Math.max(1, Math.ceil(ordered.length / 10));
+    const offset = (historyPage - 1) * 10;
+    const reviews = ordered.slice(offset, offset + 10);
     for (const review of reviews) {
       const item = decks.find(item => item.id === review.deckId);
       if (!item || item.questions || catalogRequests.has(item.id) || catalogErrors.has(item.id)) continue;
@@ -388,9 +392,10 @@
       const item = decks.find(item => item.id === review.deckId);
       const q = item?.questions?.find(q => q.id === review.questionId && q.version === review.questionVersion);
       const result = review.result === 'good' ? ['correct', '○', '思い出せた'] : review.result === 'uncertain' ? ['uncertain', '△', 'あやふや'] : ['mistake', '×', '出なかった'];
-      return `<details class="catalog-question history-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
+      return `<details class="catalog-question history-question"><summary><span class="question-number">${offset + index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, item)}</div>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
     }).join('');
-    content.innerHTML = `<h1 class="page-title">回答履歴</h1><p class="lead">直近30問を新しい順に表示します。</p><p class="helper">○は思い出せた、△はあやふや、×は出なかった。問題を押すと解答が開きます。</p>${rows || '<div class="panel">まだ回答履歴がありません。</div>'}`;
+    const pagination = pageCount > 1 ? `<nav class="history-pagination" aria-label="回答履歴のページ"><button data-history-page="${historyPage - 1}" aria-label="前の10問" ${historyPage === 1 ? 'disabled' : ''}>‹</button><span aria-live="polite" aria-label="${historyPage}ページ目、全${pageCount}ページ">${historyPage} / ${pageCount}</span><button data-history-page="${historyPage + 1}" aria-label="次の10問" ${historyPage === pageCount ? 'disabled' : ''}>›</button></nav>` : '';
+    content.innerHTML = `<div class="page-heading history-heading"><h1 class="page-title">回答履歴</h1>${pagination}</div>${rows || '<div class="panel">まだ回答履歴がありません。</div>'}`;
   }
   function resultCounts(n) {
     return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge uncertain" aria-label="あやふや${n.uncertain}回"><span class="result-symbol" aria-hidden="true">△</span><strong aria-hidden="true">${n.uncertain}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
@@ -438,7 +443,7 @@
     }
     const rows = selected.questions.map((q, index) => {
       const n = RecallCore.questionStatistics(stats, selected.id, q.id);
-      return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p></div></details>`;
+      return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, selected)}</div></div></details>`;
     }).join('');
     const retired = Object.entries(stats.questions).filter(([key]) => {
       const [deckId, questionId] = JSON.parse(key);
@@ -553,6 +558,7 @@
   }
   function render() {
     clearInterval(quizTimer);
+    historyPage = Math.min(historyPage, Math.max(1, Math.ceil(state.reviews.length / 10)));
     document.body.classList.toggle('garden-mode', page === 'garden');
     const activeQuiz = page === 'quiz' && (countdown !== null || (state.session && !state.session.closed && state.session.index < state.session.queue.length));
     document.body.classList.toggle('quiz-active', Boolean(activeQuiz));
@@ -565,6 +571,8 @@
     if (/^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
       url.searchParams.set('screen', page);
+      if (page === 'history' && historyPage > 1) url.searchParams.set('historyPage', String(historyPage));
+      else url.searchParams.delete('historyPage');
       if (page === 'catalog') {
         if (catalogLesson) url.searchParams.set('lesson', catalogLesson);
         else url.searchParams.delete('lesson');
@@ -597,7 +605,7 @@
         if (section) section.insertAdjacentHTML('beforeend', `<div class="source-toggles">${sourceToggles(q)}</div>`);
       }
     }
-    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${subject}:${catalogLesson}`;
+    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${subject}:${catalogLesson}:${historyPage}`;
     if (key !== renderedKey) {
       const changedPage = page !== renderedPage;
       if (content.getAnimations) content.getAnimations().forEach(animation => animation.cancel());
@@ -635,7 +643,7 @@
       }
       toggle.addEventListener('toggle', () => {
         if (!toggle.open) { image.removeAttribute('src'); return; }
-        const url = deck.sourceImages[toggle.dataset.source];
+        const url = toggle.dataset.sourceUrl;
         if (/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url || '') || /^\.\/assets\/sources\/[a-f0-9]{64}-\d+\.png$/.test(url || '')) image.src = url;
       });
       slider.oninput = () => zoom(Number(slider.value));
@@ -655,6 +663,14 @@
     const today = content.querySelector('[data-today]');
     if (today) today.onclick = () => { month = new Date(new Date().getFullYear(), new Date().getMonth(), 1); selectedDay = RecallCore.day(new Date()); render(); };
     setupSubjectPickers();
+    content.querySelectorAll('[data-history-page]').forEach(button => button.onclick = () => {
+      if (busy) return;
+      historyPage = Number(button.dataset.historyPage);
+      const url = new URL(location.href);
+      url.searchParams.set('historyPage', String(historyPage));
+      history.pushState(null, '', url);
+      render();
+    });
     content.querySelectorAll('[data-open-lesson]').forEach(button => button.onclick = () => catalogNavigate(button.dataset.openLesson));
     const back = content.querySelector('[data-catalog-back]');
     if (back) back.onclick = () => catalogNavigate();
@@ -691,7 +707,7 @@
     if (button.dataset.screen === 'quiz') { act('home'); return; }
     page = button.dataset.screen;
     if (page === 'catalog') catalogLesson = '';
-    if (page === 'history') catalogErrors.clear();
+    if (page === 'history') { historyPage = 1; catalogErrors.clear(); }
     if (page === 'calendar') {
       const today = new Date();
       month = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -714,6 +730,7 @@
     const requested = params.get('screen');
     page = ['garden', 'settings', 'calendar', 'catalog', 'history'].includes(requested) ? requested : 'quiz';
     catalogLesson = params.get('lesson') || '';
+    historyPage = Math.max(1, parseInt(params.get('historyPage'), 10) || 1);
     subject = params.get('subject') || '';
     render();
   });

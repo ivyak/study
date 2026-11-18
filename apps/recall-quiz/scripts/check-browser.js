@@ -62,7 +62,7 @@ async function chooseSubject(page, selector, title) {
     await page.locator('.answer-reveal').waitFor();
     assert.ok(await page.locator('.answer-reveal').evaluate(el => el.getAnimations().length > 0));
     const source = page.locator('.source-toggle').first();
-    const summary = source.locator('summary');
+    const summary = source.locator(':scope > summary');
     async function waitForSource() {
       await page.waitForFunction(() => {
         const image = document.querySelector('.source-toggle[open] img');
@@ -193,17 +193,17 @@ async function chooseSubject(page, selector, title) {
     await page.locator('.catalog-question').first().getByLabel('ミス1回', { exact: true }).waitFor();
     assert.notEqual(await page.locator('.correct').first().evaluate(el => getComputedStyle(el).color), await page.locator('.mistake').first().evaluate(el => getComputedStyle(el).color));
     const disclosure = page.locator('.catalog-question').first();
-    await disclosure.locator('summary').evaluate(el => el.click());
-    assert.ok(await disclosure.locator('.disclosure-body').evaluate(el => el.getAnimations().length > 0));
+    await disclosure.locator(':scope > summary').evaluate(el => el.click());
+    assert.ok(await disclosure.locator(':scope > .disclosure-body').evaluate(el => el.getAnimations().length > 0));
     await page.waitForFunction(() => document.querySelector('.catalog-question .disclosure-body').getAnimations().length === 0);
     assert.ok(await page.locator('.catalog-question[open] math').count() > 0);
     const expandedHeight = (await disclosure.boundingBox()).height;
-    await disclosure.locator('summary').evaluate(el => el.click());
-    assert.ok(await disclosure.locator('.disclosure-body').evaluate(el => el.getAnimations().length > 0));
+    await disclosure.locator(':scope > summary').evaluate(el => el.click());
+    assert.ok(await disclosure.locator(':scope > .disclosure-body').evaluate(el => el.getAnimations().length > 0));
     await page.waitForFunction(() => !document.querySelector('.catalog-question').open);
     assert.ok((await disclosure.boundingBox()).height < expandedHeight);
     // Reversing direction before a slide ends must leave the requested state intact.
-    await disclosure.locator('summary').evaluate(el => { el.click(); el.click(); el.click(); });
+    await disclosure.locator(':scope > summary').evaluate(el => { el.click(); el.click(); el.click(); });
     await page.waitForFunction(() => document.querySelector('.catalog-question').open && document.querySelector('.catalog-question .disclosure-body').getAnimations().length === 0);
     for (const screen of ['calendar', 'catalog']) {
       await page.locator(`[data-screen="${screen}"]`).click();
@@ -260,7 +260,7 @@ async function chooseSubject(page, selector, title) {
     await page.setViewportSize({ width: 402, height: 874 });
     await page.locator('.scroll-region').evaluate(el => { el.scrollTop = 0; });
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.locator('.catalog-question').first().locator('summary').evaluate(el => el.click());
+    await page.locator('.catalog-question').first().locator(':scope > summary').evaluate(el => el.click());
     assert.equal(await page.locator('.catalog-question .disclosure-body').first().evaluate(el => el.getAnimations().length), 0);
     await page.getByRole('button', { name: 'カレンダー', exact: true }).click();
     assert.equal(await page.locator('#content').evaluate(el => el.getAnimations().length), 0);

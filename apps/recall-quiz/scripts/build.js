@@ -33,8 +33,9 @@ function compile(file) {
       if (hash !== source.sha256) throw Error(`原資料が変更されています。再確認してください：${source.file}`);
     }
   }
-  for (const q of deck.questions) {
+  for (const q of [...deck.questions, ...(deck.retiredQuestions || [])]) {
     for (const key of ['prompt', 'answer', 'criterion', 'explanation']) q[`${key}Html`] = render(q[key]);
+    if (q.promptBlocks) q.promptHtml = answers.render(q.promptBlocks, render, { allowBlanks: true });
     if (q.answerBlocks) q.answerHtml = answers.render(q.answerBlocks, render);
     if (deck.sourceManifest) for (const ref of q.sources) {
       const source = deck.sourceManifest.find(s => path.basename(s.file) === ref.file);
@@ -72,7 +73,7 @@ const gardenAssets = Object.fromEntries(core.shop.map(item => {
   return [item.asset, `./${file}`];
 }));
 const manifest = { defaultDeckId: deck.id, decks: decks.map(item => ({ id: item.id, version: item.version,
-  title: item.title, subtitle: item.subtitle, scope: item.scope, questionCount: item.questions.length,
+  title: item.title, subtitle: item.subtitle, scope: item.scope, studyType: item.studyType || 'knowledge', questionCount: item.questions.length,
   file: `./decks/${item.id}.json` })) };
 fs.writeFileSync(path.join(output, 'decks/manifest.json'), JSON.stringify(manifest, null, 2));
 const runtime = read('storage.js') + '\n' + read('web.js') + '\n' +

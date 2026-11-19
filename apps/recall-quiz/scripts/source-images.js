@@ -10,7 +10,7 @@ function addSourceImages(deck, root, repo) {
   const images = {};
   for (const source of deck.sourceManifest) {
     if (!/^[a-f0-9]{64}$/.test(source.sha256 || '')) throw Error('原資料のハッシュを確認してください。');
-    const refs = deck.questions.flatMap(q => q.sources).filter(ref => ref.file === path.basename(source.file));
+    const refs = [...deck.questions, ...(deck.retiredQuestions || [])].flatMap(q => q.sources).filter(ref => ref.file === path.basename(source.file));
     const pages = [...new Set(refs.map(ref => ref.page))];
     if (!pages.length) continue;
     const pdf = path.resolve(repo, source.file);

@@ -36,16 +36,18 @@ const RecallWeb = (() => {
     }
     async studyDeck(scope) {
       if (!scope || !['all', 'subject', 'lesson'].includes(scope.type)) throw Error('出題範囲を選んでください。');
-      const entries = this.catalog.filter(item => scope.type === 'all' ||
-        (scope.type === 'subject' ? item.title === scope.title : item.id === scope.id));
+      const studyType = scope.studyType || (scope.type === 'lesson' ? this.catalog.find(item => item.id === scope.id)?.studyType : null) || 'knowledge';
+      const entries = this.catalog.filter(item => (item.studyType || 'knowledge') === studyType && (scope.type === 'all' ||
+        (scope.type === 'subject' ? item.title === scope.title : item.id === scope.id)));
       if (!entries.length) throw Error('この範囲の教材が見つかりません。');
       const decks = await Promise.all(entries.map(item => this.loadDeck(item.id)));
       return {
         id: scope.type === 'lesson' ? scope.id : `study-${scope.type}`,
         title: scope.type === 'all' ? '全教科' : decks[0].title,
-        studyScope: scope,
+        studyScope: scope, studyType,
         questions: decks.flatMap(deck => deck.questions.map(q => ({ ...q, deckId: deck.id }))),
-        sourceImages: Object.assign({}, ...decks.map(deck => deck.sourceImages || {}))
+        sourceImages: Object.assign({}, ...decks.map(deck => deck.sourceImages || {})),
+        retiredQuestions: decks.flatMap(deck => (deck.retiredQuestions || []).map(q => ({ ...q, deckId: deck.id })))
       };
     }
     async sessionDeck(state, selectedDeckId) {

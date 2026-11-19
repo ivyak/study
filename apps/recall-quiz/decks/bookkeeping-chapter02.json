@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "bookkeeping-chapter02",
-  "version": 2,
+  "version": 3,
   "title": "特殊講義−実践簿記Ⅳ",
-  "subtitle": "第2章 · 工業簿記における記帳",
-  "scope": "指定フォルダの7枚の画像に写る本文・勘定図・範例2-1〜2-4を対象とする。個別原価計算の手続、材料費・労務費・経費、製造間接費の配賦、完成・販売、勘定残高と原価計算表の関係を問う。印刷ページ11は未提供。参照先の練習問題2-1〜2-5の問題文は未提供なので、それら固有の条件は対象外。出典のpageは画像を1ページと数えた番号であり、教材の印刷ページ番号ではない。勘定残高の式は、掲載された勘定図の借方・貸方の関係から整理した。提供画像に写る範囲の基本的な処理を29問で扱う。",
+  "subtitle": "第2章 · 用語と知識",
+  "scope": "第2章の説明欄にある用語と知識を、定義を答える22問で確認する。範例2-1〜2-4は別の演習問題教材で扱う。印刷ページ11と練習問題2-1〜2-5の問題文は未提供。出典のpageは画像1枚を1ページと数えた番号。",
   "sourceManifest": [
     {
       "file": "Kyoto_Univ/[2026後期木５]特殊講義−実践簿記Ⅳ/out/第2章/IMG_3938.png",
@@ -71,6 +71,317 @@
     }
   ],
   "questions": [
+    {
+      "id": "bookkeeping-c02-definition-job-costing",
+      "version": 1,
+      "prompt": "個別原価計算とは何か？",
+      "answer": "製造指図書ごとに製造原価を集計して、製品の原価を計算する方法。",
+      "criterion": "製造指図書ごとに製造原価を集計して、製品の原価を計算する方法。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-custom-production",
+      "version": 1,
+      "prompt": "個別受注生産とは何か？",
+      "answer": "顧客の注文に応じて、特定の製品を個別に生産すること。",
+      "criterion": "顧客の注文に応じて、特定の製品を個別に生産すること。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-production-order",
+      "version": 1,
+      "prompt": "製造指図書とは何か？",
+      "answer": "製品の製造にあたり、製造方法、順序、数量、納期などを工場に指示する書類。",
+      "criterion": "製品の製造にあたり、製造方法、順序、数量、納期などを工場に指示する書類。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-order-number",
+      "version": 1,
+      "prompt": "製造指図書番号とは何か？",
+      "answer": "製造指図書に付ける番号。個別原価計算では、この番号で製品を区別する。",
+      "criterion": "製造指図書に付ける番号。個別原価計算では、この番号で製品を区別する。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-cost-sheet",
+      "version": 1,
+      "prompt": "原価計算表とは何か？",
+      "answer": "製造指図書ごとに作成し、その製品の直接材料費、直接労務費、直接経費、製造間接費を集計する表。",
+      "criterion": "製造指図書ごとに作成し、その製品の直接材料費、直接労務費、直接経費、製造間接費を集計する表。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-direct-cost",
+      "version": 1,
+      "prompt": "製造直接費とは何か？",
+      "answer": "特定の製品の製造にいくら使ったかを直接把握できる原価。直接材料費、直接労務費、直接経費からなる。",
+      "criterion": "特定の製品の製造にいくら使ったかを直接把握できる原価。直接材料費、直接労務費、直接経費からなる。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-overhead",
+      "version": 1,
+      "prompt": "製造間接費とは何か？",
+      "answer": "複数の製品に共通して発生し、特定の製品に直接結び付けられない原価。一定の基準で各製品に配賦する。",
+      "criterion": "複数の製品に共通して発生し、特定の製品に直接結び付けられない原価。一定の基準で各製品に配賦する。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-tracing",
+      "version": 1,
+      "prompt": "賦課とは何か？",
+      "answer": "製造直接費を、その消費額に基づいて特定の製品に直接負担させること。",
+      "criterion": "製造直接費を、その消費額に基づいて特定の製品に直接負担させること。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-allocation",
+      "version": 1,
+      "prompt": "配賦とは何か？",
+      "answer": "製造間接費を、一定の基準によって各製品に負担させること。",
+      "criterion": "製造間接費を、一定の基準によって各製品に負担させること。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3943.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-work-in-process",
+      "version": 1,
+      "prompt": "仕掛品とは何か？",
+      "answer": "製造途中で、まだ完成していない製品。",
+      "criterion": "製造途中で、まだ完成していない製品。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-finished-cost",
+      "version": 1,
+      "prompt": "完成品原価とは何か？",
+      "answer": "完成した製品の原価計算表に集計された製造原価の合計額。",
+      "criterion": "完成した製品の原価計算表に集計された製造原価の合計額。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3944.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-unfinished-cost",
+      "version": 1,
+      "prompt": "仕掛品原価とは何か？",
+      "answer": "まだ完成していない製品の原価計算表に集計された製造原価。",
+      "criterion": "まだ完成していない製品の原価計算表に集計された製造原価。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3938.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-factory-payroll",
+      "version": 1,
+      "prompt": "賃金給料とは何か？",
+      "answer": "工場の従業員に対する給与。",
+      "criterion": "工場の従業員に対する給与。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-materials-account",
+      "version": 1,
+      "prompt": "材料勘定とは何か？",
+      "answer": "材料の購入と消費を記録する勘定。",
+      "criterion": "材料の購入と消費を記録する勘定。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-payroll-account",
+      "version": 1,
+      "prompt": "賃金給料勘定とは何か？",
+      "answer": "賃金給料の支払いと消費を記録する勘定。",
+      "criterion": "賃金給料の支払いと消費を記録する勘定。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-expenses-account",
+      "version": 1,
+      "prompt": "経費勘定とは何か？",
+      "answer": "経費の発生と消費を記録する勘定。",
+      "criterion": "経費の発生と消費を記録する勘定。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-overhead-account",
+      "version": 1,
+      "prompt": "製造間接費勘定とは何か？",
+      "answer": "製造間接費の発生と配賦を記録する勘定。",
+      "criterion": "製造間接費の発生と配賦を記録する勘定。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-wip-account",
+      "version": 1,
+      "prompt": "仕掛品勘定とは何か？",
+      "answer": "製品の製造に要した製造原価を集計する勘定。完成した分は製品勘定へ振り替える。",
+      "criterion": "製品の製造に要した製造原価を集計する勘定。完成した分は製品勘定へ振り替える。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-products-account",
+      "version": 1,
+      "prompt": "製品勘定とは何か？",
+      "answer": "完成品原価を記録する勘定。販売した分は売上原価勘定へ振り替える。",
+      "criterion": "完成品原価を記録する勘定。販売した分は売上原価勘定へ振り替える。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-cogs-account",
+      "version": 1,
+      "prompt": "売上原価勘定とは何か？",
+      "answer": "販売した製品の原価を記録する勘定。",
+      "criterion": "販売した製品の原価を記録する勘定。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-simultaneous-method",
+      "version": 1,
+      "prompt": "両建法とは何か？",
+      "answer": "製品の販売時に、売上高に関する仕訳と、その売上原価に関する仕訳を同時に行う方法。",
+      "criterion": "製品の販売時に、売上高に関する仕訳と、その売上原価に関する仕訳を同時に行う方法。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3945.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-definition-carried-balance",
+      "version": 1,
+      "prompt": "次月繰越とは何か？",
+      "answer": "勘定を締め切るとき、残高を翌月へ繰り越すために記入する項目。",
+      "criterion": "勘定を締め切るとき、残高を翌月へ繰り越すために記入する項目。",
+      "explanation": "",
+      "sources": [
+        {
+          "file": "IMG_3939.png",
+          "page": 1
+        }
+      ]
+    }
+  ],
+  "studyType": "knowledge",
+  "retiredQuestions": [
     {
       "id": "bookkeeping-c02-production-type",
       "version": 1,

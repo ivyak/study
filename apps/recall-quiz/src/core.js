@@ -30,10 +30,13 @@ const RecallCore = (() => {
   function validateDeck(deck) {
     if (!deck || deck.schemaVersion !== 1 || !/^[a-z0-9-]+$/.test(deck.id || '') ||
       !Number.isInteger(deck.version) || deck.version < 1 || typeof deck.title !== 'string' ||
-      !Array.isArray(deck.questions) || !deck.questions.length) throw Error('教材の形式が違います。');
-    const ids = new Set();
-    for (const q of deck.questions) {
-      if (!q || !/^[a-z0-9-]+$/.test(q.id || '') || ids.has(q.id) ||
+      !Array.isArray(deck.questions) || !deck.questions.length ||
+      (deck.studyType !== undefined && !['knowledge', 'exercise'].includes(deck.studyType)) ||
+      (deck.retiredQuestions !== undefined && !Array.isArray(deck.retiredQuestions))) throw Error('教材の形式が違います。');
+    const ids = new Set(), versions = new Set();
+    const all = [...deck.questions, ...(deck.retiredQuestions || [])];
+    for (const [index, q] of all.entries()) {
+      if (!q || !/^[a-z0-9-]+$/.test(q.id || '') || (index < deck.questions.length && ids.has(q.id)) || versions.has(`${q.id}:${q.version}`) ||
         !Number.isInteger(q.version) || q.version < 1 ||
         !['prompt', 'answer', 'criterion', 'explanation'].every(k => typeof q[k] === 'string') ||
         !q.prompt.trim() || !q.answer.trim() || !q.criterion.trim() ||
@@ -41,8 +44,10 @@ const RecallCore = (() => {
         q.sources.some(s => typeof s.file !== 'string' || !s.file || !Number.isInteger(s.page) || s.page < 1)) {
         throw Error('問題ID・版・問い・答え・判定基準・出典を確認してください。');
       }
+      if (q.promptBlocks !== undefined) answers.validate(q.promptBlocks, { allowBlanks: true });
       if (q.answerBlocks !== undefined) answers.validate(q.answerBlocks);
-      ids.add(q.id);
+      if (index < deck.questions.length) ids.add(q.id);
+      versions.add(`${q.id}:${q.version}`);
     }
     return deck;
   }
@@ -79,6 +84,7 @@ const RecallCore = (() => {
     for (const r of state.reviews) {
       if (!r || typeof r.id !== 'string' || !r.id || ids.has(r.id) || typeof r.questionId !== 'string' ||
         !Number.isInteger(r.questionVersion) || r.questionVersion < 1 ||
+        (r.studyType !== undefined && !['knowledge', 'exercise'].includes(r.studyType)) ||
         !['good', 'uncertain', 'again'].includes(r.result) || !Number.isFinite(Date.parse(r.reviewedAt))) {
         throw Error('回答履歴を読み取れません。');
       }
@@ -107,7 +113,8 @@ const RecallCore = (() => {
     if (state.session !== null) {
       const s = state.session;
       if (!s || typeof s.id !== 'string' || typeof s.deckId !== 'string' ||
-        !Array.isArray(s.queue) || s.queue.length > 5 || !Number.isInteger(s.index) ||
+        !Array.isArray(s.queue) || (s.queue.length > 5 && s.mode !== 'exercise') ||
+        (s.mode !== undefined && !['knowledge', 'exercise'].includes(s.mode)) || !Number.isInteger(s.index) ||
         s.index < 0 || s.index > s.queue.length || !Number.isInteger(s.correct) ||
         s.correct < 0 || s.correct > s.index || typeof s.closed !== 'boolean' ||
         typeof s.answerShown !== 'boolean' || !Number.isFinite(Date.parse(s.presentedAt)) ||
@@ -117,6 +124,7 @@ const RecallCore = (() => {
         throw Error('途中の学習記録を読み取れません。');
       }
       if (s.scope !== undefined && (!s.scope || !['all', 'subject', 'lesson'].includes(s.scope.type) ||
+        (s.scope.studyType !== undefined && !['knowledge', 'exercise'].includes(s.scope.studyType)) ||
         (s.scope.type === 'subject' && (typeof s.scope.title !== 'string' || !s.scope.title)) ||
         (s.scope.type === 'lesson' && (typeof s.scope.id !== 'string' || !s.scope.id)) ||
         s.queue.some(q => typeof q.deckId !== 'string' || !q.deckId))) {
@@ -201,12 +209,14 @@ const RecallCore = (() => {
   }
   function start(state, deck, now, random = Math.random) {
     const next = reconcile(state, deck);
-    const queue = deck.studyScope ? selectStudy(next, deck, random) : select(next, deck, now);
+    const queue = deck.studyType === 'exercise' ? deck.questions.map(q => ({ id: q.id, version: q.version, deckId: q.deckId || deck.id })) :
+      deck.studyScope ? selectStudy(next, deck, random) : select(next, deck, now);
     next.session = {
       id: `${now.getTime()}-${Math.random().toString(36).slice(2)}`,
       deckId: deck.id, queue, index: 0, correct: 0, closed: false,
       answerShown: false, presentedAt: now.toISOString(), revealedAt: null
     };
+    if (deck.studyType === 'exercise') next.session.mode = 'exercise';
     if (deck.studyScope) next.session.scope = copy(deck.studyScope);
     return recordPresentation(next, now);
   }
@@ -223,6 +233,7 @@ const RecallCore = (() => {
     const s = next.session;
     if (action === 'start') return start(next, deck, now, random);
     if (action === 'timeout') {
+      if (s?.mode === 'exercise') return next;
       if (!s || s.closed || s.index >= s.queue.length || payload.eventId !== `${s.id}:${s.index}` ||
         payload.answerShown !== s.answerShown) return next;
       const began = Date.parse(s.answerShown ? s.revealedAt : s.presentedAt);
@@ -273,6 +284,7 @@ const RecallCore = (() => {
         reviewedAt: now.toISOString(), reviewedDay: today, result: payload.result,
         recallMs: Math.max(0, Date.parse(s.revealedAt) - Date.parse(s.presentedAt))
       });
+      if (s.mode === 'exercise') next.reviews[next.reviews.length - 1].studyType = 'exercise';
       if (payload.result === 'good') next.garden.coins += 1;
       s.index += 1;
       s.answerShown = false;

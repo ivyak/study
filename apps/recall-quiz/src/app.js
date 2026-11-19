@@ -8,7 +8,14 @@
   let selectedDay = RecallCore.day(new Date()), subject = new URLSearchParams(location.search).get('subject') || '';
   let catalogLesson = new URLSearchParams(location.search).get('lesson') || '';
   let historyPage = Math.max(1, parseInt(new URLSearchParams(location.search).get('historyPage'), 10) || 1);
+  const requestedStudyType = new URLSearchParams(location.search).get('studyType');
+  let studyType = ['knowledge', 'exercise'].includes(requestedStudyType) ? requestedStudyType :
+    boot.decks.find(item => item.id === catalogLesson)?.studyType ||
+    (page === 'quiz' && boot.state.session?.mode === 'exercise' ? 'exercise' : 'knowledge');
   let studySubject = boot.decks[0].title;
+  const availableDecks = () => decks.filter(item => (item.studyType || 'knowledge') === studyType);
+  const modeTabs = () => `<div class="study-tabs" aria-label="問題の種類">${[['knowledge', '用語・知識'], ['exercise', '演習問題']].map(([mode, label]) => `<button data-study-type="${mode}" aria-pressed="${studyType === mode}">${label}</button>`).join('')}</div>`;
+  const historyReviews = () => state.reviews.filter(review => (review.studyType || decks.find(item => item.id === review.deckId)?.studyType || 'knowledge') === studyType);
   const catalogErrors = new Map();
   let quizTimer = null, countdown = null;
   let renderedKey = '', renderedPage = page, renderedHistoryPage = historyPage;
@@ -22,7 +29,7 @@
   let shopOpen = false, gachaView = 'draw', drawResult = null, lineupAnimal = null, shownDrawId = null;
   const status = document.querySelector('#status');
   const escape = text => String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const allowedMath = new Set('div p table caption colgroup col thead tbody tr th td br span math semantics mrow mi mn mo mtext mspace mfrac msqrt mroot msup msub msubsup mover munder munderover mtable mtr mtd menclose mpadded mstyle mphantom annotation'.split(' '));
+  const allowedMath = new Set('input div p table caption colgroup col thead tbody tr th td br span math semantics mrow mi mn mo mtext mspace mfrac msqrt mroot msup msub msubsup mover munder munderover mtable mtr mtd menclose mpadded mstyle mphantom annotation'.split(' '));
   const mathAttrs = new Set('xmlns display mathvariant stretchy fence separator accent accentunder largeop movablelimits lspace rspace width height depth columnalign rowalign columnspacing rowspacing notation encoding scriptlevel displaystyle'.split(' '));
   function safeMath(markup) {
     const template = document.createElement('template');
@@ -38,8 +45,12 @@
         node.setAttribute('class', 'math-overbar');
       }
       for (const attr of [...node.attributes]) {
-        if (!(mathAttrs.has(attr.name) || (['span', 'div', 'p', 'table', 'col', 'th', 'td', 'tr'].includes(node.localName) && attr.name === 'class') ||
+        if (!(mathAttrs.has(attr.name) || (['input', 'span', 'div', 'p', 'table', 'col', 'th', 'td', 'tr'].includes(node.localName) && attr.name === 'class') ||
           (['th', 'td'].includes(node.localName) && attr.name === 'colspan' && /^[1-9]\d*$/.test(attr.value)) ||
+          (node.localName === 'input' && ((attr.name === 'type' && attr.value === 'text') ||
+            (attr.name === 'data-field' && /^b\d+-(?:r\d+-c\d+|s\d+-r\d+-(?:account|amount))$/.test(attr.value)) ||
+            (attr.name === 'aria-label') || (attr.name === 'autocomplete' && attr.value === 'off') ||
+            (attr.name === 'spellcheck' && attr.value === 'false'))) ||
           (node.localName === 'th' && attr.name === 'scope' && ['row', 'col'].includes(attr.value)) ||
           (node.localName === 'mo' && attr.name === 'class' && attr.value === 'math-overbar'))) node.removeAttribute(attr.name);
       }
@@ -51,7 +62,7 @@
     return `<div class="subject-field">${label ? `<span id="${id}-label">${label}</span>` : ''}<button type="button" id="${id}" class="subject-picker" role="combobox" aria-label="${name}" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}-options" data-value="${escape(value)}"><span>${escape(value)}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>`;
   }
   function setupSubjectPickers() {
-    const subjects = [...new Set(decks.map(item => item.title))];
+    const subjects = [...new Set(availableDecks().map(item => item.title))];
     content.querySelectorAll('.subject-picker').forEach(button => {
       const menu = document.createElement('div');
       menu.id = button.getAttribute('aria-controls');
@@ -166,6 +177,7 @@
         action === 'startSubject' ? { type: 'subject', title: studySubject } :
         action === 'selectDeck' ? { type: 'lesson', id: payload.id } :
         state.session?.scope || deck.studyScope || { type: 'lesson', id: deck.id };
+      if (studyType === 'exercise') scope.studyType = 'exercise';
       await runtime.studyDeck(scope);
       await showCountdown();
       return { ok: true, ...await runtime.dispatch('startStudy', { scope }) };
@@ -185,6 +197,9 @@
       if (!result.ok) throw Error(result.error);
       state = result.state;
       if (result.deck) deck = result.deck;
+      if (state.session && ['start', 'startAll', 'startSubject', 'selectDeck', 'importState'].includes(action)) {
+        studyType = state.session.mode === 'exercise' ? 'exercise' : 'knowledge';
+      }
       if (result.decks) decks = result.decks;
       if (action === 'draw') {
         drawResult = state.garden.draws?.find(draw => draw.id === payload.eventId) || null;
@@ -244,7 +259,9 @@
     }
     const s = state.session;
     if (!s) {
-      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">今日のクイズ</h1><p class="lead">思い出せた回数が少ない問題から、ランダムに5問。</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
+      const subjects = [...new Set(availableDecks().map(item => item.title))];
+      if (!subjects.includes(studySubject)) studySubject = subjects[0];
+      content.innerHTML = `<p class="eyebrow">QUIZ</p><h1 class="page-title">${studyType === 'exercise' ? '演習問題' : '今日のクイズ'}</h1>${modeTabs()}<p class="lead">${studyType === 'exercise' ? '時間制限なしで、範例を順番に解きます。' : '思い出せた回数が少ない問題から、ランダムに5問。'}</p><div class="stack quiz-start"><button class="primary" data-action="startAll">全教科から始める</button></div><section class="subject-start">${subjectPicker('study-subject', '教科を指定する', studySubject, '出題する教科')}<button class="secondary" data-action="startSubject">この教科で始める</button></section>`;
       return;
     }
     const scope = s.scope || { type: 'lesson', id: s.deckId };
@@ -252,10 +269,14 @@
       decks.find(item => item.id === scope.id)?.subtitle || deck.title;
     if (s.closed || s.index >= s.queue.length) {
       const completed = s.index >= s.queue.length;
-      content.innerHTML = `<p class="eyebrow">${escape(scopeLabel)}</p><h1 class="page-title">${completed ? `${s.queue.length}問、おつかれさま。` : '今日は、ここまで。'}</h1><p class="lead">${s.index ? `${s.index}問に回答しました。` : '答え合わせをした問題はありません。'}<br>思い出せた問題は${s.correct}問です。</p><div class="stack quiz-start"><button class="primary" data-action="home">最初の画面に戻る</button><button class="secondary" data-action="start">${scope.type === 'all' ? 'あと5問' : scope.type === 'subject' ? '同じ教科であと5問' : '同じ回であと5問'}</button>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科から始める</button>' : ''}</div><p class="helper center">回答の記録とコインは保存されています。</p>`;
+      content.innerHTML = `<p class="eyebrow">${escape(scopeLabel)}</p><h1 class="page-title">${completed ? `${s.queue.length}問、おつかれさま。` : '今日は、ここまで。'}</h1><p class="lead">${s.index ? `${s.index}問に回答しました。` : '答え合わせをした問題はありません。'}<br>思い出せた問題は${s.correct}問です。</p><div class="stack quiz-start"><button class="primary" data-action="home">最初の画面に戻る</button><button class="secondary" data-action="start">${s.mode === 'exercise' ? 'もう一度解く' : scope.type === 'all' ? 'あと5問' : scope.type === 'subject' ? '同じ教科であと5問' : '同じ回であと5問'}</button>${scope.type !== 'all' ? '<button class="quiet" data-action="startAll">全教科から始める</button>' : ''}</div><p class="helper center">回答の記録とコインは保存されています。</p>`;
       return;
     }
     const q = deck.questions.find(q => q.id === s.queue[s.index].id);
+    if (s.mode === 'exercise') {
+      content.innerHTML = `<div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span></div><h1 class="exercise-title">${escape(q.label || '演習問題')}</h1><div class="exercise-question" data-draft-key="${escape(`${s.id}:${s.index}`)}">${text(q, 'prompt')}</div>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">解答</p><div class="answer-main math-text">${text(q, 'answer')}</div><p class="criterion">${text(q, 'criterion')}</p><details><summary>補足</summary><p>${text(q, 'explanation')}</p></details></section><div class="ratings"><button class="secondary" data-result="again"><span class="rating-symbol mistake" aria-hidden="true">×</span><span>できなかった</span></button><button class="secondary uncertain" data-result="uncertain"><span class="rating-symbol uncertain" aria-hidden="true">△</span><span>あやふや</span></button><button class="primary" data-result="good"><span class="rating-symbol correct" aria-hidden="true">○</span><span>できた</span></button></div></div>` : '<div class="exercise-actions"><button class="primary" data-action="reveal">解答を見る</button></div>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
+      return;
+    }
     content.innerHTML = `<div class="question-head"><span class="step">${s.index + 1} / ${s.queue.length} 問</span><span class="dots" aria-hidden="true">${s.queue.map((_, i) => `<i class="${i < s.index ? 'done' : i === s.index ? 'current' : ''}"></i>`).join('')}</span></div><div class="quiz-timer"><div class="timer-caption"><span>${s.answerShown ? '次の問題まで' : '答えの表示まで'}</span><span data-timer-seconds>15秒</span></div><div class="timer-track" role="progressbar" aria-label="残り時間" aria-valuemin="0" aria-valuemax="15" aria-valuenow="15"><div class="timer-fill"></div></div></div><h1 class="question math-text">${text(q, 'prompt')}</h1>${s.answerShown ? `<div class="answer-reveal"><section class="answer"><p class="label">ANSWER</p><div class="answer-main math-text">${text(q, 'answer')}</div><div class="criterion math-text">${text(q, 'criterion')}</div><details><summary>補足と出典</summary><div class="math-text">${text(q, 'explanation')}</div><div class="sources">${q.sources.map(s => `${escape(s.file)} · p.${s.page}`).join('<br>')}</div></details></section><p class="reward-hint">正解すると ＋1コイン</p><div class="ratings"><button class="secondary" data-result="again" aria-label="出なかった"><span class="rating-symbol mistake" aria-hidden="true">×</span><span>出なかった</span></button><button class="secondary uncertain" data-result="uncertain" aria-label="あやふや"><span class="rating-symbol uncertain" aria-hidden="true">△</span><span>あやふや</span></button><button class="primary" data-result="good" aria-label="思い出せた"><span class="rating-symbol correct" aria-hidden="true">○</span><span>思い出せた</span></button></div><p class="helper center">15秒以内に選んでください。未選択なら出なかったとして次に進みます。</p></div>` : '<p class="helper">頭の中で答えるだけ。わからなければ、すぐ見よう。</p><button class="primary" data-action="reveal">答えを見る</button>'}<div class="center"><button class="quiet" data-action="finish">今日はここまで</button></div>`;
   }
   function gachaContents() {
@@ -365,7 +386,7 @@
   function updateQuizTimer() {
     if (page !== 'quiz' || countdown !== null) return;
     const s = state.session;
-    if (!s || s.closed || s.index >= s.queue.length) return;
+    if (!s || s.mode === 'exercise' || s.closed || s.index >= s.queue.length) return;
     const remaining = Math.max(0, Math.min(15000, 15000 - (Date.now() - Date.parse(s.answerShown ? s.revealedAt : s.presentedAt))));
     const track = content.querySelector('.timer-track');
     if (!track) return;
@@ -376,7 +397,7 @@
     if (remaining === 0 && !busy) act('timeout', { eventId: `${s.id}:${s.index}`, answerShown: s.answerShown });
   }
   function renderHistory() {
-    const ordered = [...state.reviews].reverse().sort((a, b) => Date.parse(b.reviewedAt) - Date.parse(a.reviewedAt));
+    const ordered = [...historyReviews()].reverse().sort((a, b) => Date.parse(b.reviewedAt) - Date.parse(a.reviewedAt));
     const pageCount = Math.max(1, Math.ceil(ordered.length / 10));
     const offset = (historyPage - 1) * 10;
     const reviews = ordered.slice(offset, offset + 10);
@@ -392,12 +413,12 @@
     }
     const rows = reviews.map((review, index) => {
       const item = decks.find(item => item.id === review.deckId);
-      const q = item?.questions?.find(q => q.id === review.questionId && q.version === review.questionVersion);
+      const q = [...(item?.questions || []), ...(item?.retiredQuestions || [])].find(q => q.id === review.questionId && q.version === review.questionVersion);
       const result = review.result === 'good' ? ['correct', '○', '思い出せた'] : review.result === 'uncertain' ? ['uncertain', '△', 'あやふや'] : ['mistake', '×', '出なかった'];
-      return `<details class="catalog-question history-question"><summary><span class="question-number">${offset + index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, item)}</div>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
+      return `<details class="catalog-question history-question"><summary><span class="question-number">${offset + index + 1}</span><span class="catalog-prompt"><small>${escape(item?.title || review.deckId || '以前の教材')} · ${escape(item?.subtitle || '')}<br>${escape(new Date(review.reviewedAt).toLocaleString('ja-JP'))}</small><span class="math-text">${q ? q.promptBlocks ? escape(q.label || '演習問題') : text(q, 'prompt') : escape(review.questionId)}</span></span><span class="result-badge ${result[0]}" aria-label="${result[2]}">${result[1]}</span></summary><div class="catalog-answer">${q ? `${q.promptBlocks ? `<div class="exercise-question">${text(q, 'prompt')}</div>` : ''}<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, item)}</div>` : `<p>${catalogErrors.has(item?.id) ? '教材を読み込めませんでした。履歴タブを開き直すと再試行します。' : item && !item.questions ? '問題を読み込み中…' : 'この版の問題は現在の教材にありません。'}</p>`}</div></details>`;
     }).join('');
     const pagination = pageCount > 1 ? `<nav class="history-pagination" aria-label="回答履歴のページ"><button data-history-page="${historyPage - 1}" aria-label="前の10問" ${historyPage === 1 ? 'disabled' : ''}>‹</button><span aria-live="polite" aria-label="${historyPage}ページ目、全${pageCount}ページ">${historyPage} / ${pageCount}</span><button data-history-page="${historyPage + 1}" aria-label="次の10問" ${historyPage === pageCount ? 'disabled' : ''}>›</button></nav>` : '';
-    content.innerHTML = `<div class="page-heading history-heading"><h1 class="page-title">回答履歴</h1>${pagination}</div><div class="history-list">${rows || '<div class="panel">まだ回答履歴がありません。</div>'}</div>`;
+    content.innerHTML = `<div class="page-heading history-heading"><h1 class="page-title">回答履歴</h1>${pagination}</div>${modeTabs()}<div class="history-list">${rows || '<div class="panel">まだ回答履歴がありません。</div>'}</div>`;
   }
   function resultCounts(n) {
     return `<span class="count-presented" aria-label="出題${n.presented}回">出題 <strong>${n.presented}</strong></span><span class="result-badge correct" aria-label="正解${n.correct}回"><span class="result-symbol" aria-hidden="true">○</span><strong aria-hidden="true">${n.correct}</strong></span><span class="result-badge uncertain" aria-label="あやふや${n.uncertain}回"><span class="result-symbol" aria-hidden="true">△</span><strong aria-hidden="true">${n.uncertain}</strong></span><span class="result-badge mistake" aria-label="ミス${n.mistakes}回"><span class="result-symbol" aria-hidden="true">×</span><strong aria-hidden="true">${n.mistakes}</strong></span>`;
@@ -414,14 +435,14 @@
   }
   function renderCatalog() {
     const stats = RecallCore.statistics(state);
-    const subjects = [...new Set(decks.map(item => item.title))];
-    const selected = decks.find(item => item.id === catalogLesson);
+    const subjects = [...new Set(availableDecks().map(item => item.title))];
+    const selected = availableDecks().find(item => item.id === catalogLesson);
     if (selected) subject = selected.title;
     else catalogLesson = '';
     if (!subjects.includes(subject)) subject = subjects[0];
     if (!selected) {
-      const items = decks.filter(item => item.title === subject);
-      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1>${subjectPicker('subject', '', subject, '教科')}<div class="lesson-grid">${items.map(item => {
+      const items = availableDecks().filter(item => item.title === subject);
+      content.innerHTML = `<h1 class="page-title">クイズ一覧</h1>${modeTabs()}${subjectPicker('subject', '', subject, '教科')}<div class="lesson-grid">${items.map(item => {
         const label = item.subtitle || item.title;
         const [lesson, ...topic] = label.split(' · ');
         return `<button class="lesson-card" data-open-lesson="${escape(item.id)}"><span class="lesson-card-number">${escape(lesson)}</span><span>${escape(topic.join(' · '))}</span><small>${item.questionCount || item.questions?.length || 0}問<span aria-hidden="true"> →</span></small></button>`;
@@ -445,13 +466,13 @@
     }
     const rows = selected.questions.map((q, index) => {
       const n = RecallCore.questionStatistics(stats, selected.id, q.id);
-      return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer"><p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, selected)}</div></div></details>`;
+      return `<details class="catalog-question"><summary><span class="question-number">${index + 1}</span><span class="catalog-prompt math-text">${q.promptBlocks ? escape(q.label || '演習問題') : text(q, 'prompt')}</span><span class="question-counts">${resultCounts(n)}</span></summary><div class="catalog-answer">${q.promptBlocks ? `<div class="exercise-question">${text(q, 'prompt')}</div>` : ''}<p class="label">解答</p><div class="math-text">${text(q, 'answer')}</div><p class="criterion math-text">${text(q, 'criterion')}</p><div class="source-toggles">${sourceToggles(q, selected)}</div></div></details>`;
     }).join('');
     const retired = Object.entries(stats.questions).filter(([key]) => {
       const [deckId, questionId] = JSON.parse(key);
       return deckId === selected.id && !selected.questions.some(q => q.id === questionId);
     }).map(([key, n]) => `<div class="retired-question"><p>旧版の問題 <small>${escape(JSON.parse(key)[1])}</small></p><div class="question-counts">${resultCounts(n)}</div></div>`).join('');
-    content.innerHTML = `${heading}<section class="lesson">${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
+    content.innerHTML = `${heading}${modeTabs()}<section class="lesson">${rows}${retired ? `<details><summary>更新で除かれた問題の記録</summary>${retired}</details>` : ''}</section>`;
   }
   function slideDisclosures() {
     for (const details of content.querySelectorAll('details')) {
@@ -558,12 +579,30 @@
     scrollRegion.classList.toggle('has-more-above', scrollRegion.scrollTop > 1);
     scrollRegion.classList.toggle('has-more-below', scrollRegion.scrollHeight - scrollRegion.clientHeight - scrollRegion.scrollTop > 1);
   }
+  function saveExerciseDraft() {
+    const question = content.querySelector('[data-draft-key]');
+    if (!question) return;
+    const values = Object.fromEntries([...question.querySelectorAll('[data-field]')].map(input => [input.dataset.field, input.value]));
+    try { sessionStorage.setItem(`recall-exercise:${question.dataset.draftKey}`, JSON.stringify(values)); } catch (_) { /* A full storage area does not prevent answering. */ }
+  }
+  function restoreExerciseDraft() {
+    const question = content.querySelector('[data-draft-key]');
+    if (!question) return;
+    let values = {};
+    try { values = JSON.parse(sessionStorage.getItem(`recall-exercise:${question.dataset.draftKey}`) || '{}') || {}; } catch (_) { /* Ignore an unreadable draft. */ }
+    for (const input of question.querySelectorAll('[data-field]')) {
+      input.value = typeof values[input.dataset.field] === 'string' ? values[input.dataset.field] : '';
+      input.oninput = saveExerciseDraft;
+    }
+  }
   function render() {
+    saveExerciseDraft();
     clearInterval(quizTimer);
-    historyPage = Math.min(historyPage, Math.max(1, Math.ceil(state.reviews.length / 10)));
+    historyPage = Math.min(historyPage, Math.max(1, Math.ceil(historyReviews().length / 10)));
     document.body.classList.toggle('garden-mode', page === 'garden');
     const activeQuiz = page === 'quiz' && (countdown !== null || (state.session && !state.session.closed && state.session.index < state.session.queue.length));
     document.body.classList.toggle('quiz-active', Boolean(activeQuiz));
+    document.body.classList.toggle('exercise-active', Boolean(activeQuiz && state.session?.mode === 'exercise'));
     document.body.classList.toggle('quiz-answer', Boolean(activeQuiz && countdown === null && state.session?.answerShown));
     quizControls.replaceChildren();
     quizControls.hidden = true;
@@ -573,6 +612,7 @@
     if (/^https?:$/.test(location.protocol)) {
       const url = new URL(location.href);
       url.searchParams.set('screen', page);
+      url.searchParams.set('studyType', studyType);
       if (page === 'history' && historyPage > 1) url.searchParams.set('historyPage', String(historyPage));
       else url.searchParams.delete('historyPage');
       if (page === 'catalog') {
@@ -594,7 +634,7 @@
     else if (page === 'garden') renderGarden();
     else if (page === 'settings') renderSettings();
     else renderQuiz();
-    const ratings = content.querySelector('.ratings');
+    const ratings = content.querySelector('.ratings, .exercise-actions');
     if (ratings) {
       quizControls.appendChild(ratings);
       quizControls.hidden = false;
@@ -607,7 +647,7 @@
         if (section) section.insertAdjacentHTML('beforeend', `<div class="source-toggles">${sourceToggles(q)}</div>`);
       }
     }
-    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${subject}:${catalogLesson}:${historyPage}`;
+    const key = `${page}:${state.session?.id}:${state.session?.index}:${state.session?.answerShown}:${state.session?.closed}:${studyType}:${subject}:${catalogLesson}:${historyPage}`;
     if (key !== renderedKey) {
       const changedPage = page !== renderedPage;
       const historyTurn = page === 'history' && !changedPage && historyPage !== renderedHistoryPage;
@@ -631,7 +671,8 @@
         }
       }
       releasePull(false);
-      scrollRegion.scrollTop = 0;
+      scrollRegion.scrollTop = state.session?.mode === 'exercise' && state.session.answerShown && page === 'quiz' ?
+        content.querySelector('.answer-reveal')?.offsetTop || 0 : 0;
       renderedKey = key;
       renderedPage = page;
       renderedHistoryPage = historyPage;
@@ -670,6 +711,14 @@
     const today = content.querySelector('[data-today]');
     if (today) today.onclick = () => { month = new Date(new Date().getFullYear(), new Date().getMonth(), 1); selectedDay = RecallCore.day(new Date()); render(); };
     setupSubjectPickers();
+    content.querySelectorAll('[data-study-type]').forEach(button => button.onclick = () => {
+      studyType = button.dataset.studyType;
+      catalogLesson = '';
+      historyPage = 1;
+      history.pushState(null, '', `?screen=${page}&studyType=${studyType}`);
+      render();
+    });
+    restoreExerciseDraft();
     content.querySelectorAll('[data-history-page]').forEach(button => button.onclick = () => {
       if (busy) return;
       historyPage = Number(button.dataset.historyPage);
@@ -686,7 +735,7 @@
       render();
     });
     content.querySelectorAll('[data-deck]').forEach(button => button.onclick = () => act('selectDeck', { id: button.dataset.deck }));
-    content.querySelectorAll('[data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
+    document.querySelectorAll('#content [data-action], #quiz-controls [data-action]').forEach(b => b.onclick = () => act(b.dataset.action));
     if (page === 'quiz' && countdown === null) {
       quizTimer = setInterval(updateQuizTimer, 100);
       updateQuizTimer();
@@ -737,6 +786,7 @@
     const requested = params.get('screen');
     page = ['garden', 'settings', 'calendar', 'catalog', 'history'].includes(requested) ? requested : 'quiz';
     catalogLesson = params.get('lesson') || '';
+    studyType = params.get('studyType') === 'exercise' || decks.find(item => item.id === catalogLesson)?.studyType === 'exercise' ? 'exercise' : 'knowledge';
     historyPage = Math.max(1, parseInt(params.get('historyPage'), 10) || 1);
     subject = params.get('subject') || '';
     render();

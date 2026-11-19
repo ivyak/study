@@ -329,3 +329,18 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .accounting-total { border-top: 2px solid var(--ink); font-weight: 650; }
 .accounting-total th, .accounting-total td { border-bottom: 3px double var(--ink); }
 .accounting-note { margin: 6px 0 14px; font-size: 12px; color: var(--muted); }
+
+.study-tabs { display: flex; gap: 6px; margin: 16px 0 20px; padding: 4px; border-radius: 14px; background: #f1e5e4; }
+.study-tabs button { flex: 1; min-height: 42px; padding: 8px; border-radius: 11px; background: transparent; font-size: 14px; color: var(--muted); }
+.study-tabs button[aria-pressed="true"] { background: #fffcf7; color: var(--ink); box-shadow: 0 1px 4px #49383b12; }
+.exercise-title { margin: 10px 0 18px; font-size: 22px; }
+.exercise-question { font-size: 14px; font-weight: 400; line-height: 1.8; }
+.exercise-text { margin: 18px 0 10px; white-space: normal; overflow-wrap: anywhere; }
+.exercise-question .accounting-table { font-size: clamp(11px, 3.1vw, 14px); }
+.accounting-blank { display: inline-block; width: 100%; min-width: 0; height: 30px; border: 1px solid #a89390; border-radius: 2px; background: #fffdf9; padding: 2px; font: inherit; color: var(--ink); text-align: inherit; box-sizing: border-box; }
+.accounting-blank:focus { outline: 2px solid #648fbd; outline-offset: 1px; }
+.accounting-journal .accounting-account .accounting-blank { width: calc(100% - 12px); }
+.exercise-actions button { width: 100%; }
+.exercise-active .answer-main { font-size: 15px; }
+.exercise-active .answer { margin-top: 20px; }
+.accounting-grid { table-layout: fixed; }

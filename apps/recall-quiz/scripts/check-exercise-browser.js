@@ -5,9 +5,9 @@ const { createStaticServer } = require('./serve');
 
 (async () => {
   const remote = process.argv[2];
-  const server = remote ? null : createStaticServer({ directory: path.resolve(__dirname, '../output/site') });
+  const server = remote ? null : createStaticServer({ directory: path.resolve(__dirname, '..'), prefix: '/study/apps/recall-quiz/' });
   if (server) await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  const base = remote || `http://127.0.0.1:${server.address().port}/`;
+  const base = remote || `http://127.0.0.1:${server.address().port}/study/apps/recall-quiz/`;
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
@@ -18,6 +18,7 @@ const { createStaticServer } = require('./serve');
     await page.waitForFunction(() => document.querySelectorAll('.catalog-question').length === 22);
     assert.equal(await page.locator('.catalog-prompt').filter({ hasText: /とは何か？/ }).count(), 22);
     await page.locator('[data-study-type="exercise"]').click();
+    assert.equal(new URL(page.url()).pathname, new URL(base).pathname);
     assert.equal(await page.locator('[data-open-lesson]').count(), 1);
     await page.locator('[data-open-lesson]').click();
     await page.waitForFunction(() => document.querySelectorAll('.catalog-question').length === 4);
@@ -103,6 +104,7 @@ const { createStaticServer } = require('./serve');
     assert.ok(await page.locator('.history-question .source-toggle').count() > 0);
     assert.equal(await page.locator('#coins').innerText(), '4');
     await page.locator('[data-study-type="exercise"]').click();
+    assert.equal(new URL(page.url()).pathname, new URL(base).pathname);
     await page.reload();
     await page.waitForFunction(() => document.querySelectorAll('.history-question').length === 4);
     assert.deepEqual(errors, []);

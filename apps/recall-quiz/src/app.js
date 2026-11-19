@@ -715,7 +715,12 @@
       studyType = button.dataset.studyType;
       catalogLesson = '';
       historyPage = 1;
-      history.pushState(null, '', `?screen=${page}&studyType=${studyType}`);
+      const url = new URL(location.href);
+      url.searchParams.set('screen', page);
+      url.searchParams.set('studyType', studyType);
+      url.searchParams.delete('lesson');
+      url.searchParams.delete('historyPage');
+      history.pushState(null, '', url);
       render();
     });
     restoreExerciseDraft();

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "bookkeeping-chapter02",
-  "version": 1,
+  "version": 2,
   "title": "特殊講義−実践簿記Ⅳ",
   "subtitle": "第2章 · 工業簿記における記帳",
   "scope": "指定フォルダの7枚の画像に写る本文・勘定図・範例2-1〜2-4を対象とする。個別原価計算の手続、材料費・労務費・経費、製造間接費の配賦、完成・販売、勘定残高と原価計算表の関係を問う。印刷ページ11は未提供。参照先の練習問題2-1〜2-5の問題文は未提供なので、それら固有の条件は対象外。出典のpageは画像を1ページと数えた番号であり、教材の印刷ページ番号ではない。勘定残高の式は、掲載された勘定図の借方・貸方の関係から整理した。提供画像に写る範囲の基本的な処理を29問で扱う。",
@@ -129,6 +129,27 @@
           "file": "IMG_3939.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "table",
+          "caption": "直接費と間接費の処理",
+          "headers": [
+            "原価",
+            "手続"
+          ],
+          "rows": [
+            [
+              "製造直接費",
+              "賦課"
+            ],
+            [
+              "製造間接費",
+              "配賦"
+            ]
+          ],
+          "note": ""
+        }
       ]
     },
     {
@@ -161,6 +182,25 @@
           "file": "IMG_3941.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "材料の購入",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "現金",
+              "amount": "***"
+            }
+          ],
+          "note": ""
+        }
       ]
     },
     {
@@ -178,6 +218,29 @@
         {
           "file": "IMG_3941.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "材料の消費",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "***"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "材料",
+              "amount": "***"
+            }
+          ],
+          "note": "仕掛品は直接材料費、製造間接費は間接材料費。材料は消費額の合計。"
         }
       ]
     },
@@ -215,6 +278,29 @@
           "file": "IMG_3941.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "賃金給料の支払い",
+          "debit": [
+            {
+              "account": "賃金給料",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "預り金",
+              "amount": "***"
+            },
+            {
+              "account": "現金",
+              "amount": "***"
+            }
+          ],
+          "note": "賃金給料は控除前の総額。預り金は控除額、現金は差引支払額。"
+        }
       ]
     },
     {
@@ -229,6 +315,29 @@
           "file": "IMG_3941.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "労務費の消費",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "***"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "賃金給料",
+              "amount": "***"
+            }
+          ],
+          "note": "仕掛品は直接労務費、製造間接費は間接労務費。賃金給料は消費額の合計。"
+        }
       ]
     },
     {
@@ -242,6 +351,25 @@
         {
           "file": "IMG_3941.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "経費の発生",
+          "debit": [
+            {
+              "account": "経費",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "現金",
+              "amount": "***"
+            }
+          ],
+          "note": ""
         }
       ]
     },
@@ -260,6 +388,29 @@
         {
           "file": "IMG_3942.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "経費の消費",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "***"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "経費",
+              "amount": "***"
+            }
+          ],
+          "note": "仕掛品は直接経費、製造間接費は間接経費。経費は消費額の合計。"
         }
       ]
     },
@@ -297,6 +448,33 @@
           "file": "IMG_3943.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "***"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "***"
+            },
+            {
+              "account": "経費",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "***"
+            }
+          ],
+          "note": "借方に間接費の発生額、貸方に製品への配賦額を記入する。"
+        }
       ]
     },
     {
@@ -311,6 +489,25 @@
           "file": "IMG_3943.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "製造間接費の配賦",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "製造間接費",
+              "amount": "***"
+            }
+          ],
+          "note": ""
+        }
       ]
     },
     {
@@ -324,6 +521,32 @@
         {
           "file": "IMG_3942.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            }
+          ],
+          "credit": [],
+          "note": ""
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "5,000"
+            }
+          ],
+          "note": "金額の単位は円。仕訳と同じ借貸側に、相手科目を記入する。"
         }
       ]
     },
@@ -343,6 +566,28 @@
           "file": "IMG_3943.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "***"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "***"
+            },
+            {
+              "account": "経費",
+              "amount": "***"
+            }
+          ],
+          "credit": [],
+          "note": "借方の記入例。諸口でまとめず、相手科目と金額を個別に記入する。"
+        }
       ]
     },
     {
@@ -356,6 +601,27 @@
         {
           "file": "IMG_3943.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "製造間接費",
+              "5,000",
+              "6,000",
+              "11,000"
+            ]
+          ],
+          "note": "各指図書への配賦額を記入する。上表は範例2-2の金額で、単位は円。"
         }
       ]
     },
@@ -379,6 +645,42 @@
           "file": "IMG_3944.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "table",
+          "caption": "完成品の原価計算表",
+          "headers": [
+            "摘要",
+            "金額"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "***"
+            ],
+            [
+              "直接労務費",
+              "***"
+            ],
+            [
+              "直接経費",
+              "***"
+            ],
+            [
+              "製造間接費の配賦額",
+              "***"
+            ],
+            [
+              "完成品原価",
+              "合計"
+            ]
+          ],
+          "note": "直接費3区分と、製造間接費の配賦額を合計する。",
+          "totalRows": [
+            4
+          ]
+        }
       ]
     },
     {
@@ -392,6 +694,25 @@
         {
           "file": "IMG_3944.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "製品の完成",
+          "debit": [
+            {
+              "account": "製品",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "***"
+            }
+          ],
+          "note": "完成した製品の製造原価で振り替える。"
         }
       ]
     },
@@ -425,6 +746,25 @@
           "file": "IMG_3944.png",
           "page": 1
         }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "No.1の完成による振替",
+          "debit": [
+            {
+              "account": "製品",
+              "amount": "12,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "12,000"
+            }
+          ],
+          "note": "金額の単位は円。未完成のNo.2の10,000円は、仕掛品に残す。"
+        }
       ]
     },
     {
@@ -438,6 +778,42 @@
         {
           "file": "IMG_3945.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "caption": "売上の計上",
+          "debit": [
+            {
+              "account": "売掛金",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "売上",
+              "amount": "***"
+            }
+          ],
+          "note": "販売代金で記入する。"
+        },
+        {
+          "type": "journal",
+          "caption": "売上原価の計上",
+          "debit": [
+            {
+              "account": "売上原価",
+              "amount": "***"
+            }
+          ],
+          "credit": [
+            {
+              "account": "製品",
+              "amount": "***"
+            }
+          ],
+          "note": "販売した製品の製造原価で記入する。"
         }
       ]
     },
@@ -460,6 +836,35 @@
         {
           "file": "IMG_3945.png",
           "page": 1
+        }
+      ],
+      "answerBlocks": [
+        {
+          "type": "table",
+          "caption": "原価の状態と勘定科目",
+          "headers": [
+            "状態",
+            "勘定科目"
+          ],
+          "rows": [
+            [
+              "未使用の材料",
+              "材料"
+            ],
+            [
+              "製造中の未完成品",
+              "仕掛品"
+            ],
+            [
+              "完成した未販売品",
+              "製品"
+            ],
+            [
+              "販売済み製品の原価",
+              "売上原価"
+            ]
+          ],
+          "note": ""
         }
       ]
     },

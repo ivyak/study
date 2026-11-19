@@ -1,5 +1,6 @@
 /* Shared domain logic. No Scriptable or browser APIs. */
 const RecallCore = (() => {
+  const answers = typeof RecallAnswers === 'undefined' ? require('./answers.js') : RecallAnswers;
   const intervals = [1, 3, 7, 14, 30];
   // Original item IDs preserve the animals already obtained in earlier versions.
   const gachaCost = 10;
@@ -40,6 +41,7 @@ const RecallCore = (() => {
         q.sources.some(s => typeof s.file !== 'string' || !s.file || !Number.isInteger(s.page) || s.page < 1)) {
         throw Error('問題ID・版・問い・答え・判定基準・出典を確認してください。');
       }
+      if (q.answerBlocks !== undefined) answers.validate(q.answerBlocks);
       ids.add(q.id);
     }
     return deck;

@@ -63,6 +63,7 @@ description: 講義資料や問題案から、ひとつ想起クイズアプリ�
 | `questions[].version` | 新規問題は1。問い、答え、判定基準などを変更するときは増やす。 |
 | `questions[].prompt` | 問題文。 |
 | `questions[].answer` | 短い解答。 |
+| `questions[].answerBlocks` | 簿記の仕訳・勘定口座・表の表示データ。該当する場合だけ追加する。 |
 | `questions[].criterion` | 自己判定基準。 |
 | `questions[].explanation` | 補足。不要でも空文字を残す。 |
 | `questions[].sources` | 出典の配列。各要素に `file` と `page` を書く。 |
@@ -74,6 +75,34 @@ JSONにコメントや末尾の余分なカンマを入れない。数式は `\(
 HTML、`promptHtml`、`answerHtml`、`criterionHtml`、`explanationHtml`、`sourceImages`、`imageKey`、`renderVersion` は書かない。表示用の項目と原典画像はアプリのビルドが生成する。
 
 既存問題の修正では同じ問題IDを保ち、問題の並び順が変わっても再採番しない。別の判断を問うなら新しいIDにする。既存教材や問題を上書きする前に内容を読み、今回の依頼に関係のない問題、回答履歴、コインを消さない。
+
+## 簿記の解答
+
+仕訳が解答になるときは、借方を左、貸方を右に置き、勘定科目を括弧で囲んで金額と並べる。勘定口座はT字型、原価計算表などは見出しと必要な合計行を持つHTMLの表で表示できるデータを作る。文章の列挙や空白合わせだけで済ませない。
+
+通常の `answer` を残し、`answerBlocks` に次の構造を追加する。アプリのビルドがHTMLを生成するため、`answerHtml` や任意のHTMLは書かない。金額が未指定の場合だけ `***` を使い、指定された金額は実額を入れる。借方・貸方の金額の意味は `note` に書ける。
+
+```json
+"answerBlocks": [
+  {
+    "type": "journal",
+    "caption": "賃金給料の支払い",
+    "debit": [{ "account": "賃金給料", "amount": "***" }],
+    "credit": [
+      { "account": "預り金", "amount": "***" },
+      { "account": "現金", "amount": "***" }
+    ],
+    "note": "賃金給料は控除前の総額。預り金は控除額、現金は差引支払額。"
+  }
+]
+```
+
+- `journal` は1つの仕訳。`debit` と `credit` の両方に1行以上を入れ、金額は文字列にする。複数の仕訳は別のブロックにする。
+- `ledger` はT字型の勘定口座。`caption` に勘定名を入れ、`debit` と `credit` は上と同じ構造で相手科目と金額を記す。片側に記入がなければ空配列にできる。
+- `table` は一般の表。`headers` に列見出しの文字列配列、`rows` に同じ列数の文字列配列を並べる。任意の `totalRows` に合計行の0始まりの行番号を入れる。
+- `caption` と `note` は任意の文字列。ただし `ledger` では `caption` が必要。
+
+表の数値と左右の配置を原資料で確認し、文章の `answer` と食い違わないようにする。表示形式だけを整える変更では問題IDと問題の `version` を維持し、デッキの `version` を更新する。
 
 ## 出典の確認ができない場合
 

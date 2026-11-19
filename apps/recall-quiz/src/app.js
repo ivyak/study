@@ -22,7 +22,7 @@
   let shopOpen = false, gachaView = 'draw', drawResult = null, lineupAnimal = null, shownDrawId = null;
   const status = document.querySelector('#status');
   const escape = text => String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const allowedMath = new Set('span math semantics mrow mi mn mo mtext mspace mfrac msqrt mroot msup msub msubsup mover munder munderover mtable mtr mtd menclose mpadded mstyle mphantom annotation'.split(' '));
+  const allowedMath = new Set('div p table caption colgroup col thead tbody tr th td br span math semantics mrow mi mn mo mtext mspace mfrac msqrt mroot msup msub msubsup mover munder munderover mtable mtr mtd menclose mpadded mstyle mphantom annotation'.split(' '));
   const mathAttrs = new Set('xmlns display mathvariant stretchy fence separator accent accentunder largeop movablelimits lspace rspace width height depth columnalign rowalign columnspacing rowspacing notation encoding scriptlevel displaystyle'.split(' '));
   function safeMath(markup) {
     const template = document.createElement('template');
@@ -38,7 +38,9 @@
         node.setAttribute('class', 'math-overbar');
       }
       for (const attr of [...node.attributes]) {
-        if (!(mathAttrs.has(attr.name) || (node.localName === 'span' && attr.name === 'class') ||
+        if (!(mathAttrs.has(attr.name) || (['span', 'div', 'p', 'table', 'col', 'th', 'td', 'tr'].includes(node.localName) && attr.name === 'class') ||
+          (['th', 'td'].includes(node.localName) && attr.name === 'colspan' && /^[1-9]\d*$/.test(attr.value)) ||
+          (node.localName === 'th' && attr.name === 'scope' && ['row', 'col'].includes(attr.value)) ||
           (node.localName === 'mo' && attr.name === 'class' && attr.value === 'math-overbar'))) node.removeAttribute(attr.name);
       }
     }

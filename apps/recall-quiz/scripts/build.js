@@ -4,6 +4,7 @@ const crypto = require('node:crypto');
 const vm = require('node:vm');
 const katex = require('katex');
 const core = require('../src/core.js');
+const answers = require('../src/answers.js');
 const { addSourceImages } = require('./source-images.js');
 const root = path.resolve(__dirname, '..');
 const repo = path.resolve(root, '../..');
@@ -34,6 +35,7 @@ function compile(file) {
   }
   for (const q of deck.questions) {
     for (const key of ['prompt', 'answer', 'criterion', 'explanation']) q[`${key}Html`] = render(q[key]);
+    if (q.answerBlocks) q.answerHtml = answers.render(q.answerBlocks, render);
     if (deck.sourceManifest) for (const ref of q.sources) {
       const source = deck.sourceManifest.find(s => path.basename(s.file) === ref.file);
       if (!source || ref.page > source.pageCount || !source.reviewedPages.includes(ref.page)) {
@@ -75,10 +77,10 @@ const manifest = { defaultDeckId: deck.id, decks: decks.map(item => ({ id: item.
 fs.writeFileSync(path.join(output, 'decks/manifest.json'), JSON.stringify(manifest, null, 2));
 const runtime = read('storage.js') + '\n' + read('web.js') + '\n' +
   'RecallWeb.start(window.BOOT).then(boot => { window.BOOT = boot;\n' + read('app.js') + '\n}).catch(RecallWeb.failure);';
-new vm.Script(read('core.js') + '\n' + runtime);
+new vm.Script(read('answers.js') + '\n' + read('core.js') + '\n' + runtime);
 let html = read('index.html').replace('/*__STYLE__*/', read('style.css'))
   .replace('/*__GARDEN_ASSETS__*/', json(gardenAssets)).replace('__BOOTSTRAP__', json(manifest))
-  .replace('/*__CORE__*/', read('core.js')).replace('/*__APP__*/', runtime)
+  .replace('/*__ANSWERS__*/', read('answers.js')).replace('/*__CORE__*/', read('core.js')).replace('/*__APP__*/', runtime)
   .replace('img-src data:', "img-src 'self' data:").replace("connect-src 'none'", "connect-src 'self'");
 // Keep the editable template independent of the hosting root and preserve existing favicon edits.
 html = html.replace(/<link[^>]+rel=["']icon["'][^>]*>\s*/g, '');

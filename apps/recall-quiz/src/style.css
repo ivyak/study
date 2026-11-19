@@ -307,3 +307,25 @@ input[type='time'] { max-width: 135px; border: 1px solid var(--line); border-rad
 .history-pagination { display: flex; align-items: center; gap: 3px; }
 .history-pagination button { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 0; line-height: 1; background: #f4e4e3; border: 0; border-radius: 10px; font-size: 24px; }
 .history-pagination span { min-width: 38px; text-align: center; font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.accounting-table-wrap { width: 100%; overflow-x: auto; margin: 10px 0; }
+.accounting-table { width: 100%; border-collapse: collapse; font-size: clamp(11px, 3.35vw, 15px); line-height: 1.65; font-variant-numeric: tabular-nums; }
+.accounting-table caption { padding-bottom: 8px; font-size: 14px; font-weight: 650; text-align: center; }
+.accounting-table th, .accounting-table td { padding: 6px 2px; vertical-align: middle; }
+.accounting-table thead th { font-size: 11px; color: var(--muted); font-weight: 500; }
+.accounting-journal, .accounting-ledger { table-layout: fixed; }
+.accounting-account-col { width: 32%; }
+.accounting-amount-col { width: 18%; }
+.accounting-account { text-align: left; overflow-wrap: anywhere; }
+.accounting-amount { text-align: right; white-space: nowrap; }
+.accounting-journal td:nth-child(2), .accounting-ledger td:nth-child(2) { padding-right: 4px; }
+.accounting-journal td:nth-child(3), .accounting-ledger td:nth-child(3) { padding-left: 6px; }
+.accounting-ledger thead { border-top: 1px solid var(--ink); }
+.accounting-ledger thead th:first-child, .accounting-ledger td:nth-child(2) { border-right: 1px solid var(--ink); }
+.accounting-grid th, .accounting-grid td { border: 1px solid var(--line); padding: 6px; }
+.accounting-grid thead th { background: #f6eeee; }
+.accounting-grid tbody th { text-align: left; font-weight: 500; }
+.accounting-grid tbody td { text-align: right; }
+.accounting-total { border-top: 2px solid var(--ink); font-weight: 650; }
+.accounting-total th, .accounting-total td { border-bottom: 3px double var(--ink); }
+.accounting-note { margin: 6px 0 14px; font-size: 12px; color: var(--muted); }

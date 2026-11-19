@@ -55,7 +55,7 @@ test('default and exercise scopes load separate questions and preserve mode afte
   for (const scope of [{ type: 'all', studyType: 'exercise' }, { type: 'subject', title: knowledge.title, studyType: 'exercise' }, { type: 'lesson', id: exercises.id }]) {
     await runtime.dispatch('startStudy', { scope });
     assert.equal(runtime.record.state.session.mode, 'exercise');
-    assert.equal(runtime.deck.questions.length, 4);
+    assert.equal(runtime.deck.questions.length, 9);
     assert.ok(runtime.deck.questions.every(q => q.deckId === exercises.id));
   }
   const reopened = new Runtime(options);
@@ -76,4 +76,33 @@ test('retired questions preserve old reviews, balances and exact question versio
   assert.deepEqual(updated.garden, before.garden);
   assert.equal(updated.session, null);
   assert.ok(knowledge.retiredQuestions.some(q => q.id === updated.reviews[0].questionId && q.version === updated.reviews[0].questionVersion));
+});
+
+
+test('each numbered transaction has its own task with only current ledger additions blank', () => {
+  assert.equal(exercises.questions.length, 9);
+  for (const [index, q] of exercises.questions.entries()) {
+    assert.match(q.label, new RegExp(`小問${index + 1}$`));
+    const transactions = q.promptBlocks.filter(b => b.type === 'text' && /^\d+\. /.test(b.text));
+    assert.equal(transactions.length, 1);
+    assert.match(transactions[0].text, new RegExp(`^${index + 1}\\. `));
+  }
+  const second = exercises.questions[1];
+  const materials = second.promptBlocks.find(b => b.type === 'ledger' && b.caption === '材料');
+  assert.deepEqual(materials.debit, [{ account: '現金', amount: '8,000' }]);
+  assert.deepEqual(materials.credit, [{ account: null, amount: null }, { account: null, amount: null }]);
+  const sheet = second.promptBlocks.find(b => b.type === 'table');
+  assert.deepEqual(sheet.rows, [['直接材料費', null, null, null], ['直接労務費', '', '', ''], ['直接経費', '', '', '']]);
+  const fourthSheet = exercises.questions[3].promptBlocks.find(b => b.type === 'table');
+  assert.deepEqual(fourthSheet.rows[0], ['直接材料費', '3,000', '2,000', '5,000']);
+  assert.deepEqual(fourthSheet.rows[1], ['直接労務費', null, null, null]);
+});
+
+test('the former combined example remains readable in history without becoming active', () => {
+  const old = exercises.retiredQuestions.find(q => q.id === 'bookkeeping-c02-example-2-1');
+  assert.ok(old);
+  assert.equal(old.version, 1);
+  assert.equal(old.promptBlocks.filter(b => b.type === 'text' && /^\d+\. /.test(b.text)).length, 6);
+  assert.ok(!exercises.questions.some(q => q.id === old.id));
+  assert.ok(exercises.questions.slice(6).every(q => q.version === 1));
 });

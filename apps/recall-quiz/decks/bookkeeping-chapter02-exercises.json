@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "bookkeeping-chapter02-exercises",
-  "version": 1,
+  "version": 2,
   "title": "特殊講義−実践簿記Ⅳ",
   "subtitle": "第2章 · 範例2-1〜2-4",
   "studyType": "exercise",
-  "scope": "提供画像の範例2-1〜2-4を演習問題として原文の条件と数値で出題する。解答の記入箇所を空欄にし、前の範例までの記入は提示する。範例は分割せず1範例を1問として扱う。練習問題2-1〜2-5の問題文は未提供。印刷ページ16の製造間接費勘定の誤植は取引6と範例2-2に従って経費とし、解説に記す。",
+  "scope": "提供画像の範例2-1〜2-4を演習問題として原文の条件と数値で出題する。解答の記入箇所を空欄にし、前の範例までの記入は提示する。原文の番号1〜9の小問ごとに1問として出題する。範例2-1は6問に分け、各問の取引で追加する仕訳・勘定記入・原価計算表の欄を解答対象とする。以前の取引の記入は提示し、後の取引の記入を先に見せない。練習問題2-1〜2-5の問題文は未提供。印刷ページ16の製造間接費勘定の誤植は取引6と範例2-2に従って経費とし、解説に記す。",
   "sourceManifest": [
     {
       "file": "Kyoto_Univ/[2026後期木５]特殊講義−実践簿記Ⅳ/out/第2章/IMG_3938.png",
@@ -72,6 +72,1799 @@
     }
   ],
   "questions": [
+    {
+      "id": "bookkeeping-c02-example-2-1-part-1",
+      "version": 1,
+      "label": "範例2-1 · 小問1",
+      "prompt": "範例2-1 · 小問1\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n1. 材料8,000円を購入し、現金で支払った。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "1. 材料8,000円を購入し、現金で支払った。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "answer": "借方 材料 8,000円。貸方 現金 8,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "8,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "現金",
+              "amount": "8,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "8,000"
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "criterion": "この取引の仕訳と、勘定口座に追加する相手科目・金額が解答と一致していれば正解。",
+      "explanation": "この取引に関係する勘定口座だけを表示している。それ以前の取引による記入は提示し、この取引で追加する箇所を空欄にしている。勘定記入には諸口ではなく相手科目を使う。この取引による原価計算表への記入はない。",
+      "sources": [
+        {
+          "file": "IMG_3941.png",
+          "page": 1
+        },
+        {
+          "file": "IMG_3942.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-1-part-2",
+      "version": 1,
+      "label": "範例2-1 · 小問2",
+      "prompt": "範例2-1 · 小問2\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n2. 購入した材料のうち、製造指図書No.1に3,000円、No.2に2,000円消費した。また、間接材料費として1,000円消費した。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "2. 購入した材料のうち、製造指図書No.1に3,000円、No.2に2,000円消費した。また、間接材料費として1,000円消費した。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "8,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              null,
+              null,
+              null
+            ],
+            [
+              "直接労務費",
+              "",
+              "",
+              ""
+            ],
+            [
+              "直接経費",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "answer": "借方 仕掛品 5,000円、製造間接費 1,000円。貸方 材料 6,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "5,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "1,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "材料",
+              "amount": "6,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "8,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "5,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "1,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "",
+              "",
+              ""
+            ],
+            [
+              "直接経費",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "criterion": "この取引の仕訳と、勘定口座に追加する相手科目・金額、原価計算表の空欄が解答と一致していれば正解。",
+      "explanation": "この取引に関係する勘定口座だけを表示している。それ以前の取引による記入は提示し、この取引で追加する箇所を空欄にしている。勘定記入には諸口ではなく相手科目を使う。原価計算表の後の取引に対応する行は、まだ記入しない。",
+      "sources": [
+        {
+          "file": "IMG_3941.png",
+          "page": 1
+        },
+        {
+          "file": "IMG_3942.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-1-part-3",
+      "version": 1,
+      "label": "範例2-1 · 小問3",
+      "prompt": "範例2-1 · 小問3\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n3. 賃金給料7,000円から預り金800円を差し引き、6,200円を現金で支払った。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "3. 賃金給料7,000円から預り金800円を差し引き、6,200円を現金で支払った。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "賃金給料",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "answer": "借方 賃金給料 7,000円。貸方 預り金 800円、現金 6,200円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "賃金給料",
+              "amount": "7,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "預り金",
+              "amount": "800"
+            },
+            {
+              "account": "現金",
+              "amount": "6,200"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "賃金給料",
+          "debit": [
+            {
+              "account": "預り金",
+              "amount": "800"
+            },
+            {
+              "account": "現金",
+              "amount": "6,200"
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "criterion": "この取引の仕訳と、勘定口座に追加する相手科目・金額が解答と一致していれば正解。",
+      "explanation": "この取引に関係する勘定口座だけを表示している。それ以前の取引による記入は提示し、この取引で追加する箇所を空欄にしている。勘定記入には諸口ではなく相手科目を使う。この取引による原価計算表への記入はない。",
+      "sources": [
+        {
+          "file": "IMG_3941.png",
+          "page": 1
+        },
+        {
+          "file": "IMG_3942.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-1-part-4",
+      "version": 1,
+      "label": "範例2-1 · 小問4",
+      "prompt": "範例2-1 · 小問4\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n4. 賃金給料のうち、製造指図書No.1に2,500円、No.2に1,500円消費した。また、間接労務費として3,000円消費した。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "4. 賃金給料のうち、製造指図書No.1に2,500円、No.2に1,500円消費した。また、間接労務費として3,000円消費した。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "賃金給料",
+          "debit": [
+            {
+              "account": "預り金",
+              "amount": "800"
+            },
+            {
+              "account": "現金",
+              "amount": "6,200"
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              null,
+              null,
+              null
+            ],
+            [
+              "直接経費",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "answer": "借方 仕掛品 4,000円、製造間接費 3,000円。貸方 賃金給料 7,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "4,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "3,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "賃金給料",
+              "amount": "7,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "賃金給料",
+          "debit": [
+            {
+              "account": "預り金",
+              "amount": "800"
+            },
+            {
+              "account": "現金",
+              "amount": "6,200"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "4,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "3,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "criterion": "この取引の仕訳と、勘定口座に追加する相手科目・金額、原価計算表の空欄が解答と一致していれば正解。",
+      "explanation": "この取引に関係する勘定口座だけを表示している。それ以前の取引による記入は提示し、この取引で追加する箇所を空欄にしている。勘定記入には諸口ではなく相手科目を使う。原価計算表の後の取引に対応する行は、まだ記入しない。",
+      "sources": [
+        {
+          "file": "IMG_3941.png",
+          "page": 1
+        },
+        {
+          "file": "IMG_3942.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-1-part-5",
+      "version": 1,
+      "label": "範例2-1 · 小問5",
+      "prompt": "範例2-1 · 小問5\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n5. 経費9,000円を現金で支払った。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "5. 経費9,000円を現金で支払った。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "経費",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "answer": "借方 経費 9,000円。貸方 現金 9,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "経費",
+              "amount": "9,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "現金",
+              "amount": "9,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "経費",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "9,000"
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "criterion": "この取引の仕訳と、勘定口座に追加する相手科目・金額が解答と一致していれば正解。",
+      "explanation": "この取引に関係する勘定口座だけを表示している。それ以前の取引による記入は提示し、この取引で追加する箇所を空欄にしている。勘定記入には諸口ではなく相手科目を使う。この取引による原価計算表への記入はない。",
+      "sources": [
+        {
+          "file": "IMG_3941.png",
+          "page": 1
+        },
+        {
+          "file": "IMG_3942.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-1-part-6",
+      "version": 1,
+      "label": "範例2-1 · 小問6",
+      "prompt": "範例2-1 · 小問6\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n6. 経費のうち、製造指図書No.1に1,500円、No.2に500円消費した。また、間接経費として7,000円消費した。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "6. 経費のうち、製造指図書No.1に1,500円、No.2に500円消費した。また、間接経費として7,000円消費した。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "経費",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "9,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              null,
+              null,
+              null
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "answer": "借方 仕掛品 2,000円、製造間接費 7,000円。貸方 経費 9,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "7,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "経費",
+              "amount": "9,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "経費",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "9,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "7,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            },
+            {
+              "account": "経費",
+              "amount": "2,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            },
+            {
+              "account": "経費",
+              "amount": "7,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              "1,500",
+              "500",
+              "2,000"
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "criterion": "この取引の仕訳と、勘定口座に追加する相手科目・金額、原価計算表の空欄が解答と一致していれば正解。",
+      "explanation": "この取引に関係する勘定口座だけを表示している。それ以前の取引による記入は提示し、この取引で追加する箇所を空欄にしている。勘定記入には諸口ではなく相手科目を使う。原価計算表の後の取引に対応する行は、まだ記入しない。",
+      "sources": [
+        {
+          "file": "IMG_3941.png",
+          "page": 1
+        },
+        {
+          "file": "IMG_3942.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-2",
+      "version": 1,
+      "label": "範例2-2 · 小問7",
+      "prompt": "範例2-2\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n7. 製造間接費11,000円のうち、製造指図書No.1に5,000円、No.2に6,000円配賦した。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "7. 製造間接費11,000円のうち、製造指図書No.1に5,000円、No.2に6,000円配賦した。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "8,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "5,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "1,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "賃金給料",
+          "debit": [
+            {
+              "account": "預り金",
+              "amount": "800"
+            },
+            {
+              "account": "現金",
+              "amount": "6,200"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "4,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "3,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "経費",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "9,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "7,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            },
+            {
+              "account": "経費",
+              "amount": "2,000"
+            },
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            },
+            {
+              "account": "経費",
+              "amount": "7,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              "1,500",
+              "500",
+              "2,000"
+            ],
+            [
+              "製造間接費",
+              null,
+              null,
+              null
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "answer": "範例2-2の仕訳、勘定記入、指図書別原価計算表。\n借方 仕掛品 11,000円。貸方 製造間接費 11,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "11,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "製造間接費",
+              "amount": "11,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "材料",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "8,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "5,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "1,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "賃金給料",
+          "debit": [
+            {
+              "account": "預り金",
+              "amount": "800"
+            },
+            {
+              "account": "現金",
+              "amount": "6,200"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "4,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "3,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "経費",
+          "debit": [
+            {
+              "account": "現金",
+              "amount": "9,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "7,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            },
+            {
+              "account": "経費",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "11,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            },
+            {
+              "account": "経費",
+              "amount": "7,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "11,000"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              "1,500",
+              "500",
+              "2,000"
+            ],
+            [
+              "製造間接費",
+              "5,000",
+              "6,000",
+              "11,000"
+            ]
+          ],
+          "note": "単位は円。"
+        }
+      ],
+      "criterion": "仕訳の借方と貸方、勘定記入の相手科目と金額、原価計算表の各欄が解答と一致していれば正解。",
+      "explanation": "前の範例までの記入は問題の表に表示し、今回の取引で記入する箇所を空欄にしている。",
+      "sources": [
+        {
+          "file": "IMG_3943.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-3",
+      "version": 1,
+      "label": "範例2-3 · 小問8",
+      "prompt": "範例2-3\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n8. 製造指図書No.1（製造原価12,000円）が完成した。なお、No.2は月末現在未完成である。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
+        },
+        {
+          "type": "text",
+          "text": "8. 製造指図書No.1（製造原価12,000円）が完成した。なお、No.2は月末現在未完成である。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            },
+            {
+              "account": "経費",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "11,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "製品",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            },
+            {
+              "account": "経費",
+              "amount": "7,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "11,000"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              "1,500",
+              "500",
+              "2,000"
+            ],
+            [
+              "製造間接費",
+              "5,000",
+              "6,000",
+              "11,000"
+            ],
+            [
+              "合計",
+              null,
+              null,
+              null
+            ],
+            [
+              "備考",
+              null,
+              null,
+              ""
+            ]
+          ],
+          "note": "単位は円。",
+          "totalRows": [
+            4
+          ]
+        }
+      ],
+      "answer": "範例2-3の仕訳、勘定記入、指図書別原価計算表。\n借方 製品 12,000円。貸方 仕掛品 12,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "製品",
+              "amount": "12,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "12,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "仕掛品",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "5,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "4,000"
+            },
+            {
+              "account": "経費",
+              "amount": "2,000"
+            },
+            {
+              "account": "製造間接費",
+              "amount": "11,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "製品",
+              "amount": "12,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "製品",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "12,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "製造間接費",
+          "debit": [
+            {
+              "account": "材料",
+              "amount": "1,000"
+            },
+            {
+              "account": "賃金給料",
+              "amount": "3,000"
+            },
+            {
+              "account": "経費",
+              "amount": "7,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "仕掛品",
+              "amount": "11,000"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "指図書別原価計算表",
+          "headers": [
+            "摘要",
+            "No.1",
+            "No.2",
+            "合計"
+          ],
+          "rows": [
+            [
+              "直接材料費",
+              "3,000",
+              "2,000",
+              "5,000"
+            ],
+            [
+              "直接労務費",
+              "2,500",
+              "1,500",
+              "4,000"
+            ],
+            [
+              "直接経費",
+              "1,500",
+              "500",
+              "2,000"
+            ],
+            [
+              "製造間接費",
+              "5,000",
+              "6,000",
+              "11,000"
+            ],
+            [
+              "合計",
+              "12,000",
+              "10,000",
+              "22,000"
+            ],
+            [
+              "備考",
+              "完成",
+              "仕掛中",
+              ""
+            ]
+          ],
+          "note": "単位は円。",
+          "totalRows": [
+            4
+          ]
+        }
+      ],
+      "criterion": "仕訳の借方と貸方、勘定記入の相手科目と金額、原価計算表の各欄が解答と一致していれば正解。",
+      "explanation": "前の範例までの記入は問題の表に表示し、今回の取引で記入する箇所を空欄にしている。原典の製造間接費勘定の借方最終行は製造間接費と印刷されているが、取引6と範例2-2に従い経費7,000円として表示している。",
+      "sources": [
+        {
+          "file": "IMG_3944.png",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "bookkeeping-c02-example-2-4",
+      "version": 1,
+      "label": "範例2-4 · 小問9",
+      "prompt": "範例2-4\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。\n9. 製造指図書No.1（製造原価12,000円）を顧客に引き渡した。なお、代金18,000円は掛とした。",
+      "promptBlocks": [
+        {
+          "type": "text",
+          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。"
+        },
+        {
+          "type": "text",
+          "text": "9. 製造指図書No.1（製造原価12,000円）を顧客に引き渡した。なお、代金18,000円は掛とした。"
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "売掛金",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "売上",
+          "debit": [],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "製品",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "12,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "売上原価",
+          "debit": [
+            {
+              "account": null,
+              "amount": null
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "answer": "範例2-4の仕訳、勘定記入。\n借方 売掛金 18,000円。貸方 売上 18,000円。\n借方 売上原価 12,000円。貸方 製品 12,000円。",
+      "answerBlocks": [
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "売掛金",
+              "amount": "18,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "売上",
+              "amount": "18,000"
+            }
+          ]
+        },
+        {
+          "type": "journal",
+          "debit": [
+            {
+              "account": "売上原価",
+              "amount": "12,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "製品",
+              "amount": "12,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "売掛金",
+          "debit": [
+            {
+              "account": "売上",
+              "amount": "18,000"
+            }
+          ],
+          "credit": []
+        },
+        {
+          "type": "ledger",
+          "caption": "売上",
+          "debit": [],
+          "credit": [
+            {
+              "account": "売掛金",
+              "amount": "18,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "製品",
+          "debit": [
+            {
+              "account": "仕掛品",
+              "amount": "12,000"
+            }
+          ],
+          "credit": [
+            {
+              "account": "売上原価",
+              "amount": "12,000"
+            }
+          ]
+        },
+        {
+          "type": "ledger",
+          "caption": "売上原価",
+          "debit": [
+            {
+              "account": "製品",
+              "amount": "12,000"
+            }
+          ],
+          "credit": []
+        }
+      ],
+      "criterion": "仕訳の借方と貸方、勘定記入の相手科目と金額が解答と一致していれば正解。",
+      "explanation": "前の範例までの記入は問題の表に表示し、今回の取引で記入する箇所を空欄にしている。",
+      "sources": [
+        {
+          "file": "IMG_3945.png",
+          "page": 1
+        }
+      ]
+    }
+  ],
+  "retiredQuestions": [
     {
       "id": "bookkeeping-c02-example-2-1",
       "version": 1,
@@ -621,831 +2414,6 @@
         },
         {
           "file": "IMG_3942.png",
-          "page": 1
-        }
-      ]
-    },
-    {
-      "id": "bookkeeping-c02-example-2-2",
-      "version": 1,
-      "label": "範例2-2",
-      "prompt": "範例2-2\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n7. 製造間接費11,000円のうち、製造指図書No.1に5,000円、No.2に6,000円配賦した。",
-      "promptBlocks": [
-        {
-          "type": "text",
-          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
-        },
-        {
-          "type": "text",
-          "text": "7. 製造間接費11,000円のうち、製造指図書No.1に5,000円、No.2に6,000円配賦した。"
-        },
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "材料",
-          "debit": [
-            {
-              "account": "現金",
-              "amount": "8,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "5,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "1,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "賃金給料",
-          "debit": [
-            {
-              "account": "預り金",
-              "amount": "800"
-            },
-            {
-              "account": "現金",
-              "amount": "6,200"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "4,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "3,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "経費",
-          "debit": [
-            {
-              "account": "現金",
-              "amount": "9,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "2,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "7,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "仕掛品",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "5,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "4,000"
-            },
-            {
-              "account": "経費",
-              "amount": "2,000"
-            },
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": []
-        },
-        {
-          "type": "ledger",
-          "caption": "製造間接費",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "1,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "3,000"
-            },
-            {
-              "account": "経費",
-              "amount": "7,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "table",
-          "caption": "指図書別原価計算表",
-          "headers": [
-            "摘要",
-            "No.1",
-            "No.2",
-            "合計"
-          ],
-          "rows": [
-            [
-              "直接材料費",
-              "3,000",
-              "2,000",
-              "5,000"
-            ],
-            [
-              "直接労務費",
-              "2,500",
-              "1,500",
-              "4,000"
-            ],
-            [
-              "直接経費",
-              "1,500",
-              "500",
-              "2,000"
-            ],
-            [
-              "製造間接費",
-              null,
-              null,
-              null
-            ]
-          ],
-          "note": "単位は円。"
-        }
-      ],
-      "answer": "範例2-2の仕訳、勘定記入、指図書別原価計算表。\n借方 仕掛品 11,000円。貸方 製造間接費 11,000円。",
-      "answerBlocks": [
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": "仕掛品",
-              "amount": "11,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "製造間接費",
-              "amount": "11,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "材料",
-          "debit": [
-            {
-              "account": "現金",
-              "amount": "8,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "5,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "1,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "賃金給料",
-          "debit": [
-            {
-              "account": "預り金",
-              "amount": "800"
-            },
-            {
-              "account": "現金",
-              "amount": "6,200"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "4,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "3,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "経費",
-          "debit": [
-            {
-              "account": "現金",
-              "amount": "9,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "2,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "7,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "仕掛品",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "5,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "4,000"
-            },
-            {
-              "account": "経費",
-              "amount": "2,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "11,000"
-            }
-          ],
-          "credit": []
-        },
-        {
-          "type": "ledger",
-          "caption": "製造間接費",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "1,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "3,000"
-            },
-            {
-              "account": "経費",
-              "amount": "7,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "11,000"
-            }
-          ]
-        },
-        {
-          "type": "table",
-          "caption": "指図書別原価計算表",
-          "headers": [
-            "摘要",
-            "No.1",
-            "No.2",
-            "合計"
-          ],
-          "rows": [
-            [
-              "直接材料費",
-              "3,000",
-              "2,000",
-              "5,000"
-            ],
-            [
-              "直接労務費",
-              "2,500",
-              "1,500",
-              "4,000"
-            ],
-            [
-              "直接経費",
-              "1,500",
-              "500",
-              "2,000"
-            ],
-            [
-              "製造間接費",
-              "5,000",
-              "6,000",
-              "11,000"
-            ]
-          ],
-          "note": "単位は円。"
-        }
-      ],
-      "criterion": "仕訳の借方と貸方、勘定記入の相手科目と金額、原価計算表の各欄が解答と一致していれば正解。",
-      "explanation": "前の範例までの記入は問題の表に表示し、今回の取引で記入する箇所を空欄にしている。",
-      "sources": [
-        {
-          "file": "IMG_3943.png",
-          "page": 1
-        }
-      ]
-    },
-    {
-      "id": "bookkeeping-c02-example-2-3",
-      "version": 1,
-      "label": "範例2-3",
-      "prompt": "範例2-3\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。\n8. 製造指図書No.1（製造原価12,000円）が完成した。なお、No.2は月末現在未完成である。",
-      "promptBlocks": [
-        {
-          "type": "text",
-          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。また、指図書別原価計算表（一部）の記入も行いなさい。"
-        },
-        {
-          "type": "text",
-          "text": "8. 製造指図書No.1（製造原価12,000円）が完成した。なお、No.2は月末現在未完成である。"
-        },
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "仕掛品",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "5,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "4,000"
-            },
-            {
-              "account": "経費",
-              "amount": "2,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "11,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "製品",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": []
-        },
-        {
-          "type": "ledger",
-          "caption": "製造間接費",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "1,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "3,000"
-            },
-            {
-              "account": "経費",
-              "amount": "7,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "11,000"
-            }
-          ]
-        },
-        {
-          "type": "table",
-          "caption": "指図書別原価計算表",
-          "headers": [
-            "摘要",
-            "No.1",
-            "No.2",
-            "合計"
-          ],
-          "rows": [
-            [
-              "直接材料費",
-              "3,000",
-              "2,000",
-              "5,000"
-            ],
-            [
-              "直接労務費",
-              "2,500",
-              "1,500",
-              "4,000"
-            ],
-            [
-              "直接経費",
-              "1,500",
-              "500",
-              "2,000"
-            ],
-            [
-              "製造間接費",
-              "5,000",
-              "6,000",
-              "11,000"
-            ],
-            [
-              "合計",
-              null,
-              null,
-              null
-            ],
-            [
-              "備考",
-              null,
-              null,
-              ""
-            ]
-          ],
-          "note": "単位は円。",
-          "totalRows": [
-            4
-          ]
-        }
-      ],
-      "answer": "範例2-3の仕訳、勘定記入、指図書別原価計算表。\n借方 製品 12,000円。貸方 仕掛品 12,000円。",
-      "answerBlocks": [
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": "製品",
-              "amount": "12,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "12,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "仕掛品",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "5,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "4,000"
-            },
-            {
-              "account": "経費",
-              "amount": "2,000"
-            },
-            {
-              "account": "製造間接費",
-              "amount": "11,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "製品",
-              "amount": "12,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "製品",
-          "debit": [
-            {
-              "account": "仕掛品",
-              "amount": "12,000"
-            }
-          ],
-          "credit": []
-        },
-        {
-          "type": "ledger",
-          "caption": "製造間接費",
-          "debit": [
-            {
-              "account": "材料",
-              "amount": "1,000"
-            },
-            {
-              "account": "賃金給料",
-              "amount": "3,000"
-            },
-            {
-              "account": "経費",
-              "amount": "7,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "仕掛品",
-              "amount": "11,000"
-            }
-          ]
-        },
-        {
-          "type": "table",
-          "caption": "指図書別原価計算表",
-          "headers": [
-            "摘要",
-            "No.1",
-            "No.2",
-            "合計"
-          ],
-          "rows": [
-            [
-              "直接材料費",
-              "3,000",
-              "2,000",
-              "5,000"
-            ],
-            [
-              "直接労務費",
-              "2,500",
-              "1,500",
-              "4,000"
-            ],
-            [
-              "直接経費",
-              "1,500",
-              "500",
-              "2,000"
-            ],
-            [
-              "製造間接費",
-              "5,000",
-              "6,000",
-              "11,000"
-            ],
-            [
-              "合計",
-              "12,000",
-              "10,000",
-              "22,000"
-            ],
-            [
-              "備考",
-              "完成",
-              "仕掛中",
-              ""
-            ]
-          ],
-          "note": "単位は円。",
-          "totalRows": [
-            4
-          ]
-        }
-      ],
-      "criterion": "仕訳の借方と貸方、勘定記入の相手科目と金額、原価計算表の各欄が解答と一致していれば正解。",
-      "explanation": "前の範例までの記入は問題の表に表示し、今回の取引で記入する箇所を空欄にしている。原典の製造間接費勘定の借方最終行は製造間接費と印刷されているが、取引6と範例2-2に従い経費7,000円として表示している。",
-      "sources": [
-        {
-          "file": "IMG_3944.png",
-          "page": 1
-        }
-      ]
-    },
-    {
-      "id": "bookkeeping-c02-example-2-4",
-      "version": 1,
-      "label": "範例2-4",
-      "prompt": "範例2-4\n次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。\n9. 製造指図書No.1（製造原価12,000円）を顧客に引き渡した。なお、代金18,000円は掛とした。",
-      "promptBlocks": [
-        {
-          "type": "text",
-          "text": "次の取引の仕訳を行い、各勘定に転記しなさい。なお、勘定記入は相手科目と金額のみでよい。"
-        },
-        {
-          "type": "text",
-          "text": "9. 製造指図書No.1（製造原価12,000円）を顧客に引き渡した。なお、代金18,000円は掛とした。"
-        },
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "売掛金",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": []
-        },
-        {
-          "type": "ledger",
-          "caption": "売上",
-          "debit": [],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "製品",
-          "debit": [
-            {
-              "account": "仕掛品",
-              "amount": "12,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "売上原価",
-          "debit": [
-            {
-              "account": null,
-              "amount": null
-            }
-          ],
-          "credit": []
-        }
-      ],
-      "answer": "範例2-4の仕訳、勘定記入。\n借方 売掛金 18,000円。貸方 売上 18,000円。\n借方 売上原価 12,000円。貸方 製品 12,000円。",
-      "answerBlocks": [
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": "売掛金",
-              "amount": "18,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "売上",
-              "amount": "18,000"
-            }
-          ]
-        },
-        {
-          "type": "journal",
-          "debit": [
-            {
-              "account": "売上原価",
-              "amount": "12,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "製品",
-              "amount": "12,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "売掛金",
-          "debit": [
-            {
-              "account": "売上",
-              "amount": "18,000"
-            }
-          ],
-          "credit": []
-        },
-        {
-          "type": "ledger",
-          "caption": "売上",
-          "debit": [],
-          "credit": [
-            {
-              "account": "売掛金",
-              "amount": "18,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "製品",
-          "debit": [
-            {
-              "account": "仕掛品",
-              "amount": "12,000"
-            }
-          ],
-          "credit": [
-            {
-              "account": "売上原価",
-              "amount": "12,000"
-            }
-          ]
-        },
-        {
-          "type": "ledger",
-          "caption": "売上原価",
-          "debit": [
-            {
-              "account": "製品",
-              "amount": "12,000"
-            }
-          ],
-          "credit": []
-        }
-      ],
-      "criterion": "仕訳の借方と貸方、勘定記入の相手科目と金額が解答と一致していれば正解。",
-      "explanation": "前の範例までの記入は問題の表に表示し、今回の取引で記入する箇所を空欄にしている。",
-      "sources": [
-        {
-          "file": "IMG_3945.png",
           "page": 1
         }
       ]
